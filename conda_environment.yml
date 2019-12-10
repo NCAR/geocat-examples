@@ -1,0 +1,9 @@
+channels:
+  - conda-forge
+  - ncar
+dependencies:
+  - python=3
+  - geocat-comp
+  - matplotlib
+  - cartopy
+  - sphinx-gallery
