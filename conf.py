@@ -28,6 +28,7 @@ author = 'GeoCAT'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx_gallery.gen_gallery',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -59,3 +60,10 @@ html_static_path = ['_static']
 
 # Specify master_doc (see https://github.com/readthedocs/readthedocs.org/issues/2569#issuecomment-485117471)
 master_doc = 'index'
+
+# Configure sphinx-gallery plugin
+sphinx_gallery_conf = {
+    'examples_dirs': ['Plots',],   # path to your example scripts
+    'filename_pattern': '^((?!sgskip).)*$',
+    'gallery_dirs': ['auto_examples'],  # path to where to save gallery generated output
+}
