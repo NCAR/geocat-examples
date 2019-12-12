@@ -6,6 +6,11 @@ dependencies:
   - geocat-comp
   - netcdf4
   - cartopy
+  - mock
+  - pillow
+  - sphinx
+  - sphinx_rtd_theme
+  - pip
   - pip:
     - matplotlib
     - sphinx-gallery
