@@ -5,5 +5,10 @@
 # Required
 version: 2
 
+submodules:
+  include:
+     - data
+  recursive: true
+
 conda:
   environment: conda_environment.yml
