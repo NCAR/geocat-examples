@@ -4,6 +4,8 @@ channels:
 dependencies:
   - python=3
   - geocat-comp
-  - matplotlib
+  - netcdf4
   - cartopy
-  - sphinx-gallery
+  - pip:
+    - matplotlib
+    - sphinx-gallery
