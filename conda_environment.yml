@@ -11,6 +11,6 @@ dependencies:
   - sphinx
   - sphinx_rtd_theme
   - pip
+  - matplotlib
   - pip:
-    - matplotlib
     - sphinx-gallery
