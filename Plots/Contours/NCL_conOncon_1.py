@@ -41,13 +41,13 @@ fig.suptitle('Ensemble Average 1987-89', fontsize=22, fontweight='bold', y=0.94)
 plt.yscale('log')
 
 
-p = U.plot.contour(ax=ax,  levels=16, colors='red', extend='neither')
+p = plt.contour(U, levels=16, colors='red', extend='neither')
 ax.clabel(p, inline=1, fontsize=14)
 ax.set_ylim(ax.get_ylim()[::-1])
 
 
 
-p = V.plot.contour(ax=ax,  levels=16, colors='blue', extend='neither')
+p = plt.contour(V,  levels=16, colors='blue', extend='neither')
 ax.clabel(p, inline=1, fontsize=14)
 ax.set_ylim(ax.get_ylim()[::-1])
 ax.yaxis.set_major_formatter(ScalarFormatter())
