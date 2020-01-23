@@ -33,7 +33,6 @@ n3 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.68.atm.1890-1999ANN.nc"
 n4 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.69.atm.1890-1999ANN.nc")
 g = xr.open_dataset("../../data/netcdf_files/gw.nc")
 
-
 ###############################################################################
 # Some parameters
 nyrs = 110
