@@ -5,7 +5,7 @@ Two panel image with shared colorbar and title
 
 NCL docs: https://www.ncl.ucar.edu/Applications/panel.shtml
 
-NCL script: Consider linking to the NCL documentation here
+NCL script: https://www.ncl.ucar.edu/Applications/Scripts/panel_3.ncl
 
 NCL output: https://www.ncl.ucar.edu/Applications/Images/panel_3_lg.png
 """
