@@ -23,19 +23,16 @@ import xarray as xr
 ###############################################################################
 # Open files and read in monthly data
 
-pass
 
-# dir = './'
-# v1  = addfile (dir+"TREFHT.B06.61.atm.1890-1999ANN.nc", "r")
-# v2  = addfile (dir+"TREFHT.B06.59.atm.1890-1999ANN.nc", "r")
-# v3  = addfile (dir+"TREFHT.B06.60.atm.1890-1999ANN.nc", "r")
-# v4  = addfile (dir+"TREFHT.B06.57.atm.1890-1999ANN.nc", "r")
-# n1  = addfile (dir+"TREFHT.B06.66.atm.1890-1999ANN.nc", "r")
-# n2  = addfile (dir+"TREFHT.B06.67.atm.1890-1999ANN.nc", "r")
-# n3  = addfile (dir+"TREFHT.B06.68.atm.1890-1999ANN.nc", "r")
-# n4  = addfile (dir+"TREFHT.B06.69.atm.1890-1999ANN.nc", "r")
-# g   = addfile (dir+"gw.nc","r")
-
+v1 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.61.atm.1890-1999ANN.nc")
+v2 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.59.atm.1890-1999ANN.nc")
+v3 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.60.atm.1890-1999ANN.nc")
+v4 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.57.atm.1890-1999ANN.nc")
+n1 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.66.atm.1890-1999ANN.nc")
+n2 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.67.atm.1890-1999ANN.nc")
+n3 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.68.atm.1890-1999ANN.nc")
+n4 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.69.atm.1890-1999ANN.nc")
+g = xr.open_dataset("../../data/netcdf_files/gw.nc")
 
 ###############################################################################
 # Some parameters
@@ -47,9 +44,7 @@ time = np.linspace(1890, 1999, endpoint=True)
 ###############################################################################
 # OBS
 
-pass
-
-# obs = asciiread("jones_glob_ann_2002.asc",(/146/),"float")
+obs = np.loadtxt("../../data/ascii_files/jones_glob_ann_2002.asc", dtype=float)
 
 ###############################################################################
 # NATURAL
