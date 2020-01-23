@@ -65,12 +65,12 @@ def nclize_axis(ax):
 
 fig, ax1 = plt.subplots(figsize=(12, 12))
 
-fontsize = 18
+fontsize = 24
 labelsize = 20
 color = "blue"
 linestyle = "-"
 nclize_axis(ax1)
-ax1.set_xlabel(ds.time.long_name)
+ax1.set_xlabel(ds.time.long_name, fontsize=fontsize)
 ax1.set_ylabel(f"{ds.T.long_name} [solid]", fontsize=fontsize)
 ax1.plot(ds.time, ds.T, color=color, linestyle=linestyle, linewidth=2.0)
 ax1.tick_params(axis="both", labelsize=labelsize)
