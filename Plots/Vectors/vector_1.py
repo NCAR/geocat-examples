@@ -1,6 +1,6 @@
 """
-vector1
-=======
+vector_1
+========
 
 Plot U & V vector over SST
 
