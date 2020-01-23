@@ -61,8 +61,8 @@ def nclize_axis(ax):
         left=True,
         right=True,
     )
-    
-    
+
+
 fig, ax1 = plt.subplots(figsize=(12, 12))
 
 fontsize = 18
