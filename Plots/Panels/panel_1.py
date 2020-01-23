@@ -41,7 +41,9 @@ def add_lat_lon_ticklabels(ax):
     """
     from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
 
-    lon_formatter = LongitudeFormatter(zero_direction_label=True)
+    lon_formatter = LongitudeFormatter(
+        zero_direction_label=False, dateline_direction_label=False
+    )
     lat_formatter = LatitudeFormatter()
     ax.xaxis.set_major_formatter(lon_formatter)
     ax.yaxis.set_major_formatter(lat_formatter)
@@ -106,7 +108,6 @@ continents = cartopy.feature.NaturalEarthFeature(
 [axes.add_feature(continents) for axes in ax.flat]
 
 
-
 levels = np.arange(-48, 48, 4)
 
 # Using a dictionary makes it easy to reuse the same keyword arguments twice for the contours
@@ -161,7 +162,7 @@ ax[2].quiver(
     subset.V,
     width=0.0015,  # thinner than default
     transform=ccrs.PlateCarree(),
-    zorder=2, # hack to make sure quiver plots on top of continents
+    zorder=2,  # hack to make sure quiver plots on top of continents
     scale=1100,  # adjust till it looks right
 )
 ax[2].set_title("Vector Wind", loc="left")
