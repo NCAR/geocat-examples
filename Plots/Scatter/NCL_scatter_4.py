@@ -37,7 +37,7 @@ regline_vals = [m * x + b for x in ts_rolled.time]
 # 
 # create plot
 plt.figure(figsize=(6,6))
-plt.scatter(ts_rolled.time, ts_rolled.values, c='r')
+plt.scatter(ts_rolled.time, ts_rolled.values, c='r', s=3)
 plt.plot(ts_rolled.time, regline_vals, 'k')
 
 plt.xlim([6000, 9500])
