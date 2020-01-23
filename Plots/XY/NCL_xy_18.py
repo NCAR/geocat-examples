@@ -19,26 +19,41 @@ See the [original NCL example](https://www.ncl.ucar.edu/Applications/Scripts/xy_
 # Basic imports
 import numpy as np
 import xarray as xr
+from matplotlib import pyplot as plt
+import matplotlib.ticker as tic
 
 ###############################################################################
 # Open files and read in monthly data
 
-v1 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.61.atm.1890-1999ANN.nc")
-v2 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.59.atm.1890-1999ANN.nc")
-v3 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.60.atm.1890-1999ANN.nc")
-v4 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.57.atm.1890-1999ANN.nc")
-n1 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.66.atm.1890-1999ANN.nc")
-n2 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.67.atm.1890-1999ANN.nc")
-n3 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.68.atm.1890-1999ANN.nc")
-n4 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.69.atm.1890-1999ANN.nc")
-g = xr.open_dataset("../../data/netcdf_files/gw.nc")
+def assume_noleap_calendar(ds):
+    ds.time.attrs['calendar'] = 'noleap'
+    return xr.decode_cf(ds)
+
+nfiles = ["../../data/netcdf_files/TREFHT.B06.66.atm.1890-1999ANN.nc",
+          "../../data/netcdf_files/TREFHT.B06.67.atm.1890-1999ANN.nc",
+          "../../data/netcdf_files/TREFHT.B06.68.atm.1890-1999ANN.nc",
+          "../../data/netcdf_files/TREFHT.B06.69.atm.1890-1999ANN.nc"]
+nds = xr.open_mfdataset(nfiles, concat_dim='case', combine='nested',
+                        preprocess=assume_noleap_calendar,
+                        use_cftime=True, decode_times=False)
+
+vfiles = ["../../data/netcdf_files/TREFHT.B06.61.atm.1890-1999ANN.nc",
+          "../../data/netcdf_files/TREFHT.B06.59.atm.1890-1999ANN.nc",
+          "../../data/netcdf_files/TREFHT.B06.60.atm.1890-1999ANN.nc",
+          "../../data/netcdf_files/TREFHT.B06.57.atm.1890-1999ANN.nc"]
+vds = xr.open_mfdataset(vfiles, concat_dim='case', combine='nested',
+                        preprocess=assume_noleap_calendar,
+                        use_cftime=True, decode_times=False)
+
+gds = xr.open_dataset("../../data/netcdf_files/gw.nc")
+gds = gds.expand_dims(dim={'lon': nds.lon})
 
 ###############################################################################
 # Some parameters
-nyrs = 110
-nlon = 128
-nlat = 64
-time = np.linspace(1890, 1999, endpoint=True)
+nyrs = len(nds["time"])
+nlon = len(nds["lon"])
+nlat = len(nds["lat"])
+time =
 
 ###############################################################################
 # OBS
@@ -46,170 +61,71 @@ time = np.linspace(1890, 1999, endpoint=True)
 obs = np.loadtxt("../../data/ascii_files/jones_glob_ann_2002.asc", dtype=float)
 
 ###############################################################################
+# NCL-based Weighted Mean Function
+
+def horizontal_weighted_mean(var, wgts):
+    return (var * wgts).sum(dim=['lat', 'lon']) / wgts.sum(dim=['lat', 'lon'])
+
+###############################################################################
 # NATURAL
 
-pass
-
-# nat          = new ((/4,nyrs,nlat,nlon/), float)
-# nat(0,:,:,:) = n1->TREFHT
-# nat(1,:,:,:) = n2->TREFHT
-# nat(2,:,:,:) = n3->TREFHT
-# nat(3,:,:,:) = n4->TREFHT
-
-# ncase = 4
-# gavn  = wgt_areaave(nat,g->gw,1.0,0)
-# gavan = new((/ncase,nyrs/),float)
-
-# do c = 0, ncase-1
-# gavan(c,:) =  gavn(c,:)-dim_avg(gavn(c,0:29))
-# end do
-# gavan!0    = "ensembles"
-# gavan!1    = "time"
-# gavan&time = v1->time
-
-# delete(nat)
+gavn = horizontal_weighted_mean(nds["TREFHT"], gds["gw"])
+gavan = gavn - gavn.isel(time=slice(0,30)).mean(dim='time')
 
 ###############################################################################
 # ALL
 
-pass
-
-# volc          = new ((/4,nyrs,nlat,nlon/), float)
-# volc(0,:,:,:) = v1->TREFHT
-# volc(1,:,:,:) = v2->TREFHT
-# volc(2,:,:,:) = v3->TREFHT
-# volc(3,:,:,:) = v4->TREFHT
-
-# ncase  = 4
-# gavv   = wgt_areaave(volc,g->gw,1.0,0)
-# gavav  = new((/ncase,nyrs/),float)
-
-# do c = 0, ncase-1
-# gavav(c,:) =  gavv(c,:)-dim_avg(gavv(c,0:29))
-# end do
-
-# gavav!0    = "ensembles"
-# gavav!1    = "time"
-# gavav&time = v1->time
-
-# delete(volc)
+gavv = horizontal_weighted_mean(vds["TREFHT"], gds["gw"])
+gavav = gavv - gavv.isel(time=slice(0,30)).mean(dim='time')
 
 ###############################################################################
-# CALCULATE MIN & MAX
+# CALCULATE ENSEMBLE MIN & MAX
 
-pass
+gavan_min = gavan.min(dim='case')
+gavan_max = gavan.max(dim='case')
+gavan_avg = gavan.mean(dim='case')
 
-# mnmx      = new ((/7,nyrs/), float)
-# mnmx(0,:) = dim_min( gavav(time|:,ensembles|:) )
-# mnmx(1,:) = dim_max( gavav(time|:,ensembles|:) )
-# mnmx(2,:) = dim_min( gavan(time|:,ensembles|:) )
-# mnmx(3,:) = dim_max( gavan(time|:,ensembles|:) )
-# mnmx(4,:) = dim_avg( gavav(time|:,ensembles|:) )
-# mnmx(5,:) = dim_avg( gavan(time|:,ensembles|:) )
-# mnmx(6,0:109) = obs(34:143)-dim_avg(obs(34:63))
+gavav_min = gavav.min(dim='case')
+gavav_max = gavav.max(dim='case')
+gavav_avg = gavav.mean(dim='case')
+
+obs_avg = obs[34:144] - np.mean(obs[34:64])
 
 ###############################################################################
 # Create plot
 
-pass
+fig, ax = plt.subplots(figsize=(10.5, 6))
 
-# wks = gsn_open_wks("png","xy")             ; send graphics to PNG file
+ax.tick_params(labelsize="small")
+ax.minorticks_on()
+ax.xaxis.set_minor_locator(tic.AutoMinorLocator(n=3))
+ax.yaxis.set_minor_locator(tic.AutoMinorLocator(n=3))
+ax.tick_params(axis="both", labelsize=20)
+ax.tick_params("both", length=8, width=1.50, which="major", bottom=True, top=True, left=True, right=True)
+ax.tick_params("both", length=5, width=0.75, which="minor", bottom=True, top=True, left=True, right=True)
 
-# res                    = True              ; plot mods desired
-# res@gsnDraw            = False             ; don't draw yet
-# res@gsnFrame           = False             ; don't advance frame yet
+time = gavan.time.values
 
-# res@vpHeightF 	 = 0.4               ; change aspect ratio of plot
-# res@vpWidthF 	         = 0.7
+ax.set_title('Parallel Climate Model Ensembles', fontsize=24, pad=60.0)
+ax.text(0.5, 1.125, 'Global Temperature Anomalies', fontsize=18, ha='center', va='center', transform=ax.transAxes)
+ax.text(0.5, 1.06, 'from 1890-1919 average', fontsize=14, ha='center', va='center', transform=ax.transAxes)
+ax.set_ylabel('$^\circ$C', fontsize=24)
+ax.fill_between(time, gavan_min, gavan_max, color='lightblue')
+ax.fill_between(time, gavav_min, gavav_max, color='lightpink')
 
-# res@trYMaxF            = 1.0
-# res@trXMinF	         = 1890              ; set x-axis minimum
+xmin = cftime.DatetimeNoLeap(1890, 7, 16, hour=22)
+xmax = cftime.DatetimeNoLeap(2000, 7, 16, hour=22)
+ax.set_xlim(xmin=xmin, xmax=xmax)
+ax.set_ylim(ymin=-0.4, ymax=1)
+#ax.set_xticks([cftime.DatetimeNoLeap(i, 7, 16, hour=22) for i in range(1900, 2001, 20)])
+ax.set_yticks(np.arange(-0.3, 1, step=0.3))
 
-# res@xyMonoLineColor    = False             ; want colored lines
-# res@xyLineColors       = (/"Red","Blue","Black"/) ; colors chosen
-# res@xyLineThicknesses	 = (/3.,3.,4./)      ; line thicknesses
-# res@xyDashPatterns	 = (/0.,0.,0./)      ; make all lines solid
+p_n, = ax.plot(time, gavan_avg, color='blue', label='Natural')
+p_v, = ax.plot(time, gavav_avg, color='red', label='Anthropogenic + Natural')
+p_o, = ax.plot(time, obs_avg, color='black', label='Observations')
 
-# res@tiYAxisString	 = "~F35~J~F~C"      ; add an axis title
-# res@txFontHeightF	 = 0.0195            ; change title font heights
+handles, labels = ax.get_legend_handles_labels()
 
-# top_plot = gsn_csm_xy (wks,time,mnmx(4:6,:),res)       ; create line plot
+ax.legend(handles[::-1], labels[::-1], loc='upper left', frameon=False, fontsize=18)
 
-# # Create a plot with the area between both curves filled in blue.
-# delete(res@xyLineColors)
-# res@gsnXYFillColors = "LightBlue"
-# res@xyLineColor     = -1                           ; We don't want the line, so make it transparent.
-# bot_plot  = gsn_csm_xy (wks,time,mnmx(2:3,:),res)  ; Create filled XY plot.
-
-# # Create a plot with the area between both curves filled in pink.
-# res@gsnXYFillColors = "LightPink"
-# res@xyLineColor     = -1                           ; We don't want the line, so make it transparent.
-# mid_plot  = gsn_csm_xy (wks,time,mnmx(0:1,:),res)  ; Create another filled XY plot.
-
-# #
-# # Overlay the top and mid plots on the bottom plot.
-# #
-# # Don't draw anything yet, because we still need to
-# # attach a legend and some titles.
-# #
-# overlay(bot_plot,mid_plot)
-# overlay(bot_plot,top_plot)
-
-###############################################################################
-# Manually create and attach legend
-
-# res_text                    = True                  ; text mods desired
-# res_text@txFontHeightF      = 0.015                 ; change text size
-# res_text@txJust             = "CenterLeft"          ; text justification
-
-# res_lines                   = True                  ; polyline mods desired
-# res_lines@gsLineDashPattern = 0.                    ; solid line
-# res_lines@gsLineThicknessF  = 5.                    ; line thicker
-# res_lines@gsLineColor       = "red"                 ; line color
-# xx = (/1893,1907/)
-# yy = (/0.705,0.705/)
-# dum1 = gsn_add_polyline(wks,bot_plot,xx,yy,res_lines)              ; add polyline
-# dum2 = gsn_add_text(wks,bot_plot,"Anthropogenic + Natural",1910,0.705,res_text); add text
-
-# yy = (/0.79,0.79/)
-# res_lines@gsLineColor       = "blue"                                 ; change to blue
-# dum3 = gsn_add_polyline(wks,bot_plot,xx,yy,res_lines)                ; add polyline
-# dum4 = gsn_add_text(wks,bot_plot,"Natural",1910,0.79,res_text)       ; add text
-
-# yy = (/0.875,0.875/)
-# res_lines@gsLineColor       = "black"                                ; change to black
-# dum5 = gsn_add_polyline(wks,bot_plot,xx,yy,res_lines)                ; add polyline
-# dum6 = gsn_add_text(wks,bot_plot,"Observations",1910,0.875,res_text) ; add text
-
-###############################################################################
-# Manually create and attach titles
-
-pass
-
-# #
-# # Attach some titles at the top.
-# #
-#   res_text               = True
-#   res_text@txFontHeightF = 0.03                       ; change font size
-#   txid_top = gsn_create_text(wks, "Parallel Climate Model Ensembles", res_text)
-
-#   amres                  = True
-#   amres@amJust           = "BottomCenter"
-#   amres@amParallelPosF   =  0.0    ; This is the center of the plot.
-#   amres@amOrthogonalPosF = -0.72   ; This is above the top edge of the plot.
-#   annoid_top = gsn_add_annotation(bot_plot, txid_top, amres)
-
-#   res_text@txFontHeightF = 0.02                       ; change font size
-#   txid_mid = gsn_create_text(wks, "Global Temperature Anomalies",res_text)
-
-#   amres@amOrthogonalPosF = -0.62  ; This is just below the previous title.
-#   annoid_mid = gsn_add_annotation(bot_plot, txid_mid, amres)
-
-#   res_text@txFontHeightF = 0.015                      ; change font size
-#   txid_bot = gsn_create_text(wks,"from 1890-1919 average",res_text)
-
-#   amres@amOrthogonalPosF = -0.55  ; This is just below the previous title.
-#   annoid_bot = gsn_add_annotation(bot_plot, txid_bot, amres)
-
-#   pres = True
-#   maximize_output(wks,pres)
+plt.show()
