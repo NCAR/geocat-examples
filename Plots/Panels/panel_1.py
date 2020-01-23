@@ -102,7 +102,6 @@ continents = cartopy.feature.NaturalEarthFeature(
     scale="50m",
     edgecolor="None",
     facecolor="lightgray",
-    # transform=ccrs.PlateCarree(),
 )
 [axes.add_feature(continents) for axes in ax.flat]
 
