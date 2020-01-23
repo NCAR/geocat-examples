@@ -13,3 +13,4 @@ dependencies:
   - matplotlib
   - sphinx-gallery
   - sphinx_rtd_theme
+  - jupyter
