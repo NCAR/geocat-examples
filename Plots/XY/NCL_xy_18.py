@@ -34,16 +34,14 @@ nfiles = ["../../data/netcdf_files/TREFHT.B06.66.atm.1890-1999ANN.nc",
           "../../data/netcdf_files/TREFHT.B06.68.atm.1890-1999ANN.nc",
           "../../data/netcdf_files/TREFHT.B06.69.atm.1890-1999ANN.nc"]
 nds = xr.open_mfdataset(nfiles, concat_dim='case', combine='nested',
-                        preprocess=assume_noleap_calendar,
-                        use_cftime=True, decode_times=False)
+                        preprocess=assume_noleap_calendar, decode_times=False)
 
 vfiles = ["../../data/netcdf_files/TREFHT.B06.61.atm.1890-1999ANN.nc",
           "../../data/netcdf_files/TREFHT.B06.59.atm.1890-1999ANN.nc",
           "../../data/netcdf_files/TREFHT.B06.60.atm.1890-1999ANN.nc",
           "../../data/netcdf_files/TREFHT.B06.57.atm.1890-1999ANN.nc"]
 vds = xr.open_mfdataset(vfiles, concat_dim='case', combine='nested',
-                        preprocess=assume_noleap_calendar,
-                        use_cftime=True, decode_times=False)
+                        preprocess=assume_noleap_calendar, decode_times=False)
 
 gds = xr.open_dataset("../../data/netcdf_files/gw.nc")
 gds = gds.expand_dims(dim={'lon': nds.lon})
