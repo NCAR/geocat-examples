@@ -10,10 +10,9 @@ https://www.ncl.ucar.edu/Applications/Images/xy_7_2_lg.png
 ###############################################################################
 # Import modules
 
-import xarray as xr
 import matplotlib.pyplot as plt
 import numpy as np
-
+import xarray as xr
 
 ################################################################################
 #
@@ -74,6 +73,7 @@ nclize_axis(ax1)
 ax1.set_xlabel(ds.time.long_name)
 ax1.set_ylabel(f"{ds.T.long_name} [solid]", fontsize=fontsize)
 ax1.plot(ds.time, ds.T, color=color, linestyle=linestyle, linewidth=2.0)
+ax1.tick_params(axis="both", labelsize=labelsize)
 ax1.set_xlim(xmin=1970, xmax=1973)
 ax1.set_ylim(ymin=0.0, ymax=16.0)
 ax1.set_yticks(np.arange(0, 16, 3))
