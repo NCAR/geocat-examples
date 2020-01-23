@@ -23,7 +23,6 @@ import xarray as xr
 ###############################################################################
 # Open files and read in monthly data
 
-
 v1 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.61.atm.1890-1999ANN.nc")
 v2 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.59.atm.1890-1999ANN.nc")
 v3 = xr.open_dataset("../../data/netcdf_files/TREFHT.B06.60.atm.1890-1999ANN.nc")
