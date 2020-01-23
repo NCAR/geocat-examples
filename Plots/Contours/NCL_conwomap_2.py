@@ -54,14 +54,10 @@ ax.tick_params('both', length=8, width=0.5, which='minor')
 newcmp = make_byr_cmap()
 
 # Plot data
-p = u.plot.contourf(ax=ax, vmin=-1, vmax=10, levels=12, cmap=newcmp, add_colorbar=False, transform=projection, extend='neither')
+p = u.plot.contourf(ax=ax, vmin=-1, vmax=10, levels=12, cmap=newcmp, add_colorbar=False, transform=projection, extend='neither', add_labels=False)
 
 cbar = plt.colorbar(p, orientation='horizontal', shrink=0.5)
 cbar.ax.tick_params(labelsize=16)
-
-# Set axes labels
-ax.set_xlabel('X')
-ax.set_ylabel('Y')
 
 # Add titles to left and right of the plot axis.
 ax.set_title('Cone amplitude', fontsize=18, loc='left')
