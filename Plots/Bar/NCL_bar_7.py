@@ -3,22 +3,18 @@ NCL_bar_7.py
 ===============
 Concepts illustrated:
   - Drawing filled bars
-  - Changing the width of the bars in a bar plot
   - Filling the bars in a bar plot with different colors
-  - Setting the minimum/maximum value of the X and Y axis in a bar plot
+  - Setting the minimum/maximum value of the Y axis in a bar plot
   - Adding text to a plot
   - Rotating text 45 degrees
-  - Drawing a custom labelbar
-  - Using "getvalues" to retrieve the size of a plot
+  - Drawing a custom legend
 
 This Python script reproduces the NCL plot script found here:  https://www.ncl.ucar.edu/Applications/Scripts/bar_7.ncl
 """
 
 ###############################################################################
 # Import the necessary python libraries
-from matplotlib.colors import ListedColormap
 import matplotlib.pyplot as plt
-print("This is a code cell")
 
 
 ###############################################################################
@@ -27,12 +23,6 @@ x = [1, 2, 3, 4, 5, 6, 7, 8]
 data = [154900, 56600, 40000, 30200, 29700, 24400, 21700, 13900]
 labels = ['Lung', 'Colon/rectum', 'Breast', 'Prostate', 'Pancreas',  
           'Non-Hodgkin\'s Lymphoma', 'Leukemias', 'Ovary']
-
-
-print("More code")
-# This line will be a comment inside a code cell, *NOT* a markdown cell
-print("Even more code")
-
 
 ###############################################################################
 # Create the custom colormap.
