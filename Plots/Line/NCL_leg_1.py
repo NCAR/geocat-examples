@@ -15,8 +15,8 @@ import matplotlib.pyplot as plt
 # 
 # open data file and extract variables
 ds = xr.open_dataset('../../data/netcdf_files/uv300.nc')
-uz = ds.U.mean(dim=['lon','time'])
-vz = ds.V.mean(dim=['lon','time'])
+uz = ds.U.isel(time=0).mean(dim=['lon'])
+vz = ds.V.isel(time=0).mean(dim=['lon'])
 
 ###############################################################################
 # 
