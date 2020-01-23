@@ -98,13 +98,13 @@ fig, ax = plt.subplots(figsize=(10.5, 6))
 
 ax.tick_params(labelsize="small")
 ax.minorticks_on()
-ax.xaxis.set_minor_locator(tic.AutoMinorLocator(n=3))
+ax.xaxis.set_minor_locator(tic.AutoMinorLocator(n=4))
 ax.yaxis.set_minor_locator(tic.AutoMinorLocator(n=3))
 ax.tick_params(axis="both", labelsize=20)
 ax.tick_params("both", length=8, width=1.50, which="major", bottom=True, top=True, left=True, right=True)
 ax.tick_params("both", length=5, width=0.75, which="minor", bottom=True, top=True, left=True, right=True)
 
-time = gavan.time.values
+time = [t.year for t in gavan.time.values]
 
 ax.set_title('Parallel Climate Model Ensembles', fontsize=24, pad=60.0)
 ax.text(0.5, 1.125, 'Global Temperature Anomalies', fontsize=18, ha='center', va='center', transform=ax.transAxes)
@@ -113,16 +113,14 @@ ax.set_ylabel('$^\circ$C', fontsize=24)
 ax.fill_between(time, gavan_min, gavan_max, color='lightblue')
 ax.fill_between(time, gavav_min, gavav_max, color='lightpink')
 
-xmin = cftime.DatetimeNoLeap(1890, 7, 16, hour=22)
-xmax = cftime.DatetimeNoLeap(2000, 7, 16, hour=22)
-ax.set_xlim(xmin=xmin, xmax=xmax)
+ax.set_xlim(xmin=1890, xmax=2000)
 ax.set_ylim(ymin=-0.4, ymax=1)
-#ax.set_xticks([cftime.DatetimeNoLeap(i, 7, 16, hour=22) for i in range(1900, 2001, 20)])
+ax.set_xticks(np.arange(1900, 2001, step=20))
 ax.set_yticks(np.arange(-0.3, 1, step=0.3))
 
-p_n, = ax.plot(time, gavan_avg, color='blue', label='Natural')
-p_v, = ax.plot(time, gavav_avg, color='red', label='Anthropogenic + Natural')
-p_o, = ax.plot(time, obs_avg, color='black', label='Observations')
+ax.plot(time, gavan_avg, color='blue', label='Natural')
+ax.plot(time, gavav_avg, color='red', label='Anthropogenic + Natural')
+ax.plot(time, obs_avg, color='black', label='Observations')
 
 handles, labels = ax.get_legend_handles_labels()
 
