@@ -33,7 +33,7 @@ gl = ax.gridlines(crs=ccrs.PlateCarree(),
 
 a = t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), 
                     levels = 11, cmap = 'gist_rainbow_r', 
-                    cbar_kwargs={"orientation": "horizontal", "label":''});
+                    cbar_kwargs={"orientation": "horizontal", "label":'', "shrink":0.9});
 a = t.plot.contour(ax=ax, transform=ccrs.PlateCarree(), 
                    levels = 11, linewidths=0.5, cmap='k')
 
