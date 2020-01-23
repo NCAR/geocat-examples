@@ -14,7 +14,9 @@ git submodule update --init
 
    If you ever notice that a file exists in the [GeoCAT-datafiles](https://github.com/NCAR/geocat-datafiles) repository, but it does not seem to exist in your local `data` subdirectory, please try running the following command to sync the contents of the submodule:
 ```
-git submodule update
+git submodule update --remote
+git add data
+git commit -m "Update data submodule tracking to latest commit"
 ```
 
 1. Check the list of [Issues](https://github.com/NCAR/GeoCAT-examples/issues) for this repository to see if any of the existing to-do items are something you might be interested in working on. If so, please comment (or self-assign the issue if you have permissions to do so) indicating that you intend to work on it.
