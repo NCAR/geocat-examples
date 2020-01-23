@@ -2,6 +2,21 @@ Porting NCL example scripts to Python
 =====================================
 0. Fork and clone this repository and create a conda environment containing all of the software necessary to build this examples gallery webpage: [installation instructions](INSTALLATION.md)
 
+   Note that this repository uses a "git submodule" to store its data files in a separate GitHub repository. This submodule can be checked out as part of the clone process by using the `--recursive` flag:
+```
+git clone --recursive https://github.com/NCAR/GeoCAT-examples
+```
+
+   If you've already cloned the repository without the `--recursive` flag, you'll need to run the following command to clone the `data` submodule directory:
+```
+git submodule update --init
+```
+
+   If you ever notice that a file exists in the [GeoCAT-datafiles](https://github.com/NCAR/geocat-datafiles) repository, but it does not seem to exist in your local `data` subdirectory, please try running the following command to sync the contents of the submodule:
+```
+git submodule update
+```
+
 1. Check the list of [Issues](https://github.com/NCAR/GeoCAT-examples/issues) for this repository to see if any of the existing to-do items are something you might be interested in working on. If so, please comment (or self-assign the issue if you have permissions to do so) indicating that you intend to work on it.
 
    Alternatively, if you are interested in porting a script that is not listed as an [issue](https://github.com/NCAR/GeoCAT-examples/issues), please check the `Plots` directory of this repository to ensure that the example you are about to work on has not been ported yet.
