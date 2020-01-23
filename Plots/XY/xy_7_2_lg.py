@@ -12,6 +12,7 @@ https://www.ncl.ucar.edu/Applications/Images/xy_7_2_lg.png
 
 import xarray as xr
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 ################################################################################
