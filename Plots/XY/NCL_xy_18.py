@@ -126,7 +126,7 @@ def horizontal_weighted_mean(var, wgts):
 # anomaly measured from the average of the first 30 years.
 
 gavn = horizontal_weighted_mean(nds["TREFHT"], gds["gw"])
-gavan = gavn - gavn.isel(time=slice(0,30)).mean(dim='time')
+gavan = gavn - gavn.sel(time=slice('1890','1920')).mean(dim='time')
 
 ###############################################################################
 # NATURAL + ANTHROPOGENIC DATA
@@ -135,7 +135,7 @@ gavan = gavn - gavn.isel(time=slice(0,30)).mean(dim='time')
 # We do the same thing for the "natural + anthropogenic" data.
 
 gavv = horizontal_weighted_mean(vds["TREFHT"], gds["gw"])
-gavav = gavv - gavv.isel(time=slice(0,30)).mean(dim='time')
+gavav = gavv - gavv.sel(time=slice('1890','1920')).mean(dim='time')
 
 ###############################################################################
 # Calculate the ensemble MIN & MAX & MEAN
@@ -153,6 +153,8 @@ gavav_min = gavav.min(dim='case')
 gavav_max = gavav.max(dim='case')
 gavav_avg = gavav.mean(dim='case')
 
+# The Observations data is just a single-column text file, so we just have
+# to know this one...
 obs_avg = obs[34:144] - np.mean(obs[34:64])
 
 ###############################################################################
