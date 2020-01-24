@@ -198,3 +198,6 @@ f.set_size_inches((6, 7))
 
 # a common title
 f.suptitle("A plot with a common label bar (colorbar)")
+
+# show the plot!
+plt.show()
