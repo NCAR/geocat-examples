@@ -37,8 +37,13 @@ plt.yticks(yticks, ylabels)
 plt.minorticks_on()
 plt.tick_params(which='both',right=True, top=True)
 
-v.plot.contourf(levels = 14, cmap = 'tab20b', cbar_kwargs={"label":'', "shrink":0.4})
+v.plot.contourf(levels = 14, cmap = 'terrain', add_colorbar=False)
 v.plot.contour(levels = 14, linewidths=0.5, cmap='k')
+
+ticks=[-24,-20,-16,-12,-8,-4,0,4,8,12,16,20, 24]
+clabels = ["-90","-70","-50","-30","-10","10","30","50","70","90","110","130","150"]
+cbar = fig.colorbar(a, label='', ticks = ticks, shrink=0.4)
+cbar.ax.set_yticklabels(clabels)
 
 plt.title('meridional wind component        m/s')
 plt.xlabel('')
