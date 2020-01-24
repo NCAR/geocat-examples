@@ -171,7 +171,11 @@ ax.tick_params(axis="both", labelsize=20)
 ax.tick_params("both", length=8, width=1.50, which="major", bottom=True, top=True, left=True, right=True)
 ax.tick_params("both", length=5, width=0.75, which="minor", bottom=True, top=True, left=True, right=True)
 
-time = [t.year for t in gavan.time.values]
+# We create the time axis data, not as datetime objects, but as just years
+# The following line of code is equivalent to this:
+#     time = [t.year for t in gavan.time.values]
+# but it uses Xarray's convenient DatetimeAccessor functionality.
+time = gavan.time.dt.year
 
 ax.set_title('Parallel Climate Model Ensembles', fontsize=24, pad=60.0)
 ax.text(0.5, 1.125, 'Global Temperature Anomalies', fontsize=18, ha='center', va='center', transform=ax.transAxes)
