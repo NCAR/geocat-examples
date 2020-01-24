@@ -58,7 +58,7 @@ def add_lat_lon_ticklabels(ax):
     ax.xaxis.set_major_formatter(lon_formatter)
     ax.yaxis.set_major_formatter(lat_formatter)
 
-def nclize_axis(ax):
+def nclize_axis(ax, minor_per_major=3):
     """
     Utility function to make plots look like NCL plots
     """
@@ -66,8 +66,8 @@ def nclize_axis(ax):
 
     ax.tick_params(labelsize="small")
     ax.minorticks_on()
-    ax.xaxis.set_minor_locator(tic.AutoMinorLocator(n=3))
-    ax.yaxis.set_minor_locator(tic.AutoMinorLocator(n=3))
+    ax.xaxis.set_minor_locator(tic.AutoMinorLocator(n=minor_per_major))
+    ax.yaxis.set_minor_locator(tic.AutoMinorLocator(n=minor_per_major))
 
     # length and width are in points and may need to change depending on figure size etc.
     ax.tick_params(
@@ -114,7 +114,7 @@ levels = np.arange(24,29, 0.1)
 fig, ax = plt.subplots(figsize=(10,7))
 ax = plt.axes(projection=ccrs.PlateCarree())
 plt.title('Sea Surface Temperature\n')
-nclize_axis(ax)
+nclize_axis(ax, minor_per_major=5)
 add_lat_lon_ticklabels(ax)
 
 # Set major and minor ticks
