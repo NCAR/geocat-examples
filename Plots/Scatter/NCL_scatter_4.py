@@ -22,7 +22,7 @@ ts = ds.TS.sel(lat = 60, lon = 180, method = 'nearest')
 
 ###############################################################################
 # 
-# Smooth data so that seasonal cycle is less 
+# smooth data so that seasonal cycle is less 
 # prominent. This is for demo purposes only 
 # so that the regression line is more sloped.
 ts_rolled = ts.rolling(time=40, center=True).mean()
@@ -40,15 +40,15 @@ plt.figure(figsize=(6,6))
 plt.scatter(ts_rolled.time, ts_rolled.values, c='r', s=3)
 plt.plot(ts.time, regline_vals, 'k')
 
-#Specify X and Y axis limits
+# specify X and Y axis limits
 plt.xlim([6000, 9500])
 plt.ylim([268.0, 271.5])
 
-#Specify tick parameters
+# specify tick parameters
 plt.tick_params(which='both',right=True, top=True)
 plt.minorticks_on()
 
-#Adjust title and axis labels
+# adjust title and axis labels
 plt.title('Output from regline')
 plt.xlabel('simulated time')
 plt.ylabel('Surface temperature')
