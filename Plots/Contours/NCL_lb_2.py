@@ -24,7 +24,7 @@ v = ds.V.isel(time=0, lev = 3)
 
 #wrap data around meridian
 lon_idx = v.dims.index('lon')
-wrap_data, wrap_lon = add_cyclic_point(v.values, coord=lon, axis=lon_idx)
+wrap_data, wrap_lon = add_cyclic_point(v.values, coord=v.lon, axis=lon_idx)
 wrap_v = xr.DataArray(wrap_data, coords=[v.lat, wrap_lon], dims=['lat', 'lon'], attrs = v.attrs)
 
 ###############################################################################
