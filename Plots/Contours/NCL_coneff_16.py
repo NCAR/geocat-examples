@@ -13,7 +13,7 @@ from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tic
-from util.make_byr_cmap import make_byr_cmap
+from geocat.viz.util import make_byr_cmap
 
 
 from pprint import pprint
