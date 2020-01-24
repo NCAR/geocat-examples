@@ -8,11 +8,12 @@ dependencies:
   - geocat-viz
   - netcdf4
   - cartopy
+  - cmaps
   - mock
   - pillow
-  - sphinx
-  - sphinx_rtd_theme
   - pip
-  - matplotlib
   - pip:
+    - sphinx
+    - sphinx_rtd_theme
+    - matplotlib
     - sphinx-gallery
