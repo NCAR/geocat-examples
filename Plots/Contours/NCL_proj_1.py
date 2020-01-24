@@ -20,6 +20,11 @@ import matplotlib.pyplot as plt
 ds = xr.open_dataset('../../data/netcdf_files/atmos.nc', decode_times=False)
 t = ds.TS.isel(time=0)
 
+#wrap data around meridian
+lon_idx = t.dims.index('lon')
+wrap_data, wrap_lon = add_cyclic_point(t.values, coord=lon, axis=lon_idx)
+wrap_t = xr.DataArray(wrap_data, coords=[t.lat, wrap_lon], dims=['lat', 'lon'], attrs = t.attrs)
+
 ###############################################################################
 # 
 # create plot
@@ -33,10 +38,10 @@ gl = ax.gridlines(crs=ccrs.PlateCarree(),
                   linewidth=1, color='k', alpha=0.5)
 
 # use a filled contour and an additional contour to add black boundary between levels.
-a = t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), 
+a = wrap_t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), 
                     levels = 11, cmap = 'gist_rainbow_r', 
                     cbar_kwargs={"orientation": "horizontal", "label":'', "shrink":0.9});
-t.plot.contour(ax=ax, transform=ccrs.PlateCarree(), 
+wrap_t.plot.contour(ax=ax, transform=ccrs.PlateCarree(), 
                    levels = 11, linewidths=0.5, cmap='k')
 
 # add title and suptitle
