@@ -24,15 +24,16 @@ ds = xr.open_dataset("../../data/netcdf_files/uv300.nc")
 U = ds.U
 
 ###############################################################################
+fig = plt.gcf()
+ax = plt.gca()
+
 # Plot data
 U.isel(time=0).sel(lon=82, method='nearest').plot(x="lat", marker='', color='#C0C2EA', linewidth=1.1)
 U.isel(time=0).sel(lon=-69, method='nearest').plot(x="lat", marker='', color='#E28D90', linewidth=1.1, linestyle='--', dashes=[6.5, 3.7])
 
 ###############################################################################
 # Adjust figure size and plot parameters to get identical to original NCL plot
-fig = plt.gcf()
 fig.set_size_inches((7, 6.5))
-ax = plt.gca()
 
 # Hard-code tic values.
 ax.set_xticks(np.linspace(-90, 90, 7))
@@ -52,7 +53,7 @@ ax.tick_params('both', length=10, width=0.5, which='major', top=True, right=True
 ax.tick_params('both', length=5, width=0.25, which='minor', top=True, right=True)
 
 # Set title, axis labels and limits, etc.
-plt.title("Two Curve XY Plot", fontsize=20, y=1.04)
+ax.set_title("Two Curve XY Plot", fontsize=20, y=1.04)
 ax.set_xlim((-90,90))
 ax.set_ylim((-20,50))
 ax.set_xlabel("")
