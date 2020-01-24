@@ -138,7 +138,7 @@ ax[0].clabel(
     fontsize="small",
     fmt="%.0f",  # Turn off decimal points
 )
-ax[0].set_title("Zonal Wind [m/s]", loc="left")
+ax[0].set_title("Zonal Wind [m/s]", loc="left", y=1.05)
 
 # now for V
 hdl = ds.V.plot.contour(x="lon", y="lat", ax=ax[1], **kwargs,)
@@ -148,7 +148,7 @@ ax[1].clabel(
     fontsize="small",
     fmt="%.0f",  # Turn off decimal points
 )
-ax[1].set_title("Meridional Wind [m/s]", loc="left")
+ax[1].set_title("Meridional Wind [m/s]", loc="left", y=1.05)
 
 # now draw arrows
 # xarray doesn't have a quiver method (yet)
@@ -165,7 +165,7 @@ ax[2].quiver(
     zorder=2,  # hack to make sure quiver plots on top of continents
     scale=1100,  # adjust till it looks right
 )
-ax[2].set_title("Vector Wind", loc="left")
+ax[2].set_title("Vector Wind", loc="left", y=1.05)
 
 # cartopy axes require this to be manual
 ax[2].set_xticks(kwargs["xticks"])
@@ -177,3 +177,5 @@ ax[2].set_yticks(kwargs["yticks"])
 
 # nice figure size in inches
 f.set_size_inches((5, 8))
+
+plt.show()
