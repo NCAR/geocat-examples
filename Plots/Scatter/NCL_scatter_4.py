@@ -25,7 +25,7 @@ ts = ds.TS.sel(lat = 60, lon = 180, method = 'nearest')
 # smooth data so that seasonal cycle is less 
 # prominent. This is for demo purposes only 
 # so that the regression line is more sloped.
-ts_rolled = ts.rolling(time=40, center=True).mean()
+ts_rolled = ts.rolling(time=40, center=True).mean().dropna('time')
 
 ###############################################################################
 # 
