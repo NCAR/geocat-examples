@@ -17,7 +17,9 @@ from util.make_byr_cmap import make_byr_cmap
 
 
 from pprint import pprint
-ds = xr.open_dataset('../../data/netcdf_files/uv300.nc')
+
+import geocat.datafiles
+ds = xr.open_dataset(geocat.datafiles.get('netcdf_files/uv300.nc'))
 U = ds.U[1,:,:]
 
 plt.rcParams['figure.figsize'] = [20, 10]
