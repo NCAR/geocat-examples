@@ -41,7 +41,7 @@ plt.minorticks_on()
 plt.tick_params(which='both',right=True, top=True)
 
 # use a filled contour and an additional contour to add black boundary between levels.
-v.plot.contourf(levels = 14, cmap = 'terrain', add_colorbar=False)
+a = v.plot.contourf(levels = 14, cmap = 'terrain', add_colorbar=False)
 v.plot.contour(levels = 14, linewidths=0.5, cmap='k')
 
 # demonstrate adjusting colorbar tick labels
