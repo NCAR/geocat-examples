@@ -47,13 +47,6 @@ gds = xr.open_dataset("../../data/netcdf_files/gw.nc")
 gds = gds.expand_dims(dim={'lon': nds.lon})
 
 ###############################################################################
-# Some parameters
-nyrs = len(nds["time"])
-nlon = len(nds["lon"])
-nlat = len(nds["lat"])
-time =
-
-###############################################################################
 # OBS
 
 obs = np.loadtxt("../../data/ascii_files/jones_glob_ann_2002.asc", dtype=float)
