@@ -20,6 +20,7 @@ See the [original NCL example](https://www.ncl.ucar.edu/Applications/Scripts/xy_
 # -------------
 import numpy as np
 import xarray as xr
+import pandas as pd
 from matplotlib import pyplot as plt
 import matplotlib.ticker as tic
 
@@ -103,9 +104,14 @@ gds = gds.expand_dims(dim={'lon': nds.lon})
 #
 # Read in the observational data from an ASCII (text) file.  Here, we use
 # Numpy's nice ``loadtxt`` method to read the data from the text file and
-# return a Numpy array with ``float`` type.
+# return a Numpy array with ``float`` type.  Then, we construct an Xarray
+# ``DataArray`` explicitly, since the time values are not stored in the
+# ASCII data file (we have to know them!).
 
-obs = np.loadtxt("../../data/ascii_files/jones_glob_ann_2002.asc", dtype=float)
+obs_data = np.loadtxt("../../data/ascii_files/jones_glob_ann_2002.asc", dtype=float)
+obs_time = xr.cftime_range('1856-07-16T22:00:00', freq='365D',
+                           periods=len(obs_data), calendar='noleap')
+obs = xr.DataArray(name='TREFHT', data=obs_data, coords=[('time', obs_time)])
 
 ###############################################################################
 # NCL-based Weighted Mean Function
@@ -138,6 +144,14 @@ gavv = horizontal_weighted_mean(vds["TREFHT"], gds["gw"])
 gavav = gavv - gavv.sel(time=slice('1890','1920')).mean(dim='time')
 
 ###############################################################################
+# OBSERVATION DATA
+# ----------------
+#
+# We do the same thing for the observation data.
+
+obs_avg = obs.sel(time=slice('1890','1999')) - obs.sel(time=slice('1890','1920')).mean(dim='time')
+
+###############################################################################
 # Calculate the ensemble MIN & MAX & MEAN
 # ---------------------------------------
 #
@@ -152,10 +166,6 @@ gavan_avg = gavan.mean(dim='case')
 gavav_min = gavav.min(dim='case')
 gavav_max = gavav.max(dim='case')
 gavav_avg = gavav.mean(dim='case')
-
-# The Observations data is just a single-column text file, so we just have
-# to know this one...
-obs_avg = obs[34:144] - np.mean(obs[34:64])
 
 ###############################################################################
 # Create the Plot
