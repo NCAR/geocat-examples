@@ -133,12 +133,13 @@ qk = ax.quiverkey(Q, 0.85, 0.9, 4, r'4 $m/s$', labelpos='N',
                   coordinates='figure', color='black')
 
 # Draw SST contours
-cmap = truncate_colormap(cmaps.BlAqGrYeOrReVi200, minval=0.08, maxval=0.96, n=len(levels))
+plt.cm.register_cmap('BlAqGrYeOrReVi200', truncate_colormap(cmaps.BlAqGrYeOrReVi200, minval=0.08, maxval=0.96, n=len(levels)))
+cmap = plt.cm.get_cmap('BlAqGrYeOrReVi200', 50)
 cf = ax.contourf(lon_sst, lat_sst, sst, extend='both', levels=levels,
                  cmap=cmap, zorder=0)
 cax = plt.axes((0.93, 0.125, 0.02, 0.75))
 fig.colorbar(cf, ax=ax, label='$^{\circ}$ C', cax=cax,
-             ticks=np.arange(24, 29, 0.3))
+             ticks=np.arange(24, 29, 0.3), drawedges=True)
 
 # Turn on continent shading
 ax.add_feature(cartopy.feature.LAND, edgecolor='lightgray', facecolor='lightgray', zorder=1)
