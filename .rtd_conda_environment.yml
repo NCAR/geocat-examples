@@ -8,6 +8,7 @@ dependencies:
   - geocat-viz
   - netcdf4
   - cartopy
+  - cmaps
   - mock
   - pillow
   - pip
