@@ -40,12 +40,15 @@ plt.figure(figsize=(6,6))
 plt.scatter(ts_rolled.time, ts_rolled.values, c='r', s=3)
 plt.plot(ts.time, regline_vals, 'k')
 
+#Specify X and Y axis limits
 plt.xlim([6000, 9500])
 plt.ylim([268.0, 271.5])
 
-plt.minorticks_on()
+#Specify tick parameters
 plt.tick_params(which='both',right=True, top=True)
+plt.minorticks_on()
 
+#Adjust title and axis labels
 plt.title('Output from regline')
 plt.xlabel('simulated time')
 plt.ylabel('Surface temperature')
