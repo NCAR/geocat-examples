@@ -23,7 +23,7 @@ t = ds.TS.isel(time=0)
 
 #wrap data around meridian
 lon_idx = t.dims.index('lon')
-wrap_data, wrap_lon = add_cyclic_point(t.values, coord=lon, axis=lon_idx)
+wrap_data, wrap_lon = add_cyclic_point(t.values, coord=t.lon, axis=lon_idx)
 wrap_t = xr.DataArray(wrap_data, coords=[t.lat, wrap_lon], dims=['lat', 'lon'], attrs = t.attrs)
 
 ###############################################################################
