@@ -1,4 +1,4 @@
-.. _Panels_examples:
+.. _panels_examples:
 
 .. _panels-examples-index:
 
