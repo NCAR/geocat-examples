@@ -25,15 +25,6 @@ from util.make_byr_cmap import make_byr_cmap
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tic
-import matplotlib.cm as cm
-
-###############################################################################
-# Define a function that handles NCL's dim_rmvmean_n_Wrap's work
-def NCL_dim_rmvmean_n_Wrap(arr, dim):
-    arr_mean = arr.mean('time')
-    print(arr.shape)
-    print(arr_mean.shape)
-    return arr_mean
 
 ###############################################################################
 # Define a utility function that handles the no-shown-data artifact of 0 and 360-degree longitudes
