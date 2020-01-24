@@ -4,12 +4,9 @@ mask_1.py
 Demonstrates the use of the xarray's where function and 
 a masking array to mask out land or ocean.
 
-https://www.ncl.ucar.edu/Applications/Scripts/mask_1.ncl
-
-https://www.ncl.ucar.edu/Applications/Images/mask_1_1_lg.png
-
-
-https://www.ncl.ucar.edu/Applications/Images/mask_1_2_lg.png
+- Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/mask_1.ncl
+- https://www.ncl.ucar.edu/Applications/Images/mask_1_1_lg.png
+- https://www.ncl.ucar.edu/Applications/Images/mask_1_2_lg.png
 """
 
 import cartopy.crs as ccrs
@@ -19,25 +16,66 @@ import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
 
+import geocat.datafiles
+
+###############################################################################
 # Read in the netCDF file
+# =======================
 
 ds = (
-    xr.open_dataset("../../data/netcdf_files/atmos.nc", decode_times=False)
+    xr.open_dataset(
+        geocat.datafiles.get("netcdf_files/atmos.nc"), decode_times=False
+    )  # Disable time decoding due to missing necessary metadata
     .isel(time=0)
     .drop("time")
 )
 
 
+###############################################################################
+# Data Masking
+# =============
+
+
+def xr_add_cyclic(da, coord):
+    """
+    Function to add a cyclic point to an array and a 
+    corresponding coordinate.
+    """
+    from cartopy.util import add_cyclic_point
+
+    cyclic_data, cyclic_coord = add_cyclic_point(da.values, coord=da[coord])
+
+    coords = da.coords.to_dataset()
+    coords[coord] = cyclic_coord
+    return xr.DataArray(
+        cyclic_data,
+        dims=da.dims,
+        coords=coords.coords,
+        attrs=da.attrs,
+        encoding=da.encoding,
+    )
+
+
 # Use xarray's where function to mask out land and then ocean data
+
 land_only = ds.TS.where(ds.ORO == 1.0)
 ocean_only = ds.TS.where(ds.ORO == 0.0)
+land_only = xr_add_cyclic(land_only, "lon")
+ocean_only = xr_add_cyclic(ocean_only, "lon")
 
 
+###############################################################################
 # Define a few utility functions
+# ==============================
+
 
 def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=100):
     """
-    Utility function that truncates a colormap. Copied from  https://stackoverflow.com/questions/18926031/how-to-extract-a-subset-of-a-colormap-as-a-new-colormap-in-matplotlib
+    Utility function that truncates a colormap. This is useful when 
+    the user wants to construct a "custom" colormap by using a segment 
+    of a preset colormap.  
+    
+    Copied from  https://stackoverflow.com/questions/18926031/how-to-extract-a-subset-of-a-colormap-as-a-new-colormap-in-matplotlib
     """
 
     new_cmap = mpl.colors.LinearSegmentedColormap.from_list(
@@ -121,8 +159,8 @@ def plot_filled_contours(data, vmin, vmax, ax=None, cmap="viridis"):
 
 
 ###############################################################################
-
 # Plot Ocean Only
+# ===============
 
 levels = np.arange(260, 305, 2)
 plt.register_cmap("BlAqGrYeOrRe", truncate_colormap(cmaps.BlAqGrYeOrRe, 0.1, 1.0))
@@ -147,15 +185,16 @@ add_lat_lon_ticklabels(ax)
 ax.coastlines(linewidth=0.5, resolution="110m")
 
 # nice figure size in inches
-f.set_size_inches((10, 10))
+f.set_size_inches((10, 6))
 
 
 # a common title
-f.suptitle("Ocean Only", fontsize=24)
+f.suptitle("Ocean Only", fontsize=24, fontweight="bold")
 plt.show()
 
 ###############################################################################
-# Plot Land Only 
+# Plot Land Only
+# ===============
 
 levels = np.arange(215, 316, 4)
 plt.register_cmap("BlAqGrYeOrRe", truncate_colormap(cmaps.BlAqGrYeOrRe, 0.1, 1.0))
@@ -180,8 +219,8 @@ add_lat_lon_ticklabels(ax)
 ax.coastlines(linewidth=0.5, resolution="110m")
 
 # nice figure size in inches
-f.set_size_inches((10, 10))
+f.set_size_inches((10, 6))
 
 # a common title
-f.suptitle("Land Only", fontsize=24)
+f.suptitle("Land Only", fontsize=24, fontweight="bold")
 plt.show()
