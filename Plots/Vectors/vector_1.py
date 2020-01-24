@@ -22,25 +22,24 @@ import cmaps
 sst_in = xr.open_dataset('../../data/netcdf_files/sst8292.nc')
 uv_in = xr.open_dataset('../../data/netcdf_files/uvt.nc')
 
+# Use date as the dimension rather than time
+sst_in = sst_in.set_coords("date").swap_dims({"time": "date"}).drop('time')
+uv_in = uv_in.set_coords("date").swap_dims({"time": "date"}).drop('time')
+
 ###############################################################################
 # Extract required variables from files
 
-# Indices of January 1988 in each file
-date_sst = sst_in['date']
-date_uv = uv_in['date']
-ind_sst = np.where(date_sst == 198801)[0][0]
-ind_uv = np.where(date_uv == 198801)[0][0]
+# Read SST and U, V for Jan 1988 (at 1000 mb for U, V)
+# Note that we could use .isel() if we know the indices of date and lev
+sst = sst_in['SST'].sel(date=198801)
+u = uv_in['U'].sel(date=198801, lev=1000)
+v = uv_in['V'].sel(date=198801, lev=1000)
 
 # Read in grid information
-lat_sst = sst_in['lat']
-lon_sst = sst_in['lon']
-lat_uv = uv_in['lat']
-lon_uv = uv_in['lon']
-
-# Read SST and U, V
-sst = sst_in['SST'].isel(time=ind_sst)
-u = uv_in['U'].isel(time=ind_uv, lev=0)
-v = uv_in['V'].isel(time=ind_uv, lev=0)
+lat_sst = sst['lat']
+lon_sst = sst['lon']
+lat_uv = u['lat']
+lon_uv = u['lon']
 
 ###############################################################################
 # Define a couple of utility functions
