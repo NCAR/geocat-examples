@@ -107,4 +107,4 @@ ax.set_title('K', y=1.04, fontsize=18, loc='right')
 
 ###############################################################################
 # Show the plot
-plt.show(block=True)
+plt.show()
