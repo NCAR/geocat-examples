@@ -28,6 +28,9 @@ fig = plt.figure(figsize=(10,10))
 ax = plt.axes(projection=ccrs.PlateCarree())
 ax.coastlines(linewidths=0.5)
 
+#set y_lim
+ax.set_ylim([-90,90])
+
 # here we explicitly specify tick labels to demonstrate how that would be done.
 # this allows us to have specific West and East degrees, with 180 and 0 not having such a label.
 # consider using the See the add_lat_lon_ticklabels and nclize_axis functions in Cartopy's lat-lon formatter to automate this.
