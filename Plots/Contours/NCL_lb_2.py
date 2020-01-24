@@ -20,6 +20,11 @@ import matplotlib.pyplot as plt
 ds = xr.open_dataset('../../data/netcdf_files/atmos.nc', decode_times=False)
 v = ds.V.isel(time=0, lev = 3)
 
+#wrap data around meridian
+lon_idx = v.dims.index('lon')
+wrap_data, wrap_lon = add_cyclic_point(v.values, coord=lon, axis=lon_idx)
+wrap_v = xr.DataArray(wrap_data, coords=[v.lat, wrap_lon], dims=['lat', 'lon'], attrs = v.attrs)
+
 ###############################################################################
 # 
 # create plot
@@ -44,8 +49,8 @@ plt.minorticks_on()
 plt.tick_params(which='both',right=True, top=True)
 
 # use a filled contour and an additional contour to add black boundary between levels.
-a = v.plot.contourf(levels = 14, cmap = 'terrain', add_colorbar=False)
-v.plot.contour(levels = 14, linewidths=0.5, cmap='k')
+a = wrap_v.plot.contourf(levels = 14, cmap = 'terrain', add_colorbar=False)
+wrap_v.plot.contour(levels = 14, linewidths=0.5, cmap='k')
 
 # demonstrate adjusting colorbar tick labels
 ticks=[-24,-20,-16,-12,-8,-4,0,4,8,12,16,20, 24]
