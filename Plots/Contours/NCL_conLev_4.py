@@ -30,11 +30,10 @@ import matplotlib.cm as cm
 ###############################################################################
 # Define a function that handles NCL's dim_rmvmean_n_Wrap's work
 def NCL_dim_rmvmean_n_Wrap(arr, dim):
-    name = arr.name
-    ds = arr.reset_coords()
-    names = set(arr.coords) - set(arr.dims)
-    ds = ds.mean(dim)
-    return ds.set_coords(names)[name]
+    arr_mean = arr.mean('time')
+    print(arr.shape)
+    print(arr_mean.shape)
+    return arr_mean
 
 ###############################################################################
 # Define a utility function that handles the no-shown-data artifact of 0 and 360-degree longitudes
@@ -50,9 +49,10 @@ def xr_add_cyclic(da, coord):
 ds = xr.open_dataset("../../data/netcdf_files/b003_TS_200-299.nc", decode_times=False)
 x = ds.TS
 
-# TODO Apply mean reduction from coordinates
-# newx = NCL_dim_rmvmean_n_Wrap(x, 'time')
-newx = x
+# Apply mean reduction from coordinates as performed in NCL's dim_rmvmean_n_Wrap(x,0)
+# Apply this only to x.isel(time=0) because NCL plot plots only for time=0
+newx = x.mean('time')
+newx = x.isel(time=0) - newx
 
 # Resolve the no-shown-data artifact of 0 and 360-degree longitudes
 newx = xr_add_cyclic(newx, "lon")
@@ -72,7 +72,7 @@ ax.coastlines(linewidth=0.5, resolution="110m")
 newcmp = make_byr_cmap()
 
 # Plot filled contours
-p = newx.isel(time=0).plot.contourf(ax=ax, vmin=-1, vmax=10, levels=[-12,-10,-8,-6,-4,-2,-1,1,2,4,6,8,10,12], cmap=newcmp, add_colorbar=False, transform=projection, add_labels=False)
+p = newx.plot.contourf(ax=ax, vmin=-1, vmax=10, levels=[-12,-10,-8,-6,-4,-2,-1,1,2,4,6,8,10,12], cmap=newcmp, add_colorbar=False, transform=projection, add_labels=False)
 
 ###############################################################################
 # Adjust figure size and plot parameters to get identical to original NCL plot
