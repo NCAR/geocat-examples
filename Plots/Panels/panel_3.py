@@ -47,8 +47,8 @@ def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=100):
     """
 
     new_cmap = mpl.colors.LinearSegmentedColormap.from_list(
-        "trunc({n},{a:.2f},{b:.2f})".format(n=cmap.name, a=minval, b=maxval),
-        cmap(np.linspace(minval, maxval, n)),
+        name="trunc({n},{a:.2f},{b:.2f})".format(n=cmap.name, a=minval, b=maxval),
+        colors=cmap(np.linspace(minval, maxval, n)),
     )
     return new_cmap
 
@@ -65,7 +65,7 @@ def plot_labelled_filled_contours(data, ax=None):
     filled contours, the black contours, and the contour labels.
     """
 
-    cmap = truncate_colormap(mpl.cm.rainbow, 0.2, 0.8)
+    cmap = truncate_colormap(mpl.cm.rainbow, 0.2, 0.9)
 
     handles = dict()
     handles["filled"] = data.plot.contourf(
@@ -95,6 +95,10 @@ def plot_labelled_filled_contours(data, ax=None):
         handles["contour"], fontsize="small", fmt="%.0f",  # Turn off decimal points
     )
 
+    # make a nice title
+    title = f"{data.attrs['long_name']} [{data.attrs['units']}]"
+    ax.set_title(title, loc="left", y=1.05)
+
     return handles
 
 
@@ -108,13 +112,16 @@ plot_labelled_filled_contours(ds.U, ax)
 # These next two functions add nice axes decorations and make the plot look more
 # like NCL
 
+
 def add_lat_lon_ticklabels(ax):
     """
     Nice latitude, longitude tick labels
     """
     from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
 
-    lon_formatter = LongitudeFormatter(zero_direction_label=True)
+    lon_formatter = LongitudeFormatter(
+        zero_direction_label=False, dateline_direction_label=False
+    )
     lat_formatter = LatitudeFormatter()
     ax.xaxis.set_major_formatter(lon_formatter)
     ax.yaxis.set_major_formatter(lat_formatter)
@@ -180,11 +187,6 @@ cbar = f.colorbar(
     aspect=30,  # aspect ratio of colorbar, just because we can.
 )
 cbar.set_ticks(levels)  # set the tick labels on the colorbar
-
-
-# add title for each subplot
-ax[0].set_title("Zonal Wind [m/s]", loc="left")
-ax[1].set_title("Meridional Wind [m/s]", loc="left")
 
 # make axes look nice and add coastlines
 [nclize_axis(axes) for axes in ax.flat]
