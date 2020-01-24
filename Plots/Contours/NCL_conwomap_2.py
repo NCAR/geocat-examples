@@ -35,7 +35,7 @@ newcmp = make_byr_cmap()
 # Plot borderlines first
 u.plot.contour(ax=ax, vmin=-1, vmax=10, levels=12, linewidths=0.5, colors='k', add_colorbar=False, transform=projection, extend='neither', add_labels=False)
 # Plot filled contours
-p = u.plot.contourf(ax=ax, vmin=-1, vmax=10, levels=12, cmap=newcmp, linestyles='solid', add_colorbar=False, transform=projection, extend='neither', add_labels=False)
+p = u.plot.contourf(ax=ax, vmin=-1, vmax=10, levels=12, cmap=newcmp, add_colorbar=False, transform=projection, extend='neither', add_labels=False)
 
 ###############################################################################
 # Adjust figure size and plot parameters to get identical to original NCL plot
