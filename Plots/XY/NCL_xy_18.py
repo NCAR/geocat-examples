@@ -108,20 +108,17 @@ ax.set_title('Parallel Climate Model Ensembles', fontsize=24, pad=60.0)
 ax.text(0.5, 1.125, 'Global Temperature Anomalies', fontsize=18, ha='center', va='center', transform=ax.transAxes)
 ax.text(0.5, 1.06, 'from 1890-1919 average', fontsize=14, ha='center', va='center', transform=ax.transAxes)
 ax.set_ylabel('$^\circ$C', fontsize=24)
-ax.fill_between(time, gavan_min, gavan_max, color='lightblue')
-ax.fill_between(time, gavav_min, gavav_max, color='lightpink')
+ax.fill_between(time, gavan_min, gavan_max, color='lightblue', zorder=0)
+ax.fill_between(time, gavav_min, gavav_max, color='lightpink', zorder=1)
 
 ax.set_xlim(xmin=1890, xmax=2000)
 ax.set_ylim(ymin=-0.4, ymax=1)
 ax.set_xticks(np.arange(1900, 2001, step=20))
 ax.set_yticks(np.arange(-0.3, 1, step=0.3))
 
-ax.plot(time, gavan_avg, color='blue', label='Natural')
-ax.plot(time, gavav_avg, color='red', label='Anthropogenic + Natural')
-ax.plot(time, obs_avg, color='black', label='Observations')
+ax.plot(time, obs_avg, color='black', label='Observations', zorder=4)
+ax.plot(time, gavan_avg, color='blue', label='Natural', zorder=3)
+ax.plot(time, gavav_avg, color='red', label='Anthropogenic + Natural', zorder=2)
 
-handles, labels = ax.get_legend_handles_labels()
-
-ax.legend(handles[::-1], labels[::-1], loc='upper left', frameon=False, fontsize=18)
-
+ax.legend(loc='upper left', frameon=False, fontsize=18)
 plt.show()
