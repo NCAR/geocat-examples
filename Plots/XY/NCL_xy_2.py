@@ -48,15 +48,15 @@ ax.tick_params(labelsize=16)
 ax.minorticks_on()
 ax.xaxis.set_minor_locator(tic.AutoMinorLocator(n=3))
 ax.yaxis.set_minor_locator(tic.AutoMinorLocator(n=5))
-ax.tick_params('both', length=10, width=0.5, which='major')
-ax.tick_params('both', length=5, width=0.25, which='minor')
+ax.tick_params('both', length=10, width=0.5, which='major', top=True, right=True)
+ax.tick_params('both', length=5, width=0.25, which='minor', top=True, right=True)
 
 # Set title, axis labels and limits, etc.
-plt.title("Two Curve XY Plot", fontsize=20)
+plt.title("Two Curve XY Plot", fontsize=20, y=1.04)
 ax.set_xlim((-90,90))
 ax.set_ylim((-20,50))
 ax.set_xlabel("")
-ax.set_ylabel("Zonal Wind", fontsize=16)
+ax.set_ylabel("Zonal Wind", fontsize=18)
 
 ###############################################################################
 # Show the plot
