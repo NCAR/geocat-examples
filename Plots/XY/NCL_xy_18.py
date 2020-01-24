@@ -16,7 +16,8 @@ See the [original NCL example](https://www.ncl.ucar.edu/Applications/Scripts/xy_
 """
 
 ###############################################################################
-# Basic imports
+# Basic Imports
+# -------------
 import numpy as np
 import xarray as xr
 from matplotlib import pyplot as plt
@@ -24,11 +25,56 @@ import matplotlib.ticker as tic
 
 ###############################################################################
 # Open files and read in monthly data
+# -----------------------------------
+#
+# Xarray's ``open_mfdataset`` (open multi-file dataset) method will attempt to
+# merge all of the individual datasets (i.e., NetCDF files) into one single
+# Xarray ``Dataset``.  The ``concat_dim`` and ``combine`` keyword arguments to
+# this method give you control over how this merging takes place (see the
+# Xarray documentation for more information).
+#
+# In the below example, each NetCDF file represents the same variables and
+# coordinates, but from a different ensemble member.  There is no ``case`` (or
+# ensemble) dimension explicitly declared in the files, so we use the
+# ``concat_dim`` argument to state that we will create a new dimension called
+# ``case`` that spans the ensemble members.  Here, each file contains a
+# ``TREFHT`` variable that depends upon dimensions ``(time, lat, lon)`` and
+# coordinate variables ``time``, ``lat`` and ``lon``.  After opening these
+# files with ``open_mfdataset``, the resulting Xarray ``Dataset`` will consist
+# of a ``TREFHT`` variable that depends upon dimensions ``(case, time, lat, lon)``
+# and coordinate variables ``case``, ``time``, ``lat`` and ``lon``.
+#
+# **NOTE:** One of the files (``TREFHT.B06.69.atm.1890-1999ANN.nc``) contains
+# a ``time`` coordinate variable with a ``calendar`` attribute having the
+# value ``noleap`` (i.e., the "No leap year" non-standard calendar).  The
+# ``time`` coordinate variable in all of the other files do not have a
+# ``calendar`` attribute *at all*.  By default, when Xarray's ``open_mfdataset``
+# reads each individual dataset, it will attempt to decode the ``time`` coordinate
+# into an appropriate ``datetime`` object, so that you can then take advantage of
+# Xarray's (and Pandas's) excellent time-series manipulation capabilities.
+# However, due to the lacking ``calendar`` attribute in most of the files
+# (which, according to CF conventions, defaults to the ``standard`` Gregorian
+# calendar) and the ``noleap`` calendar attribute in one of the files, the
+# ``time`` coordinate variable will be interpreted as "non-uniform" across all
+# of the datasets.  To fix this problem, we tell Xarray's ``open_mfdataset``
+# function to *not* decode the ``time`` coordinate into ``datetime`` objects
+# by passing the ``decode_times=False`` argument.  Second, we pass a pre-processing
+# function via the ``preprocess`` argument to ``open_mfdataset``, telling
+# Xarray to read each individual dataset from file (with the ``decode_times=False``
+# option) and then modify the resulting dataset according to the pre-processing
+# function.  In this case, the pre-processing function (``assume_noleap_calendar``)
+# takes the single-file dataset, sets the ``calendar`` attribute of the ``time``
+# coordinate variable to ``noleap``, and returns the *decoded* dataset (using
+# the Xarray function ``decode_cf``).  Work-arounds like this are needed
+# whenever you have "errors" or "inconsistancies" in your data.
 
+# Define the xarray.open_mfdataset pre-processing function
+# (Must take an xarray.Dataset as input and return an xarray.Dataset)
 def assume_noleap_calendar(ds):
     ds.time.attrs['calendar'] = 'noleap'
     return xr.decode_cf(ds)
 
+# Create a dataset for the "natural" (i.e., no anthropogenic effects) data
 nfiles = ["../../data/netcdf_files/TREFHT.B06.66.atm.1890-1999ANN.nc",
           "../../data/netcdf_files/TREFHT.B06.67.atm.1890-1999ANN.nc",
           "../../data/netcdf_files/TREFHT.B06.68.atm.1890-1999ANN.nc",
@@ -36,6 +82,7 @@ nfiles = ["../../data/netcdf_files/TREFHT.B06.66.atm.1890-1999ANN.nc",
 nds = xr.open_mfdataset(nfiles, concat_dim='case', combine='nested',
                         preprocess=assume_noleap_calendar, decode_times=False)
 
+# Create a dataset for the "natural + anthropogenic" data
 vfiles = ["../../data/netcdf_files/TREFHT.B06.61.atm.1890-1999ANN.nc",
           "../../data/netcdf_files/TREFHT.B06.59.atm.1890-1999ANN.nc",
           "../../data/netcdf_files/TREFHT.B06.60.atm.1890-1999ANN.nc",
@@ -43,34 +90,60 @@ vfiles = ["../../data/netcdf_files/TREFHT.B06.61.atm.1890-1999ANN.nc",
 vds = xr.open_mfdataset(vfiles, concat_dim='case', combine='nested',
                         preprocess=assume_noleap_calendar, decode_times=False)
 
+# Read the "weights" file
+# (The xarray.Dataset.expand_dims call adds the longitude dimension to the
+# dataset, which originally depends only upon the latitude dimension. This
+# arguably makes computing the weighted means below more straight-forward.)
 gds = xr.open_dataset("../../data/netcdf_files/gw.nc")
 gds = gds.expand_dims(dim={'lon': nds.lon})
 
 ###############################################################################
-# OBS
+# OBSERVATIONS
+# ------------
+#
+# Read in the observational data from an ASCII (text) file.  Here, we use
+# Numpy's nice ``loadtxt`` method to read the data from the text file and
+# return a Numpy array with ``float`` type.
 
 obs = np.loadtxt("../../data/ascii_files/jones_glob_ann_2002.asc", dtype=float)
 
 ###############################################################################
 # NCL-based Weighted Mean Function
+# --------------------------------
+#
+# We define this function just for convenience.  This is equivalent to how
+# NCL computes the weighted mean.
 
 def horizontal_weighted_mean(var, wgts):
     return (var * wgts).sum(dim=['lat', 'lon']) / wgts.sum(dim=['lat', 'lon'])
 
 ###############################################################################
-# NATURAL
+# NATURAL DATA
+# ------------
+#
+# We compute the weighted mean across the latitude and longitude dimensions
+# (leaving only the ``case`` and ``time`` dimensions), and then we compute the
+# anomaly measured from the average of the first 30 years.
 
 gavn = horizontal_weighted_mean(nds["TREFHT"], gds["gw"])
 gavan = gavn - gavn.isel(time=slice(0,30)).mean(dim='time')
 
 ###############################################################################
-# ALL
+# NATURAL + ANTHROPOGENIC DATA
+# ----------------------------
+#
+# We do the same thing for the "natural + anthropogenic" data.
 
 gavv = horizontal_weighted_mean(vds["TREFHT"], gds["gw"])
 gavav = gavv - gavv.isel(time=slice(0,30)).mean(dim='time')
 
 ###############################################################################
-# CALCULATE ENSEMBLE MIN & MAX
+# Calculate the ensemble MIN & MAX & MEAN
+# ---------------------------------------
+#
+# Here we find the ``min``, ``max``, and ``mean`` along the ``case`` (i.e.,
+# ensemble) dimension (leaving only the ``time`` dimension) for both of our
+# datasets.  We compute the equivalent anomaly for the observations data.
 
 gavan_min = gavan.min(dim='case')
 gavan_max = gavan.max(dim='case')
@@ -83,7 +156,8 @@ gavav_avg = gavav.mean(dim='case')
 obs_avg = obs[34:144] - np.mean(obs[34:64])
 
 ###############################################################################
-# Create plot
+# Create the Plot
+# ---------------
 
 fig, ax = plt.subplots(figsize=(10.5, 6))
 
