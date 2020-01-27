@@ -40,7 +40,6 @@ u.plot.contour(ax=ax, vmin=-1, vmax=10, levels=12, linewidths=0.5, colors='k', a
 
 ###############################################################################
 # Adjust figure size and plot parameters to get identical to original NCL plot
-fig = plt.gcf()
 fig.set_size_inches((10, 6))
 
 # Hard-code tic values. This assumes data are global
