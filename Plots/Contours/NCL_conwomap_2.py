@@ -26,21 +26,11 @@ u = ds.u.isel(time=4)
 ###############################################################################
 # Plot
 # First get axes for a projection of preference
-fig = plt.gcf()
+fig = plt.figure()
 projection = ccrs.PlateCarree()
 ax = plt.axes(projection=projection)
 
-# Import an NCL colormap
-newcmp = make_byr_cmap()
-
-# Plot filled contours
-p = u.plot.contourf(ax=ax, vmin=-1, vmax=10, levels=12, cmap=newcmp, add_colorbar=False, transform=projection, extend='neither', add_labels=False)
-# Plot borderlines first
-u.plot.contour(ax=ax, vmin=-1, vmax=10, levels=12, linewidths=0.5, colors='k', add_colorbar=False, transform=projection, extend='neither', add_labels=False)
-
-###############################################################################
 # Adjust figure size and plot parameters to get identical to original NCL plot
-fig = plt.gcf()
 fig.set_size_inches((10, 6))
 
 # Hard-code tic values. This assumes data are global
@@ -64,15 +54,22 @@ ax.yaxis.set_minor_locator(tic.AutoMinorLocator(n=5))
 ax.tick_params('both', length=12, width=0.5, which='major', top=True, right=True)
 ax.tick_params('both', length=8, width=0.5, which='minor', top=True, right=True)
 
+# Add titles to left and right of the plot axis.
+ax.set_title('Cone amplitude', y=1.04, fontsize=18, loc='left')
+ax.set_title('ndim', y=1.04, fontsize=18, loc='right')
+
+# Import an NCL colormap
+newcmp = make_byr_cmap()
+
+# Plot filled contours
+p = u.plot.contourf(ax=ax, vmin=-1, vmax=10, levels=12, cmap=newcmp, add_colorbar=False, transform=projection, extend='neither', add_labels=False)
+# Plot borderlines first
+u.plot.contour(ax=ax, vmin=-1, vmax=10, levels=12, linewidths=0.5, colors='k', add_colorbar=False, transform=projection, extend='neither', add_labels=False)
+
 # Add horizontal colorbar
 cbar = plt.colorbar(p, orientation='horizontal', shrink=0.5)
 cbar.ax.tick_params(labelsize=16)
 cbar.set_ticks(np.linspace(0, 9, 10))
 
-# Add titles to left and right of the plot axis.
-ax.set_title('Cone amplitude', y=1.04, fontsize=18, loc='left')
-ax.set_title('ndim', y=1.04, fontsize=18, loc='right')
-
-###############################################################################
 # Show the plot
-plt.show(block=True)
+plt.show()
