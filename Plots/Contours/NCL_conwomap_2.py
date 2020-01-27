@@ -33,10 +33,10 @@ ax = plt.axes(projection=projection)
 # Import an NCL colormap
 newcmp = make_byr_cmap()
 
-# Plot borderlines first
-u.plot.contour(ax=ax, vmin=-1, vmax=10, levels=12, linewidths=0.5, colors='k', add_colorbar=False, transform=projection, extend='neither', add_labels=False)
 # Plot filled contours
 p = u.plot.contourf(ax=ax, vmin=-1, vmax=10, levels=12, cmap=newcmp, add_colorbar=False, transform=projection, extend='neither', add_labels=False)
+# Plot borderlines first
+u.plot.contour(ax=ax, vmin=-1, vmax=10, levels=12, linewidths=0.5, colors='k', add_colorbar=False, transform=projection, extend='neither', add_labels=False)
 
 ###############################################################################
 # Adjust figure size and plot parameters to get identical to original NCL plot
@@ -50,6 +50,11 @@ ax.set_yticks(np.linspace(0, 25, 6))
 # Adjust axes limits
 ax.set_xlim((0,49))
 ax.set_ylim((0,29))
+
+# Set axes labels
+ax.set_xlabel("X", fontsize=18, y=1.04)
+ax.set_ylabel("Y", fontsize=18)
+
 
 # Tweak minor tic marks. Set spacing so we get nice round values (10 degrees). Again, assumes global data
 ax.tick_params(labelsize=16)
