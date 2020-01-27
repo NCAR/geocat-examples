@@ -25,6 +25,7 @@ u = ds.u.isel(time=4)
 
 ###############################################################################
 # Plot
+
 # First get axes for a projection of preference
 fig = plt.figure()
 projection = ccrs.PlateCarree()
