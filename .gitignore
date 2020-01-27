@@ -1,2 +1,5 @@
 /_build/
 /auto_examples/
+*.ncl
+.vscode/
+.DS_Store
