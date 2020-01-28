@@ -26,6 +26,7 @@ from util.make_byr_cmap import make_byr_cmap
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tic
 import geocat.datafiles
+import geocat.viz
 
 ###############################################################################
 # A utility function
@@ -85,7 +86,8 @@ ax.tick_params('both', length=20, width=2, which='major', top=True, right=True)
 ax.tick_params('both', length=10, width=1, which='minor', top=True, right=True)
 
 # Import an NCL colormap
-newcmp = make_byr_cmap()
+newcmp = geocat.viz.cmaps.BlRe
+newcmp.colors[len(newcmp.colors)//2] = [1, 1, 1] # set middle value to white to match NCL
 
 # Plot filled contours
 p = newx.plot.contourf(ax=ax, vmin=-1, vmax=10, levels=[-12,-10,-8,-6,-4,-2,-1,1,2,4,6,8,10,12], cmap=newcmp, add_colorbar=False, transform=projection, add_labels=False)
