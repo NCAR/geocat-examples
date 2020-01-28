@@ -30,7 +30,6 @@ ds = file_in.isel(time=1, lon=slice(0,-1,3), lat=slice(2,-1,3))
 # Set up figure and axes
 fig, ax = plt.subplots(figsize=(10,5.25))
 ax = plt.axes(projection=ccrs.PlateCarree())
-plt.title('Zonal Wind\n')
 gcv.util.nclize_axis(ax)
 gcv.util.add_lat_lon_ticklabels(ax)
 
@@ -39,14 +38,18 @@ plt.xticks(range(-180, 181, 30))
 plt.yticks(range(-90, 91, 30))
 
 # Draw vector plot
-# (there is no matplotlib equivalent to "CurlyVector" yet)
-Q = plt.quiver(ds['lon'], ds['lat'], ds['U'].data, ds['V'].data,
-               color='black', zorder=1, pivot="middle", width=0.0006,
-               headwidth=7.5)
+# Notes
+# 1. We plot every third vector in each direction, which is not as nice as vcMinDistanceF in NCL
+# 2. There is no matplotlib equivalent to "CurlyVector"
+Q = plt.quiver(ds['lon'], ds['lat'], ds['U'].data, ds['V'].data, color='black',
+               zorder=1, pivot="middle", width=0.0007, headwidth=10)
 
 # Draw legend for vector plot
-qk = ax.quiverkey(Q, 0.865, 0.9, 20, r'20 $m/s$', labelpos='N',
+qk = ax.quiverkey(Q, 0.872, 0.8, 20, r'20', labelpos='N',
                   coordinates='figure', color='black', zorder=2)
+ax.add_patch(plt.Rectangle((155, 65), 25, 25, facecolor='white', edgecolor='black', zorder=1))
+ax.set_title('Zonal Wind', y=1.04, loc='left')
+ax.set_title('m/s', y=1.04, loc='right')
 
 # Turn on continent shading
 ax.add_feature(cartopy.feature.LAND, edgecolor='lightgray', facecolor='lightgray', zorder=0)
