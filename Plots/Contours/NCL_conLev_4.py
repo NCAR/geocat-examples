@@ -21,11 +21,9 @@ import xarray as xr
 import cartopy.crs as ccrs
 import cartopy.util as cutil
 from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
-from util.make_byr_cmap import make_byr_cmap
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tic
-import geocat.datafiles
 import geocat.viz
 
 ###############################################################################
