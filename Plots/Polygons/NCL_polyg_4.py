@@ -23,78 +23,9 @@ import xarray as xr
 import cartopy
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
-
+import geocat.viz as gcv
 
 ds = xr.open_dataset("../../data/netcdf_files/uv300.nc").isel(time=1)
-
-###############################################################################
-# These next two functions add nice axes decorations and make the plot look more
-# like NCL
-
-
-def add_lat_lon_ticklabels(ax):
-    """
-    Nice latitude, longitude tick labels
-    """
-    from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
-
-    lon_formatter = LongitudeFormatter(
-        zero_direction_label=False, dateline_direction_label=False
-    )
-    lat_formatter = LatitudeFormatter()
-    ax.xaxis.set_major_formatter(lon_formatter)
-    ax.yaxis.set_major_formatter(lat_formatter)
-
-
-def nclize_axis(ax):
-    """
-    Utility function to make plots look like NCL plots
-    """
-    import matplotlib.ticker as tic
-
-    ax.tick_params(labelsize="small")
-    ax.minorticks_on()
-    ax.xaxis.set_minor_locator(tic.AutoMinorLocator(n=3))
-    ax.yaxis.set_minor_locator(tic.AutoMinorLocator(n=3))
-
-    # length and width are in points and may need to change depending on figure size etc.
-    ax.tick_params(
-        "both",
-        length=8,
-        width=1.5,
-        which="major",
-        bottom=True,
-        top=True,
-        left=True,
-        right=True,
-    )
-    ax.tick_params(
-        "both",
-        length=5,
-        width=0.75,
-        which="minor",
-        bottom=True,
-        top=True,
-        left=True,
-        right=True,
-    )
-
-#
-#
-#
-# ###############################################################################
-# # Another text/markdown cell
-#
-# def xr_add_cyclic(da, coord):
-#     from cartopy.util import add_cyclic_point
-#
-#     cyclic_data, cyclic_coord = cartopy.util.add_cyclic_point(da.values, coord=da[coord])
-#
-#     coords = da.coords.to_dataset()
-#     coords[coord] = cyclic_coord
-#     return xr.DataArray(cyclic_data, dims=da.dims, coords=coords.coords)
-
-
 
 ###############################################################################
 # Draw the basic contour plot
@@ -113,8 +44,9 @@ ax = plt.axes(projection=ccrs.PlateCarree())
 ax.add_feature(continents)
 ax.set_extent(map_extent, crs=ccrs.PlateCarree())
 
+# Specify contour levels (from -12 to 40 by 4).   The top range value of 44 is not included in the levels.
+levels = np.arange(-12, 44, 4)
 
-levels = np.arange(-12, 40, 4)
 # Using a dictionary prevents repeating the same keyword arguments twice for the contours.
 kwargs = dict(
     levels=levels,  # contour levels specified outside this function
@@ -265,7 +197,7 @@ draw_hatch_polygon(x_tri + 20, y_tri, 'forestgreen', 'xx')
 ax.text(0.0, 1.05, "Zonal Wind", fontsize=12, transform=ax.transAxes)
 ax.text(1.0, 1.05, "m/s", fontsize=12, horizontalalignment='right', transform=ax.transAxes)
 
-nclize_axis(ax)
-add_lat_lon_ticklabels(ax)
+gcv.util.nclize_axis(ax)
+gcv.util.add_lat_lon_ticklabels(ax)
 
 plt.show()
