@@ -140,10 +140,6 @@ def make_base_plot():
             )
 
     # Add title and tick marks to match NCL conventions.
-    text_shared_args = dict(
-        fontsize=12,
-        transform=ax.transAxes,
-    )
     ax.text(0.0,  1.05, "Zonal Wind", fontsize=12, transform=ax.transAxes)
     ax.text(1.0,  1.05, "m/s", fontsize=12, transform=ax.transAxes, horizontalalignment='right')
     ax.text(1.0, -0.20, "CONTOUR FROM -12 TO 40 BY 4",
