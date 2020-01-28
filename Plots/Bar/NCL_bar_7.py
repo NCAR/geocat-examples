@@ -34,7 +34,7 @@ color_list = ['firebrick', 'red', 'orange', 'green', 'navy', 'blue', 'skyblue', 
 
 # Title settings
 title = 'Estimated Cancer Deaths for 2002'
-title_fontsize = 18
+title_fontsize = 16
 
 # Axis Settings
 plot_y_max = 180_000
@@ -53,7 +53,7 @@ label_y_offset = 2000
 # Create the first bar chart.
 
 # Figure size is (width, height) inches.
-plt.figure(1, figsize=(6, 6))
+plt.figure(1, figsize=(6, 5))
 
 plt.bar(x, data, color=color_list, edgecolor='black')
 plt.title(title, fontsize=title_fontsize)
@@ -90,10 +90,10 @@ plt.show()
 
 ## NOTE: you may need to close the first figure window to see the second figure.
 # Figure size is (width, height) inches.
-plt.figure(2, figsize=(6, 6))
+plt.figure(2, figsize=(6, 5))
 
 bar_handle = plt.bar(x, data, color=color_list, edgecolor='black')
-plt.ylabel("Number of Deaths", fontsize = 16)
+plt.ylabel("Number of Deaths", fontsize=16)
 plt.title(title, fontsize=title_fontsize)
 
 # Reverse the legend ordering to match NCL.
@@ -120,6 +120,9 @@ plt.tick_params(which='minor', length=y_minor_tick_length * tick_length_multipli
 
 # Set the limits for the Y axis.
 plt.ylim(top=plot_y_max)
+
+# Move the figure left border, so Y Label appears without manually adjusting the viewport.
+plt.subplots_adjust(left=0.2)
 
 # Draw plot on the screen.
 plt.show()
