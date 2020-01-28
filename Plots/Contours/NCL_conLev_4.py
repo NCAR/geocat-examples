@@ -25,7 +25,7 @@ from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tic
 
-import geocat.viz
+import geocat.viz as gviz
 import geocat.datafiles as gdf
 
 ###############################################################################
@@ -86,7 +86,7 @@ ax.tick_params('both', length=20, width=2, which='major', top=True, right=True)
 ax.tick_params('both', length=10, width=1, which='minor', top=True, right=True)
 
 # Import an NCL colormap
-newcmp = geocat.viz.cmaps.BlRe
+newcmp = gviz.cmaps.BlRe
 newcmp.colors[len(newcmp.colors)//2] = [1, 1, 1] # set middle value to white to match NCL
 
 # Plot filled contours
