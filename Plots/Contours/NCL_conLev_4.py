@@ -25,8 +25,11 @@ from util.make_byr_cmap import make_byr_cmap
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tic
+import geocat.datafiles
 
 ###############################################################################
+# A utility function
+
 # Define a utility function that handles the no-shown-data artifact of 0 and 360-degree longitudes
 def xr_add_cyclic(da, coord):
     cyclic_data, cyclic_coord = cutil.add_cyclic_point(da.values, coord=da[coord])
@@ -37,7 +40,7 @@ def xr_add_cyclic(da, coord):
 
 ###############################################################################
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset("../../data/netcdf_files/b003_TS_200-299.nc", decode_times=False)
+ds = xr.open_dataset(geocat.datafiles.get("netcdf_files/b003_TS_200-299.nc"), decode_times=False)
 x = ds.TS
 
 # Apply mean reduction from coordinates as performed in NCL's dim_rmvmean_n_Wrap(x,0)
@@ -50,6 +53,7 @@ newx = xr_add_cyclic(newx, "lon")
 
 ###############################################################################
 # Plot
+
 # First get axes for a projection of preference
 fig = plt.figure()
 projection = ccrs.PlateCarree()
@@ -59,13 +63,6 @@ ax = plt.axes(projection=projection)
 ax.set_global()
 ax.coastlines(linewidth=0.5, resolution="110m")
 
-# Import an NCL colormap
-newcmp = make_byr_cmap()
-
-# Plot filled contours
-p = newx.plot.contourf(ax=ax, vmin=-1, vmax=10, levels=[-12,-10,-8,-6,-4,-2,-1,1,2,4,6,8,10,12], cmap=newcmp, add_colorbar=False, transform=projection, add_labels=False)
-
-###############################################################################
 # Adjust figure size and plot parameters to get identical to original NCL plot
 fig.set_size_inches((15, 9))
 
@@ -87,6 +84,12 @@ ax.yaxis.set_minor_locator(tic.AutoMinorLocator(n=3))
 ax.tick_params('both', length=20, width=2, which='major', top=True, right=True)
 ax.tick_params('both', length=10, width=1, which='minor', top=True, right=True)
 
+# Import an NCL colormap
+newcmp = make_byr_cmap()
+
+# Plot filled contours
+p = newx.plot.contourf(ax=ax, vmin=-1, vmax=10, levels=[-12,-10,-8,-6,-4,-2,-1,1,2,4,6,8,10,12], cmap=newcmp, add_colorbar=False, transform=projection, add_labels=False)
+
 # Add horizontal colorbar
 cbar = plt.colorbar(p, orientation='horizontal', shrink=0.5)
 cbar.ax.tick_params(labelsize=16)
@@ -96,6 +99,5 @@ cbar.set_ticks([-12,-10,-8,-6,-4,-2,-1,1,2,4,6,8,10,12])
 ax.set_title('Anomalies: Surface Temperature', y=1.04, fontsize=18, loc='left')
 ax.set_title('K', y=1.04, fontsize=18, loc='right')
 
-###############################################################################
 # Show the plot
 plt.show()
