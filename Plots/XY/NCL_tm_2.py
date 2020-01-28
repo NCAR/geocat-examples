@@ -26,7 +26,7 @@ def random_floats(low, high, size):
 # Create the plot data.
 # Note that range() top value is not included in the returned array of values.
 
-x_data = range(1950, 2006)
+x_data = np.arange(1950, 2006)
 y_data = random_floats(-4, 4, 56)
 
 # Print out a formatted message; note the starting 'f' for the string.
