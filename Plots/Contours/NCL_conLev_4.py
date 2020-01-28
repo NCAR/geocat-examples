@@ -24,7 +24,9 @@ from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tic
+
 import geocat.viz
+import geocat.datafiles as gdf
 
 ###############################################################################
 # A utility function
@@ -39,7 +41,7 @@ def xr_add_cyclic(da, coord):
 
 ###############################################################################
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(geocat.datafiles.get("netcdf_files/b003_TS_200-299.nc"), decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"), decode_times=False)
 x = ds.TS
 
 # Apply mean reduction from coordinates as performed in NCL's dim_rmvmean_n_Wrap(x,0)
