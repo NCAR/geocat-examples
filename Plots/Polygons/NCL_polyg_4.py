@@ -196,6 +196,9 @@ def draw_hatch_polygon(xvals, yvals, hatchcolor, hatchpattern):
 ###############################################################################
 # Create a second figure showing polygons with hatch patterns.
 
+# Make this figure the thumbnail image on the HTML page.
+# sphinx_gallery_thumbnail_number = 2
+
 ax = make_base_plot()
 
 x_points = [-90.0, -45.0, -45.0, -90.0, -90.0]
