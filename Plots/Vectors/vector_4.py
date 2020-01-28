@@ -31,9 +31,9 @@ ds = file_in.isel(time=0, lev=12, lon=slice(0,-1,5), lat=slice(2,-1,3))
 # this plot does not look as good as the NCL version.
 
 # Set up figure and axes
-fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(10, 6.25))
 ax = plt.axes(projection=ccrs.PlateCarree())
-plt.title('Vectors colored by a scalar map\n')
+fig.suptitle('Vectors colored by a scalar map', fontsize=14, y=.9)
 gcv.util.nclize_axis(ax)
 gcv.util.add_lat_lon_ticklabels(ax)
 
@@ -50,12 +50,15 @@ Q = plt.quiver(ds['lon'], ds['lat'], ds['U'].data, ds['V'].data, ds['T'].data, c
 plt.clim(228, 292)
 
 # Draw legend for vector plot
-qk = ax.quiverkey(Q, 0.875, 0.85, 10, r'10 $m/s$', labelpos='N',
-                  coordinates='figure', color='black', zorder=2)
+qk = ax.quiverkey(Q, 0.87, 0.05, 10, r'10 $m/s$', labelpos='N',
+                  coordinates='figure', color='black')
+ax.add_patch(plt.Rectangle((150, -140), 30, 30, facecolor='white', edgecolor='black', clip_on=False))
+ax.set_title('Temperature', y=1.04, loc='left')
+ax.set_title('$^{\circ}$K', y=1.04, loc='right')
 
 cax = plt.axes((0.225, 0.075, 0.55, 0.025))
-cbar = fig.colorbar(Q, ax=ax, label='Temperature ($^{\circ}$K)', cax=cax,
-                    orientation='horizontal', ticks=range(232,289,8), drawedges=True)
+cbar = fig.colorbar(Q, ax=ax, cax=cax, orientation='horizontal',
+                    ticks=range(232,289,8), drawedges=True)
 
 # Turn on continent shading
 ax.add_feature(cartopy.feature.LAND, edgecolor='lightgray', facecolor='lightgray', zorder=0)
