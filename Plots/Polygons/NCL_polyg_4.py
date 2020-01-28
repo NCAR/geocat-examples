@@ -165,7 +165,7 @@ def draw_hatch_polygon(xvals, yvals, hatchcolor, hatchpattern):
     """
     ax.fill(xvals, yvals,
             edgecolor=hatchcolor,   # Box hatch fill is brown.
-            zorder=0,               # Place on top of map (larger zorder is closer to viewer).
+            zorder=-1,               # Place underneath contour map (larger zorder is closer to viewer).
             fill=False,
             linewidth=0.5,
             hatch=hatchpattern,
@@ -176,7 +176,7 @@ def draw_hatch_polygon(xvals, yvals, hatchcolor, hatchpattern):
     # on top of the original polygon to remove the edge.
     ax.fill(xvals, yvals,
             edgecolor='white',   # Box hatch fill is brown.
-            zorder=0,            # Place on top of map (larger zorder is closer to viewer).
+            zorder=0,            # Place on top of other polygon (larger zorder is closer to viewer).
             fill=False,
             linewidth=0.5
             )
