@@ -27,7 +27,7 @@ def random_floats(low, high, size):
 # Note that range() top value is not included in the returned array of values.
 
 x_data = np.arange(1950, 2006)
-y_data = random_floats(-4, 4, 56)
+y_data = np.random.uniform(-4, 4, 56)
 
 # Print out a formatted message; note the starting 'f' for the string.
 print(f"There are { len(x_data) } values in x_data, and { len(y_data) } values in y_data.")
