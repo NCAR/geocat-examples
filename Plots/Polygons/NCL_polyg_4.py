@@ -24,6 +24,7 @@ import cartopy
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import geocat.viz as gcv
+from matplotlib.ticker import AutoMinorLocator
 
 
 ds = xr.open_dataset("../../data/netcdf_files/uv300.nc").isel(time=1)
@@ -150,6 +151,9 @@ def make_base_plot():
 
     gcv.util.nclize_axis(ax)
     gcv.util.add_lat_lon_ticklabels(ax)
+
+    # Adjust minor tick spacing for the Y axis
+    ax.yaxis.set_minor_locator(AutoMinorLocator(n=4))
 
     return ax
 
