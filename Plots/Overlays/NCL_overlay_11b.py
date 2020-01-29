@@ -156,11 +156,7 @@ fig = plt.figure(figsize=(12,12))
 ax = plt.axes(projection=crs)
 
 # Define the axis tick parameters and labels
-lon_formatter = LongitudeFormatter(zero_direction_label=False,
-                                   dateline_direction_label=False)
-lat_formatter = LatitudeFormatter()
-ax.xaxis.set_major_formatter(lon_formatter)
-ax.yaxis.set_major_formatter(lat_formatter)
+gcv.util.add_lat_lon_ticklabels(ax)
 ax.minorticks_on()
 ax.xaxis.set_minor_locator(AutoMinorLocator(n=4))
 ax.yaxis.set_minor_locator(AutoMinorLocator(n=5))
@@ -194,7 +190,7 @@ for path in geos_to_path(country_geos):
     #        another contour plot and clip that contour plot with the patch.  In
     #        other words, every island on this plot corresponds to its own
     #        contour plot!)
-    cf = ax.contourf(lon, lat, T, extend='both', levels=clevs, cmap=cmap)
+    cf = ax.contourf(lon, lat, T, levels=clevs, cmap=cmap)
 
     # Clip each contour of the contour plot
     # (NOTE: Each contour of the contour plot is actually its own "plot".  There

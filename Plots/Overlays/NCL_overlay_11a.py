@@ -156,11 +156,7 @@ fig = plt.figure(figsize=(12,12))
 ax = plt.axes(projection=crs)
 
 # Define the axis tick parameters and labels
-lon_formatter = LongitudeFormatter(zero_direction_label=False,
-                                   dateline_direction_label=False)
-lat_formatter = LatitudeFormatter()
-ax.xaxis.set_major_formatter(lon_formatter)
-ax.yaxis.set_major_formatter(lat_formatter)
+gcv.util.add_lat_lon_ticklabels(ax)
 ax.minorticks_on()
 ax.xaxis.set_minor_locator(AutoMinorLocator(n=4))
 ax.yaxis.set_minor_locator(AutoMinorLocator(n=5))
@@ -172,7 +168,7 @@ ax.set_yticks([20, 30, 40, 50])
 
 # Draw the temperature contour plot with the subselected colormap
 # (Place the zorder of the contour plot at the lowest level)
-cf = ax.contourf(lon, lat, T, extend='both', levels=clevs, cmap=cmap, zorder=1)
+cf = ax.contourf(lon, lat, T, levels=clevs, cmap=cmap, zorder=1)
 
 # Draw the color bar for the contour plot
 cax = plt.axes((0.14, 0.08, 0.74, 0.02))
