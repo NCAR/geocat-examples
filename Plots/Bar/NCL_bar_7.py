@@ -17,6 +17,9 @@ This Python script reproduces the NCL plot script found here:  https://www.ncl.u
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
 
+import warnings
+warnings.filterwarnings("ignore")
+
 
 ###############################################################################
 # Create the plot data
@@ -83,6 +86,7 @@ plt.ylim(top=plot_y_max)
 
 # Draw plot on the screen.
 plt.show()
+
 
 ###############################################################################
 # Create the second bar chart with a legend.
