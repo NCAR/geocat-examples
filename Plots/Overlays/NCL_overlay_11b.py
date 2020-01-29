@@ -215,8 +215,10 @@ ax.add_feature(provinces)
 
 # Draw the quiver plot (and its key)
 Q = ax.quiver(lon, lat, U, V, color='black', width=.003, scale=600., headwidth=3.75)
-ax.quiverkey(Q, 0.81, 0.855, 30, '30', labelpos='N', color='black', coordinates='figure',
-             fontproperties={'size': 14}, labelsep=0.05)
+rect = plt.Rectangle((142, 52), 3, 3, facecolor='mediumorchid', edgecolor=None, zorder=1)
+ax.add_patch(rect)
+ax.quiverkey(Q, 0.9675, 0.95, 30, '30', labelpos='N', color='black',
+             coordinates='axes', fontproperties={'size': 14}, labelsep=0.1)
 
 # Draw the '500hPa' label at the top left of the plot
 props = dict(facecolor='white', edgecolor='none', alpha=0.8)
