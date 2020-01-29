@@ -190,7 +190,7 @@ for path in geos_to_path(country_geos):
     #        another contour plot and clip that contour plot with the patch.  In
     #        other words, every island on this plot corresponds to its own
     #        contour plot!)
-    cf = ax.contourf(lon, lat, T, levels=clevs, cmap=cmap)
+    cf = ax.contourf(lon, lat, T, levels=clevs[1:-1], cmap=cmap)
 
     # Clip each contour of the contour plot
     # (NOTE: Each contour of the contour plot is actually its own "plot".  There

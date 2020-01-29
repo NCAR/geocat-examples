@@ -172,7 +172,7 @@ cf = ax.contourf(lon, lat, T, levels=clevs, cmap=cmap, zorder=1)
 
 # Draw the color bar for the contour plot
 cax = plt.axes((0.14, 0.08, 0.74, 0.02))
-fig.colorbar(cf, ax=ax, cax=cax, ticks=clevs, drawedges=True, orientation='horizontal')
+fig.colorbar(cf, ax=ax, cax=cax, ticks=clevs[1:-1], drawedges=True, orientation='horizontal')
 
 # Add the land mask feature on top of the contour plot (higher zorder)
 ax.add_feature(land_mask, zorder=2)
