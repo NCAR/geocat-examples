@@ -40,6 +40,7 @@ Yang Zhao (CAMS) (Chinese Academy of Meteorological Sciences).
 
 import xarray as xr
 import numpy as np
+import geocat.viz as gcv
 import cmaps
 
 from shapely.geometry import MultiPolygon
@@ -81,12 +82,9 @@ clevs = np.arange(228, 273, 4, dtype=float)
 #
 # We create a new color map that is a subselection of an existing color map
 
-trunc_cm = LinearSegmentedColormap.from_list(
-    name="BkBlAqGrYeOrReViWh200",
-    colors=cmaps.BkBlAqGrYeOrReViWh200(np.linspace(0.1, 0.6, len(clevs))),
-)
-plt.cm.register_cmap('BkBlAqGrYeOrReViWh200', trunc_cm)
-cmap = plt.cm.get_cmap('BkBlAqGrYeOrReViWh200', 50)
+cmap = gcv.util.truncate_colormap(cmaps.BkBlAqGrYeOrReViWh200,
+                                  0.1, 0.6, len(clevs),
+                                  "BkBlAqGrYeOrReViWh200")
 
 ###############################################################################
 # Define the map projection
