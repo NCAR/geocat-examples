@@ -28,29 +28,31 @@ import geocat.viz as gcv
 
 ###############################################################################
 # Open the file for reading and print a content summary.
+
 ds = xr.open_dataset('../../data/netcdf_files/slp.mon.mean.nc')
 
 print(ds)
 
 
 ###############################################################################
-# Flip longitude coordinates.
+# Flip and sort longitude coordinates, to facilitate data subsetting.
+
 print(f'Before flip, longitude range is [{ds["lon"].min().data}, {ds["lon"].max().data}].')
 
 ds["lon"] = ((ds["lon"] + 180) % 360) - 180
 
 # Sort longitudes, so that subset operations end up being simpler.
-ds["lon"] = np.sort(ds["lon"])
+ds = ds.sortby("lon")
 
 print(f'After flip, longitude range is [{ds["lon"].min().data}, {ds["lon"].max().data}].')
 
 
 ###############################################################################
-# Reverse latitude ordering.
+# Place latitudes in increasing order to facilitate data subsetting.
 
 # Array indexing syntax is usually [start:end:stride], but here we leave off
 # start and end to indicate the full array.
-ds["lat"] = ds["lat"][::-1]
+ds = ds.sortby("lat", ascending=True)
 
 print('After reversing latitude values, ds["lat"] is:')
 
