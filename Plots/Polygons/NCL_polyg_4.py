@@ -141,13 +141,16 @@ def make_base_plot():
             )
 
     # Add title and tick marks to match NCL conventions.
-    ax.text(0.0,  1.05, "Zonal Wind", fontsize=12, transform=ax.transAxes)
-    ax.text(1.0,  1.05, "m/s", fontsize=12, transform=ax.transAxes, horizontalalignment='right')
+    ax.set_title('Zonal Wind', y=1.04, loc='left')
+    ax.set_title('m/s', y=1.04, loc='right')
+
+    # Add lower text box.  Box appears off-center, but this is to leave room
+    # for lower-case letters that drop lower.
     ax.text(1.0, -0.20, "CONTOUR FROM -12 TO 40 BY 4",
             fontname='Helvetica',
             horizontalalignment='right',
             transform=ax.transAxes,
-            bbox=dict(boxstyle='square, pad=0.1', facecolor='white', edgecolor='black'))
+            bbox=dict(boxstyle='square, pad=0.15', facecolor='white', edgecolor='black'))
 
     gcv.util.nclize_axis(ax)
     gcv.util.add_lat_lon_ticklabels(ax)
