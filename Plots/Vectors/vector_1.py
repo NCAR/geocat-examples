@@ -128,8 +128,8 @@ Q = plt.quiver(lon_uv, lat_uv, u, v, color='white',
                width=.0025, scale=(4.0/.045), zorder=2)
 
 # Draw legend for vector plot
-qk = ax.quiverkey(Q, 0.85, 0.9, 4, r'4 $m/s$', labelpos='N',
-                  coordinates='figure', color='black')
+qk = ax.quiverkey(Q, 94, 26, 4, r'4 $m/s$', labelpos='N', zorder=2,
+                  coordinates='data', color='black')
 
 # Draw SST contours
 plt.cm.register_cmap('BlAqGrYeOrReVi200', truncate_colormap(cmaps.BlAqGrYeOrReVi200, minval=0.08, maxval=0.96, n=len(levels)))

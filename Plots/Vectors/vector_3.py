@@ -45,8 +45,8 @@ Q = plt.quiver(ds['lon'], ds['lat'], ds['U'].data, ds['V'].data, color='black',
                zorder=1, pivot="middle", width=0.0007, headwidth=10)
 
 # Draw legend for vector plot
-qk = ax.quiverkey(Q, 0.872, 0.8, 20, r'20', labelpos='N',
-                  coordinates='figure', color='black', zorder=2)
+qk = ax.quiverkey(Q, 167.5, 72.5, 20, r'20', labelpos='N',
+                  coordinates='data', color='black', zorder=2)
 ax.add_patch(plt.Rectangle((155, 65), 25, 25, facecolor='white', edgecolor='black', zorder=1))
 ax.set_title('Zonal Wind', y=1.04, loc='left')
 ax.set_title('m/s', y=1.04, loc='right')
