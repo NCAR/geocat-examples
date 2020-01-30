@@ -47,14 +47,12 @@ ax = plt.axes(projection=projection)
 
 
 
-################################################################################
 #
 # Set up tick marks to look like NCL plots, and configure tick labels
 #
 gcv.util.nclize_axis(ax)
 gcv.util.add_lat_lon_ticklabels(ax)
 
-################################################################################
 #
 # Hard-code tic values. This assumes data are global
 #
@@ -81,7 +79,6 @@ ax.set_title(U.long_name + ' (' + U.units+')', fontsize=18, loc='left', y=ypos)
 ax.set_global()
 
 
-################################################################################
 #
 # There is no Xarray streamplot function. So need to call 
 # matplotlib.streamplot directly. Not sure why, but can't pass xarray.DataArray
