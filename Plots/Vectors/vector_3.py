@@ -13,6 +13,7 @@ import xarray as xr
 from matplotlib import pyplot as plt
 import cartopy
 import cartopy.crs as ccrs
+import geocat.datafiles
 import geocat.viz as gcv
 
 ###############################################################################
@@ -21,7 +22,7 @@ import geocat.viz as gcv
 # we only read every third latitude and longitude.
 # This choice was made because ``geocat.viz`` doesn't offer an
 # equivalent function to ncl's ``vcMinDistanceF`` yet.
-file_in = xr.open_dataset('../../data/netcdf_files/uv300.nc')
+file_in = xr.open_dataset(geocat.datafiles.get('netcdf_files/uv300.nc'))
 ds = file_in.isel(time=1, lon=slice(0,-1,3), lat=slice(1,-1,3))
 
 ###############################################################################

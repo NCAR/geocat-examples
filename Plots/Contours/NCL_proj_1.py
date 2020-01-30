@@ -13,12 +13,13 @@ import cartopy.feature as cfeature
 import cartopy.crs as ccrs
 from cartopy.util import add_cyclic_point
 import matplotlib.pyplot as plt
+import geocat.datafiles
 
 
 ###############################################################################
 # 
 # open data file and extract variables
-ds = xr.open_dataset('../../data/netcdf_files/atmos.nc', decode_times=False)
+ds = xr.open_dataset(geocat.datafiles.get('netcdf_files/atmos.nc'), decode_times=False)
 t = ds.TS.isel(time=0)
 
 #wrap data around meridian

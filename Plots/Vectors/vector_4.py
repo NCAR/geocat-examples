@@ -15,6 +15,7 @@ import cartopy
 import cartopy.crs as ccrs
 import cmaps
 import geocat.viz as gcv
+import geocat.datafiles
 
 ###############################################################################
 # Read in data from netCDF file.
@@ -22,7 +23,7 @@ import geocat.viz as gcv
 # we only read a subset of latitude and longitude.
 # This choice was made because ``geocat.viz`` doesn’t offer
 # an equivalent function to ncl’s ``vcMinDistanceF`` yet.
-file_in = xr.open_dataset('../../data/netcdf_files/83.nc')
+file_in = xr.open_dataset(geocat.datafiles.get('netcdf_files/83.nc'))
 ds = file_in.isel(time=0, lev=12, lon=slice(0,-1,5), lat=slice(2,-1,3))
 
 ###############################################################################

@@ -16,11 +16,12 @@ from matplotlib import pyplot as plt
 import cartopy
 import cartopy.crs as ccrs
 import cmaps
+import geocat.datafiles
 
 ###############################################################################
 # Read in data from netCDF files
-sst_in = xr.open_dataset('../../data/netcdf_files/sst8292.nc')
-uv_in = xr.open_dataset('../../data/netcdf_files/uvt.nc')
+sst_in = xr.open_dataset(geocat.datafiles.get('netcdf_files/sst8292.nc'))
+uv_in = xr.open_dataset(geocat.datafiles.get('netcdf_files/uvt.nc'))
 
 # Use date as the dimension rather than time
 sst_in = sst_in.set_coords("date").swap_dims({"time": "date"}).drop('time')

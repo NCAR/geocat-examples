@@ -17,10 +17,11 @@ import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tic
+import geocat.datafiles
 
 ###############################################################################
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset("../../data/netcdf_files/uv300.nc")
+ds = xr.open_dataset(geocat.datafiles.get("netcdf_files/uv300.nc"))
 U = ds.U
 
 ###############################################################################
