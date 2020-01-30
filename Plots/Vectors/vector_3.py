@@ -22,7 +22,7 @@ import geocat.viz as gcv
 # This choice was made because ``geocat.viz`` doesn't offer an
 # equivalent function to ncl's ``vcMinDistanceF`` yet.
 file_in = xr.open_dataset('../../data/netcdf_files/uv300.nc')
-ds = file_in.isel(time=1, lon=slice(0,-1,3), lat=slice(2,-1,3))
+ds = file_in.isel(time=1, lon=slice(0,-1,3), lat=slice(1,-1,3))
 
 ###############################################################################
 # Make the plot
