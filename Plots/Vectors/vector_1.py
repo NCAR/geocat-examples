@@ -4,6 +4,13 @@ vector_1
 
 Plot U & V vector over SST
 
+Concepts illustrated:
+  - Overlaying vectors and filled contours on a map
+  - Changing the scale of the vectors on the plot
+  - Moving the vector reference annotation to the top right of the plot
+  - Setting the color for vectors
+  - Increasing the thickness of vectors
+
 https://www.ncl.ucar.edu/Applications/Scripts/vector_1.ncl
 """
 
@@ -71,7 +78,6 @@ qk = ax.quiverkey(Q, 94, 26, 4, r'4 $m/s$', labelpos='N', zorder=2,
 
 # Draw SST contours
 gcv.util.truncate_colormap(cmaps.BlAqGrYeOrReVi200, minval=0.08, maxval=0.96, n=len(levels), name='BlAqGrYeOrReVi200')
-# cax = plt.axes((0.93, 0.125, 0.02, 0.75))
 cf = sst.plot.contourf('lon', 'lat', extend='both', levels=levels,
                  cmap='BlAqGrYeOrReVi200', zorder=0, xlabel='', add_labels=False,
                  cbar_kwargs={'shrink' : 0.75, 'ticks' : np.linspace(24, 28.8, 17), 'drawedges':True, 'label' : '$^\circ$C'})
