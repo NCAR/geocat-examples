@@ -73,7 +73,7 @@ print(slp)
 
 def month_to_season(xMon, season):
     """ This function takes an xarray dataset containing monthly data spanning years and
-        returns a dataset with value per year, for a specified three-month season.
+        returns a dataset with one value per year, for a specified three-month season.
 
         Time stamps are centered on the season, e.g. seasons='DJF' returns January timestamps.
     """
