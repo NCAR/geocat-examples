@@ -67,3 +67,29 @@ slp = ds.slp
 # Limit data to the years 1979-2003, and the Northern Atlantic region.
 slp = slp.sel(time=slice('1979-01-1', '2003-12-01'), lat=slice(25, 80), lon=slice(-70, 40))
 print(slp)
+
+###############################################################################
+# Define a utility function for computing seasonal means.
+
+def month_to_season(xMon, season):
+    """ This function takes an xarray dataset containing monthly data spanning years and
+        returns a dataset with value per year, for a specified three-month season.
+
+        Time stamps are centered on the season, e.g. seasons='DJF' returns January timestamps.
+    """
+    seasons_pd = {'DJF': ('QS-DEC', 1), 'JFM': ('QS-JAN',  2), 'FMA': ('QS-FEB',  3), 'MAM': ('QS-MAR',  4),
+                  'AMJ': ('QS-APR', 5), 'MJJ': ('QS-MAY',  6), 'JJA': ('QS-JUN',  7), 'JAS': ('QS-JUL',  8),
+                  'ASO': ('QS-AUG', 9), 'SON': ('QS-SEP', 10), 'OND': ('QS-OCT', 11), 'NDJ': ('QS-NOV', 12)}
+    try:
+        (season_pd, month_sel) = seasons_pd[season]
+    except KeyError:
+        raise ValueError("contributed: month_to_season: bad season: SEASON = " + season)
+
+    # Compute the three-month means, moving time labels ahead to the middle month.
+    month_offset = 'MS'
+    xSeasons = xMon.resample(time=season_pd, loffset=month_offset).mean()
+
+    # Filter just the desired season
+    xSea = xSeasons.sel(time=xSeasons.time.dt.month.isin(month_sel))
+    return xSea
+
