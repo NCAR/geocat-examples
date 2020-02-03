@@ -17,6 +17,7 @@ import numpy as np
 import xarray as xr
 
 import geocat.datafiles
+from geocat.viz.util import nclize_axis, add_lat_lon_ticklabels, truncate_colormap
 
 ###############################################################################
 # Read in the netCDF file
@@ -67,70 +68,6 @@ ocean_only = xr_add_cyclic(ocean_only, "lon")
 ###############################################################################
 # Define a few utility functions
 # ==============================
-
-
-def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=100):
-    """
-    Utility function that truncates a colormap. This is useful when 
-    the user wants to construct a "custom" colormap by using a segment 
-    of a preset colormap.  
-    
-    Copied from  https://stackoverflow.com/questions/18926031/how-to-extract-a-subset-of-a-colormap-as-a-new-colormap-in-matplotlib
-    """
-
-    new_cmap = mpl.colors.LinearSegmentedColormap.from_list(
-        "trunc({n},{a:.2f},{b:.2f})".format(n=cmap.name, a=minval, b=maxval),
-        cmap(np.linspace(minval, maxval, n)),
-    )
-    return new_cmap
-
-
-def add_lat_lon_ticklabels(ax):
-    """
-    Nice latitude, longitude tick labels
-    """
-    from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
-
-    lon_formatter = LongitudeFormatter(
-        zero_direction_label=False, dateline_direction_label=False
-    )
-    lat_formatter = LatitudeFormatter()
-    ax.xaxis.set_major_formatter(lon_formatter)
-    ax.yaxis.set_major_formatter(lat_formatter)
-
-
-def nclize_axis(ax):
-    """
-    Utility function to make plots look like NCL plots
-    """
-    import matplotlib.ticker as tic
-
-    ax.tick_params(labelsize="small")
-    ax.minorticks_on()
-    ax.xaxis.set_minor_locator(tic.AutoMinorLocator(n=3))
-    ax.yaxis.set_minor_locator(tic.AutoMinorLocator(n=3))
-
-    # length and width are in points and may need to change depending on figure size etc.
-    ax.tick_params(
-        "both",
-        length=8,
-        width=1.5,
-        which="major",
-        bottom=True,
-        top=True,
-        left=True,
-        right=True,
-    )
-    ax.tick_params(
-        "both",
-        length=5,
-        width=0.75,
-        which="minor",
-        bottom=True,
-        top=True,
-        left=True,
-        right=True,
-    )
 
 
 def plot_filled_contours(data, vmin, vmax, ax=None, cmap="viridis"):
