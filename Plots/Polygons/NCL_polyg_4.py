@@ -24,10 +24,11 @@ import cartopy
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import geocat.viz as gcv
+import geocat.datafiles
 from matplotlib.ticker import AutoMinorLocator
 
 
-ds = xr.open_dataset("../../data/netcdf_files/uv300.nc").isel(time=1)
+ds = xr.open_dataset(geocat.datafiles.get("netcdf_files/uv300.nc")).isel(time=1)
 
 
 ###############################################################################
