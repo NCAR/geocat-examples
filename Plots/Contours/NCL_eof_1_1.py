@@ -21,6 +21,9 @@ https://www.ncl.ucar.edu/Applications/Scripts/eof_1.ncl
 # Import the necessary python libraries
 import numpy as np
 import xarray as xr
+import geocat.datafiles
+from math import atan
+from numpy import cos, sqrt    # numpy's cos(), sqrt() accept array arguments.
 import cartopy
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
@@ -29,9 +32,13 @@ import geocat.viz as gcv
 ###############################################################################
 # Open the file for reading and print a content summary.
 
-ds = xr.open_dataset('../../data/netcdf_files/slp.mon.mean.nc')
+ds = xr.open_dataset(geocat.datafiles.get('netcdf_files/slp.mon.mean.nc'))
 
-print(ds)
+print('ds.attrs:\n\n')
+print(ds.attrs)
+
+print('ds.slp.attrs:\n\n')
+print(ds.slp.attrs)
 
 
 ###############################################################################
@@ -59,14 +66,12 @@ print('After reversing latitude values, ds["lat"] is:')
 print(ds["lat"])
 
 ###############################################################################
-# Subset the data.
+# Subset the data by time.
 
-# Get the surface level pressure variable.
-slp = ds.slp
-
-# Limit data to the years 1979-2003, and the Northern Atlantic region.
-slp = slp.sel(time=slice('1979-01-1', '2003-12-01'), lat=slice(25, 80), lon=slice(-70, 40))
-print(slp)
+# Limit data to the years 1979-2003.
+ds = ds.sel(time=slice('1979-01-1', '2003-12-01'))
+print('\n\nds:\n\n')
+print(ds)
 
 ###############################################################################
 # Define a utility function for computing seasonal means.
@@ -81,7 +86,7 @@ def month_to_season(xMon, season):
                   'AMJ': ('QS-APR', 5), 'MJJ': ('QS-MAY',  6), 'JJA': ('QS-JUN',  7), 'JAS': ('QS-JUL',  8),
                   'ASO': ('QS-AUG', 9), 'SON': ('QS-SEP', 10), 'OND': ('QS-OCT', 11), 'NDJ': ('QS-NOV', 12)}
     try:
-        (season_pd, month_sel) = seasons_pd[season]
+        (season_pd, season_sel) = seasons_pd[season]
     except KeyError:
         raise ValueError("contributed: month_to_season: bad season: SEASON = " + season)
 
@@ -90,6 +95,36 @@ def month_to_season(xMon, season):
     xSeasons = xMon.resample(time=season_pd, loffset=month_offset).mean()
 
     # Filter just the desired season
-    xSea = xSeasons.sel(time=xSeasons.time.dt.month.isin(month_sel))
+    xSea = xSeasons.sel(time=xSeasons.time.dt.month.isin(season_sel), drop=True)
     return xSea
+
+###############################################################################
+# Compute desired global seasonal mean using month_to_season()
+
+# Choose the winter season (December-January-February)
+season = "DJF"
+SLP = month_to_season(ds, season)
+
+print('\n\nSLP:\n\n')
+print(SLP)
+
+###############################################################################
+# Create weights: sqrt(cos(lat))   [or sqrt(gw) ]
+
+deg2rad = 4. * atan(1.) / 180.
+clat = SLP['lat']
+clat = sqrt(cos(deg2rad * clat))
+print(clat)
+
+###############################################################################
+# Multiply SLP by weights.  Xarray uses the supplied coordinate information
+# to apply latitude-based weights to all longitudes and timesteps automatically.
+
+wSLP = SLP
+wSLP['slp'] = clat * SLP['slp']
+
+# Metadata for slp must be copied over explicitly; it is not preserved by the multiplication.
+wSLP['slp'].attrs = ds['slp'].attrs
+wSLP['slp'].attrs['long_name'] = 'Wgt: ' + wSLP['slp'].attrs['long_name']
+
 
