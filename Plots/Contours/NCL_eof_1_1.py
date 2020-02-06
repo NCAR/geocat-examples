@@ -18,16 +18,28 @@ https://www.ncl.ucar.edu/Applications/Scripts/eof_1.ncl
 """
 
 ###############################################################################
+# User defined parameters that specify region of the glob, time span, etc.
+latS = 25.
+latN = 80.
+lonL = -70.
+lonR = 40.
+
+yearStart = 1979
+yearEnd = 2003
+
+neof = 3   # number of EOFs
+optETS = False
+
+###############################################################################
 # Import the necessary python libraries
-import numpy as np
 import xarray as xr
 import geocat.datafiles
 from math import atan
 from numpy import cos, sqrt    # numpy's cos(), sqrt() accept array arguments.
-import cartopy
-import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-import geocat.viz as gcv
+
+from geocat.comp import eofunc, eofunc_ts
+
+
 
 ###############################################################################
 # Open the file for reading and print a content summary.
@@ -57,19 +69,19 @@ print(f'After flip, longitude range is [{ds["lon"].min().data}, {ds["lon"].max()
 ###############################################################################
 # Place latitudes in increasing order to facilitate data subsetting.
 
-# Array indexing syntax is usually [start:end:stride], but here we leave off
-# start and end to indicate the full array.
 ds = ds.sortby("lat", ascending=True)
 
-print('After reversing latitude values, ds["lat"] is:')
+print('After sorting latitude values, ds["lat"] is:')
 
 print(ds["lat"])
 
 ###############################################################################
-# Subset the data by time.
+# Limit data to the specified years.
 
-# Limit data to the years 1979-2003.
-ds = ds.sel(time=slice('1979-01-1', '2003-12-01'))
+startDate = f'{yearStart}-01-01'
+endDate = f'{yearEnd}-12-01'
+
+ds = ds.sel(time=slice(startDate, endDate))
 print('\n\nds:\n\n')
 print(ds)
 
@@ -78,7 +90,7 @@ print(ds)
 
 def month_to_season(xMon, season):
     """ This function takes an xarray dataset containing monthly data spanning years and
-        returns a dataset with one value per year, for a specified three-month season.
+        returns a dataset with one sample per year, for a specified three-month season.
 
         Time stamps are centered on the season, e.g. seasons='DJF' returns January timestamps.
     """
@@ -117,14 +129,33 @@ clat = sqrt(cos(deg2rad * clat))
 print(clat)
 
 ###############################################################################
-# Multiply SLP by weights.  Xarray uses the supplied coordinate information
-# to apply latitude-based weights to all longitudes and timesteps automatically.
+# Multiply SLP by weights.
+#
+# Xarray uses the supplied coordinate information to apply latitude-based
+# weights to all longitudes and timesteps automatically.
 
 wSLP = SLP
 wSLP['slp'] = clat * SLP['slp']
 
-# Metadata for slp must be copied over explicitly; it is not preserved by the multiplication.
+# For now, metadata for slp must be copied over explicitly; it is not preserved by binary operators like multiplication.
 wSLP['slp'].attrs = ds['slp'].attrs
 wSLP['slp'].attrs['long_name'] = 'Wgt: ' + wSLP['slp'].attrs['long_name']
 
+###############################################################################
+# Subset data to the North Atlantic region.
 
+xw = wSLP.sel(lat=slice(latS, latN), lon=slice(lonL, lonR))
+
+print('\n\nxw:\n\n')
+print(xw.slp)
+
+
+eof = eofunc(xw["slp"], neof, time_dim=1, meta=True)
+
+print('\n\neof:\n\n')
+print(eof)
+
+eof_ts = eofunc_ts(xw["slp"], eof, time_dim=1, meta=True)
+
+print('\n\neof_ts:\n\n')
+print(eof_ts)
