@@ -21,9 +21,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 import cartopy
 import cartopy.crs as ccrs
-import cmaps
-import geocat.viz as gcv
 
+from geocat.viz import cmaps
 from geocat.viz.util import add_lat_lon_ticklabels, nclize_axis, truncate_colormap
 
 ###############################################################################
@@ -60,8 +59,8 @@ levels =  np.linspace(24, 28.9, 50)
 # Set up figure
 fig, ax = plt.subplots(figsize=(10, 7))
 ax = plt.axes(projection=ccrs.PlateCarree())
-gcv.util.nclize_axis(ax, minor_per_major=5)
-gcv.util.add_lat_lon_ticklabels(ax)
+nclize_axis(ax, minor_per_major=5)
+add_lat_lon_ticklabels(ax)
 
 # Set major and minor ticks
 plt.xlim([65,95])
@@ -79,7 +78,7 @@ qk = ax.quiverkey(Q, 94, 26, 4, r'4 $m/s$', labelpos='N', zorder=2,
                   coordinates='data', color='black')
 
 # Draw SST contours
-gcv.util.truncate_colormap(cmaps.BlAqGrYeOrReVi200, minval=0.08, maxval=0.96, n=len(levels), name='BlAqGrYeOrReVi200')
+truncate_colormap(cmaps.BlAqGrYeOrReVi200, minval=0.08, maxval=0.96, n=len(levels), name='BlAqGrYeOrReVi200')
 cf = sst.plot.contourf('lon', 'lat', extend='both', levels=levels,
                  cmap='BlAqGrYeOrReVi200', zorder=0, xlabel='', add_labels=False,
                  cbar_kwargs={'shrink' : 0.75, 'ticks' : np.linspace(24, 28.8, 17), 'drawedges':True, 'label' : '$^\circ$C'})
