@@ -24,6 +24,8 @@ import cartopy.crs as ccrs
 import cmaps
 import geocat.viz as gcv
 
+from geocat.viz.util import add_lat_lon_ticklabels, nclize_axis, truncate_colormap
+
 ###############################################################################
 # Read in data from netCDF files
 sst_in = xr.open_dataset('../../data/netcdf_files/sst8292.nc')
