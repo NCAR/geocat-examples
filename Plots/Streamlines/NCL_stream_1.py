@@ -39,8 +39,8 @@ V = ds.V.isel(time=0, lev=0)
 ################################################################################
 #
 #
-plt.rcParams['figure.figsize'] = [16, 8]
 fig = plt.figure()
+fig.set_size_inches((16,8))
 fig.suptitle('Example of a streamline plot', fontsize=22, fontweight='bold')
 
 projection = ccrs.PlateCarree()
