@@ -2,4 +2,6 @@
 /auto_examples/
 *.ncl
 .vscode/
+.idea/
 .DS_Store
+.ipynb_checkpoints/

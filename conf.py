@@ -11,6 +11,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
+import warnings
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
@@ -39,6 +40,21 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
+
+# -- suppress warnings -------------------------------------------------------
+import warnings
+
+# filter Matplotlib 'agg' warnings
+warnings.filterwarnings("ignore", category=UserWarning,
+                        message='Matplotlib is currently using agg, which is a'
+                                ' non-GUI backend, so cannot show the figure.')
+
+# filter seaborn warnings
+warnings.filterwarnings("ignore", category=UserWarning,
+                        message='As seaborn no longer sets a default style on'
+                                ' import, the seaborn.apionly module is'
+                                ' deprecated. It will be removed in a future'
+                                ' version.')
 
 # -- Options for HTML output -------------------------------------------------
 

@@ -17,6 +17,8 @@ import cartopy
 import cartopy.crs as ccrs
 import cmaps
 
+from geocat.viz.util import add_lat_lon_ticklabels, nclize_axis, truncate_colormap
+
 ###############################################################################
 # Read in data from netCDF files
 sst_in = xr.open_dataset('../../data/netcdf_files/sst8292.nc')
@@ -40,68 +42,6 @@ lat_sst = sst['lat']
 lon_sst = sst['lon']
 lat_uv = u['lat']
 lon_uv = u['lon']
-
-###############################################################################
-# Define a couple of utility functions
-# to make plot look more like NCL style
-
-# Helper function for defining NCL-like ax
-def add_lat_lon_ticklabels(ax):
-    """
-    Nice latitude, longitude tick labels
-    """
-    from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
-
-    lon_formatter = LongitudeFormatter(zero_direction_label=False, dateline_direction_label=False)
-    lat_formatter = LatitudeFormatter()
-    ax.xaxis.set_major_formatter(lon_formatter)
-    ax.yaxis.set_major_formatter(lat_formatter)
-
-def nclize_axis(ax, minor_per_major=3):
-    """
-    Utility function to make plots look like NCL plots
-    """
-    import matplotlib.ticker as tic
-
-    ax.tick_params(labelsize="small")
-    ax.minorticks_on()
-    ax.xaxis.set_minor_locator(tic.AutoMinorLocator(n=minor_per_major))
-    ax.yaxis.set_minor_locator(tic.AutoMinorLocator(n=minor_per_major))
-
-    # length and width are in points and may need to change depending on figure size etc.
-    ax.tick_params(
-        "both",
-        length=8,
-        width=1.5,
-        which="major",
-        bottom=True,
-        top=True,
-        left=True,
-        right=True,
-    )
-    ax.tick_params(
-        "both",
-        length=5,
-        width=0.75,
-        which="minor",
-        bottom=True,
-        top=True,
-        left=True,
-        right=True,
-    )
-
-###############################################################################
-# The NCL example uses a truncated colormap. Here's a small function that does that
-def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=100):
-    """
-    Utility function that truncates a colormap. Copied from  https://stackoverflow.com/questions/18926031/how-to-extract-a-subset-of-a-colormap-as-a-new-colormap-in-matplotlib
-    """
-
-    new_cmap = mpl.colors.LinearSegmentedColormap.from_list(
-        name="trunc({n},{a:.2f},{b:.2f})".format(n=cmap.name, a=minval, b=maxval),
-        colors=cmap(np.linspace(minval, maxval, n)),
-    )
-    return new_cmap
 
 ###############################################################################
 # Make the plot
@@ -128,8 +68,8 @@ Q = plt.quiver(lon_uv, lat_uv, u, v, color='white',
                width=.0025, scale=(4.0/.045), zorder=2)
 
 # Draw legend for vector plot
-qk = ax.quiverkey(Q, 0.85, 0.9, 4, r'4 $m/s$', labelpos='N',
-                  coordinates='figure', color='black')
+qk = ax.quiverkey(Q, 94, 26, 4, r'4 $m/s$', labelpos='N', zorder=2,
+                  coordinates='data', color='black')
 
 # Draw SST contours
 plt.cm.register_cmap('BlAqGrYeOrReVi200', truncate_colormap(cmaps.BlAqGrYeOrReVi200, minval=0.08, maxval=0.96, n=len(levels)))

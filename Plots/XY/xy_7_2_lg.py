@@ -16,6 +16,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
 import geocat.datafiles
+from geocat.viz.util import nclize_axis
 
 ################################################################################
 # Open data file and extract a slice of the data
@@ -28,40 +29,6 @@ ds = dset.isel(case=0, time=slice(0, 36))
 ################################################################################
 # Create XY plot with two different Y axes
 # =========================================
-
-
-def nclize_axis(ax):
-    """
-    Utility function to make plots look like NCL plots
-    """
-    import matplotlib.ticker as tic
-
-    ax.tick_params(labelsize="small")
-    ax.minorticks_on()
-    ax.xaxis.set_minor_locator(tic.AutoMinorLocator(n=5))
-    ax.yaxis.set_minor_locator(tic.AutoMinorLocator(n=3))
-
-    # length and width are in points and may need to change depending on figure size etc.
-    ax.tick_params(
-        "both",
-        length=8,
-        width=1.5,
-        which="major",
-        bottom=True,
-        top=True,
-        left=True,
-        right=True,
-    )
-    ax.tick_params(
-        "both",
-        length=5,
-        width=0.75,
-        which="minor",
-        bottom=True,
-        top=True,
-        left=True,
-        right=True,
-    )
 
 
 fig, ax1 = plt.subplots(figsize=(12, 8))
