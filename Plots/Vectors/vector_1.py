@@ -4,6 +4,13 @@ vector_1
 
 Plot U & V vector over SST
 
+Concepts illustrated:
+  - Overlaying vectors and filled contours on a map
+  - Changing the scale of the vectors on the plot
+  - Moving the vector reference annotation to the top right of the plot
+  - Setting the color for vectors
+  - Increasing the thickness of vectors
+
 https://www.ncl.ucar.edu/Applications/Scripts/vector_1.ncl
 """
 
@@ -11,12 +18,11 @@ https://www.ncl.ucar.edu/Applications/Scripts/vector_1.ncl
 # Import necessary packages
 import xarray as xr
 import numpy as np
-import matplotlib as mpl
 from matplotlib import pyplot as plt
 import cartopy
 import cartopy.crs as ccrs
-import cmaps
 
+from geocat.viz import cmaps
 from geocat.viz.util import add_lat_lon_ticklabels, nclize_axis, truncate_colormap
 
 ###############################################################################
@@ -47,12 +53,12 @@ lon_uv = u['lon']
 # Make the plot
 
 # Define levels for contour map
-levels = np.arange(24,29, 0.1)
+# Levels are [24, 24.1, ..., 28.8, 28.9]
+levels =  np.linspace(24, 28.9, 50)
 
 # Set up figure
-fig, ax = plt.subplots(figsize=(10,7))
+fig, ax = plt.subplots(figsize=(10, 7))
 ax = plt.axes(projection=ccrs.PlateCarree())
-plt.title('Sea Surface Temperature\n')
 nclize_axis(ax, minor_per_major=5)
 add_lat_lon_ticklabels(ax)
 
@@ -64,21 +70,19 @@ plt.yticks(range(5, 27, 5))
 
 
 # Draw vector plot
-Q = plt.quiver(lon_uv, lat_uv, u, v, color='white',
-               width=.0025, scale=(4.0/.045), zorder=2)
+Q = plt.quiver(lon_uv, lat_uv, u, v, color='white', pivot='middle',
+               width=.0025, scale=75, zorder=2)
 
 # Draw legend for vector plot
 qk = ax.quiverkey(Q, 94, 26, 4, r'4 $m/s$', labelpos='N', zorder=2,
                   coordinates='data', color='black')
 
 # Draw SST contours
-plt.cm.register_cmap('BlAqGrYeOrReVi200', truncate_colormap(cmaps.BlAqGrYeOrReVi200, minval=0.08, maxval=0.96, n=len(levels)))
-cmap = plt.cm.get_cmap('BlAqGrYeOrReVi200', 50)
-cf = ax.contourf(lon_sst, lat_sst, sst, extend='both', levels=levels,
-                 cmap=cmap, zorder=0)
-cax = plt.axes((0.93, 0.125, 0.02, 0.75))
-fig.colorbar(cf, ax=ax, label='$^{\circ}$ C', cax=cax,
-             ticks=np.arange(24, 29, 0.3), drawedges=True)
+truncate_colormap(cmaps.BlAqGrYeOrReVi200, minval=0.08, maxval=0.96, n=len(levels), name='BlAqGrYeOrReVi200')
+cf = sst.plot.contourf('lon', 'lat', extend='both', levels=levels,
+                 cmap='BlAqGrYeOrReVi200', zorder=0, xlabel='', add_labels=False,
+                 cbar_kwargs={'shrink' : 0.75, 'ticks' : np.linspace(24, 28.8, 17), 'drawedges':True, 'label' : '$^\circ$C'})
+plt.title('Sea Surface Temperature\n')
 
 # Turn on continent shading
 ax.add_feature(cartopy.feature.LAND, edgecolor='lightgray', facecolor='lightgray', zorder=1)
