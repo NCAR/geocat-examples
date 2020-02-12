@@ -6,7 +6,7 @@ dependencies:
   - python=3
   - geocat-comp
   - geocat-datafiles
-  - geocat-viz
+  - geocat-viz=2020.1.28.0
   - netcdf4
   - cartopy
   - cmaps
