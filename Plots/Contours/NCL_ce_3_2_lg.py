@@ -31,17 +31,21 @@ ax.coastlines(linewidths=0.5)
 ax.add_feature(cfeature.LAND, facecolor='lightgray')
 
 # plot data
-t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), 
+heatmap = t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), 
                     levels = 40, vmin=0, vmax=32, cmap = 'gist_rainbow_r', 
                     cbar_kwargs={"label":'', "shrink":0.8})
+
+# add colorbar
+cbar = plt.colorbar(heatmap, ticks = np.arange(0,32,2))
+cbar.ax.set_yticklabels([str(i) for i in np.arange(0,32,2)])
 
 # set axis limits
 ax.set_xlim([30,120])
 ax.set_ylim([-60,30])
 
 # auto specify ticks
-ax.set_xticks([30, 45, 60, 75, 90, 105, 120], crs=ccrs.PlateCarree())
-ax.set_yticks([-60, -30, 0, 30], crs=ccrs.PlateCarree())
+#ax.set_xticks([30, 45, 60, 75, 90, 105, 120], crs=ccrs.PlateCarree())
+#ax.set_yticks([-60, -30, 0, 30], crs=ccrs.PlateCarree())
 lon_formatter = LongitudeFormatter(zero_direction_label=True)
 lat_formatter = LatitudeFormatter()
 ax.xaxis.set_major_formatter(lon_formatter)

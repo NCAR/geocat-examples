@@ -30,25 +30,30 @@ ax.coastlines(linewidths=0.5)
 ax.add_feature(cfeature.LAND, facecolor='lightgray')
 
 # plot data
-t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), 
+heatmap = t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), 
                     levels = 40, vmin=0, vmax=32, cmap = 'gist_rainbow_r', 
-                    cbar_kwargs={"label":'', "shrink":0.8})
+                    add_colorbar=False)
+
+# add colorbar
+cbar = plt.colorbar(heatmap, ticks = np.arange(0,32,2))
+cbar.ax.set_yticklabels([str(i) for i in np.arange(0,32,2)])
 
 # set axis limits
 ax.set_xlim([30,120])
 ax.set_ylim([-60,30])
 
 # manually specify ticks
-xticks = [30, 60, 90, 120]
-xlabels = ['30E', '60E', '90E', '120E']
-yticks = [-60, -30, 0, 30]
-ylabels = ['60S', '30S', '0', '30N']
-plt.xticks(xticks, xlabels)
-plt.yticks(yticks, ylabels)
+#xticks = [30, 60, 90, 120]
+#xlabels = ['30E', '60E', '90E', '120E']
+#yticks = [-60, -30, 0, 30]
+#ylabels = ['60S', '30S', '0', '30N']
+#plt.xticks(xticks, xlabels)
+#plt.yticks(yticks, ylabels)
 plt.tick_params(which='both',right=True, top=True)
 plt.minorticks_on()
 
 # set titles and axis labels
+plt.subtitle('Drefault map tickmark labels')
 plt.title('Potential Temperature                  Celsius', fontsize=15)
 plt.xlabel('')
 plt.ylabel('')
