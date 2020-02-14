@@ -49,4 +49,4 @@ wrap_t.plot.contour(ax=ax, transform=ccrs.PlateCarree(),
 plt.suptitle('Example of a Mollweide Projection', y = .8, fontsize=18)
 plt.title('Surface Temperature                       K', fontsize=14)
 
-plt.show();
+plt.show()

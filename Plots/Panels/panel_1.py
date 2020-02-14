@@ -28,7 +28,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
 
-from geocat.viz.util import add_lat_lon_ticklabels, nclize_axis
+import geocat.viz.util as gvutil
 
 ds = xr.open_dataset("../../data/netcdf_files/uv300.nc").isel(time=1)
 
@@ -121,10 +121,10 @@ ax[2].set_xticks(kwargs["xticks"])
 ax[2].set_yticks(kwargs["yticks"])
 
 # make axes look nice and add coastlines
-[nclize_axis(axes) for axes in ax.flat]
-[add_lat_lon_ticklabels(axes) for axes in ax.flat]
+[gvutil.add_major_minor_ticks(axes) for axes in ax.flat]
+[gvutil.add_lat_lon_ticklabels(axes) for axes in ax.flat]
 
 # nice figure size in inches
-f.set_size_inches((5, 8))
+f.set_size_inches((6, 9.6))
 
 plt.show()

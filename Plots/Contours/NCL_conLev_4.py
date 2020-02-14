@@ -27,20 +27,10 @@ import matplotlib.ticker as tic
 
 import geocat.viz as gviz
 import geocat.datafiles as gdf
+from geocat.viz import util as gvutil
 
 ###############################################################################
-# A utility function
-
-# Define a utility function that handles the no-shown-data artifact of 0 and 360-degree longitudes
-def xr_add_cyclic(da, coord):
-    cyclic_data, cyclic_coord = cutil.add_cyclic_point(da.values, coord=da[coord])
-
-    coords = da.coords.to_dataset()
-    coords[coord] = cyclic_coord
-    return xr.DataArray(cyclic_data, dims=da.dims, coords=coords.coords)
-
-###############################################################################
-# Open a netCDF data file using xarray default engine and load the data into xarrays
+# Read in data. Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"), decode_times=False)
 x = ds.TS
 
@@ -50,7 +40,7 @@ newx = x.mean('time')
 newx = x.isel(time=0) - newx
 
 # Resolve the no-shown-data artifact of 0 and 360-degree longitudes
-newx = xr_add_cyclic(newx, "lon")
+newx = gvutil.xr_add_cyclic_longitudes(newx, "lon")
 
 ###############################################################################
 # Plot
