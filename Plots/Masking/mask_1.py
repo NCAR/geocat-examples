@@ -48,14 +48,14 @@ def xr_add_cyclic(da, coord):
 
     coords = da.coords.to_dataset()
     coords[coord] = cyclic_coord
-    return xr.DataArray(
+    da_out = xr.DataArray(
         cyclic_data,
         dims=da.dims,
         coords=coords.coords,
         attrs=da.attrs,
-        encoding=da.encoding,
     )
-
+    da_out.encoding = da.encoding
+    return da_out
 
 # Use xarray's where function to mask out land and then ocean data
 
