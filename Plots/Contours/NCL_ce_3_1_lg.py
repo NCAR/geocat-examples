@@ -25,8 +25,8 @@ import cartopy.feature as cfeature
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 
-import geocat.viz as gviz
 import geocat.datafiles as gdf
+from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
 ###############################################################################
@@ -50,7 +50,7 @@ ax.coastlines(linewidths=0.5)
 ax.add_feature(cfeature.LAND, facecolor='lightgray')
 
 # Import an NCL colormap
-newcmp = gviz.cmaps.BlAqGrYeOrRe
+newcmp = gvcmaps.BlAqGrYeOrRe
 
 # Contourf-plot data
 heatmap = t.plot.contourf(ax=ax, transform=projection, levels=40, vmin=0, vmax=32, cmap=newcmp, add_colorbar=False)
@@ -71,7 +71,7 @@ gvutil.add_lat_lon_ticklabels(ax)
 gvutil.add_major_minor_ticks(ax, labelsize=12)
 
 # Usa geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-gvutil.set_titles_and_labels(ax, maintitle="Default tick locations and labels", maintitlefontsize=16,
+gvutil.set_titles_and_labels(ax, maintitle="30-degree major and 10-degree minor ticks", maintitlefontsize=16,
                                  lefttitle="Potential Temperature", lefttitlefontsize=14,
                                  righttitle="Celsius", righttitlefontsize=14, xlabel="", ylabel="")
 
