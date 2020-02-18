@@ -54,5 +54,6 @@ gvutil.set_axes_limits_and_ticks(ax, xlim=(-90,90), ylim=(-20,50),
 gvutil.set_titles_and_labels(ax, maintitle="Two Curve XY Plot", xlabel="", ylabel="Zonal Wind")
 
 # Show the plot
+plt.tight_layout()
 plt.show()
 

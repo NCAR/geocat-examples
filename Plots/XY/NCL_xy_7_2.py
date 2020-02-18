@@ -38,11 +38,11 @@ ds = dset.isel(case=0, time=slice(0, 36))
 # Generate figure (set its size (width, height) in inches) and axes (with two different y-axes)
 fig, ax1 = plt.subplots(figsize=(7, 6.5))
 
-# Usa geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax1, x_minor_per_major=5, labelsize=14)
-
 # Line-plot data
 ax1.plot(ds.time, ds.T, color="blue", linestyle="-", linewidth=0.9)
+
+# Usa geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax1, x_minor_per_major=5, labelsize=14)
 
 # Usa geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values
@@ -70,4 +70,5 @@ gvutil.set_axes_limits_and_ticks(ax2, ylim=(1008.0, 1024.0), yticks=np.arange(10
 ax2.set_ylabel(f"{ds.P.long_name} [dash]", fontsize=16)
 
 # Show the plot
+plt.tight_layout()
 plt.show()
