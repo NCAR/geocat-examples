@@ -56,13 +56,13 @@ gvutil.set_titles_and_labels(ax1, maintitle="Curves Offset",
 # Create second y-axis
 ax2 = ax1.twinx()
 
-# Usa geocat.viz.util convenience function to add minor and major tick lines
+# Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax2, x_minor_per_major=5, labelsize=14)
 
 # Line-plot data
 ax2.plot(ds.time, ds.P, color="red", linestyle="--", dashes=[6.5, 3.7], linewidth=0.9)
 
-# Usa geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
+# Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values
 gvutil.set_axes_limits_and_ticks(ax2, ylim=(1008.0, 1024.0), yticks=np.arange(1008, 1025, 3))
 

@@ -106,7 +106,7 @@ ax2.text(0.01, 1.1, "Ticks Set Explicitly", transform=ax2.transAxes, fontWeight=
 # Line-plot data
 plt.plot(x_data, y_data, color='black', linewidth=0.5)
 
-# Usa geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
+# Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values on x-axes.
 gvutil.set_axes_limits_and_ticks(ax2, xlim=(1949, 2006),
                                       ylim=(-4.2, 4.2),
