@@ -83,3 +83,7 @@ sphinx_gallery_conf = {
     'filename_pattern': '^((?!sgskip).)*$',
     'gallery_dirs': ['auto_examples'],  # path to where to save gallery generated output
 }
+
+html_theme_options = {
+    'navigation_depth': 2,
+}
