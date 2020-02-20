@@ -47,7 +47,7 @@ ax.coastlines()
 # Import an NCL colormap
 newcmp = gvcmaps.BlueYellowRed
 
-# Contourf-plot data
+# Contourf-plot data (for filled contours)
 # Note, min-max contour levels are hard-coded. contourf's automatic contour value selector produces fractional values.
 p = U.plot.contourf(ax=ax, vmin=-16.0, vmax=44, levels=16, cmap=newcmp, add_colorbar=False, transform=projection,
                     extend='neither')

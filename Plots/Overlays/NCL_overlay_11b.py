@@ -139,7 +139,7 @@ ax.set_extent([100, 145, 15, 55], crs=projection)
 ax.add_feature(OCEAN.with_scale('50m'), edgecolor='black', lw=1)
 ax.add_feature(LAKES.with_scale('50m'), edgecolor='black', lw=1)
 
-# Define the contour levels (T) we are interested in plotting
+# Define the contour levels (T)
 clevs = np.arange(228, 273, 4, dtype=float)
 
 # Import an NCL colormap, truncating it by using geocat.viz.util convenience function

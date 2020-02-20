@@ -6,10 +6,9 @@ dependencies:
   - python=3
   - geocat-comp
   - geocat-datafiles
-  - geocat-viz=2020.1.28.0
+  - geocat-viz=2020.2.18.0
   - netcdf4
   - cartopy
-  - cmaps
   - mock
   - pillow
   - sphinx

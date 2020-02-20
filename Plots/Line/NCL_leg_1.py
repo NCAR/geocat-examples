@@ -1,7 +1,7 @@
 """
 NCL_leg_1.py
 ===============
-Concepts illustrated:
+This script illustrates the following concepts:
    - Drawing a legend inside an XY plot
    - Changing the width and height of a legend
    - Turning off the perimeter around a legend
