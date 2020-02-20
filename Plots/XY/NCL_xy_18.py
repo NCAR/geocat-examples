@@ -185,7 +185,7 @@ fig, ax = plt.subplots(figsize=(10.5, 6))
 # but it uses Xarray's convenient DatetimeAccessor functionality.
 time = gavan.time.dt.year
 
-# Line-plot data and add a legend
+# Plot data and add a legend
 ax.plot(time, obs_avg, color='black', label='Observations', zorder=4)
 ax.plot(time, gavan_avg, color='blue', label='Natural', zorder=3)
 ax.plot(time, gavav_avg, color='red', label='Anthropogenic + Natural', zorder=2)

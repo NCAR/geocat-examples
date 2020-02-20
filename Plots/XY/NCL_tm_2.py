@@ -76,7 +76,7 @@ ax1.yaxis.set_minor_locator(MultipleLocator(0.5))
 # Add a descriptive string to the top left corner of the plot.
 ax1.text(0.01, 1.1, spacingString, transform=ax1.transAxes, fontWeight='bold')
 
-# Plot the line and set the X axis limits.
+# Plot data and set the X axis limits.
 plt.plot(x_data, y_data, color='black', linewidth=0.5)
 
 # Usa geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions

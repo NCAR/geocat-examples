@@ -37,7 +37,7 @@ U = ds.U
 plt.figure(figsize=(7, 6.5))
 ax = plt.gca()
 
-# Line-plot slices of data
+# Plot slices of data
 U.isel(time=0).sel(lon=82, method='nearest').plot(x="lat", marker='', color='#C0C2EA', linewidth=1.1)
 U.isel(time=0).sel(lon=-69, method='nearest').plot(x="lat", marker='', color='#E28D90', linewidth=1.1, linestyle='--',
                                                    dashes=[6.5, 3.7])

@@ -38,7 +38,7 @@ ds = dset.isel(case=0, time=slice(0, 36))
 # Generate figure (set its size (width, height) in inches) and axes (with two different y-axes)
 fig, ax1 = plt.subplots(figsize=(7, 6.5))
 
-# Line-plot data
+# Plot data
 ax1.plot(ds.time, ds.T, color="blue", linestyle="-", linewidth=0.9)
 
 # Usa geocat.viz.util convenience function to add minor and major tick lines
