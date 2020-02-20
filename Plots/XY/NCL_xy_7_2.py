@@ -28,9 +28,9 @@ from geocat.viz import util as gvutil
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-dset = xr.open_dataset(gdf.get("netcdf_files/TestData.xy3.nc"))
+ds = xr.open_dataset(gdf.get("netcdf_files/TestData.xy3.nc"))
 # Extract a slice of the data
-ds = dset.isel(case=0, time=slice(0, 36))
+ds = ds.isel(case=0, time=slice(0, 36))
 
 ################################################################################
 # Plot:
