@@ -66,7 +66,7 @@ ax.tick_params(labelsize=12)
 # Usa geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values
 #gvutil.set_axes_limits_and_ticks(ax, xlim=(30,120), ylim=(-60,30),
-                                     xticks=np.linspace(-180, 180, 25), yticks=np.linspace(-90, 90, 13))
+#                                     xticks=np.linspace(-180, 180, 25), yticks=np.linspace(-90, 90, 13))
 ax.set_xticks(np.linspace(-180, 180, 25))
 ax.set_yticks(np.linspace(-90, 90, 13))
 ax.set_xlim((30,120))
