@@ -61,8 +61,12 @@ cbar.ax.set_yticklabels([str(i) for i in np.arange(0,32,2)])
 
 # Usa geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values
-gvutil.set_axes_limits_and_ticks(ax, xlim=(30,120), ylim=(-60,30),
+#gvutil.set_axes_limits_and_ticks(ax, xlim=(30,120), ylim=(-60,30),
                                      xticks=np.linspace(-180, 180, 13), yticks=np.linspace(-90, 90, 7))
+ax.set_xticks(np.linspace(-180, 180, 13))
+ax.set_yticks(np.linspace(-90, 90, 7))
+ax.set_xlim((30,120))
+ax.set_ylim((-60,30))
 
 # Usa geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
