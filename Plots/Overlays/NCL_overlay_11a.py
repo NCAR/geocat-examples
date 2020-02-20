@@ -1,12 +1,14 @@
 """
 NCL_overlay_11a.py
 ==================
+This script illustrates the following concepts:
+    - Overlaying vectors and filled contours on a map
+    - Masking out particular areas in a map
+    - Subsetting a color map
 
-Concepts illustrated:
-
-- Overlaying vectors and filled contours on a map
-- Masking out particular areas in a map
-- Subsetting a color map
+See following URLs to see the reproduced NCL plot & script:
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/overlay_11.ncl
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/overlay_11_lg.png
 
 This script shows how to overlay contours and vectors on a map,
 but with the contours limited to specific areas, and the vectors
@@ -30,40 +32,32 @@ b. You can "clip" a plot object with a geographical boundary.
 
 This example demonstrates approach (a).
 
-This script is based on the NCL script originally written by
-Yang Zhao (CAMS) (Chinese Academy of Meteorological Sciences).
+See NCL_overlay_11b.py for demonstration of approach (b).
 """
 
 ###############################################################################
-# Basic Imports
-# -------------
-
+# Import packages:
+# --------------------------
 import xarray as xr
 import numpy as np
-import geocat.viz as gcv
-import cmaps
-
-from shapely.geometry import MultiPolygon
 
 from matplotlib import pyplot as plt
-from matplotlib.colors import LinearSegmentedColormap
-from matplotlib.ticker import AutoMinorLocator
-from matplotlib.patches import PathPatch
 
 from cartopy.feature import ShapelyFeature, OCEAN, LAKES, LAND
 from cartopy.crs import PlateCarree
-from cartopy.mpl.patch import geos_to_path
 from cartopy.io.shapereader import Reader as ShapeReader, natural_earth
-from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
+
+import geocat.datafiles as gdf
+from geocat.viz import cmaps as gvcmaps
+from geocat.viz import util as gvutil
 
 ###############################################################################
-# Read U,V,T from the data at 500hPa
-# ----------------------------------
-#
-# Here, we read the sample dataset with Xarray and select the ``time=0`` slice
-# and the ``lev=500`` hPa level.
+# Read in data:
+# --------------------------
 
-ds = xr.open_dataset('../../data/netcdf_files/uvt.nc').sel(time=0, lev=500)
+# Open a netCDF data file using xarray default engine and load the data into xarrays, as well as extract slices for
+# ``time=0`` and the ``lev=500`` hPa level
+ds = xr.open_dataset(gdf.get("netcdf_files/uvt.nc")).sel(time=0, lev=500)
 
 # For convenience only, extract the U,V,T and lat and lon variables
 U = ds["U"]
@@ -73,30 +67,8 @@ T = ds["T"]
 lat = ds["lat"]
 lon = ds["lon"]
 
-# Define the contour levels (T) we are interested in plotting
-clevs = np.arange(228, 273, 4, dtype=float)
-
 ###############################################################################
-# Create a subselection of the color map
-# --------------------------------------
-#
-# We create a new color map that is a subselection of an existing color map
-
-cmap = gcv.util.truncate_colormap(cmaps.BkBlAqGrYeOrReViWh200,
-                                  0.1, 0.6, len(clevs),
-                                  "BkBlAqGrYeOrReViWh200")
-
-###############################################################################
-# Define the map projection
-# -------------------------
-#
-# This allows Cartopy to transform ``lat`` and ``lon`` values accurately into
-# points on the matplotlib plot canvas.
-
-crs = PlateCarree()
-
-###############################################################################
-# Construct shape boundaries
+# Construct shape boundaries:
 # --------------------------
 #
 # Using Cartopy's interface to the Natural Earth Collection of shapefiles
@@ -119,15 +91,19 @@ for record in ShapeReader(shapefile).records():
     else:
         other_land_geos.append(record.geometry)
 
+# Define map projection to allow Cartopy to transform ``lat`` and ``lon`` values accurately into points on the
+# matplotlib plot canvas.
+projection = PlateCarree()
+
 # Define a Cartopy Feature for the country borders and the land mask (i.e.,
 # all other land) from the shapefile geometries, so they can be easily plotted
 countries = ShapelyFeature(country_geos,
-                           crs=crs,
+                           crs=projection,
                            facecolor='none',
                            edgecolor='black',
                            lw=1.5)
 land_mask = ShapelyFeature(other_land_geos,
-                           crs=crs,
+                           crs=projection,
                            facecolor='white',
                            edgecolor='none')
 
@@ -142,37 +118,35 @@ province_geos = [record.geometry for record in ShapeReader(shapefile).records()
 
 # Define a Cartopy Feature for the province borders, so they can be easily plotted
 provinces = ShapelyFeature(province_geos,
-                           crs=crs,
+                           crs=projection,
                            facecolor='none',
                            edgecolor='black',
                            lw=0.25)
 
 ###############################################################################
-# Plot
-# ----
+# Plot:
+# --------------------------
 
-# Create the figure and the Cartopy GeoAxes object
-fig = plt.figure(figsize=(12,12))
-ax = plt.axes(projection=crs)
+# Generate figure (set its size (width, height) in inches) and axes using Cartopy
+fig = plt.figure(figsize=(10,10))
+ax = plt.axes(projection=projection)
 
-# Define the axis tick parameters and labels
-gcv.util.add_lat_lon_ticklabels(ax)
-ax.minorticks_on()
-ax.xaxis.set_minor_locator(AutoMinorLocator(n=4))
-ax.yaxis.set_minor_locator(AutoMinorLocator(n=5))
-ax.tick_params("both", length=10, width=1.0, which="major", bottom=True, left=True, labelsize=20)
-ax.tick_params("both", length=7, width=0.5, which="minor", bottom=True, left=True, labelsize=20)
-ax.set_extent([100, 145, 15, 55], crs=crs)
-ax.set_xticks([100, 120, 140])
-ax.set_yticks([20, 30, 40, 50])
+ax.set_extent([100, 145, 15, 55], crs=projection)
+
+# Define the contour levels (T) we are interested in plotting
+clevs = np.arange(228, 273, 4, dtype=float)
+
+# Import an NCL colormap, truncating it by using geocat.viz.util convenience function
+newcmp = gvutil.truncate_colormap(gvcmaps.BkBlAqGrYeOrReViWh200, minval=0.1, maxval=0.6, n=len(clevs))
 
 # Draw the temperature contour plot with the subselected colormap
 # (Place the zorder of the contour plot at the lowest level)
-cf = ax.contourf(lon, lat, T, levels=clevs, cmap=cmap, zorder=1)
+cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp, zorder=1)
 
-# Draw the color bar for the contour plot
+# Draw horizontal color bar
 cax = plt.axes((0.14, 0.08, 0.74, 0.02))
-fig.colorbar(cf, ax=ax, cax=cax, ticks=clevs[1:-1], drawedges=True, orientation='horizontal')
+cbar = plt.colorbar(cf, ax=ax, cax=cax, ticks=clevs[1:-1], drawedges=True, orientation='horizontal')
+cbar.ax.tick_params(labelsize=12)
 
 # Add the land mask feature on top of the contour plot (higher zorder)
 ax.add_feature(land_mask, zorder=2)
@@ -196,12 +170,20 @@ ax.quiverkey(Q, 0.9675, 0.95, 30, '30', labelpos='N', color='black',
 
 # Add a text box to indicate the pressure level
 props = dict(facecolor='white', edgecolor='none', alpha=0.8)
-ax.text(105, 52.7, '500hPa', transform=crs, fontsize=18, ha='center', va='center',
+ax.text(105, 52.7, '500hPa', transform=projection, fontsize=18, ha='center', va='center',
         color='mediumorchid', bbox=props)
 
-# Add title text
-ax.text(0, 1.01, 'Temp', transform=ax.transAxes, fontsize=20, ha='left', va='bottom', color='black')
-ax.text(1, 1.01, 'Wind', transform=ax.transAxes, fontsize=20, ha='right', va='bottom', color='black')
+# Use geocat.viz.util convenience function to set axes tick values
+gvutil.set_axes_limits_and_ticks(ax, xticks=[100, 120, 140], yticks=[20, 30, 40, 50])
 
-# Generate plot!
+# Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
+gvutil.add_lat_lon_ticklabels(ax)
+
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5, labelsize=18)
+
+# Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
+gvutil.set_titles_and_labels(ax, lefttitle="Temp", lefttitlefontsize=20, righttitle="Wind", righttitlefontsize=20)
+
+# Show the plot
 plt.show()

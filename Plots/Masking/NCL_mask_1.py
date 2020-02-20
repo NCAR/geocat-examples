@@ -51,7 +51,7 @@ projection = ccrs.PlateCarree()
 ax = plt.axes(projection=projection)
 ax.coastlines(linewidth=0.5, resolution="110m")
 
-# Import an NCL colormap
+# Import an NCL colormap, truncating it by using geocat.viz.util convenience function
 newcmp = gvutil.truncate_colormap(gvcmaps.BlAqGrYeOrRe, minval=0.1, maxval=1.0, n=22)
 
 # Contourf-plot ocean-only data (for filled contours)
