@@ -1,92 +1,75 @@
 """
-=========
-coneff_16
-=========
-Plots/Contours/Filled/Georeferenced
+NCL_coneff_16.py
+===============
+This script illustrates the following concepts:
+   - Showing features of the new color display model
+   - Using cnFillPalette to assign a color palette to contours
+   - Drawing partially transparent filled contours
+
+See following URLs to see the reproduced NCL plot & script:
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/coneff_16.ncl
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/coneff_16_1_lg.png
 """
 
+###############################################################################
+# Import packages:
 import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
-from cartopy.mpl.geoaxes import GeoAxes
-from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
 
 import matplotlib.pyplot as plt
-import matplotlib.ticker as tic
 
-import geocat.viz as gviz
+import geocat.datafiles as gdf
+from geocat.viz import cmaps as gvcmaps
+from geocat.viz import util as gvutil
 
+###############################################################################
+# Read in data:
 
-from pprint import pprint
-
-import geocat.datafiles
-ds = xr.open_dataset(geocat.datafiles.get('netcdf_files/uv300.nc'))
+# Open a netCDF data file using xarray default engine and load the data into xarrays
+ds = xr.open_dataset(gdf.get('netcdf_files/uv300.nc'))
 U = ds.U[1,:,:]
 
-plt.rcParams['figure.figsize'] = [20, 10]
-fig = plt.figure()
-fig.suptitle('Color contours mask filled land', fontsize=22, fontweight='bold')
+###############################################################################
+# Plot:
 
+# Generate figure (set its size (width, height) in inches)
+plt.figure(figsize=(14, 7))
+
+# Generate axes, using Cartopy
 projection = ccrs.PlateCarree()
 ax = plt.axes(projection=projection)
 
-#
-# Use global map, which leaves a gap at end of plot. This data set isn't truly global.
-#
+# Use global map and draw coastlines
 ax.set_global()
 ax.coastlines()
 
-# 
-# Hard-code tic values. This assumes data are global
-#
-ax.set_xticks(np.linspace(-180, 180, 13), crs=projection)
-ax.set_yticks(np.linspace(-90, 90, 7), crs=projection)
-
-# 
-# Use cartopy's lat and lon formatter to get tic values displayed in degrees
-#
-lon_formatter = LongitudeFormatter(zero_direction_label=True)
-lat_formatter = LatitudeFormatter()
-ax.xaxis.set_major_formatter(lon_formatter)
-ax.yaxis.set_major_formatter(lat_formatter)
-
-#
-# Tweak minor tic marks. Set spacing so we get nice round values (10 degrees). Again, assumes global data
-#
-ax.tick_params(labelsize=16)
-ax.minorticks_on()
-ax.xaxis.set_minor_locator(tic.AutoMinorLocator(n=3))
-ax.yaxis.set_minor_locator(tic.AutoMinorLocator(n=3))
-ax.tick_params('both', length=20, width=2, which='major')
-ax.tick_params('both', length=10, width=1, which='minor')
-
-#
 # Import an NCL colormap
-#
-newcmp = gviz.cmaps.BlueYellowRed
+newcmp = gvcmaps.BlueYellowRed
 
+# Contourf-plot data
+# Note, min-max contour levels are hard-coded. contourf's automatic contour value selector produces fractional values.
+p = U.plot.contourf(ax=ax, vmin=-16.0, vmax=44, levels=16, cmap=newcmp, add_colorbar=False, transform=projection,
+                    extend='neither')
 
-#
-# Plot the data. Note, min and max contour levels are hard-coded. plot.contour's automatic contour value selector produces
-# fractional values. Yuck
-#
-p = U.plot.contourf(ax=ax, vmin=-16.0, vmax=44, levels=16, cmap=newcmp, add_colorbar=False, transform=projection, extend='neither')
-
+# Add horizontal colorbar
 cbar = plt.colorbar(p, orientation='horizontal', shrink=0.5)
-cbar.ax.tick_params(labelsize=16)
+cbar.ax.tick_params(labelsize=14)
+cbar.set_ticks(np.linspace(-12, 40, 14))
 
-#
-# Disable axis labels provided by xarray (I think)
-#
-ax.set_xlabel('')
-ax.set_ylabel('')
+# Use geocat.viz.util convenience function to set axes tick values
+gvutil.set_axes_limits_and_ticks(ax, xticks=np.linspace(-180, 180, 13), yticks=np.linspace(-90, 90, 7))
 
-#
-# add a title to the plot axes. What happens if xarray data set doesn't have long_name and units?
-#
-ax.set_title(U.long_name + ' (' + U.units+')', fontsize=18, loc='left')
-plt.title('') # Someone (xarray?) generates their own title
+# Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
+gvutil.add_lat_lon_ticklabels(ax)
 
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax, labelsize=12)
 
+# Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
+gvutil.set_titles_and_labels(ax, maintitle="Color contours mask filled land",
+                                 lefttitle=U.long_name, lefttitlefontsize=16,
+                                 righttitle=U.units, righttitlefontsize=16, xlabel="", ylabel="")
 
+# Show the plot
 plt.show()

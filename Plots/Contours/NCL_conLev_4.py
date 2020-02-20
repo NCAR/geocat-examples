@@ -40,20 +40,20 @@ x = ds.TS
 newx = x.mean('time')
 newx = x.isel(time=0) - newx
 
-# Fix the not-shown-data artifact of 0 and 360-degree longitudes
+# Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 newx = gvutil.xr_add_cyclic_longitudes(newx, "lon")
 
 ###############################################################################
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(10, 6))
+plt.figure(figsize=(10, 6))
 
 # Generate axes, using Cartopy
 projection = ccrs.PlateCarree()
 ax = plt.axes(projection=projection)
 
-# Use global map and draw coastlines.
+# Use global map and draw coastlines
 ax.set_global()
 ax.coastlines(linewidth=0.5, resolution="110m")
 
@@ -61,7 +61,7 @@ ax.coastlines(linewidth=0.5, resolution="110m")
 newcmp = gvcmaps.BlRe
 newcmp.colors[len(newcmp.colors)//2] = [1, 1, 1]   # Set middle value to white to match NCL
 
-# Plot filled contours
+# Contourf data
 p = newx.plot.contourf(ax=ax, vmin=-1, vmax=10, levels=[-12,-10,-8,-6,-4,-2,-1,1,2,4,6,8,10,12], cmap=newcmp,
                        add_colorbar=False, transform=projection, add_labels=False)
 

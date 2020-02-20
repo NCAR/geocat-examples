@@ -3,6 +3,10 @@ NCL_tm_2.py
 ===============
 Tickmark and Axis Manipulation example
 
+Note: This script is aimed at demonstrating the explicit handling of tick marks, their locations, labels, etc.;
+therefore, the use of geocat-viz convenience functions is minimized here to show such tick management functions directly
+throughout this script.
+
 This script illustrates the following concepts:
    - Explicitly setting tickmarks and labels on the bottom X axis
    - Setting the spacing for tickmarks
