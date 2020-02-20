@@ -80,7 +80,7 @@ from sphinx_gallery.sorting import ExampleTitleSortKey
 sphinx_gallery_conf = {
     'examples_dirs': ['Plots',],   # path to your example scripts
     'filename_pattern': '^((?!sgskip).)*$',
-    'gallery_dirs': ['auto_examples'],  # path to where to save gallery generated output
+    'gallery_dirs': ['gallery'],  # path to where to save gallery generated output
     'within_subsection_order': ExampleTitleSortKey,
 }
 
