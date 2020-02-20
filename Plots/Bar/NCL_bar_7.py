@@ -1,7 +1,7 @@
 """
 NCL_bar_7.py
 ===============
-Concepts illustrated:
+This script illustrates the following concepts:
   - Drawing filled bars
   - Filling the bars in a bar plot with different colors
   - Setting the minimum/maximum value of the Y axis in a bar plot
@@ -9,17 +9,20 @@ Concepts illustrated:
   - Rotating text 45 degrees
   - Drawing a custom legend
 
-This Python script reproduces the NCL plot script found here:  https://www.ncl.ucar.edu/Applications/Scripts/bar_7.ncl
+See following URLs to see the reproduced NCL plot & script:
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/bar_7.ncl
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/bar_7_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/bar_7_2_lg.png
 """
 
 ###############################################################################
-# Import the necessary python libraries
+# Import packages:
+import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator
 
+from geocat.viz import util as gvutil
 
 ###############################################################################
-# Create the plot data
+# Generate data:
 x = [1, 2, 3, 4, 5, 6, 7, 8]
 data = [154900, 56600, 40000, 30200, 29700, 24400, 21700, 13900]
 labels = ['Lung', 'Colon/rectum', 'Breast', 'Prostate', 'Pancreas',  
@@ -30,7 +33,7 @@ labels = ['Lung', 'Colon/rectum', 'Breast', 'Prostate', 'Pancreas',
 color_list = ['firebrick', 'red', 'orange', 'green', 'navy', 'blue', 'skyblue', 'slateblue']
 
 ###############################################################################
-# Specify some plot settings.
+# Specify some plot settings to use in both plots:
 
 # Title settings
 title = 'Estimated Cancer Deaths for 2002'
@@ -39,88 +42,57 @@ title_fontsize = 16
 # Axis Settings
 plot_y_max = 180_000
 
-# Tick Settings
-major_tick_spacing = 30_000
-minor_tick_spacing = 10_000
-tick_label_fontsize = 12
-tick_length_multiplier = 2
-
-# Label Settings
-label_rotation = 45
-label_y_offset = 2000
-
 ###############################################################################
-# Create the first bar chart.
+# Plot 1 (Bar chart):
 
-# Figure size is (width, height) inches.
+# Generate figure (set its size (width, height) in inches) and axes
 plt.figure(1, figsize=(6, 5))
+ax = plt.gca()
 
+# Bar-plot the data
 plt.bar(x, data, color=color_list, edgecolor='black')
-plt.title(title, fontsize=title_fontsize)
+plt.title(title, fontsize=title_fontsize, y=1.04)
 
 # Add a rotated label to each bar.
 for k, label in enumerate(labels):
-    plt.text(x[k], data[k]+label_y_offset, label, rotation=label_rotation)
+    plt.text(x[k], data[k] + 2000, label, rotation=45)
 
+# Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
+gvutil.set_axes_limits_and_ticks(ax, ylim=(0,plot_y_max), xticks=[], yticks=np.linspace(0, plot_y_max, 7))
 
-# Draw ticks on three sides of the plot.  Suppress tick labels on the bottom.
-plt.tick_params(which='both', top=True, right=True, left=True, bottom=False, labelsize=tick_label_fontsize)
-plt.xticks([], [])
-
-# Set the tick spacing and limits for the Y axis.
-ax = plt.gca()
-ax.yaxis.set_major_locator(MultipleLocator(major_tick_spacing))
-ax.yaxis.set_minor_locator(MultipleLocator(minor_tick_spacing))
-
-# Increase the tick mark lengths by some factor.
-y_major_tick_length = plt.rcParams["ytick.major.size"]
-y_minor_tick_length = plt.rcParams["ytick.minor.size"]
-plt.tick_params(which='major', length=y_major_tick_length * tick_length_multiplier)
-plt.tick_params(which='minor', length=y_minor_tick_length * tick_length_multiplier)
-
-# Set the limits for the Y axis.
-plt.ylim(top=plot_y_max)
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=0, y_minor_per_major=3, labelsize=12)
 
 # Draw plot on the screen.
 plt.show()
 
-
 ###############################################################################
-# Create the second bar chart with a legend.
+# Plot 2 (Bar chart with a legend):
 
+## NOTE: You may need to close the first figure window to see the second figure.
 
-## NOTE: you may need to close the first figure window to see the second figure.
-# Figure size is (width, height) inches.
+# Generate figure (set its size (width, height) in inches) and axes
 plt.figure(2, figsize=(6, 5))
+ax = plt.gca()
 
+# Bar-plot the data
 bar_handle = plt.bar(x, data, color=color_list, edgecolor='black')
-plt.ylabel("Number of Deaths", fontsize=16)
-plt.title(title, fontsize=title_fontsize)
 
-# Reverse the legend ordering to match NCL.
+# Reverse the legend ordering to match NCL
 bars_reversed = bar_handle[::-1]
 labels_reversed = labels[::-1]
 
-# Add the legend.
+# Add the legend
 plt.legend(bars_reversed, labels_reversed)
 
-# Draw ticks on three sides of the plot.  Suppress tick labels on the bottom.
-plt.tick_params(which='both', top=True, right=True, left=True, bottom=False, labelsize=tick_label_fontsize)
-plt.xticks([], [])
+# Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
+gvutil.set_axes_limits_and_ticks(ax, ylim=(0,plot_y_max), xticks=[], yticks=np.linspace(0, plot_y_max, 7))
 
-# Set the tick spacing and limits for the Y axis.
-ax = plt.gca()
-ax.yaxis.set_major_locator(MultipleLocator(major_tick_spacing))
-ax.yaxis.set_minor_locator(MultipleLocator(minor_tick_spacing))
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=0, y_minor_per_major=3, labelsize=12)
 
-# Increase the tick mark lengths by some factor.
-y_major_tick_length = plt.rcParams["ytick.major.size"]
-y_minor_tick_length = plt.rcParams["ytick.minor.size"]
-plt.tick_params(which='major', length=y_major_tick_length * tick_length_multiplier)
-plt.tick_params(which='minor', length=y_minor_tick_length * tick_length_multiplier)
-
-# Set the limits for the Y axis.
-plt.ylim(top=plot_y_max)
+# Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
+gvutil.set_titles_and_labels(ax, maintitle=title, maintitlefontsize=title_fontsize, ylabel="Number of Deaths")
 
 # Move the figure left border, so Y Label appears without manually adjusting the viewport.
 plt.subplots_adjust(left=0.2)
