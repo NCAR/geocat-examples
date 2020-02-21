@@ -6,7 +6,7 @@ dependencies:
   - python=3
   - geocat-comp
   - geocat-datafiles
-  - geocat-viz=2020.2.18.0
+  - geocat-viz=2020.2.18.1
   - netcdf4
   - cartopy
   - mock
