@@ -10,6 +10,7 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
+import importlib
 import os
 import warnings
 # import sys
@@ -61,13 +62,10 @@ warnings.filterwarnings("ignore", category=UserWarning,
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-on_rtd = os.environ.get('READTHEDOCS') == 'True'
-if on_rtd:
-    html_theme = 'default'
-else:
-    import sphinx_rtd_theme
-    html_theme = 'sphinx_rtd_theme'
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+import sphinx_rtd_theme
+html_theme = 'sphinx_rtd_theme'
+html_style = None
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -78,8 +76,14 @@ html_static_path = ['_static']
 master_doc = 'index'
 
 # Configure sphinx-gallery plugin
+from sphinx_gallery.sorting import ExampleTitleSortKey
 sphinx_gallery_conf = {
     'examples_dirs': ['Plots',],   # path to your example scripts
     'filename_pattern': '^((?!sgskip).)*$',
-    'gallery_dirs': ['auto_examples'],  # path to where to save gallery generated output
+    'gallery_dirs': ['gallery'],  # path to where to save gallery generated output
+    'within_subsection_order': ExampleTitleSortKey,
+}
+
+html_theme_options = {
+    'navigation_depth': 2,
 }

@@ -1,5 +1,5 @@
 /_build/
-/auto_examples/
+/gallery/
 *.ncl
 .vscode/
 .idea/

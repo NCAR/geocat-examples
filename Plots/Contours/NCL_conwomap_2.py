@@ -13,7 +13,7 @@ See https://www.ncl.ucar.edu/Applications/Scripts/conwomap_2.ncl for further inf
 import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
-from util.make_byr_cmap import make_byr_cmap
+from geocat.viz.util import make_byr_cmap
 import geocat.datafiles
 
 import matplotlib.pyplot as plt

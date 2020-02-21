@@ -5,16 +5,24 @@ vector_3
 Plot U & V vectors globally
 
 https://www.ncl.ucar.edu/Applications/Scripts/vector_3.ncl
+
+Concepts illustrated:
+  - Drawing a black-and-white vector plot over a PlateCarree map
+  - Adding a time stamp to a plot
+  - Moving the vector reference annotation to the top right of the plot
 """
 
 ###############################################################################
 # Import necessary packages:
+
 import xarray as xr
 from matplotlib import pyplot as plt
 import cartopy
 import cartopy.crs as ccrs
 import geocat.datafiles
-import geocat.viz as gcv
+
+from geocat.viz.util import add_lat_lon_ticklabels, nclize_axis
+from datetime import datetime
 
 ###############################################################################
 # Read in data from netCDF file.
@@ -22,7 +30,9 @@ import geocat.viz as gcv
 # we only read every third latitude and longitude.
 # This choice was made because ``geocat.viz`` doesn't offer an
 # equivalent function to ncl's ``vcMinDistanceF`` yet.
+
 file_in = xr.open_dataset(geocat.datafiles.get('netcdf_files/uv300.nc'))
+# Our dataset is a subset of the data from the file
 ds = file_in.isel(time=1, lon=slice(0,-1,3), lat=slice(1,-1,3))
 
 ###############################################################################
@@ -31,8 +41,8 @@ ds = file_in.isel(time=1, lon=slice(0,-1,3), lat=slice(1,-1,3))
 # Set up figure and axes
 fig, ax = plt.subplots(figsize=(10,5.25))
 ax = plt.axes(projection=ccrs.PlateCarree())
-gcv.util.nclize_axis(ax)
-gcv.util.add_lat_lon_ticklabels(ax)
+nclize_axis(ax)
+add_lat_lon_ticklabels(ax)
 
 # Set major and minor ticks
 plt.xticks(range(-180, 181, 30))
@@ -54,6 +64,9 @@ ax.set_title('m/s', y=1.04, loc='right')
 
 # Turn on continent shading
 ax.add_feature(cartopy.feature.LAND, edgecolor='lightgray', facecolor='lightgray', zorder=0)
+
+# Add timestamp
+ax.text(-200, -115, f'Created: {datetime.now()}')
 
 # Generate plot!
 plt.show()
