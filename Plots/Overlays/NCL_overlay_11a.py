@@ -133,7 +133,7 @@ ax = plt.axes(projection=projection)
 
 ax.set_extent([100, 145, 15, 55], crs=projection)
 
-# Define the contour levels (T)
+# Define the contour levels
 clevs = np.arange(228, 273, 4, dtype=float)
 
 # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
