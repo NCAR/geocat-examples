@@ -49,7 +49,7 @@ newx = gvutil.xr_add_cyclic_longitudes(newx, "lon")
 # Generate figure (set its size (width, height) in inches)
 plt.figure(figsize=(10, 6))
 
-# Generate axes, using Cartopy
+# Generate axes using Cartopy projection
 projection = ccrs.PlateCarree()
 ax = plt.axes(projection=projection)
 

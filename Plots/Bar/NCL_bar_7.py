@@ -94,8 +94,6 @@ gvutil.add_major_minor_ticks(ax, x_minor_per_major=0, y_minor_per_major=3, label
 # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
 gvutil.set_titles_and_labels(ax, maintitle=title, maintitlefontsize=title_fontsize, ylabel="Number of Deaths")
 
-# Move the figure left border, so Y Label appears without manually adjusting the viewport.
-plt.subplots_adjust(left=0.2)
-
-# Draw plot on the screen.
+# Show the plot
+plt.tight_layout()
 plt.show()

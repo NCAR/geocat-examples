@@ -29,11 +29,6 @@ from geocat.viz import util as gvutil
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 v = ds.V.isel(time=0, lev = 3)
 
-# # Wrap data around meridian
-# lon_idx = v.dims.index('lon')
-# wrap_data, wrap_lon = add_cyclic_point(v.values, coord=v.lon, axis=lon_idx)
-# wrap_v = xr.DataArray(wrap_data, coords=[v.lat, wrap_lon], dims=['lat', 'lon'], attrs = v.attrs)
-
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 wrap_v = gvutil.xr_add_cyclic_longitudes(v, "lon")
 

@@ -71,8 +71,8 @@ gvutil.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
 gvutil.set_titles_and_labels(ax, maintitle="Ocean Only",
-                             lefttitle=f"{ocean_only.attrs['long_name']}", lefttitlefontsize=14,
-                             righttitle=f"{ocean_only.attrs['units']}", righttitlefontsize=14)
+                             lefttitle=ocean_only.attrs['long_name'], lefttitlefontsize=14,
+                             righttitle=ocean_only.attrs['units'], righttitlefontsize=14)
 
 # Show the plot
 plt.show()
@@ -107,8 +107,8 @@ gvutil.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
 gvutil.set_titles_and_labels(ax, maintitle="Land Only",
-                             lefttitle=f"{land_only.attrs['long_name']}", lefttitlefontsize=14,
-                             righttitle=f"{land_only.attrs['units']}", righttitlefontsize=14)
+                             lefttitle=land_only.attrs['long_name'], lefttitlefontsize=14,
+                             righttitle=land_only.attrs['units'], righttitlefontsize=14)
 
 # Show the plot
 plt.show()
