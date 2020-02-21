@@ -14,13 +14,14 @@ import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
 from geocat.viz.util import make_byr_cmap
+import geocat.datafiles
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tic
 
 ###############################################################################
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset("../../data/netcdf_files/cone.nc")
+ds = xr.open_dataset(geocat.datafiles.get("netcdf_files/cone.nc"))
 u = ds.u.isel(time=4)
 
 ###############################################################################

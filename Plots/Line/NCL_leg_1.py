@@ -9,12 +9,13 @@ Plots/Lines/Legends
 # import modules
 import xarray as xr
 import matplotlib.pyplot as plt
+import geocat.datafiles
 
 
 ###############################################################################
 # 
 # open data file and extract variables
-ds = xr.open_dataset('../../data/netcdf_files/uv300.nc')
+ds = xr.open_dataset(geocat.datafiles.get('netcdf_files/uv300.nc'))
 uz = ds.U.isel(time=0).mean(dim=['lon'])
 vz = ds.V.isel(time=0).mean(dim=['lon'])
 

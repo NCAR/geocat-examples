@@ -27,10 +27,11 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
+import geocat.datafiles
 
 from geocat.viz.util import add_lat_lon_ticklabels, nclize_axis
 
-ds = xr.open_dataset("../../data/netcdf_files/uv300.nc").isel(time=1)
+ds = xr.open_dataset(geocat.datafiles.get("netcdf_files/uv300.nc")).isel(time=1)
 
 ###############################################################################
 # Now we'll make three panels (subplots in matplotlib terminology) using ``plt.subplots``

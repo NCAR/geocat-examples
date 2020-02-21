@@ -21,14 +21,15 @@ import numpy as np
 from matplotlib import pyplot as plt
 import cartopy
 import cartopy.crs as ccrs
+import geocat.datafiles
 
 from geocat.viz import cmaps
 from geocat.viz.util import add_lat_lon_ticklabels, nclize_axis, truncate_colormap
 
 ###############################################################################
 # Read in data from netCDF files
-sst_in = xr.open_dataset('../../data/netcdf_files/sst8292.nc')
-uv_in = xr.open_dataset('../../data/netcdf_files/uvt.nc')
+sst_in = xr.open_dataset(geocat.datafiles.get('netcdf_files/sst8292.nc'))
+uv_in = xr.open_dataset(geocat.datafiles.get('netcdf_files/uvt.nc'))
 
 # Use date as the dimension rather than time
 sst_in = sst_in.set_coords("date").swap_dims({"time": "date"}).drop('time')

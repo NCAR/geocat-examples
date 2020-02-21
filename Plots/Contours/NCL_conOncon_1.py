@@ -11,6 +11,7 @@ Plots/Contours/Lines
 #
 import numpy as np
 import xarray as xr
+import geocat.datafiles
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tic
@@ -23,7 +24,7 @@ from pprint import pprint
 #
 # open data file and extract variables
 #
-ds = xr.open_dataset('../../data/netcdf_files/mxclim.nc')
+ds = xr.open_dataset(geocat.datafiles.get('netcdf_files/mxclim.nc'))
 U = ds.U[0,:,:]
 V = ds.V[0,:,:]
 

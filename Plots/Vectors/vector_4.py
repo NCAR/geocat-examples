@@ -19,6 +19,7 @@ import cartopy
 import cartopy.crs as ccrs
 from geocat.viz import cmaps
 from geocat.viz.util import add_lat_lon_ticklabels, nclize_axis, truncate_colormap
+import geocat.datafiles
 
 ###############################################################################
 # Read in data from netCDF file.
@@ -27,7 +28,7 @@ from geocat.viz.util import add_lat_lon_ticklabels, nclize_axis, truncate_colorm
 # This choice was made because ``geocat.viz`` doesn’t offer
 # an equivalent function to ncl’s ``vcMinDistanceF`` yet.
 
-file_in = xr.open_dataset('../../data/netcdf_files/83.nc')
+file_in = xr.open_dataset(geocat.datafiles.get('netcdf_files/83.nc'))
 # Our dataset is a subset of the data from the file
 ds = file_in.isel(time=0, lev=12, lon=slice(0,-1,5), lat=slice(2,-1,3))
 

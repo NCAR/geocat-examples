@@ -12,12 +12,13 @@ Plots/Scatter/Lines
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
+import geocat.datafiles
 
 
 ################################################################################
 #
 # open data file and extract variables
-ds = xr.open_dataset('../../data/netcdf_files/b003_TS_200-299.nc', decode_times=False)
+ds = xr.open_dataset(geocat.datafiles.get('netcdf_files/b003_TS_200-299.nc'), decode_times=False)
 ts = ds.TS.sel(lat = 60, lon = 180, method = 'nearest')
 
 ###############################################################################

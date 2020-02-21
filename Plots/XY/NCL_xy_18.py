@@ -23,6 +23,7 @@ import xarray as xr
 import pandas as pd
 from matplotlib import pyplot as plt
 import matplotlib.ticker as tic
+import geocat.datafiles
 
 ###############################################################################
 # Open files and read in monthly data
@@ -76,18 +77,18 @@ def assume_noleap_calendar(ds):
     return xr.decode_cf(ds)
 
 # Create a dataset for the "natural" (i.e., no anthropogenic effects) data
-nfiles = ["../../data/netcdf_files/TREFHT.B06.66.atm.1890-1999ANN.nc",
-          "../../data/netcdf_files/TREFHT.B06.67.atm.1890-1999ANN.nc",
-          "../../data/netcdf_files/TREFHT.B06.68.atm.1890-1999ANN.nc",
-          "../../data/netcdf_files/TREFHT.B06.69.atm.1890-1999ANN.nc"]
+nfiles = [geocat.datafiles.get("netcdf_files/TREFHT.B06.66.atm.1890-1999ANN.nc"),
+          geocat.datafiles.get("netcdf_files/TREFHT.B06.67.atm.1890-1999ANN.nc"),
+          geocat.datafiles.get("netcdf_files/TREFHT.B06.68.atm.1890-1999ANN.nc"),
+          geocat.datafiles.get("netcdf_files/TREFHT.B06.69.atm.1890-1999ANN.nc")]
 nds = xr.open_mfdataset(nfiles, concat_dim='case', combine='nested',
                         preprocess=assume_noleap_calendar, decode_times=False)
 
 # Create a dataset for the "natural + anthropogenic" data
-vfiles = ["../../data/netcdf_files/TREFHT.B06.61.atm.1890-1999ANN.nc",
-          "../../data/netcdf_files/TREFHT.B06.59.atm.1890-1999ANN.nc",
-          "../../data/netcdf_files/TREFHT.B06.60.atm.1890-1999ANN.nc",
-          "../../data/netcdf_files/TREFHT.B06.57.atm.1890-1999ANN.nc"]
+vfiles = [geocat.datafiles.get("netcdf_files/TREFHT.B06.61.atm.1890-1999ANN.nc"),
+          geocat.datafiles.get("netcdf_files/TREFHT.B06.59.atm.1890-1999ANN.nc"),
+          geocat.datafiles.get("netcdf_files/TREFHT.B06.60.atm.1890-1999ANN.nc"),
+          geocat.datafiles.get("netcdf_files/TREFHT.B06.57.atm.1890-1999ANN.nc")]
 vds = xr.open_mfdataset(vfiles, concat_dim='case', combine='nested',
                         preprocess=assume_noleap_calendar, decode_times=False)
 
@@ -95,7 +96,7 @@ vds = xr.open_mfdataset(vfiles, concat_dim='case', combine='nested',
 # (The xarray.Dataset.expand_dims call adds the longitude dimension to the
 # dataset, which originally depends only upon the latitude dimension. This
 # arguably makes computing the weighted means below more straight-forward.)
-gds = xr.open_dataset("../../data/netcdf_files/gw.nc")
+gds = xr.open_dataset(geocat.datafiles.get("netcdf_files/gw.nc"))
 gds = gds.expand_dims(dim={'lon': nds.lon})
 
 ###############################################################################
@@ -108,7 +109,7 @@ gds = gds.expand_dims(dim={'lon': nds.lon})
 # ``DataArray`` explicitly, since the time values are not stored in the
 # ASCII data file (we have to know them!).
 
-obs_data = np.loadtxt("../../data/ascii_files/jones_glob_ann_2002.asc", dtype=float)
+obs_data = np.loadtxt(geocat.datafiles.get("ascii_files/jones_glob_ann_2002.asc"), dtype=float)
 obs_time = xr.cftime_range('1856-07-16T22:00:00', freq='365D',
                            periods=len(obs_data), calendar='noleap')
 obs = xr.DataArray(name='TREFHT', data=obs_data, coords=[('time', obs_time)])

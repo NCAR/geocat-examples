@@ -41,6 +41,7 @@ Yang Zhao (CAMS) (Chinese Academy of Meteorological Sciences).
 import xarray as xr
 import numpy as np
 import geocat.viz as gcv
+import geocat.datafiles
 import cmaps
 
 from shapely.geometry import MultiPolygon
@@ -63,7 +64,7 @@ from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
 # Here, we read the sample dataset with Xarray and select the ``time=0`` slice
 # and the ``lev=500`` hPa level.
 
-ds = xr.open_dataset('../../data/netcdf_files/uvt.nc').sel(time=0, lev=500)
+ds = xr.open_dataset(geocat.datafiles.get('netcdf_files/uvt.nc')).sel(time=0, lev=500)
 
 # For convenience only, extract the U,V,T and lat and lon variables
 U = ds["U"]
