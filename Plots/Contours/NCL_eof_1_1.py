@@ -17,8 +17,26 @@ Reproduces the NCL script found here:
 https://www.ncl.ucar.edu/Applications/Scripts/eof_1.ncl
 """
 
+
 ###############################################################################
-# User defined parameters that specify region of the glob, time span, etc.
+# Import the necessary python libraries
+import xarray as xr
+import geocat.datafiles
+from math import atan
+import numpy as np
+from numpy import cos, sqrt    # numpy's cos(), sqrt() accept array arguments.
+
+from geocat.comp import eofunc, eofunc_ts
+
+import matplotlib.pyplot as plt
+from matplotlib.ticker import AutoMinorLocator
+import geocat.viz as gcv
+import cartopy
+import cartopy.crs as ccrs
+
+
+###############################################################################
+# User defined parameters that specify region of the globe, time span, etc.
 latS = 25.
 latN = 80.
 lonL = -70.
@@ -30,26 +48,13 @@ yearEnd = 2003
 neof = 3   # number of EOFs
 optETS = False
 
-###############################################################################
-# Import the necessary python libraries
-import xarray as xr
-import geocat.datafiles
-from math import atan
-from numpy import cos, sqrt    # numpy's cos(), sqrt() accept array arguments.
-
-from geocat.comp import eofunc, eofunc_ts
-
-
 
 ###############################################################################
 # Open the file for reading and print a content summary.
 
 ds = xr.open_dataset(geocat.datafiles.get('netcdf_files/slp.mon.mean.nc'))
 
-print('ds.attrs:\n\n')
-print(ds.attrs)
-
-print('ds.slp.attrs:\n\n')
+print('\nds.slp.attrs:\n')
 print(ds.slp.attrs)
 
 
@@ -149,6 +154,8 @@ xw = wSLP.sel(lat=slice(latS, latN), lon=slice(lonL, lonR))
 print('\n\nxw:\n\n')
 print(xw.slp)
 
+###############################################################################
+# Compute the EOFs.
 
 eof = eofunc(xw["slp"], neof, time_dim=1, meta=True)
 
@@ -159,3 +166,75 @@ eof_ts = eofunc_ts(xw["slp"], eof, time_dim=1, meta=True)
 
 print('\n\neof_ts:\n\n')
 print(eof_ts)
+
+
+###############################################################################
+# Normalize time series: Sum spatial weights over the area used.
+nLon = len(xw['lon'])
+weightTotal = clat.sum() * nLon
+eof_ts = eof_ts / weightTotal
+
+print('\n\neof_ts normalized:\n\n')
+print(eof_ts)
+
+###############################################################################
+# Create a utility function for a basic plot.
+
+def make_base_plot(ax, dataset):
+
+    map_extent = [lonL, lonR, latS, latN]
+
+    # Add tick marks to match NCL conventions.
+    ax.minorticks_on()
+    ax.xaxis.set_minor_locator(AutoMinorLocator(n=3))
+    ax.yaxis.set_minor_locator(AutoMinorLocator(n=4))
+    ax.set_extent(map_extent, crs=ccrs.PlateCarree())
+    ax.set_xticks([-60, -30, 0, 30])
+    ax.set_yticks([40, 60, 80])
+    ax.tick_params("both", length=5, width=1.0, which="major", bottom=True, left=True, top=True, right=True, labelsize=8)
+    ax.tick_params("both", length=3.5, width=0.5, which="minor", bottom=True, left=True, top=True, right=True, labelsize=8)
+
+    lat = dataset['lat']
+    lon = dataset['lon']
+    values = dataset.data
+
+    cmap = plt.get_cmap('bwr')
+
+    cplot = ax.contourf(lon, lat, values, cmap=cmap)
+    ax.coastlines()
+    gcv.util.add_lat_lon_ticklabels(ax)
+    return cplot, ax
+
+
+fig, axs = plt.subplots(neof, 1,
+                        constrained_layout=True,  # "magic"
+                        subplot_kw={"projection": ccrs.PlateCarree()},
+                        figsize=(7, 8))
+
+for i in range(neof):
+
+    eof_single = eof[i, :, :]
+
+    cplot, axs[i] = make_base_plot(axs[i], eof_single)
+
+    axs[i].set_title(f'EOF {i+1}', y=1.02, loc='left', fontsize=10)
+    pct = eof.pcvar[i]
+    axs[i].set_title(f'{pct:.1f}%', y=1.02, loc='right', fontsize=10)
+
+cbar = fig.colorbar(cplot, ax=axs, orientation='horizontal', shrink=0.6)
+
+fig.suptitle(f'SLP: DJF: {yearStart}-{yearEnd}')
+
+plt.savefig('test.png')
+
+plt.show()
+
+
+
+
+
+###############################################################################
+# Produce bar plot.
+
+
+print("Done.")
