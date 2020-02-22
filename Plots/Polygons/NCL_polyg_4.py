@@ -15,7 +15,7 @@ This script illustrates the following concepts:
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/polyg_4.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/xy_2_1_lg.png
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/polyg_4_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/polyg_4_2_lg.png
 """
 
 ###############################################################################

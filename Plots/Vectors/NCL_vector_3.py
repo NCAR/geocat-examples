@@ -31,6 +31,11 @@ from geocat.viz import util as gvutil
 file_in = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 
 # Extract slices of lon and lat
+# Read in data from netCDF file.
+# Note that when we extract ``u`` and ``v`` from the file,
+# we only read every third latitude and longitude.
+# This choice was made because ``geocat.viz`` doesn't offer an
+# equivalent function to ncl's ``vcMinDistanceF`` yet.
 ds = file_in.isel(time=1, lon=slice(0,-1,3), lat=slice(1,-1,3))
 
 ###############################################################################

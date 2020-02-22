@@ -27,7 +27,7 @@ from geocat.viz import util as gvutil
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
-# Extract slices of the data
+# Extract variables
 uz = ds.U.isel(time=0).mean(dim=['lon'])
 vz = ds.V.isel(time=0).mean(dim=['lon'])
 

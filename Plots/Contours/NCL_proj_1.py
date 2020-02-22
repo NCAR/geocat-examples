@@ -4,7 +4,7 @@ NCL_proj_1.py
 This script illustrates the following concepts:
    - Drawing filled contours over a Mollweide map
    - Setting the spacing for latitude/longitude grid lines
-   - Changing the font size of the labelbar's labels
+   - Changing the font size of the colorbar's labels
    - Spanning part of a color map for contour fill
    - Turning off the map perimeter (boundary)
 

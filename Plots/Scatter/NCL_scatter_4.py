@@ -29,7 +29,7 @@ from geocat.viz import util as gvutil
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"), decode_times=False)
-# Extract a slice of the data
+# Extract variable
 ts = ds.TS.sel(lat = 60, lon = 180, method = 'nearest')
 
 ################################################################################

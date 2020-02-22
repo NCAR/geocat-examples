@@ -29,6 +29,7 @@ from geocat.viz import util as gvutil
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/mxclim.nc"))
+# Extract variables
 U = ds.U[0,:,:]
 V = ds.V[0,:,:]
 
@@ -59,8 +60,8 @@ gvutil.set_axes_limits_and_ticks(ax, xticks=np.linspace(-60, 60, 5), xticklabels
 ax.yaxis.set_major_formatter(ScalarFormatter())
 
 # Tweak label sizes, etc.
-ax.yaxis.label.set_size(18)
-ax.tick_params('both', length=20, width=2, which='major', labelsize=16)
+ax.yaxis.label.set_size(20)
+ax.tick_params('both', length=20, width=2, which='major', labelsize=18)
 ax.minorticks_off()
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
@@ -76,8 +77,8 @@ mn, mx = ax.get_ylim()
 axRHS.set_ylim(mn * dummy, mx * dummy)
 axRHS.set_ylim(axRHS.get_ylim()[::-1])
 axRHS.set_ylabel('Height (km)')
-axRHS.yaxis.label.set_size(16)
-axRHS.tick_params('both', length=20, width=2, which='major', labelsize=16)
+axRHS.yaxis.label.set_size(20)
+axRHS.tick_params('both', length=20, width=2, which='major', labelsize=18)
 
 # Show the plot
 plt.tight_layout()

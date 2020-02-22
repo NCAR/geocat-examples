@@ -69,8 +69,6 @@ plt.show()
 ###############################################################################
 # Plot 2 (Bar chart with a legend):
 
-## NOTE: You may need to close the first figure window to see the second figure.
-
 # Generate figure (set its size (width, height) in inches) and axes
 plt.figure(2, figsize=(6, 5))
 ax = plt.gca()

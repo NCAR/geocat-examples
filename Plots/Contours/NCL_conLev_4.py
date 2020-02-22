@@ -47,7 +47,7 @@ newx = gvutil.xr_add_cyclic_longitudes(newx, "lon")
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(12, 7.2))
 
 # Generate axes using Cartopy projection
 projection = ccrs.PlateCarree()
@@ -67,7 +67,7 @@ p = newx.plot.contourf(ax=ax, vmin=-1, vmax=10, levels=[-12,-10,-8,-6,-4,-2,-1,1
 
 # Add horizontal colorbar
 cbar = plt.colorbar(p, orientation='horizontal', shrink=0.5)
-cbar.ax.tick_params(labelsize=12)
+cbar.ax.tick_params(labelsize=11)
 cbar.set_ticks([-12,-10,-8,-6,-4,-2,-1,1,2,4,6,8,10,12])
 
 # Use geocat.viz.util convenience function to set axes tick values

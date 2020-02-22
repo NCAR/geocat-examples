@@ -3,7 +3,7 @@ NCL_coneff_16.py
 ===============
 This script illustrates the following concepts:
    - Showing features of the new color display model
-   - Using cnFillPalette to assign a color palette to contours
+   - Using a NCL colormap with levels to assign a color palette to contours
    - Drawing partially transparent filled contours
 
 See following URLs to see the reproduced NCL plot & script:

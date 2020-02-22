@@ -6,7 +6,7 @@ This script illustrates the following concepts:
    - Generating dummy data using "random_uniform"
    - Drawing markers of different sizes and colors on a map
    - Drawing a custom legend outside of a map plot
-   - Attaching a custom labelbar to a plot
+   - Attaching a custom colorbar to a plot
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/station_2.ncl

@@ -2,8 +2,8 @@
 NCL_lb_2.py
 ===============
 This script illustrates the following concepts:
-   - Making the labelbar be vertical
-   - Changing the labelbar labels
+   - Making a vertical colorbar
+   - Changing the colorbar labels
    - Setting color maps using the new standard
 
 See following URLs to see the reproduced NCL plot & script:
@@ -27,6 +27,7 @@ from geocat.viz import util as gvutil
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
+# Extract variable
 v = ds.V.isel(time=0, lev = 3)
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes

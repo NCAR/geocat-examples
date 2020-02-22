@@ -4,7 +4,7 @@ NCL_panel_3.py
 This script illustrates the following concepts:
    - Two panel (subplot) image with shared colorbar and title
    - Adding a common title to paneled plots
-   - Adding a common labelbar (or colorbar) to paneled plots
+   - Adding a common colorbar to paneled plots
    - Importing and truncating a NCL colormap
 
 See following URLs to see the reproduced NCL plot & script:

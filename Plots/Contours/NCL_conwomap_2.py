@@ -4,7 +4,7 @@ NCL_conwomap_2.py
 This script illustrates the following concepts:
    - Drawing a simple filled contour plot
    - Selecting a different color map
-   - Changing the size/shape of a contour plot using viewport resources
+   - Changing the size/shape of a contour plot
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/conwomap_2.ncl

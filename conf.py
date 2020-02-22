@@ -87,3 +87,11 @@ sphinx_gallery_conf = {
 html_theme_options = {
     'navigation_depth': 2,
 }
+
+# the following lines suppress INFO messages when files are downloaded using geocat.datafiles
+import geocat.datafiles
+import logging
+import pooch
+logger = pooch.get_logger()
+logger.setLevel(logging.WARNING)
+geocat.datafiles.get("registry.txt")
