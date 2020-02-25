@@ -1,6 +1,6 @@
 """
 NCL_coneff_16.py
-===============
+================
 This script illustrates the following concepts:
    - Showing features of the new color display model
    - Using a NCL colormap with levels to assign a color palette to contours

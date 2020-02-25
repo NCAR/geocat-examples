@@ -20,7 +20,7 @@ See following URLs to see the reproduced NCL plot & script:
 
 ###############################################################################
 # Import packages:
-# --------------------------
+# ----------------
 import numpy as np
 import xarray as xr
 import cartopy
@@ -32,14 +32,14 @@ from geocat.viz import util as gvutil
 
 ###############################################################################
 # Read in data:
-# --------------------------
+# -------------
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays, choosing the 2nd timestamp
 ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 
 ###############################################################################
 # Utility Function: Make Base Plot:
-# --------------------------
+# ---------------------------------
 
 # Define a utility function to create the basic contour plot, which will get used twice to create two slightly
 # different plots
@@ -170,7 +170,7 @@ def make_base_plot():
 
 ###############################################################################
 # Plot 1 (Text inside a box):
-# --------------------------
+# ---------------------------
 
 # Create the base figure
 ax = make_base_plot()
@@ -184,7 +184,7 @@ plt.show()
 
 ###############################################################################
 # Utility Function: Draw Hatch Polygon:
-# --------------------------
+# -------------------------------------
 
 # Define a utility function that draws a polygon and then erases its border with another polygon.
 def draw_hatch_polygon(xvals, yvals, hatchcolor, hatchpattern):
@@ -211,7 +211,7 @@ def draw_hatch_polygon(xvals, yvals, hatchcolor, hatchpattern):
 
 ###############################################################################
 # Plot 2 (Polygons with hatch patterns):
-# --------------------------
+# --------------------------------------
 
 # Make this figure the thumbnail image on the HTML page.
 # sphinx_gallery_thumbnail_number = 2

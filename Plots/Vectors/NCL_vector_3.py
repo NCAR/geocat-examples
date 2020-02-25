@@ -1,6 +1,6 @@
 """
 NCL_vector_3.py
-========
+===============
 Plot U & V vectors globally
 
 This script illustrates the following concepts:

@@ -1,6 +1,6 @@
 """
 NCL_scatter_4.py
-===============
+================
 This script illustrates the following concepts:
    - Drawing a scatter plot with a regression line
    - Drawing a time series plot

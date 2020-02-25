@@ -1,6 +1,6 @@
 """
 NCL_conOncon_1.py
-===============
+=================
 This script illustrates the following concepts:
    - Drawing pressure/height contours on top of another set of contours
    - Drawing negative contour lines as dashed lines

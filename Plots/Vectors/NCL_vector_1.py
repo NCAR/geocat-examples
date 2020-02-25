@@ -1,6 +1,6 @@
 """
 NCL_vector_1.py
-========
+===============
 Plot U & V vector over SST
 
 This script illustrates the following concepts:

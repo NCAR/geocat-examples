@@ -1,6 +1,6 @@
 """
 NCL_ce_3_2_lg.py
-===============
+================
 
 This script illustrates the following concepts:
    - Drawing color-filled contours over a cylindrical equidistant map

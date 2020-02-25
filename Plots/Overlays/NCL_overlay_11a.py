@@ -37,7 +37,7 @@ See NCL_overlay_11b.py for demonstration of approach (b).
 
 ###############################################################################
 # Import packages:
-# --------------------------
+# ----------------
 import xarray as xr
 import numpy as np
 
@@ -53,7 +53,7 @@ from geocat.viz import util as gvutil
 
 ###############################################################################
 # Read in data:
-# --------------------------
+# -------------
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays, as well as extract slices for
 # ``time=0`` and the ``lev=500`` hPa level
@@ -69,7 +69,7 @@ lon = ds["lon"]
 
 ###############################################################################
 # Construct shape boundaries:
-# --------------------------
+# ---------------------------
 #
 # Using Cartopy's interface to the Natural Earth Collection of shapefiles
 # and geographical shape data, we construct the geographical boundaries
@@ -125,7 +125,7 @@ provinces = ShapelyFeature(province_geos,
 
 ###############################################################################
 # Plot:
-# --------------------------
+# -----
 
 # Generate figure (set its size (width, height) in inches) and axes using Cartopy
 fig = plt.figure(figsize=(10,10))

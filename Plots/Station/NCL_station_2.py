@@ -1,6 +1,6 @@
 """
 NCL_station_2.py
-===============
+================
 This script illustrates the following concepts:
    - Drawing markers on a map indicating the locations of station data
    - Generating dummy data using "random_uniform"
@@ -14,7 +14,7 @@ See following URLs to see the reproduced NCL plot & script:
 """
 ###################################################
 # Import packages:
-# --------------------------
+# ----------------
 import numpy as np
 import matplotlib as mpl
 from matplotlib import pyplot as plt
@@ -25,7 +25,7 @@ from geocat.viz import util as gvutil
 
 ###################################################
 # Generate random data:
-# --------------------------
+# ---------------------
 
 # Set up random values
 npts = 100
@@ -39,7 +39,7 @@ dummy_data = np.random.uniform(-1.2, 35, npts)
 
 ###################################################
 # Define colormap for plotting:
-# --------------------------
+# -----------------------------
 
 # Set up colormap:
 # Need to define boundaries for each color map as well as colors for each bin
@@ -59,7 +59,7 @@ cmap = mpl.colors.ListedColormap(colors)
 
 ###################################################
 # Utility Function: Make Shared Plot:
-# --------------------------
+# -----------------------------------
 
 # Define a utility function to create the basic contour plot that will be used twice to create two slightly
 # different plots, both of which rely on same base figure
@@ -92,7 +92,7 @@ def make_shared_plot(title):
 
 ###################################################
 # Plot 1 (with a legend outside, i.e. station_2_1.png)
-# --------------------------
+# ----------------------------------------------------
 
 # Draw the base plot
 scatter1, ax = make_shared_plot("Dummy station data colored according to range of values")
@@ -126,7 +126,7 @@ plt.show()
 
 ###################################################
 # Plot 2 (with a colorbar, i.e. station_2_2.png)
-# --------------------------
+# ----------------------------------------------
 
 # Draw the base plot
 scatter2 = make_shared_plot("Dummy station data colored according to range of values")

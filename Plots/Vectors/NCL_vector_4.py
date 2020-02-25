@@ -1,6 +1,6 @@
 """
 NCL_vector_4.py
-========
+===============
 Plot U & V vectors globally, colored according to temperature
 
 This script illustrates the following concepts:

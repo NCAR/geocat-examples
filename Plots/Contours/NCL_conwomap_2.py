@@ -1,6 +1,6 @@
 """
 NCL_conwomap_2.py
-===============
+=================
 This script illustrates the following concepts:
    - Drawing a simple filled contour plot
    - Selecting a different color map

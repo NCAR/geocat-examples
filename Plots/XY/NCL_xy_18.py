@@ -18,7 +18,7 @@ See following URLs to see the reproduced NCL plot & script:
 
 ###############################################################################
 # Import packages:
-# -----------------------------------
+# ----------------
 import numpy as np
 import xarray as xr
 from matplotlib import pyplot as plt
@@ -28,7 +28,7 @@ from geocat.viz import util as gvutil
 
 ###############################################################################
 # Read in data:
-# -----------------------------------
+# -------------
 #
 # Open files and read in monthly data
 #
@@ -104,7 +104,7 @@ gds = gds.expand_dims(dim={'lon': nds.lon})
 
 ###############################################################################
 # Observations:
-# ------------
+# -------------
 #
 # Read in the observational data from an ASCII (text) file.  Here, we use
 # Numpy's nice ``loadtxt`` method to read the data from the text file and
@@ -119,7 +119,7 @@ obs = xr.DataArray(name='TREFHT', data=obs_data, coords=[('time', obs_time)])
 
 ###############################################################################
 # NCL-based Weighted Mean Function:
-# --------------------------------
+# ---------------------------------
 #
 # We define this function just for convenience.  This is equivalent to how
 # NCL computes the weighted mean.
@@ -129,7 +129,7 @@ def horizontal_weighted_mean(var, wgts):
 
 ###############################################################################
 # Natural data:
-# ------------
+# -------------
 #
 # We compute the weighted mean across the latitude and longitude dimensions
 # (leaving only the ``case`` and ``time`` dimensions), and then we compute the
@@ -140,7 +140,7 @@ gavan = gavn - gavn.sel(time=slice('1890','1920')).mean(dim='time')
 
 ###############################################################################
 # Natural + Anthropogenic data:
-# ----------------------------
+# -----------------------------
 #
 # We do the same thing for the "natural + anthropogenic" data.
 
@@ -149,7 +149,7 @@ gavav = gavv - gavv.sel(time=slice('1890','1920')).mean(dim='time')
 
 ###############################################################################
 # Observation data:
-# ----------------
+# -----------------
 #
 # We do the same thing for the observation data.
 
@@ -157,7 +157,7 @@ obs_avg = obs.sel(time=slice('1890','1999')) - obs.sel(time=slice('1890','1920')
 
 ###############################################################################
 # Calculate the ensemble Min. & Max. & Mean:
-# ---------------------------------------
+# ------------------------------------------
 #
 # Here we find the ``min``, ``max``, and ``mean`` along the ``case`` (i.e.,
 # ensemble) dimension (leaving only the ``time`` dimension) for both of our
@@ -173,7 +173,7 @@ gavav_avg = gavav.mean(dim='case')
 
 ###############################################################################
 # Plot:
-# ---------------
+# -----
 
 # Generate figure (set its size (width, height) in inches) and axes
 fig, ax = plt.subplots(figsize=(10.5, 6))
