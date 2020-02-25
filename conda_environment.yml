@@ -16,3 +16,4 @@ dependencies:
   - sphinx-gallery
   - sphinx_rtd_theme
   - jupyter
+  - make
