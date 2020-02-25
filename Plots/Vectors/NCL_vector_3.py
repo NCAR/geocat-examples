@@ -1,52 +1,51 @@
 """
-vector_3
-========
-
+NCL_vector_3.py
+===============
 Plot U & V vectors globally
 
-https://www.ncl.ucar.edu/Applications/Scripts/vector_3.ncl
-
-Concepts illustrated:
+This script illustrates the following concepts:
   - Drawing a black-and-white vector plot over a PlateCarree map
   - Adding a time stamp to a plot
   - Moving the vector reference annotation to the top right of the plot
+
+See following URLs to see the reproduced NCL plot & script:
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/vector_3.ncl
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/vector_3_lg.png
 """
 
 ###############################################################################
-# Import necessary packages:
-
+# Import packages:
 import xarray as xr
 from matplotlib import pyplot as plt
 import cartopy
 import cartopy.crs as ccrs
-import geocat.datafiles
-
-from geocat.viz.util import add_lat_lon_ticklabels, nclize_axis
 from datetime import datetime
 
+import geocat.datafiles as gdf
+from geocat.viz import util as gvutil
+
 ###############################################################################
+# Read in data:
+
+# Open a netCDF data file using xarray default engine and load the data into xarrays
+file_in = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
+
+# Extract slices of lon and lat
 # Read in data from netCDF file.
 # Note that when we extract ``u`` and ``v`` from the file,
 # we only read every third latitude and longitude.
 # This choice was made because ``geocat.viz`` doesn't offer an
 # equivalent function to ncl's ``vcMinDistanceF`` yet.
-
-file_in = xr.open_dataset(geocat.datafiles.get('netcdf_files/uv300.nc'))
-# Our dataset is a subset of the data from the file
 ds = file_in.isel(time=1, lon=slice(0,-1,3), lat=slice(1,-1,3))
 
 ###############################################################################
-# Make the plot
+# Plot:
 
-# Set up figure and axes
-fig, ax = plt.subplots(figsize=(10,5.25))
+# Generate figure (set its size (width, height) in inches)
+plt.subplots(figsize=(10,5.25))
+
+# Generate axes using Cartopy projection
 ax = plt.axes(projection=ccrs.PlateCarree())
-nclize_axis(ax)
-add_lat_lon_ticklabels(ax)
-
-# Set major and minor ticks
-plt.xticks(range(-180, 181, 30))
-plt.yticks(range(-90, 91, 30))
 
 # Draw vector plot
 # Notes
@@ -58,15 +57,27 @@ Q = plt.quiver(ds['lon'], ds['lat'], ds['U'].data, ds['V'].data, color='black',
 # Draw legend for vector plot
 qk = ax.quiverkey(Q, 167.5, 72.5, 20, r'20', labelpos='N',
                   coordinates='data', color='black', zorder=2)
-ax.add_patch(plt.Rectangle((155, 65), 25, 25, facecolor='white', edgecolor='black', zorder=1))
-ax.set_title('Zonal Wind', y=1.04, loc='left')
-ax.set_title('m/s', y=1.04, loc='right')
 
 # Turn on continent shading
 ax.add_feature(cartopy.feature.LAND, edgecolor='lightgray', facecolor='lightgray', zorder=0)
 
+# Draw the key for the quiver plot as a rectangle patch
+ax.add_patch(plt.Rectangle((155, 65), 25, 25, facecolor='white', edgecolor='black', zorder=1))
+
+# Use geocat.viz.util convenience function to set axes tick values
+gvutil.set_axes_limits_and_ticks(ax, xticks=range(-180, 181, 30), yticks=range(-90, 91, 30))
+
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax, labelsize=12)
+
+# Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
+gvutil.add_lat_lon_ticklabels(ax)
+
+# Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
+gvutil.set_titles_and_labels(ax, lefttitle=ds['U'].long_name, righttitle=ds['U'].units)
+
 # Add timestamp
 ax.text(-200, -115, f'Created: {datetime.now()}')
 
-# Generate plot!
+# Show the plot
 plt.show()

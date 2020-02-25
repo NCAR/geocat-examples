@@ -9,7 +9,6 @@ dependencies:
   - geocat-viz=2020.2.18.1
   - netcdf4
   - cartopy
-  - cmaps
   - mock
   - pillow
   - sphinx

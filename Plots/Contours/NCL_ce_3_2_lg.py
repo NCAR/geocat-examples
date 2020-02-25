@@ -1,6 +1,6 @@
 """
 NCL_ce_3_2_lg.py
-===============
+================
 
 This script illustrates the following concepts:
    - Drawing color-filled contours over a cylindrical equidistant map
@@ -8,7 +8,7 @@ This script illustrates the following concepts:
    - Changing the contour level spacing
    - Turning off contour lines
    - Comparing styles of map tickmarks labels
-   - Changing the stride of the labelbar labels
+   - Changing the stride of the colorbar labels
    - Zooming in on a particular area on the map
    - Turning off the addition of a longitude cyclic point
 
@@ -23,7 +23,6 @@ import numpy as np
 import xarray as xr
 import cartopy.feature as cfeature
 import cartopy.crs as ccrs
-from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
@@ -63,18 +62,15 @@ cbar.ax.set_yticklabels([str(i) for i in np.arange(0,32,2)])
 # Adjust tick label size
 ax.tick_params(labelsize=12)
 
-# Usa geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
+# Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values
 gvutil.set_axes_limits_and_ticks(ax, xlim=(30,120), ylim=(-60,30),
                                      xticks=np.linspace(-180, 180, 25), yticks=np.linspace(-90, 90, 13))
 
-# Usa geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
+# Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
 
-# # Usa geocat.viz.util convenience function to add minor and major tick lines
-# gvutil.add_major_minor_ticks(ax, labelsize=12)
-
-# Usa geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
+# Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
 gvutil.set_titles_and_labels(ax, maintitle="15-degree major but no minor ticks", maintitlefontsize=16,
                                  lefttitle="Potential Temperature", lefttitlefontsize=14,
                                  righttitle="Celsius", righttitlefontsize=14, xlabel="", ylabel="")

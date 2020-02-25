@@ -1,53 +1,66 @@
 """
-proj_1_lg
+NCL_proj_1.py
 ===============
-Plots/Contours/Lines
+This script illustrates the following concepts:
+   - Drawing filled contours over a Mollweide map
+   - Setting the spacing for latitude/longitude grid lines
+   - Changing the font size of the colorbar's labels
+   - Spanning part of a color map for contour fill
+   - Turning off the map perimeter (boundary)
+
+See following URLs to see the reproduced NCL plot & script:
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/proj_1.ncl
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/proj_1_lg.png
 """
 
 ###############################################################################
-# 
-# import modules
+# Import packages:
 import numpy as np
 import xarray as xr
-import cartopy.feature as cfeature
 import cartopy.crs as ccrs
-from cartopy.util import add_cyclic_point
 import matplotlib.pyplot as plt
-import geocat.datafiles
 
+import geocat.datafiles as gdf
+from geocat.viz import cmaps as gvcmaps
+from geocat.viz import util as gvutil
 
 ###############################################################################
-# 
-# open data file and extract variables
-ds = xr.open_dataset(geocat.datafiles.get('netcdf_files/atmos.nc'), decode_times=False)
+# Read in data:
+
+# Open a netCDF data file using xarray default engine and load the data into xarrays
+ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 t = ds.TS.isel(time=0)
 
-#wrap data around meridian
-lon_idx = t.dims.index('lon')
-wrap_data, wrap_lon = add_cyclic_point(t.values, coord=t.lon, axis=lon_idx)
-wrap_t = xr.DataArray(wrap_data, coords=[t.lat, wrap_lon], dims=['lat', 'lon'], attrs = t.attrs)
+# Fix the artifact of not-shown-data around 0 and 360-degree longitudes
+wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
 
 ###############################################################################
-# 
-# create plot
+# Plot:
+
+# Generate figure (set its size (width, height) in inches)
 fig = plt.figure(figsize=(10,10))
 
-# use Cartopy to specify projection and add coastlines and gridlines
+# Generate axes using Cartopy and draw coastlines
 ax = plt.axes(projection=ccrs.Mollweide())
 ax.coastlines(linewidths=0.5)
 
-gl = ax.gridlines(crs=ccrs.PlateCarree(),
-                  linewidth=1, color='k', alpha=0.5)
+# Draw gridlines
+gl = ax.gridlines(crs=ccrs.PlateCarree(), linewidth=1, color='k', alpha=0.5)
 
-# use a filled contour and an additional contour to add black boundary between levels.
+# Import an NCL colormap
+newcmp = gvcmaps.gui_default
+
+# Contourf-plot data (for filled contours)
 wrap_t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), 
-                    levels = 11, cmap = 'gist_rainbow_r', 
-                    cbar_kwargs={"orientation": "horizontal", "label":'', "shrink":0.9})
+                    levels = 11, cmap = newcmp,
+                    cbar_kwargs={"orientation":"horizontal", "ticks":np.linspace(220, 300, 9), "label":'', "shrink":0.9})
+# Contour-plot data (for borderlines)
 wrap_t.plot.contour(ax=ax, transform=ccrs.PlateCarree(), 
                     levels = 11, linewidths=0.5, cmap='k')
 
-# add title and suptitle
-plt.suptitle('Example of a Mollweide Projection', y = .8, fontsize=18)
-plt.title('Surface Temperature                       K', fontsize=14)
+# Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
+gvutil.set_titles_and_labels(ax, maintitle="Example of Mollweide Projection",
+                             lefttitle="Surface Temperature", righttitle="K")
 
-plt.show();
+# Show the plot
+plt.show()
