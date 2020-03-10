@@ -31,7 +31,6 @@ from geocat.comp import eofunc, eofunc_ts
 import matplotlib.pyplot as plt
 from matplotlib.ticker import AutoMinorLocator
 import geocat.viz as gcv
-import cartopy
 import cartopy.crs as ccrs
 
 
@@ -93,12 +92,14 @@ print(ds)
 ###############################################################################
 # Define a utility function for computing seasonal means.
 
-def month_to_season(xMon, season):
+def month_to_season(xMon, season, startDate, endDate):
     """ This function takes an xarray dataset containing monthly data spanning years and
         returns a dataset with one sample per year, for a specified three-month season.
 
         Time stamps are centered on the season, e.g. seasons='DJF' returns January timestamps.
     """
+    startDate = xMon.time[0]
+    endDate = xMon.time[-1]
     seasons_pd = {'DJF': ('QS-DEC', 1), 'JFM': ('QS-JAN',  2), 'FMA': ('QS-FEB',  3), 'MAM': ('QS-MAR',  4),
                   'AMJ': ('QS-APR', 5), 'MJJ': ('QS-MAY',  6), 'JJA': ('QS-JUN',  7), 'JAS': ('QS-JUL',  8),
                   'ASO': ('QS-AUG', 9), 'SON': ('QS-SEP', 10), 'OND': ('QS-OCT', 11), 'NDJ': ('QS-NOV', 12)}
@@ -111,8 +112,9 @@ def month_to_season(xMon, season):
     month_offset = 'MS'
     xSeasons = xMon.resample(time=season_pd, loffset=month_offset).mean()
 
-    # Filter just the desired season
-    xSea = xSeasons.sel(time=xSeasons.time.dt.month.isin(season_sel), drop=True)
+    # Filter just the desired season, and trim to the desired time range.
+    xSea = xSeasons.sel(time=xSeasons.time.dt.month.isin(season_sel))
+    xSea = xSea.sel(time=slice(startDate, endDate))
     return xSea
 
 ###############################################################################
@@ -120,10 +122,15 @@ def month_to_season(xMon, season):
 
 # Choose the winter season (December-January-February)
 season = "DJF"
-SLP = month_to_season(ds, season)
-
+SLP = month_to_season(ds, season, startDate, endDate)
 print('\n\nSLP:\n\n')
 print(SLP)
+
+# Diagnostic plot: show slice of SLP
+sliceSLP = SLP.sel(lat=slice(latS, latN), lon=slice(lonL, lonR))
+
+print('\n\nsliceSLP:\n\n')
+print(sliceSLP)
 
 ###############################################################################
 # Create weights: sqrt(cos(lat))   [or sqrt(gw) ]
@@ -200,7 +207,12 @@ def make_base_plot(ax, dataset):
 
     cmap = plt.get_cmap('bwr')
 
-    cplot = ax.contourf(lon, lat, values, cmap=cmap)
+    # Specify levels
+    v = np.linspace(-0.08, 0.08, 9, endpoint=True)
+
+    cplot = ax.contourf(lon, lat, values, levels=v, cmap=cmap, extend="both")
+    #ax.clabel(cplot, fontsize="small", fmt="%0.2f", colors="k", inline=True)
+
     ax.coastlines()
     gcv.util.add_lat_lon_ticklabels(ax)
     return cplot, ax
@@ -213,7 +225,7 @@ fig, axs = plt.subplots(neof, 1,
 
 for i in range(neof):
 
-    eof_single = eof[i, :, :]
+    eof_single = eof.sel(evn=i)
 
     cplot, axs[i] = make_base_plot(axs[i], eof_single)
 
