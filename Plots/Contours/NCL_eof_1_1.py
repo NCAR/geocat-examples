@@ -92,7 +92,7 @@ print(ds)
 ###############################################################################
 # Define a utility function for computing seasonal means.
 
-def month_to_season(xMon, season, startDate, endDate):
+def month_to_season(xMon, season):
     """ This function takes an xarray dataset containing monthly data spanning years and
         returns a dataset with one sample per year, for a specified three-month season.
 
@@ -122,7 +122,7 @@ def month_to_season(xMon, season, startDate, endDate):
 
 # Choose the winter season (December-January-February)
 season = "DJF"
-SLP = month_to_season(ds, season, startDate, endDate)
+SLP = month_to_season(ds, season)
 print('\n\nSLP:\n\n')
 print(SLP)
 
