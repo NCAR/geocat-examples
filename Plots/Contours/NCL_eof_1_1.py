@@ -178,16 +178,18 @@ print(eof_ts)
 ###############################################################################
 # Normalize time series: Sum spatial weights over the area used.
 nLon = len(xw['lon'])
-weightTotal = clat.sum() * nLon
+clat_subset = clat.where((clat.lat >= latS) & (clat.lat <= latN), drop=True)
+weightTotal = clat_subset.sum() * nLon
 eof_ts = eof_ts / weightTotal
 
 print('\n\neof_ts normalized:\n\n')
 print(eof_ts)
 
-###############################################################################
-# Create a utility function for a basic plot.
 
-def make_base_plot(ax, dataset):
+###############################################################################
+# Define a utility function for creating a contour plot.
+
+def make_contour_plot(ax, dataset):
 
     map_extent = [lonL, lonR, latS, latN]
 
@@ -221,13 +223,13 @@ def make_base_plot(ax, dataset):
 fig, axs = plt.subplots(neof, 1,
                         constrained_layout=True,  # "magic"
                         subplot_kw={"projection": ccrs.PlateCarree()},
-                        figsize=(7, 8))
+                        figsize=(5, 8))
 
 for i in range(neof):
 
     eof_single = eof.sel(evn=i)
 
-    cplot, axs[i] = make_base_plot(axs[i], eof_single)
+    cplot, axs[i] = make_contour_plot(axs[i], eof_single)
 
     axs[i].set_title(f'EOF {i+1}', y=1.02, loc='left', fontsize=10)
     pct = eof.pcvar[i]
@@ -242,11 +244,43 @@ plt.savefig('test.png')
 plt.show()
 
 
+###############################################################################
+# Define a utility function for creating a bar plot.
 
+def make_bar_plot(ax, dataset):
+
+    years = list(dataset.time.dt.year)
+    values = list(dataset.values)
+    colors = ['blue' if val < 0 else 'red' for val in values]
+
+    ax.bar(years, values, color=colors, edgecolor='k')
+    ax.set_ylabel('Pa')
+
+    # Add tick marks to match NCL conventions.
+    ax.minorticks_on()
+    ax.xaxis.set_minor_locator(AutoMinorLocator(n=4))
+    ax.yaxis.set_minor_locator(AutoMinorLocator(n=5))
+    ax.tick_params("both", length=5, width=1.0, which="major", bottom=True, left=True, top=True, right=True, labelsize=8)
+    ax.tick_params("both", length=3.5, width=0.5, which="minor", bottom=True, left=True, top=True, right=True, labelsize=8)
+
+    return ax
 
 
 ###############################################################################
-# Produce bar plot.
+# Produce bar plots.
 
+fig, axs = plt.subplots(neof, 1,
+                        constrained_layout=True,  # "magic"
+                        figsize=(5, 8))
+for i in range(neof):
 
-print("Done.")
+    eof_single = eof_ts.sel(neval=i)
+
+    axs[i] = make_bar_plot(axs[i], eof_single)
+
+    axs[i].set_title(f'EOF {i+1}', y=1.02, loc='left', fontsize=10)
+    pct = eof.pcvar[i]
+    axs[i].set_title(f'{pct:.1f}%', y=1.02, loc='right', fontsize=10)
+
+plt.show()
+
