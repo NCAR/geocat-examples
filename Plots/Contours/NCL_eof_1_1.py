@@ -21,18 +21,18 @@ https://www.ncl.ucar.edu/Applications/Scripts/eof_1.ncl
 ###############################################################################
 # Import the necessary python libraries
 import xarray as xr
-import geocat.datafiles
 from math import atan
 import numpy as np
 from numpy import cos, sqrt    # numpy's cos(), sqrt() accept array arguments.
 
+import geocat.datafiles as gdf
+import geocat.viz.util as gvutil
 from geocat.comp import eofunc, eofunc_ts
+from geocat.viz import cmaps as gvcmaps
 
 import matplotlib.pyplot as plt
-from matplotlib.ticker import AutoMinorLocator
-import geocat.viz as gcv
-import cartopy.crs as ccrs
 
+import cartopy.crs as ccrs
 
 ###############################################################################
 # User defined parameters that specify region of the globe, time span, etc.
@@ -51,7 +51,7 @@ optETS = False
 ###############################################################################
 # Open the file for reading and print a content summary.
 
-ds = xr.open_dataset(geocat.datafiles.get('netcdf_files/slp.mon.mean.nc'))
+ds = xr.open_dataset(gdf.get('netcdf_files/slp.mon.mean.nc'))
 
 print('\nds.slp.attrs:\n')
 print(ds.slp.attrs)
@@ -192,38 +192,40 @@ print(eof_ts)
 def make_contour_plot(ax, dataset):
 
     map_extent = [lonL, lonR, latS, latN]
-
-    # Add tick marks to match NCL conventions.
-    ax.minorticks_on()
-    ax.xaxis.set_minor_locator(AutoMinorLocator(n=3))
-    ax.yaxis.set_minor_locator(AutoMinorLocator(n=4))
     ax.set_extent(map_extent, crs=ccrs.PlateCarree())
-    ax.set_xticks([-60, -30, 0, 30])
-    ax.set_yticks([40, 60, 80])
-    ax.tick_params("both", length=5, width=1.0, which="major", bottom=True, left=True, top=True, right=True, labelsize=8)
-    ax.tick_params("both", length=3.5, width=0.5, which="minor", bottom=True, left=True, top=True, right=True, labelsize=8)
+
+    # Use geocat.viz.util convenience function to set axes tick values
+    gvutil.set_axes_limits_and_ticks(ax, xlim=None, ylim=None, xticks=[-60, -30, 0, 30], yticks=[40, 60, 80])
+
+    # Use geocat.viz.util convenience function to add minor and major tick lines
+    gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4, labelsize=10)
 
     lat = dataset['lat']
     lon = dataset['lon']
     values = dataset.data
 
-    cmap = plt.get_cmap('bwr')
+    cmap = gvcmaps.BlWhRe
 
-    # Specify levels
+    # Specify contour levels
     v = np.linspace(-0.08, 0.08, 9, endpoint=True)
 
+    # The function contourf() produces fill colors, and contour() calculates contour label locations.
     cplot = ax.contourf(lon, lat, values, levels=v, cmap=cmap, extend="both")
-    #ax.clabel(cplot, fontsize="small", fmt="%0.2f", colors="k", inline=True)
+    p = ax.contour(lon, lat, values, levels=v, linewidths=0.0)
+    ax.clabel(p, fontsize=8, fmt="%0.2f", colors="k")
 
-    ax.coastlines()
-    gcv.util.add_lat_lon_ticklabels(ax)
+    ax.coastlines(linewidth=0.5)
+    gvutil.add_lat_lon_ticklabels(ax)
     return cplot, ax
 
+
+###############################################################################
+# Draw a contour plot for each EOF.
 
 fig, axs = plt.subplots(neof, 1,
                         constrained_layout=True,  # "magic"
                         subplot_kw={"projection": ccrs.PlateCarree()},
-                        figsize=(5, 8))
+                        figsize=(6, 9))
 
 for i in range(neof):
 
@@ -231,11 +233,15 @@ for i in range(neof):
 
     cplot, axs[i] = make_contour_plot(axs[i], eof_single)
 
-    axs[i].set_title(f'EOF {i+1}', y=1.02, loc='left', fontsize=10)
+    # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
     pct = eof.pcvar[i]
-    axs[i].set_title(f'{pct:.1f}%', y=1.02, loc='right', fontsize=10)
+    gvutil.set_titles_and_labels(axs[i], maintitle=None, maintitlefontsize=18, lefttitle=f'EOF {i + 1}',
+                                 lefttitlefontsize=10, righttitle=f'{pct:.1f}%', righttitlefontsize=10, xlabel=None,
+                                 ylabel=None, labelfontsize=16)
+
 
 cbar = fig.colorbar(cplot, ax=axs, orientation='horizontal', shrink=0.6)
+cbar.ax.tick_params(labelsize=8)
 
 fig.suptitle(f'SLP: DJF: {yearStart}-{yearEnd}')
 
@@ -257,30 +263,28 @@ def make_bar_plot(ax, dataset):
     ax.set_ylabel('Pa')
 
     # Add tick marks to match NCL conventions.
-    ax.minorticks_on()
-    ax.xaxis.set_minor_locator(AutoMinorLocator(n=4))
-    ax.yaxis.set_minor_locator(AutoMinorLocator(n=5))
-    ax.tick_params("both", length=5, width=1.0, which="major", bottom=True, left=True, top=True, right=True, labelsize=8)
-    ax.tick_params("both", length=3.5, width=0.5, which="minor", bottom=True, left=True, top=True, right=True, labelsize=8)
+    gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5, labelsize=8)
 
     return ax
 
 
 ###############################################################################
-# Produce bar plots.
+# Produce a bar plot for each EOF.
 
 fig, axs = plt.subplots(neof, 1,
                         constrained_layout=True,  # "magic"
-                        figsize=(5, 8))
+                        figsize=(6, 9))
 for i in range(neof):
 
     eof_single = eof_ts.sel(neval=i)
 
     axs[i] = make_bar_plot(axs[i], eof_single)
-
-    axs[i].set_title(f'EOF {i+1}', y=1.02, loc='left', fontsize=10)
     pct = eof.pcvar[i]
-    axs[i].set_title(f'{pct:.1f}%', y=1.02, loc='right', fontsize=10)
+    gvutil.set_titles_and_labels(axs[i], maintitle=None, maintitlefontsize=18, lefttitle=f'EOF {i + 1}',
+                                 lefttitlefontsize=10, righttitle=f'{pct:.1f}%', righttitlefontsize=10, xlabel=None,
+                                 ylabel=None, labelfontsize=16)
+
+fig.suptitle(f'SLP: DJF: {yearStart}-{yearEnd}')
 
 plt.show()
 
