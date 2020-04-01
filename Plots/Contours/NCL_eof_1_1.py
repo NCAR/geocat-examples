@@ -3,7 +3,7 @@ NCL_eof_1_1.py
 ===============
 Calculate EOFs of the Sea Level Pressure over the North Atlantic.
 
-Concepts illustrated:
+This script illustrates the following concepts:
   - Calculating EOFs
   - Drawing a time series plot
   - Using coordinate subscripting to read a specified geographical region
@@ -13,13 +13,20 @@ Concepts illustrated:
   - Drawing subtitles at the top of a plot
   - Reordering an array
 
-Reproduces the NCL script found here:
-https://www.ncl.ucar.edu/Applications/Scripts/eof_1.ncl
+See following URLs to see the reproduced NCL plot & script:
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/eof_1.ncl
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/eof_1_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/eof_1_2_lg.png
+
+Note (1):
+    So-called original NCL plot "eof_1_2_lg.png" given in the above URL is likely not identical to what the given NCL original script generates. When the given NCL script is run, it generates a plot with identical data to that is plotted by this Python script.
+
+Note (2):
+    This script includes many optional diagnostic print statements to provide information about data slicing.
 """
 
 
 ###############################################################################
-# Import the necessary python libraries
+# Import packages:
 import xarray as xr
 from math import atan
 import numpy as np
@@ -27,15 +34,17 @@ from numpy import cos, sqrt    # numpy's cos(), sqrt() accept array arguments.
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
-from geocat.comp import eofunc, eofunc_ts
 from geocat.viz import cmaps as gvcmaps
+from geocat.comp import eofunc, eofunc_ts
 
 import matplotlib.pyplot as plt
 
 import cartopy.crs as ccrs
 
 ###############################################################################
-# User defined parameters that specify region of the globe, time span, etc.
+# User defined parameters:
+
+# In order to specify region of the globe, time span, etc.
 latS = 25.
 latN = 80.
 lonL = -70.
@@ -47,18 +56,21 @@ yearEnd = 2003
 neof = 3   # number of EOFs
 optETS = False
 
-
 ###############################################################################
-# Open the file for reading and print a content summary.
+# Read in data:
 
+# Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get('netcdf_files/slp.mon.mean.nc'))
 
+# Print a content summary
 print('\nds.slp.attrs:\n')
 print(ds.slp.attrs)
 
 
 ###############################################################################
-# Flip and sort longitude coordinates, to facilitate data subsetting.
+# Flip and sort longitude coordinates:
+
+# To facilitate data subsetting
 
 print(f'Before flip, longitude range is [{ds["lon"].min().data}, {ds["lon"].max().data}].')
 
@@ -69,18 +81,18 @@ ds = ds.sortby("lon")
 
 print(f'After flip, longitude range is [{ds["lon"].min().data}, {ds["lon"].max().data}].')
 
-
 ###############################################################################
-# Place latitudes in increasing order to facilitate data subsetting.
+# Place latitudes in increasing order:
+
+# To facilitate data subsetting
 
 ds = ds.sortby("lat", ascending=True)
 
 print('After sorting latitude values, ds["lat"] is:')
-
 print(ds["lat"])
 
 ###############################################################################
-# Limit data to the specified years.
+# Limit data to the specified years:
 
 startDate = f'{yearStart}-01-01'
 endDate = f'{yearEnd}-12-01'
@@ -90,8 +102,9 @@ print('\n\nds:\n\n')
 print(ds)
 
 ###############################################################################
-# Define a utility function for computing seasonal means.
+# Utility function:
 
+# Define a utility function for computing seasonal means (to mimmic NCL's month_to_season())
 def month_to_season(xMon, season):
     """ This function takes an xarray dataset containing monthly data spanning years and
         returns a dataset with one sample per year, for a specified three-month season.
@@ -141,8 +154,8 @@ clat = sqrt(cos(deg2rad * clat))
 print(clat)
 
 ###############################################################################
-# Multiply SLP by weights.
-#
+# Multiply SLP by weights:
+
 # Xarray uses the supplied coordinate information to apply latitude-based
 # weights to all longitudes and timesteps automatically.
 
@@ -154,7 +167,7 @@ wSLP['slp'].attrs = ds['slp'].attrs
 wSLP['slp'].attrs['long_name'] = 'Wgt: ' + wSLP['slp'].attrs['long_name']
 
 ###############################################################################
-# Subset data to the North Atlantic region.
+# Subset data to the North Atlantic region:
 
 xw = wSLP.sel(lat=slice(latS, latN), lon=slice(lonL, lonR))
 
@@ -162,7 +175,7 @@ print('\n\nxw:\n\n')
 print(xw.slp)
 
 ###############################################################################
-# Compute the EOFs.
+# Compute the EOFs:
 
 eof = eofunc(xw["slp"], neof, time_dim=1, meta=True)
 
@@ -174,9 +187,10 @@ eof_ts = eofunc_ts(xw["slp"], eof, time_dim=1, meta=True)
 print('\n\neof_ts:\n\n')
 print(eof_ts)
 
-
 ###############################################################################
-# Normalize time series: Sum spatial weights over the area used.
+# Normalize time series:
+
+# Sum spatial weights over the area used.
 nLon = len(xw['lon'])
 clat_subset = clat.where((clat.lat >= latS) & (clat.lat <= latN), drop=True)
 weightTotal = clat_subset.sum() * nLon
@@ -185,25 +199,17 @@ eof_ts = eof_ts / weightTotal
 print('\n\neof_ts normalized:\n\n')
 print(eof_ts)
 
-
 ###############################################################################
+# Utility function:
+
 # Define a utility function for creating a contour plot.
-
 def make_contour_plot(ax, dataset):
-
-    map_extent = [lonL, lonR, latS, latN]
-    ax.set_extent(map_extent, crs=ccrs.PlateCarree())
-
-    # Use geocat.viz.util convenience function to set axes tick values
-    gvutil.set_axes_limits_and_ticks(ax, xlim=None, ylim=None, xticks=[-60, -30, 0, 30], yticks=[40, 60, 80])
-
-    # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4, labelsize=10)
 
     lat = dataset['lat']
     lon = dataset['lon']
     values = dataset.data
 
+    # Import an NCL colormap
     cmap = gvcmaps.BlWhRe
 
     # Specify contour levels
@@ -212,45 +218,61 @@ def make_contour_plot(ax, dataset):
     # The function contourf() produces fill colors, and contour() calculates contour label locations.
     cplot = ax.contourf(lon, lat, values, levels=v, cmap=cmap, extend="both")
     p = ax.contour(lon, lat, values, levels=v, linewidths=0.0)
+
+    # Label the contours
     ax.clabel(p, fontsize=8, fmt="%0.2f", colors="k")
 
+    # Add coastlines
     ax.coastlines(linewidth=0.5)
+
+    # Use geocat.viz.util convenience function to add minor and major tick lines
+    gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4, labelsize=10)
+
+    # Use geocat.viz.util convenience function to set axes tick values
+    gvutil.set_axes_limits_and_ticks(ax, xticks=[-60, -30, 0, 30], yticks=[40, 60, 80])
+
+    # Use geocat.viz.util convenience function to make plots look like NCL plots, using latitude & longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax)
+
     return cplot, ax
 
 
 ###############################################################################
-# Draw a contour plot for each EOF.
+# Plot (1): Draw a contour plot for each EOF
 
-fig, axs = plt.subplots(neof, 1,
-                        constrained_layout=True,  # "magic"
-                        subplot_kw={"projection": ccrs.PlateCarree()},
-                        figsize=(6, 9))
+# Generate figure and axes using Cartopy projection  and set figure size (width, height) in inches
+fig, axs = plt.subplots(neof, 1, constrained_layout=True, subplot_kw={"projection": ccrs.PlateCarree()}, figsize=(6, 9))
 
+# Add multiple axes to the figure as contour and contourf plots
 for i in range(neof):
 
     eof_single = eof.sel(evn=i)
 
+    # Create contour plot for the current axes
     cplot, axs[i] = make_contour_plot(axs[i], eof_single)
 
     # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
     pct = eof.pcvar[i]
-    gvutil.set_titles_and_labels(axs[i], maintitle=None, maintitlefontsize=18, lefttitle=f'EOF {i + 1}',
-                                 lefttitlefontsize=10, righttitle=f'{pct:.1f}%', righttitlefontsize=10, xlabel=None,
-                                 ylabel=None, labelfontsize=16)
+    gvutil.set_titles_and_labels(axs[i], lefttitle=f'EOF {i + 1}', lefttitlefontsize=10,
+                                 righttitle=f'{pct:.1f}%', righttitlefontsize=10)
 
-
-cbar = fig.colorbar(cplot, ax=axs, orientation='horizontal', shrink=0.6)
+# Add horizontal colorbar
+cbar = plt.colorbar(cplot, ax=axs, orientation='horizontal', shrink=0.6)
 cbar.ax.tick_params(labelsize=8)
 
-fig.suptitle(f'SLP: DJF: {yearStart}-{yearEnd}')
+# Set a common title
+axs[0].set_title(f'SLP: DJF: {yearStart}-{yearEnd}', fontsize=14, y=1.12)
 
-plt.savefig('test.png')
+# plt.savefig('test.png')
+plt.savefig('eof_1_1_lg.png')
 
+# Show the plot
 plt.show()
 
 
 ###############################################################################
+# Utility function:
+
 # Define a utility function for creating a bar plot.
 
 def make_bar_plot(ax, dataset):
@@ -259,32 +281,40 @@ def make_bar_plot(ax, dataset):
     values = list(dataset.values)
     colors = ['blue' if val < 0 else 'red' for val in values]
 
-    ax.bar(years, values, color=colors, edgecolor='k')
+    ax.bar(years, values, color=colors, width=1.0, edgecolor='k', linewidth=0.5)
     ax.set_ylabel('Pa')
 
-    # Add tick marks to match NCL conventions.
+    # Use geocat.viz.util convenience function to add minor and major tick lines
     gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5, labelsize=8)
+
+    # Use geocat.viz.util convenience function to set axes tick values
+    gvutil.set_axes_limits_and_ticks(ax, xticks=np.linspace(1980, 2000, 6), xlim=[1978.5, 2003.5])
 
     return ax
 
 
 ###############################################################################
-# Produce a bar plot for each EOF.
+# Plot (2): Produce a bar plot for each EOF.
 
-fig, axs = plt.subplots(neof, 1,
-                        constrained_layout=True,  # "magic"
-                        figsize=(6, 9))
+# Generate figure and axes using Cartopy projection and set figure size (width, height) in inches
+fig, axs = plt.subplots(neof, 1, constrained_layout=True, figsize=(6, 7.5))
+
+# Add multiple axes to the figure as bar-plots
 for i in range(neof):
 
     eof_single = eof_ts.sel(neval=i)
 
     axs[i] = make_bar_plot(axs[i], eof_single)
     pct = eof.pcvar[i]
-    gvutil.set_titles_and_labels(axs[i], maintitle=None, maintitlefontsize=18, lefttitle=f'EOF {i + 1}',
-                                 lefttitlefontsize=10, righttitle=f'{pct:.1f}%', righttitlefontsize=10, xlabel=None,
-                                 ylabel=None, labelfontsize=16)
+    gvutil.set_titles_and_labels(axs[i], lefttitle=f'EOF {i + 1}', lefttitlefontsize=10,
+                                 righttitle=f'{pct:.1f}%', righttitlefontsize=10)
 
-fig.suptitle(f'SLP: DJF: {yearStart}-{yearEnd}')
+# Set a common title
+axs[0].set_title(f'SLP: DJF: {yearStart}-{yearEnd}', fontsize=14, y=1.12)
 
+# plt.savefig('test.png')
+plt.savefig('eof_1_2_lg.png')
+
+# Show the plot
 plt.show()
 
