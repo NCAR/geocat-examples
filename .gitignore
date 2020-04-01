@@ -1,6 +1,7 @@
 /_build/
-/auto_examples/
+/gallery/
 *.ncl
 .vscode/
 .idea/
 .DS_Store
+.ipynb_checkpoints/

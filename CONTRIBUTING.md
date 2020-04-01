@@ -39,6 +39,6 @@ git commit -m "Update data submodule tracking to latest commit"
 
    That said, if you identify any NCL functionality in particular that does not seem to exist in Matplotlib/Cartopy, please create an issue on this repository's GitHub page with a link to the original NCL example page and list any NCL functions whose functionality is missing from Python.
 
-6. When you have completed an example script, please try building the sphinx documentation from this repository using "make html" from the repository's root directory. Then open the HTML file located at `_build/html/auto_examples/index.html` and try to find your new example, ensuring that any output (text or graphical) matches what you expected.
+6. When you have completed an example script, please try building the sphinx documentation from this repository using "make html" from the repository's root directory. Then open the HTML file located at `_build/html/gallery/index.html` and try to find your new example, ensuring that any output (text or graphical) matches what you expected.
 
 7. Submit an Pull Request on this repository's GitHub page containing your new example. Please add a link to the original NCL script from the NCL documentation site. Also, please consider adding a brief summary of your experience porting the script. If it was easy, say so; if it was very hacky and required 7 times as many lines of code as the NCL script, please say that.

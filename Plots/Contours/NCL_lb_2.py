@@ -1,68 +1,74 @@
 """
-lb_2
+NCL_lb_2.py
 ===============
-Plots/Contours/Lines
+This script illustrates the following concepts:
+   - Making a vertical colorbar
+   - Changing the colorbar labels
+   - Setting color maps using the new standard
+
+See following URLs to see the reproduced NCL plot & script:
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/lb_2.ncl
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/lb_2_lg.png
 """
 
 ###############################################################################
-# 
-# import modules
+# Import packages:
 import numpy as np
 import xarray as xr
-import cartopy.feature as cfeature
 import cartopy.crs as ccrs
-from cartopy.util import add_cyclic_point
 import matplotlib.pyplot as plt
 
-
+import geocat.datafiles as gdf
+from geocat.viz import cmaps as gvcmaps
+from geocat.viz import util as gvutil
 
 ###############################################################################
-# 
-# open data file and extract variables
-ds = xr.open_dataset('../../data/netcdf_files/atmos.nc', decode_times=False)
+# Read in data:
+
+# Open a netCDF data file using xarray default engine and load the data into xarrays
+ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
+# Extract variable
 v = ds.V.isel(time=0, lev = 3)
 
-#wrap data around meridian
-lon_idx = v.dims.index('lon')
-wrap_data, wrap_lon = add_cyclic_point(v.values, coord=v.lon, axis=lon_idx)
-wrap_v = xr.DataArray(wrap_data, coords=[v.lat, wrap_lon], dims=['lat', 'lon'], attrs = v.attrs)
+# Fix the artifact of not-shown-data around 0 and 360-degree longitudes
+wrap_v = gvutil.xr_add_cyclic_longitudes(v, "lon")
 
 ###############################################################################
-# 
-# create plot
+# Plot:
+
+# Generate figure (set its size (width, height) in inches)
 fig = plt.figure(figsize=(10,10))
 
+# Generate axes using Cartopy and draw coastlines
 ax = plt.axes(projection=ccrs.PlateCarree())
 ax.coastlines(linewidths=0.5)
 
-#set y_lim
-ax.set_ylim([-90,90])
+# Import an NCL colormap
+newcmp = gvcmaps.wgne15
 
-# here we explicitly specify tick labels to demonstrate how that would be done.
-# this allows us to have specific West and East degrees, with 180 and 0 not having such a label.
-# consider using the See the add_lat_lon_ticklabels and nclize_axis functions in Cartopy's lat-lon formatter to automate this.
-xticks = [-180, -150, -120, -90, -60, -30, 0, 30, 60, 90, 120, 150, 180]
-xlabels = ['180', '150W', '120W', '90W', '60W', '30W', '0', '30E', '60E', '90E', '120E', '150E', '180']
-yticks = [-90, -60, -30, 0, 30, 60, 90]
-ylabels = ['90S', '60S', '30S', '0', '30N', '60N', '90N']
-plt.xticks(xticks, xlabels)
-plt.yticks(yticks, ylabels)
-plt.minorticks_on()
-plt.tick_params(which='both',right=True, top=True)
+# Contourf-plot data (for filled contours)
+a = wrap_v.plot.contourf(levels = 14, cmap = newcmp, add_colorbar=False, add_labels=False)
+# Contour-plot data (for borderlines)
+wrap_v.plot.contour(levels = 14, linewidths=0.5, cmap='k', add_labels=False)
 
-# use a filled contour and an additional contour to add black boundary between levels.
-a = wrap_v.plot.contourf(levels = 14, cmap = 'terrain', add_colorbar=False)
-wrap_v.plot.contour(levels = 14, linewidths=0.5, cmap='k')
-
-# demonstrate adjusting colorbar tick labels
-ticks=[-24,-20,-16,-12,-8,-4,0,4,8,12,16,20, 24]
-clabels = ["-90","-70","-50","-30","-10","10","30","50","70","90","110","130","150"]
-cbar = fig.colorbar(a, label='', ticks = ticks, shrink=0.4)
+# Add vertical colorbar
+clabels = ["-70","-50","-30","-10","10","30","50","70","90","110","130","150"]
+cbar = fig.colorbar(a, label='', ticks=np.linspace(-24, 24, 12), shrink=0.4)
 cbar.ax.set_yticklabels(clabels)
 
-# add plot title and remove x/y axis labels
-plt.title('meridional wind component        m/s')
-plt.xlabel('')
-plt.ylabel('')
+# Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
+gvutil.set_axes_limits_and_ticks(ax, ylim=(-90,90),
+                                     xticks=np.linspace(-180, 180, 13), yticks=np.linspace(-90, 90, 7))
 
-plt.show();
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax, labelsize=10)
+
+# Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
+gvutil.add_lat_lon_ticklabels(ax)
+
+# Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
+gvutil.set_titles_and_labels(ax, lefttitle="meridional wind component", lefttitlefontsize=14,
+                                 righttitle="m/s", righttitlefontsize=14, xlabel="", ylabel="")
+
+# Show the plot
+plt.show()

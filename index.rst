@@ -10,7 +10,8 @@ Welcome to GeoCAT-examples's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   ./auto_examples/index.rst
+   ./gallery/index.rst
+   ./install.rst
 
 
 Indices and tables

@@ -1,0 +1,28 @@
+name: Build documentation pages
+
+on:
+  push:
+    branches:
+    - '*'
+  pull_request:
+    branches:
+    - '*'
+
+jobs:
+  build-and-run:
+    name: Build documentation pages
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Create conda environment
+      uses: goanpeca/setup-miniconda@v1
+      with:
+         activate-environment: geocat-examples
+         environment-file: conda_environment.yml
+    - name: Build sphinx docs
+      shell: bash -l {0}
+      run: |
+        conda info
+        conda list
+        make html
