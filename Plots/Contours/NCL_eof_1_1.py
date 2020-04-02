@@ -263,7 +263,6 @@ cbar.ax.tick_params(labelsize=8)
 # Set a common title
 axs[0].set_title(f'SLP: DJF: {yearStart}-{yearEnd}', fontsize=14, y=1.12)
 
-# plt.savefig('test.png')
 plt.savefig('eof_1_1_lg.png')
 
 # Show the plot
@@ -312,7 +311,6 @@ for i in range(neof):
 # Set a common title
 axs[0].set_title(f'SLP: DJF: {yearStart}-{yearEnd}', fontsize=14, y=1.12)
 
-# plt.savefig('test.png')
 plt.savefig('eof_1_2_lg.png')
 
 # Show the plot
