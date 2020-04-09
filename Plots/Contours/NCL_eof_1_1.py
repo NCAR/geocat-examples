@@ -21,7 +21,7 @@ Note (1):
     So-called original NCL plot "eof_1_2_lg.png" given in the above URL is likely not identical to what the given NCL original script generates. When the given NCL script is run, it generates a plot with identical data to that is plotted by this Python script.
 
 Note (2):
-    This script includes many optional diagnostic print statements to provide information about data slicing.
+    This script includes many optional diagnostic print statements to provide information about data slicing. To activate such print statements, the parameter "debug" should be set to True.
 """
 
 
@@ -30,7 +30,6 @@ Note (2):
 import xarray as xr
 from math import atan
 import numpy as np
-from numpy import cos, sqrt    # numpy's cos(), sqrt() accept array arguments.
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
@@ -42,7 +41,7 @@ import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 
 ###############################################################################
-# User defined parameters:
+# User defined parameters and a convenience function:
 
 # In order to specify region of the globe, time span, etc.
 latS = 25.
@@ -56,6 +55,15 @@ yearEnd = 2003
 neof = 3   # number of EOFs
 optETS = False
 
+# Set to True to activate diagnostic print statements throughout the code
+debug = False
+
+# Convenience function to run diagnostic print statements when "debug" is set to True.
+def print_debug(message):
+
+    if debug:
+        print(message)
+
 ###############################################################################
 # Read in data:
 
@@ -63,8 +71,8 @@ optETS = False
 ds = xr.open_dataset(gdf.get('netcdf_files/slp.mon.mean.nc'))
 
 # Print a content summary
-print('\nds.slp.attrs:\n')
-print(ds.slp.attrs)
+print_debug('\n\nds.slp.attrs:\n')
+print_debug(ds.slp.attrs)
 
 
 ###############################################################################
@@ -72,14 +80,14 @@ print(ds.slp.attrs)
 
 # To facilitate data subsetting
 
-print(f'Before flip, longitude range is [{ds["lon"].min().data}, {ds["lon"].max().data}].')
+print_debug(f'\n\nBefore flip, longitude range is [{ds["lon"].min().data}, {ds["lon"].max().data}].')
 
 ds["lon"] = ((ds["lon"] + 180) % 360) - 180
 
 # Sort longitudes, so that subset operations end up being simpler.
 ds = ds.sortby("lon")
 
-print(f'After flip, longitude range is [{ds["lon"].min().data}, {ds["lon"].max().data}].')
+print_debug(f'\n\nAfter flip, longitude range is [{ds["lon"].min().data}, {ds["lon"].max().data}].')
 
 ###############################################################################
 # Place latitudes in increasing order:
@@ -88,8 +96,8 @@ print(f'After flip, longitude range is [{ds["lon"].min().data}, {ds["lon"].max()
 
 ds = ds.sortby("lat", ascending=True)
 
-print('After sorting latitude values, ds["lat"] is:')
-print(ds["lat"])
+print_debug('\n\nAfter sorting latitude values, ds["lat"] is:')
+print_debug(ds["lat"])
 
 ###############################################################################
 # Limit data to the specified years:
@@ -98,8 +106,8 @@ startDate = f'{yearStart}-01-01'
 endDate = f'{yearEnd}-12-01'
 
 ds = ds.sel(time=slice(startDate, endDate))
-print('\n\nds:\n\n')
-print(ds)
+print_debug('\n\nds:\n\n')
+print_debug(ds)
 
 ###############################################################################
 # Utility function:
@@ -136,22 +144,23 @@ def month_to_season(xMon, season):
 # Choose the winter season (December-January-February)
 season = "DJF"
 SLP = month_to_season(ds, season)
-print('\n\nSLP:\n\n')
-print(SLP)
+print_debug('\n\nSLP:\n\n')
+print_debug(SLP)
 
 # Diagnostic plot: show slice of SLP
 sliceSLP = SLP.sel(lat=slice(latS, latN), lon=slice(lonL, lonR))
 
-print('\n\nsliceSLP:\n\n')
-print(sliceSLP)
+print_debug('\n\nsliceSLP:\n')
+print_debug(sliceSLP)
 
 ###############################################################################
 # Create weights: sqrt(cos(lat))   [or sqrt(gw) ]
 
 deg2rad = 4. * atan(1.) / 180.
-clat = SLP['lat']
-clat = sqrt(cos(deg2rad * clat))
-print(clat)
+clat = SLP['lat'].astype(dtype=np.float64)
+clat = np.sqrt(np.cos(deg2rad * clat))
+print_debug('\n\nclat:\n')
+print_debug(clat)
 
 ###############################################################################
 # Multiply SLP by weights:
@@ -171,21 +180,21 @@ wSLP['slp'].attrs['long_name'] = 'Wgt: ' + wSLP['slp'].attrs['long_name']
 
 xw = wSLP.sel(lat=slice(latS, latN), lon=slice(lonL, lonR))
 
-print('\n\nxw:\n\n')
-print(xw.slp)
+print_debug('\n\nxw:\n\n')
+print_debug(xw.slp)
 
 ###############################################################################
 # Compute the EOFs:
 
 eof = eofunc(xw["slp"], neof, time_dim=1, meta=True)
 
-print('\n\neof:\n\n')
-print(eof)
+print_debug('\n\neof:\n\n')
+print_debug(eof)
 
 eof_ts = eofunc_ts(xw["slp"], eof, time_dim=1, meta=True)
 
-print('\n\neof_ts:\n\n')
-print(eof_ts)
+print_debug('\n\neof_ts:\n\n')
+print_debug(eof_ts)
 
 ###############################################################################
 # Normalize time series:
@@ -196,8 +205,8 @@ clat_subset = clat.where((clat.lat >= latS) & (clat.lat <= latN), drop=True)
 weightTotal = clat_subset.sum() * nLon
 eof_ts = eof_ts / weightTotal
 
-print('\n\neof_ts normalized:\n\n')
-print(eof_ts)
+print_debug('\n\neof_ts normalized:\n\n')
+print_debug(eof_ts)
 
 ###############################################################################
 # Utility function:
@@ -212,12 +221,12 @@ def make_contour_plot(ax, dataset):
     # Import an NCL colormap
     cmap = gvcmaps.BlWhRe
 
-    # Specify contour levels
+    # Specify contour levelstamam
     v = np.linspace(-0.08, 0.08, 9, endpoint=True)
 
     # The function contourf() produces fill colors, and contour() calculates contour label locations.
-    cplot = ax.contourf(lon, lat, values, levels=v, cmap=cmap, extend="both")
-    p = ax.contour(lon, lat, values, levels=v, linewidths=0.0)
+    cplot = ax.contourf(lon, lat, values, levels=v, cmap=cmap, extend="both", transform=ccrs.PlateCarree())
+    p = ax.contour(lon, lat, values, levels=v, linewidths=0.0, transform=ccrs.PlateCarree())
 
     # Label the contours
     ax.clabel(p, fontsize=8, fmt="%0.2f", colors="k")
@@ -241,7 +250,7 @@ def make_contour_plot(ax, dataset):
 # Plot (1): Draw a contour plot for each EOF
 
 # Generate figure and axes using Cartopy projection  and set figure size (width, height) in inches
-fig, axs = plt.subplots(neof, 1, constrained_layout=True, subplot_kw={"projection": ccrs.PlateCarree()}, figsize=(6, 9))
+fig, axs = plt.subplots(neof, 1, subplot_kw={"projection": ccrs.PlateCarree()}, figsize=(6, 10.6))
 
 # Add multiple axes to the figure as contour and contourf plots
 for i in range(neof):
@@ -256,14 +265,15 @@ for i in range(neof):
     gvutil.set_titles_and_labels(axs[i], lefttitle=f'EOF {i + 1}', lefttitlefontsize=10,
                                  righttitle=f'{pct:.1f}%', righttitlefontsize=10)
 
+# Adjust subplot spacings and locations
+plt.subplots_adjust(bottom=0.07, top=0.95, hspace=0.15)
+
 # Add horizontal colorbar
-cbar = plt.colorbar(cplot, ax=axs, orientation='horizontal', shrink=0.6)
+cbar = plt.colorbar(cplot, ax=axs, orientation='horizontal', shrink=0.9, pad=0.05, fraction=.02)
 cbar.ax.tick_params(labelsize=8)
 
 # Set a common title
 axs[0].set_title(f'SLP: DJF: {yearStart}-{yearEnd}', fontsize=14, y=1.12)
-
-plt.savefig('eof_1_1_lg.png')
 
 # Show the plot
 plt.show()
@@ -310,8 +320,6 @@ for i in range(neof):
 
 # Set a common title
 axs[0].set_title(f'SLP: DJF: {yearStart}-{yearEnd}', fontsize=14, y=1.12)
-
-plt.savefig('eof_1_2_lg.png')
 
 # Show the plot
 plt.show()
