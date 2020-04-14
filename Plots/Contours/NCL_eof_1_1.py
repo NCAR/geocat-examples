@@ -134,7 +134,7 @@ def month_to_season(xMon, season):
     xSeasons = xMon.resample(time=season_pd, loffset=month_offset).mean()
 
     # Filter just the desired season, and trim to the desired time range.
-    xSea = xSeasons.sel(time=xSeasons.time.dt.month.isin(season_sel))
+    xSea = xSeasons.sel(time=xSeasons.time.dt.month == season_sel)
     xSea = xSea.sel(time=slice(startDate, endDate))
     return xSea
 
@@ -323,4 +323,3 @@ axs[0].set_title(f'SLP: DJF: {yearStart}-{yearEnd}', fontsize=14, y=1.12)
 
 # Show the plot
 plt.show()
-
