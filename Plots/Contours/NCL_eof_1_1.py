@@ -24,7 +24,6 @@ Note (2):
     This script includes many optional diagnostic print statements to provide information about data slicing. To activate such print statements, the parameter "debug" should be set to True.
 """
 
-
 ###############################################################################
 # Import packages:
 import xarray as xr
@@ -52,17 +51,17 @@ lonR = 40.
 yearStart = 1979
 yearEnd = 2003
 
-neof = 3   # number of EOFs
-optETS = False
+neof = 3  # number of EOFs
 
 # Set to True to activate diagnostic print statements throughout the code
 debug = False
 
+
 # Convenience function to run diagnostic print statements when "debug" is set to True.
 def print_debug(message):
-
     if debug:
         print(message)
+
 
 ###############################################################################
 # Read in data:
@@ -73,7 +72,6 @@ ds = xr.open_dataset(gdf.get('netcdf_files/slp.mon.mean.nc'))
 # Print a content summary
 print_debug('\n\nds.slp.attrs:\n')
 print_debug(ds.slp.attrs)
-
 
 ###############################################################################
 # Flip and sort longitude coordinates:
@@ -109,6 +107,7 @@ ds = ds.sel(time=slice(startDate, endDate))
 print_debug('\n\nds:\n\n')
 print_debug(ds)
 
+
 ###############################################################################
 # Utility function:
 
@@ -118,11 +117,15 @@ def month_to_season(xMon, season):
         returns a dataset with one sample per year, for a specified three-month season.
 
         Time stamps are centered on the season, e.g. seasons='DJF' returns January timestamps.
+
+        If a calculated season's timestamp falls outside the original range of monthly values, then the calculated mean
+        is dropped.  For example, if the monthly data's time range is [Jan-2000, Dec-2003] and the season is "DJF", the
+        seasonal mean computed from the single month of Dec-2003 is dropped.
     """
     startDate = xMon.time[0]
     endDate = xMon.time[-1]
-    seasons_pd = {'DJF': ('QS-DEC', 1), 'JFM': ('QS-JAN',  2), 'FMA': ('QS-FEB',  3), 'MAM': ('QS-MAR',  4),
-                  'AMJ': ('QS-APR', 5), 'MJJ': ('QS-MAY',  6), 'JJA': ('QS-JUN',  7), 'JAS': ('QS-JUL',  8),
+    seasons_pd = {'DJF': ('QS-DEC', 1), 'JFM': ('QS-JAN', 2), 'FMA': ('QS-FEB', 3), 'MAM': ('QS-MAR', 4),
+                  'AMJ': ('QS-APR', 5), 'MJJ': ('QS-MAY', 6), 'JJA': ('QS-JUN', 7), 'JAS': ('QS-JUL', 8),
                   'ASO': ('QS-AUG', 9), 'SON': ('QS-SEP', 10), 'OND': ('QS-OCT', 11), 'NDJ': ('QS-NOV', 12)}
     try:
         (season_pd, season_sel) = seasons_pd[season]
@@ -137,6 +140,7 @@ def month_to_season(xMon, season):
     xSea = xSeasons.sel(time=xSeasons.time.dt.month == season_sel)
     xSea = xSea.sel(time=slice(startDate, endDate))
     return xSea
+
 
 ###############################################################################
 # Compute desired global seasonal mean using month_to_season()
@@ -165,8 +169,8 @@ print_debug(clat)
 ###############################################################################
 # Multiply SLP by weights:
 
-# Xarray uses the supplied coordinate information to apply latitude-based
-# weights to all longitudes and timesteps automatically.
+# Xarray will apply latitude-based weights to all longitudes and timesteps automatically.
+# This is called "broadcasting".
 
 wSLP = SLP
 wSLP['slp'] = clat * SLP['slp']
@@ -200,20 +204,22 @@ print_debug(eof_ts)
 # Normalize time series:
 
 # Sum spatial weights over the area used.
-nLon = len(xw['lon'])
-clat_subset = clat.where((clat.lat >= latS) & (clat.lat <= latN), drop=True)
+nLon = xw.sizes["lon"]
+
+# Bump the upper value of the slice, so that latitude values equal to latN are included.
+clat_subset = clat.sel(lat=slice(latS, latN+0.01))
 weightTotal = clat_subset.sum() * nLon
 eof_ts = eof_ts / weightTotal
 
 print_debug('\n\neof_ts normalized:\n\n')
 print_debug(eof_ts)
 
+
 ###############################################################################
 # Utility function:
 
 # Define a utility function for creating a contour plot.
 def make_contour_plot(ax, dataset):
-
     lat = dataset['lat']
     lon = dataset['lon']
     values = dataset.data
@@ -254,7 +260,6 @@ fig, axs = plt.subplots(neof, 1, subplot_kw={"projection": ccrs.PlateCarree()}, 
 
 # Add multiple axes to the figure as contour and contourf plots
 for i in range(neof):
-
     eof_single = eof.sel(evn=i)
 
     # Create contour plot for the current axes
@@ -285,7 +290,6 @@ plt.show()
 # Define a utility function for creating a bar plot.
 
 def make_bar_plot(ax, dataset):
-
     years = list(dataset.time.dt.year)
     values = list(dataset.values)
     colors = ['blue' if val < 0 else 'red' for val in values]
@@ -310,7 +314,6 @@ fig, axs = plt.subplots(neof, 1, constrained_layout=True, figsize=(6, 7.5))
 
 # Add multiple axes to the figure as bar-plots
 for i in range(neof):
-
     eof_single = eof_ts.sel(neval=i)
 
     axs[i] = make_bar_plot(axs[i], eof_single)
