@@ -27,7 +27,6 @@ Note (2):
 ###############################################################################
 # Import packages:
 import xarray as xr
-from math import atan
 import numpy as np
 
 import geocat.datafiles as gdf
@@ -160,8 +159,8 @@ print_debug(sliceSLP)
 ###############################################################################
 # Create weights: sqrt(cos(lat))   [or sqrt(gw) ]
 
-deg2rad = 4. * atan(1.) / 180.
-clat = SLP['lat'].astype(dtype=np.float64)
+deg2rad = np.pi / 180.
+clat = SLP['lat'].astype(np.float64)
 clat = np.sqrt(np.cos(deg2rad * clat))
 print_debug('\n\nclat:\n')
 print_debug(clat)
