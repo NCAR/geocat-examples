@@ -11,4 +11,4 @@ submodules:
   recursive: true
 
 conda:
-  environment: .rtd_conda_environment.yml
+  environment: conda_environment.yml
