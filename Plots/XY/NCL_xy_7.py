@@ -1,4 +1,4 @@
 #!/usr/bin/env python
 
-# This is where my python stuff will eventually go!
-
+import xarray
+from matplotlib import pyplot as plt
