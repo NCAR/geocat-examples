@@ -30,7 +30,7 @@ import geocat.viz.util as gvutil
 ###############################################################################
 # Create figure and axes using gvutil
 plt.figure()
-fig, axs = plt.subplots(1, 3, figsize=(12,4),sharex='all', sharey='all', gridspec_kw={'wspace': 0})
+fig, axs = plt.subplots(1, 3, figsize=(12,6),sharex='all', sharey='all', gridspec_kw={'wspace': 0})
 gvutil.set_axes_limits_and_ticks(axs[0], xticks=np.arange(0,120,20), yticks=np.arange(0,120,20), xticklabels=np.arange(0,100,20), yticklabels=np.arange(0,100,20))
 gvutil.add_major_minor_ticks(axs[0], x_minor_per_major=4, y_minor_per_major=4)
 axs[0].tick_params(axis='both', which='both', top=True, left=True)
@@ -46,10 +46,16 @@ axs[2].tick_params(axis='both', which='both', top=True, left=False, right=True)
 
 # Set title
 fig.suptitle("Three dummy plots attached along Y axes")
-# Create and plot dummy data
-rand=np.random.uniform(size=(100,100))
-x, y = np.meshgrid(np.arange(100), np.arange(100))
-z = np.sin(0.1*x) * np.cos(0.1*y)
-axs[0].contourf(rand)
 
+# Create and plot dummy data
+rand1 = np.random.uniform(low=-30, high=18, size=(100,100))
+rand2 = np.random.uniform(low=-30, high=18, size=(100,100))
+rand3 = np.random.uniform(low=-30, high=18, size=(100,100))
+
+newcmap = gvcmaps.BlueYellowRed
+axs[0].contourf(rand1, cmap = newcmap)
+axs[1].contourf(rand2, cmap = newcmap)
+p = axs[2].contourf(rand3, cmap = newcmap, levels=12)
+
+cbar = fig.colorbar(p, orientation='horizontal', ax=axs, ticks=np.arange(-28,18,4), shrink=0.75)
 plt.show()
