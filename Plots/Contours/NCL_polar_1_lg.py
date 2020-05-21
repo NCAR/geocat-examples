@@ -62,7 +62,7 @@ for xtick, ytick, label in zip(xticks, yticks, labels):
 
 
 # Contour-plot U-data
-p = wrap_U.plot.contour(ax=ax,vmin=-8,vmax=16, transform=ccrs.PlateCarree(),
+p = wrap_U.plot.contour(ax=ax, vmin=-8, vmax=16, transform=ccrs.PlateCarree(),
                     levels=np.arange(-12,44,4), linewidths=0.5, cmap='k', add_labels=False)
 
 ax.clabel(p, np.arange(-8,17,8), fmt='%d', inline=1, fontsize=14)
