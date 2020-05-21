@@ -33,7 +33,7 @@ ax.coastlines(linewidths=0.5)
 ax.add_feature(cfeature.LAND, facecolor='lightgray')
 
 # OERO: Set extent to include latitudes between 0 and 40 and longitudes between -180 and 180 only
-ax.set_extent([-180,180,0,40], ccrs.PlateCarree())
+ax.set_extent([-180, 180, 0, 40], ccrs.PlateCarree())
 
 # Set draw_labels to False so that you can manually manipulate it later
 gl = ax.gridlines(ccrs.PlateCarree(), draw_labels=False, linestyle="--", color='k')
