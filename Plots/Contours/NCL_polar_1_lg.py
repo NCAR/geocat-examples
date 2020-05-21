@@ -17,7 +17,7 @@ from geocat.viz import util as gvutil
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
-U=ds.U[1,:,:]
+U = ds.U[1, :, :]
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 wrap_U = gvutil.xr_add_cyclic_longitudes(U, "lon")
