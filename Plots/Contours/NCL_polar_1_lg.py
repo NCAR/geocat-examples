@@ -26,7 +26,7 @@ wrap_U = gvutil.xr_add_cyclic_longitudes(U, "lon")
 fig = plt.figure(figsize=(10, 10))
 
 # Generate axes, using Cartopy, drawing coastlines, and adding features
-fig = plt.figure(figsize=(10,10))
+fig = plt.figure(figsize=(10, 10))
 projection = ccrs.NorthPolarStereo()
 ax = plt.axes(projection=projection)
 ax.coastlines(linewidths=0.5)
