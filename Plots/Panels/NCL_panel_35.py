@@ -28,36 +28,6 @@ import geocat.viz.util as gvutil
 
 
 ###############################################################################
-# Create figure and axes
-plt.figure()
-fig, axs = plt.subplots(1, 3, figsize=(12,4),sharex='all', sharey='all', gridspec_kw={'wspace': 0})
-
-axs[0].set_yticks(np.arange(0,120,20))
-axs[0].set_yticklabels(np.arange(0,100,20))
-axs[0].set_xticks(np.arange(0,120,20))
-axs[0].set_xticklabels(np.arange(0,100,20))
-axs[0].minorticks_on()
-axs[0].tick_params(axis='both', which='both', top=True, left=True)
-
-
-axs[1].set_yticks(np.arange(0,120,20))
-axs[1].set_yticklabels(np.arange(0,100,20))
-axs[1].set_xticks(np.arange(0,120,20))
-axs[1].set_xticklabels(np.arange(0,100,20))
-axs[1].minorticks_on()
-axs[1].tick_params(axis='both', which='both', top=True, left=False, right=False)
-
-axs[2].set_yticks(np.arange(0,120,20))
-axs[2].set_yticklabels(np.arange(0,100,20))
-axs[2].set_xticks(np.arange(0,120,20))
-axs[2].set_xticklabels(np.arange(0,100,20))
-axs[2].minorticks_on()
-axs[2].tick_params(axis='both', which='both', top=True, left=False, right=True)
-# Create figure title
-fig.suptitle("Three dummy plots attached along Y axes")
-plt.savefig('figure.png')
-
-###############################################################################
 # Create figure and axes using gvutil
 plt.figure()
 fig, axs = plt.subplots(1, 3, figsize=(12,4),sharex='all', sharey='all', gridspec_kw={'wspace': 0})
@@ -74,8 +44,12 @@ gvutil.set_axes_limits_and_ticks(axs[2], xticks=np.arange(0,120,20), yticks=np.a
 gvutil.add_major_minor_ticks(axs[2], x_minor_per_major=4, y_minor_per_major=4)
 axs[2].tick_params(axis='both', which='both', top=True, left=False, right=True)
 
+# Set title
+fig.suptitle("Three dummy plots attached along Y axes")
 # Create and plot dummy data
+rand=np.random.uniform(size=(100,100))
 x, y = np.meshgrid(np.arange(100), np.arange(100))
 z = np.sin(0.1*x) * np.cos(0.1*y)
-axs[0].contourf(x, y, z)
+axs[0].contourf(rand)
 
+plt.show()
