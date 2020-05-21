@@ -23,7 +23,7 @@ U = ds.U[1, :, :]
 wrap_U = gvutil.xr_add_cyclic_longitudes(U, "lon")
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(10,10))
+fig = plt.figure(figsize=(10, 10))
 
 # Generate axes, using Cartopy, drawing coastlines, and adding features
 fig = plt.figure(figsize=(10,10))
