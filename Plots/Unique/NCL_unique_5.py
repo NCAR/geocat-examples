@@ -1,10 +1,11 @@
 """
 NCL_unique_5.py
 ===============
-This script illustrates the following concepts:
-   - Plotting a bar chart
-   - Creating a legend for a bar chart
-   - Creating subplots in matplotlib
+Concepts illustrated:
+  - Drawing multiple bar charts on a page
+  - Drawing three custom legends outside a bar chart
+  - Using bar charts to draw standard deviations for four time series
+  - Drawing a time series plot
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/unique_5.ncl
