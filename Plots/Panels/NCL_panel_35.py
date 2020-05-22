@@ -5,7 +5,7 @@ This script illustrates the following concepts:
    - Attaching three filled contour plots along Y axes
    - Adding a common labelbar to attached plots
    - Adding a common title to attached plots
-   - Generating dummy data using "generate_2d_array"
+   - Generating dummy data using "numpy.rand" and "signal.convolve"
    - Drawing a custom labelbar
    - Drawing a custom title
    - Retrieving the bounding box of a plot
@@ -47,9 +47,9 @@ axs[2].set_aspect(aspect='equal')
 # Create dummy data
 nx = 100
 ny = 100
-rand1 = np.random.rand(nx,ny)
-x, y = np.meshgrid(np.arange(0,100), np.arange(0,100))
-scale=0.01
+rand1 = np.random.rand(nx, ny)
+x, y = np.meshgrid(np.arange(0, 100), np.arange(0, 100))
+scale = 0.01
 filter = scale*np.exp(np.sin(x)+np.cos(y))
 a = signal.convolve(rand1, filter, mode='same')
 
@@ -69,5 +69,8 @@ cbar = fig.colorbar(p, orientation='horizontal', ax=axs, ticks=np.arange(20, 85,
 
 # Add title
 fig.suptitle("Three dummy plots attached along Y axes", fontsize=18, fontweight='bold')
+
+# Get bounding box
+bbox = fig.get_window_extent()
 
 plt.show()
