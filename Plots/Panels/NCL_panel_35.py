@@ -62,8 +62,11 @@ c = signal.convolve(rand1, filter, mode='same')
 # Plot data and create colorbar
 newcmap = gvcmaps.BlueYellowRed
 p = axs[0].contourf(x, y, a, cmap=newcmap, levels=12)
-axs[1].contourf(x, y, b, cmap=newcmap, levels=12)
-axs[2].contourf(x, y, c, cmap=newcmap, levels=12)
+axs[0].contour(p, colors='k', linestyles='solid', linewidths=0.5)
+p = axs[1].contourf(x, y, b, cmap=newcmap, levels=12)
+axs[1].contour(p, colors='k', linestyles='solid', linewidths=0.5)
+p = axs[2].contourf(x, y, c, cmap=newcmap, levels=12)
+axs[2].contour(p, colors='k', linestyles='solid', linewidths=0.5)
 
 cbar = fig.colorbar(p, orientation='horizontal', ax=axs, ticks=np.arange(20, 85, 5), shrink=0.75)
 
