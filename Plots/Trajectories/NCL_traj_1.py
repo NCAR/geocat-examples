@@ -88,9 +88,6 @@ for i in range(len(traj)):
     # Extract longitude
     xpt = np.array(sdata[2, :, traj[i]])
 
-    print(ypt)
-    print(xpt)
-
     plt.plot(ypt, xpt, color=trajlinecolors[i], linewidth=0.5)
 
     plot4thTimestep1(xpt, ypt)
