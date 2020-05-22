@@ -19,7 +19,7 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-import random
+import numpy as np
 
 ###############################################################################
 # Read in data:
@@ -27,22 +27,23 @@ import random
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get('netcdf_files/traj_data.nc'))
 sdata = ds.get('sdata')
-traj = [1, 10, 53, 67, 80]
-ypt = sdata[1, :, traj[1]]
-xpt = sdata[2, :, traj[1]]
+
 
 ###############################################################################
 # Define helper function to plot every fourth timestep:
 
+def plot4thTimestep1(nparrayy, nparrayx):
 
-def plot4thTimestep(tuparray):
+    for x in range(0, len(nparrayx)):
 
-    for x in range(0, len(tuparray)):
+        # Plot green starting point of each trajectory
         if x == 0:
-            x, y = tuparray[x]
+            y, x = nparrayy[x], nparrayx[x]
             plt.scatter(x, y, color='green', s=4)
+
+        # Plot every fourth timestamp
         if (x + 1) % 4 == 0:
-            x, y = tuparray[x]
+            y, x = nparrayy[x], nparrayx[x]
             plt.scatter(x, y, color='black', s=4)
 
 
@@ -51,7 +52,7 @@ def plot4thTimestep(tuparray):
 
 # Initialize axes
 ax = plt.axes(projection=ccrs.PlateCarree())
-ax.set_extent([-75, -30, -60, -20], crs=None)
+ax.set_extent([-75, -25, -60, -20], crs=None)
 
 # Set title and subtitle
 plt.suptitle('Example of a Trajectory Plot')
@@ -72,27 +73,26 @@ ax.xaxis.set_major_formatter(formatterW)
 ax.set_yticks([-60, -50, -40, -30, -20], minor=False, crs=None)
 ax.yaxis.set_major_formatter(formatterS)
 
-random.seed(30)
+# Select trajectories to plot
+traj = [1, 10, 53, 67, 80]
 
-# Generate random example data, trajectory 1:
-traj1 = [(-30 + (random.random()*-10), -22 + (random.random()/2)) for _ in range(50)]
-traj1 = sorted(traj1, key=lambda k: [-k[0]])
-x1, y1 = zip(*traj1)
-plt.plot(x1, y1, color='green', linewidth=0.5)
-plot4thTimestep(traj1)
+# Set colors of each trajectory line
+trajlinecolors = ["red", "blue", "green", "grey", "magenta"]
 
-# Generate random example data, trajectory 2:
-traj2 = [(-30 + (random.random()*-10), -23 + (random.random()/2)) for _ in range(50)]
-traj2 = sorted(traj2, key=lambda k: [-k[0]])
-x2, y2 = zip(*traj2)
-plt.plot(x2, y2, color='red', linewidth=0.5)
-plot4thTimestep(traj2)
+# Plot each trajectory
+for i in range(len(traj)):
 
-# Generate random example data, trajectory 3:
-traj3 = [(-40 + (random.random()*-8), -40 + (random.random()/2)) for _ in range(50)]
-traj3 = sorted(traj3, key=lambda k: [-k[0]])
-x3, y3 = zip(*traj3)
-plt.plot(x3, y3, color='blue', linewidth=0.5)
-plot4thTimestep(traj3)
+    # Extract latitude
+    ypt = (np.array(sdata[1, :, traj[i]])-360)
+
+    # Extract longitude
+    xpt = np.array(sdata[2, :, traj[i]])
+
+    print(ypt)
+    print(xpt)
+
+    plt.plot(ypt, xpt, color=trajlinecolors[i], linewidth=0.5)
+
+    plot4thTimestep1(xpt, ypt)
 
 plt.show()
