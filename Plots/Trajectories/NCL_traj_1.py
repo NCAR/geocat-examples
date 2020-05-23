@@ -58,8 +58,10 @@ ax.set_extent([-75, -25, -60, -20], crs=None)
 plt.suptitle('Example of a Trajectory Plot')
 plt.title('markers every 4th timestep', fontsize=10, pad=10)
 
-# Set land feature
-ax.add_feature(cfeature.LAND, color='grey')
+# Set land feature and change color to 'lightgrey'
+# See link for extensive list of colors:
+# https://matplotlib.org/3.1.0/gallery/color/named_colors.html
+ax.add_feature(cfeature.LAND, color='lightgrey')
 
 # Set formatted axes ticks (with degree symbol and direction)
 formatterW = ticker.EngFormatter(unit=u'\N{DEGREE SIGN}'+'W')
