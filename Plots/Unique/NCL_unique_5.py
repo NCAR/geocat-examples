@@ -41,7 +41,7 @@ for i in range(12):
 
 ###############################################################################
 # Create the custom color list.
-color_list = ['red', 'grey', 'blue', 'green']
+color_list = ['red', 'lightsteelblue', 'blue', 'lime']
 
 ###############################################################################
 # Specify some plot settings to use in both plots:
@@ -65,10 +65,10 @@ w = 0.15
 
 # Create subplots for each category
 sub = plt.subplot(111)
-sub.bar(x+w, obs, width=0.15, color=color_list[0], edgecolor='black', align='center')
-sub.bar((x+(2*w)), ccsm2_t42, width=0.15, color=color_list[1], edgecolor='black', align='center')
-sub.bar(x+3*w, ccsm3_t42, width=0.15, color=color_list[2], edgecolor='black', align='center')
-sub.bar(x+4*w, ccsm3_t85, width=0.15, color=color_list[3], edgecolor='black', align='center')
+sub.bar(x+w, obs, width=0.15, color=color_list[0], edgecolor='black', linewidth=0.25, align='center')
+sub.bar((x+(2*w)), ccsm2_t42, width=0.15, color=color_list[1], edgecolor='black', linewidth=0.25, align='center')
+sub.bar(x+3*w, ccsm3_t42, width=0.15, color=color_list[2], edgecolor='black', linewidth=0.25, align='center')
+sub.bar(x+4*w, ccsm3_t85, width=0.15, color=color_list[3], edgecolor='black', linewidth=0.25, align='center')
 
 # Add label to each bar
 for k, label in enumerate(labels):
@@ -84,7 +84,7 @@ gvutil.set_axes_limits_and_ticks(ax, ylim=(0.4, plot_y_max), xticks=[], yticks=n
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=0, y_minor_per_major=4, labelsize=12)
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, maintitle=title, maintitlefontsize=title_fontsize, ylabel="(C"+u'\N{DEGREE SIGN}'+")")
+gvutil.set_titles_and_labels(ax, maintitle=title, maintitlefontsize=title_fontsize, ylabel="("+u'\N{DEGREE SIGN}'+"C)")
 
 # Show the plot
 plt.tight_layout()
