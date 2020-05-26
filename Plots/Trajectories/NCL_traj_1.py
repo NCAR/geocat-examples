@@ -40,12 +40,12 @@ def plot_nth_timestep(nparrayy, nparrayx, n):
         # Plot green starting point of each trajectory
         if x == 0:
             y, x = nparrayy[x], nparrayx[x]
-            plt.scatter(x, y, color='green', s=1)
+            plt.scatter(x, y, color='green', s=1, zorder=2.5)
 
         # Plot every n-th timestamp
         if x % n == 0:
             y, x = nparrayy[x], nparrayx[x]
-            plt.scatter(x, y, color='black', s=1)
+            plt.scatter(x, y, color='black', s=1, zorder=2.5)
 
 
 ###############################################################################
