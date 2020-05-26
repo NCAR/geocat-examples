@@ -20,6 +20,7 @@ import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import numpy as np
+from geocat.viz import util as gvutil
 
 ###############################################################################
 # Read in data:
@@ -32,19 +33,19 @@ sdata = ds.get('sdata')
 ###############################################################################
 # Define helper function to plot every fourth timestep:
 
-def plot4thTimestep1(nparrayy, nparrayx):
+def plot4thTimestep1(nparrayy, nparrayx, n):
 
     for x in range(0, len(nparrayx)):
 
         # Plot green starting point of each trajectory
         if x == 0:
             y, x = nparrayy[x], nparrayx[x]
-            plt.scatter(x, y, color='green', s=4)
+            plt.scatter(x, y, color='green', s=1)
 
         # Plot every fourth timestamp
-        if (x + 1) % 4 == 0:
+        if x % n == 0:
             y, x = nparrayy[x], nparrayx[x]
-            plt.scatter(x, y, color='black', s=4)
+            plt.scatter(x, y, color='black', s=1)
 
 
 ###############################################################################
@@ -63,17 +64,11 @@ plt.title('markers every 4th timestep', fontsize=10, pad=10)
 # https://matplotlib.org/3.1.0/gallery/color/named_colors.html
 ax.add_feature(cfeature.LAND, color='lightgrey')
 
-# Set formatted axes ticks (with degree symbol and direction)
-formatterW = ticker.EngFormatter(unit=u'\N{DEGREE SIGN}'+'W')
-formatterS = ticker.EngFormatter(unit=u'\N{DEGREE SIGN}'+'S')
+# Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
+gvutil.add_lat_lon_ticklabels(ax)
 
-# Set ticks on x axis
-ax.set_xticks([-70, -60, -50, -40, -30], minor=False, crs=None)
-ax.xaxis.set_major_formatter(formatterW)
-
-# Set ticks on y axis
-ax.set_yticks([-60, -50, -40, -30, -20], minor=False, crs=None)
-ax.yaxis.set_major_formatter(formatterS)
+# Use geocat.viz.util convenience function to set axes tick values
+gvutil.set_axes_limits_and_ticks(ax, xticks=np.linspace(-70, -30, 5), yticks=np.linspace(-60, -20, 5))
 
 # Select trajectories to plot
 traj = [1, 10, 53, 67, 80]
@@ -90,8 +85,8 @@ for i in range(len(traj)):
     # Extract longitude
     xpt = np.array(sdata[2, :, traj[i]])
 
-    plt.plot(ypt, xpt, color=trajlinecolors[i], linewidth=0.5)
+    plt.plot(ypt, xpt, color=trajlinecolors[i], linewidth=0.4)
 
-    plot4thTimestep1(xpt, ypt)
+    plot4thTimestep1(xpt, ypt, n=4)
 
 plt.show()
