@@ -221,17 +221,18 @@ axs[2].set_aspect(aspect='equal')
 # Plot data and create colorbar
 newcmap = gvcmaps.BlueYellowRed
 contour_levels = np.arange(-32,24,4) # levels=contour_levels ensures that each plot has the same scale
+
 filled1 = axs[0].contourf(data1, cmap=newcmap, levels=contour_levels)
 axs[0].contour(filled1, colors='k', linestyles='solid', linewidths=0.5)
 filled2 = axs[1].contourf(data2, cmap=newcmap, levels=contour_levels)
 axs[1].contour(filled2, colors='k', linestyles='solid', linewidths=0.5)
-filled3 = axs[2].contourf(data3, cmap=newcmap, levels=np.arange(-28,20,4))
+filled3 = axs[2].contourf(data3, cmap=newcmap, levels=contour_levels)
 axs[2].contour(filled3, colors='k', linestyles='solid', linewidths=0.5)
 
-cbar = plt.colorbar(filled2, orientation='horizontal', ax=axs, ticks=np.arange(-28,20,4), shrink=0.75, drawedges=True)
+cbar = plt.colorbar(filled3, orientation='horizontal', ax=axs, ticks=np.arange(-28,20,4), shrink=0.75, drawedges=True, pad=0.1)
 
 # Add title
-fig.suptitle("Three dummy plots attached along Y axes", fontsize=18, fontweight='bold')
+title=fig.suptitle("Three dummy plots attached along Y axes", horizontalalignment='center', y=0.9, fontsize=18, fontweight='bold', fontfamily='sans-serif')
 
 # Get bounding box
 bbox = fig.get_window_extent()
