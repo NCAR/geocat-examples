@@ -44,7 +44,7 @@ for i in range(12):
 color_list = ['red', 'lightsteelblue', 'blue', 'lime']
 
 ###############################################################################
-# Specify some plot settings to use in both plots:
+# Specify some plot settings to use in the plot:
 
 # Title settings
 title = 'Nino3.4 Monthly Standard Deviation'
