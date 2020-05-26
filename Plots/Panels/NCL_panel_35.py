@@ -24,9 +24,9 @@ from geocat.viz import cmaps as gvcmaps
 import geocat.viz.util as gvutil
 
 from scipy import signal
+
 ###############################################################################
 # Create figure and axes using gvutil
-plt.figure()
 fig, axs = plt.subplots(1, 3, figsize=(12, 6), sharex='all', sharey='all', gridspec_kw={'wspace': 0})
 
 gvutil.set_axes_limits_and_ticks(axs[0], xticks=np.arange(0, 120, 20), yticks=np.arange(0, 120, 20), xticklabels=np.arange(0, 100, 20), yticklabels=np.arange(0, 100, 20))
@@ -44,6 +44,7 @@ gvutil.add_major_minor_ticks(axs[2], x_minor_per_major=4, y_minor_per_major=4)
 axs[2].tick_params(axis='both', which='both', top=True, left=False, right=True)
 axs[2].set_aspect(aspect='equal')
 
+###############################################################################
 # Create dummy data
 nx = 100
 ny = 100
@@ -59,6 +60,7 @@ b = signal.convolve(rand1, filter, mode='same')
 filter = scale*np.exp(np.sin(y))
 c = signal.convolve(rand1, filter, mode='same')
 
+###############################################################################
 # Plot data and create colorbar
 newcmap = gvcmaps.BlueYellowRed
 p = axs[0].contourf(x, y, a, cmap=newcmap, levels=12)
