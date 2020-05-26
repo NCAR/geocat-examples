@@ -31,9 +31,9 @@ sdata = ds.get('sdata')
 
 
 ###############################################################################
-# Define helper function to plot every fourth timestep:
+# Define helper function to plot every n-th timestep:
 
-def plot4thTimestep1(nparrayy, nparrayx, n):
+def plot_nth_timestep(nparrayy, nparrayx, n):
 
     for x in range(0, len(nparrayx)):
 
@@ -42,7 +42,7 @@ def plot4thTimestep1(nparrayy, nparrayx, n):
             y, x = nparrayy[x], nparrayx[x]
             plt.scatter(x, y, color='green', s=1)
 
-        # Plot every fourth timestamp
+        # Plot every n-th timestamp
         if x % n == 0:
             y, x = nparrayy[x], nparrayx[x]
             plt.scatter(x, y, color='black', s=1)
@@ -87,6 +87,6 @@ for i in range(len(traj)):
 
     plt.plot(ypt, xpt, color=trajlinecolors[i], linewidth=0.4)
 
-    plot4thTimestep1(xpt, ypt, n=4)
+    plot_nth_timestep(xpt, ypt, n=4)
 
 plt.show()
