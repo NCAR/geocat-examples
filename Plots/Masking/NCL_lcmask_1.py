@@ -29,11 +29,12 @@ from geocat.viz import util as gvutil
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False).V    # Disable time decoding due to missing necessary metadata
+ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)    # Disable time decoding due to missing necessary metadata
 # Extract a slice of the data
 ds = ds.isel(time=0).drop("time")
 ds = ds.isel(lev=0).drop("lev")
-print(ds)
+ds = ds.V
+
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 ds = gvutil.xr_add_cyclic_longitudes(ds, "lon")
 ###############################################################################
@@ -43,15 +44,16 @@ ds = gvutil.xr_add_cyclic_longitudes(ds, "lon")
 plt.figure(figsize=(10,7))
 
 # Generate axes using Cartopy and draw coastlines
-projection = ccrs.LambertConformal(central_longitude=0)
+projection = ccrs.LambertConformal(central_longitude=0, standard_parallels=(45,89))
 ax = plt.axes(projection=projection)
 ax.set_global()
+ax.set_extent((70,-100,0,45))
 ax.coastlines(linewidth=0.5)
 
 # Import an NCL colormapn
 newcmp = gvcmaps.BlWhRe
 
-wind = ds.plot.contourf(ax=ax, cmap=newcmp, transform=projection, add_colorbar=False, levels=24)
+wind = ds.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), add_colorbar=False, levels=24)
 
 cbar = plt.colorbar(wind, ax=ax, orientation="horizontal", drawedges=True)
 cbar.set_ticks(np.arange(-48, 48, 8))
