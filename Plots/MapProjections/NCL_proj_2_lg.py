@@ -1,12 +1,24 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed May 13 10:21:41 2020
+NCL_proj_2_lg.py
+================
 
-@author: misi1684
+This script illustrates the following concepts:
+   - Drawing filled contours over a Mercator map
+   - Setting the spacing for latitude/longitude grid lines
+   - Turning off the map perimeter (boundary)
+   - Making the plot larger using viewport resources
+   - Turning off map fill
+   - Spanning part of a color map for contour fill
+
+See following URLs to see the reproduced NCL plot & script:
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/proj_2.ncl
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/proj_2_lg.png
 """
 
-
+###############################################################################
+# Import packages:
 import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
@@ -16,11 +28,19 @@ import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
+###############################################################################
+# Read in data:
+
+# Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 t = ds.TS.isel(time=0)
 
+###############################################################################
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
+
+###############################################################################
+# Plot:
 
 # Generate figure (set its size (width, height) in inches)
 fig = plt.figure(figsize=(10, 10))
