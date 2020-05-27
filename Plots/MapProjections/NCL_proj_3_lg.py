@@ -24,6 +24,8 @@ from geocat.viz import util as gvutil
 
 ###############################################################################
 # Read in data:
+
+# Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 t = ds.TS.isel(time=0)
 
@@ -33,6 +35,8 @@ wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
 
 ###############################################################################
 #Plot:
+
+# Generate figure (set its size (width, height) in inches)
 fig = plt.figure(figsize=(10, 10))
 
 # Generate axes using Cartopy and draw coastlines
