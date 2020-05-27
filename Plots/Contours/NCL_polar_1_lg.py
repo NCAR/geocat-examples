@@ -1,6 +1,6 @@
 
 """
-NCL_polar_2_lg.py
+NCL_polar_1_lg.py
 ================
 
 This script illustrates the following concepts:
