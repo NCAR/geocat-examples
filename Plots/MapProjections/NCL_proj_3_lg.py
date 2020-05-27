@@ -1,27 +1,38 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed May 13 15:08:25 2020
 
-@author: misi1684
 """
+NCL_proj_3_lg.py
+================
 
+This script illustrates the following concepts:
+   - Drawing filled contours over an orthographic map
+   - Changing the center latitude and longitude for an orthographic projection
+   - Turning off map fill
+
+See following URLs to see the reproduced NCL plot & script:
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/proj_3.ncl
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/proj_3_lg.png
+"""
+###############################################################################
+# Import packages:
 import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
-
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
+###############################################################################
+# Read in data:
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 t = ds.TS.isel(time=0)
 
+###############################################################################
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
 
-
+###############################################################################
+#Plot:
 fig = plt.figure(figsize=(10, 10))
 
 # Generate axes using Cartopy and draw coastlines
@@ -41,7 +52,7 @@ wrap_t.plot.contourf(
     ax=ax,
     transform=ccrs.PlateCarree(),
     levels=12,
-    cmap='jet',
+    cmap='inferno',
     cbar_kwargs={
         "orientation": "horizontal",
         "ticks": np.linspace(
