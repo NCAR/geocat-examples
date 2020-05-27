@@ -65,7 +65,7 @@ gl.xlocator = mticker.FixedLocator(np.arange(-180, 181, 30))
 
 # Contourf-plot data (for filled contours)
 wrap_t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(),
-                     levels=12, cmap=newcmp,
+                     levels=12, cmap='inferno',
                      add_colorbar=False)
 
 # Contour-plot data (for borderlines)
