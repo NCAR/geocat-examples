@@ -37,25 +37,24 @@ ds = ds.V
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 ds = gvutil.xr_add_cyclic_longitudes(ds, "lon")
+
 ###############################################################################
 # Plot unmasked data
 
 # Generate figure
-plt.figure(figsize=(10,7))
+plt.figure(figsize=(7,10))
 
 # Generate axes using Cartopy and draw coastlines
 projection = ccrs.LambertConformal(central_longitude=0, standard_parallels=(45,89))
-ax = plt.axes(projection=projection)
-ax.set_global()
-ax.set_extent((70,-100,0,45))
+ax = plt.axes(projection=projection, frameon=False)
+ax.set_extent((0, 359, 0, 90), crs=ccrs.PlateCarree())
 ax.coastlines(linewidth=0.5)
 
-# Import an NCL colormapn
+# Plot data and create colorbar
 newcmp = gvcmaps.BlWhRe
 
 wind = ds.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), add_colorbar=False, levels=24)
-
-cbar = plt.colorbar(wind, ax=ax, orientation="horizontal", drawedges=True)
-cbar.set_ticks(np.arange(-48, 48, 8))
-
+plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True, ticks=np.arange(-48, 48, 8), pad=0.1, aspect=12)
+plt.title(ds.long_name, loc='left', size=16)
+plt.title(ds.units, loc='right', size=16)
 plt.show()
