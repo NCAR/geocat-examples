@@ -23,7 +23,7 @@ from geocat.viz import util as gvutil
 
 ###############################################################################
 # Generate labels:
-x = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+x = np.arange(1, 13)
 labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May',
           'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
@@ -44,17 +44,10 @@ for i in range(12):
 color_list = ['red', 'lightsteelblue', 'blue', 'lime']
 
 ###############################################################################
-# Specify some plot settings to use in the plot:
-
-# Title settings
-title = 'Nino3.4 Monthly Standard Deviation'
-title_fontsize = 16
+# Plot bar chart with a legend
 
 # Axis Settings
 plot_y_max = 1.2
-
-###############################################################################
-# Plot bar chart with a legend
 
 # Generate figure
 plt.figure(2, figsize=(6, 5))
@@ -70,21 +63,15 @@ sub.bar((x+(2*w)), ccsm2_t42, width=0.15, color=color_list[1], edgecolor='black'
 sub.bar(x+3*w, ccsm3_t42, width=0.15, color=color_list[2], edgecolor='black', linewidth=0.25, align='center')
 sub.bar(x+4*w, ccsm3_t85, width=0.15, color=color_list[3], edgecolor='black', linewidth=0.25, align='center')
 
-# Add label to each bar
-for k, label in enumerate(labels):
-    plt.text(x[k], 0.35, label, rotation=0)
-
 # Add the legend
-plt.legend(['OBS', 'CCSM2 (T42)', 'CCSM3 (T42)', 'CCSM3 (T85)'], loc='lower center', bbox_to_anchor=(0.5, -0.25), ncol=2)
+plt.legend(['OBS', 'CCSM2 (T42)', 'CCSM3 (T42)', 'CCSM3 (T85)'], loc='lower center', bbox_to_anchor=(0.5, -0.30), ncol=2)
 
-# Use geocat.viz.util convenience function to set axes limits & tick values
-gvutil.set_axes_limits_and_ticks(ax, ylim=(0.4, plot_y_max), xticks=[], yticks=np.linspace(0.4, plot_y_max, 5))
+gvutil.set_axes_limits_and_ticks(ax, ylim=(0.4, plot_y_max), xticks=x, xticklabels=labels, yticks=np.linspace(0.4, plot_y_max, 5))
 
-# Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=0, y_minor_per_major=4, labelsize=12)
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=1, y_minor_per_major=4, labelsize=12)
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, maintitle=title, maintitlefontsize=title_fontsize, ylabel="("+u'\N{DEGREE SIGN}'+"C)")
+gvutil.set_titles_and_labels(ax, maintitle='Nino3.4 Monthly Standard Deviation', maintitlefontsize=16, ylabel="("+u'\N{DEGREE SIGN}'+"C)")
 
 # Show the plot
 plt.tight_layout()
