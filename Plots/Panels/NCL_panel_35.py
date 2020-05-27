@@ -190,9 +190,9 @@ def _get_double_array(obj,name):
 # Create dummy data
 nx = 100
 ny = 100
-data1 = generate_2d_array((ny, nx), 10, 10, -19., 16., 0)
-data2 = generate_2d_array((ny, nx), 10, 10, -28., 15., 1)
-data3 = generate_2d_array((ny, nx), 10, 10, -25., 18., 2)
+data1 = generate_2d_array((ny, nx), 10, 10, 16, -19, 0)
+data2 = generate_2d_array((ny, nx), 10, 10, 15, -28, 1)
+data3 = generate_2d_array((ny, nx), 10, 10, 18, -25, 2)
 
 ###############################################################################
 # Create figure and axes using gvutil
