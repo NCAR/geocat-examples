@@ -1,10 +1,18 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue May 12 09:38:46 2020
 
-@author: misi1684
 """
+NCL_polar_2_lg.py
+================
+
+This script illustrates the following concepts:
+    - Drawing black-and-white contours over a polar stereographic map
+    - Drawing the northern hemisphere of a polar stereographic map
+
+See following URLs to see the reproduced NCL plot & script:
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/polar_1_lg.ncl
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/polar_1_lg.png
+"""
+###############################################################################
+# Import packages:
 import numpy as np
 import xarray as xr
 import cartopy.feature as cfeature
@@ -15,14 +23,20 @@ import geocat.datafiles as gdf
 import matplotlib.ticker as mticker
 from geocat.viz import util as gvutil
 
-# Open a netCDF data file using xarray default engine and load the data
-# into xarrays
+###############################################################################
+# Read in data:
+
+# Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 U = ds.U[1, :, :]
 
+###############################################################################
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 wrap_U = gvutil.xr_add_cyclic_longitudes(U, "lon")
 
+###############################################################################
+#Plot:
+    
 # Generate figure (set its size (width, height) in inches)
 fig = plt.figure(figsize=(10, 10))
 
