@@ -229,7 +229,6 @@ gvutil.add_major_minor_ticks(axs[2], x_minor_per_major=4, y_minor_per_major=4)
 axs[2].tick_params(axis='both', which='both', left=False, right=True)
 axs[2].set_aspect(aspect='equal')
 
-###############################################################################
 # Plot data and create colorbar
 newcmap = gvcmaps.BlueYellowRed
 # levels=contour_levels ensures that each plot has the same scale
