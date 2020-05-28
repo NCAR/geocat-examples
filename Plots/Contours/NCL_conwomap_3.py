@@ -29,11 +29,13 @@ from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
 ###############################################################################
-# Read in data:
+# Generate random data:
 
-# Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/cone.nc"))
-u = ds.u.isel(time=4)
+xlist = np.linspace(0, 30.0, 50)
+ylist = np.linspace(0, 30.0, 50)
+xdata, ydata = np.meshgrid(xlist, ylist)
+
+zdata = np.random.normal(20, 10, size=(50, 50))
 
 ###############################################################################
 #create figure
@@ -61,11 +63,11 @@ plt.step(x, x)
 y1 = np.full(shape=31, fill_value=0, dtype=np.int)
 y2 = x
 
-#contour plot data
-p = u.plot.contour(ax=ax,vmin=0, vmax=10, levels=11, add_labels=False, linewidths=2.3)
+#Plot contour data
+cp = ax.contour(xdata, ydata, zdata, colors='k', linewidths=1.0)
 
-#label contours
-ax.clabel(p, np.arange(0,9,2), colors='k', fmt="%.0f")
+#Label contours
+ax.clabel(cp, inline=True, fontsize=10, colors='k', fmt="%.0f")
 
 #Ignore second half of the graph
 ax.fill_between(x, y1, y2, where=y2 >= y1, color='white', step='pre', alpha=1.0, zorder=4)
