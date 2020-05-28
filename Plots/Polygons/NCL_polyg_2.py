@@ -32,10 +32,9 @@ import matplotlib.pyplot as plt
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 import cartopy.io.shapereader as shpreader
+import shapely.geometry as sgeom
 
 ###############################################################################
-ds = xr.open_dataset(gdf.get("netcdf_files/climdiv_polygons.nc"))
-print(ds)
 
 statenames = ["AL","AR","AZ","CA","CO","CT","DE","FL","GA","IA","ID","IL",
   "IN","KS","KY","LA","MA","MD","ME","MI","MN","MO","MS","MT",
@@ -44,6 +43,8 @@ statenames = ["AL","AR","AZ","CA","CO","CT","DE","FL","GA","IA","ID","IL",
 
 ncds = [8,9,7,7,5,3,2,6,9,9,10,9,9,9,4,9,3,8,3,10,9,6,10,7,
   8,9,8,2,3,8,4,10,10,9,9,10,1,7,9,4,10,7,7,3,10,9,6,10]
+
+###############################################################################
 
 fig = plt.figure()
 ax = fig.add_axes([0, 0, 1, 1], projection=ccrs.LambertConformal())
@@ -65,5 +66,16 @@ for state in shpreader.Reader(states_shp).geometries():
 
     ax.add_geometries([state], ccrs.PlateCarree(),
                       facecolor=facecolor, edgecolor=edgecolor)
+
+ds = xr.open_dataset(gdf.get("netcdf_files/climdiv_polygons.nc"))
+
+for varname, da in ds.data_vars.items():
+    
+  first = ds.get(varname)
+  lat = first.lat
+  lon = first.lon
+
+  track = sgeom.LineString(zip(lon, lat))
+  ax.add_geometries([track], ccrs.PlateCarree(), facecolor='none', edgecolor='k', linewidths=.5)
 
 plt.show()
