@@ -58,3 +58,23 @@ plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True, ticks=np.ara
 plt.title(ds.long_name, loc='left', size=16)
 plt.title(ds.units, loc='right', size=16)
 plt.show()
+
+###############################################################################
+# Plot masked data
+
+# Generate figure
+plt.figure(figsize=(7,10))
+
+# Generate axes using Cartopy and draw coastlines
+projection = ccrs.LambertConformal(central_longitude=-20, cutoff=20, standard_parallels=(45, 89))
+ax = plt.axes(projection=projection)
+ax.coastlines(linewidth=0.5)
+
+# Plot data and create colorbar
+newcmp = gvcmaps.BlWhRe
+
+wind = ds.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), add_colorbar=False, levels=24)
+plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True, ticks=np.arange(-48, 48, 8), pad=0.1, aspect=12)
+plt.title(ds.long_name, loc='left', size=16)
+plt.title(ds.units, loc='right', size=16)
+plt.show()
