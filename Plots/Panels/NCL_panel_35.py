@@ -26,9 +26,9 @@ import geocat.viz.util as gvutil
 import math
 ################################################################
 # Definition of generate_2d_array and helper functions from https://github.com/NCAR/pyngl/blob/develop/src/ngl/__init__.py
-#
+
 #  Globals for random number generator for generat_2d_array
-#
+
 dfran_iseq = 0
 dfran_rseq = [.749, .973, .666, .804, .081, .483, .919, .903,   \
               .951, .960, .039, .269, .270, .756, .222, .478,   \
@@ -45,9 +45,9 @@ dfran_rseq = [.749, .973, .666, .804, .081, .483, .919, .903,   \
               .689, .354, .372, .429                            \
              ]
 
-#
+
 #  Random number generator for generate_2d_array.
-#
+
 def _dfran():
   global dfran_iseq
   global dfran_rseq
@@ -83,14 +83,14 @@ highs_at -- an optional argument that is a list of coordinate
             argument appears, then its length must equal num_high and
             the coordinates must be in the ranges specified in dims.
   """  
-#
+
 #  Globals for random numbers.
-#
+
   global dfran_iseq
   dfran_iseq = seed
-#
+
 #  Check arguments.
-#
+
   try:
     alen = len(dims)
   except:
@@ -124,9 +124,9 @@ highs_at -- an optional argument that is a list of coordinate
     if (len(highs_at) != num_high):
       print("generate_2d_array: the list of positions for the highs must be the same size as num_high.")
 
-#
+
 #  Dims are reversed in order to get the same results as the NCL function.
-#
+
   nx = int(dims[1])
   ny = int(dims[0])
   out_array = np.zeros([nx,ny],'f')
@@ -137,7 +137,7 @@ highs_at -- an optional argument that is a list of coordinate
   nhgh = max(1,min(25,num_high))
   ncnt = nlow + nhgh
 
-#
+
   for k in range(num_low):
     if not lows_at is None:
       tmp_array[0,k] =  float(lows_at[k][1])   # lows at specified locations.
@@ -186,6 +186,7 @@ def _get_double(obj,name):
 def _get_double_array(obj,name):
   return(NhlGetDoubleArray(_int_id(obj),name))
 
+
 ###############################################################################
 # Create dummy data
 nx = 100
@@ -196,10 +197,14 @@ data3 = generate_2d_array((ny, nx), 10, 10, -25., 18., 2)
 
 ###############################################################################
 # Create figure and axes using gvutil
-fig, axs = plt.subplots(1, 3, figsize=(12, 6), sharex='all', sharey='all', gridspec_kw={'wspace': 0})
+fig, axs = plt.subplots(1, 3, figsize=(12, 6), sharex='all', sharey='all',
+                        gridspec_kw={'wspace': 0})
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(axs[0], xticks=np.arange(0, 120, 20), yticks=np.arange(0, 120, 20), xticklabels=np.arange(0, 100, 20), yticklabels=np.arange(0, 100, 20))
+gvutil.set_axes_limits_and_ticks(axs[0], xticks=np.arange(0, 120, 20),
+                                 yticks=np.arange(0, 120, 20),
+                                 xticklabels=np.arange(0, 100, 20),
+                                 yticklabels=np.arange(0, 100, 20))
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(axs[0], x_minor_per_major=4, y_minor_per_major=4)
 # Specify which edges of the subplot should have tick lines
@@ -208,12 +213,18 @@ axs[0].tick_params(axis='both', which='both', left=True, right=False)
 axs[0].set_aspect(aspect='equal')
 
 # Repeat for other subplots with a few changes
-gvutil.set_axes_limits_and_ticks(axs[1], xticks=np.arange(0, 120, 20), yticks=np.arange(0, 120, 20), xticklabels=np.arange(0, 100, 20), yticklabels=np.arange(0, 100, 20))
+gvutil.set_axes_limits_and_ticks(axs[1], xticks=np.arange(0, 120, 20),
+                                 yticks=np.arange(0, 120, 20),
+                                 xticklabels=np.arange(0, 100, 20),
+                                 yticklabels=np.arange(0, 100, 20))
 gvutil.add_major_minor_ticks(axs[1], x_minor_per_major=4, y_minor_per_major=4)
 axs[1].tick_params(axis='both', which='both', left=False, right=False)
 axs[1].set_aspect(aspect='equal')
 
-gvutil.set_axes_limits_and_ticks(axs[2], xticks=np.arange(0, 120, 20), yticks=np.arange(0, 120, 20), xticklabels=np.arange(0, 100, 20), yticklabels=np.arange(0, 100, 20))
+gvutil.set_axes_limits_and_ticks(axs[2], xticks=np.arange(0, 120, 20),
+                                 yticks=np.arange(0, 120, 20),
+                                 xticklabels=np.arange(0, 100, 20),
+                                 yticklabels=np.arange(0, 100, 20))
 gvutil.add_major_minor_ticks(axs[2], x_minor_per_major=4, y_minor_per_major=4)
 axs[2].tick_params(axis='both', which='both', left=False, right=True)
 axs[2].set_aspect(aspect='equal')
@@ -221,7 +232,8 @@ axs[2].set_aspect(aspect='equal')
 ###############################################################################
 # Plot data and create colorbar
 newcmap = gvcmaps.BlueYellowRed
-contour_levels = np.arange(-32, 24, 4) # levels=contour_levels ensures that each plot has the same scale
+# levels=contour_levels ensures that each plot has the same scale
+contour_levels = np.arange(-32, 24, 4)
 
 filled1 = axs[0].contourf(data1, cmap=newcmap, levels=contour_levels)
 axs[0].contour(filled1, colors='k', linestyles='solid', linewidths=0.4)
@@ -230,9 +242,13 @@ axs[1].contour(filled2, colors='k', linestyles='solid', linewidths=0.4)
 filled3 = axs[2].contourf(data3, cmap=newcmap, levels=contour_levels)
 axs[2].contour(filled3, colors='k', linestyles='solid', linewidths=0.4)
 
-plt.colorbar(filled3, orientation='horizontal', ax=axs, ticks=np.arange(-28, 20, 4), shrink=0.75, drawedges=True, pad=0.1)
+plt.colorbar(filled3, orientation='horizontal', ax=axs,
+             ticks=np.arange(-28, 20, 4), shrink=0.75, drawedges=True,
+             pad=0.1)
 
 # Add title
-fig.suptitle("Three dummy plots attached along Y axes", horizontalalignment='center', y=0.9, fontsize=18, fontweight='bold', fontfamily='sans-serif')
+fig.suptitle("Three dummy plots attached along Y axes",
+             horizontalalignment='center', y=0.9, fontsize=18,
+             fontweight='bold', fontfamily='sans-serif')
 
 plt.show()
