@@ -21,11 +21,8 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 import numpy as np
-import xarray as xr
 import matplotlib.pyplot as plt
 
-import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
 ###############################################################################
@@ -38,10 +35,10 @@ xdata, ydata = np.meshgrid(xlist, ylist)
 zdata = np.random.normal(0, 2, size=(30, 30))
 
 ###############################################################################
-#create figure
-plt.figure(figsize=(10,10))
+# Create figure
+plt.figure(figsize=(10, 10))
 
-#create axes
+# Create axes
 ax = plt.axes()
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
@@ -53,35 +50,37 @@ gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=4)
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
 gvutil.set_titles_and_labels(ax, ylabel="wave number", labelfontsize=18)
 
-#create a numpy array of 30
-x = np.arange(0,31)
+# Set ticks and labels only on left and top of plot
+ax.xaxis.tick_top()
+ax.yaxis.tick_left()
 
-#plot a step function
-plt.step(x, x)
+# Create a numpy array of 30
+x = np.arange(0, 31)
 
-#Create boundary functions for fill
+# Plot a step function
+plt.step(x, x, color='black', zorder=7)
+
+# Plot contour data
+cp = ax.contour(xdata, ydata, zdata, colors='k', linewidths=1.0)
+
+# Label contours
+ax.clabel(cp, inline=True, fontsize=10, colors='k', fmt="%.0f")
+
+# Create boundary functions
 y1 = np.full(shape=31, fill_value=0, dtype=np.int)
 y2 = x
 
-#Plot contour data
-cp = ax.contour(xdata, ydata, zdata, colors='k', linewidths=1.0)
-
-#Label contours
-ax.clabel(cp, inline=True, fontsize=10, colors='k', fmt="%.0f")
-
-#Ignore second half of the graph
+# Ignore second half of the graph
 ax.fill_between(x, y1, y2, where=y2 >= y1, color='white', step='pre', alpha=1.0, zorder=4)
 
-# these are matplotlib.patch.Patch properties
-props1 = dict(facecolor='white', edgecolor = 'white', alpha=0.5)
+# Set properties for the text boxes
+props1 = dict(facecolor='white', edgecolor='white', alpha=0.5)
 props2 = dict(facecolor='white', edgecolor='black', alpha=0.5)
 
-# place a text box in upper left in axes coords
-ax.text(0.70, 0.35, 'J(\u03B1)', transform=ax.transAxes, fontsize=20,
-        bbox=props1, zorder=5)
+# Place first text box
+ax.text(0.70, 0.35, 'J(\u03B1)', transform=ax.transAxes, fontsize=20, bbox=props1, zorder=5)
 
-# place a text box in upper left in axes coords
-ax.text(0.70, 0.05, 'CONTOUR FROM -8 TO 6 BY 1', transform=ax.transAxes, fontsize=10,
-         bbox=props2, zorder=5)
+# Place second text box
+ax.text(0.70, 0.05, 'CONTOUR FROM -8 TO 6 BY 1', transform=ax.transAxes, fontsize=10, bbox=props2, zorder=5)
 
 plt.show()
