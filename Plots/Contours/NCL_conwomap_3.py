@@ -29,7 +29,11 @@ from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
 ###############################################################################
-# Generate random 2D data
+# Read in data:
+
+# Open a netCDF data file using xarray default engine and load the data into xarrays
+ds = xr.open_dataset(gdf.get("netcdf_files/cone.nc"))
+u = ds.u.isel(time=4)
 
 ###############################################################################
 #create figure
@@ -38,18 +42,44 @@ plt.figure(figsize=(10,10))
 #create axes
 ax = plt.axes()
 
+# Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
 gvutil.set_axes_limits_and_ticks(ax, xlim=(0, 30), ylim=(0, 30), xticks=None, yticks=None, xticklabels=None, yticklabels=None)
 
-x = []
-
-for i in range(0, 30+1):
-    x.append(i)
-
-x = np.array(x)
-
-plt.step(x, x)
+# Use geocat.viz.util to add major and minor tics
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=4)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
 gvutil.set_titles_and_labels(ax, ylabel="wave number", labelfontsize=18)
+
+#create a numpy array of 30
+x = np.arange(0,31)
+
+#plot a step function
+plt.step(x, x)
+
+#Create boundary functions for fill
+y1 = np.full(shape=31, fill_value=0, dtype=np.int)
+y2 = x
+
+#contour plot data
+p = u.plot.contour(ax=ax,vmin=0, vmax=10, levels=11, add_labels=False, linewidths=2.3)
+
+#label contours
+ax.clabel(p, np.arange(0,9,2), colors='k', fmt="%.0f")
+
+#Ignore second half of the graph
+ax.fill_between(x, y1, y2, where=y2 >= y1, color='white', step='pre', alpha=1.0, zorder=4)
+
+# these are matplotlib.patch.Patch properties
+props1 = dict(facecolor='white', edgecolor = 'white', alpha=0.5)
+props2 = dict(facecolor='white', edgecolor='black', alpha=0.5)
+
+# place a text box in upper left in axes coords
+ax.text(0.70, 0.35, 'J(\u03B1)', transform=ax.transAxes, fontsize=20,
+        bbox=props1, zorder=5)
+
+# place a text box in upper left in axes coords
+ax.text(0.70, 0.05, 'CONTOUR FROM -8 TO 6 BY 1', transform=ax.transAxes, fontsize=10,
+         bbox=props2, zorder=5)
 
 plt.show()
