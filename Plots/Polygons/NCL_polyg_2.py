@@ -34,11 +34,21 @@ from geocat.viz import util as gvutil
 import cartopy.io.shapereader as shpreader
 
 ###############################################################################
+ds = xr.open_dataset(gdf.get("netcdf_files/climdiv_polygons.nc"))
+print(ds)
+
+statenames = ["AL","AR","AZ","CA","CO","CT","DE","FL","GA","IA","ID","IL",
+  "IN","KS","KY","LA","MA","MD","ME","MI","MN","MO","MS","MT",
+  "NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA",
+  "RI","SC","SD","TN","TX","UT","VA","VT","WA","WI","WV","WY"]
+
+ncds = [8,9,7,7,5,3,2,6,9,9,10,9,9,9,4,9,3,8,3,10,9,6,10,7,
+  8,9,8,2,3,8,4,10,10,9,9,10,1,7,9,4,10,7,7,3,10,9,6,10]
 
 fig = plt.figure()
 ax = fig.add_axes([0, 0, 1, 1], projection=ccrs.LambertConformal())
 
-ax.set_extent([-125, -66.5, 20, 50], ccrs.Geodetic())
+ax.set_extent([-125, -65.0, 24, 50], ccrs.Geodetic())
 
 shapename = 'admin_1_states_provinces_lakes_shp'
 states_shp = shpreader.natural_earth(resolution='110m',
