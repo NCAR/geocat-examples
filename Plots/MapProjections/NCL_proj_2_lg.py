@@ -10,6 +10,7 @@ This script illustrates the following concepts:
    - Making the plot larger using viewport resources
    - Turning off map fill
    - Spanning part of a color map for contour fill
+   - Using 'inferno' color scheme instead of 'rainbow' to follow best practices for visualizations 
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/proj_2.ncl
@@ -54,10 +55,6 @@ ax.set_extent([180, -180, -90, 89], ccrs.PlateCarree())
 
 # Draw gridlines
 gl = ax.gridlines(crs=ccrs.PlateCarree(), linewidth=1, color='k', alpha=0.5)
-
-# Import an NCL colormap
-newcmp = gvcmaps.gui_default
-
 
 # Manipulate latitude and longitude gridline numbers and spacing
 gl.ylocator = mticker.FixedLocator(np.arange(-90, 91, 20))
