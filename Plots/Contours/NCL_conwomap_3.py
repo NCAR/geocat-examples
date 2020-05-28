@@ -31,11 +31,11 @@ from geocat.viz import util as gvutil
 ###############################################################################
 # Generate random data:
 
-xlist = np.linspace(0, 30.0, 50)
-ylist = np.linspace(0, 30.0, 50)
+xlist = np.linspace(0, 30.0, 30)
+ylist = np.linspace(0, 30.0, 30)
 xdata, ydata = np.meshgrid(xlist, ylist)
 
-zdata = np.random.normal(20, 10, size=(50, 50))
+zdata = np.random.normal(0, 2, size=(30, 30))
 
 ###############################################################################
 #create figure
