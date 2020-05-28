@@ -37,7 +37,6 @@ plt.figure(figsize=(10,10))
 
 #create axes
 ax = plt.axes()
-ax.set_aspect(1.5)
 
 gvutil.set_axes_limits_and_ticks(ax, xlim=(0, 30), ylim=(0, 30), xticks=None, yticks=None, xticklabels=None, yticklabels=None)
 
@@ -49,5 +48,8 @@ for i in range(0, 30+1):
 x = np.array(x)
 
 plt.step(x, x)
+
+# Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
+gvutil.set_titles_and_labels(ax, ylabel="wave number", labelfontsize=18)
 
 plt.show()
