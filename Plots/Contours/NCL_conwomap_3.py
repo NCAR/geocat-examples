@@ -48,11 +48,19 @@ gvutil.set_axes_limits_and_ticks(ax, xlim=(0, 30), ylim=(0, 30), xticks=None, yt
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=4)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax, ylabel="wave number", labelfontsize=18)
+gvutil.set_titles_and_labels(ax, ylabel="wave number", labelfontsize=24)
 
 # Set ticks and labels only on left and top of plot
 ax.xaxis.tick_top()
 ax.yaxis.tick_left()
+
+# Make tick font size bigger
+plt.xticks(fontsize=18)
+plt.yticks(fontsize=18)
+
+# Set color of right and bottom axes to make them invisible
+ax.spines['right'].set_color('white')
+ax.spines['bottom'].set_color('white')
 
 # Create a numpy array of 30
 x = np.arange(0, 31)
@@ -66,11 +74,9 @@ cp = ax.contour(xdata, ydata, zdata, colors='k', linewidths=1.0)
 # Label contours
 ax.clabel(cp, inline=True, fontsize=10, colors='k', fmt="%.0f")
 
-# Create boundary functions
+# Ignore second half of the graph
 y1 = np.full(shape=31, fill_value=0, dtype=np.int)
 y2 = x
-
-# Ignore second half of the graph
 ax.fill_between(x, y1, y2, where=y2 >= y1, color='white', step='pre', alpha=1.0, zorder=4)
 
 # Set properties for the text boxes
@@ -78,7 +84,7 @@ props1 = dict(facecolor='white', edgecolor='white', alpha=0.5)
 props2 = dict(facecolor='white', edgecolor='black', alpha=0.5)
 
 # Place first text box
-ax.text(0.70, 0.35, 'J(\u03B1)', transform=ax.transAxes, fontsize=20, bbox=props1, zorder=5)
+ax.text(0.70, 0.35, 'J(${\u03B1}$)', transform=ax.transAxes, fontsize=25, bbox=props1, zorder=5)
 
 # Place second text box
 ax.text(0.70, 0.05, 'CONTOUR FROM -8 TO 6 BY 1', transform=ax.transAxes, fontsize=10, bbox=props2, zorder=5)
