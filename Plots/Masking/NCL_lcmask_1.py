@@ -87,6 +87,7 @@ plt.figure(figsize=(7,10))
 # Generate axes using Cartopy and draw coastlines
 projection = ccrs.LambertConformal(central_longitude=-20, cutoff=20, standard_parallels=(45, 89))
 ax = plt.axes(projection=projection)
+ax.set_extent([-90, 40, 20, 80], ccrs.PlateCarree())
 ax.coastlines(linewidth=0.5)
 
 # Plot data and create colorbar
