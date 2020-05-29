@@ -2,13 +2,15 @@
 NCL_conwomap_5.py
 =================
 This script illustrates the following concepts:
-   - Drawing a simple filled contour plot
-   - Selecting a different color map
-   - Changing the size/shape of a contour plot
+   - Drawing a simple contour plot
+   - Making an axis logarithmic in a contour plot
+   - Changing the labels and tickmarks on a contour plot
+   - Creating a main title
+   - Attaching coordinate arrays to a variable
 
 See following URLs to see the reproduced NCL plot & script:
-    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/conwomap_2.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/conwomap_2_lg.png
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/conwomap_5.ncl
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/conwomap_5_2_lg.png
 """
 
 ###############################################################################
@@ -45,9 +47,6 @@ ax.yaxis.set_major_formatter(ScalarFormatter())
 ax.yaxis.set_minor_formatter(NullFormatter())
 gvutil.set_axes_limits_and_ticks(ax, ylim=(200, 1000), yticks=[1000,700,500,300], xticks=np.arange(-60,90,30), xticklabels=['60S','30S','0','30N','60N'])
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=0, labelsize=14)
-#ax.set_yticks([1000,700,500,300])
-#ax.set_ylim(1050, 100)
-
 
 # Specify colormap and make colorbar
 newcmap = gvcmaps.ncl_default
