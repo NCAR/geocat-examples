@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue May 19 11:17:13 2020
 
-@author: misi1684
 """
 
 import numpy as np
@@ -16,43 +14,87 @@ import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
-ds = xr.open_dataset(gdf.get("netcdf_files/pre.8912.mon.nc"),decode_coords=True)
+###############################################################################
+# Read in data:
+
+# Open a netCDF data file using xarray default engine and load the data into xarrays
+ds = xr.open_dataset(gdf.get("netcdf_files/pre.8912.mon.nc"))
+# Extract a slice of the data
 t = ds.pre[0,:]
-fig = plt.figure(figsize=(10,10))
+
+###############################################################################
+# Plot:
+
+# Generate figure
+plt.figure(figsize=(10, 10))
 
 # Generate axes using Cartopy and draw coastlines
-ax = plt.axes(projection=ccrs.PlateCarree())
-ax.coastlines(linewidths=0.5)
+projection = ccrs.LambertConformal(central_longitude=45, standard_parallels=(36,55))
+ax = plt.axes(projection=projection, frameon=False)
+ax.set_extent((30, 55, 20, 45), crs=ccrs.PlateCarree())
+ax.coastlines(linewidth=0.5)
 
-# Import an NCL colormap
-newcmp = gvcmaps.BlAqGrYeOrRe
-
-# Contourf-plot data (for filled contours)
-a = t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), levels = 14, cmap = newcmp, cbar_kwargs={"orientation":"horizontal",  "ticks":np.arange(0, 240, 20),  "label":'', "shrink":0.9})
-
-# Contour-plot data (for borderlines)
-t.plot.contour(levels = 14, linewidths=0.5, cmap='k', add_labels=False)
-
-
-
-# Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gvutil.set_axes_limits_and_ticks(ax, xlim=(30,55), ylim=(20,45),
-                                     xticks=np.arange(-180, 180, 5), yticks=np.arange(-90, 90, 5))
-
-# Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, labelsize=10)
-
-# Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
-
-# Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax, maintitle="Native Lambert Conformal Grid", maintitlefontsize=16,
-                                  lefttitle="Precipitation", lefttitlefontsize=14,
-                                  righttitle="mm", righttitlefontsize=14, xlabel="", ylabel="")
-
-# Show the plot
+# Plot data and create colorbar
+newcmp = gvcmaps.BlueYellowRed
+t.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), levels = 14, cbar_kwargs={"orientation":"horizontal",  "ticks":np.arange(0, 240, 20),  "label":'', "shrink":0.9})
+plt.title(t.long_name, loc='left', size=16)
+plt.title(t.units, loc='right', size=16)
 plt.show()
 
+
+
+
+
+
+# # Generate figure (set its size (width, height) in inches)
+# plt.figure(figsize=(14, 7))
+
+# # Generate axes, using Cartopy
+# projection = ccrs.LambertConformal(central_longitude=45, standard_parallels=(36,55))
+# ax = plt.axes(projection=projection)
+
+# # Use global map and draw coastlines
+# ax.set_global()
+# ax.coastlines()
+
+# # Import an NCL colormap
+# newcmp = gvcmaps.BlueYellowRed
+
+
+
+
+# # Contourf-plot data (for filled contours)
+# # Note, min-max contour levels are hard-coded. contourf's automatic contour value selector produces fractional values.
+# p = t.plot.contourf(ax=ax, transform=projection, vmin=-0, vmax=240, levels=20, cmap=newcmp, add_colorbar=False,
+#                     extend='neither')
+
+
+# # Add horizontal colorbar
+# cbar = plt.colorbar(p, orientation='horizontal', shrink=0.5)
+# cbar.ax.tick_params(labelsize=14)
+# cbar.set_ticks(np.linspace(0, 240, 11))
+
+
+
+# # Use geocat.viz.util convenience function to set axes tick values
+# gvutil.set_axes_limits_and_ticks(ax, xlim=(30,55), ylim=(20,45),
+#                                      xticks=np.arange(-180, 180, 5), yticks=np.arange(-90, 90, 5))
+
+# # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
+# # gvutil.add_lat_lon_ticklabels(ax=ax)
+
+# # Use geocat.viz.util convenience function to add minor and major tick lines
+# gvutil.add_major_minor_ticks(ax, labelsize=12)
+
+# # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
+# gvutil.set_titles_and_labels(ax, maintitle="Color contours mask filled land",
+#                                   lefttitle=t.long_name, lefttitlefontsize=16,
+#                                   righttitle=t.units, righttitlefontsize=16, xlabel="", ylabel="")
+
+
+
+# # Show the plot
+# plt.show()
 
 
 
