@@ -52,8 +52,8 @@ gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=0, label
 newcmap = gvcmaps.ncl_default
 p = ds.plot.contourf(ax=ax, levels=13, vmin=-8, vmax=40, cmap=newcmap, add_colorbar=False, add_labels=False)
 ds.plot.contour(ax=ax, levels=13, vmin=-8, vmax=40, colors='k', linewidths=0.5, linestyle='solid', add_colorbar=False, add_labels=False)
-plt.colorbar(p, ax=ax, drawedges=True, extendrect=True, ticks=np.arange(-8,44,4), orientation='horizontal', pad=0.075)
-
+cbar = plt.colorbar(p, ax=ax, drawedges=True, extendrect=True, extendfrac='auto', ticks=np.arange(-8,44,4), orientation='horizontal', pad=0.075, aspect=10)
+cbar.ax.tick_params(labelsize=14)
 # Add titles and labels
 gvutil.set_titles_and_labels(ax, maintitle="Logarithmic axis", maintitlefontsize=16, lefttitle="Zonal Wind", lefttitlefontsize=14)
 
