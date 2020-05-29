@@ -45,7 +45,7 @@ ax = plt.axes()
 gvutil.set_axes_limits_and_ticks(ax, xlim=(0, 30), ylim=(0, 30), xticks=None, yticks=None, xticklabels=None, yticklabels=None)
 
 # Use geocat.viz.util to add major and minor tics
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=4)
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=5, labelsize=18)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
 gvutil.set_titles_and_labels(ax, ylabel="wave number", labelfontsize=24)
@@ -53,10 +53,6 @@ gvutil.set_titles_and_labels(ax, ylabel="wave number", labelfontsize=24)
 # Set ticks and labels only on left and top of plot
 ax.xaxis.tick_top()
 ax.yaxis.tick_left()
-
-# Make tick font size bigger
-plt.xticks(fontsize=18)
-plt.yticks(fontsize=18)
 
 # Set color of right and bottom axes to make them invisible
 ax.spines['right'].set_color('white')
