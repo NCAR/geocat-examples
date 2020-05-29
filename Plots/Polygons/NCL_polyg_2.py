@@ -13,7 +13,7 @@ Concepts illustrated:
   - Increasing the font size of text
   - Adding text to a plot
   - Drawing a custom labelbar on a map
-  - Creating a red-yellow-blue color map 
+  - Creating a red-yellow-blue color map
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/polyg_2.ncl
@@ -25,82 +25,91 @@ See following URLs to see the reproduced NCL plot & script:
 # ----------------
 import numpy as np
 import xarray as xr
-import cartopy
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
-import matplotlib.colorbar as colorbar
 import matplotlib.cm as cm
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
 import cartopy.io.shapereader as shpreader
 import shapely.geometry as sgeom
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 ###############################################################################
+# Set state data and the color map dictionary
 
-statenames = ["AL","AR","AZ","CA","CO","CT","DE","FL","GA","IA","ID","IL",
-  "IN","KS","KY","LA","MA","MD","ME","MI","MN","MO","MS","MT",
-  "NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA",
-  "RI","SC","SD","TN","TX","UT","VA","VT","WA","WI","WV","WY"]
-
-ncds = [8,9,7,7,5,3,2,6,9,9,10,9,9,9,4,9,3,8,3,10,9,6,10,7,
-  8,9,8,2,3,8,4,10,10,9,9,10,1,7,9,4,10,7,7,3,10,9,6,10]
-
-colormap = {1:'mediumpurple', 2:'mediumblue', 3:'royalblue',
-            4:'cornflowerblue', 5:'lightblue', 6:'teal', 7:'yellowgreen', 8:'green', 
-            9:'wheat', 10:'tan', 11:'gold', 12:'orange', 13:'red', 14:'firebrick'}
+colormap = {1: 'mediumpurple', 2: 'mediumblue', 3: 'royalblue',
+            4: 'cornflowerblue', 5: 'lightblue', 6: 'teal', 7: 'yellowgreen', 8: 'green',
+            9: 'wheat', 10: 'tan', 11: 'gold', 12: 'orange', 13: 'red', 14: 'firebrick'}
 
 ###############################################################################
+# Plot map and colorbar
 
-fig = plt.figure(figsize=(10,9))
+# Create plot figure
+fig = plt.figure(figsize=(10, 10))
 
-# add a polar subplot
+# Add a subplot for lambert conformal map
 ax = fig.add_subplot(211, projection=ccrs.LambertConformal(), frameon=False, xbound=0.0, ybound=0.0)
-ax.set_extent([-119, -64, 22, 49], ccrs.Geodetic())
 
+# Set latitude and longitude extent of map
+ax.set_extent([-119, -74, 18, 50], ccrs.Geodetic())
+
+# Set shape name of map (which depicts the United States)
 shapename = 'admin_1_states_provinces_lakes_shp'
-states_shp = shpreader.natural_earth(resolution='110m',
-                                     category='cultural', name=shapename)
+states_shp = shpreader.natural_earth(resolution='110m', category='cultural', name=shapename)
 
+# Set title of plot
 ax.set_title("Average Annual Precipiation \n Computed for the period 1899-1999 \n NCDC climate division data \n \n")
 
+# Add outlines of each state within the United States
 for state in shpreader.Reader(states_shp).geometries():
-    
+
     facecolor = 'white'
     edgecolor = 'black'
 
-    ax.add_geometries([state], ccrs.PlateCarree(),
-                      facecolor=facecolor, edgecolor=edgecolor)
+    ax.add_geometries([state], ccrs.PlateCarree(), facecolor=facecolor, edgecolor=edgecolor)
 
+# Open climate division datafile and add to xarray
 ds = xr.open_dataset(gdf.get("netcdf_files/climdiv_polygons.nc"))
 
+# For each variable (climate division) in data set, create outline on map and fill with random color
 for varname, da in ds.data_vars.items():
-    
-  first = ds.get(varname)
-  lat = first.lat
-  lon = first.lon
 
-  track = sgeom.LineString(zip(lon, lat))
-  im = ax.add_geometries([track], ccrs.PlateCarree(), facecolor=colormap[np.random.randint(1, 14)], edgecolor='k', linewidths=.5)
+    first = ds.get(varname)
+    lat = first.lat
+    lon = first.lon
+
+    track = sgeom.LineString(zip(lon, lat))
+    im = ax.add_geometries([track], ccrs.PlateCarree(), facecolor=colormap[np.random.randint(1, 14)], edgecolor='k', linewidths=.5)
 
 # Make colorbar
-ax1 = fig.add_subplot(212, aspect=.02)
-
+# Set colors
 cmap = colors.ListedColormap(['mediumpurple', 'mediumblue', 'royalblue',
-            'cornflowerblue', 'lightblue', 'teal', 'yellowgreen', 'green', 
-            'wheat', 'tan', 'gold', 'orange', 'red', 'firebrick'])
-bounds = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45 ,50, 60, 70, 80 , 90]
+                              'cornflowerblue', 'lightblue', 'teal', 'yellowgreen', 'green',
+                              'wheat', 'tan', 'gold', 'orange', 'red', 'firebrick'])
+
+# Set "bounds" or tics on colorbar
+bounds = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90]
+
+# Map colors to bounds
 norm = colors.BoundaryNorm(bounds, cmap.N)
-fig.colorbar(
+
+# Adjust size of colorbar with "inset_axes" function
+axins1 = inset_axes(ax,
+                    width="75%",  # width = 50% of parent_bbox width
+                    height="3%",  # height : 5%
+                    loc='lower center'
+                    )
+
+# Add colorbar to plot
+cb = fig.colorbar(
     cm.ScalarMappable(cmap=cmap, norm=norm),
-    cax=ax1,
+    cax=axins1,
     boundaries=bounds,
     ticks=bounds,
     spacing='uniform',
     orientation='horizontal',
     label='inches',
-    fraction=.15,
 )
 
 plt.show()
