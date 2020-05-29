@@ -72,17 +72,55 @@ for state in shpreader.Reader(states_shp).geometries():
     ax.add_geometries([state], ccrs.PlateCarree(), facecolor=facecolor, edgecolor=edgecolor)
 
 # Open climate division datafile and add to xarray
-ds = xr.open_dataset(gdf.get("netcdf_files/climdiv_polygons.nc"))
+ds = xr.open_dataset(gdf.get("netcdf_files/climdiv_prcp_1899-1999.nc"), decode_times=False)
 
 # For each variable (climate division) in data set, create outline on map and fill with random color
 for varname, da in ds.data_vars.items():
 
-    first = ds.get(varname)
-    lat = first.lat
-    lon = first.lon
+    try:
+        # Get precipitation data for each climate division
+        first = ds.get(varname)
+        precipitationdata = sum(first.values)/100
 
-    track = sgeom.LineString(zip(lon, lat))
-    im = ax.add_geometries([track], ccrs.PlateCarree(), facecolor=colormap[np.random.randint(1, 14)], edgecolor='k', linewidths=.5)
+        # Get borders of each climate division
+        lat = first.lat
+        lon = first.lon
+
+        # Determine which color to fill the divisions based on precipitation data
+        colorindex = 0
+        if (precipitationdata<5):
+            colorindex = 1
+        elif (precipitationdata>=5 and precipitationdata<10):
+            colorindex = 2
+        elif (precipitationdata>=10 and precipitationdata<15):
+            colorindex = 3
+        elif (precipitationdata>=15 and precipitationdata<20):
+            colorindex = 4
+        elif (precipitationdata>=20 and precipitationdata<25):
+            colorindex = 5
+        elif (precipitationdata>=25 and precipitationdata<30):
+            colorindex = 6
+        elif (precipitationdata>=30 and precipitationdata<35):
+            colorindex = 7
+        elif (precipitationdata>=35 and precipitationdata<40):
+            colorindex = 8
+        elif (precipitationdata>=40 and precipitationdata<45):
+            colorindex = 9
+        elif (precipitationdata>=45 and precipitationdata<50):
+            colorindex = 10
+        elif (precipitationdata>=50 and precipitationdata<60):
+            colorindex = 11
+        elif (precipitationdata>=60 and precipitationdata<70):
+            colorindex = 12
+        elif (precipitationdata>=70 and precipitationdata<80):
+            colorindex = 13
+        elif (precipitationdata>=80 and precipitationdata<90):
+            colorindex = 14
+
+        track = sgeom.LineString(zip(lon, lat))
+        im = ax.add_geometries([track], ccrs.PlateCarree(), facecolor=colormap[colorindex], edgecolor='k', linewidths=.5)
+    except:
+        continue
 
 # Make colorbar
 # Set colors
