@@ -29,6 +29,7 @@ import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import matplotlib.cm as cm
+from geocat.viz import util as gvutil
 
 import geocat.datafiles as gdf
 import cartopy.io.shapereader as shpreader
@@ -49,7 +50,7 @@ colormap = {1: 'mediumpurple', 2: 'mediumblue', 3: 'royalblue',
 fig = plt.figure(figsize=(10, 10))
 
 # Add a subplot for lambert conformal map
-ax = fig.add_subplot(211, projection=ccrs.LambertConformal(), frameon=False, xbound=0.0, ybound=0.0)
+ax = fig.add_subplot(111, projection=ccrs.LambertConformal(), frameon=False, xbound=0.0, ybound=0.0)
 
 # Set latitude and longitude extent of map
 ax.set_extent([-119, -74, 18, 50], ccrs.Geodetic())
@@ -58,8 +59,9 @@ ax.set_extent([-119, -74, 18, 50], ccrs.Geodetic())
 shapename = 'admin_1_states_provinces_lakes_shp'
 states_shp = shpreader.natural_earth(resolution='110m', category='cultural', name=shapename)
 
-# Set title of plot
-ax.set_title("Average Annual Precipiation \n Computed for the period 1899-1999 \n NCDC climate division data \n \n")
+# Set title and title fontsize of plot using gvutil function instead of matplotlib function call
+gvutil.set_titles_and_labels(ax, maintitle="\nAverage Annual Precipiation \n Computed for the period 1899-1999 \n NCDC climate division data \n \n",
+                            maintitlefontsize=18)
 
 # Add outlines of each state within the United States
 for state in shpreader.Reader(states_shp).geometries():
