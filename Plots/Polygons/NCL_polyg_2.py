@@ -104,18 +104,18 @@ for varname, da in ds.data_vars.items():
             colorindex = 7
         elif (precipitationdata>=35 and precipitationdata<40):
             colorindex = 8
-        elif (precipitationdata>=40 and precipitationdata<45):
+        elif (precipitationdata>=40 and precipitationdata<50):
             colorindex = 9
-        elif (precipitationdata>=45 and precipitationdata<50):
-            colorindex = 10
         elif (precipitationdata>=50 and precipitationdata<60):
-            colorindex = 11
+            colorindex = 10
         elif (precipitationdata>=60 and precipitationdata<70):
-            colorindex = 12
+            colorindex = 11
         elif (precipitationdata>=70 and precipitationdata<80):
-            colorindex = 13
+            colorindex = 12
         elif (precipitationdata>=80 and precipitationdata<90):
-            colorindex = 14
+            colorindex = 13
+        elif (precipitationdata>=90 and precipitationdata<100):
+            colorindex = 14           
 
         track = sgeom.LineString(zip(lon, lat))
         im = ax.add_geometries([track], ccrs.PlateCarree(), facecolor=colormap[colorindex], edgecolor='k', linewidths=.5)
@@ -129,7 +129,7 @@ cmap = colors.ListedColormap(['mediumpurple', 'mediumblue', 'royalblue',
                               'wheat', 'tan', 'gold', 'orange', 'red', 'firebrick'])
 
 # Set "bounds" or tics on colorbar
-bounds = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90]
+bounds = [0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100]
 
 # Map colors to bounds
 norm = colors.BoundaryNorm(bounds, cmap.N)
