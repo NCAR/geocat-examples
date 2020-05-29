@@ -53,18 +53,17 @@ colormap = {1:'mediumpurple', 2:'mediumblue', 3:'royalblue',
 
 ###############################################################################
 
-fig = plt.figure(figsize=(10,10))
+fig = plt.figure(figsize=(10,9))
 
-ax = fig.add_axes([0, 0, 1, 1], projection=ccrs.LambertConformal())
-ax.set_extent([-125, -65.0, 24, 50], ccrs.Geodetic())
+# add a polar subplot
+ax = fig.add_subplot(211, projection=ccrs.LambertConformal(), frameon=False, xbound=0.0, ybound=0.0)
+ax.set_extent([-119, -64, 22, 49], ccrs.Geodetic())
 
 shapename = 'admin_1_states_provinces_lakes_shp'
 states_shp = shpreader.natural_earth(resolution='110m',
                                      category='cultural', name=shapename)
 
-ax.set_title("Average Annual Precipiation \n Computed for the period 1899-1999 \n NCDC climate division data")
-ax.background_patch.set_visible(False)
-ax.outline_patch.set_visible(False)
+ax.set_title("Average Annual Precipiation \n Computed for the period 1899-1999 \n NCDC climate division data \n \n")
 
 for state in shpreader.Reader(states_shp).geometries():
     
@@ -76,7 +75,6 @@ for state in shpreader.Reader(states_shp).geometries():
 
 ds = xr.open_dataset(gdf.get("netcdf_files/climdiv_polygons.nc"))
 
-print(ds.get('CA_CD5'))
 for varname, da in ds.data_vars.items():
     
   first = ds.get(varname)
@@ -87,23 +85,22 @@ for varname, da in ds.data_vars.items():
   im = ax.add_geometries([track], ccrs.PlateCarree(), facecolor=colormap[np.random.randint(1, 14)], edgecolor='k', linewidths=.5)
 
 # Make colorbar
-fig, ax = plt.subplots(figsize=(6, 1))
-fig.subplots_adjust(bottom=0.5)
+ax1 = fig.add_subplot(212, aspect=.02)
 
 cmap = colors.ListedColormap(['mediumpurple', 'mediumblue', 'royalblue',
             'cornflowerblue', 'lightblue', 'teal', 'yellowgreen', 'green', 
             'wheat', 'tan', 'gold', 'orange', 'red', 'firebrick'])
-
 bounds = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45 ,50, 60, 70, 80 , 90]
 norm = colors.BoundaryNorm(bounds, cmap.N)
 fig.colorbar(
     cm.ScalarMappable(cmap=cmap, norm=norm),
-    cax=ax,
+    cax=ax1,
     boundaries=bounds,
     ticks=bounds,
     spacing='uniform',
     orientation='horizontal',
     label='inches',
+    fraction=.15,
 )
 
 plt.show()
