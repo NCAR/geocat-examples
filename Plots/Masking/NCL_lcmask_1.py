@@ -17,7 +17,9 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 import cartopy.crs as ccrs
+import matplotlib.path as mpath
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 import numpy as np
 import xarray as xr
 
@@ -82,13 +84,21 @@ ds = east.combine_first(west)
 # Plot masked data
 
 # Generate figure
-plt.figure(figsize=(7,10))
+plt.figure(figsize=(10,10))
 
 # Generate axes using Cartopy and draw coastlines
-projection = ccrs.LambertConformal(central_longitude=-20, cutoff=20, standard_parallels=(45, 89))
+projection = ccrs.LambertConformal(central_longitude=-25, cutoff=20, standard_parallels=(45, 89))
 ax = plt.axes(projection=projection)
-ax.set_extent([-90, 40, 20, 80], ccrs.PlateCarree())
+ax.set_global()
 ax.coastlines(linewidth=0.5)
+
+
+# Create a custom boundary to achive the wedge shape
+center, radius = [0.5, 0.5], 0.5
+theta1 = 210
+theta2 = 332.5
+wedge = mpatches.Wedge(center, radius, theta1, theta2, width=0.43, transform=ax.transAxes).get_path()
+ax.set_boundary(wedge, transform=ax.transAxes)
 
 # Plot data and create colorbar
 newcmp = gvcmaps.BlWhRe
