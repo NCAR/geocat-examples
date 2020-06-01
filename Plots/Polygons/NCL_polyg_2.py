@@ -38,10 +38,7 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 # Helper function to determine which color to fill the divisions based on precipitation data
 
 
-def findDivColor(pdata):
-    colormap = [(5, 'mediumpurple'), (10, 'mediumblue'), (15, 'royalblue'),
-                (20, 'cornflowerblue'), (25, 'lightblue'), (30, 'teal'), (35, 'yellowgreen'), (40, 'green'),
-                (50, 'wheat'), (60, 'tan'), (70, 'gold'), (80, 'orange'), (90, 'red'), (100, 'firebrick')]
+def findDivColor(colormap, pdata):
     for x in colormap:
         if pdata >= x[0]:
             continue
@@ -92,7 +89,12 @@ for varname, da in ds.data_vars.items():
         lat = first.lat
         lon = first.lon
 
-        # GET COLOR OF DIVISION
+        # Set color map with bounds
+        colormap = [(5, 'mediumpurple'), (10, 'mediumblue'), (15, 'royalblue'),
+                (20, 'cornflowerblue'), (25, 'lightblue'), (30, 'teal'), (35, 'yellowgreen'), (40, 'green'),
+                (50, 'wheat'), (60, 'tan'), (70, 'gold'), (80, 'orange'), (90, 'red'), (100, 'firebrick')]
+        
+        # Get color of division
         color = findDivColor(precipitationdata)
 
         # Use "shapely geometry" module to create division outlines from lat/lon coordinates
