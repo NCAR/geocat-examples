@@ -22,6 +22,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
 import xarray as xr
+import math
 
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
@@ -94,11 +95,28 @@ ax.coastlines(linewidth=0.5)
 
 
 # Create a custom boundary to achive the wedge shape
-center, radius = [0.5, 0.5], 0.5
-theta1 = 210
-theta2 = 332.5
-wedge = mpatches.Wedge(center, radius, theta1, theta2, width=0.43, transform=ax.transAxes).get_path()
-ax.set_boundary(wedge, transform=ax.transAxes)
+#center, radius = [0.5, 0.5], 0.5
+#theta1 = 210
+#theta2 = 332.5
+#wedge = mpatches.Wedge(center, radius, theta1, theta2, width=0.43, transform=ax.transAxes).get_path()
+#ax.set_boundary(wedge, transform=ax.transAxes)
+
+# Compute a circle in axes coordinates, which we can use as a boundary
+# for the map. We can pan/zoom as much as we like - the boundary will be
+# permanently circular.
+start = math.radians(118)
+end = math.radians(240)
+theta = np.linspace(start, end, 100)
+center = [0.5, 0.5]
+radius_1, radius_2 = 0.075, 0.5
+verts = np.vstack([np.sin(theta), np.cos(theta)]).T
+inner = verts * radius_1 + center
+outer = verts * radius_2 + center
+outer = np.flip(outer, axis=0)
+points = np.append(inner, outer, axis=0)
+circle = mpath.Path(points)
+
+ax.set_boundary(circle, transform=ax.transAxes)
 
 # Plot data and create colorbar
 newcmp = gvcmaps.BlWhRe
