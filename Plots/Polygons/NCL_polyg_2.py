@@ -22,7 +22,6 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 # ----------------
-import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
@@ -38,19 +37,18 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 ###############################################################################
 # Helper function to determine which color to fill the divisions based on precipitation data
 
-def findDivColor(pdata): 
 
-    colormap = [(5, 'mediumpurple'),(10, 'mediumblue'), (15, 'royalblue'),
-            (20, 'cornflowerblue'), (25, 'lightblue'), (30, 'teal'), (35, 'yellowgreen'), (40, 'green'),
-            (50, 'wheat'), (60, 'tan'), (70, 'gold'), (80, 'orange'), (90, 'red'), (100, 'firebrick')]
-
+def findDivColor(pdata):
+    colormap = [(5, 'mediumpurple'), (10, 'mediumblue'), (15, 'royalblue'),
+                (20, 'cornflowerblue'), (25, 'lightblue'), (30, 'teal'), (35, 'yellowgreen'), (40, 'green'),
+                (50, 'wheat'), (60, 'tan'), (70, 'gold'), (80, 'orange'), (90, 'red'), (100, 'firebrick')]
     for x in colormap:
         if pdata >= x[0]:
             continue
         else:
             return x[1]
 
-           
+
 ###############################################################################
 # Plot map and colorbar
 
@@ -69,7 +67,7 @@ states_shp = shpreader.natural_earth(resolution='110m', category='cultural', nam
 
 # Set title and title fontsize of plot using gvutil function instead of matplotlib function call
 gvutil.set_titles_and_labels(ax, maintitle="\nAverage Annual Precipiation \n Computed for the period 1899-1999 \n NCDC climate division data \n \n",
-                            maintitlefontsize=18)
+                             maintitlefontsize=18)
 
 # Add outlines of each state within the United States
 for state in shpreader.Reader(states_shp).geometries():
@@ -94,7 +92,7 @@ for varname, da in ds.data_vars.items():
         lat = first.lat
         lon = first.lon
 
-        # GET COLOR OF DIVISION        
+        # GET COLOR OF DIVISION
         color = findDivColor(precipitationdata)
 
         # Use "shapely geometry" module to create division outlines from lat/lon coordinates
@@ -102,8 +100,9 @@ for varname, da in ds.data_vars.items():
 
         # Add division outlines to map
         im = ax.add_geometries([track], ccrs.PlateCarree(), facecolor=color, edgecolor='k', linewidths=.5)
-    
-    except:
+
+    except Exception as E:
+        print(E)
         continue
 
 # Make colorbar
