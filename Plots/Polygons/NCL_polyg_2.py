@@ -6,7 +6,6 @@ Concepts illustrated:
   - Color-coding climate divisions based on precipitation values
   - Drawing the climate divisions of the U.S.
   - Zooming in on a particular area on a Lambert Conformal map
-  - Drawing filled polygons on a map
   - Drawing a border around filled polygons
   - Masking the ocean in a map plot
   - Masking land in a map plot
@@ -37,12 +36,21 @@ import shapely.geometry as sgeom
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 ###############################################################################
-# Set state data and the color map dictionary
+# Helper function to determine which color to fill the divisions based on precipitation data
 
-colormap = {1: 'mediumpurple', 2: 'mediumblue', 3: 'royalblue',
-            4: 'cornflowerblue', 5: 'lightblue', 6: 'teal', 7: 'yellowgreen', 8: 'green',
-            9: 'wheat', 10: 'tan', 11: 'gold', 12: 'orange', 13: 'red', 14: 'firebrick'}
+def findDivColor(pdata): 
 
+    colormap = [(5, 'mediumpurple'),(10, 'mediumblue'), (15, 'royalblue'),
+            (20, 'cornflowerblue'), (25, 'lightblue'), (30, 'teal'), (35, 'yellowgreen'), (40, 'green'),
+            (50, 'wheat'), (60, 'tan'), (70, 'gold'), (80, 'orange'), (90, 'red'), (100, 'firebrick')]
+
+    for x in colormap:
+        if pdata >= x[0]:
+            continue
+        else:
+            return x[1]
+
+           
 ###############################################################################
 # Plot map and colorbar
 
@@ -79,46 +87,22 @@ for varname, da in ds.data_vars.items():
 
     try:
         # Get precipitation data for each climate division
-        first = ds.get(varname)
+        first = da
         precipitationdata = sum(first.values)/100
 
         # Get borders of each climate division
         lat = first.lat
         lon = first.lon
 
-        # Determine which color to fill the divisions based on precipitation data
-        colorindex = 0
-        if (precipitationdata<5):
-            colorindex = 1
-        elif (precipitationdata>=5 and precipitationdata<10):
-            colorindex = 2
-        elif (precipitationdata>=10 and precipitationdata<15):
-            colorindex = 3
-        elif (precipitationdata>=15 and precipitationdata<20):
-            colorindex = 4
-        elif (precipitationdata>=20 and precipitationdata<25):
-            colorindex = 5
-        elif (precipitationdata>=25 and precipitationdata<30):
-            colorindex = 6
-        elif (precipitationdata>=30 and precipitationdata<35):
-            colorindex = 7
-        elif (precipitationdata>=35 and precipitationdata<40):
-            colorindex = 8
-        elif (precipitationdata>=40 and precipitationdata<50):
-            colorindex = 9
-        elif (precipitationdata>=50 and precipitationdata<60):
-            colorindex = 10
-        elif (precipitationdata>=60 and precipitationdata<70):
-            colorindex = 11
-        elif (precipitationdata>=70 and precipitationdata<80):
-            colorindex = 12
-        elif (precipitationdata>=80 and precipitationdata<90):
-            colorindex = 13
-        elif (precipitationdata>=90 and precipitationdata<100):
-            colorindex = 14           
+        # GET COLOR OF DIVISION        
+        color = findDivColor(precipitationdata)
 
+        # Use "shapely geometry" module to create division outlines from lat/lon coordinates
         track = sgeom.LineString(zip(lon, lat))
-        im = ax.add_geometries([track], ccrs.PlateCarree(), facecolor=colormap[colorindex], edgecolor='k', linewidths=.5)
+
+        # Add division outlines to map
+        im = ax.add_geometries([track], ccrs.PlateCarree(), facecolor=color, edgecolor='k', linewidths=.5)
+    
     except:
         continue
 
