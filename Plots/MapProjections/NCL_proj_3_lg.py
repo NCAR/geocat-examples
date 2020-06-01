@@ -19,9 +19,7 @@ import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
-import matplotlib as mpl
 
 ###############################################################################
 # Read in data:
@@ -48,13 +46,6 @@ ax = plt.axes(projection=ccrs.Orthographic(-120, 50))
 ax.set_extent([0, -180, 0, 90], ccrs.PlateCarree())
 ax.set_global()
 ax.coastlines(linewidths=0.5)
-
-# Import an NCL colormap
-newcmp = gvcmaps.gui_default
-
-offset = mpl.colors.Normalize(vmin=210, vmax= 310)
-q=offset(t)
-print(q)
 
 # Contourf-plot data (for filled contours)
 wrap_t.plot.contourf(
