@@ -36,15 +36,11 @@ wrap_U = gvutil.xr_add_cyclic_longitudes(U, "lon")
 
 ###############################################################################
 #Plot:
-    
-# Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(10, 10))
 
 # Generate axes, using Cartopy, drawing coastlines, and adding features
 fig = plt.figure(figsize=(10, 10))
 projection = ccrs.NorthPolarStereo()
 ax = plt.axes(projection=projection)
-ax.coastlines(linewidths=0.5)
 ax.add_feature(cfeature.LAND, facecolor='lightgray')
 
 # Set extent to include latitudes between 0 and 40 and longitudes between
@@ -79,7 +75,7 @@ wtick = [
         tick != 0) & (
             tick != 180)]
 labels = etick + wtick
-xticks = [-0.8, 28, 58, 89.1, 120, 151, 182.9, -36, -63, -89, -114, -140]
+xticks = [-0.8, 28, 58, 89.1, 120, 151, 182.9, -36, -63, -89, -114, -140, -151]
 yticks = [-3] + [-2] + [-1] + [-1] * 2 + [-1] + [-3] + [-7] + [-7] * 3 + [-7]
 
 
