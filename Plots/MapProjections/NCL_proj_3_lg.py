@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
+import matplotlib as mpl
 
 ###############################################################################
 # Read in data:
@@ -51,12 +52,16 @@ ax.coastlines(linewidths=0.5)
 # Import an NCL colormap
 newcmp = gvcmaps.gui_default
 
+offset = mpl.colors.Normalize(vmin=210, vmax= 310)
+q=offset(t)
+print(q)
+
 # Contourf-plot data (for filled contours)
 wrap_t.plot.contourf(
     ax=ax,
     transform=ccrs.PlateCarree(),
-    levels=12,
-    cmap='inferno',
+     levels=11,
+    cmap='coolwarm',
     cbar_kwargs={
         "orientation": "horizontal",
         "ticks": np.linspace(
@@ -65,10 +70,6 @@ wrap_t.plot.contourf(
             11),
         "label": '',
         "shrink": 0.9})
-
-# Contour-plot data (for borderlines)
-wrap_t.plot.contour(ax=ax, transform=ccrs.PlateCarree(),
-                    levels=12, linewidths=0.5, cmap='k')
 
 # Use geocat.viz.util convenience function to add titles to left and right
 # of the plot axis.
