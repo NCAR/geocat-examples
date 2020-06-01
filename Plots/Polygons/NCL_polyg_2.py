@@ -82,18 +82,17 @@ for varname, da in ds.data_vars.items():
 
     try:
         # Get precipitation data for each climate division
-        first = da
-        precipitationdata = sum(first.values)/100
+        precipitationdata = sum(da.values)/100
 
         # Get borders of each climate division
-        lat = first.lat
-        lon = first.lon
+        lat = da.lat
+        lon = da.lon
 
         # Set color map with bounds
         colormap = [(5, 'mediumpurple'), (10, 'mediumblue'), (15, 'royalblue'),
-                (20, 'cornflowerblue'), (25, 'lightblue'), (30, 'teal'), (35, 'yellowgreen'), (40, 'green'),
-                (50, 'wheat'), (60, 'tan'), (70, 'gold'), (80, 'orange'), (90, 'red'), (100, 'firebrick')]
-        
+                    (20, 'cornflowerblue'), (25, 'lightblue'), (30, 'teal'), (35, 'yellowgreen'), (40, 'green'),
+                    (50, 'wheat'), (60, 'tan'), (70, 'gold'), (80, 'orange'), (90, 'red'), (100, 'firebrick')]
+
         # Get color of division
         color = findDivColor(colormap, precipitationdata)
 
