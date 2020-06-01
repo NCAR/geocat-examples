@@ -95,7 +95,7 @@ for varname, da in ds.data_vars.items():
                 (50, 'wheat'), (60, 'tan'), (70, 'gold'), (80, 'orange'), (90, 'red'), (100, 'firebrick')]
         
         # Get color of division
-        color = findDivColor(precipitationdata)
+        color = findDivColor(colormap, precipitationdata)
 
         # Use "shapely geometry" module to create division outlines from lat/lon coordinates
         track = sgeom.LineString(zip(lon, lat))
