@@ -20,6 +20,7 @@ import cartopy.crs as ccrs
 import matplotlib.path as mpath
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import matplotlib.transforms as mtransform
 import numpy as np
 import xarray as xr
 import math
@@ -95,24 +96,22 @@ ax.coastlines(linewidth=0.5)
 
 
 # Create a custom boundary to achive the wedge shape
-#center, radius = [0.5, 0.5], 0.5
-#theta1 = 210
-#theta2 = 332.5
-#wedge = mpatches.Wedge(center, radius, theta1, theta2, width=0.43, transform=ax.transAxes).get_path()
-#ax.set_boundary(wedge, transform=ax.transAxes)
-
-# Compute a circle in axes coordinates, which we can use as a boundary
-# for the map. We can pan/zoom as much as we like - the boundary will be
-# permanently circular.
+# Start and end angles of the wedge
 start = math.radians(118)
 end = math.radians(240)
 theta = np.linspace(start, end, 100)
+
 center = [0.5, 0.5]
-radius_1, radius_2 = 0.075, 0.5
+radius_1 = 0.075 # radius of the inner arc
+radius_2 = 0.5 # radius of the outer arc
+
+# Calculating vertices for each arc
 verts = np.vstack([np.sin(theta), np.cos(theta)]).T
 inner = verts * radius_1 + center
 outer = verts * radius_2 + center
 outer = np.flip(outer, axis=0)
+
+# Appending the list of arc vertices and creating a path object
 points = np.append(inner, outer, axis=0)
 circle = mpath.Path(points)
 
@@ -125,4 +124,5 @@ wind = ds.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), add_co
 plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True, ticks=np.arange(-48, 48, 8), pad=0.1, aspect=12)
 plt.title(ds.long_name, loc='left', size=16)
 plt.title(ds.units, loc='right', size=16)
+
 plt.show()
