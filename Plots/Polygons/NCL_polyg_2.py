@@ -35,7 +35,14 @@ import shapely.geometry as sgeom
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 ###############################################################################
-# Helper function to determine which color to fill the divisions based on precipitation data
+# Initialize color map dictionary with bounds
+
+colormap = [(5, 'mediumpurple'), (10, 'mediumblue'), (15, 'royalblue'),
+            (20, 'cornflowerblue'), (25, 'lightblue'), (30, 'teal'), (35, 'yellowgreen'), (40, 'green'),
+            (50, 'wheat'), (60, 'tan'), (70, 'gold'), (80, 'orange'), (90, 'red'), (100, 'firebrick')]
+
+###############################################################################
+# Define helper function to determine which color to fill the divisions based on precipitation data
 
 
 def findDivColor(colormap, pdata):
@@ -47,7 +54,7 @@ def findDivColor(colormap, pdata):
 
 
 ###############################################################################
-# Plot map and colorbar
+# Plot map
 
 # Create plot figure
 fig = plt.figure(figsize=(10, 10))
@@ -88,12 +95,7 @@ for varname, da in ds.data_vars.items():
         lat = da.lat
         lon = da.lon
 
-        # Set color map with bounds
-        colormap = [(5, 'mediumpurple'), (10, 'mediumblue'), (15, 'royalblue'),
-                    (20, 'cornflowerblue'), (25, 'lightblue'), (30, 'teal'), (35, 'yellowgreen'), (40, 'green'),
-                    (50, 'wheat'), (60, 'tan'), (70, 'gold'), (80, 'orange'), (90, 'red'), (100, 'firebrick')]
-
-        # Get color of division
+        # Get color of climate division
         color = findDivColor(colormap, precipitationdata)
 
         # Use "shapely geometry" module to create division outlines from lat/lon coordinates
@@ -106,14 +108,20 @@ for varname, da in ds.data_vars.items():
         print(E)
         continue
 
-# Make colorbar
-# Set colors
-cmap = colors.ListedColormap(['mediumpurple', 'mediumblue', 'royalblue',
-                              'cornflowerblue', 'lightblue', 'teal', 'yellowgreen', 'green',
-                              'wheat', 'tan', 'gold', 'orange', 'red', 'firebrick'])
+###############################################################################
+# Plot colorbar
 
-# Set "bounds" or tics on colorbar
-bounds = [0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100]
+# Create arrays of colors and "bounds", or tics on colorbar
+bounds = [0]
+cmap = []
+
+# Fill in arrays of colors and "bounds" with values from colormap dictionary
+for x in colormap:
+    bounds.append(x[0])
+    cmap.append(x[1])
+
+# Convert array cmap into type listed color map so we can map it to bounds in next step
+cmap = colors.ListedColormap(cmap)
 
 # Map colors to bounds
 norm = colors.BoundaryNorm(bounds, cmap.N)
