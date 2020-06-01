@@ -4,10 +4,8 @@ NCL_conwomap_3.py
 Concepts illustrated:
   - Drawing a simple contour plot
   - Generating dummy data using "random_normal"
-  - Masking mirrored contour data
-  - Drawing a perimeter around areas on a contour plot with missing data
+  - Drawing a filled polygon over area on a contour plot with missing data
   - Turning off the bottom and right borders of a contour plot
-  - Using "getvalues" to retrieve resource values
   - Changing the labels and tickmarks on a contour plot
   - Adding a complex Greek character to a contour plot
   - Moving the contour informational label into the plot
@@ -58,8 +56,8 @@ ax.yaxis.tick_left()
 ax.spines['right'].set_color('white')
 ax.spines['bottom'].set_color('white')
 
-# Create a numpy array of 30
-x = np.arange(0, 31)
+# Create a numpy array of the length of xlist
+x = np.arange(0, len(xlist))
 
 # Plot a step function
 plt.step(x, x, color='black', zorder=7)
@@ -71,7 +69,7 @@ cp = ax.contour(xdata, ydata, zdata, colors='k', linewidths=1.0)
 ax.clabel(cp, inline=True, fontsize=10, colors='k', fmt="%.0f")
 
 # Ignore second half of the graph
-y1 = np.full(shape=31, fill_value=0, dtype=np.int)
+y1 = np.full(shape=len(xlist), fill_value=0, dtype=np.int)
 y2 = x
 ax.fill_between(x, y1, y2, where=y2 >= y1, color='white', step='pre', alpha=1.0, zorder=4)
 
