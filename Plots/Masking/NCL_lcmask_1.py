@@ -5,6 +5,7 @@ This script illustrates the following concepts:
    - Drawing filled contours over a Lambert Conformal map
    - Drawing a filled contours over a masked Lambert Conformal plot
    - Zooming in on a particular area on a Lambert Conformal map
+   - Creating a custom plot boundary
    - Using a blue-white-red color map
    - Setting contour levels using a min/max contour level and a spacing
    - Turning off the addition of a longitude cyclic point
@@ -28,6 +29,59 @@ import math
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
+
+###############################################################################
+# Defining a utility function to create a wedge shaped path for plot boundary
+def wedge_path(theta1, theta2, r, width=None, center=(0, 0), res=100):
+    """
+    Utility function to create a wedge shaped path of radius r sweeping from 
+    theta1 to theta2.
+
+    Args:
+
+        theta1 (:class:'float'):
+            Angle right of the verticle in degrees where the wedge will begin.
+
+        theta2 (:class:'float'):
+            Angle right fo the verticle in degrees where the wedge will end.
+
+        r (:class:'float'):
+            Radius of the wedge
+
+        width (:class:'float'):
+            Width of the partial wedge with inner radius r - width and outer
+            radius r.
+        
+        center (:class:'tuple'):
+            Positon of the wedge relative to lower left corner of axes.
+        
+        res (:class:'int'):
+            Resolution of the vertices. A higher number results in smoother
+            arcs.
+
+    """
+    
+    # Start and end angles of the wedge
+    start = math.radians(theta1)
+    end = math.radians(theta2)
+    theta = np.linspace(start, end, res)
+
+    # Calculating vertices for each arc
+    verts = np.vstack([np.sin(theta), np.cos(theta)]).T
+    outer = verts * r + center
+    if width == None:
+        inner = np.full_like(verts, center)
+    else:
+        inner = verts * (r - width) + center
+
+    # Flip to ensure the end of one arc is connected to the start of the other
+    outer = np.flip(outer, axis=0)
+
+    # Appending the list of arc vertices and creating a path object
+    points = np.append(inner, outer, axis=0)
+    wedge = mpath.Path(points)
+
+    return wedge
 
 ###############################################################################
 # Read in data:
@@ -64,7 +118,7 @@ plt.title(ds.units, loc='right', size=16)
 plt.show()
 
 ###############################################################################
-# Read in fresh  data and mask it
+# Read in fresh data and mask it
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)    # Disable time decoding due to missing necessary metadata
@@ -96,26 +150,8 @@ ax.coastlines(linewidth=0.5)
 
 
 # Create a custom boundary to achive the wedge shape
-# Start and end angles of the wedge
-start = math.radians(118)
-end = math.radians(240)
-theta = np.linspace(start, end, 100)
-
-center = [0.5, 0.5]
-radius_1 = 0.075 # radius of the inner arc
-radius_2 = 0.5 # radius of the outer arc
-
-# Calculating vertices for each arc
-verts = np.vstack([np.sin(theta), np.cos(theta)]).T
-inner = verts * radius_1 + center
-outer = verts * radius_2 + center
-outer = np.flip(outer, axis=0)
-
-# Appending the list of arc vertices and creating a path object
-points = np.append(inner, outer, axis=0)
-circle = mpath.Path(points)
-
-ax.set_boundary(circle, transform=ax.transAxes)
+wedge = wedge_path(118, 240, 0.5, center=(0.5, 0.5), width=0.425)
+ax.set_boundary(wedge, transform=ax.transAxes)
 
 # Plot data and create colorbar
 newcmp = gvcmaps.BlWhRe
