@@ -17,3 +17,39 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/xy_5.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/xy_5_1_lg.png
 """
+
+###############################################################################
+# Import packages:
+import numpy as np
+import xarray as xr
+import matplotlib.pyplot as plt
+
+import geocat.datafiles as gdf
+from geocat.viz import util as gvutil
+
+###############################################################################
+# Read in data:
+
+# Open a netCDF data file using xarray default engine and load the data into xarrays
+ds = xr.open_dataset(gdf.get("netcdf_files/SOI.nc"))
+ds = ds.SOI_NOISE_LOWPASS
+print(ds)
+###############################################################################
+# Plot:
+
+# Generate figure (set its size (width, height) in inches) and axes
+plt.figure(figsize=(8, 4))
+ax = plt.gca()
+
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4, 
+                             labelsize=14)
+
+# Use geocat.viz.util convenience function to set axes parameters
+gvutil.set_axes_limits_and_ticks(ax, ylim=(-3, 3), 
+                                     yticks=np.linspace(-3, 3, 7),
+                                     yticklabels=np.linspace(-3, 3, 7))
+
+# Use geocat.viz.util convenience function to set titles and labels
+gvutil.set_titles_and_labels(ax, maintitle="Darwin Southern Oscillation Index")
+plt.show()
