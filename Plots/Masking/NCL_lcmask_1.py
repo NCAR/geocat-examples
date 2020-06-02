@@ -91,10 +91,10 @@ ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)    # 
 # Extract a slice of the data
 ds = ds.isel(time=0).drop("time")
 ds = ds.isel(lev=0).drop("lev")
-ds = ds.V
+V = ds.V
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-ds = gvutil.xr_add_cyclic_longitudes(ds, "lon")
+V = gvutil.xr_add_cyclic_longitudes(V, "lon")
 
 ###############################################################################
 # Plot unmasked data
@@ -111,30 +111,19 @@ ax.coastlines(linewidth=0.5)
 # Plot data and create colorbar
 newcmp = gvcmaps.BlWhRe
 
-wind = ds.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), add_colorbar=False, levels=24)
+wind = V.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), add_colorbar=False, levels=24)
 plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True, ticks=np.arange(-48, 48, 8), pad=0.1, aspect=12)
-plt.title(ds.long_name, loc='left', size=16)
-plt.title(ds.units, loc='right', size=16)
+plt.title(V.long_name, loc='left', size=16)
+plt.title(V.units, loc='right', size=16)
 plt.show()
 
 ###############################################################################
-# Read in fresh data and mask it
-
-# Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)    # Disable time decoding due to missing necessary metadata
-# Extract a slice of the data
-ds = ds.isel(time=0).drop("time")
-ds = ds.isel(lev=0).drop("lev")
-ds = ds.V
-
-# Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-ds = gvutil.xr_add_cyclic_longitudes(ds, "lon")
-
-ds = ds.where(ds.lat>20)
-ds = ds.where(ds.lat<80)
-east = ds.where(ds.lon>270)
-west = ds.where(ds.lon<40)
-ds = east.combine_first(west)
+# Mask data
+masked = V.where(V.lat>20)
+masked = masked.where(masked.lat<80)
+east = masked.where(masked.lon>270)
+west = masked.where(masked.lon<40)
+masked = east.combine_first(west)
 
 ###############################################################################
 # Plot masked data
@@ -156,9 +145,9 @@ ax.set_boundary(wedge, transform=ax.transAxes)
 # Plot data and create colorbar
 newcmp = gvcmaps.BlWhRe
 
-wind = ds.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), add_colorbar=False, levels=24)
+wind = masked.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), add_colorbar=False, levels=24)
 plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True, ticks=np.arange(-48, 48, 8), pad=0.1, aspect=12)
-plt.title(ds.long_name, loc='left', size=16)
-plt.title(ds.units, loc='right', size=16)
+plt.title(masked.long_name, loc='left', size=16)
+plt.title(masked.units, loc='right', size=16)
 
 plt.show()
