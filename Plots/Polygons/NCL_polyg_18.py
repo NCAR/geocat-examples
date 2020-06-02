@@ -29,7 +29,10 @@ def removeTicks(axis):
 
 ###############################################################################
 
-grid = plt.GridSpec(2, 20, hspace=0.2, wspace=0.2)
+fig = plt.figure(figsize=(10,10))
+
+grid = plt.GridSpec(2, 20, hspace=0.2, wspace=0.2, figure=fig)
+
 ax = plt.subplot(grid[:-1, 1:], projection=ccrs.PlateCarree())
 
 # Add continents
@@ -69,28 +72,31 @@ gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=3, label
 ax2 = plt.subplot(grid[-1, 1:], frameon=False)
 removeTicks(ax2)
 
-axin1 = ax2.inset_axes([0.0, 0.3, .33, .5], frameon=False)
+axin1 = ax2.inset_axes([0.1, 0.8, .1, .1], frameon=False)
 removeTicks(axin1)
-axin1.add_artist(plt.Circle((0.5, 0.5), 0.2, color='blue'))
+axin1.add_patch(mpatches.Circle((0.1, 0.1), radius=.1,color='blue', zorder=10))
+axin1.axis('equal')
 
-axin2 = ax2.inset_axes([0.0, 0.5, .33, .5], frameon=False)
+axin2 = ax2.inset_axes([0.0, 0.65, .20, .5], frameon=False)
 removeTicks(axin2)
-axin2.text(0,.7,'Marker (left justified text)', color='blue', fontsize=9)
+axin2.text(0,.7,'Marker (left justified text)', color='blue', fontsize=12, verticalalignment='center')
 
-axin3 = ax2.inset_axes([0.33, 0.3, .33, .5], frameon=False)
+axin3 = ax2.inset_axes([0.33, 0.6, .33, .5], frameon=False)
 removeTicks(axin3)
-axin3.plot([1, 2], [3, 3], color='red')
+axin3.plot([0, 4], [3, 3], color='red')
+axin1.axis('scaled')
 
-axin4 = ax2.inset_axes([0.33, 0.5, .33, .5], frameon=False)
+axin4 = ax2.inset_axes([0.33, 0.65, .33, .5], frameon=False)
 removeTicks(axin4)
-axin4.text(0,.7,'Polyline (centered text)', color='red', fontsize=9)
+axin4.text(0,.7,'Polyline (centered text)', color='red', fontsize=12,  verticalalignment='center')
 
-axin5 = ax2.inset_axes([0.66, 0.3, .33, .5], frameon=False)
+axin5 = ax2.inset_axes([0.66, 0.6, .33, .5], frameon=False)
 removeTicks(axin5)
-axin5.add_patch(mpatches.Rectangle(xy=[.3, .3], width=.6, height=.4, facecolor='lime', alpha = 0.3))
+axin5.add_patch(mpatches.Rectangle(xy=[.3, .3], width=.6, height=.3, facecolor='lime', alpha = 0.3))
+axin1.axis('scaled')
 
-axin6 = ax2.inset_axes([0.66, 0.5, .33, .5], frameon=False)
+axin6 = ax2.inset_axes([0.66, 0.65, .33, .5], frameon=False)
 removeTicks(axin6)
-axin6.text(0,.7,'Polygon (right justified text)', color='lime', fontsize=9)
+axin6.text(0,.7,'Polygon (right justified text)', color='lime', fontsize=12, verticalalignment='center')
 
 plt.show()
