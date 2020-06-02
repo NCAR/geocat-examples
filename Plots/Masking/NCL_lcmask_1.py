@@ -121,9 +121,12 @@ plt.show()
 # Mask data
 masked = V.where(V.lat>20)
 masked = masked.where(masked.lat<80)
-east = masked.where(masked.lon>270)
-west = masked.where(masked.lon<40)
-masked = east.combine_first(west)
+print(masked.lon)
+masked = masked.where(masked.lon>90)
+masked = masked.where(masked.lon<220)
+
+# Rotate data to match NCL example
+masked['lon'] = masked['lon'] + 180
 
 ###############################################################################
 # Plot masked data
