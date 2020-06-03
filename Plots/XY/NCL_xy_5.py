@@ -31,9 +31,10 @@ from geocat.viz import util as gvutil
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/SOI.nc"))
-ds = ds.SOI_NOISE_LOWPASS
-print(ds)
+ds = xr.open_dataset(gdf.get("netcdf_files/soi.nc"))
+dsoik = ds.DSOI_KET
+dsoid = ds.DSOI_DEC
+date = ds.date
 ###############################################################################
 # Plot:
 
@@ -52,4 +53,10 @@ gvutil.set_axes_limits_and_ticks(ax, ylim=(-3, 3),
 
 # Use geocat.viz.util convenience function to set titles and labels
 gvutil.set_titles_and_labels(ax, maintitle="Darwin Southern Oscillation Index")
+
+# Plot data
+ax.fill_between(dsoik.time, dsoik, where=dsoik>0, color='red')
+ax.fill_between(dsoik.time, dsoik, where=dsoik<0, color='blue')
+dsoid.plot(ax=ax, color='k')
 plt.show()
+
