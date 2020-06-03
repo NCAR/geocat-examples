@@ -22,7 +22,6 @@ import matplotlib.path as mpath
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
-import math
 
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
