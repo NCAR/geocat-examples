@@ -136,19 +136,22 @@ masked['lon'] = masked['lon'] + 180
 # Plot masked data
 
 # Generate figure
-plt.figure(figsize=(10, 10))
+plt.figure(figsize=(10, 7))
 
 # Generate axes using Cartopy and draw coastlines
-projection = ccrs.LambertConformal(central_longitude=-25, cutoff=20,
-                                   standard_parallels=(45, 89))
-ax = plt.axes(projection=projection)
-ax.set_global()
+proj = ccrs.LambertConformal(central_longitude=-22.5,
+                             standard_parallels=(45, 89))
+ax = plt.axes(projection=proj)
+ax.set_extent([-85, 40, 20, 80], ccrs.PlateCarree())
 ax.coastlines(linewidth=0.5)
 
-
-# Create a custom boundary to achive the wedge shape
-wedge = wedge_path(118, 240, 0.5, center=(0.5, 0.5), width=0.425)
-ax.set_boundary(wedge, transform=ax.transAxes)
+# Make a boundary path in PlateCarree projection, I choose to start in
+# the bottom left and go round anticlockwise, creating a boundary point
+# every 1 degree so that the result is smooth:
+vertices = [(lon, 20) for lon in range(-85, 41, 1)] + \
+           [(lon, 80) for lon in range(40, -86, -1)]
+boundary = mpath.Path(vertices)
+ax.set_boundary(boundary, transform=ccrs.PlateCarree())
 
 # Plot data and create colorbar
 newcmp = gvcmaps.BlWhRe
