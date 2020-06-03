@@ -138,8 +138,8 @@ newcmp = gvcmaps.BlWhRe
 wind = masked.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(),
                             add_colorbar=False, levels=24)
 plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True,
-             ticks=np.arange(-40, 44, 4), pad=0.1, aspect=16)
-plt.title(masked.long_name, loc='left', size=16)
-plt.title(masked.units, loc='right', size=16)
+             ticks=np.arange(-40, 44, 4), pad=0.1, aspect=18)
+plt.title(masked.long_name, loc='left', size=12)
+plt.title(masked.units, loc='right', size=12)
 
 plt.show()
