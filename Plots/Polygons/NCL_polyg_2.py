@@ -35,22 +35,26 @@ import shapely.geometry as sgeom
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 ###############################################################################
-# Initialize color map dictionary with bounds
+# Initialize color map and bounds for each color
 
-colormap = [(5, 'mediumpurple'), (10, 'mediumblue'), (15, 'royalblue'),
-            (20, 'cornflowerblue'), (25, 'lightblue'), (30, 'teal'), (35, 'yellowgreen'), (40, 'green'),
-            (50, 'wheat'), (60, 'tan'), (70, 'gold'), (80, 'orange'), (90, 'red'), (100, 'firebrick')]
+colormap = colors.ListedColormap(['mediumpurple', 'mediumblue', 'royalblue', 'cornflowerblue', 'lightblue', 'teal', 'yellowgreen',
+                                  'green', 'wheat', 'tan', 'gold', 'orange', 'red', 'firebrick'])
+
+colorbounds = [0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100]
 
 ###############################################################################
 # Define helper function to determine which color to fill the divisions based on precipitation data
 
 
-def findDivColor(colormap, pdata):
-    for x in colormap:
-        if pdata >= x[0]:
+def findDivColor(colorbounds, pdata):
+
+    for x in range(len(colorbounds)):
+
+        if pdata >= colorbounds[x]:
             continue
         else:
-            return x[1]
+            # Index is 'x-1' because colorbounds is one item longer than colormap
+            return colormap.colors[x-1]
 
 
 ###############################################################################
@@ -96,7 +100,7 @@ for varname, da in ds.data_vars.items():
         lon = da.lon
 
         # Get color of climate division
-        color = findDivColor(colormap, precipitationdata)
+        color = findDivColor(colorbounds, precipitationdata)
 
         # Use "shapely geometry" module to create division outlines from lat/lon coordinates
         track = sgeom.LineString(zip(lon, lat))
@@ -111,20 +115,8 @@ for varname, da in ds.data_vars.items():
 ###############################################################################
 # Plot colorbar
 
-# Create arrays of colors and "bounds", or tics on colorbar
-bounds = [0]
-cmap = []
-
-# Fill in arrays of colors and "bounds" with values from colormap dictionary
-for x in colormap:
-    bounds.append(x[0])
-    cmap.append(x[1])
-
-# Convert array cmap into type listed color map so we can map it to bounds in next step
-cmap = colors.ListedColormap(cmap)
-
 # Map colors to bounds
-norm = colors.BoundaryNorm(bounds, cmap.N)
+norm = colors.BoundaryNorm(colorbounds, colormap.N)
 
 # Adjust size of colorbar with "inset_axes" function
 axins1 = inset_axes(ax,
@@ -134,14 +126,7 @@ axins1 = inset_axes(ax,
                     )
 
 # Add colorbar to plot
-cb = fig.colorbar(
-    cm.ScalarMappable(cmap=cmap, norm=norm),
-    cax=axins1,
-    boundaries=bounds,
-    ticks=bounds,
-    spacing='uniform',
-    orientation='horizontal',
-    label='inches',
-)
+cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), cax=axins1, boundaries=colorbounds,
+                  ticks=colorbounds, spacing='uniform', orientation='horizontal', label='inches')
 
 plt.show()
