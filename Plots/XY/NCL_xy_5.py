@@ -35,12 +35,31 @@ ds = xr.open_dataset(gdf.get("netcdf_files/soi.nc"))
 dsoik = ds.DSOI_KET
 dsoid = ds.DSOI_DEC
 date = ds.date
+
+# Creating a new date array for x axis labels
+datedim = np.shape(date)[0]
+new_date = np.empty_like(date)
+
+for n in np.arange(0, datedim, 1):
+    yyyy = date[n]/100
+    mon = date[n]-yyyy*100
+    new_date[n] = yyyy + (mon-1)/12
+
+print(new_date)
 ###############################################################################
 # Plot:
 
 # Generate figure (set its size (width, height) in inches) and axes
 plt.figure(figsize=(8, 4))
 ax = plt.gca()
+
+# Plot data
+ax.fill_between(dsoik.time, dsoik, where=dsoik>0, color='red')
+ax.fill_between(dsoik.time, dsoik, where=dsoik<0, color='blue')
+dsoid.plot(ax=ax, color='black')
+
+# Plot reference line
+plt.plot([0, datedim], [0, 0], color='grey')
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4, 
@@ -49,14 +68,13 @@ gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4,
 # Use geocat.viz.util convenience function to set axes parameters
 gvutil.set_axes_limits_and_ticks(ax, ylim=(-3, 3), 
                                      yticks=np.linspace(-3, 3, 7),
-                                     yticklabels=np.linspace(-3, 3, 7))
+                                     yticklabels=np.linspace(-3, 3, 7),
+                                     xlim=(0, datedim),
+                                     xticks=np.arange(0, datedim, 12*20),
+                                     xticklabels=np.arange(1880, 1995, 20))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, maintitle="Darwin Southern Oscillation Index")
+gvutil.set_titles_and_labels(ax, maintitle="Darwin Southern Oscillation Index", xlabel='', ylabel='')
 
-# Plot data
-ax.fill_between(dsoik.time, dsoik, where=dsoik>0, color='red')
-ax.fill_between(dsoik.time, dsoik, where=dsoik<0, color='blue')
-dsoid.plot(ax=ax, color='k')
 plt.show()
 
