@@ -3,9 +3,7 @@ NCL_polyg_18.py
 ==============
 This script illustrates the following concepts:
    - Adding lines, markers, and polygons to a map
-   - Using drawNDCGrid to draw a nicely labeled NDC grid
-   - Using "unique_string" to generate unique ids for primitives
-   - Drawing lines, markers, polygons, and text in NDC space
+   - Drawing lines, markers, polygons, and text in inset axes
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/polyg_18.ncl
@@ -28,11 +26,15 @@ def removeTicks(axis):
     axis.get_yaxis().set_visible(False)
 
 ###############################################################################
+# Plot map, markers, and polygons
 
+# Set size of figure
 fig = plt.figure(figsize=(10,10))
 
+# Make grid on figure with 2 rows, 1 column
 grid = plt.GridSpec(2, 20, hspace=0.2, wspace=0.2, figure=fig)
 
+# Make subplot for map
 ax = plt.subplot(grid[:-1, 1:], projection=ccrs.PlateCarree())
 
 # Add continents
@@ -63,9 +65,16 @@ ax.add_patch(mpatches.Rectangle(xy=[7, 47], width=9, height=7, facecolor='None',
 # Draw green window in bottom right
 ax.add_patch(mpatches.Rectangle(xy=[110, -45], width=50, height=35, facecolor='lime', alpha = 0.3, transform=ccrs.PlateCarree(), zorder=5)) 
 
+# Use gvutil function to set the ticks on axes
 gvutil.set_axes_limits_and_ticks(ax, xlim=None, ylim=None, xticks=[-180, -150, -120, -90, -60, -30, 0, 30, 60, 90, 120, 150, 180], yticks=[-90, -60, -30, 0, 30, 60, 90], xticklabels=None, yticklabels=None)
+
+# Use gvutil function to give ticks W/N/E/S labels
 gvutil.add_lat_lon_ticklabels(ax, zero_direction_label=True, dateline_direction_label=True)
+
+# Use gvutil function to set title of plot
 gvutil.set_titles_and_labels(ax, maintitle="Big centered title", maintitlefontsize=25)
+
+# Use gvutil function to plot three minor ticks for every major tick on axes
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=3, labelsize="small")
 
 ###############################################################################
@@ -82,7 +91,7 @@ removeTicks(ax2)
 # Add circle image
 axin1 = ax2.inset_axes([0.1, 0.8, .1, .1], frameon=False)
 removeTicks(axin1)
-axin1.add_patch(mpatches.Circle((0.1, 0.1), radius=.1,color='blue', zorder=10))
+axin1.add_patch(mpatches.Circle((0.1, 0.1), radius=.1,color='blue'))
 axin1.axis('equal')
 
 # Add label for circle
