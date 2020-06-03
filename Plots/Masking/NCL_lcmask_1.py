@@ -32,56 +32,41 @@ from geocat.viz import util as gvutil
 # Defining a utility function to create a wedge shaped path for plot boundary
 
 
-def wedge_path(theta1, theta2, r, width=None, center=(0, 0), res=100):
+def wedge_boundary(ax, lon_range, lat_range, res=1):
     """
-    Utility function to create a wedge shaped path of radius r sweeping from
-    theta1 to theta2.
+    Utility function to create a custom wedge shaped map boundary using given
+    ranges of longitudes and latitudes.
 
     Args:
 
-        theta1 (:class:'float'):
-            Angle right of the verticle in degrees where the wedge will begin.
+        ax (:class:'matplotlib.axes'):
+            The axes to which the boundary will be applied.
 
-        theta2 (:class:'float'):
-            Angle right fo the verticle in degrees where the wedge will end.
+        lon_range (:class:'tuple'):
+            The two-tuple containting the start and end of the desired range of
+            longitudes. The first entry must be smaller than the second entry.
+            Both entries must be between [-180 , 180].
 
-        r (:class:'float'):
-            Radius of the wedge
-
-        width (:class:'float'):
-            Width of the partial wedge with inner radius r - width and outer
-            radius r.
-
-        center (:class:'tuple'):
-            Positon of the wedge relative to lower left corner of axes.
+        lat_range (:class:'tuple'):
+            The two-tuple containting the start and end of the desired range of
+            longitudes. The first entry must be smaller than the second entry.
+            Both entries must be between (-90 , 90).
 
         res (:class:'int'):
-            Resolution of the vertices. A higher number results in smoother
-            arcs.
+            The size of the incrementation for vertices in degrees. Default is
+            a vertex every one degree of longitude.
 
     """
 
-    # Start and end angles of the wedge
-    start = math.radians(theta1)
-    end = math.radians(theta2)
-    theta = np.linspace(start, end, res)
-
-    # Calculating vertices for each arc
-    verts = np.vstack([np.sin(theta), np.cos(theta)]).T
-    outer = verts * r + center
-    if width is None:
-        inner = np.full_like(verts, center)
-    else:
-        inner = verts * (r - width) + center
-
-    # Flip to ensure the end of one arc is connected to the start of the other
-    outer = np.flip(outer, axis=0)
-
-    # Appending the list of arc vertices and creating a path object
-    points = np.append(inner, outer, axis=0)
-    wedge = mpath.Path(points)
-
-    return wedge
+    # Set extent of map
+    ax.set_extent([lon_range[0], lon_range[1], lat_range[0], lat_range[1]],
+                  ccrs.PlateCarree())
+    # Make a boundary path in PlateCarree projection begining in the bottom
+    # left and continuing anitclockwise creating a point every `res` degree
+    vertices = [(lon, lat_range[0]) for lon in range(lon_range[0], lon_range[1] + 1, res)] + \
+               [(lon, lat_range[1]) for lon in range(lon_range[1], lon_range[0] - 1, -res)]
+    boundary = mpath.Path(vertices)
+    ax.set_boundary(boundary, transform=ccrs.PlateCarree())
 
 
 ###############################################################################
@@ -142,16 +127,10 @@ plt.figure(figsize=(10, 7))
 proj = ccrs.LambertConformal(central_longitude=-22.5,
                              standard_parallels=(45, 89))
 ax = plt.axes(projection=proj)
-ax.set_extent([-85, 40, 20, 80], ccrs.PlateCarree())
 ax.coastlines(linewidth=0.5)
 
-# Make a boundary path in PlateCarree projection, I choose to start in
-# the bottom left and go round anticlockwise, creating a boundary point
-# every 1 degree so that the result is smooth:
-vertices = [(lon, 20) for lon in range(-85, 41, 1)] + \
-           [(lon, 80) for lon in range(40, -86, -1)]
-boundary = mpath.Path(vertices)
-ax.set_boundary(boundary, transform=ccrs.PlateCarree())
+# Make a custom boundary
+wedge_boundary(ax, [-85, 40], [20, 80])
 
 # Plot data and create colorbar
 newcmp = gvcmaps.BlWhRe
