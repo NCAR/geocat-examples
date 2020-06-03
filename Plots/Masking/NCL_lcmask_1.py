@@ -142,11 +142,12 @@ plt.figure(figsize=(10, 10))
 projection = ccrs.LambertConformal(central_longitude=-25, cutoff=20,
                                    standard_parallels=(45, 89))
 ax = plt.axes(projection=projection)
+ax.set_global()
 ax.coastlines(linewidth=0.5)
 
 
 # Create a custom boundary to achive the wedge shape
-wedge = wedge_path(135, 225, 1, center=(0.5, 1))
+wedge = wedge_path(118, 240, 0.5, center=(0.5, 0.5), width=0.425)
 ax.set_boundary(wedge, transform=ax.transAxes)
 
 # Plot data and create colorbar
