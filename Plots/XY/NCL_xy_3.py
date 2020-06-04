@@ -51,3 +51,28 @@ gvutil.set_axes_limits_and_ticks(ax, ylim=(1000, 0),
 gvutil.set_titles_and_labels(ax, maintitle="Profile Plot", xlabel=ds.long_name, ylabel=ds['lev'].long_name)
 
 plt.show()
+
+###############################################################################
+# Plot:
+
+# Generate figure (set its size (width, height) in inches) and axes
+plt.figure(figsize=(8, 8))
+ax = plt.gca()
+
+# Plot data with custom line characterisitcs
+# Use keyword `color` to change the line color
+# Use keyword `linewidth` to change the line thickness
+# Use keyword `dashes` to create a custom dash pattern
+plt.plot(ds.data, ds.lev, color='red', linewidth=3, dashes=[3, 1, 1, 1, 1, 1, 1, 1])
+
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4)
+
+# Use geocat.viz.util convenience function to set axes parameters
+gvutil.set_axes_limits_and_ticks(ax, ylim=(1000, 0), 
+                                 xticks=np.arange(-10, 30, 5))
+
+# Use geocat.viz.util convenience function to set titles and labels
+gvutil.set_titles_and_labels(ax, maintitle="Make your own dash pattern", xlabel=ds.long_name, ylabel=ds['lev'].long_name)
+
+plt.show()
