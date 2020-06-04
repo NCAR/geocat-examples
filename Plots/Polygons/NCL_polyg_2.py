@@ -50,6 +50,8 @@ def findDivColor(colorbounds, pdata):
 
     for x in range(len(colorbounds)):
 
+        if pdata >= colorbounds[len(colorbounds)-1]:
+            return colormap.colors[x-1]
         if pdata >= colorbounds[x]:
             continue
         else:
@@ -94,6 +96,8 @@ for varname, da in ds.data_vars.items():
     try:
         # Get precipitation data for each climate division
         precipitationdata = sum(da.values)/100
+        print (varname)
+        print (precipitationdata)
 
         # Get borders of each climate division
         lat = da.lat
