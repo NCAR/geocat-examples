@@ -45,7 +45,6 @@ for n in np.arange(0, datedim, 1):
     mon = date[n]-yyyy*100
     new_date[n] = yyyy + (mon-1)/12
 
-print(new_date)
 ###############################################################################
 # Plot:
 
@@ -53,13 +52,13 @@ print(new_date)
 plt.figure(figsize=(8, 4))
 ax = plt.gca()
 
+# Plot reference line
+plt.plot([0, datedim], [0, 0], color='grey', linewidth=0.75)
+
 # Plot data
 ax.fill_between(dsoik.time, dsoik, where=dsoik>0, color='red')
 ax.fill_between(dsoik.time, dsoik, where=dsoik<0, color='blue')
 dsoid.plot(ax=ax, color='black')
-
-# Plot reference line
-plt.plot([0, datedim], [0, 0], color='grey')
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4, 
