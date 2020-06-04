@@ -20,3 +20,34 @@ import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
+###############################################################################
+# Read in data:
+
+# Open a netCDF data file using xarray default engine and load the data into xarrays
+ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
+ds = ds.U
+ds = ds.isel(time=0).drop('time')
+ds = ds.isel(lon=0).drop('lon')
+ds = ds.isel(lat=42).drop('lat')
+
+###############################################################################
+# Plot:
+
+# Generate figure (set its size (width, height) in inches) and axes
+plt.figure(figsize=(8, 8))
+ax = plt.gca()
+
+# Plot data
+plt.plot(ds.data, ds.lev)
+
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4)
+
+# Use geocat.viz.util convenience function to set axes parameters
+gvutil.set_axes_limits_and_ticks(ax, ylim=(1000, 0), 
+                                 xticks=np.arange(-10, 30, 5))
+
+# Use geocat.viz.util convenience function to set titles and labels
+gvutil.set_titles_and_labels(ax, maintitle="Profile Plot", xlabel=ds.long_name, ylabel=ds['lev'].long_name)
+
+plt.show()
