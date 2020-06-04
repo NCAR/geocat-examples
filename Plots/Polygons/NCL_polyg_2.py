@@ -37,7 +37,7 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 ###############################################################################
 # Initialize color map and bounds for each color
 
-colormap = colors.ListedColormap(['mediumpurple', 'mediumblue', 'royalblue', 'cornflowerblue', 'lightblue', 'teal', 'yellowgreen',
+colormap = colors.ListedColormap(['mediumpurple', 'mediumblue', 'royalblue', 'cornflowerblue', 'lightblue', 'lightseagreen', 'yellowgreen',
                                   'green', 'wheat', 'tan', 'gold', 'orange', 'red', 'firebrick'])
 
 colorbounds = [0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100]
@@ -95,7 +95,7 @@ for varname, da in ds.data_vars.items():
 
     try:
         # Get precipitation data for each climate division
-        precipitationdata = sum(da.values)/100
+        precipitationdata = sum(da.values)/101
         print (varname)
         print (precipitationdata)
 
