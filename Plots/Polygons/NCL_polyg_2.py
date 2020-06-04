@@ -40,6 +40,7 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 colormap = colors.ListedColormap(['mediumpurple', 'mediumblue', 'royalblue', 'cornflowerblue', 'lightblue', 'lightseagreen', 'yellowgreen',
                                   'green', 'wheat', 'tan', 'gold', 'orange', 'red', 'firebrick'])
 
+# Values represent average number of inches of rain
 colorbounds = [0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100]
 
 ###############################################################################
@@ -94,10 +95,14 @@ ds = xr.open_dataset(gdf.get("netcdf_files/climdiv_prcp_1899-1999.nc"), decode_t
 for varname, da in ds.data_vars.items():
 
     try:
-        # Get precipitation data for each climate division
-        precipitationdata = sum(da.values)/101
-        print (varname)
-        print (precipitationdata)
+        # Get number of years of data by dividing number of months recorded (length of array) by 12 (12 months per year)
+        numYears = len(da.values)/12 
+
+        # Get precipitation data for each climate division:
+        # Rather than looping through the whole array to find the sum of each 12 values (a year's worth of data), 
+        # adding each sum to an array, and then finding the average of the values in the array, as seen in the NCL
+        # script, the one-line python method involves summing the dataset values and then dividing it by numYears (calculated in line 99)
+        precipitationdata = sum(da.values)/numYears
 
         # Get borders of each climate division
         lat = da.lat
