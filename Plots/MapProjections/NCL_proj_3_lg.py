@@ -38,7 +38,8 @@ wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
 # Generate figure (set its size (width, height) in inches)
 fig = plt.figure(figsize=(10, 10))
 
-# Generate axes using Cartopy and draw coastlines
+# Generate axes using Cartopy and draw coastlines with 
+#central latitude of 50 North and central longitude 120 West
 ax = plt.axes(projection=ccrs.Orthographic(-120, 50))
 
 # Set extent to include latitudes between 0 and 90, and longitude between
@@ -51,7 +52,7 @@ ax.coastlines(linewidths=0.5)
 wrap_t.plot.contourf(
     ax=ax,
     transform=ccrs.PlateCarree(),
-     levels=11,
+    levels=11,
     cmap='coolwarm',
     cbar_kwargs={
         "orientation": "horizontal",
