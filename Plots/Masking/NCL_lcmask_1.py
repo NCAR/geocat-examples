@@ -100,8 +100,9 @@ newcmp = gvcmaps.BlWhRe
 
 wind = V.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(),
                        add_colorbar=False, levels=24)
-plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True,
+cbar = plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True,
              ticks=np.arange(-48, 48, 8), pad=0.1, aspect=12)
+cbar.ax.tick_params(length=0) # remove tick marks but leave in labels
 plt.title(V.long_name, loc='left', size=16)
 plt.title(V.units, loc='right', size=16)
 plt.show()
@@ -136,8 +137,9 @@ newcmp = gvcmaps.BlWhRe
 
 wind = masked.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(),
                             add_colorbar=False, levels=24)
-plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True,
+cbar = plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True,
              ticks=np.arange(-40, 44, 4), pad=0.1, aspect=18)
+cbar.ax.tick_params(length=0) # remove tick marks but leave in labels
 plt.title(masked.long_name, loc='left', size=12)
 plt.title(masked.units, loc='right', size=12)
 
