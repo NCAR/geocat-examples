@@ -8,7 +8,6 @@ This script illustrates the following concepts:
    - Creating a custom plot boundary
    - Using a blue-white-red color map
    - Setting contour levels using a min/max contour level and a spacing
-   - Turning off the addition of a longitude cyclic point
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: http://ncl.ucar.edu/Applications/Scripts/lcmask_1.ncl
@@ -28,9 +27,7 @@ from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
 ###############################################################################
-# Defining a utility function to create a wedge shaped path for plot boundary
-
-
+# Utility function to create a wedge shaped path for plot boundary:
 def wedge_boundary(ax, lon_range, lat_range, res=1):
     """
     Utility function to create a custom wedge shaped map boundary using given
@@ -78,22 +75,22 @@ ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 ds = ds.isel(time=0).drop("time")
 ds = ds.isel(lev=0).drop("lev")
 V = ds.V
-
-# Fix the artifact of not-shown-data around 0 and 360-degree longitudes
+# Ensure longitudes range from 0 to 360 degrees
 V = gvutil.xr_add_cyclic_longitudes(V, "lon")
 
 ###############################################################################
-# Plot unmasked data
+# Plot unmasked data:
 
-# Generate figure
+# Generate figure and projection using Cartopy
 plt.figure(figsize=(7, 10))
-
-# Generate axes using Cartopy and draw coastlines
-projection = ccrs.LambertConformal(central_longitude=0,
+proj = ccrs.LambertConformal(central_longitude=0,
                                    standard_parallels=(45, 89))
-ax = plt.axes(projection=projection, frameon=False)
-ax.set_extent((0, 359, 0, 90), crs=ccrs.PlateCarree())
+# Set axis projection
+ax = plt.axes(projection=proj, frameon=False)
+# Set extent to include all longitudes and the northern hemisphere
+ax.set_extent((0, 359, 0, 89), crs=ccrs.PlateCarree())
 ax.coastlines(linewidth=0.5)
+
 
 # Plot data and create colorbar
 newcmp = gvcmaps.BlWhRe
@@ -103,8 +100,11 @@ wind = V.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(),
 cbar = plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True,
              ticks=np.arange(-48, 48, 8), pad=0.1, aspect=12)
 cbar.ax.tick_params(length=0) # remove tick marks but leave in labels
+
+# Add titles
 plt.title(V.long_name, loc='left', size=16)
 plt.title(V.units, loc='right', size=16)
+
 plt.show()
 
 ###############################################################################
@@ -120,16 +120,15 @@ masked['lon'] = masked['lon'] + 180
 ###############################################################################
 # Plot masked data
 
-# Generate figure
+# Generate figure and projection using Cartopy
 plt.figure(figsize=(10, 7))
-
-# Generate axes using Cartopy and draw coastlines
 proj = ccrs.LambertConformal(central_longitude=-22.5,
                              standard_parallels=(45, 89))
+# Set axis projection
 ax = plt.axes(projection=proj)
 ax.coastlines(linewidth=0.5)
 
-# Make a custom boundary
+# Make a custom boundary using convenience function
 wedge_boundary(ax, [-85, 40], [20, 80])
 
 # Plot data and create colorbar
@@ -140,6 +139,8 @@ wind = masked.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(),
 cbar = plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True,
              ticks=np.arange(-40, 44, 4), pad=0.1, aspect=18)
 cbar.ax.tick_params(length=0) # remove tick marks but leave in labels
+
+# Add titles
 plt.title(masked.long_name, loc='left', size=12)
 plt.title(masked.units, loc='right', size=12)
 
