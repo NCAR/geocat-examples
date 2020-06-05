@@ -56,6 +56,7 @@ ax = plt.gca()
 plt.plot([0, datedim], [0, 0], color='grey', linewidth=0.75)
 
 # Plot data
+dsoik.plot(ax=ax, color='black', linewidth=0.75)
 ax.fill_between(dsoik.time, dsoik, where=dsoik>0, color='red')
 ax.fill_between(dsoik.time, dsoik, where=dsoik<0, color='blue')
 dsoid.plot(ax=ax, color='black')
@@ -76,4 +77,3 @@ gvutil.set_axes_limits_and_ticks(ax, ylim=(-3, 3),
 gvutil.set_titles_and_labels(ax, maintitle="Darwin Southern Oscillation Index", xlabel='', ylabel='')
 
 plt.show()
-
