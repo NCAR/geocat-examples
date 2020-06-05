@@ -1,6 +1,7 @@
 """
 NCL_xy_3.py
 ===============
+This script illustrates the following concepts:
    - Reversing the Y axis
    - Changing the line dash pattern in an XY plot
    - Creating your own line dash pattern for an XY plot
