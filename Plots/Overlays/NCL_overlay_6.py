@@ -34,7 +34,7 @@ tf = xr.open_dataset(gdf.get("netcdf_files/Tstorm.cdf"))
 u500f = xr.open_dataset(gdf.get("netcdf_files/U500storm.cdf"))
 v500f = xr.open_dataset(gdf.get("netcdf_files/V500storm.cdf"))
 
-p = pf.p
+p = pf.p.isel(timestep=0).drop('timestep')
 t = tf.t
 u = uf.u
 v = vf.v
@@ -61,5 +61,5 @@ ax.add_feature(cfeature.LAND, color='gray')
 ax.add_feature(cfeature.LAKES, color='white')
 ax.add_feature(cfeature.COASTLINE)
 
-
+p.plot.pcolormesh(ax=ax)
 plt.show()
