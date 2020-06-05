@@ -64,7 +64,8 @@ ax = plt.gca()
 # Use keyword `color` to change the line color
 # Use keyword `linewidth` to change the line thickness
 # Use keyword `dashes` to create a custom dash pattern
-plt.plot(ds.data, ds.lev, color='red', linewidth=3, dashes=[3, 1, 1, 1, 1, 1, 1, 1])
+# Use keyword `dash_capstyle` to change the shape of the dash end
+plt.plot(ds.data, ds.lev, color='red', linewidth=3, dashes=[3, 2, 1, 2, 1, 2, 1, 2], dash_capstyle='round')
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4)
