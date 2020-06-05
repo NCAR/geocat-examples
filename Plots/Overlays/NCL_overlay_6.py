@@ -22,6 +22,7 @@ import cartopy.feature as cfeature
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
+from geocat.viz import cmaps as gvcmaps
 
 ###############################################################################
 # Read in data:
@@ -49,7 +50,7 @@ t = (t - 273.15) * 9/5 + 32
 
 ###############################################################################
 # Create map:
-plt.figure(figsize=(10,8))
+plt.figure(figsize=(10,6))
 proj = ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40)
 
 # Set axis projection
@@ -61,5 +62,9 @@ ax.add_feature(cfeature.LAND, color='gray')
 ax.add_feature(cfeature.LAKES, color='white')
 ax.add_feature(cfeature.COASTLINE)
 
-p.plot.pcolormesh(ax=ax)
+# Import color mab for pressure level contour
+p_cmap = gvcmaps.StepSeq25
+pressure = p.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=p_cmap, levels=np.arange(975, 1050, 5), add_colorbar=False, add_labels=False)
+cbar = plt.colorbar(pressure, ticks=np.arange(980, 1045, 5), label = 'Sea Level Pressure')
+
 plt.show()
