@@ -21,3 +21,26 @@ import matplotlib.pyplot as plt
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
+###############################################################################
+# Read in data:
+
+# Open a netCDF data file using xarray default engine and load the data into xarrays
+uf = xr.open_dataset(gdf.get("netcdf_files/Ustorm.cdf"))
+vf = xr.open_dataset(gdf.get("netcdf_files/Vstorm.cdf"))
+pf = xr.open_dataset(gdf.get("netcdf_files/Pstorm.cdf"))
+tf = xr.open_dataset(gdf.get("netcdf_files/Tstorm.cdf"))
+u500f = xr.open_dataset(gdf.get("netcdf_files/U500storm.cdf"))
+v500f = xr.open_dataset(gdf.get("netcdf_files/V500storm.cdf"))
+
+p = pf.p
+t = tf.t
+u = uf.u
+v = vf.v
+u500 = u500f.u
+v500 = v500f.v
+time = vf.timestep
+
+# Convert Pa to hPa
+p = p/100
+# Convert K to F
+t = (t - 273.15) * 9/5 + 32
