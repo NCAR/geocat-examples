@@ -62,7 +62,7 @@ ax.fill_between(dsoik.time, dsoik, where=dsoik<0, color='blue')
 dsoid.plot.line(ax=ax, color='black', _labels=False)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4, 
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5, 
                              labelsize=14)
 
 # Use geocat.viz.util convenience function to set axes parameters
