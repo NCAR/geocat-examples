@@ -56,10 +56,10 @@ ax = plt.gca()
 plt.plot([0, datedim], [0, 0], color='grey', linewidth=0.75)
 
 # Plot data
-dsoik.plot(ax=ax, color='black', linewidth=0.75)
+dsoik.plot.line(ax=ax, color='black', linewidth=0.75, _labels=False)
 ax.fill_between(dsoik.time, dsoik, where=dsoik>0, color='red')
 ax.fill_between(dsoik.time, dsoik, where=dsoik<0, color='blue')
-dsoid.plot(ax=ax, color='black')
+dsoid.plot.line(ax=ax, color='black', _labels=False)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4, 
@@ -74,6 +74,6 @@ gvutil.set_axes_limits_and_ticks(ax, ylim=(-3, 3),
                                      xticklabels=np.arange(1880, 1995, 20))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, maintitle="Darwin Southern Oscillation Index", xlabel='', ylabel='')
+gvutil.set_titles_and_labels(ax, maintitle="Darwin Southern Oscillation Index")
 
 plt.show()
