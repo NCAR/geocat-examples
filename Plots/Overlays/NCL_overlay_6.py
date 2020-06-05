@@ -39,8 +39,8 @@ p = pf.p.isel(timestep=0).drop('timestep')
 t = tf.t
 u = uf.u
 v = vf.v
-u500 = u500f.u
-v500 = v500f.v
+u500 = u500f.u.isel(timestep=0).drop('timestep')
+v500 = v500f.v.isel(timestep=0).drop('timestep')
 time = vf.timestep
 
 # Convert Pa to hPa
@@ -66,5 +66,8 @@ ax.add_feature(cfeature.COASTLINE)
 p_cmap = gvcmaps.StepSeq25
 pressure = p.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=p_cmap, levels=np.arange(975, 1050, 5), add_colorbar=False, add_labels=False)
 cbar = plt.colorbar(pressure, ticks=np.arange(980, 1045, 5), label = 'Sea Level Pressure')
+
+# Add streamline overlay
+plt.streamplot(u500.lon, u500.lat, u500.data, v500.data, transform=ccrs.PlateCarree(), color='black', arrowstyle='->', linewidth=0.5, density=2)
 
 plt.show()
