@@ -56,7 +56,7 @@ ax = plt.gca()
 plt.plot([0, datedim], [0, 0], color='grey', linewidth=0.75)
 
 # Plot data
-dsoik.plot.line(ax=ax, color='black', linewidth=0.75, _labels=False)
+dsoik.plot.line(ax=ax, color='black', linewidth=0.5, _labels=False)
 ax.fill_between(dsoik.time, dsoik, where=dsoik>0, color='red')
 ax.fill_between(dsoik.time, dsoik, where=dsoik<0, color='blue')
 dsoid.plot.line(ax=ax, color='black', _labels=False)
