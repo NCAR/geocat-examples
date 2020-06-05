@@ -1,9 +1,25 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jun  4 14:12:34 2020
+CB_Rain.py
+================
 
-@author: misi1684
+This script illustrates multiple color schemes for color maps which will allow for those
+impacted by color blindness to see visualizations. Using rainbow color schemes not only
+cause confusion for those impacted by color blindness, but is a poor choice in color scheme 
+for images that may be transferred to a black and white scale for printing.
+This code addresses a handful of options to use in place of rainbow color schemes for 
+use in the matplotlib.pyplot library.
+
+More information on this subject can be found here:
+        -https://agilescientific.com/blog/2017/12/14/no-more-rainbows
+        -https://www.researchgate.net/publication/328361220_The_Effect_of_Color_Scales_on_Climate_Scientists'_Objective_and_Subjective_Performance_in_Spatial_Data_Analysis_Tasks
+
+More color schemes can be found here:
+    -https://matplotlib.org/3.1.1/tutorials/colors/colormaps.html
+
+See following URL to see the reproduced plot & script from the GeoCAT examples gallery:
+    -Link to be produced when PR is merged
 """
 
 
@@ -25,7 +41,8 @@ ds = xr.open_dataset(gdf.get("netcdf_files/pre.8912.mon.nc"))
 # Extract a slice of the data
 t = ds.pre[0, :]
 
-# gvutil.xr_add_cyclic_longitudes(t,'lon')
+###############################################################################
+#Plot original color map:
 
 fig = plt.figure(figsize=(12, 12))
 
@@ -48,9 +65,7 @@ heatmap = t.plot.contourf(
         "orientation": "horizontal",
         "ticks": np.arange(0, 240, 20),
         "label": "",
-        "shrink": 0.9,
-    },
-)
+        "shrink": 0.9})
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values
@@ -59,8 +74,7 @@ gvutil.set_axes_limits_and_ticks(
     xlim=(30, 55),
     ylim=(20, 45),
     xticks=np.linspace(30, 55, 6),
-    yticks=np.linspace(20, 45, 6),
-)
+    yticks=np.linspace(20, 45, 6))
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax1)
@@ -75,8 +89,10 @@ gvutil.set_titles_and_labels(
     maintitlefontsize=16,
     righttitlefontsize=14,
     xlabel="",
-    ylabel="",
-)
+    ylabel="")
+
+###############################################################################
+#Plot second color map:
 
 ax2 = plt.subplot(2, 2, 2, projection=projection)
 ax2.coastlines(linewidths=0.5)
@@ -95,9 +111,7 @@ heatmap = t.plot.contourf(
         "orientation": "horizontal",
         "ticks": np.arange(0, 240, 20),
         "label": "",
-        "shrink": 0.9,
-    },
-)
+        "shrink": 0.9})
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values
@@ -106,8 +120,7 @@ gvutil.set_axes_limits_and_ticks(
     xlim=(30, 55),
     ylim=(20, 45),
     xticks=np.linspace(30, 55, 6),
-    yticks=np.linspace(20, 45, 6),
-)
+    yticks=np.linspace(20, 45, 6))
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax2)
@@ -121,13 +134,16 @@ gvutil.set_titles_and_labels(
     maintitle="Viridis Color Projection \n of Rain Fall Total",
     maintitlefontsize=16,
     xlabel="",
-    ylabel="",
-)
+    ylabel="")
+
+###############################################################################
+#Plot third color map:
 
 ax3 = plt.subplot(2, 2, 3, projection=projection)
 ax3.coastlines(linewidths=0.5)
 ax3.add_feature(cfeature.LAND, facecolor="lightgray")
 plt.subplots_adjust(wspace=0.5)
+
 # Import an NCL colormap
 newcmp = "coolwarm"
 
@@ -141,9 +157,7 @@ heatmap = t.plot.contourf(
         "orientation": "horizontal",
         "ticks": np.arange(0, 240, 20),
         "label": "",
-        "shrink": 0.9,
-    },
-)
+        "shrink": 0.9})
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values
@@ -152,8 +166,7 @@ gvutil.set_axes_limits_and_ticks(
     xlim=(30, 55),
     ylim=(20, 45),
     xticks=np.linspace(30, 55, 6),
-    yticks=np.linspace(20, 45, 6),
-)
+    yticks=np.linspace(20, 45, 6))
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax3)
@@ -167,8 +180,10 @@ gvutil.set_titles_and_labels(
     maintitle="Coolwarm Diverging Color \n Projection of Rain Fall Total",
     maintitlefontsize=16,
     xlabel="",
-    ylabel="",
-)
+    ylabel="")
+
+###############################################################################
+#Plot fourth color map:
 
 ax4 = plt.subplot(2, 2, 4, projection=projection)
 ax4.coastlines(linewidths=0.5)
@@ -188,9 +203,7 @@ heatmap = t.plot.contourf(
         "orientation": "horizontal",
         "ticks": np.arange(0, 240, 20),
         "label": "",
-        "shrink": 0.9,
-    },
-)
+        "shrink": 0.9})
 
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
@@ -200,8 +213,7 @@ gvutil.set_axes_limits_and_ticks(
     xlim=(30, 55),
     ylim=(20, 45),
     xticks=np.linspace(30, 55, 6),
-    yticks=np.linspace(20, 45, 6),
-)
+    yticks=np.linspace(20, 45, 6))
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax4)
@@ -215,8 +227,7 @@ gvutil.set_titles_and_labels(
     maintitle="Blues_r Color Projection \n of Rain Fall Total",
     maintitlefontsize=16,
     xlabel="",
-    ylabel="",
-)
+    ylabel="")
 
 # Show the plot
 plt.show()
