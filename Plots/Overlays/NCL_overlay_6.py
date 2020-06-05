@@ -17,6 +17,8 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -44,3 +46,20 @@ time = vf.timestep
 p = p/100
 # Convert K to F
 t = (t - 273.15) * 9/5 + 32
+
+###############################################################################
+# Create map:
+plt.figure(figsize=(10,8))
+proj = ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40)
+
+# Set axis projection
+ax = plt.axes(projection=proj)
+# Set extent to include roughly the United States
+ax.set_extent((-128, -58, 18, 65), crs=ccrs.PlateCarree())
+ax.add_feature(cfeature.OCEAN, color='lightblue')
+ax.add_feature(cfeature.LAND, color='gray')
+ax.add_feature(cfeature.LAKES, color='white')
+ax.add_feature(cfeature.COASTLINE)
+
+
+plt.show()
