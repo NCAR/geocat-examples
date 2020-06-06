@@ -94,12 +94,13 @@ ds = xr.open_dataset(gdf.get("netcdf_files/climdiv_prcp_1899-1999.nc"), decode_t
 # For each variable (climate division) in data set, create outline on map and fill with random color
 for varname, da in ds.data_vars.items():
 
-    try:
+    # This condition is included because first item in xarray only has one attribute, 'current date'
+    if hasattr(da, 'state_name'):
         # Get number of years of data by dividing number of months recorded (length of array) by 12 (12 months per year)
-        numYears = len(da.values)/12 
+        numYears = len(da.values)/12
 
         # Get precipitation data for each climate division:
-        # Rather than looping through the whole array to find the sum of each 12 values (a year's worth of data), 
+        # Rather than looping through the whole array to find the sum of each 12 values (a year's worth of data),
         # adding each sum to an array, and then finding the average of the values in the array, as seen in the NCL
         # script, the one-line python method involves summing the dataset values and then dividing it by numYears (calculated in line 99)
         precipitationdata = sum(da.values)/numYears
@@ -117,10 +118,6 @@ for varname, da in ds.data_vars.items():
         # Add division outlines to map
         im = ax.add_geometries([track], ccrs.PlateCarree(), facecolor=color, edgecolor='k', linewidths=.5)
 
-    except Exception as E:
-        print(E)
-        continue
-
 ###############################################################################
 # Plot colorbar
 
@@ -129,8 +126,8 @@ norm = colors.BoundaryNorm(colorbounds, colormap.N)
 
 # Adjust size of colorbar with "inset_axes" function
 axins1 = inset_axes(ax,
-                    width="75%",  # width = 50% of parent_bbox width
-                    height="3%",  # height : 5%
+                    width="75%",
+                    height="3%",
                     loc='lower center'
                     )
 
