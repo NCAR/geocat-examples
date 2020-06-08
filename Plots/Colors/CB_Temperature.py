@@ -5,11 +5,10 @@ CB_Temperature.py
 ================
 
 This script illustrates multiple color schemes for color maps which will allow for those
-impacted by color blindness to see visualizations. Using rainbow color schemes not only
-cause confusion for those impacted by color blindness, but is a poor choice in color scheme 
-for images that may be transferred to a black and white scale for printing.
-This code addresses a handful of options to use in place of rainbow color schemes for 
-use in the matplotlib.pyplot library.
+impacted by color blindness to see visualizations. Using rainbow color schemes is also
+a poor choice in color scheme for images that may be transferred to a black and white 
+scale for printing. This code addresses a handful of options to use in place of rainbow 
+color schemes for use in the matplotlib.pyplot library.
 
 More information on this subject can be found here:
         -https://agilescientific.com/blog/2017/12/14/no-more-rainbows
