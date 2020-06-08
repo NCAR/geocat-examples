@@ -21,7 +21,7 @@ See following URLs to see the reproduced NCL plot & script:
 
 ###############################################################################
 # Import packages:
-# ----------------
+
 import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
