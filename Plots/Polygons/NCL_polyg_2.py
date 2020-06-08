@@ -35,6 +35,12 @@ import shapely.geometry as sgeom
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 ###############################################################################
+# Read in data
+
+# Open climate division datafile and add to xarray
+ds = xr.open_dataset(gdf.get("netcdf_files/climdiv_prcp_1899-1999.nc"), decode_times=False)
+
+###############################################################################
 # Initialize color map and bounds for each color
 
 colormap = colors.ListedColormap(['mediumpurple', 'mediumblue', 'royalblue', 'cornflowerblue', 'lightblue', 'lightseagreen', 'yellowgreen',
@@ -45,7 +51,6 @@ colorbounds = [0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100]
 
 ###############################################################################
 # Define helper function to determine which color to fill the divisions based on precipitation data
-
 
 def findDivColor(colorbounds, pdata):
 
@@ -87,9 +92,6 @@ for state in shpreader.Reader(states_shp).geometries():
     edgecolor = 'black'
 
     ax.add_geometries([state], ccrs.PlateCarree(), facecolor=facecolor, edgecolor=edgecolor)
-
-# Open climate division datafile and add to xarray
-ds = xr.open_dataset(gdf.get("netcdf_files/climdiv_prcp_1899-1999.nc"), decode_times=False)
 
 # For each variable (climate division) in data set, create outline on map and fill with random color
 for varname, da in ds.data_vars.items():
