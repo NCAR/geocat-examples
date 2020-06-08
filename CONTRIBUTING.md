@@ -62,4 +62,4 @@ Porting NCL example scripts to Python
    $ open _build/html/gallery/index.html
    ```
 
-11. Submit an Pull Request on this repository's GitHub page containing your new example. Please add a link to the original NCL script from the NCL documentation site. Also, please consider adding a brief summary of your experience porting the script. If it was easy, say so; if it was very hacky and required 7 times as many lines of code as the NCL script, please say that.
+9. Submit an Pull Request on this repository's GitHub page containing your new example. Please add a link to the original NCL script from the NCL documentation site. Also, please consider adding a brief summary of your experience porting the script. If it was easy, say so; if it was very hacky and required 7 times as many lines of code as the NCL script, please say that.
