@@ -37,8 +37,8 @@ v500f = xr.open_dataset(gdf.get("netcdf_files/V500storm.cdf"))
 
 p = pf.p.isel(timestep=0).drop('timestep')
 t = tf.t
-u = uf.u
-v = vf.v
+u = uf.u.isel(timestep=0).drop('timestep')
+v = vf.v.isel(timestep=0).drop('timestep')
 u500 = u500f.u.isel(timestep=0).drop('timestep')
 v500 = v500f.v.isel(timestep=0).drop('timestep')
 time = vf.timestep
@@ -70,4 +70,16 @@ cbar = plt.colorbar(pressure, ticks=np.arange(980, 1045, 5), label = 'Sea Level 
 # Add streamline overlay
 plt.streamplot(u500.lon, u500.lat, u500.data, v500.data, transform=ccrs.PlateCarree(), color='black', arrowstyle='->', linewidth=0.5, density=2)
 
+# Add vector grid
+# First thin the data the the vector grid is less cluttered
+x = u['lon'].data[0:36:2]
+y = u['lat'].data[0:33:2]
+u = u.data[0:33:2,0:36:2]
+v = v.data[0:33:2,0:36:2]
+
+# Import color map for vectors
+#vect_cmap = gvcmaps.amwg_blueyellowred
+Q = plt.quiver(x, y, u, v, transform=ccrs.PlateCarree())
+plt.quiverkey(Q, 0.95, 0.05, 20, label="20")
 plt.show()
+
