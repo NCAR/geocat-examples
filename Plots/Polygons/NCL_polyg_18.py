@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 import cartopy
 from geocat.viz import util as gvutil
 import matplotlib.patches as mpatches
+from cartopy.mpl.ticker import LatitudeFormatter, LongitudeFormatter
 ###############################################################################
 # Define helper function to remove ticks/frames from axes
 
@@ -72,6 +73,10 @@ gvutil.set_axes_limits_and_ticks(ax, xlim=None, ylim=None, xticks=[-180, -150, -
 
 # Use gvutil function to give ticks W/N/E/S labels
 gvutil.add_lat_lon_ticklabels(ax, zero_direction_label=True, dateline_direction_label=True)
+
+# Took out degree symbols in latitude/longitude tick labels
+ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol= ''))
+ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use gvutil function to set title of plot
 gvutil.set_titles_and_labels(ax, maintitle="Big centered title", maintitlefontsize=25)
