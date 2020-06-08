@@ -41,28 +41,40 @@ ds1 = xr.open_dataset(gdf.get('netcdf_files/U500storm.cdf'))
 ds2 = xr.open_dataset(gdf.get('netcdf_files/V500storm.cdf'))
 
 ################################################################################
-fig = plt.figure(figsize=(10, 8))
+# Set figure
+fig = plt.figure(figsize=(10, 10))
 
-#proj = ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40)
+# Create first subplot on figure for map
 ax = fig.add_axes([.1,.2,.8,.6], projection=ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40), frameon=False)
 
+# Set title of plot
+# Make title font bold using r"$\bf{_______}$" formatting
+gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{Assigning}$"+" "+r"$\bf{color}$"+" "+r"$\bf{palette}$"+" "+r"$\bf{to}$"+" "+r"$\bf{streamlines}$", maintitlefontsize=25)
+
 # Set axis projection
-#ax = plt.axes(projection=proj)
-# Set extent to include roughly the United States
 ax.set_extent((-128, -58, 18, 65), crs=ccrs.PlateCarree())
+
+# Add ocean, lakes, land features, and coastlines to map
 ax.add_feature(cfeature.OCEAN, color='lightblue')
 ax.add_feature(cfeature.LAKES, color='white', edgecolor='black')
 ax.add_feature(cfeature.LAND, color='tan')
 ax.coastlines()
 
-# Extract a 2D horizontal slice from the first time step of the 3D U and V variables at the bottom level
+# Extract streamline data from initial timestep
 U = ds1.u.isel(timestep=0)
 V = ds2.v.isel(timestep=0)
-streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='->', linewidth=1, density=2.2, color=norm(U))
 
+# Plot streamline data
+streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='->', linewidth=1, density=2.0, color=U.data, cmap=colormap)
+
+# Create second subplot on figure for colorbar
 ax2 = fig.add_axes([.1,.1,.8,.05])
 
+# Plot colorbar on subplot
 cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), cax=ax2, boundaries=colorbounds,
-                  ticks=colorbounds, spacing='uniform', orientation='horizontal', label='inches')
+                  ticks=colorbounds, spacing='uniform', orientation='horizontal')
+
+# Change size of colorbar tick font
+ax2.tick_params(labelsize=20)
 
 plt.show()
