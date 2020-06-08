@@ -74,12 +74,13 @@ gvutil.set_axes_limits_and_ticks(ax, xlim=None, ylim=None, xticks=[-180, -150, -
 # Use gvutil function to give ticks W/N/E/S labels
 gvutil.add_lat_lon_ticklabels(ax, zero_direction_label=True, dateline_direction_label=True)
 
-# Took out degree symbols in latitude/longitude tick labels
+# Took out degree symbols in latitude/longitude
 ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol= ''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use gvutil function to set title of plot
-gvutil.set_titles_and_labels(ax, maintitle="Big centered title", maintitlefontsize=25)
+# Set title font to bold using the r"$\bf{_____}$" formatting characters
+gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{Big}$"+ " " + r"$\bf{centered}$" + " " +r"$\bf{title}$", maintitlefontsize=25)
 
 # Use gvutil function to plot three minor ticks for every major tick on axes
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=3, labelsize="small")
