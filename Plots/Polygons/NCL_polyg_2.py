@@ -66,13 +66,14 @@ def findDivColor(colorbounds, pdata):
 
 
 ###############################################################################
-# Plot map
+# Create plot
 
 # Create plot figure
-fig = plt.figure(figsize=(10, 10))
+fig = plt.figure(figsize=(8, 8))
 
-# Add a subplot for lambert conformal map
-ax = fig.add_subplot(111, projection=ccrs.LambertConformal(), frameon=False, xbound=0.0, ybound=0.0)
+# Add axes for lambert conformal map
+# Set dimensions of axes with [X0, Y0, width, height] argument. Each value is a fraction of total figure size.
+ax = plt.axes([.05,-.05,.9,1], projection=ccrs.LambertConformal(), frameon=False)
 
 # Set latitude and longitude extent of map
 ax.set_extent([-119, -74, 18, 50], ccrs.Geodetic())
@@ -82,7 +83,7 @@ shapename = 'admin_1_states_provinces_lakes_shp'
 states_shp = shpreader.natural_earth(resolution='110m', category='cultural', name=shapename)
 
 # Set title and title fontsize of plot using gvutil function instead of matplotlib function call
-gvutil.set_titles_and_labels(ax, maintitle="\nAverage Annual Precipiation \n Computed for the period 1899-1999 \n NCDC climate division data \n \n",
+gvutil.set_titles_and_labels(ax, maintitle="Average Annual Precipiation \n Computed for the period 1899-1999 \n NCDC climate division data \n",
                              maintitlefontsize=18)
 
 # Add outlines of each state within the United States
@@ -120,13 +121,12 @@ for varname, da in ds.data_vars.items():
         # Add division outlines to map
         im = ax.add_geometries([track], ccrs.PlateCarree(), facecolor=color, edgecolor='k', linewidths=.5)
 
-###############################################################################
-# Plot colorbar
+# Create and plot colorbar
 
 # Map colors to bounds
 norm = colors.BoundaryNorm(colorbounds, colormap.N)
 
-# Adjust size of colorbar with "inset_axes" function
+# Add inset axes (axes within pre-existing axes) to hold colorbar
 axins1 = inset_axes(ax,
                     width="75%",
                     height="3%",
