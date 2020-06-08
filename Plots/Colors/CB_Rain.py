@@ -90,7 +90,7 @@ gvutil.set_titles_and_labels(
     xlabel="",
     ylabel="")
 
-###############################################################################
+
 #Plot second color map:
 
 ax2 = plt.subplot(2, 2, 2, projection=projection)
@@ -135,7 +135,7 @@ gvutil.set_titles_and_labels(
     xlabel="",
     ylabel="")
 
-###############################################################################
+
 #Plot third color map:
 
 ax3 = plt.subplot(2, 2, 3, projection=projection)
@@ -181,7 +181,7 @@ gvutil.set_titles_and_labels(
     xlabel="",
     ylabel="")
 
-###############################################################################
+
 #Plot fourth color map:
 
 ax4 = plt.subplot(2, 2, 4, projection=projection)
