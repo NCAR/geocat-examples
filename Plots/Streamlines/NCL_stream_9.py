@@ -41,10 +41,10 @@ ds1 = xr.open_dataset(gdf.get('netcdf_files/U500storm.cdf'))
 ds2 = xr.open_dataset(gdf.get('netcdf_files/V500storm.cdf'))
 
 ################################################################################
-fig = plt.figure(figsize=(10, 15))
+fig = plt.figure(figsize=(10, 8))
 
 #proj = ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40)
-ax = fig.add_subplot(111, projection=ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40), frameon=False, xbound=0.0, ybound=0.0)
+ax = fig.add_axes([.1,.2,.8,.6], projection=ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40), frameon=False)
 
 # Set axis projection
 #ax = plt.axes(projection=proj)
@@ -58,15 +58,11 @@ ax.coastlines()
 # Extract a 2D horizontal slice from the first time step of the 3D U and V variables at the bottom level
 U = ds1.u.isel(timestep=0)
 V = ds2.v.isel(timestep=0)
-ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='->', linewidth=1, density=2.2, color=norm(U))
+streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='->', linewidth=1, density=2.2, color=norm(U))
 
-axin1 = inset_axes(ax,
-                    width="75%",  
-                    height="3%",  
-                    loc='lower center'
-                    )
+ax2 = fig.add_axes([.1,.1,.8,.05])
 
-cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), cax=axin1, boundaries=colorbounds,
+cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), cax=ax2, boundaries=colorbounds,
                   ticks=colorbounds, spacing='uniform', orientation='horizontal', label='inches')
 
 plt.show()
