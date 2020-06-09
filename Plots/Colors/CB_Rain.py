@@ -12,7 +12,7 @@ color schemes for use in the matplotlib.pyplot library.
 
 More information on this subject can be found here:
     - https://agilescientific.com/blog/2017/12/14/no-more-rainbows
-    - https://www.researchgate.net/publication/328361220_The_Effect_of_Color_Scales_on_Climate_Scientists'_Objective_and_Subjective_Performance_in_Spatial_Data_Analysis_Tasks
+       - `https://www.researchgate.net/publication/328361220 <https://www.researchgate.net/publication/328361220_The_Effect_of_Color_Scales_on_Climate_Scientists'_Objective_and_Subjective_Performance_in_Spatial_Data_Analysis_Tasks>`_
 
 More color schemes can be found here:
     - https://matplotlib.org/3.1.1/tutorials/colors/colormaps.html
