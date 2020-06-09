@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
+
 ###############################################################################
 # Read in data:
 
