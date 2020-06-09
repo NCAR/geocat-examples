@@ -12,7 +12,6 @@ See following URLs to see the reproduced NCL plot & script:
 
 ###############################################################################
 # Import packages:
-# ----------------
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import cartopy
