@@ -1,7 +1,7 @@
 Porting NCL example scripts to Python
 =====================================
 
-1. Fork the [GeoCAT-examples GitHub repository](https://github.com/NCAR/GeoCAT-examples).
+1. Fork the [GeoCAT-examples GitHub repository](https://github.com/NCAR/GeoCAT-examples). For more details on how to fork a repository, see this [webpage](https://help.github.com/en/github/getting-started-with-github/fork-a-repo).
 
 2. Clone your fork locally using [git](https://git-scm.com/), connect your repository to the upstream (main project), and create a new branch:
 
