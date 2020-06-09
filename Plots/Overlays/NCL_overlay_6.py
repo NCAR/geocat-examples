@@ -36,7 +36,7 @@ u500f = xr.open_dataset(gdf.get("netcdf_files/U500storm.cdf"))
 v500f = xr.open_dataset(gdf.get("netcdf_files/V500storm.cdf"))
 
 p = pf.p.isel(timestep=0).drop('timestep')
-t = tf.t.isel(timestep=0).drop('timestep')
+t = tf.t
 u = uf.u.isel(timestep=0).drop('timestep')
 v = vf.v.isel(timestep=0).drop('timestep')
 u500 = u500f.u.isel(timestep=0).drop('timestep')
@@ -76,27 +76,10 @@ x = u['lon'].data[0:36:2]
 y = u['lat'].data[0:33:2]
 u = u.data[0:33:2,0:36:2]
 v = v.data[0:33:2,0:36:2]
-t = t.data[0:33:2,0:36:2]
-
-# Normalize the wind components
-min = np.minimum(np.nanmin(np.abs(u)), np.nanmin(np.abs(v)))
-max = np.maximum(np.nanmax(np.abs(u)), np.nanmax(np.abs(v)))
-new_u = np.log((9 * (np.abs(u) - min) / (max + min)) + 1)
-new_v = np.log((9 * (np.abs(v) - min) / (max + min)) + 1)
-
-neg_u = np.where(u<0, -1, 1) # create mask that will be use to preserve negative directions
-neg_v = np.where(v<0, -1, 1)
-
-new_u = new_u * neg_u
-new_v = new_v * neg_v
-
-# Normalize the reference vector for key
-ref = 20
-new_ref = np.log((9 * (ref - min) / (max + min)) + 1)
 
 # Import color map for vectors
-vect_cmap = gvcmaps.amwg_blueyellowred
-Q = plt.quiver(x, y, new_u, new_v, transform=ccrs.PlateCarree(), scale_units='xy', headwidth=5, zorder=6)
-plt.quiverkey(Q, 0.95, 0.05, new_ref, label=ref)
+#vect_cmap = gvcmaps.amwg_blueyellowred
+Q = plt.quiver(x, y, u, v, transform=ccrs.PlateCarree())
+plt.quiverkey(Q, 0.95, 0.05, 20, label="20")
 plt.show()
 
