@@ -30,7 +30,7 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 colormap = colors.ListedColormap(['darkblue', 'mediumblue', 'blue', 'cornflowerblue', 'skyblue', 'aquamarine',
         'lime', 'greenyellow', 'gold', 'orange', 'orangered', 'red', 'maroon'])
 
-colorbounds = [0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52]
+colorbounds = np.arange(0, 56, 4)
 
 norm = colors.BoundaryNorm(colorbounds, colormap.N)
 ################################################################################
