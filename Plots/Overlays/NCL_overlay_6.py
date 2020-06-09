@@ -17,6 +17,7 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
@@ -80,6 +81,8 @@ v = v.data[0:33:2,0:36:2]
 
 # Import color map for vectors
 #vect_cmap = gvcmaps.amwg_blueyellowred
-Q = plt.quiver(x, y, u, v, transform=ccrs.PlateCarree(), zorder=5)
-plt.quiverkey(Q, 0.95, 0.05, 20, label="20")
+Q = plt.quiver(x, y, u, v, transform=ccrs.PlateCarree(), zorder=5, headwidth=5)
+ax.quiverkey(Q, 0.925, 0.025, 20, label='20', zorder=5)
+ax.add_patch(mpatches.Rectangle(xy=[0.85, 0], width=0.15, height=0.0925, facecolor='white', transform=ax.transAxes, zorder=4))
+
 plt.show()
