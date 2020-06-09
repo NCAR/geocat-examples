@@ -12,14 +12,15 @@ See following URLs to see the reproduced NCL plot & script:
 
 ###############################################################################
 # Import packages:
-# ----------------
-import cartopy.crs as ccrs
+
 import matplotlib.pyplot as plt
-import cartopy
-from geocat.viz import util as gvutil
 import matplotlib.patches as mpatches
+import cartopy
+import cartopy.crs as ccrs
 from cartopy.mpl.ticker import LatitudeFormatter, LongitudeFormatter
 import numpy as np
+
+from geocat.viz import util as gvutil
 ###############################################################################
 # Define helper function to remove ticks/frames from axes
 
@@ -70,7 +71,7 @@ ax.add_patch(mpatches.Rectangle(xy=[7, 47], width=9, height=7, facecolor='None',
 ax.add_patch(mpatches.Rectangle(xy=[110, -45], width=50, height=35, facecolor='lime', alpha=0.3, transform=ccrs.PlateCarree(), zorder=5))
 
 # Use gvutil function to set the ticks on axes
-gvutil.set_axes_limits_and_ticks(ax, xlim=None, ylim=None, xticks=[-180, -150, -120, -90, -60, -30, 0, 30, 60, 90, 120, 150, 180], yticks=[-90, -60, -30, 0, 30, 60, 90], xticklabels=None, yticklabels=None)
+gvutil.set_axes_limits_and_ticks(ax, xlim=None, ylim=None, xticks=np.arange(-180, 210, 30), yticks=np.arange(-90, 120, 30), xticklabels=None, yticklabels=None)
 
 # Use gvutil function to give ticks W/N/E/S labels
 gvutil.add_lat_lon_ticklabels(ax, zero_direction_label=True, dateline_direction_label=True)
