@@ -51,7 +51,7 @@ continents = cartopy.feature.NaturalEarthFeature(
 ax.add_feature(continents)
 
 # Set map extent
-ax.set_extent([-180, 180, -90, 90], crs=ccrs.PlateCarree())
+ax.set_global()
 
 # Create arrays with location and design of each marker
 lon = np.arange(-160, 160, 20)
