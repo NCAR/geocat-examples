@@ -19,6 +19,7 @@ import cartopy
 from geocat.viz import util as gvutil
 import matplotlib.patches as mpatches
 from cartopy.mpl.ticker import LatitudeFormatter, LongitudeFormatter
+import numpy as np
 ###############################################################################
 # Define helper function to remove ticks/frames from axes
 
@@ -54,13 +55,13 @@ ax.add_feature(continents)
 ax.set_extent([-180, 180, -90, 90], crs=ccrs.PlateCarree())
 
 # Create arrays with location and design of each marker
-lon = [-160, -140, -120, -100, -80, -60, -40, -20, 0, 20, 40, 60, 80, 100, 120, 140]
-lat = [-70, -60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60, 70, 80]
+lon = np.arange(-160, 160, 20)
+lat = np.arange(-80, 80, 10)
 marker = ['.', '+', '*', 'o', 'x', 's', '^', 'v', 'D', '>', '<', 'p', 'h', '8', 'X', 'd']
 
 # Draw markers on diagonal line across graph
 for x in range(len(lon)):
-    ax.scatter(lon[x], lat[x], marker=marker[x], color='blue', s=100, zorder=3)
+    ax.plot(lon[x], lat[x], marker=marker[x], color='blue', fillstyle='none', markersize=18, zorder=3)
 
 # Draw small red box in upper center
 ax.add_patch(mpatches.Rectangle(xy=[7, 47], width=9, height=7, facecolor='None', edgecolor='red', alpha=1.0, transform=ccrs.PlateCarree(), zorder=5))
