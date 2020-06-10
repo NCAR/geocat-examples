@@ -1,5 +1,5 @@
 """
-NCL_polar_1_lg.py
+NCL_lcnative_1_lg.py
 ================
 
 This script illustrates the following concepts:
@@ -21,16 +21,18 @@ import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 import matplotlib.ticker as ticker
+import matplotlib.ticker as mticker
+from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 
 ###############################################################################
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/pre.8912.mon.nc"))
+ds = xr.open_dataset(gdf.get("netcdf_files/pre.8912.mon.nc"), decode_times=False)
 
 # Extract a slice of the data
 t = ds.pre[0,:]
-#print(t)
+print(ds)
 #gvutil.xr_add_cyclic_longitudes(t,'lon')
 
 ###############################################################################
@@ -43,11 +45,20 @@ plt.figure(figsize=(10, 10))
 # Generate axes using Cartopy and draw coastlines
 projection = ccrs.LambertConformal(central_longitude=45, standard_parallels=(36,55))
 ax = plt.axes(projection=projection, frameon=True)
-print(ax)
 ax.set_extent((30, 55, 20, 45), crs=ccrs.PlateCarree())
 ax.coastlines(linewidth=0.5)
 
-ax.gridlines()
+gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
+                  linewidth=2, color='gray', alpha=0.5, linestyle='--')
+
+gl.left_labels = True
+gl.bottom_labels = False
+gl.xlines = False
+gl.xlocator = mticker.FixedLocator([30, 35, 40, 45, 50, 55])
+#gl.xformatter = LONGITUDE_FORMATTER
+#gl.yformatter = LATITUDE_FORMATTER
+gl.xlabel_style = {'size': 15, 'color': 'gray'}
+gl.xlabel_style = {'color': 'red', 'weight': 'bold'}
 
 ax.plot(np.arange(30,55,5))
 
