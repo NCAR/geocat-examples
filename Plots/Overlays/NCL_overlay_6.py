@@ -18,6 +18,7 @@ import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import matplotlib.colors as mcolors
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
@@ -37,7 +38,7 @@ u500f = xr.open_dataset(gdf.get("netcdf_files/U500storm.cdf"))
 v500f = xr.open_dataset(gdf.get("netcdf_files/V500storm.cdf"))
 
 p = pf.p.isel(timestep=0).drop('timestep')
-t = tf.t
+t = tf.t.isel(timestep=0).drop('timestep')
 u = uf.u.isel(timestep=0).drop('timestep')
 v = vf.v.isel(timestep=0).drop('timestep')
 u500 = u500f.u.isel(timestep=0).drop('timestep')
@@ -78,10 +79,16 @@ x = u['lon'].data[0:36:2]
 y = u['lat'].data[0:33:2]
 u = u.data[0:33:2,0:36:2]
 v = v.data[0:33:2,0:36:2]
+t = t.data[0:33:2,0:36:2]
 
 # Import color map for vectors
-#vect_cmap = gvcmaps.amwg_blueyellowred
-Q = plt.quiver(x, y, u, v, transform=ccrs.PlateCarree(), zorder=5, headwidth=5)
+wind_cmap = gvcmaps.amwg_blueyellowred
+bounds = np.arange(-30,120,10)
+norm = mcolors.BoundaryNorm(bounds, wind_cmap.N)
+
+Q = plt.quiver(x, y, u, v, t, transform=ccrs.PlateCarree(), zorder=5, headwidth=5, cmap=wind_cmap, norm=norm)
+plt.colorbar(Q, ax=ax, ticks=np.arange(-20,110,10), norm=norm, orientation='horizontal', label='Surface Temperature')
+
 ax.quiverkey(Q, 0.925, 0.025, 20, label='20', zorder=5)
 ax.add_patch(mpatches.Rectangle(xy=[0.85, 0], width=0.15, height=0.0925, facecolor='white', transform=ax.transAxes, zorder=4))
 
