@@ -52,8 +52,8 @@ gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
                   linewidth=2, color='gray', alpha=0.5, linestyle='--')
 
 gl.left_labels = True
-gl.bottom_labels = False
-gl.xlines = False
+gl.bottom_labels = True
+gl.xlines = True
 gl.xlocator = mticker.FixedLocator([30, 35, 40, 45, 50, 55])
 #gl.xformatter = LONGITUDE_FORMATTER
 #gl.yformatter = LATITUDE_FORMATTER
