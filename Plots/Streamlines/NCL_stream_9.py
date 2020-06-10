@@ -24,6 +24,7 @@ import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 import matplotlib.colors as colors
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+from matplotlib import collections as mc
 ################################################################################
 # Make color map 
 
@@ -66,6 +67,22 @@ V = ds2.v.isel(timestep=0)
 
 # Plot streamline data
 streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='->', linewidth=1, density=2.0, color=U.data, cmap=colormap)
+
+# Divide streamlines into segments
+seg = streams.lines.get_segments()
+
+# Determine how many arrows on each streamline, the placement, and angles of the arrows
+period = 10
+arrow_x = np.array([seg[i][0, 0] for i in range(0, len(seg), period)])
+arrow_y = np.array([seg[i][0, 1] for i in range(0, len(seg), period)])
+arrow_dx = np.array([seg[i][1, 0] - seg[i][0, 0] for i in range(0, len(seg), period)])
+arrow_dy = np.array([seg[i][1, 1] - seg[i][0, 1] for i in range(0, len(seg), period)])
+
+# Add arrows
+ax.quiver(
+    arrow_x, arrow_y, arrow_dx, arrow_dy, angles='xy',
+    scale=0.2, units='y', minshaft=0, 
+    headwidth=6, headlength=12, headaxislength=10)
 
 # Create second subplot on figure for colorbar
 ax2 = fig.add_axes([.1,.1,.8,.05])
