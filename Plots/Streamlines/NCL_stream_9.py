@@ -31,10 +31,12 @@ from matplotlib import collections as mc
 colormap = colors.ListedColormap(['darkblue', 'mediumblue', 'blue', 'cornflowerblue', 'skyblue', 'aquamarine',
         'lime', 'greenyellow', 'gold', 'orange', 'orangered', 'red', 'maroon'])
 
-colorbounds = np.arange(0, 56, 4)
+colorbounds = np.arange(-.0001, 56, 4)
 
 norm = colors.BoundaryNorm(colorbounds, colormap.N)
+
 ################################################################################
+
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
@@ -78,11 +80,13 @@ arrow_y = np.array([seg[i][0, 1] for i in range(0, len(seg), period)])
 arrow_dx = np.array([seg[i][1, 0] - seg[i][0, 0] for i in range(0, len(seg), period)])
 arrow_dy = np.array([seg[i][1, 1] - seg[i][0, 1] for i in range(0, len(seg), period)])
 
+normalizedarray = arrow_dx * (1.0/arrow_dx.max())
+
 # Add arrows
 ax.quiver(
     arrow_x, arrow_y, arrow_dx, arrow_dy, angles='xy',
     scale=0.2, units='y', minshaft=0, 
-    headwidth=6, headlength=12, headaxislength=10)
+    headwidth=8, headlength=9, headaxislength=8, cmap=colormap)
 
 # Create second subplot on figure for colorbar
 ax2 = fig.add_axes([.1,.1,.8,.05])
