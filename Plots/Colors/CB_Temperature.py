@@ -68,6 +68,7 @@ def comparison(color,row, col, pos, title):
         cmap=newcmp,
         cbar_kwargs={
             "orientation": "vertical",
+            "extendrect": True,
             "ticks": np.arange(0, 32, 2),
             "label": "",
             "shrink": 0.8,})
