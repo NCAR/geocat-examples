@@ -69,6 +69,7 @@ def comparison(color,row, col, pos, title):
         cbar_kwargs={
             "orientation": "vertical",
             "extendrect": True,
+            "extendrect": True,
             "ticks": np.arange(0, 32, 2),
             "label": "",
             "shrink": 0.8,})
