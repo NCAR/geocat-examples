@@ -15,22 +15,43 @@ See following URLs to see the reproduced NCL plot & script:
 # Import packages:
 import numpy as np
 import xarray as xr
+import matplotlib
 import matplotlib.pyplot as plt
+import mpl_toolkits
 from mpl_toolkits.basemap import Basemap
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
 
 ###############################################################################
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/slp.1963.nc"))
+ds = xr.open_dataset(gdf.get("netcdf_files/slp.1963.nc"), decode_times=False)
 
-print(ds)
+U = ds.slp[1, :, :]
+wrap_U = gvutil.xr_add_cyclic_longitudes(U, "lon")
 
 ###############################################################################
 # Create plot
 
-plt.figure(figsize=(10, 10))
-m = Basemap(projection='ortho', resolution=None, lat_0=50, lon_0=-100)
+fig = plt.figure(figsize=(10, 10))
+
+proj=ccrs.Orthographic(central_longitude=-90, central_latitude=45)
+ax = plt.axes(projection=proj)
+ax.set_global()
+
+ax.add_feature(cfeature.LAND, facecolor='lightgray')
+
+
+p = wrap_U.plot.contour(ax=ax,
+                        transform=ccrs.PlateCarree(),
+                        linewidths=0.5,
+                        levels=30,
+                        cmap='black',
+                        add_labels=False)
+
+
+plt.show()
