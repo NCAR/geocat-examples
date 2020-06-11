@@ -47,7 +47,7 @@ plt.figure(figsize=(10, 8))
 ax = plt.axes(projection=ccrs.PlateCarree())
 
 # Set extent around US
-ax.set_extent([230, 300, 20, 60])
+ax.set_extent([230, 300, 20, 60], crs=ccrs.PlateCarree())
 
 # Draw map features
 transparent = (0, 0, 0, 0)  # RGBA value for a transparent color for lakes
@@ -60,5 +60,14 @@ temp = t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=cmap, levels=t_
 plt.colorbar(temp, ax=ax, ticks=np.arange(215, 270, 5), orientation='horizontal')
 
 # Plot line contour
-u.plot.contour(ax=ax, transform=ccrs.PlateCarree(), levels=u_lev, colors='black', linewidths=0.5)
+wind = u.plot.contour(ax=ax, transform=ccrs.PlateCarree(), vmin=-5, vmax=35, levels=u_lev, colors='black', linewidths=0.5)
+ax.clabel(wind, fmt='%d', inline=True, fontsize=10)
+
+# Add lower text box
+ax.text(1, -0.5, "CONTOUR FROM -5 TO 35 BY 5",
+        fontname='Helvetica',
+        horizontalalignment='right',
+        transform=ax.transAxes,
+        bbox=dict(boxstyle='square, pad=0.25', facecolor='white', edgecolor='black'))
+
 plt.show()
