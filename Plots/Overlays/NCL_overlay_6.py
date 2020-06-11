@@ -2,14 +2,29 @@
 NCL_overlay_6.py
 ===============
 This script illustrates the following concepts:
-   - Overlaying shaded contours on filled contours
-   - Filling contours with multiple shaded patterns
-   - Overlaying vectors on filled contours
-   - Using the "palette" resources to assign a color palette to color vectors and contours
-
+   - Overlaying filled contours, streamlines, and vectors over the same map
+   - Adding various map elements to a figure
+   - Using inset_axes() to create additional axes for color bars
+   - Creating custom label formats for colorbars
+   - Creating a quiverkey
+   - Assigning a colormap to contour and quiver plots
+   
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/overlay_6.ncl
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/overlay_6_lg.png
+
+Differences between NCL example and this one:
+    In the NCL version of this plot the vectors for the winds are nearly
+    uniform in length. Given the reference vector in that figure, the wind
+    speeds appear to be near 20 units. A historgram reveals that this is not a
+    true representation of the data, as the magnitude of the majority of wind
+    vectors are between 3 and 6 units with only a handful being greater than 13
+    and only one near 20. Because of this, we have chosen not to manipulate the
+    vector glyphs to appear more uniform as this would poorly represent the
+    data and be misleading. This is why the reference vector in this Python
+    example is longer than the NCL example and why the lengths vary more
+    between the minimum and maximum wind speeds.
+
 """
 
 ###############################################################################
