@@ -53,20 +53,21 @@ t = (t - 273.15) * 9/5 + 32
 
 ###############################################################################
 # Create map:
-plt.figure(figsize=(8,7))
+fig = plt.figure(figsize=(8,7))
 proj = ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40)
 
 # Set axis projection
 ax = plt.axes([0, 0.2, 0.8, 0.7], projection=proj)
 cax1 = inset_axes(ax, width='5%', height='100%', loc='lower right',
-                   bbox_to_anchor=(0.1, 0, 1, 1),
-                   bbox_transform=ax.transAxes,
-                   borderpad=0)
-cax2 = inset_axes(ax, width='100%', height='7%', loc='lower left',
-                   bbox_to_anchor=(0, -0.1, 1, 1),
+                   bbox_to_anchor=(0.125, 0, 1, 1),
                    bbox_transform=ax.transAxes,
                    borderpad=0)
 
+cax2 = inset_axes(ax, width='100%', height='7%', loc='lower left',
+                   bbox_to_anchor=(0, -0.15, 1, 1),
+                   bbox_transform=ax.transAxes,
+                   borderpad=0)
+cax2.xaxis.set_label_position('top')
 # Set extent to include roughly the United States
 transparent = (0, 0, 0, 0) # RGBA value for a transparent color
 ax.set_extent((-128, -58, 18, 65), crs=ccrs.PlateCarree())
@@ -78,7 +79,9 @@ ax.add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=3)
 # Import color mab for pressure level contour
 p_cmap = gvcmaps.StepSeq25
 pressure = p.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=p_cmap, levels=np.arange(975, 1050, 5), add_colorbar=False, add_labels=False, zorder=2)
-plt.colorbar(pressure, cax=cax1, ticks=np.arange(980, 1045, 5), label = 'Sea Level Pressure')
+plt.colorbar(pressure, cax=cax1, ticks=np.arange(980, 1045, 5))
+cax1.yaxis.set_label_text(label='\n'.join('Sea Level Pressure'), fontsize=14, rotation=0)#, position=(0,0.1))
+cax1.yaxis.set_label_coords(-0.5, 0.9)
 
 # Add streamline overlay
 ax.streamplot(u500.lon, u500.lat, u500.data, v500.data, transform=ccrs.PlateCarree(), color='black', arrowstyle='->', linewidth=0.5, density=2, zorder=4)
@@ -97,9 +100,13 @@ bounds = np.arange(-30,120,10)
 norm = mcolors.BoundaryNorm(bounds, wind_cmap.N)
 
 Q = ax.quiver(x, y, u, v, t, transform=ccrs.PlateCarree(), zorder=5, headwidth=5, cmap=wind_cmap, norm=norm)
-plt.colorbar(Q, cax=cax2, ticks=np.arange(-20,110,10), norm=norm, orientation='horizontal', label='Surface Temperature')
+plt.colorbar(Q, cax=cax2, ticks=np.arange(-20,110,10), norm=norm, orientation='horizontal')
+cax2.xaxis.set_label_text(label='Surface Temperature', fontsize=14)
+cax2.xaxis.set_label_position('top')
 
 ax.quiverkey(Q, 0.925, 0.025, 20, label='20', zorder=5)
 ax.add_patch(mpatches.Rectangle(xy=[0.85, 0], width=0.15, height=0.0925, facecolor='white', transform=ax.transAxes, zorder=4))
 
+# Add title
+ax.set_title('January 1996 Snow Storm\n1996 01 05 00:00 + 0', fontweight='bold', fontsize=16)
 plt.show()
