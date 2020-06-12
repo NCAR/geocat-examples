@@ -119,11 +119,13 @@ ax.streamplot(u500.lon, u500.lat, u500.data, v500.data,
 
 
 # First thin the data so the vector grid is less cluttered
-x = u['lon'].data[0:36:2]
-y = u['lat'].data[0:33:2]
-u = u.data[0:33:2, 0:36:2]
-v = v.data[0:33:2, 0:36:2]
-t = t.data[0:33:2, 0:36:2]
+lon_size = u['lon'].size
+lat_size = u['lat'].size
+x = u['lon'].data[0:lon_size:2]
+y = u['lat'].data[0:lat_size:2]
+u = u.data[0:lat_size:2, 0:lon_size:2]
+v = v.data[0:lat_size:2, 0:lon_size:2]
+t = t.data[0:lat_size:2, 0:lon_size:2]
 
 # Import and modify color map for vectors
 wind_cmap = gvcmaps.amwg_blueyellowred
