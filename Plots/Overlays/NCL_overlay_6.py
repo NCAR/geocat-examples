@@ -114,9 +114,21 @@ cax1.tick_params(size=0)
 #
 # Plot streamline overlay
 #
-ax.streamplot(u500.lon, u500.lat, u500.data, v500.data,
-              transform=ccrs.PlateCarree(), color='black', arrowstyle='->',
+streams = ax.streamplot(u500.lon, u500.lat, u500.data, v500.data,
+              transform=ccrs.PlateCarree(), color='black', arrowstyle='-',
               linewidth=0.5, density=2)
+# Divide streamlines into segments
+seg = streams.lines.get_segments()
+# Determine how many arrows on each streamline, the placement, and angles of the arrows
+period = 7
+arrow_x = np.array([seg[i][0, 0] for i in range(0, len(seg), period)])
+arrow_y = np.array([seg[i][0, 1] for i in range(0, len(seg), period)])
+arrow_dx = np.array([seg[i][1, 0] - seg[i][0, 0] for i in range(0, len(seg), period)])
+arrow_dy = np.array([seg[i][1, 1] - seg[i][0, 1] for i in range(0, len(seg), period)])
+# Add arrows to streamlines
+q = ax.quiver(arrow_x, arrow_y, arrow_dx, arrow_dy, color='black', angles='xy',
+              scale=1, units='y', minshaft=3, headwidth=4, headlength=2,
+              headaxislength=2)
 
 
 # First thin the data so the vector grid is less cluttered
