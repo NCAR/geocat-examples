@@ -89,11 +89,11 @@ ax.set_extent((-128, -58, 18, 65), crs=ccrs.PlateCarree())
 
 # Add map features
 transparent = (0, 0, 0, 0)  # RGBA value for a transparent color for lakes
-ax.add_feature(cfeature.OCEAN, color='lightskyblue', zorder=0)
-ax.add_feature(cfeature.LAND, color='silver', zorder=1)
+ax.add_feature(cfeature.OCEAN, color='lightskyblue')
+ax.add_feature(cfeature.LAND, color='silver')
 ax.add_feature(cfeature.LAKES, linewidth=0.5, edgecolor='black',
-               facecolor=transparent, zorder=3)
-ax.add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=3)
+               facecolor=transparent)
+ax.add_feature(cfeature.COASTLINE, linewidth=0.5)
 
 #
 # Plot pressure level contour
@@ -101,7 +101,7 @@ ax.add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=3)
 p_cmap = gvcmaps.StepSeq25
 pressure = p.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=p_cmap,
                            levels=np.arange(975, 1050, 5), add_colorbar=False,
-                           add_labels=False, zorder=2)
+                           add_labels=False)
 plt.colorbar(pressure, cax=cax1, ticks=np.arange(980, 1045, 5))
 # Format colorbar label
 cax1.yaxis.set_label_text(label='\n'.join('Sea Level Pressure'), fontsize=14,
@@ -113,7 +113,7 @@ cax1.yaxis.set_label_coords(-0.5, 0.9)
 #
 ax.streamplot(u500.lon, u500.lat, u500.data, v500.data,
               transform=ccrs.PlateCarree(), color='black', arrowstyle='->',
-              linewidth=0.5, density=2, zorder=4)
+              linewidth=0.5, density=2)
 
 
 # First thin the data so the vector grid is less cluttered
@@ -131,7 +131,7 @@ norm = mcolors.BoundaryNorm(bounds, wind_cmap.N)  # Assigns colors to values
 #
 # Plot wind vectors
 #
-Q = ax.quiver(x, y, u, v, t, transform=ccrs.PlateCarree(), zorder=5,
+Q = ax.quiver(x, y, u, v, t, transform=ccrs.PlateCarree(),
               headwidth=5, cmap=wind_cmap, norm=norm)
 plt.colorbar(Q, cax=cax2, ticks=np.arange(-20, 110, 10), norm=norm,
              orientation='horizontal')
@@ -140,9 +140,9 @@ cax2.xaxis.set_label_text(label='Surface Temperature', fontsize=14)
 cax2.xaxis.set_label_position('top')
 
 # Add quiverkey and white patch behind it
-ax.quiverkey(Q, 0.925, 0.025, 20, label='20', zorder=5)
+ax.quiverkey(Q, 0.925, 0.025, 20, label='20')
 ax.add_patch(mpatches.Rectangle(xy=[0.85, 0], width=0.15, height=0.0925,
-             facecolor='white', transform=ax.transAxes, zorder=4))
+             facecolor='white', transform=ax.transAxes))
 
 # Add title
 ax.set_title('January 1996 Snow Storm\n1996 01 05 00:00 + 0',
