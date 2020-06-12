@@ -82,15 +82,14 @@ arrow_y = np.array([seg[i][0, 1] for i in range(0, len(seg), period)])
 arrow_dx = np.array([seg[i][1, 0] - seg[i][0, 0] for i in range(0, len(seg), period)])
 arrow_dy = np.array([seg[i][1, 1] - seg[i][0, 1] for i in range(0, len(seg), period)])
 
-print(seg)
 print(U.data)
 
 # Add arrows
 q = ax.quiver(
     arrow_x, arrow_y, arrow_dx, arrow_dy, 
-    color=cm.jet(norm(arrow_dx**5)), angles='xy',
-    scale=1, units='y', minshaft=0,
-    headwidth=2, headlength=2, headaxislength=2, visible='True', zorder=2)
+    color=cm.jet(norm(arrow_dx)*5), angles='xy',
+    scale=1, units='y', minshaft=3,
+    headwidth=4, headlength=2, headaxislength=2, visible='True', zorder=2)
 
 # Create second subplot on figure for colorbar
 ax2 = fig.add_axes([.1,.1,.8,.05])
