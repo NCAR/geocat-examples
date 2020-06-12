@@ -8,6 +8,7 @@ This script illustrates the following concepts:
    - Creating custom label formats for colorbars
    - Creating a quiverkey
    - Assigning a colormap to contour and quiver plots
+   - Add arrows to streamlines
    
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/overlay_6.ncl
