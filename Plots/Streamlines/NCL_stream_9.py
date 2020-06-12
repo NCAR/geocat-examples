@@ -25,15 +25,17 @@ from geocat.viz import util as gvutil
 import matplotlib.colors as colors
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from matplotlib import collections as mc
+from geocat.viz import cmaps as gvcmaps
+import matplotlib.colors as mcolors
 ################################################################################
 # Make color map 
 
 colormap = colors.ListedColormap(['darkblue', 'mediumblue', 'blue', 'cornflowerblue', 'skyblue', 'aquamarine',
         'lime', 'greenyellow', 'gold', 'orange', 'orangered', 'red', 'maroon'])
 
-colorbounds = np.arange(-.0001, 56, 4)
+colorbounds = np.arange(0, 56, 4)
 
-norm = colors.BoundaryNorm(colorbounds, colormap.N)
+norm = mcolors.BoundaryNorm(colorbounds, colormap.N) #colors.BoundaryNorm(colorbounds, colormap.N)
 
 ################################################################################
 
@@ -74,19 +76,21 @@ streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree
 seg = streams.lines.get_segments()
 
 # Determine how many arrows on each streamline, the placement, and angles of the arrows
-period = 10
+period = 7
 arrow_x = np.array([seg[i][0, 0] for i in range(0, len(seg), period)])
 arrow_y = np.array([seg[i][0, 1] for i in range(0, len(seg), period)])
 arrow_dx = np.array([seg[i][1, 0] - seg[i][0, 0] for i in range(0, len(seg), period)])
 arrow_dy = np.array([seg[i][1, 1] - seg[i][0, 1] for i in range(0, len(seg), period)])
 
-normalizedarray = arrow_dx * (1.0/arrow_dx.max())
+print(seg)
+print(U.data)
 
 # Add arrows
-ax.quiver(
-    arrow_x, arrow_y, arrow_dx, arrow_dy, angles='xy',
-    scale=0.2, units='y', minshaft=0, 
-    headwidth=8, headlength=9, headaxislength=8, cmap=colormap)
+q = ax.quiver(
+    arrow_x, arrow_y, arrow_dx, arrow_dy, 
+    color=cm.jet(norm(arrow_dx**5)), angles='xy',
+    scale=1, units='y', minshaft=0,
+    headwidth=2, headlength=2, headaxislength=2, visible='True', zorder=2)
 
 # Create second subplot on figure for colorbar
 ax2 = fig.add_axes([.1,.1,.8,.05])
