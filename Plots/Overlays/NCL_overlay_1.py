@@ -56,11 +56,11 @@ ax.add_feature(cfeature.LAKES, linewidth=0.5, edgecolor='black',
 ax.add_feature(cfeature.COASTLINE, linewidth=0.5)
 
 # Plot filled contour
-temp = t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=cmap, levels=t_lev, extend='neither', add_colorbar=False)
+temp = t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=cmap, levels=t_lev, extend='neither', add_colorbar=False, add_labels=False)
 plt.colorbar(temp, ax=ax, ticks=np.arange(215, 270, 5), orientation='horizontal')
 
 # Plot line contour
-wind = u.plot.contour(ax=ax, transform=ccrs.PlateCarree(), vmin=-5, vmax=35, levels=u_lev, colors='black', linewidths=0.5)
+wind = u.plot.contour(ax=ax, transform=ccrs.PlateCarree(), vmin=-5, vmax=35, levels=u_lev, colors='black', linewidths=0.5, add_labels=False)
 # Manually specify where contour labels will go using lat and lon coordiantes
 manual = [(-107, 52), (-79, 57), (-78, 47), (-103, 32), (-86, 23)]
 clabels = ax.clabel(wind, levels=u_lev, fmt='%d', inline=True, fontsize=10, manual=manual)
@@ -79,5 +79,8 @@ ax.text(0.97, 1.01, u.units, transform=ax.transAxes)
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=5)
+# Use geocat.viz.util convenience function to set axes tick values
+gvutil.set_axes_limits_and_ticks(ax, xticks=np.arange(-120, -30, 30), yticks=np.arange(20, 70, 10))
 
 plt.show()
