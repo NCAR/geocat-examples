@@ -64,6 +64,7 @@ wind = u.plot.contour(ax=ax, transform=ccrs.PlateCarree(), vmin=-5, vmax=35, lev
 # Manually specify where contour labels will go using lat and lon coordiantes
 manual = [(-107, 52), (-79, 57), (-78, 47), (-103, 32), (-86, 23)]
 clabels = ax.clabel(wind, levels=u_lev, fmt='%d', inline=True, fontsize=10, manual=manual)
+print(clabels)
 
 # Add lower text box
 ax.text(1, -0.5, "CONTOUR FROM -5 TO 35 BY 5",
@@ -75,4 +76,8 @@ ax.text(1, -0.5, "CONTOUR FROM -5 TO 35 BY 5",
 gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{T/U @500hPa}$", lefttitle=t.long_name, righttitle=t.units)
 ax.text(0, 1.01, u.long_name, transform=ax.transAxes)
 ax.text(0.97, 1.01, u.units, transform=ax.transAxes)
+
+# Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
+gvutil.add_lat_lon_ticklabels(ax)
+
 plt.show()
