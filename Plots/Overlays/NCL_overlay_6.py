@@ -17,13 +17,15 @@ Differences between NCL example and this one:
     In the NCL version of this plot the vectors for the winds are nearly
     uniform in length. Given the reference vector in that figure, the wind
     speeds appear to be near 20 units. A historgram reveals that this is not a
-    true representation of the data, as the magnitude of the majority of wind
+    true representation of the data, as the magnitudes of the majority of wind
     vectors are between 3 and 6 units with only a handful being greater than 13
     and only one near 20. Because of this, we have chosen not to manipulate the
     vector glyphs to appear more uniform as this would poorly represent the
-    data and be misleading. This is why the reference vector in this Python
-    example is longer than the NCL example and why the lengths vary more
-    between the minimum and maximum wind speeds.
+    data and be misleading. The lengths of the vectors in this examples are
+    proportional to the wind magnitudes where in the NCL examples they are not,
+    which is why the reference vector in this Python example is longer than the
+    NCL example and why the lengths vary more between the minimum and maximum
+    wind speeds.
 
 """
 
