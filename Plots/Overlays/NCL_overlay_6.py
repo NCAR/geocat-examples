@@ -109,6 +109,7 @@ plt.colorbar(pressure, cax=cax1, ticks=np.arange(980, 1045, 5))
 cax1.yaxis.set_label_text(label='\n'.join('Sea Level Pressure'), fontsize=14,
                           rotation=0)
 cax1.yaxis.set_label_coords(-0.5, 0.9)
+cax1.tick_params(size=0)
 
 #
 # Plot streamline overlay
@@ -121,6 +122,7 @@ ax.streamplot(u500.lon, u500.lat, u500.data, v500.data,
 # First thin the data so the vector grid is less cluttered
 lon_size = u['lon'].size
 lat_size = u['lat'].size
+
 x = u['lon'].data[0:lon_size:2]
 y = u['lat'].data[0:lat_size:2]
 u = u.data[0:lat_size:2, 0:lon_size:2]
@@ -142,6 +144,7 @@ plt.colorbar(Q, cax=cax2, ticks=np.arange(-20, 110, 10), norm=norm,
 # Format colorbar label
 cax2.xaxis.set_label_text(label='Surface Temperature', fontsize=14)
 cax2.xaxis.set_label_position('top')
+cax2.tick_params(size=0) 
 
 # Add quiverkey and white patch behind it
 ax.quiverkey(Q, 0.925, 0.025, 20, label='20')
