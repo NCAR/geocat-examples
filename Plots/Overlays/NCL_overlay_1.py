@@ -72,4 +72,7 @@ ax.text(1, -0.5, "CONTOUR FROM -5 TO 35 BY 5",
         transform=ax.transAxes,
         bbox=dict(boxstyle='square, pad=0.25', facecolor='white', edgecolor='black'))
 
+gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{T/U @500hPa}$", lefttitle=t.long_name, righttitle=t.units)
+ax.text(0, 1.01, u.long_name, transform=ax.transAxes)
+ax.text(0.97, 1.01, u.units, transform=ax.transAxes)
 plt.show()
