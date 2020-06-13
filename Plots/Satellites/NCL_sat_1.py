@@ -17,6 +17,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+import numpy as np
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
@@ -54,6 +55,7 @@ ax.set_global()
 ax.add_feature(cfeature.LAND, facecolor='lightgray')
 ax.add_feature(cfeature.COASTLINE, linewidth=.5)
 ax.add_feature(cfeature.OCEAN, facecolor='lightcyan')
+ax.add_feature(cfeature.BORDERS, linewidth=.5)
 
 # Plot contour data
 p = wrap_U.plot.contour(ax=ax,
@@ -67,7 +69,7 @@ p = wrap_U.plot.contour(ax=ax,
 clevels = [956, 972, 976, 984, 992, 1000, 1008, 1016, 1024, 1032]
 
 # Label contours
-ax.clabel(p, inline=True, levels=clevels, fontsize=14, colors='k', fmt="%.0f")
+ax.clabel(p, inline=True, levels=clevels, fontsize=14, colors='k', fmt="%.0f") 
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{SLP}$"+" "+r"$\bf{1963,}$"+" "+r"$\bf{January}$"+" "+r"$\bf{24th}$", maintitlefontsize=20,
