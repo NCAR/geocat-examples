@@ -59,7 +59,7 @@ ax.add_feature(cfeature.OCEAN, facecolor='lightcyan')
 p = wrap_U.plot.contour(ax=ax,
                         transform=ccrs.PlateCarree(),
                         linewidths=0.5,
-                        levels=15,
+                        levels=30,
                         cmap='black',
                         add_labels=False)
 
