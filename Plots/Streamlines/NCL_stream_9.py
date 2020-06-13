@@ -27,6 +27,10 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from matplotlib import collections as mc
 from geocat.viz import cmaps as gvcmaps
 import matplotlib.colors as mcolors
+from matplotlib.colors import Normalize
+from PIL import Image 
+import os
+  
 ################################################################################
 # Make color map 
 
@@ -70,7 +74,7 @@ U = ds1.u.isel(timestep=0)
 V = ds2.v.isel(timestep=0)
 
 # Plot streamline data
-streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='->', linewidth=1, density=2.0, color=U.data, cmap=colormap)
+streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='-', linewidth=1, density=2.0, color=U.data, cmap=colormap)
 
 # Divide streamlines into segments
 seg = streams.lines.get_segments()
@@ -82,12 +86,39 @@ arrow_y = np.array([seg[i][0, 1] for i in range(0, len(seg), period)])
 arrow_dx = np.array([seg[i][1, 0] - seg[i][0, 0] for i in range(0, len(seg), period)])
 arrow_dy = np.array([seg[i][1, 1] - seg[i][0, 1] for i in range(0, len(seg), period)])
 
-print(U.data)
+# Save figure to access color values of pixels
+plt.savefig('plot.png')
+im = Image.open(r"plot.png")
+
+# Get x and y data, transform it into pixels, return RGB value of the pixels
+def getPixelVals(x, y):
+    if True:
+        coordarray = ax.transData.transform_point((x, y))
+        xpix = []
+        ypix = []
+        for x in coordarray:
+            xpix.append(x[0]/2) #-fig.get_figwidth()
+            ypix.append(x[1]/2) #-fig.get_figheight()
+        rgbarr = []
+        print(max(xpix))
+        print(max(ypix))
+        for num in range(len(ypix)):
+            try:
+                rgb = im.getpixel((xpix[num], ypix[num]))
+                rgb = tuple(map(lambda x: x/255, rgb))
+                rgbarr.append(rgb)
+            except Exception as E:
+                rgbarr.append('black')
+                #print(E)
+        return rgbarr
+
+rgbarr = getPixelVals(arrow_x, arrow_y)
+#print(rgbarr)
 
 # Add arrows
 q = ax.quiver(
-    arrow_x, arrow_y, arrow_dx, arrow_dy, 
-    color=cm.jet(norm(arrow_dx)*5), angles='xy',
+    arrow_x, arrow_y, arrow_dx, arrow_dy,
+    color=rgbarr,
     scale=1, units='y', minshaft=3,
     headwidth=4, headlength=2, headaxislength=2, visible='True', zorder=2)
 
@@ -100,5 +131,8 @@ cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), cax=ax2, boundari
 
 # Change size of colorbar tick font
 ax2.tick_params(labelsize=20)
+
+# Delete plot file
+os.remove("plot.png")
 
 plt.show()
