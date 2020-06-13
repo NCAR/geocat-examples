@@ -54,7 +54,9 @@ ds2 = xr.open_dataset(gdf.get('netcdf_files/V500storm.cdf'))
 fig = plt.figure(figsize=(10, 10))
 
 # Create first subplot on figure for map
-ax = fig.add_axes([.1,.2,.8,.6], projection=ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40), frameon=False)
+ax = fig.add_axes([0,0,1,1], projection=ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40), frameon=False, aspect='auto')
+
+#.1,.2,.8,.6
 
 # Set title of plot
 # Make title font bold using r"$\bf{_______}$" formatting
@@ -74,7 +76,7 @@ U = ds1.u.isel(timestep=0)
 V = ds2.v.isel(timestep=0)
 
 # Plot streamline data
-streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='-', linewidth=1, density=2.0, color=U.data, cmap=colormap)
+streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='-', linewidth=3, density=2.0, color=U.data, cmap=colormap)
 
 # Divide streamlines into segments
 seg = streams.lines.get_segments()
@@ -86,34 +88,57 @@ arrow_y = np.array([seg[i][0, 1] for i in range(0, len(seg), period)])
 arrow_dx = np.array([seg[i][1, 0] - seg[i][0, 0] for i in range(0, len(seg), period)])
 arrow_dy = np.array([seg[i][1, 1] - seg[i][0, 1] for i in range(0, len(seg), period)])
 
+#plt.scatter(arrow_x, arrow_y, zorder=12, color='pink')
+
 # Save figure to access color values of pixels
 plt.savefig('plot.png')
 im = Image.open(r"plot.png")
 
+plotsize = fig.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
+plotwidth = (plotsize.width*fig.dpi)/2
+plotheight = (plotsize.height*fig.dpi)/2
+
+axsize = ax.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
+axwidth = (axsize.width*fig.dpi)/2
+axheight = (axsize.height*fig.dpi)/2
+
 # Get x and y data, transform it into pixels, return RGB value of the pixels
 def getPixelVals(x, y):
+
     if True:
-        coordarray = ax.transData.transform_point((x, y))
+
+        coordlist = tuple(zip(x, y)) 
+
+        coordarray = ax.transAxes.transform(coordlist)
+
         xpix = []
         ypix = []
+
         for x in coordarray:
-            xpix.append(x[0]/2) #-fig.get_figwidth()
-            ypix.append(x[1]/2) #-fig.get_figheight()
+
+            xgraphtransform = x[0]/2000
+            ygraphtransform = x[1]/2000
+
+            print(xgraphtransform)
+            print(ygraphtransform)
+
+            xpix.append((xgraphtransform/7285) + 406.177)
+            ypix.append((ygraphtransform/5706) + 423.76)
+
         rgbarr = []
-        print(max(xpix))
-        print(max(ypix))
+
         for num in range(len(ypix)):
             try:
-                rgb = im.getpixel((xpix[num], ypix[num]))
+                rgb = im.getpixel((xpix[num], 1000-ypix[num]))
                 rgb = tuple(map(lambda x: x/255, rgb))
                 rgbarr.append(rgb)
             except Exception as E:
-                rgbarr.append('black')
-                #print(E)
+                rgbarr.append('None')
+                print(E)
+        print(rgbarr)
         return rgbarr
 
 rgbarr = getPixelVals(arrow_x, arrow_y)
-#print(rgbarr)
 
 # Add arrows
 q = ax.quiver(
@@ -122,6 +147,7 @@ q = ax.quiver(
     scale=1, units='y', minshaft=3,
     headwidth=4, headlength=2, headaxislength=2, visible='True', zorder=2)
 
+'''
 # Create second subplot on figure for colorbar
 ax2 = fig.add_axes([.1,.1,.8,.05])
 
@@ -129,8 +155,10 @@ ax2 = fig.add_axes([.1,.1,.8,.05])
 cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), cax=ax2, boundaries=colorbounds,
                   ticks=colorbounds, spacing='uniform', orientation='horizontal')
 
+
 # Change size of colorbar tick font
 ax2.tick_params(labelsize=20)
+'''
 
 # Delete plot file
 os.remove("plot.png")
