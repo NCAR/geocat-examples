@@ -50,7 +50,8 @@ ax = plt.axes(projection=ccrs.PlateCarree())
 ax.set_extent([230, 300, 20, 60], crs=ccrs.PlateCarree())
 
 # Draw map features
-transparent = (0, 0, 0, 0)  # RGBA value for a transparent color for lakes
+ax.add_feature(cfeature.LAKES, linewidth=0.5, edgecolor='black',
+               facecolor='None')
 ax.add_feature(cfeature.LAKES, linewidth=0.5, edgecolor='black',
                facecolor=transparent)
 ax.add_feature(cfeature.COASTLINE, linewidth=0.5)
