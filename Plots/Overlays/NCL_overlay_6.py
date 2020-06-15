@@ -69,7 +69,7 @@ p = p/100
 t = (t - 273.15) * 9/5 + 32
 
 ###############################################################################
-# Create map:
+# Create plot:
 fig = plt.figure(figsize=(8, 7))
 proj = ccrs.LambertAzimuthalEqualArea(central_longitude=-100,
                                       central_latitude=40)
@@ -90,13 +90,21 @@ cax2 = inset_axes(ax, width='100%', height='7%', loc='lower left',
 # Set extent to include roughly the United States
 ax.set_extent((-128, -58, 18, 65), crs=ccrs.PlateCarree())
 
+#
 # Add map features
+#
+# Using the zorder keyword, we can specify the order of the layering. Lower
+# numbers are plotted before higher ones. For example, the coastlines have
+# zorder=2 while the filled contours have zorder=1. This will draw the
+# coastlines on top of the filled contours.
 transparent = (0, 0, 0, 0)  # RGBA value for a transparent color for lakes
-ax.add_feature(cfeature.OCEAN, color='lightskyblue')
-ax.add_feature(cfeature.LAND, color='silver')
+ax.add_feature(cfeature.OCEAN, color='lightskyblue', zorder=0)
+ax.add_feature(cfeature.LAND, color='silver', zorder=0)
+ax.add_feature(cfeature.LAKES, linewidth=0.5, edgecolor=transparent,
+               facecolor='white', zorder=0)
 ax.add_feature(cfeature.LAKES, linewidth=0.5, edgecolor='black',
-               facecolor=transparent)
-ax.add_feature(cfeature.COASTLINE, linewidth=0.5)
+               facecolor=transparent, zorder=2)       
+ax.add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=2)
 
 #
 # Plot pressure level contour
@@ -104,7 +112,7 @@ ax.add_feature(cfeature.COASTLINE, linewidth=0.5)
 p_cmap = gvcmaps.StepSeq25
 pressure = p.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=p_cmap,
                            levels=np.arange(975, 1050, 5), add_colorbar=False,
-                           add_labels=False)
+                           add_labels=False, zorder=1)
 plt.colorbar(pressure, cax=cax1, ticks=np.arange(980, 1045, 5))
 # Format colorbar label
 cax1.yaxis.set_label_text(label='\n'.join('Sea Level Pressure'), fontsize=14,
@@ -117,7 +125,7 @@ cax1.tick_params(size=0)
 #
 streams = ax.streamplot(u500.lon, u500.lat, u500.data, v500.data,
               transform=ccrs.PlateCarree(), color='black', arrowstyle='-',
-              linewidth=0.5, density=2)
+              linewidth=0.5, density=2, zorder=5)
 # Divide streamlines into segments
 seg = streams.lines.get_segments()
 # Determine how many arrows on each streamline, the placement, and angles of the arrows
@@ -129,7 +137,7 @@ arrow_dy = np.array([seg[i][1, 1] - seg[i][0, 1] for i in range(0, len(seg), per
 # Add arrows to streamlines
 q = ax.quiver(arrow_x, arrow_y, arrow_dx, arrow_dy, color='black', angles='xy',
               scale=1, units='y', minshaft=3, headwidth=4, headlength=2,
-              headaxislength=2)
+              headaxislength=2, zorder=5)
 
 
 # First thin the data so the vector grid is less cluttered
@@ -151,7 +159,7 @@ norm = mcolors.BoundaryNorm(bounds, wind_cmap.N)  # Assigns colors to values
 # Plot wind vectors
 #
 Q = ax.quiver(x, y, u, v, t, transform=ccrs.PlateCarree(),
-              headwidth=5, cmap=wind_cmap, norm=norm)
+              headwidth=5, cmap=wind_cmap, norm=norm, zorder=4)
 plt.colorbar(Q, cax=cax2, ticks=np.arange(-20, 110, 10), norm=norm,
              orientation='horizontal')
 # Format colorbar label
@@ -160,9 +168,10 @@ cax2.xaxis.set_label_position('top')
 cax2.tick_params(size=0) 
 
 # Add quiverkey and white patch behind it
-ax.quiverkey(Q, 0.925, 0.025, 20, label='20')
 ax.add_patch(mpatches.Rectangle(xy=[0.85, 0], width=0.15, height=0.0925,
-             facecolor='white', transform=ax.transAxes))
+             facecolor='white', transform=ax.transAxes, zorder=3))
+ax.quiverkey(Q, 0.925, 0.025, 20, label='20', zorder=4)
+
 
 # Add title
 ax.set_title('January 1996 Snow Storm\n1996 01 05 00:00 + 0',
