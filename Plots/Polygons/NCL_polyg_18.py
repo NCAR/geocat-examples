@@ -55,9 +55,12 @@ ax.add_feature(continents)
 # Set map extent
 ax.set_global()
 
-# Create arrays with location and design of each marker
+# Create arrays with location of each marker
 lon = np.arange(-160, 160, 20)
 lat = np.arange(-80, 80, 10)
+
+# Create array with marker symbols
+# Matplotlib provides a different set of markers than NCL, so plot appearance differs
 marker = ['.', '+', '*', 'o', 'x', 's', '^', 'v', 'D', '>', '<', 'p', 'h', '8', 'X', 'd']
 
 # Draw markers on diagonal line across graph
