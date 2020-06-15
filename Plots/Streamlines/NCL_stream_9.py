@@ -60,7 +60,7 @@ ax = fig.add_axes([0,0,1,1], projection=ccrs.LambertAzimuthalEqualArea(central_l
 
 # Set title of plot
 # Make title font bold using r"$\bf{_______}$" formatting
-gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{Assigning}$"+" "+r"$\bf{color}$"+" "+r"$\bf{palette}$"+" "+r"$\bf{to}$"+" "+r"$\bf{streamlines}$", maintitlefontsize=25)
+# gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{Assigning}$"+" "+r"$\bf{color}$"+" "+r"$\bf{palette}$"+" "+r"$\bf{to}$"+" "+r"$\bf{streamlines}$", maintitlefontsize=25)
 
 # Set axis projection
 ax.set_extent((-128, -58, 18, 65), crs=ccrs.PlateCarree())
@@ -88,8 +88,6 @@ arrow_y = np.array([seg[i][0, 1] for i in range(0, len(seg), period)])
 arrow_dx = np.array([seg[i][1, 0] - seg[i][0, 0] for i in range(0, len(seg), period)])
 arrow_dy = np.array([seg[i][1, 1] - seg[i][0, 1] for i in range(0, len(seg), period)])
 
-#plt.scatter(arrow_x, arrow_y, zorder=12, color='pink')
-
 # Save figure to access color values of pixels
 plt.savefig('plot.png')
 im = Image.open(r"plot.png")
@@ -101,6 +99,7 @@ plotheight = (plotsize.height*fig.dpi)/2
 axsize = ax.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
 axwidth = (axsize.width*fig.dpi)/2
 axheight = (axsize.height*fig.dpi)/2
+
 
 # Get x and y data, transform it into pixels, return RGB value of the pixels
 def getPixelVals(x, y):
@@ -119,11 +118,17 @@ def getPixelVals(x, y):
             xgraphtransform = x[0]/2000
             ygraphtransform = x[1]/2000
 
+            xgraphtransform = (xgraphtransform/7285) + 406.177
+            ygraphtransform = (ygraphtransform/5706) + 423.76
+
+            xgraphtransform = (xgraphtransform*(axwidth/plotwidth) + (plotwidth-axwidth)/2)
+            ygraphtransform = (ygraphtransform*(axheight/plotheight) + (plotheight-axheight)/2)
+
             print(xgraphtransform)
             print(ygraphtransform)
 
-            xpix.append((xgraphtransform/7285) + 406.177)
-            ypix.append((ygraphtransform/5706) + 423.76)
+            xpix.append(xgraphtransform) 
+            ypix.append(ygraphtransform)
 
         rgbarr = []
 
