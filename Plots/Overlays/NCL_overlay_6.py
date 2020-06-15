@@ -64,6 +64,12 @@ u500 = u500f.u.isel(timestep=0).drop('timestep')
 v500 = v500f.v.isel(timestep=0).drop('timestep')
 time = vf.timestep
 
+# Remove any NaN values
+u = u.fillna(0)
+v = v.fillna(0)
+u500 = u500.fillna(0)
+v500 = v500.fillna(0)
+
 # Convert Pa to hPa
 p = p/100
 # Convert K to F
