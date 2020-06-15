@@ -9,6 +9,7 @@ This script illustrates the following concepts:
    - Creating a quiverkey
    - Assigning a colormap to contour and quiver plots
    - Add arrows to streamlines
+   - Using zorder to specify the order in which elements will be drawn
    
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/overlay_6.ncl
@@ -17,8 +18,8 @@ See following URLs to see the reproduced NCL plot & script:
 Differences between NCL example and this one:
     In the NCL version of this plot the vectors for the winds are nearly
     uniform in length. Given the reference vector in that figure, the wind
-    speeds appear to be near 20 units. A historgram reveals that this is not a
-    true representation of the data, as the magnitudes of the majority of wind
+    speeds appear to be near 20 units. A histogram reveals that this is not a
+    true representation of the data as the magnitudes of the majority of wind
     vectors are between 3 and 6 units with only a handful being greater than 13
     and only one near 20. Because of this, we have chosen not to manipulate the
     vector glyphs to appear more uniform as this would poorly represent the
@@ -114,14 +115,14 @@ pressure = p.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=p_cmap,
                            levels=np.arange(975, 1050, 5), add_colorbar=False,
                            add_labels=False, zorder=1)
 plt.colorbar(pressure, cax=cax1, ticks=np.arange(980, 1045, 5))
-# Format colorbar label
+# Format color bar label
 cax1.yaxis.set_label_text(label='\n'.join('Sea Level Pressure'), fontsize=14,
                           rotation=0)
 cax1.yaxis.set_label_coords(-0.5, 0.9)
 cax1.tick_params(size=0)
 
 #
-# Plot streamline overlay
+# Overlay streamlines
 #
 streams = ax.streamplot(u500.lon, u500.lat, u500.data, v500.data,
               transform=ccrs.PlateCarree(), color='black', arrowstyle='-',
@@ -139,7 +140,9 @@ q = ax.quiver(arrow_x, arrow_y, arrow_dx, arrow_dy, color='black', angles='xy',
               scale=1, units='y', minshaft=3, headwidth=4, headlength=2,
               headaxislength=2, zorder=5)
 
-
+#
+# Overlay wind vectors
+#
 # First thin the data so the vector grid is less cluttered
 lon_size = u['lon'].size
 lat_size = u['lat'].size
@@ -155,14 +158,12 @@ wind_cmap = gvcmaps.amwg_blueyellowred
 bounds = np.arange(-30, 120, 10)  # Sets where boundarys on color map will be
 norm = mcolors.BoundaryNorm(bounds, wind_cmap.N)  # Assigns colors to values
 
-#
-# Plot wind vectors
-#
+# Draw wind vectors
 Q = ax.quiver(x, y, u, v, t, transform=ccrs.PlateCarree(),
               headwidth=5, cmap=wind_cmap, norm=norm, zorder=4)
 plt.colorbar(Q, cax=cax2, ticks=np.arange(-20, 110, 10), norm=norm,
              orientation='horizontal')
-# Format colorbar label
+# Format color bar label
 cax2.xaxis.set_label_text(label='Surface Temperature', fontsize=14)
 cax2.xaxis.set_label_position('top')
 cax2.tick_params(size=0) 
