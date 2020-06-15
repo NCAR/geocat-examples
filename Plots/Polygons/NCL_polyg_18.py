@@ -90,9 +90,6 @@ gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{Big}$"+ " " + r"$\bf{centered}
 # Use gvutil function to plot three minor ticks for every major tick on axes
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=3, labelsize="small")
 
-###############################################################################
-# Plot legend
-
 # Make second subplot for legend
 ax2 = plt.subplot(grid[-1, 1:], frameon=False)
 removeTicks(ax2)
