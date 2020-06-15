@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -52,8 +53,6 @@ ax.set_extent([230, 300, 20, 60], crs=ccrs.PlateCarree())
 # Draw map features
 ax.add_feature(cfeature.LAKES, linewidth=0.5, edgecolor='black',
                facecolor='None')
-ax.add_feature(cfeature.LAKES, linewidth=0.5, edgecolor='black',
-               facecolor=transparent)
 ax.add_feature(cfeature.COASTLINE, linewidth=0.5)
 
 # Plot filled contour
