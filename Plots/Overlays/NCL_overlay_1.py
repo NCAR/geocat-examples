@@ -80,6 +80,8 @@ ax.text(0.97, 1.01, u.units, transform=ax.transAxes)
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
+ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol= ''))
+ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=5, labelsize=12)
 # Use geocat.viz.util convenience function to set axes tick values
 gvutil.set_axes_limits_and_ticks(ax, xticks=np.arange(-120, -30, 30), yticks=np.arange(20, 70, 10))
