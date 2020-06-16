@@ -21,6 +21,8 @@ import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (ScalarFormatter, NullFormatter)
+import matplotlib.ticker as tic
+
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -77,8 +79,22 @@ ax.yaxis.set_major_formatter(ScalarFormatter())
 ax.yaxis.set_minor_formatter(NullFormatter())
 pressure_lvls = [1, 5, 10, 30, 50, 100, 200, 300, 400, 500, 700, 1000]
 gvutil.set_axes_limits_and_ticks(ax, xlim=(-20, 40), ylim=(1000, 4), xticks=np.arange(-20,60,10), yticks=pressure_lvls)
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4, labelsize=14)
 gvutil.set_titles_and_labels(ax, maintitle='Profile Plot', xlabel=U.long_name)
+
+# Note: Currently geocat-viz does not have a utility function for formating
+# major and minor ticks on log axes.
+
+ax.tick_params(labelsize=14)
+ax.minorticks_on()
+ax.xaxis.set_minor_locator(tic.AutoMinorLocator(n=5))
+# Specify no minor ticks on log y axis
+ax.yaxis.set_minor_locator(tic.LogitLocator(minor=True, nbins=1))
+
+# length and width are in points and may need to change depending on figure size etc.
+ax.tick_params("both", length=8, width=0.9, which="major", bottom=True,
+               top=True, left=True, right=True)
+ax.tick_params("both", length=4, width=0.4, which="minor", bottom=True,
+               top=True, left=True, right=True)
 
 # Plot data
 plt.plot(U20.data, U20.lev, color='black', linestyle='-', label='20N')
