@@ -28,8 +28,11 @@ from matplotlib import collections as mc
 from geocat.viz import cmaps as gvcmaps
 import matplotlib.colors as mcolors
 from matplotlib.colors import Normalize
+from matplotlib.offsetbox import TextArea, DrawingArea, OffsetImage, AnnotationBbox
+import matplotlib.image as mpimg
 from PIL import Image 
 import os
+import math
   
 ################################################################################
 # Make color map 
@@ -53,17 +56,11 @@ ds2 = xr.open_dataset(gdf.get('netcdf_files/V500storm.cdf'))
 # Set figure
 fig = plt.figure(figsize=(10, 10))
 
-# Create first subplot on figure for map
+# Create first subplot on figure for map [.1,.2,.8,.6]
 ax = fig.add_axes([0,0,1,1], projection=ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40), frameon=False, aspect='auto')
 
-#.1,.2,.8,.6
-
-# Set title of plot
-# Make title font bold using r"$\bf{_______}$" formatting
-# gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{Assigning}$"+" "+r"$\bf{color}$"+" "+r"$\bf{palette}$"+" "+r"$\bf{to}$"+" "+r"$\bf{streamlines}$", maintitlefontsize=25)
-
 # Set axis projection
-ax.set_extent((-128, -58, 18, 65), crs=ccrs.PlateCarree())
+ax.set_extent([-128, -58, 18, 65], crs=ccrs.PlateCarree())
 
 # Add ocean, lakes, land features, and coastlines to map
 ax.add_feature(cfeature.OCEAN, color='lightblue')
@@ -83,6 +80,7 @@ seg = streams.lines.get_segments()
 
 # Determine how many arrows on each streamline, the placement, and angles of the arrows
 period = 7
+
 arrow_x = np.array([seg[i][0, 0] for i in range(0, len(seg), period)])
 arrow_y = np.array([seg[i][0, 1] for i in range(0, len(seg), period)])
 arrow_dx = np.array([seg[i][1, 0] - seg[i][0, 0] for i in range(0, len(seg), period)])
@@ -100,15 +98,17 @@ axsize = ax.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
 axwidth = (axsize.width*fig.dpi)/2
 axheight = (axsize.height*fig.dpi)/2
 
-
 # Get x and y data, transform it into pixels, return RGB value of the pixels
 def getPixelVals(x, y):
 
     if True:
 
         coordlist = tuple(zip(x, y)) 
+        print(coordlist)
 
         coordarray = ax.transAxes.transform(coordlist)
+
+        print(coordarray)
 
         xpix = []
         ypix = []
@@ -118,16 +118,13 @@ def getPixelVals(x, y):
             xgraphtransform = x[0]/2000
             ygraphtransform = x[1]/2000
 
-            xgraphtransform = (xgraphtransform/7285) + 406.177
+            xgraphtransform = (xgraphtransform/7285) + 406.18
             ygraphtransform = (ygraphtransform/5706) + 423.76
 
             xgraphtransform = (xgraphtransform*(axwidth/plotwidth) + (plotwidth-axwidth)/2)
             ygraphtransform = (ygraphtransform*(axheight/plotheight) + (plotheight-axheight)/2)
 
-            print(xgraphtransform)
-            print(ygraphtransform)
-
-            xpix.append(xgraphtransform) 
+            xpix.append(xgraphtransform)
             ypix.append(ygraphtransform)
 
         rgbarr = []
@@ -140,7 +137,6 @@ def getPixelVals(x, y):
             except Exception as E:
                 rgbarr.append('None')
                 print(E)
-        print(rgbarr)
         return rgbarr
 
 rgbarr = getPixelVals(arrow_x, arrow_y)
@@ -152,18 +148,35 @@ q = ax.quiver(
     scale=1, units='y', minshaft=3,
     headwidth=4, headlength=2, headaxislength=2, visible='True', zorder=2)
 
-'''
+# Save plot
+plt.savefig('plot.png')
+
+# Close plot
+plt.close('all')
+
+# Create new figure
+newfig = plt.figure(figsize=(10, 10))
+
+im = plt.imread('plot.png')
+
+ax3 = newfig.add_axes([0.075,.2,.9,.7,])
+ax3.axis('off')
+img = ax3.imshow(im)
+
 # Create second subplot on figure for colorbar
-ax2 = fig.add_axes([.1,.1,.8,.05])
+ax2 = newfig.add_axes([.1,.1,.8,.05])
+
+# Set title of plot
+# Make title font bold using r"$\bf{_______}$" formatting
+gvutil.set_titles_and_labels(ax3, maintitle=r"$\bf{Assigning}$"+" "+r"$\bf{color}$"+" "+r"$\bf{palette}$"+" "+r"$\bf{to}$"+" "+r"$\bf{streamlines}$", maintitlefontsize=25)
+
 
 # Plot colorbar on subplot
-cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), cax=ax2, boundaries=colorbounds,
+cb = newfig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), cax=ax2, boundaries=colorbounds,
                   ticks=colorbounds, spacing='uniform', orientation='horizontal')
-
 
 # Change size of colorbar tick font
 ax2.tick_params(labelsize=20)
-'''
 
 # Delete plot file
 os.remove("plot.png")
