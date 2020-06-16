@@ -30,9 +30,22 @@ from geocat.viz import util as gvutil
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 U = ds.U.isel(time=0).drop('time').isel(lon=0).drop('lon')
-print(U)
-# Extract slices of the data at different latitudes
-U20 = U.where(U.lat==20)
-U30 = U.where(U.lat==30)
-U40 = U.where(U.lat==40)
-U50 = U.where(U.lat==50)
+
+# Extract slices of the data at different latitudes using the index of the desired value
+U20 = U.isel(lat=39).drop('lat')
+U30 = U.isel(lat=42).drop('lat')
+U40 = U.isel(lat=46).drop('lat')
+U50 = U.isel(lat=49).drop('lat')
+
+###############################################################################
+# Plot:
+
+# Generate figure (set its size (width, height) in inches) and axes
+plt.figure(figsize=(8, 8))
+
+plt.plot(U20.data, U20.lev, color='black', linestyle='-')
+plt.plot(U30.data, U30.lev, color='black', linestyle='--')
+plt.plot(U40.data, U40.lev, color='black', linestyle=':')
+plt.plot(U50.data, U50.lev, color='black', linestyle='-.')
+
+plt.show()
