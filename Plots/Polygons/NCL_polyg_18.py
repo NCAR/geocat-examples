@@ -21,6 +21,7 @@ from cartopy.mpl.ticker import LatitudeFormatter, LongitudeFormatter
 import numpy as np
 
 from geocat.viz import util as gvutil
+
 ###############################################################################
 # Define helper function to remove ticks/frames from axes
 
@@ -37,19 +38,19 @@ def removeTicks(axis):
 fig = plt.figure(figsize=(10, 10))
 
 # Make grid on figure with 2 rows, 1 column
-grid = plt.GridSpec(2, 20, hspace=0.2, wspace=0.2, figure=fig)
+grid = plt.GridSpec(2, 20, figure=fig)
 
 # Make subplot for map
 ax = plt.subplot(grid[:-1, 1:], projection=ccrs.PlateCarree())
 
 # Add continents
 continents = cartopy.feature.NaturalEarthFeature(
-        name="coastline",
-        category="physical",
-        scale="50m",
-        edgecolor="None",
-        facecolor="lightgray",
-)
+                                        name='land',
+                                        category='physical',
+                                        scale='50m',
+                                        edgecolor='None',
+                                        facecolor='lightgray')
+
 ax.add_feature(continents)
 
 # Set map extent
@@ -80,12 +81,13 @@ gvutil.set_axes_limits_and_ticks(ax, xlim=None, ylim=None, xticks=np.arange(-180
 gvutil.add_lat_lon_ticklabels(ax, zero_direction_label=True, dateline_direction_label=True)
 
 # Took out degree symbols in latitude/longitude
-ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol= ''))
+ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use gvutil function to set title of plot
 # Set title font to bold using the r"$\bf{_____}$" formatting characters
-gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{Big}$"+ " " + r"$\bf{centered}$" + " " +r"$\bf{title}$", maintitlefontsize=25)
+# Spaces in title will not show up if included in curly brackets
+gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{Big}$" + " " + r"$\bf{centered}$" + " " + r"$\bf{title}$", maintitlefontsize=25)
 
 # Use gvutil function to plot three minor ticks for every major tick on axes
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=3, labelsize="small")
