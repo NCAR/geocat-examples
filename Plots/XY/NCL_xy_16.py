@@ -45,17 +45,16 @@ U50 = U.isel(lat=49).drop('lat')
 plt.figure(figsize=(8, 8))
 ax = plt.axes()
 
-# Format axes
+# Format axes limits, ticks, and labels
 gvutil.set_axes_limits_and_ticks(ax, xlim=(-20, 40), ylim=(1000, 0), xticks=np.arange(-20,60,10), yticks=np.arange(0,1200,200))
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4, labelsize=14)
-gvutil.set_titles_and_labels(ax, maintitle='Profile Plot', xlabel=U.long_name, ylabel=U['lev'].long_name, labelfontsize=16)
+gvutil.set_titles_and_labels(ax, maintitle='Profile Plot', xlabel=U.long_name, ylabel=U['lev'].long_name)
 
+plt.plot(U20.data, U20.lev, color='black', linestyle='-', label='20N')
+plt.plot(U30.data, U30.lev, color='black', linestyle='--', label='30N')
+plt.plot(U40.data, U40.lev, color='black', linestyle=':', label='40N')
+plt.plot(U50.data, U50.lev, color='black', linestyle='-.', label='50N')
 
-
-plt.plot(U20.data, U20.lev, color='black', linestyle='-')
-plt.plot(U30.data, U30.lev, color='black', linestyle='--')
-plt.plot(U40.data, U40.lev, color='black', linestyle=':')
-plt.plot(U50.data, U50.lev, color='black', linestyle='-.')
-
+plt.legend(loc='center right', frameon=False, fontsize=14, labelspacing=1)
 
 plt.show()
