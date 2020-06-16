@@ -32,7 +32,7 @@ from matplotlib.offsetbox import TextArea, DrawingArea, OffsetImage, AnnotationB
 import matplotlib.image as mpimg
 from PIL import Image 
 import os
-import math
+from math import sqrt
   
 ################################################################################
 # Make color map 
@@ -72,8 +72,12 @@ ax.coastlines()
 U = ds1.u.isel(timestep=0)
 V = ds2.v.isel(timestep=0)
 
+# Calculate magnitude data
+magnitude = np.sqrt(np.square(U.data) + np.square(V.data))
+print(len(magnitude))
+
 # Plot streamline data
-streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='-', linewidth=3, density=2.0, color=U.data, cmap=colormap)
+streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='-', linewidth=3, density=2.0, color=magnitude, cmap=colormap)
 
 # Divide streamlines into segments
 seg = streams.lines.get_segments()
@@ -85,6 +89,8 @@ arrow_x = np.array([seg[i][0, 0] for i in range(0, len(seg), period)])
 arrow_y = np.array([seg[i][0, 1] for i in range(0, len(seg), period)])
 arrow_dx = np.array([seg[i][1, 0] - seg[i][0, 0] for i in range(0, len(seg), period)])
 arrow_dy = np.array([seg[i][1, 1] - seg[i][0, 1] for i in range(0, len(seg), period)])
+
+print(arrow_dx)
 
 # Save figure to access color values of pixels
 plt.savefig('plot.png')
@@ -140,6 +146,8 @@ def getPixelVals(x, y):
         return rgbarr
 
 rgbarr = getPixelVals(arrow_x, arrow_y)
+
+#magnitude = np.sqrt(np.square(arrow_dx) + np.square(arrow_dy))
 
 # Add arrows
 q = ax.quiver(
