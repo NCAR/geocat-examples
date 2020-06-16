@@ -56,7 +56,7 @@ ds2 = xr.open_dataset(gdf.get('netcdf_files/V500storm.cdf'))
 # Set figure
 fig = plt.figure(figsize=(10, 10))
 
-# Create first subplot on figure for map [.1,.2,.8,.6]
+# Create first subplot on figure for map
 ax = fig.add_axes([0,0,1,1], projection=ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40), frameon=False, aspect='auto')
 
 # Set axis projection
@@ -77,7 +77,7 @@ magnitude = np.sqrt(np.square(U.data) + np.square(V.data))
 print(len(magnitude))
 
 # Plot streamline data
-streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='-', linewidth=3, density=2.0, color=magnitude, cmap=colormap)
+streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='-', linewidth=2, density=2.0, color=magnitude, cmap=colormap)
 
 # Divide streamlines into segments
 seg = streams.lines.get_segments()
@@ -145,16 +145,18 @@ def getPixelVals(x, y):
                 print(E)
         return rgbarr
 
-rgbarr = getPixelVals(arrow_x, arrow_y)
 
-#magnitude = np.sqrt(np.square(arrow_dx) + np.square(arrow_dy))
+rgbarr = getPixelVals(arrow_x, arrow_y)
+print(U.lon)
+print(U.lat)
 
 # Add arrows
 q = ax.quiver(
     arrow_x, arrow_y, arrow_dx, arrow_dy,
     color=rgbarr,
     scale=1, units='y', minshaft=3,
-    headwidth=4, headlength=2, headaxislength=2, visible='True', zorder=2)
+    headwidth=4, headlength=2, headaxislength=2, 
+    visible='True', zorder=2)
 
 # Save plot
 plt.savefig('plot.png')
