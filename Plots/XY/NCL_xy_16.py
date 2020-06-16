@@ -39,7 +39,7 @@ U40 = U.isel(lat=46).drop('lat')
 U50 = U.isel(lat=49).drop('lat')
 
 ###############################################################################
-# Plot:
+# Plot with linear y axis:
 
 # Generate figure (set its size (width, height) in inches) and axes
 plt.figure(figsize=(8, 8))
@@ -62,6 +62,31 @@ plt.plot(U50.data, U50.lev, color='black', linestyle='-.', label='50N')
 # Add legend
 plt.legend(loc='center right', frameon=False, fontsize=14, labelspacing=1)
 
+plt.show()
 
+###############################################################################
+# Plot with logarithmic y axis:
+
+# Generate figure (set its size (width, height) in inches) and axes
+plt.figure(figsize=(8, 8))
+ax = plt.axes()
+
+# Format axes limits, ticks, and labels
+plt.yscale('log')
+ax.yaxis.set_major_formatter(ScalarFormatter())
+ax.yaxis.set_minor_formatter(NullFormatter())
+pressure_lvls = [1, 5, 10, 30, 50, 100, 200, 300, 400, 500, 700, 1000]
+gvutil.set_axes_limits_and_ticks(ax, xlim=(-20, 40), ylim=(1000, 4), xticks=np.arange(-20,60,10), yticks=pressure_lvls)
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4, labelsize=14)
+gvutil.set_titles_and_labels(ax, maintitle='Profile Plot', xlabel=U.long_name)
+
+# Plot data
+plt.plot(U20.data, U20.lev, color='black', linestyle='-', label='20N')
+plt.plot(U30.data, U30.lev, color='black', linestyle='--', label='30N')
+plt.plot(U40.data, U40.lev, color='black', linestyle=':', label='40N')
+plt.plot(U50.data, U50.lev, color='black', linestyle='-.', label='50N')
+
+# Add legend
+plt.legend(loc='center right', frameon=False, fontsize=14, labelspacing=1)
 
 plt.show()
