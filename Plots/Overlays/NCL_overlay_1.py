@@ -67,8 +67,11 @@ wind = u.plot.contour(ax=ax, transform=ccrs.PlateCarree(), vmin=-5, vmax=35,
                       add_labels=False)
 # Manually specify where contour labels will go using lat and lon coordiantes
 manual = [(-107, 52), (-79, 57), (-78, 47), (-103, 32), (-86, 23)]
-clabels = ax.clabel(wind, u_lev, fmt='%d', inline=True, fontsize=10,
+ax.clabel(wind, u_lev, fmt='%d', inline=True, fontsize=10,
                     manual=manual)
+# Set label backgrounds white
+clabels = wind.labelTexts
+[txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=2)) for txt in clabels]
 
 # Add lower text box
 ax.text(1, -0.3, "CONTOUR FROM -5 TO 35 BY 5",
