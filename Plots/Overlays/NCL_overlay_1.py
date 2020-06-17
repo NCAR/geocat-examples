@@ -4,7 +4,9 @@ NCL_overlay_1.py
 This script illustrates the following concepts:
    - Overlaying line contours on filled contours
    - Explicitly setting contour levels
-   - Selecting a different color map for each contour plot
+   - Adding custom formatted contour labels
+   - Mannually selecting where contour labels will be drawn
+   - Adding label textbox
    
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/overlay_1.ncl
@@ -38,7 +40,6 @@ t = ds.T.isel(time=0).drop('time').isel(lev=10).drop('lev')
 # Specify levels and color map for contour
 t_lev = np.arange(210, 275, 5)
 cmap = gvcmaps.BlueDarkRed18
-
 u_lev = np.arange(-5, 40, 5)
 
 ###############################################################################
@@ -68,7 +69,7 @@ wind = u.plot.contour(ax=ax, transform=ccrs.PlateCarree(), vmin=-5, vmax=35,
 # Manually specify where contour labels will go using lat and lon coordiantes
 manual = [(-107, 52), (-79, 57), (-78, 47), (-103, 32), (-86, 23)]
 ax.clabel(wind, u_lev, fmt='%d', inline=True, fontsize=10,
-                    manual=manual)
+          manual=manual)
 # Set label backgrounds white
 clabels = wind.labelTexts
 [txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=2)) for txt in clabels]
