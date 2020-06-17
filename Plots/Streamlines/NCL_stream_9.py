@@ -57,7 +57,7 @@ ds2 = xr.open_dataset(gdf.get('netcdf_files/V500storm.cdf'))
 fig = plt.figure(figsize=(10, 10))
 
 # Create first subplot on figure for map
-ax = fig.add_axes([0,0,1,1], projection=ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40), frameon=False, aspect='auto')
+ax = fig.add_axes([.1,.2,.8,.6], projection=ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40), frameon=False, aspect='auto')
 
 # Set axis projection
 ax.set_extent([-128, -58, 18, 65], crs=ccrs.PlateCarree())
@@ -79,48 +79,18 @@ print(len(magnitude))
 # Plot streamline data
 streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='->', linewidth=1, density=2.0, color=magnitude, cmap=colormap, numArrows=3)
 
-# Divide streamlines into segments
-seg = streams.lines.get_segments()
-
-# Determine how many arrows on each streamline, the placement, and angles of the arrows
-period = 7
-
-arrow_x = np.array([seg[i][0, 0] for i in range(0, len(seg), period)])
-arrow_y = np.array([seg[i][0, 1] for i in range(0, len(seg), period)])
-arrow_dx = np.array([seg[i][1, 0] - seg[i][0, 0] for i in range(0, len(seg), period)])
-arrow_dy = np.array([seg[i][1, 1] - seg[i][0, 1] for i in range(0, len(seg), period)])
-
-# Save plot
-plt.savefig('plot.png')
-
-# Close plot
-plt.close('all')
-
-# Create new figure
-newfig = plt.figure(figsize=(10, 10))
-
-im = plt.imread('plot.png')
-
-ax3 = newfig.add_axes([0.075,.2,.9,.7,])
-ax3.axis('off')
-img = ax3.imshow(im)
-
 # Create second subplot on figure for colorbar
-ax2 = newfig.add_axes([.1,.1,.8,.05])
+ax2 = fig.add_axes([.1,.1,.8,.05])
 
 # Set title of plot
 # Make title font bold using r"$\bf{_______}$" formatting
-gvutil.set_titles_and_labels(ax3, maintitle=r"$\bf{Assigning}$"+" "+r"$\bf{color}$"+" "+r"$\bf{palette}$"+" "+r"$\bf{to}$"+" "+r"$\bf{streamlines}$", maintitlefontsize=25)
-
+gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{Assigning}$"+" "+r"$\bf{color}$"+" "+r"$\bf{palette}$"+" "+r"$\bf{to}$"+" "+r"$\bf{streamlines}$", maintitlefontsize=25)
 
 # Plot colorbar on subplot
-cb = newfig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), cax=ax2, boundaries=colorbounds,
+cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), cax=ax2, boundaries=colorbounds,
                   ticks=colorbounds, spacing='uniform', orientation='horizontal')
 
 # Change size of colorbar tick font
 ax2.tick_params(labelsize=20)
-
-# Delete plot file
-os.remove("plot.png")
 
 plt.show()
