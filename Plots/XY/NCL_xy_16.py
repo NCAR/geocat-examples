@@ -88,7 +88,7 @@ ax.tick_params(labelsize=14)
 ax.minorticks_on()
 ax.xaxis.set_minor_locator(tic.AutoMinorLocator(n=5))
 # Specify no minor ticks on log y axis
-ax.yaxis.set_minor_locator(tic.LogitLocator(minor=True, nbins=1))
+ax.yaxis.set_minor_locator(tic.LogLocator())
 
 # length and width are in points and may need to change depending on figure size etc.
 ax.tick_params("both", length=8, width=0.9, which="major", bottom=True,
