@@ -78,7 +78,7 @@ plt.yscale('log')
 ax.yaxis.set_major_formatter(ScalarFormatter())
 ax.yaxis.set_minor_formatter(NullFormatter())
 pressure_lvls = [1, 5, 10, 30, 50, 100, 200, 300, 400, 500, 700, 1000]
-gvutil.set_axes_limits_and_ticks(ax, xlim=(-20, 40), ylim=(1000, 4), xticks=np.arange(-20,60,10), yticks=pressure_lvls)
+gvutil.set_axes_limits_and_ticks(ax, xlim=(-20, 40), ylim=(1000, 4), xticks=np.arange(-20, 60, 10), yticks=pressure_lvls)
 gvutil.set_titles_and_labels(ax, maintitle='Profile Plot', xlabel=U.long_name)
 
 # Note: Currently geocat-viz does not have a utility function for formating
