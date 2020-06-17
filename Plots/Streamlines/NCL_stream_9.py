@@ -77,7 +77,7 @@ magnitude = np.sqrt(np.square(U.data) + np.square(V.data))
 print(len(magnitude))
 
 # Plot streamline data
-streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='-', linewidth=2, density=2.0, color=magnitude, cmap=colormap)
+streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='->', linewidth=1, density=2.0, color=magnitude, cmap=colormap, numArrows=3)
 
 # Divide streamlines into segments
 seg = streams.lines.get_segments()
@@ -89,74 +89,6 @@ arrow_x = np.array([seg[i][0, 0] for i in range(0, len(seg), period)])
 arrow_y = np.array([seg[i][0, 1] for i in range(0, len(seg), period)])
 arrow_dx = np.array([seg[i][1, 0] - seg[i][0, 0] for i in range(0, len(seg), period)])
 arrow_dy = np.array([seg[i][1, 1] - seg[i][0, 1] for i in range(0, len(seg), period)])
-
-print(arrow_dx)
-
-# Save figure to access color values of pixels
-plt.savefig('plot.png')
-im = Image.open(r"plot.png")
-
-plotsize = fig.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
-plotwidth = (plotsize.width*fig.dpi)/2
-plotheight = (plotsize.height*fig.dpi)/2
-
-axsize = ax.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
-axwidth = (axsize.width*fig.dpi)/2
-axheight = (axsize.height*fig.dpi)/2
-
-# Get x and y data, transform it into pixels, return RGB value of the pixels
-def getPixelVals(x, y):
-
-    if True:
-
-        coordlist = tuple(zip(x, y)) 
-        print(coordlist)
-
-        coordarray = ax.transAxes.transform(coordlist)
-
-        print(coordarray)
-
-        xpix = []
-        ypix = []
-
-        for x in coordarray:
-
-            xgraphtransform = x[0]/2000
-            ygraphtransform = x[1]/2000
-
-            xgraphtransform = (xgraphtransform/7285) + 406.18
-            ygraphtransform = (ygraphtransform/5706) + 423.76
-
-            xgraphtransform = (xgraphtransform*(axwidth/plotwidth) + (plotwidth-axwidth)/2)
-            ygraphtransform = (ygraphtransform*(axheight/plotheight) + (plotheight-axheight)/2)
-
-            xpix.append(xgraphtransform)
-            ypix.append(ygraphtransform)
-
-        rgbarr = []
-
-        for num in range(len(ypix)):
-            try:
-                rgb = im.getpixel((xpix[num], 1000-ypix[num]))
-                rgb = tuple(map(lambda x: x/255, rgb))
-                rgbarr.append(rgb)
-            except Exception as E:
-                rgbarr.append('None')
-                print(E)
-        return rgbarr
-
-
-rgbarr = getPixelVals(arrow_x, arrow_y)
-print(U.lon)
-print(U.lat)
-
-# Add arrows
-q = ax.quiver(
-    arrow_x, arrow_y, arrow_dx, arrow_dy,
-    color=rgbarr,
-    scale=1, units='y', minshaft=3,
-    headwidth=4, headlength=2, headaxislength=2, 
-    visible='True', zorder=2)
 
 # Save plot
 plt.savefig('plot.png')
