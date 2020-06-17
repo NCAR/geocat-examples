@@ -48,7 +48,7 @@ plt.figure(figsize=(8, 8))
 ax = plt.axes()
 
 # Format axes limits, ticks, and labels
-gvutil.set_axes_limits_and_ticks(ax, xlim=(-20, 40), ylim=(1000, 0), xticks=np.arange(-20,60,10), yticks=np.arange(0,1200,200))
+gvutil.set_axes_limits_and_ticks(ax, xlim=(-20, 40), ylim=(1000, 0), xticks=np.arange(-20, 60, 10), yticks=np.arange(0, 1200, 200))
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4, labelsize=14)
 gvutil.set_titles_and_labels(ax, maintitle='Profile Plot', xlabel=U.long_name, ylabel=U['lev'].long_name)
 
