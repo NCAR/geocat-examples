@@ -88,7 +88,7 @@ gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{Assigning}$"+" "+r"$\bf{color}
 
 # Plot colorbar on subplot
 cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), cax=ax2, boundaries=colorbounds,
-                  ticks=colorbounds, spacing='uniform', orientation='horizontal')
+                  ticks=np.arange(4,52,4), spacing='uniform', orientation='horizontal')
 
 # Change size of colorbar tick font
 ax2.tick_params(labelsize=20)
