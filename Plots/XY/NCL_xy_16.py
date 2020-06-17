@@ -62,7 +62,11 @@ plt.plot(U40.data, U40.lev, color='black', linestyle=':', label='40N')
 plt.plot(U50.data, U50.lev, color='black', linestyle='-.', label='50N')
 
 # Add legend
-plt.legend(loc='center right', frameon=False, fontsize=14, labelspacing=1)
+handles, labels = ax.get_legend_handles_labels()
+handles = reversed(handles) # Reverse order of legend elements
+labels = reversed(labels) # Default order is the order in which the data was plotted
+plt.legend(handles, labels, loc='center right', frameon=False, fontsize=14,
+           labelspacing=1)
 
 plt.show()
 
@@ -103,6 +107,10 @@ plt.plot(U40.data, U40.lev, color='black', linestyle=':', label='40N')
 plt.plot(U50.data, U50.lev, color='black', linestyle='-.', label='50N')
 
 # Add legend
-plt.legend(loc='center right', frameon=False, fontsize=14, labelspacing=1)
+handles, labels = ax.get_legend_handles_labels()
+handles = reversed(handles) # Reverse order of legend elements
+labels = reversed(labels) # Default order is the order in which the data was plotted
+plt.legend(handles, labels, loc='center right', frameon=False, fontsize=14,
+           labelspacing=1)
 
 plt.show()
