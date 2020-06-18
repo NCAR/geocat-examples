@@ -74,10 +74,9 @@ V = ds2.v.isel(timestep=0)
 
 # Calculate magnitude data
 magnitude = np.sqrt(np.square(U.data) + np.square(V.data))
-print(len(magnitude))
 
 # Plot streamline data
-streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='->', linewidth=1, density=2.0, color=magnitude, cmap=colormap, numArrows=3)
+streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='->', linewidth=1, density=2.0, color=magnitude, cmap=colormap)
 
 # Create second subplot on figure for colorbar
 ax2 = fig.add_axes([.1,.1,.8,.05])
