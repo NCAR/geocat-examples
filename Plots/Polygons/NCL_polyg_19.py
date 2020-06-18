@@ -15,7 +15,7 @@ See following URLs to see the reproduced NCL plot & script:
 
 ###############################################################################
 # Import packages:
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 from matplotlib.collections import PatchCollection
 from matplotlib.patches import Polygon
@@ -37,8 +37,8 @@ statepopulationfile = open(gdf.get("ascii_files/us_state_population.txt"), 'r')
 ###############################################################################
 # Set colormap data and colormap bounds:
 colormap = colors.ListedColormap(['lightcoral', 'wheat', 'palegoldenrod', 'powderblue', 'mediumpurple',
-            'indianred', 'peru', 'dodgerblue', 'slateblue', 'firebrick', 'sienna', 'olivedrab',
-            'steelblue', 'navy'])
+                                  'indianred', 'peru', 'dodgerblue', 'slateblue', 'firebrick', 'sienna', 'olivedrab',
+                                  'steelblue', 'navy'])
 
 colorbounds = [0, 1, 2.5, 3, 4, 5, 6, 7, 8, 9, 10, 12, 25, 38, 40]
 
@@ -47,23 +47,26 @@ norm = colors.BoundaryNorm(colorbounds, colormap.N)
 ###############################################################################
 # Define helper function to get the populations of each state
 
+
 def getStatePopulations(statepopulationfile):
 
     nameandpopdict = {}
     Lines = statepopulationfile.read().splitlines()
-    for line in Lines: 
+    for line in Lines:
         try:
             nameandpop = line.split(" ")
             name = nameandpop[0]
             pop = (int)(nameandpop[-1])/1000000
             nameandpopdict[name] = pop
-        except:
+        except Exception as E:
+            print(E)
             continue
-    
+
     return nameandpopdict
 
 ###############################################################################
 # Define helper function to get the color of each state based on its population
+
 
 def findDivColor(colorbounds, pdata):
 
@@ -80,6 +83,7 @@ def findDivColor(colorbounds, pdata):
 ###############################################################################
 # Define helper function to remove ticks from axes
 
+
 def removeTicks(axis):
 
     axis.get_xaxis().set_visible(False)
@@ -88,13 +92,14 @@ def removeTicks(axis):
 ###############################################################################
 # Define helper function to plot and color each state
 
+
 def plotRegion(shape, axis, xlim):
 
     # Plot each shape within a region (ex. mainland Alaska and all of it's surrounding Alaskan islands)
     for i in range(len(shape.shape.parts)):
 
         i_start = shape.shape.parts[i]
-        if i==len(shape.shape.parts)-1:
+        if i == len(shape.shape.parts)-1:
             i_end = len(shape.shape.points)
         else:
             i_end = shape.shape.parts[i+1]
@@ -104,9 +109,9 @@ def plotRegion(shape, axis, xlim):
         patches = []
 
         for i in shape.shape.points[i_start:i_end]:
-            if xlim[0] != None and i[0] < xlim[0]:
+            if xlim[0] is not None and i[0] < xlim[0]:
                 continue
-            if xlim[1] != None and i[0] > xlim[1]:
+            if xlim[1] is not None and i[0] > xlim[1]:
                 continue
             else:
                 x.append(i[0])
@@ -117,11 +122,12 @@ def plotRegion(shape, axis, xlim):
         pop = nameandpopdict[abbrevname]
         color = findDivColor(colorbounds, pop)
 
-        axis.plot(x,y, color='black', linewidth=0.3)  
-        patches.append( Polygon(np.vstack((x, y)).T, True, linewidth=0.3, color=color))
+        axis.plot(x, y, color='black', linewidth=0.3)
+        patches.append(Polygon(np.vstack((x, y)).T, True, linewidth=0.3, color=color))
 
         pc = PatchCollection(patches, match_original=True, edgecolor='k', linewidths=1., zorder=2)
         axis.add_collection(pc)
+
 
 ###############################################################################
 # Plot:
@@ -147,18 +153,19 @@ axin3 = ax2.inset_axes([0.70, 0.7, 0.30, 0.30], frameon=False)
 removeTicks(axin3)
 
 # Specify which shapes not to include when plotting the mainland U.S.
-nonmainlandus = ['Commonwealth of the Northern Mariana Islands', 'Guam', 'Puerto Rico', 'Hawaii', 'Alaska', 'American Samoa', 
-                 'United States Virgin Islands']  
+nonmainlandus = ['Commonwealth of the Northern Mariana Islands', 'Guam', 'Puerto Rico', 'Hawaii', 'Alaska', 'American Samoa',
+                 'United States Virgin Islands']
 
 # Get population of each state
 nameandpopdict = getStatePopulations(statepopulationfile)
 
 # For each shape in shapefile, plot on map in appropriate axis
+
 for shape in us.shapeRecords():
-    
+
     if shape.record.NAME not in nonmainlandus:
         plotRegion(shape, ax1, [None, None])
- 
+
     elif shape.record.NAME == 'Alaska':
         plotRegion(shape, axin1, [None, 100])
 
@@ -168,17 +175,14 @@ for shape in us.shapeRecords():
     elif shape.record.NAME == 'Puerto Rico':
         plotRegion(shape, axin3, [None, None])
 
+
 # Set title using helper function from geocat-viz
 title = r"$\bf{Population}$"+" "+r"$\bf{in}$"+" "+r"$\bf{Millions}$"+" "+r"$\bf{(2014)}$"
 gvutil.set_titles_and_labels(ax1, maintitle=title,
                              maintitlefontsize=18)
 
 # Create fourth inset axis for colorbar
-axin4 = inset_axes(ax2,
-                    width="115%",
-                    height="12%",
-                    loc='center'
-                    )
+axin4 = inset_axes(ax2, width="115%", height="12%", loc='center')
 
 # Create colorbar
 cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), cax=axin4, boundaries=colorbounds,
