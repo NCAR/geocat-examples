@@ -186,6 +186,6 @@ axin4 = inset_axes(ax2, width="115%", height="12%", loc='center')
 
 # Create colorbar
 cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), cax=axin4, boundaries=colorbounds,
-                  ticks=colorbounds[1:-1], spacing='uniform', orientation='horizontal', label='inches')
+                  ticks=colorbounds[1:-1], spacing='uniform', orientation='horizontal')
 
 plt.show()
