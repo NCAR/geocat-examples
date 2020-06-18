@@ -19,11 +19,28 @@ More color schemes can be found here:
 
 See following URL to see the reproduced plot & script from the GeoCAT examples gallery:
     - https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_ce_3_1_lg.html#sphx-glr-gallery-contours-ncl-ce-3-1-lg-py
-"""
 
+Figure 1. 
+   - The rainbow color scheme is problematic due to the lack of a natural perceived ordering of colors,
+     perceptual changes in the colors (ex: yellow and green blend together easily), and is sensitive to 
+     deficiencies in vision
+
+Figure 2. 
+   - The coolwarm diverging scheme should be used when both high and low values are interesting. 
+     However, be careful using this scheme if the projection will be printed to black and white. 
+
+Figure 3. 
+  - This is an example of a less distinct contrasting color gradient. This choice in color scheme would 
+    be a good choice for printing in black and white and is also a color blind friendly scheme. 
+
+Figure 4.
+ - This plot shows how drastically contrasting colors can be incredibly useful for plotting this type of data.
+   This color scheme will work well for color blind impacted individuals and is black and white print friendly.
+
+"""
 ###############################################################################
 # Import packages:
-    
+
 import numpy as np
 import xarray as xr
 import cartopy.feature as cfeature
@@ -43,21 +60,39 @@ ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"), decode_time
 t = ds.T.isel(time=0, z_t=0).sel(lat_t=slice(-60, 30), lon_t=slice(30, 120))
 
 ###############################################################################
-#Plot:
+# Plot:
 
 fig = plt.figure(figsize=(12, 12))
 
-def comparison(color,row, col, pos, title):
-    
-# Generate axes, using Cartopy, drawing coastlines, and adding features
+
+def Plot(color, row, col, pos, title):
+
+    # Generate axes, using Cartopy, drawing coastlines, and adding features
     projection = ccrs.PlateCarree()
     ax1 = plt.subplot(row, col, pos, projection=projection)
     ax1.coastlines(linewidths=0.5)
     ax1.add_feature(cfeature.LAND, facecolor="lightgray")
-    
+
+    # fig.text(
+    #     0.5,
+    #     0.0001,
+        # """ 
+        # fig 1. The rainbow color scheme is problematic due to the lack of a natural perceived ordering of colors,
+        # perceptual changes in the colors (ex: yellow and green blend together easily), and is sensitive to 
+        # deficiencies in vision
+        # fig 2. The coolwarm diverging scheme should be used when both high and low values are interesting. 
+        # However, be careful using this scheme if the projection will be printed to black and white. 
+        # fig 3. This is an example of a less distinct contrasting color gradient. This choice in color scheme would 
+        # be a good choice for printing in black and white and is also a color blind friendly scheme. 
+        # fig 4. This plot shows how drastically contrasting colors can be incredibly useful for plotting this type of data.
+        # This color scheme will work well for color blind impacted individuals and is black and white print friendly.
+        # """"",
+        # fontsize=10,
+        # ha="center", wrap=True)
+
     # Import an NCL colormap
-    newcmp = color 
-    
+    newcmp = color
+
     # Contourf-plot data
     t.plot.contourf(
         ax=ax1,
@@ -68,42 +103,50 @@ def comparison(color,row, col, pos, title):
         cmap=newcmp,
         cbar_kwargs={
             "orientation": "vertical",
+            "extendrect": True,
             "ticks": np.arange(0, 32, 2),
             "label": "",
-            "shrink": 0.8,})
-    
+            "shrink": 0.8})
+
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
     # Set axes limits, and tick values
     gvutil.set_axes_limits_and_ticks(
         ax1,
         xlim=(30, 120),
-        ylim=(-60, 30),
-        xticks=np.linspace(-180, 180, 13),
-        yticks=np.linspace(-90, 90, 7))
-    
-    # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax1)
-    
-    # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax1, labelsize=12)
-    
+        ylim=(-60, 30))
+
     # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
     gvutil.set_titles_and_labels(
         ax1,
         maintitle=title,
-        maintitlefontsize=16,
-        righttitlefontsize=14,
+        maintitlefontsize=14,
         xlabel="",
         ylabel="")
 
-#Plot first color map
-comparison(gvcmaps.BlAqGrYeOrRe, 2,2,1,"Rainbow Color Projection \n of Temperature")
 
-#plot second color map
-comparison('magma', 2,2,2, "Magma Color Projection \n of Temperature")
+# Plot first color map
+Plot(gvcmaps.BlAqGrYeOrRe, 2, 2, 1, "Figure 1: \n Rainbow Color Projection")
 
-#plot third color map
-comparison('coolwarm', 2,2,3, "Coolwarm Color Projection \n of Temperature")
+# plot second color map
+Plot("coolwarm", 2, 2, 2, "Figure 2: \n Coolwarm Color Projection")
 
-#Plot fourth color map
-comparison('gnuplot2', 2,2,4, "Gnuplot2 Color Projection \n of Temperature")
+# plot third color map
+Plot("magma", 2, 2, 3, "Figure 3: \n Magma Color Projection")
+
+# Plot fourth color map
+Plot("gnuplot2", 2, 2, 4, "Figure 4: \n Gnuplot2 Color Projection")
+
+fig.suptitle("Projections of Temperature", x=.5, y=.95, fontsize=18)
+
+
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Comparison Analysis
+====================
+
+    - text 
+"""
+
+
+
