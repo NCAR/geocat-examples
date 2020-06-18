@@ -31,6 +31,11 @@ from geocat.viz import util as gvutil
 ###############################################################################
 # Read in data:
 
+file1 = open(gdf.get("shape_files/tl_2017_us_state.dbf"), 'r')
+file2 = open(gdf.get("shape_files/tl_2017_us_state.shp"), 'r')
+file3 = open(gdf.get("shape_files/tl_2017_us_state.shx"), 'r')
+file4 = open(gdf.get("shape_files/tl_2017_us_state.prj"), 'r')
+
 # Open the shapefile
 us = shp.Reader(gdf.get("shape_files/tl_2017_us_state.dbf"))
 
@@ -39,8 +44,9 @@ statepopulationfile = open(gdf.get("ascii_files/us_state_population.txt"), 'r')
 
 ###############################################################################
 # Set colormap data and colormap bounds:
-colormap = colors.ListedColormap(['lightcoral', 'wheat', 'palegoldenrod', 'powderblue', 'mediumpurple',
-                                  'indianred', 'peru', 'dodgerblue', 'slateblue', 'firebrick', 'sienna', 'olivedrab',
+
+colormap = colors.ListedColormap(['lightpink', 'blanchedalmond', 'palegoldenrod', 'powderblue', 'thistle',
+                                  'lightcoral', 'peru', 'dodgerblue', 'slateblue', 'firebrick', 'sienna', 'olivedrab',
                                   'steelblue', 'navy'])
 
 colorbounds = [0, 1, 2.5, 3, 4, 5, 6, 7, 8, 9, 10, 12, 25, 38, 40]
