@@ -69,7 +69,7 @@ p = wrap_U.plot.contour(ax=ax,
 clevels = [956, 972, 976, 984, 992, 1000, 1008, 1016, 1024, 1032]
 
 # Label contours
-ax.clabel(p, inline=True, levels=clevels, fontsize=14, colors='k', fmt="%.0f") 
+ax.clabel(p, inline=False, levels=clevels, fontsize=14, colors='k', fmt="%.0f") 
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{SLP}$"+" "+r"$\bf{1963,}$"+" "+r"$\bf{January}$"+" "+r"$\bf{24th}$", maintitlefontsize=20,
