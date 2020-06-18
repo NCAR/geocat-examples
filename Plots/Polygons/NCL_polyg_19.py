@@ -131,8 +131,8 @@ gvutil.set_titles_and_labels(ax1, maintitle=title,
                              maintitlefontsize=18)
 
 axins1 = inset_axes(ax2,
-                    width="100%",
-                    height="10%",
+                    width="115%",
+                    height="12%",
                     loc='lower center'
                     )
 
