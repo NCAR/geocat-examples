@@ -28,3 +28,17 @@ from geocat.viz import util as gvutil
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset("../../../AtmJan360.nc", decode_times=False)
+
+# Extract a slice of the data
+t = ds['T']
+t = t.isel(lev=0).drop('lev')
+t = t.isel(lat=0).drop('lat')
+t = t.isel(lon=0).drop('lon')
+
+###############################################################################
+# Plot with standard markers:
+plt.figure(figsize=(8, 8))
+ax = plt.axes()
+
+plt.scatter(t.time, t.data)
+plt.show()
