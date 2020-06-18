@@ -40,12 +40,12 @@ file4 = open(gdf.get("shape_files/tl_2017_us_state.prj"), 'r')
 us = shp.Reader(gdf.get("shape_files/tl_2017_us_state.dbf"))
 
 # Open the text file with the population data
-statepopulationfile = open(gdf.get("ascii_files/us_state_population.txt"), 'r')
+state_population_file = open(gdf.get("ascii_files/us_state_population.txt"), 'r')
 
 ###############################################################################
 # Set colormap data and colormap bounds:
 
-colormap = colors.ListedColormap(['lightpink', 'blanchedalmond', 'palegoldenrod', 'powderblue', 'thistle',
+colormap = colors.ListedColormap(['lightpink', 'wheat', 'palegreen', 'powderblue', 'thistle',
                                   'lightcoral', 'peru', 'dodgerblue', 'slateblue', 'firebrick', 'sienna', 'olivedrab',
                                   'steelblue', 'navy'])
 
@@ -57,21 +57,21 @@ norm = colors.BoundaryNorm(colorbounds, colormap.N)
 # Define helper function to get the populations of each state
 
 
-def getStatePopulations(statepopulationfile):
+def getStatePopulations(state_population_file):
 
-    nameandpopdict = {}
-    Lines = statepopulationfile.read().splitlines()
+    population_dict = {}
+    Lines = state_population_file.read().splitlines()
     for line in Lines:
         try:
             nameandpop = line.split(" ")
             name = nameandpop[0]
             pop = (int)(nameandpop[-1])/1000000
-            nameandpopdict[name] = pop
+            population_dict[name] = pop
         except Exception as E:
             print(E)
             continue
 
-    return nameandpopdict
+    return population_dict
 
 ###############################################################################
 # Define helper function to get the color of each state based on its population
@@ -102,22 +102,22 @@ def removeTicks(axis):
 # Define helper function to plot and color each state
 
 
-def plotRegion(shape, axis, xlim):
+def plotRegion(region, axis, xlim):
 
     # Plot each shape within a region (ex. mainland Alaska and all of it's surrounding Alaskan islands)
-    for i in range(len(shape.shape.parts)):
+    for i in range(len(region.shape.parts)):
 
-        i_start = shape.shape.parts[i]
-        if i == len(shape.shape.parts)-1:
-            i_end = len(shape.shape.points)
+        i_start = region.shape.parts[i]
+        if i == len(region.shape.parts)-1:
+            i_end = len(region.shape.points)
         else:
-            i_end = shape.shape.parts[i+1]
+            i_end = region.shape.parts[i+1]
 
         x = []
         y = []
         patches = []
 
-        for i in shape.shape.points[i_start:i_end]:
+        for i in region.shape.points[i_start:i_end]:
             if xlim[0] is not None and i[0] < xlim[0]:
                 continue
             if xlim[1] is not None and i[0] > xlim[1]:
@@ -128,7 +128,7 @@ def plotRegion(shape, axis, xlim):
 
         # Fill each state with color
         abbrevname = shape.record.STUSPS
-        pop = nameandpopdict[abbrevname]
+        pop = population_dict[abbrevname]
         color = findDivColor(colorbounds, pop)
 
         axis.plot(x, y, color='black', linewidth=0.3)
@@ -162,17 +162,17 @@ axin3 = ax2.inset_axes([0.70, 0.7, 0.30, 0.30], frameon=False)
 removeTicks(axin3)
 
 # Specify which shapes not to include when plotting the mainland U.S.
-nonmainlandus = ['Commonwealth of the Northern Mariana Islands', 'Guam', 'Puerto Rico', 'Hawaii', 'Alaska', 'American Samoa',
+non_mainland_us = ['Commonwealth of the Northern Mariana Islands', 'Guam', 'Puerto Rico', 'Hawaii', 'Alaska', 'American Samoa',
                  'United States Virgin Islands']
 
 # Get population of each state
-nameandpopdict = getStatePopulations(statepopulationfile)
+population_dict = getStatePopulations(state_population_file)
 
 # For each shape in shapefile, plot on map in appropriate axis
 
 for shape in us.shapeRecords():
 
-    if shape.record.NAME not in nonmainlandus:
+    if shape.record.NAME not in non_mainland_us:
         plotRegion(shape, ax1, [None, None])
 
     elif shape.record.NAME == 'Alaska':
