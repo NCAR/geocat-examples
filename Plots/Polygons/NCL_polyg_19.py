@@ -30,8 +30,11 @@ from geocat.viz import util as gvutil
 
 ###############################################################################
 # Read in data:
-us = shp.Reader("tl_2017_us_state\\tl_2017_us_state.dbf")
 
+# Open the shapefile
+us = shp.Reader(gdf.get("shape_files/tl_2017_us_state.dbf"))
+
+# Open the text file with the population data
 statepopulationfile = open(gdf.get("ascii_files/us_state_population.txt"), 'r')
 
 ###############################################################################
