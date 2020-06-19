@@ -27,13 +27,13 @@ from geocat.viz import util as gvutil
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset("../../../AtmJan360.nc", decode_times=False)
+ds = xr.open_dataset(gdf.get('netcdf_files/AtmJan360_xy_4.nc'), decode_times=False)
 
 # Extract a slice of the data
-t = ds['T']
-t = t.isel(lev=0).drop('lev')
-t = t.isel(lat=0).drop('lat')
-t = t.isel(lon=0).drop('lon')
+ds = ds['T']
+t = ds.isel(lev=0).drop('lev')
+t = t.isel(lat=32).drop('lat')
+t = t.isel(lon=29).drop('lon')
 
 ###############################################################################
 # Plot with standard markers:
@@ -48,4 +48,6 @@ gvutil.set_titles_and_labels(ax, maintitle="Scatter Plot", xlabel=t['time'].long
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=5, labelsize=14)
 
+gvutil.set_axes_limits_and_ticks(ax, ylim=(220.0, 232.0))
+ax.offset(False)
 plt.show()
