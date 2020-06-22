@@ -12,6 +12,11 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/xy_4.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/xy_4_1_lg.png
                          https://www.ncl.ucar.edu/Applications/Images/xy_4_2_lg.png
+                         
+Ways of specifying marks:
+    - matplotlib.markers has an extensive [list](https://matplotlib.org/3.2.1/api/markers_api.html) of predefined markers
+    - Mathematical symbols  described [here](https://matplotlib.org/3.2.1/tutorials/text/mathtext.html) can be used
+    - If you still cannot find the symbol you are looking for, a custom made [Path](https://matplotlib.org/3.2.1/api/path_api.html#matplotlib.path.Path) instance can be used to draw your own marker
 """
 
 ###############################################################################
@@ -44,6 +49,26 @@ plt.scatter(t.time, t.data, color='red')
 
 # Use geocat.viz.util convenience function to set titles and labels
 gvutil.set_titles_and_labels(ax, maintitle="Scatter Plot", xlabel=t['time'].long_name, ylabel=t.long_name)
+
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4, labelsize=14)
+
+gvutil.set_axes_limits_and_ticks(ax, xlim=(131155, 131190),
+                                 ylim=(220.0, 232.0),
+                                 xticklabels=[' ', 131160, ' ', 131170, ' ', 131180, ' ', 131190],
+                                 yticklabels=np.arange(220.0, 233.0, 2.0))
+
+plt.show()
+
+###############################################################################
+# Plot with custom markers:
+plt.figure(figsize=(8, 8))
+ax = plt.axes()
+
+plt.scatter(t.time, t.data, color='blue', marker="s")
+
+# Use geocat.viz.util convenience function to set titles and labels
+gvutil.set_titles_and_labels(ax, maintitle="Make your own marker", xlabel=t['time'].long_name, ylabel=t.long_name)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4, labelsize=14)
