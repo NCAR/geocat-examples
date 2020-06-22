@@ -40,7 +40,7 @@ t = t.isel(lon=29).drop('lon')
 plt.figure(figsize=(8, 8))
 ax = plt.axes()
 
-plt.scatter(t.time, t.data)
+plt.scatter(t.time, t.data, color='red')
 
 # Use geocat.viz.util convenience function to set titles and labels
 gvutil.set_titles_and_labels(ax, maintitle="Scatter Plot", xlabel=t['time'].long_name, ylabel=t.long_name)
