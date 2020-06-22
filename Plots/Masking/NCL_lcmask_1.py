@@ -3,7 +3,6 @@ NCL_lcmask_1.py
 ===============
 This script illustrates the following concepts:
    - Drawing filled contours over a Lambert Conformal map
-   - Drawing a filled contours over a masked Lambert Conformal plot
    - Zooming in on a particular area on a Lambert Conformal map
    - Creating a custom plot boundary
    - Using a blue-white-red color map
@@ -132,8 +131,6 @@ ax.coastlines(linewidth=0.5)
 wedge_boundary(ax, [-85, 40], [20, 80])
 
 # Plot data and create colorbar
-newcmp = gvcmaps.BlWhRe
-
 wind = masked.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(),
                             add_colorbar=False, levels=24)
 cbar = plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True,
