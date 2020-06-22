@@ -46,8 +46,11 @@ plt.scatter(t.time, t.data)
 gvutil.set_titles_and_labels(ax, maintitle="Scatter Plot", xlabel=t['time'].long_name, ylabel=t.long_name)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=5, labelsize=14)
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4, labelsize=14)
 
-gvutil.set_axes_limits_and_ticks(ax, ylim=(220.0, 232.0))
-ax.offset(False)
+gvutil.set_axes_limits_and_ticks(ax, xlim=(131155, 131190),
+                                 ylim=(220.0, 232.0),
+                                 xticklabels=[' ', 131160, ' ', 131170, ' ', 131180, ' ', 131190],
+                                 yticklabels=np.arange(220.0, 233.0, 2.0))
+
 plt.show()
