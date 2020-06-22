@@ -71,8 +71,8 @@ def wedge_boundary(ax, lon_range, lat_range, res=1):
 # xarrays and disable time decoding due to missing necessary metadata
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 # Extract a slice of the data
-ds = ds.isel(time=0).drop("time")
-ds = ds.isel(lev=0).drop("lev")
+ds = ds.isel(time=0).drop_vars(names=["time"])
+ds = ds.isel(lev=0).drop_vars(names=["lev"])
 V = ds.V
 # Ensure longitudes range from 0 to 360 degrees
 V = gvutil.xr_add_cyclic_longitudes(V, "lon")
