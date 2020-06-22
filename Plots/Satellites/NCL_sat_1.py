@@ -17,7 +17,6 @@ import xarray as xr
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
-import numpy as np
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
@@ -56,6 +55,7 @@ ax.add_feature(cfeature.LAND, facecolor='lightgray')
 ax.add_feature(cfeature.COASTLINE, linewidth=.5)
 ax.add_feature(cfeature.OCEAN, facecolor='lightcyan')
 ax.add_feature(cfeature.BORDERS, linewidth=.5)
+ax.add_feature(cfeature.LAKES, facecolor='lightcyan', edgecolor='k', linewidth=.5)
 
 # Plot contour data
 p = wrap_U.plot.contour(ax=ax,
@@ -65,11 +65,33 @@ p = wrap_U.plot.contour(ax=ax,
                         cmap='black',
                         add_labels=False)
 
-# Specify array of contour levels to be labeled
-clevels = [956, 972, 976, 984, 992, 1000, 1008, 1016, 1024, 1032]
+# Specify array of contour levels to be labeled- These values were found by setting 'manual'
+# argument in ax.clabel call to 'True' and then hovering mouse over desired location of
+# countour label to find coordinate (which can be found in bottom left of figure window)
 
-# Label contours
-ax.clabel(p, inline=False, levels=clevels, fontsize=14, colors='k', fmt="%.0f") 
+# low pressure contour levels- these will be plotted as a subscript to an 'L' symbol
+lowClevels = [(-3.825, 4.063), (1.725, 2.026), (1.663, 4.479)]
+
+# regular pressure contour levels
+clevels = [(-4.012, 1.694), (-4.407, -1.653), (-1.206, .6752),
+           (-0.9769, -3.108), (-4.989, 3.461), (1.892, .8831),
+           (4.157, 0.7792), (3.118, 0.3219), (1.164, -.2601),
+           (0.4781, 0.8831), (-2.972, 0.1348), (-4.344, -0.177),
+           (-1.995, -2.713), (-0.1247, -2.048), (-0.4781, 4.313),
+           (-0.3741, 3.128), (-1.538, -0.1354), (-0.5196, -0.9461),
+           (2.661, 1.735), (4.22, -1.694), (1.455, 2.754), (1.164, -1.632),
+           (1.642, -2.983), (2.827, 4.25), (4.303, 2.255),
+           (0.8107, 4.271), (-0.4157, 1.756)]
+
+# multiply each value by 10^6 to get correct window coordinates
+lowClevels = [(x[0]*1000000, x[1]*1000000) for x in lowClevels]
+clevels = [(x[0]*1000000, x[1]*1000000) for x in clevels]
+
+# Label contours with Low pressure
+ax.clabel(p, inline=True, fontsize=14, colors='k', fmt="L" + "$_{%.0f}$", manual=lowClevels)
+
+# Label rest of the contours
+ax.clabel(p, inline=True, fontsize=14, colors='k', fmt="%.0f", manual=clevels)
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{SLP}$"+" "+r"$\bf{1963,}$"+" "+r"$\bf{January}$"+" "+r"$\bf{24th}$", maintitlefontsize=20,
