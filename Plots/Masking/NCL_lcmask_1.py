@@ -100,9 +100,9 @@ cbar = plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True,
              ticks=np.arange(-48, 48, 8), pad=0.1, aspect=12)
 cbar.ax.tick_params(length=0) # remove tick marks but leave in labels
 
-# Add titles
-plt.title(V.long_name, loc='left', size=16)
-plt.title(V.units, loc='right', size=16)
+# Use geocat.viz.util convenience function to add left and right titles
+gvutil.set_titles_and_labels(ax, lefttitle=V.long_name, lefttitlefontsize=16,
+                             righttitle=V.units, righttitlefontsize=16)
 
 plt.show()
 
@@ -137,8 +137,7 @@ cbar = plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True,
              ticks=np.arange(-40, 44, 4), pad=0.1, aspect=18)
 cbar.ax.tick_params(length=0) # remove tick marks but leave in labels
 
-# Add titles
-plt.title(masked.long_name, loc='left', size=12)
-plt.title(masked.units, loc='right', size=12)
-
+# Use geocat.viz.util convenience function to add left and right titles
+gvutil.set_titles_and_labels(ax, lefttitle=V.long_name, lefttitlefontsize=16,
+                             righttitle=V.units, righttitlefontsize=16)
 plt.show()
