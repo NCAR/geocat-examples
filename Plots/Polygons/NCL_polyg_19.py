@@ -32,28 +32,28 @@ from geocat.viz import util as gvutil
 # Read in data:
 
 # Open all associated shapefiles so sphix can run and generate documents
-file1 = open(gdf.get("gadm36_USA_1.dbf"), 'r')
-file2 = open(gdf.get("gadm36_USA_1.shp"), 'r')
-file3 = open(gdf.get("gadm36_USA_1.shx"), 'r')
-file4 = open(gdf.get("gadm36_USA_1.prj"), 'r')
+file1 = open(gdf.get("shape_files/gadm36_USA_1.dbf"), 'r')
+file2 = open(gdf.get("shape_files/gadm36_USA_1.shp"), 'r')
+file3 = open(gdf.get("shape_files/gadm36_USA_1.shx"), 'r')
+file4 = open(gdf.get("shape_files/gadm36_USA_1.prj"), 'r')
 
-file5 = open(gdf.get("gadm36_USA_2.dbf"), 'r')
-file6 = open(gdf.get("gadm36_USA_2.shp"), 'r')
-file7 = open(gdf.get("gadm36_USA_2.shx"), 'r')
-file8 = open(gdf.get("gadm36_USA_2.prj"), 'r')
+file5 = open(gdf.get("shape_files/gadm36_USA_2.dbf"), 'r')
+file6 = open(gdf.get("shape_files/gadm36_USA_2.shp"), 'r')
+file7 = open(gdf.get("shape_files/gadm36_USA_2.shx"), 'r')
+file8 = open(gdf.get("shape_files/gadm36_USA_2.prj"), 'r')
 
-file9 = open(gdf.get("gadm36_PRI_0.dbf"), 'r')
-file10 = open(gdf.get("gadm36_PRI_0.shp"), 'r')
-file11 = open(gdf.get("gadm36_PRI_0.shx"), 'r')
-file12 = open(gdf.get("gadm36_PRI_0.prj"), 'r')
+file9 = open(gdf.get("shape_files/gadm36_PRI_0.dbf"), 'r')
+file10 = open(gdf.get("shape_files/gadm36_PRI_0.shp"), 'r')
+file11 = open(gdf.get("shape_files/gadm36_PRI_0.shx"), 'r')
+file12 = open(gdf.get("shape_files/gadm36_PRI_0.prj"), 'r')
 
 # Open the text file with the population data
 state_population_file = open(gdf.get("ascii_files/us_state_population.txt"), 'r')
 
 # Open other shapefile
-us = shp.Reader(gdf.get("gadm36_USA_1.dbf"))
-usdetailed = shp.Reader(gdf.get("gadm36_USA_2.dbf"))
-pr = shp.Reader(gdf.get("gadm36_PRI_0.dbf"))
+us = shp.Reader(gdf.get("shape_files/gadm36_USA_1.dbf"))
+usdetailed = shp.Reader(gdf.get("shape_files/gadm36_USA_2.dbf"))
+pr = shp.Reader(gdf.get("shape_files/gadm36_PRI_0.dbf"))
 
 ###############################################################################
 # Set colormap data and colormap bounds:
@@ -126,10 +126,12 @@ def plotRegion(region, axis, xlim, puertoRico, waterBody):
         else:
             i_end = region.shape.parts[i+1]
 
+        # Create new empty lists to hold lat coordinates, lon coordinates, and filled polygons, or "patches"
         x = []
         y = []
         patches = []
 
+        # Get every coordinate within every shape (as long as it is within the x coordinate limits)
         for i in region.shape.points[i_start:i_end]:
             if xlim[0] is not None and i[0] < xlim[0]:
                 continue
@@ -139,31 +141,33 @@ def plotRegion(region, axis, xlim, puertoRico, waterBody):
                 x.append(i[0])
                 y.append(i[1])
 
+        # Plot outline of each region
+        axis.plot(x, y, color='black', linewidth=0.1, zorder=1)
+
         # Fill each state with color
 
-        if puertoRico is False:
-            if waterBody:
-                abbrevstate = ''
-            else:
-                abbrevname = shape.record[-1].split(".")
-                abbrevstate = abbrevname[1]
-        else:
+        # Determine the key of each region to get the value from the population dictionary
+        if puertoRico is True:
             abbrevstate = 'PR'
+        if puertoRico is False and waterBody is False:
+            abbrevname = shape.record[-1].split(".")
+            abbrevstate = abbrevname[1]
 
-        if abbrevstate in population_dict:
+        # If the region being plotted is a state with a population
+        if waterBody is False:
             pop = population_dict[abbrevstate]
             color = findDivColor(colorbounds, pop)
-        else:
-            color = 'white'
-
-        axis.plot(x, y, color='black', linewidth=0.1)
-        patches.append(Polygon(np.vstack((x, y)).T, True, color=color, linewidth=0.1)) 
-
-        if color == 'white':
-            pc = PatchCollection(patches, match_original=True, edgecolor='white', linewidths=-5, zorder=5)
-            axis.add_collection(pc)
-        else:
+            # Set characteristics and measurements of each filled polygon "patch"
+            patches.append(Polygon(np.vstack((x, y)).T, True, color=color, linewidth=0.1))
             pc = PatchCollection(patches, match_original=True, edgecolor='k', linewidths=0.1, zorder=2)
+            # Plot filled region on axis
+            axis.add_collection(pc)
+        # If the region being plotted is a body of water with no population
+        else:
+            # Set characteristics and measurements of each filled polygon "patch"
+            patches.append(Polygon(np.vstack((x, y)).T, True, color='white', linewidth=0.1))
+            pc = PatchCollection(patches, match_original=True, edgecolor='white', linewidths=-5, zorder=3)
+            # Plot filled region on axis
             axis.add_collection(pc)
 
 
@@ -190,32 +194,28 @@ removeTicks(axin2)
 axin3 = ax2.inset_axes([0.70, 0.7, 0.30, 0.30], frameon=False)
 removeTicks(axin3)
 
-# Specify which shapes not to include when plotting the mainland U.S.
-non_mainland_us = ['Commonwealth of the Northern Mariana Islands', 'Guam', 'Puerto Rico', 'Hawaii', 'Alaska', 'American Samoa',
-                 'United States Virgin Islands']
-
 # Get population of each state
 population_dict = getStatePopulations(state_population_file)
 
-# For each shape in shapefile, plot on map in appropriate axis
+# Plot every shape in the US shapefile
 for shape in us.shapeRecords():
 
-    if shape.record[3] not in non_mainland_us:
-        plotRegion(shape, ax1, [None, None], False, False)
-
-    elif shape.record[3] == 'Alaska':
-        plotRegion(shape, axin1, [None, 100], False, False)
-
+    if shape.record[3] == 'Alaska':
+        plotRegion(shape, axin1, [None, 100], puertoRico=False, waterBody=False)
     elif shape.record[3] == 'Hawaii':
-        plotRegion(shape, axin2, [-161, None], False, False)
+        plotRegion(shape, axin2, [-161, None], puertoRico=False, waterBody=False)
+    else:
+        plotRegion(shape, ax1, [None, None], puertoRico=False, waterBody=False)
 
+# Plot every shape in the puerto rico shapefile
 for shape in pr.shapeRecords():
-    plotRegion(shape, axin3, [None, None], True, False)
+    plotRegion(shape, axin3, [None, None], puertoRico=True, waterBody=False)
 
+# Plot every body of water shape in the detailed US shapefile
 for shape in usdetailed.shapeRecords():
 
     if shape.record[9] == 'Water body':
-        plotRegion(shape, ax1, [None, None], False, True)
+        plotRegion(shape, ax1, [None, None], puertoRico=False, waterBody=True)
 
 # Set title using helper function from geocat-viz
 title = r"$\bf{Population}$"+" "+r"$\bf{in}$"+" "+r"$\bf{Millions}$"+" "+r"$\bf{(2014)}$"
