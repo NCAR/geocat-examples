@@ -15,7 +15,8 @@ See following URLs to see the reproduced NCL plot & script:
                          
 Ways of specifying marks:
     - matplotlib.markers has an extensive [list](https://matplotlib.org/3.2.1/api/markers_api.html) of predefined markers
-    - Mathematical symbols  described [here](https://matplotlib.org/3.2.1/tutorials/text/mathtext.html) can be used
+    - Mathematical symbols described [here](https://matplotlib.org/3.2.1/tutorials/text/mathtext.html) can be used
+    - Unicode characters
     - If you still cannot find the symbol you are looking for, a custom made [Path](https://matplotlib.org/3.2.1/api/path_api.html#matplotlib.path.Path) instance can be used to draw your own marker
 """
 
@@ -24,6 +25,7 @@ Ways of specifying marks:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
+import matplotlib.path as mpath
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -65,7 +67,36 @@ plt.show()
 plt.figure(figsize=(8, 8))
 ax = plt.axes()
 
-plt.scatter(t.time, t.data, color='blue', marker="s")
+# Divide the data into arbitrary sections so each can be drawn with a different marker
+data1 = t.data[0:8]
+time1 = t.time[0:8]
+
+data2 = t.data[8:16]
+time2 = t.time[8:16]
+
+data3 = t.data[16:24]
+time3 = t.time[16:24]
+
+data4 = t.data[24:]
+time4 = t.time[24:]
+
+# marker='s' creates a square. This is from matplotlib.markers
+# This is not to be confused with the kwarg `s` which sets the marker size
+plt.scatter(time1, data1, color='blue', marker='s', label='matplotlib.markers')
+
+# Use a mathematical symbol for a marker
+plt.scatter(time2, data2, color='green', marker='$\Omega$', s=100, label='mathematical symbols')
+
+# Unicode symbol marker
+plt.scatter(time3, data3, color='black', marker='$\u2608$', s=100, label='unicode symbol')
+
+# Create custom path for marker
+verts = [(-0.5, -0.5), (-0.5, 0.5), (0, 0), (0.5, 0.5), (0.5, -0.5), (0, 0)]
+path = mpath.Path(verts)
+plt.scatter(time4, data4, color='red', marker=path, s=100, label='custom path')
+
+# Add legend
+plt.legend()
 
 # Use geocat.viz.util convenience function to set titles and labels
 gvutil.set_titles_and_labels(ax, maintitle="Make your own marker", xlabel=t['time'].long_name, ylabel=t.long_name)
