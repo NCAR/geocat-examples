@@ -145,8 +145,7 @@ def plotRegion(region, axis, xlim, puertoRico, waterBody):
         # Plot outline of each region
         axis.plot(x, y, color='black', linewidth=0.1, zorder=1)
 
-        # Fill each state with color
-
+        # Fill each state with color:
         # Determine the key of each region to get the value from the population dictionary
         if puertoRico is True:
             abbrevstate = 'PR'
@@ -166,8 +165,8 @@ def plotRegion(region, axis, xlim, puertoRico, waterBody):
         # If the region being plotted is a body of water with no population
         else:
             # Set characteristics and measurements of each filled polygon "patch"
-            patches.append(Polygon(np.vstack((x, y)).T, True, color='white', linewidth=0.1))
-            pc = PatchCollection(patches, match_original=True, edgecolor='white', linewidths=-5, zorder=3)
+            patches.append(Polygon(np.vstack((x, y)).T, True, color='white', linewidth=.7))
+            pc = PatchCollection(patches, match_original=True, edgecolor='white', linewidth=.7, zorder=3)
             # Plot filled region on axis
             axis.add_collection(pc)
 
