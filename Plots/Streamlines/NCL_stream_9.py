@@ -23,29 +23,19 @@ import matplotlib.cm as cm
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 import matplotlib.colors as colors
-from mpl_toolkits.axes_grid1.inset_locator import inset_axes
-from matplotlib import collections as mc
-from geocat.viz import cmaps as gvcmaps
 import matplotlib.colors as mcolors
-from matplotlib.colors import Normalize
-from matplotlib.offsetbox import TextArea, DrawingArea, OffsetImage, AnnotationBbox
-import matplotlib.image as mpimg
-from PIL import Image 
-import os
-from math import sqrt
-  
+
 ################################################################################
-# Make color map 
+# Make color map
 
 colormap = colors.ListedColormap(['darkblue', 'mediumblue', 'blue', 'cornflowerblue', 'skyblue', 'aquamarine',
-        'lime', 'greenyellow', 'gold', 'orange', 'orangered', 'red', 'maroon'])
+                                  'lime', 'greenyellow', 'gold', 'orange', 'orangered', 'red', 'maroon'])
 
 colorbounds = np.arange(0, 56, 4)
 
-norm = mcolors.BoundaryNorm(colorbounds, colormap.N) #colors.BoundaryNorm(colorbounds, colormap.N)
+norm = mcolors.BoundaryNorm(colorbounds, colormap.N)
 
 ################################################################################
-
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
@@ -53,11 +43,13 @@ ds1 = xr.open_dataset(gdf.get('netcdf_files/U500storm.cdf'))
 ds2 = xr.open_dataset(gdf.get('netcdf_files/V500storm.cdf'))
 
 ################################################################################
+# Plot:
+
 # Set figure
 fig = plt.figure(figsize=(10, 10))
 
 # Create first subplot on figure for map
-ax = fig.add_axes([.1,.2,.8,.6], projection=ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40), frameon=False, aspect='auto')
+ax = fig.add_axes([.1, .2, .8, .6], projection=ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40), frameon=False, aspect='auto')
 
 # Set axis projection
 ax.set_extent([-128, -58, 18, 65], crs=ccrs.PlateCarree())
@@ -83,7 +75,7 @@ streams.lines.set_alpha(.5)
 streams.arrows.set_alpha(.5)
 
 # Create second subplot on figure for colorbar
-ax2 = fig.add_axes([.1,.1,.8,.05])
+ax2 = fig.add_axes([.1, .1, .8, .05])
 
 # Set title of plot
 # Make title font bold using r"$\bf{_______}$" formatting
@@ -91,7 +83,7 @@ gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{Assigning}$"+" "+r"$\bf{color}
 
 # Plot colorbar on subplot
 cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), cax=ax2, boundaries=colorbounds,
-                  ticks=np.arange(4,52,4), spacing='uniform', orientation='horizontal')
+                  ticks=np.arange(4, 52, 4), spacing='uniform', orientation='horizontal')
 
 # Change size of colorbar tick font
 ax2.tick_params(labelsize=20)
