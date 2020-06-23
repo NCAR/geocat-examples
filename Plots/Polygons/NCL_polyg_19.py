@@ -15,6 +15,7 @@ See following URLs to see the reproduced NCL plot & script:
 
 ###############################################################################
 # Import packages:
+
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 from matplotlib.collections import PatchCollection
@@ -31,7 +32,7 @@ from geocat.viz import util as gvutil
 ###############################################################################
 # Read in data:
 
-# Open all associated shapefiles so sphix can run and generate documents
+# Open all shapefiles and associated .dbf, .shp, and .prj files so sphinx can run and generate documents
 file1 = open(gdf.get("shape_files/gadm36_USA_1.dbf"), 'r')
 file2 = open(gdf.get("shape_files/gadm36_USA_1.shp"), 'r')
 file3 = open(gdf.get("shape_files/gadm36_USA_1.shx"), 'r')
@@ -50,7 +51,7 @@ file12 = open(gdf.get("shape_files/gadm36_PRI_0.prj"), 'r')
 # Open the text file with the population data
 state_population_file = open(gdf.get("ascii_files/us_state_population.txt"), 'r')
 
-# Open other shapefile
+# Open shapefiles
 us = shp.Reader(gdf.get("shape_files/gadm36_USA_1.dbf"))
 usdetailed = shp.Reader(gdf.get("shape_files/gadm36_USA_2.dbf"))
 pr = shp.Reader(gdf.get("shape_files/gadm36_PRI_0.dbf"))
@@ -186,7 +187,7 @@ removeTicks(ax1)
 ax2 = fig.add_subplot(spec[1, 0], frameon=False)
 removeTicks(ax2)
 
-# Create three inset axes on lower axis for Alaska, Hawaii, and Puerto Rico
+# Create three inset axes on lower axis for Alaska, Hawaii, and Puerto Rico respectively
 axin1 = ax2.inset_axes([0.0, 0.7, 0.30, 0.80], frameon=False)
 removeTicks(axin1)
 axin2 = ax2.inset_axes([0.40, 0.7, 0.20, 0.40], frameon=False)
