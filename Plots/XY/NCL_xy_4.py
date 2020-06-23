@@ -26,6 +26,7 @@ import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
 import matplotlib.path as mpath
+import math
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -55,11 +56,16 @@ gvutil.set_titles_and_labels(ax, maintitle="Scatter Plot", xlabel=t['time'].long
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4, labelsize=14)
 
-gvutil.set_axes_limits_and_ticks(ax, xlim=(131155, 131190),
+# Calculate xlim by rounding the min value down and the max value up to a multiple of 5
+xmin = 5 * math.floor(t.time.min().data / 5)
+xmax = 5 * math.ceil(t.time.max().data / 5)
+
+gvutil.set_axes_limits_and_ticks(ax, xlim=(xmin, xmax),
                                  ylim=(220.0, 232.0),
                                  xticklabels=[' ', 131160, ' ', 131170, ' ', 131180, ' ', 131190],
                                  yticklabels=np.arange(220.0, 233.0, 2.0))
-
+print(t.data.min())
+print(t.data.max())
 plt.show()
 
 ###############################################################################
@@ -104,7 +110,7 @@ gvutil.set_titles_and_labels(ax, maintitle="Make your own marker", xlabel=t['tim
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4, labelsize=14)
 
-gvutil.set_axes_limits_and_ticks(ax, xlim=(131155, 131190),
+gvutil.set_axes_limits_and_ticks(ax, xlim=(xmin, xmax),
                                  ylim=(220.0, 232.0),
                                  xticklabels=[' ', 131160, ' ', 131170, ' ', 131180, ' ', 131190],
                                  yticklabels=np.arange(220.0, 233.0, 2.0))
