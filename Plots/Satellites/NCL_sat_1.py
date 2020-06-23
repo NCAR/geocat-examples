@@ -2,9 +2,9 @@
 NCL_sat_1.py
 ===============
 This script illustrates the following concepts:
-   - Using 'astype' to unpack 'short' data
    - Drawing line contours over a satellite map
-   - Changing the view of a satellite map
+   - Manually labeling contours
+   - Transforming coordinates
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/sat_1.ncl
@@ -84,7 +84,7 @@ clevels = [(34.63, 176.4), (42.44, -150.46), (28.5, -142.16),
            (53.68, -44.78), (53.71, -69.69), (52.22, -78.02),
            (44.33, -16.91), (35.17, -95.72), (73.62, -102.69)]
 
-#Transform the low pressure contour coordinates from geographic to projected
+# Transform the low pressure contour coordinates from geographic to projected
 lowclevelpoints = proj.transform_points(ccrs.Geodetic(), np.array([x[1] for x in lowClevels]), np.array([x[0] for x in lowClevels]))
 lowClevels = [(x[0], x[1]) for x in lowclevelpoints]
 
