@@ -7,6 +7,7 @@ This script illustrates the following concepts:
    - Coloring shapefile outlines based on an array of values
    - Drawing a custom labelbar on a map
    - Using functions for cleaner code
+   - Overlaying a shape from one shapefile over another
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/polyg_19.ncl
@@ -166,7 +167,7 @@ def plotRegion(region, axis, xlim, puertoRico, waterBody):
         else:
             # Set characteristics and measurements of each filled polygon "patch"
             patches.append(Polygon(np.vstack((x, y)).T, True, color='white', linewidth=.7))
-            pc = PatchCollection(patches, match_original=True, edgecolor='white', linewidth=.7, zorder=3)
+            pc = PatchCollection(patches, match_original=True, edgecolor='white', linewidth=.8, zorder=3)
             # Plot filled region on axis
             axis.add_collection(pc)
 
