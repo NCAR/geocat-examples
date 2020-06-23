@@ -2,6 +2,7 @@
 NCL_sat_1.py
 ===============
 This script illustrates the following concepts:
+   - Creating an orthographic projection
    - Drawing line contours over a satellite map
    - Manually labeling contours
    - Transforming coordinates
@@ -32,10 +33,30 @@ ds = xr.open_dataset(gdf.get("netcdf_files/slp.1963.nc"), decode_times=False)
 U = ds.slp[24, :, :]
 
 # Translate short values to float values
-U = U.astype('float64')
+#U = U.astype('float64')
 
 # Convert Pa to hPa data
 U = U*0.01
+
+def findLowPressureCoords(level):
+
+    # Same as xarray data
+    lat = np.arange(90,-92.5,-2.5) 
+    lon = np.arange(0,360.0,2.5)
+
+    coordlist = []
+
+    for x in range(len(U.data)):
+        for y in range(len(U.data[x])):
+            if (int)(U.data[x][y]) == level:
+                latval = -lat[x]
+                lonval = -lon[y]+270
+                # If in scope of area of map depicted on plot
+                if (0<latval<90) and (-180<lonval<0):
+                    coordlist.append((latval,lonval))
+
+    print(coordlist)
+    return coordlist
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 wrap_U = gvutil.xr_add_cyclic_longitudes(U, "lon")
@@ -58,11 +79,16 @@ ax.add_feature(cfeature.OCEAN, facecolor='lightcyan')
 ax.add_feature(cfeature.BORDERS, linewidth=.5)
 ax.add_feature(cfeature.LAKES, facecolor='lightcyan', edgecolor='k', linewidth=.5)
 
+# Make array of the contour levels that will be plotted
+contours = np.arange(948, 1060, 4)
+contours = np.append(contours, 975)
+contours = np.sort(contours)
+
 # Plot contour data
 p = wrap_U.plot.contour(ax=ax,
                         transform=ccrs.PlateCarree(),
                         linewidths=0.5,
-                        levels=30,
+                        levels=contours,
                         cmap='black',
                         add_labels=False)
 
@@ -71,7 +97,15 @@ p = wrap_U.plot.contour(ax=ax,
 # countour label to find coordinate (which can be found in bottom left of figure window)
 
 # low pressure contour levels- these will be plotted as a subscript to an 'L' symbol
-lowClevels = [(51.54, 169.59), (74.78, 4.54), (60.12, -57.0)]
+
+#lowClevels = [(51.54, 169.59), (74.78, 4.54), (60.12, -57.0)]
+
+coord956 = findLowPressureCoords(956)
+coord972 = findLowPressureCoords(972)
+coord975 = findLowPressureCoords(975)
+
+lowClevels = coord956 + coord972 + coord975
+
 
 # regular pressure contour levels
 clevels = [(34.63, 176.4), (42.44, -150.46), (28.5, -142.16),
@@ -93,10 +127,10 @@ clevelpoints = proj.transform_points(ccrs.Geodetic(), np.array([x[1] for x in cl
 clevels = [(x[0], x[1]) for x in clevelpoints]
 
 # Label contours with Low pressure
-ax.clabel(p, inline=True, fontsize=14, colors='k', fmt="L" + "$_{%.0f}$", manual=lowClevels)
+ax.clabel(p, manual=lowClevels, inline=True, fontsize=14, colors='k', fmt="L" + "$_{%.0f}$", rightside_up=True)
 
 # Label rest of the contours
-ax.clabel(p, inline=True, fontsize=14, colors='k', fmt="%.0f", manual=clevels)
+ax.clabel(p, manual=clevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{SLP}$"+" "+r"$\bf{1963,}$"+" "+r"$\bf{January}$"+" "+r"$\bf{24th}$", maintitlefontsize=20,
