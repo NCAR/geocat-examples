@@ -45,7 +45,7 @@ t = gvutil.xr_add_cyclic_longitudes(v, "lon")
 
 fig = plt.figure(figsize=(12, 12))
 
-def comparison(color,row, col, pos, title):
+def Plot(color,row, col, pos, title):
     
 # Generate axes, using Cartopy, drawing coastlines, and adding features
     projection = ccrs.PlateCarree()
@@ -95,15 +95,15 @@ def comparison(color,row, col, pos, title):
         ylabel="")
 
 #Plot first color map
-comparison(gvcmaps.BlAqGrYeOrRe, 2,2,1,"Rainbow Color Projection \n of PBL Height")
+Plot(gvcmaps.BlAqGrYeOrRe, 2,2,1,"Rainbow Color Projection \n of PBL Height")
 
 #plot second color map
-comparison('magma', 2,2,2,"Magma Color Projection \n of PBL Height")
+Plot('magma', 2,2,2,"Magma Color Projection \n of PBL Height")
 
 #plot third color map
-comparison('coolwarm', 2,2,3, "Coolwarm Color Projection \n of PBL Height")
+Plot('coolwarm', 2,2,3, "Coolwarm Color Projection \n of PBL Height")
 
 #Plot fourth color map
-comparison('Reds', 2,2,4, "Reds Color Projection \n of PBL Height")
+Plot('Reds', 2,2,4, "Reds Color Projection \n of PBL Height")
 
 
