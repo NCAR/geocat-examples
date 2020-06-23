@@ -2,9 +2,9 @@
 NCL_stream_9.py
 ===============
 This script illustrates the following concepts:
-   - Showing features of the new color display model
+   - Defining your own color map
+   - Applying a color map to a streamplot
    - Using opacity to emphasize or subdue overlain features
-   - Using stLevelPalette resource to assign a color palette
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/stream_9.ncl
@@ -77,6 +77,10 @@ magnitude = np.sqrt(np.square(U.data) + np.square(V.data))
 
 # Plot streamline data
 streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='->', linewidth=1, density=2.0, color=magnitude, cmap=colormap)
+
+# Set streamlines and arrows to partially transparent
+streams.lines.set_alpha(.5)
+streams.arrows.set_alpha(.5)
 
 # Create second subplot on figure for colorbar
 ax2 = fig.add_axes([.1,.1,.8,.05])
