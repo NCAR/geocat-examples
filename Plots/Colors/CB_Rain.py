@@ -43,7 +43,7 @@ t = ds.pre[0, :]
 
 fig = plt.figure(figsize=(12, 12))
 
-def comparison(color,row, col, pos, title):
+def Plot(color,row, col, pos, title):
     
 # Generate axes, using Cartopy, drawing coastlines, and adding features
     projection = ccrs.PlateCarree()
@@ -93,13 +93,13 @@ def comparison(color,row, col, pos, title):
         ylabel="")
 
 #Plot first color map
-comparison(gvcmaps.BlAqGrYeOrRe, 2,2,1,"Rainbow Color Projection \n of Rain Fall Total")
+Plot(gvcmaps.BlAqGrYeOrRe, 2,2,1,"Rainbow Color Projection \n of Rain Fall Total")
 
 #plot second color map
-comparison('viridis', 2,2,2,"Viridis Color Projection \n of Rain Fall Total")
+Plot('viridis', 2,2,2,"Viridis Color Projection \n of Rain Fall Total")
 
 #plot third color map
-comparison('coolwarm', 2,2,3, "Coolwarm Color Projection \n of Rain Fall Total")
+Plot('coolwarm', 2,2,3, "Coolwarm Color Projection \n of Rain Fall Total")
 
 #Plot fourth color map
-comparison('Blues_r', 2,2,4, "Blues_r Color Projection \n of Rain Fall Total")
+Plot('Blues_r', 2,2,4, "Blues_r Color Projection \n of Rain Fall Total")
