@@ -23,7 +23,6 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import (ScalarFormatter, NullFormatter)
 import matplotlib.ticker as tic
 
-
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
