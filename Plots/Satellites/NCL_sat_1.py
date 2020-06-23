@@ -17,6 +17,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+import numpy as np
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
@@ -70,22 +71,26 @@ p = wrap_U.plot.contour(ax=ax,
 # countour label to find coordinate (which can be found in bottom left of figure window)
 
 # low pressure contour levels- these will be plotted as a subscript to an 'L' symbol
-lowClevels = [(-3.825, 4.063), (1.725, 2.026), (1.663, 4.479)]
+lowClevels = [(51.54, 169.59), (74.78, 4.54), (60.12, -57.0)]
 
 # regular pressure contour levels
-clevels = [(-4.012, 1.694), (-4.407, -1.653), (-1.206, .6752),
-           (-0.9769, -3.108), (-4.989, 3.461), (1.892, .8831),
-           (4.157, 0.7792), (3.118, 0.3219), (1.164, -.2601),
-           (0.4781, 0.8831), (-2.972, 0.1348), (-4.344, -0.177),
-           (-1.995, -2.713), (-0.1247, -2.048), (-0.4781, 4.313),
-           (-0.3741, 3.128), (-1.538, -0.1354), (-0.5196, -0.9461),
-           (2.661, 1.735), (4.22, -1.694), (1.455, 2.754), (1.164, -1.632),
-           (1.642, -2.983), (2.827, 4.25), (4.303, 2.255),
-           (0.8107, 4.271), (-0.4157, 1.756)]
+clevels = [(34.63, 176.4), (42.44, -150.46), (28.5, -142.16),
+           (16.32, -134.12), (17.08, -108.90), (15.60, -98.17),
+           (42.19, -108.73), (49.66, -111.25), (41.93, -127.83),
+           (25.64, -92.49), (29.08, -77.29), (16.42, -77.04),
+           (57.59, -95.93), (84.47, -156.05), (82.52, -17.83),
+           (41.99, -76.3), (41.45, -48.89), (37.55, -33.43),
+           (17.17, -46.98), (63.67, 1.79), (67.05, -58.78),
+           (53.68, -44.78), (53.71, -69.69), (52.22, -78.02),
+           (44.33, -16.91), (35.17, -95.72), (73.62, -102.69)]
 
-# multiply each value by 10^6 to get correct window coordinates
-lowClevels = [(x[0]*1000000, x[1]*1000000) for x in lowClevels]
-clevels = [(x[0]*1000000, x[1]*1000000) for x in clevels]
+#Transform the low pressure contour coordinates from geographic to projected
+lowclevelpoints = proj.transform_points(ccrs.Geodetic(), np.array([x[1] for x in lowClevels]), np.array([x[0] for x in lowClevels]))
+lowClevels = [(x[0], x[1]) for x in lowclevelpoints]
+
+# Transform the regular pressure contour coordinates from geographic to projected
+clevelpoints = proj.transform_points(ccrs.Geodetic(), np.array([x[1] for x in clevels]), np.array([x[0] for x in clevels]))
+clevels = [(x[0], x[1]) for x in clevelpoints]
 
 # Label contours with Low pressure
 ax.clabel(p, inline=True, fontsize=14, colors='k', fmt="L" + "$_{%.0f}$", manual=lowClevels)
