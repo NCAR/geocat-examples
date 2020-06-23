@@ -56,10 +56,10 @@ gvutil.set_titles_and_labels(ax, maintitle='Profile Plot', xlabel=U.long_name, y
 ax.axvline(x=0, color='black', linewidth=0.5)
 
 # Plot data
-plt.plot(U20.data, U20.lev, color='black', linestyle='-', label='20N')
-plt.plot(U30.data, U30.lev, color='black', linestyle='--', label='30N')
-plt.plot(U40.data, U40.lev, color='black', linestyle=':', label='40N')
-plt.plot(U50.data, U50.lev, color='black', linestyle='-.', label='50N')
+plt.plot(U20.data, U20.lev, color='black', linestyle='solid', label='20N', linewidth=0.5)
+plt.plot(U30.data, U30.lev, color='black', dashes=[15, 5], label='30N', linewidth=0.5)
+plt.plot(U40.data, U40.lev, color='black', dashes=[4, 5], label='40N', linewidth=0.5)
+plt.plot(U50.data, U50.lev, color='black', dashes=[15, 5, 5, 5], label='50N', linewidth=0.5)
 
 # Add legend
 handles, labels = ax.get_legend_handles_labels()
@@ -101,10 +101,10 @@ ax.tick_params("both", length=4, width=0.4, which="minor", bottom=True,
                top=True, left=True, right=True)
 
 # Plot data
-plt.plot(U20.data, U20.lev, color='black', linestyle='-', label='20N')
-plt.plot(U30.data, U30.lev, color='black', linestyle='--', label='30N')
-plt.plot(U40.data, U40.lev, color='black', linestyle=':', label='40N')
-plt.plot(U50.data, U50.lev, color='black', linestyle='-.', label='50N')
+plt.plot(U20.data, U20.lev, color='black', linestyle='solid', label='20N', linewidth=0.5)
+plt.plot(U30.data, U30.lev, color='black', dashes=[15, 5], label='30N', linewidth=0.5)
+plt.plot(U40.data, U40.lev, color='black', dashes=[4, 5], label='40N', linewidth=0.5)
+plt.plot(U50.data, U50.lev, color='black', dashes=[15, 5, 5, 5], label='50N', linewidth=0.5)
 
 # Add legend
 handles, labels = ax.get_legend_handles_labels()
