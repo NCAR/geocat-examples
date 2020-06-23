@@ -29,33 +29,50 @@ import geocat.viz.util as gvutil
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/slp.1963.nc"), decode_times=False)
 
-# Get lon/lat data from the 24th timestep
+# Get data from the 24th timestep
 U = ds.slp[24, :, :]
 
 # Translate short values to float values
-#U = U.astype('float64')
+U = U.astype('float64')
 
 # Convert Pa to hPa data
 U = U*0.01
 
-def findLowPressureCoords(level):
+def findLowPressureCoords(xradius=10, yradius=5, pressureThreshold=20):
 
-    # Same as xarray data
-    lat = np.arange(90,-92.5,-2.5) 
-    lon = np.arange(0,360.0,2.5)
+    # Get lat and lon arrays from xarray
+    lat = U.coords['lat'].values
+    lon = U.coords['lon'].values
 
     coordlist = []
 
-    for x in range(len(U.data)):
-        for y in range(len(U.data[x])):
-            if (int)(U.data[x][y]) == level:
-                latval = -lat[x]
-                lonval = -lon[y]+270
-                # If in scope of area of map depicted on plot
-                if (0<latval<90) and (-180<lonval<0):
-                    coordlist.append((latval,lonval))
+    for x in np.arange(yradius, len(U.data), yradius*2): # X represents latitude
+        for y in np.arange(xradius, len(U.data[x]), xradius*2): # Y represents longitude
 
-    print(coordlist)
+            try:
+                # Fill a matrix of pressure values surrounding coordinate[x,y]
+                surroundingvals = U.data[x-xradius:x+xradius, y-yradius:y+yradius,]
+
+                if len(surroundingvals) == 2*xradius:
+
+                    for latindex in range(len(surroundingvals)):
+                        for lonindex in range(len(surroundingvals[latindex])):
+
+                            try:
+                                # Test every coordinate in surrounding area to see if it's 30 more than the center coordinate
+                                if surroundingvals[latindex][lonindex]-U.data[x][y]>pressureThreshold:
+                                    latval = lat[x]
+                                    lonval = lon[y]-180
+                                    print(U.data[x][y])
+                                    coordlist.append((latval, lonval))
+                                    break
+
+                            except Exception as E:
+                                continue
+
+            except Exception as E:
+                continue
+
     return coordlist
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
@@ -97,15 +114,8 @@ p = wrap_U.plot.contour(ax=ax,
 # countour label to find coordinate (which can be found in bottom left of figure window)
 
 # low pressure contour levels- these will be plotted as a subscript to an 'L' symbol
-
 #lowClevels = [(51.54, 169.59), (74.78, 4.54), (60.12, -57.0)]
-
-coord956 = findLowPressureCoords(956)
-coord972 = findLowPressureCoords(972)
-coord975 = findLowPressureCoords(975)
-
-lowClevels = coord956 + coord972 + coord975
-
+lowClevels = findLowPressureCoords()
 
 # regular pressure contour levels
 clevels = [(34.63, 176.4), (42.44, -150.46), (28.5, -142.16),
@@ -127,7 +137,11 @@ clevelpoints = proj.transform_points(ccrs.Geodetic(), np.array([x[1] for x in cl
 clevels = [(x[0], x[1]) for x in clevelpoints]
 
 # Label contours with Low pressure
-ax.clabel(p, manual=lowClevels, inline=True, fontsize=14, colors='k', fmt="L" + "$_{%.0f}$", rightside_up=True)
+for x in lowClevels:
+    try:
+        ax.clabel(p, manual=[x], inline=True, fontsize=14, colors='k', fmt="L" + "$_{%.0f}$", rightside_up=True)
+    except:
+        continue
 
 # Label rest of the contours
 ax.clabel(p, manual=clevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
