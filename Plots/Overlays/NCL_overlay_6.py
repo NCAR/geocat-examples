@@ -64,12 +64,6 @@ u500 = u500f.u.isel(timestep=0).drop('timestep')
 v500 = v500f.v.isel(timestep=0).drop('timestep')
 time = vf.timestep
 
-# Remove any NaN values
-u = u.fillna(0)
-v = v.fillna(0)
-u500 = u500.fillna(0)
-v500 = v500.fillna(0)
-
 # Convert Pa to hPa
 p = p/100
 # Convert K to F
@@ -130,9 +124,10 @@ cax1.tick_params(size=0)
 #
 # Overlay streamlines
 #
-streams = ax.streamplot(u500.lon, u500.lat, u500.data, v500.data,
-              transform=ccrs.PlateCarree(), color='black', arrowstyle='-',
-              linewidth=0.5, density=2, zorder=5)
+with np.errstate(invalid='ignore'):     # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
+    streams = ax.streamplot(u500.lon, u500.lat, u500.data, v500.data,
+                  transform=ccrs.PlateCarree(), color='black', arrowstyle='-',
+                  linewidth=0.5, density=2, zorder=5)
 # Divide streamlines into segments
 seg = streams.lines.get_segments()
 # Determine how many arrows on each streamline, the placement, and angles of the arrows
@@ -165,8 +160,9 @@ bounds = np.arange(-30, 120, 10)  # Sets where boundarys on color map will be
 norm = mcolors.BoundaryNorm(bounds, wind_cmap.N)  # Assigns colors to values
 
 # Draw wind vectors
-Q = ax.quiver(x, y, u, v, t, transform=ccrs.PlateCarree(),
-              headwidth=5, cmap=wind_cmap, norm=norm, zorder=4)
+with np.errstate(invalid='ignore'):     # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
+    Q = ax.quiver(x, y, u, v, t, transform=ccrs.PlateCarree(),
+                  headwidth=5, cmap=wind_cmap, norm=norm, zorder=4)
 plt.colorbar(Q, cax=cax2, ticks=np.arange(-20, 110, 10), norm=norm,
              orientation='horizontal')
 # Format color bar label
