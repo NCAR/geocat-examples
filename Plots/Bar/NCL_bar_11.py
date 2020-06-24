@@ -6,7 +6,7 @@ This script illustrates the following concepts:
    - Changing the aspect ratio of a bar plot
    - Setting the minimum/maximum value of the X and Y axis in a bar plot
    - Overlaying XY plots on each other
-   - Paneling bar plots  
+   - Paneling bar plots
    - Drawing a custom labelbar
 
 See following URLs to see the reproduced NCL plot & script:
@@ -19,9 +19,7 @@ See following URLs to see the reproduced NCL plot & script:
 import matplotlib.pyplot as plt
 import numpy as np
 
-from geocat.viz import cmaps as gvcmaps
 import geocat.viz.util as gvutil
-
 
 ###############################################################################
 # Generate dummy data:
@@ -35,18 +33,18 @@ months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct',
 ###############################################################################
 # Plot:
 fig, axs = plt.subplots(2, 2, figsize=(10, 8))
-x = np.arange(len(months)) # where to draw x ticks
-width = 0.2 # width of each bar within the groups
+x = np.arange(len(months))  # where to draw x ticks
+width = 0.2  # width of each bar within the groups
 
 # Create the subplots using a loop
 panel = 0
-for row in range(0,2):
-    for col in range(0,2):
+for row in range(0, 2):
+    for col in range(0, 2):
         # Use geocat.viz.util convenience function to set axes parameters
         gvutil.set_axes_limits_and_ticks(axs[row][col], ylim=(0.4, 1.2),
-                                        xticks=x,
-                                        yticks=np.arange(0.4, 1.4, 0.2),
-                                        xticklabels=months)
+                                         xticks=x,
+                                         yticks=np.arange(0.4, 1.4, 0.2),
+                                         xticklabels=months)
         # Use geocat.viz.util convenience function to add minor and major tick lines
         gvutil.add_major_minor_ticks(axs[row][col], x_minor_per_major=1,
                                      y_minor_per_major=4, labelsize=9)
