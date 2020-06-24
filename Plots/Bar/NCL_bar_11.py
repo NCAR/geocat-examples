@@ -23,3 +23,10 @@ from geocat.viz import cmaps as gvcmaps
 import geocat.viz.util as gvutil
 
 
+###############################################################################
+# Generate dummy data:
+num_months = 12
+bars_per_panel = 4
+panels = 4
+data = np.random.uniform(0.1, 1.2, (panels, bars_per_panel, num_months))
+
