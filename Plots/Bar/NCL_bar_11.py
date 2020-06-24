@@ -28,7 +28,7 @@ import geocat.viz.util as gvutil
 num_months = 12
 bars_per_panel = 4
 panels = 4
-data = np.random.uniform(0.4, 1.2, (panels, bars_per_panel, num_months))
+data = np.random.uniform(0.1, 1.15, (panels, bars_per_panel, num_months))
 
 months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct',
           'Nov', 'Dec']
