@@ -49,6 +49,9 @@ gvutil.add_major_minor_ticks(axs[0][0], x_minor_per_major=1,
 # Use geocat.viz.util convenience function to set titles and labels
 gvutil.set_titles_and_labels(axs[0][0], ylabel='(\u00B0C)', labelfontsize=12)
 
+# Add overall figure title
+fig.suptitle('Paneling bar plots, dummy data', size=18, y=0.94)
+
 # Add data to first subplot
 axs[0][0].bar(x-width*3/2, data[0][0][:], width, edgecolor='black',
               linewidth=0.25, color='red', label='first')
