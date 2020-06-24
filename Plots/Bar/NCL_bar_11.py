@@ -28,7 +28,7 @@ import geocat.viz.util as gvutil
 num_months = 12
 bars_per_panel = 4
 panels = 4
-data = np.random.uniform(0.1, 1.2, (panels, bars_per_panel, num_months))
+data = np.random.uniform(0.4, 1.2, (panels, bars_per_panel, num_months))
 
 months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct',
           'Nov', 'Dec']
@@ -39,7 +39,7 @@ x = np.arange(len(months)) # where to draw x ticks
 width = 0.2 # width of each bar within the groups
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(axs[0][0], ylim=(0, 1.2),
+gvutil.set_axes_limits_and_ticks(axs[0][0], ylim=(0.4, 1.2),
                                  xticks=x,
                                  yticks=np.arange(0.4, 1.4, 0.2),
                                  xticklabels=months)
@@ -49,5 +49,14 @@ gvutil.add_major_minor_ticks(axs[0][0], x_minor_per_major=1,
 # Use geocat.viz.util convenience function to set titles and labels
 gvutil.set_titles_and_labels(axs[0][0], ylabel='(\u00B0C)', labelfontsize=12)
 
+# Add data to first subplot
+axs[0][0].bar(x-width*3/2, data[0][0][:], width, edgecolor='black',
+              linewidth=0.25, color='red', label='first')
+axs[0][0].bar(x-width/2, data[0][1][:], width, edgecolor='black',
+              linewidth=0.25, color='lightsteelblue', label='second')
+axs[0][0].bar(x+width/2, data[0][2][:], width, edgecolor='black',
+              linewidth=0.25, color='blue', label='third')
+axs[0][0].bar(x+width*3/2, data[0][3][:], width, edgecolor='black',
+              linewidth=0.25, color='lime', label='fourth')
 
 plt.show()
