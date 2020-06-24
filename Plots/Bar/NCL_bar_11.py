@@ -38,7 +38,7 @@ fig, axs = plt.subplots(2, 2, figsize=(10, 8))
 x = np.arange(len(months)) # where to draw x ticks
 width = 0.2 # width of each bar within the groups
 
-# Create the subplots
+# Create the subplots using a loop
 panel = 0
 for row in range(0,2):
     for col in range(0,2):
@@ -49,26 +49,32 @@ for row in range(0,2):
                                         xticklabels=months)
         # Use geocat.viz.util convenience function to add minor and major tick lines
         gvutil.add_major_minor_ticks(axs[row][col], x_minor_per_major=1,
-                                    y_minor_per_major=4, labelsize=9)
+                                     y_minor_per_major=4, labelsize=9)
         # Use geocat.viz.util convenience function to set titles and labels
-        gvutil.set_titles_and_labels(axs[row][col], ylabel='(\u00B0C)', labelfontsize=12)
+        gvutil.set_titles_and_labels(axs[row][col], ylabel='(\u00B0C)',
+                                     labelfontsize=12)
 
         # Add overall figure title
         fig.suptitle('Paneling bar plots, dummy data', size=18, y=0.94)
 
         # Add data to first subplot
-        axs[row][col].bar(x-width*3/2, data[panel][0][:], width, edgecolor='black',
-                    linewidth=0.25, color='red', label='first')
-        axs[row][col].bar(x-width/2, data[panel][1][:], width, edgecolor='black',
-                    linewidth=0.25, color='lightsteelblue', label='second')
-        axs[row][col].bar(x+width/2, data[panel][2][:], width, edgecolor='black',
-                    linewidth=0.25, color='blue', label='third')
-        axs[row][col].bar(x+width*3/2, data[panel][3][:], width, edgecolor='black',
-                    linewidth=0.25, color='lime', label='fourth')
+        axs[row][col].bar(x-width*3/2, data[panel][0][:], width,
+                          edgecolor='black', linewidth=0.25, color='red',
+                          label='first')
+        axs[row][col].bar(x-width/2, data[panel][1][:], width,
+                          edgecolor='black', linewidth=0.25,
+                          color='lightsteelblue', label='second')
+        axs[row][col].bar(x+width/2, data[panel][2][:], width,
+                          edgecolor='black', linewidth=0.25, color='blue',
+                          label='third')
+        axs[row][col].bar(x+width*3/2, data[panel][3][:], width,
+                          edgecolor='black', linewidth=0.25, color='lime',
+                          label='fourth')
         panel += 1
 
 # Add legend with `figlegend()` to position it relative to figure instead of subplots
 handles, labels = axs[0][0].get_legend_handles_labels()
-fig.legend(handles, labels, ncol=4, loc='lower center', fontsize=14, columnspacing=5, frameon=False)
+fig.legend(handles, labels, ncol=4, loc='lower center', fontsize=14,
+           columnspacing=5, frameon=False)
 
 plt.show()
