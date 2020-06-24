@@ -59,4 +59,8 @@ axs[0][0].bar(x+width/2, data[0][2][:], width, edgecolor='black',
 axs[0][0].bar(x+width*3/2, data[0][3][:], width, edgecolor='black',
               linewidth=0.25, color='lime', label='fourth')
 
+# Add legend with `figlegend()` to position it relative to figure instead of subplots
+handles, labels = axs[0][0].get_legend_handles_labels()
+fig.legend(handles, labels, ncol=4, loc='lower center', fontsize=14, columnspacing=5, frameon=False)
+
 plt.show()
