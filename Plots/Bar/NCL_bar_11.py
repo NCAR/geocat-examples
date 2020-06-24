@@ -30,3 +30,24 @@ bars_per_panel = 4
 panels = 4
 data = np.random.uniform(0.1, 1.2, (panels, bars_per_panel, num_months))
 
+months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct',
+          'Nov', 'Dec']
+###############################################################################
+# Plot:
+fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+x = np.arange(len(months)) # where to draw x ticks
+width = 0.2 # width of each bar within the groups
+
+# Use geocat.viz.util convenience function to set axes parameters
+gvutil.set_axes_limits_and_ticks(axs[0][0], ylim=(0, 1.2),
+                                 xticks=x,
+                                 yticks=np.arange(0.4, 1.4, 0.2),
+                                 xticklabels=months)
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(axs[0][0], x_minor_per_major=1,
+                             y_minor_per_major=4, labelsize=9)
+# Use geocat.viz.util convenience function to set titles and labels
+gvutil.set_titles_and_labels(axs[0][0], ylabel='(\u00B0C)', labelfontsize=12)
+
+
+plt.show()
