@@ -38,46 +38,101 @@ U = U.astype('float64')
 # Convert Pa to hPa data
 U = U*0.01
 
-def findLowPressureCoords(xradius=10, yradius=5, pressureThreshold=20):
-
-    # Get lat and lon arrays from xarray
-    lat = U.coords['lat'].values
-    lon = U.coords['lon'].values
-
-    coordlist = []
-
-    for x in np.arange(yradius, len(U.data), yradius*2): # X represents latitude
-        for y in np.arange(xradius, len(U.data[x]), xradius*2): # Y represents longitude
-
-            try:
-                # Fill a matrix of pressure values surrounding coordinate[x,y]
-                surroundingvals = U.data[x-xradius:x+xradius, y-yradius:y+yradius,]
-
-                if len(surroundingvals) == 2*xradius:
-
-                    for latindex in range(len(surroundingvals)):
-                        for lonindex in range(len(surroundingvals[latindex])):
-
-                            try:
-                                # Test every coordinate in surrounding area to see if it's 30 more than the center coordinate
-                                if surroundingvals[latindex][lonindex]-U.data[x][y]>pressureThreshold:
-                                    latval = lat[x]
-                                    lonval = lon[y]-180
-                                    print(U.data[x][y])
-                                    coordlist.append((latval, lonval))
-                                    break
-
-                            except Exception as E:
-                                continue
-
-            except Exception as E:
-                continue
-
-    return coordlist
-
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 wrap_U = gvutil.xr_add_cyclic_longitudes(U, "lon")
 
+###############################################################################
+
+def findCoordPressureData(coordarr, lat, lon):
+    # Finds pressure at coordinate given lat, lon, and an array of all the coordinates with data
+    for x in range(len(coordarr)):
+        for y in range(len(coordarr[x])):
+            if coordarr[x][y][0] == lat and coordarr[x][y][1] == lon:
+                print(U.data[-x][y])
+
+def makeCoordArr():
+    # Returns an array of (lat, lon) coord tuples with the same dimensions as the pressure data
+    coordarr = []
+    for x in np.array(U.lat):
+        temparr = []
+        for y in np.array(U.lon):
+            temparr.append((x,y))
+        coordarr.append(temparr)
+    return np.array(coordarr)
+
+def sliceTupleArray(tupleArray, index):
+    # Returns an array of just lat or just lon coordinates with the same dimension as the pressure data
+    arr = []
+    for x in tupleArray:
+        arr.append(x[:,index])
+    return arr
+
+def findLocalMinima():
+
+    # Set number that a derivative must be less than in order to classify as a "zero"
+    bound = 0.02
+
+    # Create a 2D array of all the coordinates with pressure data 
+    coordarr = makeCoordArr()
+
+    # Get 2D array of all latitude values and 2D array of all longitude values
+    latdata = sliceTupleArray(coordarr, 0)
+    londata = sliceTupleArray(coordarr, 1)
+
+    # Get derivative of pressure data with respect to the longitude
+    dpdlon = np.diff(U.data)/np.diff(londata)
+
+    # Find all points where the derivative of pressure with respect to longitude is 0
+    lonZeros = []
+    for x in range(len(dpdlon)):
+        for y in range(x):
+            if abs(dpdlon[x][y]) <= bound:
+                lonZeros.append([x,y])
+
+    # Make empty array to store locations in array where the value is the coordinate that both derivatives are zero
+    arraylocations = []
+
+    # Make empty array to store coordinates (in lat, lon form) where the 
+    coords = []
+
+    # Check if derivative of pressure with respect to the latitude at those points is also 0
+    for coord in lonZeros:
+        x = coord[0]
+        y = coord[1]
+        try:
+            diffU = (U.data[x+1][y] - U.data[x][y])
+            diffLat = ((latdata[x+1][y]-latdata[x][y]))
+            dpdlat = diffU/diffLat
+        except:
+            print((x+1, y))
+            continue
+        if abs(dpdlat) <= bound:
+            coords.append(coord)
+            arraylocations.append((x,y))
+    
+    # Initialize empty array to hold extrema that are local minimums
+    minima = []
+
+    # Set "step", or radius you will check surrounding coords in to make sure point is a minima
+    step = 2
+
+    # Cycle through coords where dP/dX and dP/dY are 0 and determine whether point is a local minima
+    for coord in arraylocations:
+        x = coord[0]
+        y = coord[1]
+        try:
+            # Check above and below point to make sure pressure is lower than both
+            if U.data[x+step][y] > U.data[x][y] and U.data[x-step][y] > U.data[x][y]:
+                minima.append((-x,y-180))
+                '''
+                # Check to the right and left of point to make sure pressure is lower than both
+                if U.data[x][y+step] > U.data[x][y] and U.data[x][y-step] > U.data[x][y]:
+                    minima.append(-x,y-180)
+                '''
+        except:
+            continue
+
+    return minima
 ###############################################################################
 # Create plot
 
@@ -115,7 +170,7 @@ p = wrap_U.plot.contour(ax=ax,
 
 # low pressure contour levels- these will be plotted as a subscript to an 'L' symbol
 #lowClevels = [(51.54, 169.59), (74.78, 4.54), (60.12, -57.0)]
-lowClevels = findLowPressureCoords()
+lowClevels = findLocalMinima()
 
 # regular pressure contour levels
 clevels = [(34.63, 176.4), (42.44, -150.46), (28.5, -142.16),
@@ -144,7 +199,8 @@ for x in lowClevels:
         continue
 
 # Label rest of the contours
-ax.clabel(p, manual=clevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
+#ax.clabel(p, manual=clevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
+ax.clabel(p, manual=True, inline=True, fontsize=14, colors='k', fmt="%.0f")
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{SLP}$"+" "+r"$\bf{1963,}$"+" "+r"$\bf{January}$"+" "+r"$\bf{24th}$", maintitlefontsize=20,
