@@ -47,8 +47,21 @@ plt.figure(figsize=(8, 8))
 ax = plt.axes(projection=ccrs.PlateCarree(central_longitude=-160))
 ax.set_extent([100, 300, -60, 60], crs=ccrs.PlateCarree())
 
+# Load in color map and specify contour levels
+cmap = gvcmaps.BlWhRe
+sst_levels = np.arange(-5.5, 6, 0.5)
+# Draw SST contour
+temp = sst.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=cmap, levels=sst_levels,
+                  extend='neither', add_colorbar=False, add_labels=False, zorder=0)
+plt.colorbar(temp, ax=ax, orientation='vertical', ticks=np.arange(-5,6,1), drawedges=True)
+
 # Draw map features on top of filled contour
 ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1)
 ax.add_feature(cfeature.COASTLINE, edgecolor= 'gray', linewidth=0.5, zorder=1)
 
+# Draw OLR contour
+olr_levels = np.arange(-80, 50, 10)
+rad = olr.plot.contour(ax=ax, transform=ccrs.PlateCarree(), levels=olr_levels, colors='black',
+                 linewidths=0.5)
+ax.clabel(rad, olr_levels, fmt='%d', inline=True)
 plt.show()
