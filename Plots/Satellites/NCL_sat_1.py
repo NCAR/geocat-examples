@@ -67,6 +67,45 @@ def sliceTupleArray(tupleArray, index):
         arr.append(x[:,index])
     return arr
 
+def findLocalMinima2(minPressure=980):
+
+    # Create a 2D array of all the coordinates with pressure data 
+    coordarr = makeCoordArr()
+
+    # Set number that a derivative must be less than in order to classify as a "zero"
+    bound = 0.025
+
+    grad = np.absolute(np.gradient(wrap_U.data))
+    arr1 = grad[0]
+    arr2 = grad[1]
+
+    firstzeroes = np.argwhere(arr1<=bound)
+    secondzeroes = np.argwhere(arr2<=bound)
+
+    commonzeroes = []
+
+    for x in secondzeroes:
+        if x in firstzeroes:
+            commonzeroes.append(x)
+
+    minimacoords = []
+
+    for x in commonzeroes:
+
+        if U.data[x[0]][x[1]] < minPressure:
+
+            print(U.data[x[0]][x[1]])
+            print(coordarr[x[0]][x[1]])
+            print("\n")
+
+            coordonmap = coordarr[x[0]][x[1]]
+            xcoord = -1*coordonmap[0]
+            ycoord = coordonmap[1]-180
+
+            minimacoords.append((xcoord, ycoord))
+
+    return minimacoords
+
 def findLocalMinima():
 
     # Set number that a derivative must be less than in order to classify as a "zero"
@@ -133,6 +172,7 @@ def findLocalMinima():
             continue
 
     return minima
+
 ###############################################################################
 # Create plot
 
@@ -170,7 +210,7 @@ p = wrap_U.plot.contour(ax=ax,
 
 # low pressure contour levels- these will be plotted as a subscript to an 'L' symbol
 #lowClevels = [(51.54, 169.59), (74.78, 4.54), (60.12, -57.0)]
-lowClevels = findLocalMinima()
+lowClevels = findLocalMinima2()
 
 # regular pressure contour levels
 clevels = [(34.63, 176.4), (42.44, -150.46), (28.5, -142.16),
@@ -195,12 +235,13 @@ clevels = [(x[0], x[1]) for x in clevelpoints]
 for x in lowClevels:
     try:
         ax.clabel(p, manual=[x], inline=True, fontsize=14, colors='k', fmt="L" + "$_{%.0f}$", rightside_up=True)
-    except:
+    except Exception as E:
+        print
         continue
 
 # Label rest of the contours
 #ax.clabel(p, manual=clevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
-ax.clabel(p, manual=True, inline=True, fontsize=14, colors='k', fmt="%.0f")
+ax.clabel(p, manual=True, inline=True, fontsize=14, colors='k', fmt="%.2f")
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{SLP}$"+" "+r"$\bf{1963,}$"+" "+r"$\bf{January}$"+" "+r"$\bf{24th}$", maintitlefontsize=20,
