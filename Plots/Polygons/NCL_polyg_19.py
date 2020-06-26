@@ -5,7 +5,7 @@ This script illustrates the following concepts:
    - Adding lines and polygons to a map
    - Adding a map to another map as an annotation
    - Coloring shapefile outlines based on an array of values
-   - Drawing a custom labelbar on a map
+   - Drawing a custom colorbar on a map
    - Using functions for cleaner code
    - Overlaying a shape from one shapefile over another
 
@@ -77,15 +77,11 @@ def getStatePopulations(state_population_file):
     population_dict = {}
     Lines = state_population_file.read().splitlines()
     for line in Lines:
-        try:
-            nameandpop = line.split(" ")
+        nameandpop = line.split(" ")
+        if nameandpop[-1].isnumeric():
             name = nameandpop[0]
             pop = (int)(nameandpop[-1])/1000000
             population_dict[name] = pop
-        except Exception as E:
-            print(E)
-            continue
-
     return population_dict
 
 ###############################################################################
