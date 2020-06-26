@@ -7,18 +7,18 @@ This script illustrates the following concepts:
    - Changing the marker color in an XY plot
    - Changing the marker size in an XY plot
    - Creating your own markers for an XY plot
+   - Drawing a legend
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/xy_4.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/xy_4_1_lg.png
-                         https://www.ncl.ucar.edu/Applications/Images/xy_4_2_lg.png
+    - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/xy_4_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/xy_4_2_lg.png
                          
 Ways of specifying marks:
-    - matplotlib.markers has an extensive [list](https://matplotlib.org/3.2.1/api/markers_api.html) of predefined markers
-    - Mathematical symbols described [here](https://matplotlib.org/3.2.1/tutorials/text/mathtext.html) can be used
+    - matplotlib.markers has an extensive `list <https://matplotlib.org/3.2.1/api/markers_api.html>`_ of predefined markers
+    - Mathematical symbols described `here <https://matplotlib.org/3.2.1/tutorials/text/mathtext.html>`_ can be used
     - Unicode characters
     - If you still cannot find the symbol you are looking for, a custom made
-      [Path](https://matplotlib.org/3.2.1/api/path_api.html#matplotlib.path.Path) instance can be used to draw your own marker
+      `Path <https://matplotlib.org/3.2.1/api/path_api.html#matplotlib.path.Path>`_ instance can be used to draw your own marker
 """
 
 ###############################################################################
