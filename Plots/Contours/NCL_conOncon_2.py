@@ -36,3 +36,19 @@ olr = olr.isel(time=47, drop=True).OLRA
 
 sst = gvutil.xr_add_cyclic_longitudes(sst, 'lon')
 olr = gvutil.xr_add_cyclic_longitudes(olr, 'lon')
+
+################################################################################
+# Plot:
+
+# Generate figure and axes
+plt.figure(figsize=(8, 8))
+
+# Set axes projection
+ax = plt.axes(projection=ccrs.PlateCarree(central_longitude=-160))
+ax.set_extent([100, 300, -60, 60], crs=ccrs.PlateCarree())
+
+# Draw map features on top of filled contour
+ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1)
+ax.add_feature(cfeature.COASTLINE, edgecolor= 'gray', linewidth=0.5, zorder=1)
+
+plt.show()
