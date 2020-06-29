@@ -18,6 +18,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -62,7 +63,24 @@ ax.add_feature(cfeature.COASTLINE, edgecolor= 'gray', linewidth=0.5, zorder=1)
 # Draw OLR contour
 olr_levels = np.arange(-80, 50, 10)
 rad = olr.plot.contour(ax=ax, transform=ccrs.PlateCarree(), levels=olr_levels, colors='black',
-                 linewidths=0.5)
+                 linewidths=0.5, add_labels=False)
 ax.clabel(rad, olr_levels, fmt='%d', inline=True)
+
+
+# Use geocat.viz.util convenience function to set axes tick values
+gvutil.set_axes_limits_and_ticks(ax, ylim=(-60, 60),
+                                 yticks=np.arange(-60, 90, 30), xticks=np.arange(-80, 120, 30))
+
+# Use geocat.viz.util convenience function to make plots look like NCL plots by
+# using latitude, longitude tick labels
+gvutil.add_lat_lon_ticklabels(ax)
+
+# Remove the degree symbol from tick labels
+ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
+ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
+
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=3,
+                             labelsize=10)
 
 plt.show()
