@@ -1,4 +1,5 @@
 """
+
 NCL_lcnative_1_lg.py
 ================
 This script illustrates the following concepts:
@@ -6,19 +7,24 @@ This script illustrates the following concepts:
     - Drawing filled contours over a Lambert Conformal map
     - Zooming in on a particular area on a Lambert Conformal map
     - Subsetting a color map
+    - Using all three Cartopy Lambert projections to find the best fit for visualization
+    - Implementing best practices for choosing contour color scheme
+    
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/lcnative_1.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/lcnative_1_lg.png
+
 """
+###############################################################################
+# Import packages:
 
 import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import geocat.datafiles as gdf
+import matplotlib.ticker as mticker
 from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
-
 
 ###############################################################################
 # Read in data:
@@ -27,43 +33,41 @@ from geocat.viz import util as gvutil
 ds = xr.open_dataset(gdf.get("netcdf_files/pre.8912.mon.nc"), decode_times=False)
 
 # Extract a slice of the data
-t = ds.pre[0,:]
+t = ds.pre.isel(time=0)
 
-#gvutil.xr_add_cyclic_longitudes(t,'lon')
+lat2d = ds.lat[:,:]
+lon2d = ds.lon[:,:]
+
+
 ###############################################################################
 # Plot:
 
-# Generate figure
-plt.figure(figsize=(10, 10))
+def Plot(proj, row, col, pos, title):
 
+    plt.figure(figsize=(14, 14))
+    # Generate axes using Cartopy and draw coastlines
+    projection = proj#LambertAzimuthalEqualArea()#central_longitude=45)#, standard_parallels=(36,55), globe=ccrs.Globe())
+    ax = plt.subplot(row, col, pos, projection=projection)
+    ax.set_extent((28, 57, 20, 47), crs=ccrs.PlateCarree())
+    ax.coastlines(linewidth=0.5)
+    
+    gl = ax.gridlines(draw_labels=True, dms=False, x_inline=False, y_inline=False)
+    gl.xlabels_top = False
+    gl.ylabels_right = False
+    gl.xlines = False
+    gl.ylines = False
+    gl.xlocator = mticker.FixedLocator([30,35,40,45,50,55])
+    gl.ylocator = mticker.FixedLocator([20,25,30,35,40,45])
+    
+    # Plot data and create colorbar
+    newcmp = gvcmaps.BlueYellowRed
+    t.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), levels = 14, cbar_kwargs={"orientation":"horizontal",  "ticks":np.arange(0, 240, 20),  "label":'', "shrink":0.7})
+    
+    plt.title(title, loc='center', size=14)
+    plt.title(t.units, loc='right', size=14)
+    
+    plt.show()
 
-# Generate axes using Cartopy and draw coastlines
-projection = ccrs.LambertConformal(central_longitude=45, standard_parallels=(36,55))
-ax = plt.axes(projection=projection, frameon=True)
-ax.set_extent((30, 55, 20, 45), crs=ccrs.PlateCarree())
-ax.coastlines(linewidth=0.5)
-gl = ax.gridlines(draw_labels=True, dms=False, x_inline=False, y_inline=False)
-gl.xlabels_top = False
-gl.ylabels_right = False
-gl.xlines = False
-gl.ylines = False
-
-# Plot data and create colorbar
-newcmp = gvcmaps.BlueYellowRed
-t.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), levels = 14, cbar_kwargs={"orientation":"horizontal",  "ticks":np.arange(0, 240, 20),  "label":'', "shrink":0.7})
-
-#Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
-
-#Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, labelsize=12)
-
-#Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-#gvutil.set_titles_and_labels(ax, lefttitle='Anomalies: Surface Temperature', righttitle='K')
-
-plt.title(t.long_name, loc='left', size=16)
-plt.title(t.units, loc='right', size=16)
-
-
-
-plt.show()
+Plot(ccrs.LambertConformal(central_longitude=45, standard_parallels=(36,55), globe=ccrs.Globe()),2,2,1,"Lambert Conformal")
+Plot(ccrs.LambertCylindrical(central_longitude=45),2,2,2,"Lambert Cylindrical")
+Plot(ccrs.LambertAzimuthalEqualArea(central_longitude=45),2,2,3,"Lambert Azimuthal")
