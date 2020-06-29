@@ -61,11 +61,18 @@ ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1)
 ax.add_feature(cfeature.COASTLINE, edgecolor= 'gray', linewidth=0.5, zorder=1)
 
 # Draw OLR contour
-olr_levels = np.arange(-80, 50, 10)
-rad = olr.plot.contour(ax=ax, transform=ccrs.PlateCarree(), levels=olr_levels, colors='black',
-                 linewidths=0.5, add_labels=False)
-ax.clabel(rad, olr_levels, fmt='%d', inline=True)
+# Specify contour levels excluding 0
+olr_levels = np.arange(-80, 0, 10)
+olr_levels = np.append(olr_levels, np.arange(10, 50, 10))
 
+rad = olr.plot.contour(ax=ax, transform=ccrs.PlateCarree(), levels=olr_levels, colors='gray',
+                 linewidths=0.5, add_labels=False)
+ax.clabel(rad, olr_levels, fmt='%d', inline=True, colors='black')
+
+# Plot the zero contour with a black color
+rad = olr.plot.contour(ax=ax, transform=ccrs.PlateCarree(), levels=[0], colors='black',
+                 linewidths=0.5, add_labels=False)
+ax.clabel(rad, [0], fmt='%d', inline=True, colors='black')
 
 # Use geocat.viz.util convenience function to set axes tick values
 gvutil.set_axes_limits_and_ticks(ax, ylim=(-60, 60),
