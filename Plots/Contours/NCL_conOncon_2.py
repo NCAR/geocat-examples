@@ -89,4 +89,12 @@ gvutil.set_titles_and_labels(ax, maintitle=olr.long_name, maintitlefontsize=14,
                              righttitlefontsize=12)
 # Add center title
 ax.text(0.35, 1.06, 'December 1982', fontsize=12, transform=ax.transAxes)
+
+# Add lower text box
+ax.text(1, -0.2, "CONTOUR FROM -80 TO 40 BY 10",
+        horizontalalignment='right',
+        transform=ax.transAxes,
+        bbox=dict(boxstyle='square, pad=0.25', facecolor='white',
+                  edgecolor='black'))
+
 plt.show()
