@@ -83,4 +83,10 @@ ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=3,
                              labelsize=10)
 
+gvutil.set_titles_and_labels(ax, maintitle=olr.long_name, maintitlefontsize=14,
+                             lefttitle='degC', lefttitlefontsize=12,
+                             righttitle='(W m s$^{-2}$)',
+                             righttitlefontsize=12)
+# Add center title
+ax.text(0.35, 1.06, 'December 1982', fontsize=12, transform=ax.transAxes)
 plt.show()
