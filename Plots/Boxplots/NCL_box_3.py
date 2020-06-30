@@ -104,9 +104,9 @@ ax2.tick_params(which='both', top=False, bottom=False, left=False, right=False,
 removeSpines(ax2)
 
 # Plot red x markers
-ax2.scatter(1, 7.7, marker='x', color='red')
-ax2.scatter(3, 2.5, marker='x', color='red')
-ax2.scatter(5, 2, marker='x', color='red')
+ax2.scatter(1, 7.7, marker='x', color='red', linewidth=.5, s=100)
+ax2.scatter(3, 2.5, marker='x', color='red', linewidth=.5, s=100)
+ax2.scatter(5, 2, marker='x', color='red', linewidth=.5, s=100)
 
 # Plot blue o markers
 ax2.scatter(1, 2, marker='o', color='darkblue')
