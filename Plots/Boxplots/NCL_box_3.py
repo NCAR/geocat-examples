@@ -24,7 +24,12 @@ from geocat.viz import util as gvutil
 # Generate fake data
 
 np.random.seed(200)
-data = np.random.lognormal(size=(40, 3), mean=0, sigma=1)
+data = np.random.lognormal(size=(40, 3), mean=1, sigma=.7)
+
+for a in range(len(data)):
+    data[a] = [x-4 for x in data[a]]
+
+print(data)
 fs = 10
 
 ###############################################################################
@@ -41,19 +46,14 @@ def draw_plot(boxplot, number, edge_color):
 
 fig, ax = plt.subplots(figsize=(6, 6))
 
-'''
-flierprops = dict(marker='o', markerfacecolor='darkblue', markersize=10,
-                  linestyle='none')
-'''
-
 boxplots = ax.boxplot(data, labels=['Control', '-2Xna', '2Xna'], showfliers=False) 
 
 # Set whisker style to dashed
 plt.setp(boxplots['whiskers'], linestyle='--')
 
-draw_plot(boxplots, 0, 'red')
-draw_plot(boxplots, 1, 'blue')
-draw_plot(boxplots, 2, 'green')
+draw_plot(boxplots, 0, 'blue')
+draw_plot(boxplots, 1, 'red')
+draw_plot(boxplots, 2, 'limegreen')
 
 # Use geocat.viz.util convenience function to set axes tick values
 gvutil.set_axes_limits_and_ticks(ax, ylim=(-6.0,9.0), yticks=[-3.0, 0.0, 3.0, 6.0])
@@ -86,14 +86,14 @@ ax2.spines['right'].set_visible(False)
 ax2.spines['top'].set_visible(False)
 
 # Plot red x markers
-ax2.scatter(1, 6, marker='x', color='red')
-ax2.scatter(3, 3.5, marker='x', color='red')
-ax2.scatter(5, 3.5, marker='x', color='red')
+ax2.scatter(1, 7.7, marker='x', color='red')
+ax2.scatter(3, 2.5, marker='x', color='red')
+ax2.scatter(5, 2, marker='x', color='red')
 
 # Plot blue o markers
 ax2.scatter(1, 2, marker='o', color='darkblue')
-ax2.scatter(3, 1.5, marker='o', color='darkblue')
-ax2.scatter(5, 3, marker='o', color='darkblue')
+ax2.scatter(3, -0.5, marker='o', color='darkblue')
+ax2.scatter(5, 1, marker='o', color='darkblue')
 
 
 plt.show()
