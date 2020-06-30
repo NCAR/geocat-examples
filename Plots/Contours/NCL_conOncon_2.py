@@ -69,7 +69,7 @@ olr_levels = np.append(olr_levels, np.arange(10, 50, 10))
 
 rad = olr.plot.contour(ax=ax, transform=ccrs.PlateCarree(), levels=olr_levels,
                        colors='gray', linewidths=0.5, add_labels=False)
-ax.clabel(rad, olr_levels, fmt='%d', inline=True, colors='black')
+ax.clabel(rad, [-40, -20, 20], fmt='%d', inline=True, colors='black')
 
 # Plot the zero contour with a black color
 rad = olr.plot.contour(ax=ax, transform=ccrs.PlateCarree(), levels=[0],
