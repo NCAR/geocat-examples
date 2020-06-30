@@ -45,10 +45,12 @@ wrap_U = gvutil.xr_add_cyclic_longitudes(U, "lon")
 
 def findCoordPressureData(coordarr, lat, lon):
     # Finds pressure at coordinate given lat, lon, and an array of all the coordinates with data
+    # Lat/lon is not *real* lat/lon.... based on scale given by xarray data [90, -90] and [0, 360]
+    # rather than [-90, 90] and [-180, 180]
     for x in range(len(coordarr)):
         for y in range(len(coordarr[x])):
             if coordarr[x][y][0] == lat and coordarr[x][y][1] == lon:
-                print(U.data[-x][y])
+                return U.data[x][y]
 
 def makeCoordArr():
     # Returns an array of (lat, lon) coord tuples with the same dimensions as the pressure data
@@ -60,21 +62,15 @@ def makeCoordArr():
         coordarr.append(temparr)
     return np.array(coordarr)
 
-def sliceTupleArray(tupleArray, index):
-    # Returns an array of just lat or just lon coordinates with the same dimension as the pressure data
-    arr = []
-    for x in tupleArray:
-        arr.append(x[:,index])
-    return arr
-
-def findLocalMinima2(minPressure=980):
+def findLocalMinima(minPressure=980):
 
     # Create a 2D array of all the coordinates with pressure data 
     coordarr = makeCoordArr()
 
     # Set number that a derivative must be less than in order to classify as a "zero"
-    bound = 0.025
+    bound = 0.1
 
+    # Get global gradient of U.data
     grad = np.absolute(np.gradient(wrap_U.data))
     arr1 = grad[0]
     arr2 = grad[1]
@@ -84,94 +80,31 @@ def findLocalMinima2(minPressure=980):
 
     commonzeroes = []
 
+    # Find zeroes of both gradient arrays
     for x in secondzeroes:
         if x in firstzeroes:
             commonzeroes.append(x)
 
     minimacoords = []
 
+    # For every common zero in both gradient arrays 
     for x in commonzeroes:
 
-        if U.data[x[0]][x[1]] < minPressure:
+        xval = x[0]
+        yval = x[1]-1
 
-            print(U.data[x[0]][x[1]])
-            print(coordarr[x[0]][x[1]])
-            print("\n")
+        # If the gradient value is a "zero", and if the U.data value is less than minPressure
+        if U.data[xval][yval] < minPressure:
 
-            coordonmap = coordarr[x[0]][x[1]]
+            coordonmap = coordarr[xval][yval]
+
+            # Transform data points to match globe coordinate scale
             xcoord = -1*coordonmap[0]
             ycoord = coordonmap[1]-180
 
             minimacoords.append((xcoord, ycoord))
 
     return minimacoords
-
-def findLocalMinima():
-
-    # Set number that a derivative must be less than in order to classify as a "zero"
-    bound = 0.02
-
-    # Create a 2D array of all the coordinates with pressure data 
-    coordarr = makeCoordArr()
-
-    # Get 2D array of all latitude values and 2D array of all longitude values
-    latdata = sliceTupleArray(coordarr, 0)
-    londata = sliceTupleArray(coordarr, 1)
-
-    # Get derivative of pressure data with respect to the longitude
-    dpdlon = np.diff(U.data)/np.diff(londata)
-
-    # Find all points where the derivative of pressure with respect to longitude is 0
-    lonZeros = []
-    for x in range(len(dpdlon)):
-        for y in range(x):
-            if abs(dpdlon[x][y]) <= bound:
-                lonZeros.append([x,y])
-
-    # Make empty array to store locations in array where the value is the coordinate that both derivatives are zero
-    arraylocations = []
-
-    # Make empty array to store coordinates (in lat, lon form) where the 
-    coords = []
-
-    # Check if derivative of pressure with respect to the latitude at those points is also 0
-    for coord in lonZeros:
-        x = coord[0]
-        y = coord[1]
-        try:
-            diffU = (U.data[x+1][y] - U.data[x][y])
-            diffLat = ((latdata[x+1][y]-latdata[x][y]))
-            dpdlat = diffU/diffLat
-        except:
-            print((x+1, y))
-            continue
-        if abs(dpdlat) <= bound:
-            coords.append(coord)
-            arraylocations.append((x,y))
-    
-    # Initialize empty array to hold extrema that are local minimums
-    minima = []
-
-    # Set "step", or radius you will check surrounding coords in to make sure point is a minima
-    step = 2
-
-    # Cycle through coords where dP/dX and dP/dY are 0 and determine whether point is a local minima
-    for coord in arraylocations:
-        x = coord[0]
-        y = coord[1]
-        try:
-            # Check above and below point to make sure pressure is lower than both
-            if U.data[x+step][y] > U.data[x][y] and U.data[x-step][y] > U.data[x][y]:
-                minima.append((-x,y-180))
-                '''
-                # Check to the right and left of point to make sure pressure is lower than both
-                if U.data[x][y+step] > U.data[x][y] and U.data[x][y-step] > U.data[x][y]:
-                    minima.append(-x,y-180)
-                '''
-        except:
-            continue
-
-    return minima
 
 ###############################################################################
 # Create plot
@@ -210,7 +143,7 @@ p = wrap_U.plot.contour(ax=ax,
 
 # low pressure contour levels- these will be plotted as a subscript to an 'L' symbol
 #lowClevels = [(51.54, 169.59), (74.78, 4.54), (60.12, -57.0)]
-lowClevels = findLocalMinima2()
+lowClevels = findLocalMinima()
 
 # regular pressure contour levels
 clevels = [(34.63, 176.4), (42.44, -150.46), (28.5, -142.16),
@@ -235,13 +168,12 @@ clevels = [(x[0], x[1]) for x in clevelpoints]
 for x in lowClevels:
     try:
         ax.clabel(p, manual=[x], inline=True, fontsize=14, colors='k', fmt="L" + "$_{%.0f}$", rightside_up=True)
-    except Exception as E:
-        print
+    except:
         continue
 
 # Label rest of the contours
 #ax.clabel(p, manual=clevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
-ax.clabel(p, manual=True, inline=True, fontsize=14, colors='k', fmt="%.2f")
+#ax.clabel(p, manual=True, inline=True, fontsize=14, colors='k', fmt="%.2f")
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{SLP}$"+" "+r"$\bf{1963,}$"+" "+r"$\bf{January}$"+" "+r"$\bf{24th}$", maintitlefontsize=20,
