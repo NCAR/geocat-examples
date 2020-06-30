@@ -28,16 +28,25 @@ data = np.random.lognormal(size=(40, 3), mean=1, sigma=.7)
 for a in range(len(data)):
     data[a] = [x-4 for x in data[a]]
 
-fs = 10
-
 ###############################################################################
 # Helper function to set edge color of boxes
 
+
 def setBoxColor(boxplot, number, edge_color):
 
-    # Set edge color of boxes
+    # Set edge color of the outside of the boxes and the median lines
     for element in ['boxes', 'medians']:
         plt.setp(boxplot[element][number], color=edge_color)
+
+
+###############################################################################
+# Helper function to remove axis "spines" on the top and right sides
+
+
+def removeSpines(ax):
+
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
 
 
 ###############################################################################
@@ -47,7 +56,8 @@ def setBoxColor(boxplot, number, edge_color):
 fig, ax = plt.subplots(figsize=(6, 6))
 
 # Plot each boxplot, set tick labels, and determine box widths
-boxplots = ax.boxplot(data, labels=['Control', '-2Xna', '2Xna'], widths = 0.4, showfliers=False) 
+boxplots = ax.boxplot(data, labels=['Control', '-2Xna', '2Xna'],
+                      widths=[0.4, 0.4, 0.4], showfliers=False)
 
 # Set whisker style to dashed
 plt.setp(boxplots['whiskers'], linestyle='--')
@@ -58,40 +68,40 @@ setBoxColor(boxplots, 1, 'red')
 setBoxColor(boxplots, 2, 'limegreen')
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax, ylim=(-6.0,9.0), yticks=[-3.0, 0.0, 3.0, 6.0])
+gvutil.set_axes_limits_and_ticks(ax, ylim=(-6.0, 9.0),
+                                 yticks=[-3.0, 0.0, 3.0, 6.0])
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, y_minor_per_major=3, labelsize=14)
+gvutil.add_major_minor_ticks(ax, y_minor_per_major=3, x_minor_per_major=1,
+                             labelsize=14)
 
-# Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
+# Use geocat.viz.util convenience function to add title to the plot axis.
 gvutil.set_titles_and_labels(ax, maintitle='Box Plot with Polymarkers')
 
 # Make both major and minor ticks point inwards towards the plot
 ax.tick_params(direction="in", which='both')
 
-# Get rid of right and top values
-ax.spines['right'].set_visible(False)
-ax.spines['top'].set_visible(False)
+# Get rid of right and top axis spines
+removeSpines(ax)
 
 # Set ticks only at left and bottom sides of plot
 ax.yaxis.set_ticks_position('left')
 ax.xaxis.set_ticks_position('bottom')
 
-# Add another axis 
+# Add another partially transparent axis on top of the first one
 ax2 = ax.inset_axes([0, 0, 1, 1])
 ax2.patch.set_alpha(0.2)
 
-# Set xlim and ylim of second axis so markers will line up with boxes on boxplot
-ax2.set_xlim(0,6)
-ax2.set_ylim(-6,9)
+# Set limits of second axis so markers will line up with boxes on boxplot
+ax2.set_xlim(0, 6)
+ax2.set_ylim(-6, 9)
 
-# Turn ticks in overlayed axis off
-ax2.tick_params(top=False, bottom=False, left=False, right=False,
+# Turn both major and minor ticks in overlayed axis off
+ax2.tick_params(which='both', top=False, bottom=False, left=False, right=False,
                 labelleft=False, labelbottom=False)
 
-# Get rid of right and top tick values
-ax2.spines['right'].set_visible(False)
-ax2.spines['top'].set_visible(False)
+# Get rid of right and top axis spines
+removeSpines(ax2)
 
 # Plot red x markers
 ax2.scatter(1, 7.7, marker='x', color='red')
