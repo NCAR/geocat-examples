@@ -38,7 +38,7 @@ olr = olr.isel(time=47, drop=True).OLRA
 sst = gvutil.xr_add_cyclic_longitudes(sst, 'lon')
 olr = gvutil.xr_add_cyclic_longitudes(olr, 'lon')
 
-################################################################################
+###############################################################################
 # Plot:
 
 # Generate figure and axes
@@ -52,31 +52,34 @@ ax.set_extent([100, 300, -60, 60], crs=ccrs.PlateCarree())
 cmap = gvcmaps.BlWhRe
 sst_levels = np.arange(-5.5, 6, 0.5)
 # Draw SST contour
-temp = sst.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=cmap, levels=sst_levels,
-                  extend='neither', add_colorbar=False, add_labels=False, zorder=0)
-plt.colorbar(temp, ax=ax, orientation='vertical', ticks=np.arange(-5,6,1), drawedges=True, shrink=0.5, aspect=10)
+temp = sst.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=cmap,
+                         levels=sst_levels, extend='neither',
+                         add_colorbar=False, add_labels=False, zorder=0)
+plt.colorbar(temp, ax=ax, orientation='vertical', ticks=np.arange(-5, 6, 1),
+             drawedges=True, shrink=0.5, aspect=10)
 
 # Draw map features on top of filled contour
 ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1)
-ax.add_feature(cfeature.COASTLINE, edgecolor= 'gray', linewidth=0.5, zorder=1)
+ax.add_feature(cfeature.COASTLINE, edgecolor='gray', linewidth=0.5, zorder=1)
 
 # Draw OLR contour
 # Specify contour levels excluding 0
 olr_levels = np.arange(-80, 0, 10)
 olr_levels = np.append(olr_levels, np.arange(10, 50, 10))
 
-rad = olr.plot.contour(ax=ax, transform=ccrs.PlateCarree(), levels=olr_levels, colors='gray',
-                 linewidths=0.5, add_labels=False)
+rad = olr.plot.contour(ax=ax, transform=ccrs.PlateCarree(), levels=olr_levels,
+                       colors='gray', linewidths=0.5, add_labels=False)
 ax.clabel(rad, olr_levels, fmt='%d', inline=True, colors='black')
 
 # Plot the zero contour with a black color
-rad = olr.plot.contour(ax=ax, transform=ccrs.PlateCarree(), levels=[0], colors='black',
-                 linewidths=0.5, add_labels=False)
+rad = olr.plot.contour(ax=ax, transform=ccrs.PlateCarree(), levels=[0],
+                       colors='black', linewidths=0.5, add_labels=False)
 ax.clabel(rad, [0], fmt='%d', inline=True, colors='black')
 
 # Use geocat.viz.util convenience function to set axes tick values
 gvutil.set_axes_limits_and_ticks(ax, ylim=(-60, 60),
-                                 yticks=np.arange(-60, 90, 30), xticks=np.arange(-80, 120, 30))
+                                 yticks=np.arange(-60, 90, 30),
+                                 xticks=np.arange(-80, 120, 30))
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by
 # using latitude, longitude tick labels
