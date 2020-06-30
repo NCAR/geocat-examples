@@ -68,10 +68,10 @@ def findLocalMinima(minPressure=980):
     coordarr = makeCoordArr()
 
     # Set number that a derivative must be less than in order to classify as a "zero"
-    bound = 0.1
+    bound = 0.00001
 
     # Get global gradient of U.data
-    grad = np.absolute(np.gradient(wrap_U.data))
+    grad = np.gradient(wrap_U.data)
     arr1 = grad[0]
     arr2 = grad[1]
 
@@ -94,13 +94,13 @@ def findLocalMinima(minPressure=980):
         yval = x[1]-1
 
         # If the gradient value is a "zero", and if the U.data value is less than minPressure
-        if U.data[xval][yval] < minPressure:
+        if -minPressure <= wrap_U.data[xval][yval] < minPressure:
 
             coordonmap = coordarr[xval][yval]
 
             # Transform data points to match globe coordinate scale
-            xcoord = -1*coordonmap[0]
-            ycoord = coordonmap[1]-180
+            xcoord = coordonmap[0]
+            ycoord = coordonmap[1]
 
             minimacoords.append((xcoord, ycoord))
 
