@@ -19,6 +19,7 @@ import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import numpy as np
+from sklearn.cluster import KMeans
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
@@ -44,15 +45,15 @@ wrap_U = gvutil.xr_add_cyclic_longitudes(U, "lon")
 ###############################################################################
 
 def findCoordPressureData(coordarr, lat, lon):
-    # Finds pressure at coordinate given lat, lon, and an array of all the coordinates with data
-    # Lat/lon is not *real* lat/lon.... based on scale given by xarray data [90, -90] and [0, 360]
-    # rather than [-90, 90] and [-180, 180]
+    
+    # Finds pressure at coordinate given lat, lon, and an array of all the coordinates with pressure data
     for x in range(len(coordarr)):
         for y in range(len(coordarr[x])):
             if coordarr[x][y][0] == lat and coordarr[x][y][1] == lon:
                 return U.data[x][y]
 
 def makeCoordArr():
+
     # Returns an array of (lat, lon) coord tuples with the same dimensions as the pressure data
     coordarr = []
     for x in np.array(U.lat):
@@ -61,7 +62,51 @@ def makeCoordArr():
             temparr.append((x,y))
         coordarr.append(temparr)
     return np.array(coordarr)
-        
+
+def getKClusters(arr): 
+      
+    latvals = [a_tuple[0] for a_tuple in arr]
+    lonvals = [a_tuple[1] for a_tuple in arr]
+    ids = np.arange(1,len(latvals)+1)
+
+    K_clusters = range(1,10)
+    kmeans = [KMeans(n_clusters=i) for i in K_clusters]
+
+    firstCols = np.array(list(zip(ids, latvals, lonvals)))
+
+    kmeans = KMeans(n_clusters = 8, init ='k-means++')
+    kmeans.fit(firstCols) # Compute k-means clustering.
+    labels = kmeans.predict(firstCols) # Labels of each point
+
+    # Create an dictionary of values with key being coordinate and value being cluster label
+    coordsAndLabels = {}
+
+    for x in range(len(arr)):
+        if labels[x] in coordsAndLabels:
+            coordsAndLabels[labels[x]].append(arr[x])
+        else:
+            coordsAndLabels[labels[x]] = [arr[x]]
+
+    return coordsAndLabels
+
+def findClusterMin(coordarr, coordsAndLabels):
+
+    realMinima = []
+
+    for key in coordsAndLabels:
+
+        tempmincoord = coordsAndLabels[key][0]
+        tempminpressure = findCoordPressureData(coordarr, coordsAndLabels[key][0][0], coordsAndLabels[key][0][1])
+
+        for coord in coordsAndLabels[key]:
+            if findCoordPressureData(coordarr, coord[0], coord[1]) <= tempminpressure:
+                tempmincoord = coord
+                tempminpressure = findCoordPressureData(coordarr, coord[0], coord[1])
+
+        realMinima.append(tempmincoord)
+
+    return realMinima
+
 def findLocalMinima(minPressure=980):
 
     # Create a 2D array of all the coordinates with pressure data 
@@ -110,17 +155,10 @@ def findLocalMinima(minPressure=980):
         except:
             continue
 
-    '''
-    pressurevalues = []
-    for x in minimacoords:
-        pressurevalues.append(findCoordPressureData(coordarr, x[0], x[1]))
+    coordsAndLabels = getKClusters(minimacoords)
+    realMinima = findClusterMin(coordarr, coordsAndLabels)
 
-    sortedArray = [x for _,x in sorted(zip(pressurevalues,minimacoords))]
-
-    minimacoords = sortedArray[0:50]
-    '''
-
-    return minimacoords
+    return realMinima
 
 ###############################################################################
 # Create plot
@@ -187,8 +225,7 @@ for x in lowClevels:
         continue
 
 # Label rest of the contours
-#ax.clabel(p, manual=clevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
-#ax.clabel(p, manual=True, inline=True, fontsize=14, colors='k', fmt="%.2f")
+ax.clabel(p, manual=clevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{SLP}$"+" "+r"$\bf{1963,}$"+" "+r"$\bf{January}$"+" "+r"$\bf{24th}$", maintitlefontsize=20,
