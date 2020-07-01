@@ -15,6 +15,7 @@ See following URLs to see the reproduced NCL plot & script:
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
+import matplotlib.patches as mpatches
 import numpy as np
 import xarray as xr
 import math
@@ -48,8 +49,8 @@ fig, axs = plt.subplots(2, 1, figsize=(6, 10), subplot_kw={"projection": project
 plt.tight_layout(pad=4, h_pad=-8)
 
 # Add coastlines
-axs[0].coastlines(linewidth=0.5)
-axs[1].coastlines(linewidth=0.5)
+axs[0].coastlines(linewidth=0.5, zorder=1)
+axs[1].coastlines(linewidth=0.5, zorder=1)
 
 # Use geocat.viz.util convenience function to set axes tick values
 gvutil.set_axes_limits_and_ticks(axs[0], xlim=[-180, 180], ylim=[-90, 90], xticks=np.arange(-180, 181, 30),
@@ -82,18 +83,27 @@ wind_levels = np.arange(-16, 44, 4)
 wind_ticks = np.arange(-12, 40, 4)
 
 # Plot filled contours
-speed = axs[0].contourf(U['lon'], U['lat'], magnitude, levels=speed_levels, cmap=newcmap)
+speed = axs[0].contourf(U['lon'], U['lat'], magnitude, levels=speed_levels, cmap=newcmap, zorder=0)
 speed_cbar = plt.colorbar(speed, ax=axs[0], orientation='horizontal', ticks=speed_ticks, shrink=0.8, drawedges=True, pad=0.1)
 
-wind = axs[1].contourf(U['lon'], U['lat'], U.data, levels=wind_levels, cmap=newcmap)
+wind = axs[1].contourf(U['lon'], U['lat'], U.data, levels=wind_levels, cmap=newcmap, zorder=0)
 plt.colorbar(wind, ax=axs[1], orientation='horizontal', ticks=wind_ticks, shrink=0.8, drawedges=True, pad=0.1)
 
 # Remove trailing zeros from speed color bar tick labels
 speed_cbar.ax.xaxis.set_major_formatter(FormatStrFormatter('%g'))
 
 
-# Ploting vector field
-axs[0].quiver(U['lon'], U['lat'], U.data, V.data)
-axs[1].quiver(U['lon'], U['lat'], U.data, V.data)
+# Plotting vector field
+quiver_speed = axs[0].quiver(U['lon'], U['lat'], U.data, V.data, zorder=2)
+quiver_wind = axs[1].quiver(U['lon'], U['lat'], U.data, V.data, zorder=2)
+
+# Add white box to go behind reference vector
+axs[0].add_patch(mpatches.Rectangle(xy=[0.9, 0], width=0.1, height=0.175,
+             facecolor='white', transform=axs[0].transAxes, zorder=2))
+axs[1].add_patch(mpatches.Rectangle(xy=[0.9, 0], width=0.1, height=0.175,
+             facecolor='white', transform=axs[1].transAxes, zorder=2))
+# Add reference vector
+axs[0].quiverkey(quiver_speed, 0.95, 0.05, 20, 20, zorder=2)
+axs[1].quiverkey(quiver_wind, 0.95, 0.05, 20, 20, zorder=2)
 
 plt.show()
