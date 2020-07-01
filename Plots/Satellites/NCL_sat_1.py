@@ -61,14 +61,14 @@ def makeCoordArr():
             temparr.append((x,y))
         coordarr.append(temparr)
     return np.array(coordarr)
-
+        
 def findLocalMinima(minPressure=980):
 
     # Create a 2D array of all the coordinates with pressure data 
     coordarr = makeCoordArr()
 
     # Set number that a derivative must be less than in order to classify as a "zero"
-    bound = 0.00001
+    bound = 0.0
 
     # Get global gradient of U.data
     grad = np.gradient(wrap_U.data)
@@ -86,23 +86,39 @@ def findLocalMinima(minPressure=980):
             commonzeroes.append(x)
 
     minimacoords = []
+    coordsinthearray = []
 
     # For every common zero in both gradient arrays 
     for x in commonzeroes:
 
-        xval = x[0]
-        yval = x[1]-1
+        try:
+            xval = x[0]
+            yval = x[1]
 
-        # If the gradient value is a "zero", and if the U.data value is less than minPressure
-        if -minPressure <= wrap_U.data[xval][yval] < minPressure:
+            # If the gradient value is a "zero", and if the U.data value is less than minPressure
+            if -minPressure < wrap_U.data[xval][yval] < minPressure:
 
-            coordonmap = coordarr[xval][yval]
+                coordonmap = coordarr[xval][yval]
 
-            # Transform data points to match globe coordinate scale
-            xcoord = coordonmap[0]
-            ycoord = coordonmap[1]
+                coordsinthearray.append((xval, yval))
 
-            minimacoords.append((xcoord, ycoord))
+                # Transform data points to match globe coordinate scale
+                xcoord = coordonmap[0]
+                ycoord = coordonmap[1]
+
+                minimacoords.append((xcoord, ycoord))
+        except:
+            continue
+
+    '''
+    pressurevalues = []
+    for x in minimacoords:
+        pressurevalues.append(findCoordPressureData(coordarr, x[0], x[1]))
+
+    sortedArray = [x for _,x in sorted(zip(pressurevalues,minimacoords))]
+
+    minimacoords = sortedArray[0:50]
+    '''
 
     return minimacoords
 
@@ -142,7 +158,6 @@ p = wrap_U.plot.contour(ax=ax,
 # countour label to find coordinate (which can be found in bottom left of figure window)
 
 # low pressure contour levels- these will be plotted as a subscript to an 'L' symbol
-#lowClevels = [(51.54, 169.59), (74.78, 4.54), (60.12, -57.0)]
 lowClevels = findLocalMinima()
 
 # regular pressure contour levels
@@ -168,7 +183,7 @@ clevels = [(x[0], x[1]) for x in clevelpoints]
 for x in lowClevels:
     try:
         ax.clabel(p, manual=[x], inline=True, fontsize=14, colors='k', fmt="L" + "$_{%.0f}$", rightside_up=True)
-    except:
+    except Exception as E:
         continue
 
 # Label rest of the contours
