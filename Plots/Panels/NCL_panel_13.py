@@ -31,8 +31,10 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 
 # Extract data from second timestep
 ds = ds.isel(time=1).drop_vars('time')
-U = ds.U[::4]
-V = ds.V[::4]
+
+# Thin data
+U = ds.U[::4, ::4]
+V = ds.V[::4, ::4]
 
 # Calculate the magnitude of the winds
 magnitude = np.sqrt(U.data**2 + V.data**2)
@@ -88,5 +90,10 @@ plt.colorbar(wind, ax=axs[1], orientation='horizontal', ticks=wind_ticks, shrink
 
 # Remove trailing zeros from speed color bar tick labels
 speed_cbar.ax.xaxis.set_major_formatter(FormatStrFormatter('%g'))
+
+
+# Ploting vector field
+axs[0].quiver(U['lon'], U['lat'], U.data, V.data)
+axs[1].quiver(U['lon'], U['lat'], U.data, V.data)
 
 plt.show()
