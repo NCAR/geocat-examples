@@ -42,7 +42,8 @@ magnitude = np.sqrt(U.data**2 + V.data**2)
 
 # Create sublots and specify their projections
 projection = ccrs.PlateCarree()
-fig, axs = plt.subplots(2, 1, figsize=(8, 10), subplot_kw={"projection": projection}, gridspec_kw={'hspace': 0.3})
+fig, axs = plt.subplots(2, 1, figsize=(6, 10), subplot_kw={"projection": projection})
+plt.tight_layout(pad=4, h_pad=-8)
 
 # Add coastlines
 axs[0].coastlines(linewidth=0.5)
@@ -80,10 +81,10 @@ wind_ticks = np.arange(-12, 40, 4)
 
 # Plot filled contours
 speed = axs[0].contourf(U['lon'], U['lat'], magnitude, levels=speed_levels, cmap=newcmap)
-speed_cbar = plt.colorbar(speed, ax=axs[0], orientation='horizontal', ticks=speed_ticks, shrink=0.75, drawedges=True)
+speed_cbar = plt.colorbar(speed, ax=axs[0], orientation='horizontal', ticks=speed_ticks, shrink=0.8, drawedges=True, pad=0.1)
 
 wind = axs[1].contourf(U['lon'], U['lat'], U.data, levels=wind_levels, cmap=newcmap)
-plt.colorbar(wind, ax=axs[1], orientation='horizontal', ticks=wind_ticks, shrink=0.75, drawedges=True)
+plt.colorbar(wind, ax=axs[1], orientation='horizontal', ticks=wind_ticks, shrink=0.8, drawedges=True, pad=0.1)
 
 # Remove trailing zeros from speed color bar tick labels
 speed_cbar.ax.xaxis.set_major_formatter(FormatStrFormatter('%g'))
