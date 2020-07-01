@@ -33,9 +33,13 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 # Extract data from second timestep
 ds = ds.isel(time=1).drop_vars('time')
 
+# Ensure longitudes range from 0 to 360 degrees
+U = gvutil.xr_add_cyclic_longitudes(ds.U, "lon")
+V = gvutil.xr_add_cyclic_longitudes(ds.V, "lon")
+
 # Thin data
-U = ds.U[::4, ::4]
-V = ds.V[::4, ::4]
+U = U[::4, ::4]
+V = V[::4, ::4]
 
 # Calculate the magnitude of the winds
 magnitude = np.sqrt(U.data**2 + V.data**2)
