@@ -14,6 +14,7 @@ See following URLs to see the reproduced NCL plot & script:
 # Import packages:
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FormatStrFormatter
 import numpy as np
 import xarray as xr
 import math
@@ -30,10 +31,8 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 
 # Extract data from second timestep
 ds = ds.isel(time=1).drop_vars('time')
-U = ds.U
-V = ds.V
-lon = ds['lon']
-lat = ds['lat']
+U = ds.U[::4]
+V = ds.V[::4]
 
 # Calculate the magnitude of the winds
 magnitude = np.sqrt(U.data**2 + V.data**2)
@@ -43,7 +42,7 @@ magnitude = np.sqrt(U.data**2 + V.data**2)
 
 # Create sublots and specify their projections
 projection = ccrs.PlateCarree()
-fig, axs = plt.subplots(2, 1, figsize=(8, 8), subplot_kw={"projection": projection}, gridspec_kw={'hspace': 0.3})
+fig, axs = plt.subplots(2, 1, figsize=(8, 10), subplot_kw={"projection": projection}, gridspec_kw={'hspace': 0.3})
 
 # Add coastlines
 axs[0].coastlines(linewidth=0.5)
@@ -68,5 +67,25 @@ gvutil.set_titles_and_labels(axs[0], lefttitle='Speed', lefttitlefontsize=10,
                              righttitle=U.units, righttitlefontsize=10)
 gvutil.set_titles_and_labels(axs[1], lefttitle='Wind', lefttitlefontsize=10,
                              righttitle=U.units, righttitlefontsize=10)
+
+
+# Load in colormap
+newcmap = gvcmaps.gui_default
+
+# Specify contour levels and contour ticks
+speed_levels = np.arange(0, 40, 2.5)
+speed_ticks = np.arange(2.5, 37.5, 2.5)
+wind_levels = np.arange(-16, 44, 4)
+wind_ticks = np.arange(-12, 40, 4)
+
+# Plot filled contours
+speed = axs[0].contourf(U['lon'], U['lat'], magnitude, levels=speed_levels, cmap=newcmap)
+speed_cbar = plt.colorbar(speed, ax=axs[0], orientation='horizontal', ticks=speed_ticks, shrink=0.75, drawedges=True)
+
+wind = axs[1].contourf(U['lon'], U['lat'], U.data, levels=wind_levels, cmap=newcmap)
+plt.colorbar(wind, ax=axs[1], orientation='horizontal', ticks=wind_ticks, shrink=0.75, drawedges=True)
+
+# Remove trailing zeros from speed color bar tick labels
+speed_cbar.ax.xaxis.set_major_formatter(FormatStrFormatter('%g'))
 
 plt.show()
