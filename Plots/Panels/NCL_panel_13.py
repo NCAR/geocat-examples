@@ -49,8 +49,8 @@ magnitude = np.sqrt(U.data**2 + V.data**2)
 
 # Create sublots and specify their projections
 projection = ccrs.PlateCarree()
-fig, axs = plt.subplots(2, 1, figsize=(6, 10), subplot_kw={"projection": projection})
-plt.tight_layout(pad=4, h_pad=-8)
+fig, axs = plt.subplots(2, 1, figsize=(7, 10), subplot_kw={"projection": projection})
+plt.tight_layout(pad=4, h_pad=-5)
 
 # Add coastlines
 axs[0].coastlines(linewidth=0.5, zorder=1)
