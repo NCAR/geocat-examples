@@ -32,5 +32,6 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 ds = ds.isel(time=1).drop_vars('time')
 U = ds.U
 V = ds.V
+
+# Calculate the magnitude of the winds
 speed = np.sqrt(U.data**2 + V.data**2)
-print(speed)
