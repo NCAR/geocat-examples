@@ -49,9 +49,9 @@ axs[0].coastlines(linewidth=0.5)
 axs[1].coastlines(linewidth=0.5)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(axs[0], xticks=np.arange(-180, 181, 30),
+gvutil.set_axes_limits_and_ticks(axs[0], xlim=[-180, 180], ylim=[-90, 90], xticks=np.arange(-180, 181, 30),
                                  yticks=np.arange(-90, 91, 30))
-gvutil.set_axes_limits_and_ticks(axs[1], xticks=np.arange(-180, 181, 30),
+gvutil.set_axes_limits_and_ticks(axs[1], xlim=[-180, 180], ylim=[-90, 90], xticks=np.arange(-180, 181, 30),
                                  yticks=np.arange(-90, 91, 30))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
