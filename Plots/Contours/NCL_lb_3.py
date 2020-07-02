@@ -63,4 +63,17 @@ ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 # Use geocat.viz.util convenience function to add titles
 gvutil.set_titles_and_labels(ax, lefttitle=V.long_name, righttitle=V.units,
                              lefttitlefontsize=12, righttitlefontsize=12)
+
+# Import an NCL colormap
+cmap = gvcmaps.wgne15
+
+# Specify which contour levels to draw
+contour_lev = np.arange(-20, 28, 4)
+# Plot filled contour
+contour = V.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=cmap,
+                          levels=contour_lev, add_colorbar=False, add_labels=False)
+# Plot line contour
+V.plot.contour(ax=ax, transform=ccrs.PlateCarree(),  colors='k', linewidths=0.5,
+               linestyles='solid', levels=contour_lev, add_colorbar=False,
+               add_labels=False)
 plt.show()
