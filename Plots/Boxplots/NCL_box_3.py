@@ -32,12 +32,17 @@ for a in range(len(data)):
 # Helper function to set edge color of boxes
 
 
-def setBoxColor(boxplot, number, edge_color):
+def setBoxColor(boxplot, colors):
 
-    # Set edge color of the outside of the boxes and the median lines
+    # Set edge color of the outside and median lines of the boxes
     for element in ['boxes', 'medians']:
-        plt.setp(boxplot[element][number], color=edge_color)
+        for box, color in zip(boxplot[element], colors):
+            plt.setp(box, color=color)
 
+    # Set the color of the whiskers and caps of the boxes
+    for element in ['whiskers', 'caps']:
+        for box, color in zip(zip(boxplot[element][::2], boxplot[element][1::2]), colors):
+            plt.setp(box, color=color)
 
 ###############################################################################
 # Helper function to remove axis "spines" on the top and right sides
@@ -63,9 +68,7 @@ boxplots = ax.boxplot(data, labels=['Control', '-2Xna', '2Xna'],
 plt.setp(boxplots['whiskers'], linestyle='--')
 
 # Set boxplot edge colors
-setBoxColor(boxplots, 0, 'blue')
-setBoxColor(boxplots, 1, 'red')
-setBoxColor(boxplots, 2, 'limegreen')
+setBoxColor(boxplots, ['blue', 'red', 'green'])
 
 # Use geocat.viz.util convenience function to set axes tick values
 gvutil.set_axes_limits_and_ticks(ax, ylim=(-6.0, 9.0),
