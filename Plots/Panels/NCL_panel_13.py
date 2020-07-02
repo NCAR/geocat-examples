@@ -13,12 +13,12 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 import cartopy.crs as ccrs
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
 import matplotlib.patches as mpatches
 import numpy as np
 import xarray as xr
-import math
 
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
@@ -69,6 +69,11 @@ gvutil.add_major_minor_ticks(axs[1])
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(axs[0])
 gvutil.add_lat_lon_ticklabels(axs[1])
+# Remove the degree symbol from tick labels
+axs[0].yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
+axs[0].xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
+axs[1].yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
+axs[1].xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
 gvutil.set_titles_and_labels(axs[0], lefttitle='Speed', lefttitlefontsize=10,
