@@ -38,8 +38,9 @@ temp = gvutil.xr_add_cyclic_longitudes(temp, "lon")
 
 ###############################################################################
 # Plot:
+
 # Generate figure (set its size (width, height) in inches)
-plt.figure(figsize=(12, 7))
+plt.figure(figsize=(12, 6))
 
 # Generate axes using Cartopy projection
 projection = ccrs.PlateCarree()
