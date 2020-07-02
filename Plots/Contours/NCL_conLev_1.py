@@ -3,7 +3,9 @@ NCL_conLev_1.py
 ===============
 This script illustrates the following concepts:
    - Explicitly setting contour levels
+   - Explicitly setting which contour levels will be labeled
    - Drawing contour lines over a cylindrical equidistant map
+   - Zooming in on a particular area on a cylindrical equidistant map
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/conLev_1.ncl
