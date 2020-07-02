@@ -107,12 +107,14 @@ quiver_speed = axs[0].quiver(U['lon'], U['lat'], U.data, V.data, width=0.0025, h
 quiver_wind = axs[1].quiver(U['lon'], U['lat'], U.data, V.data, width=0.0025, headwidth=4, zorder=2)
 
 # Add white box to go behind reference vector
-axs[0].add_patch(mpatches.Rectangle(xy=[0.9, 0], width=0.1, height=0.175,
+axs[0].add_patch(mpatches.Rectangle(xy=[0.775, 0], width=0.225, height=0.2,
              facecolor='white', transform=axs[0].transAxes, zorder=2))
-axs[1].add_patch(mpatches.Rectangle(xy=[0.9, 0], width=0.1, height=0.175,
+axs[1].add_patch(mpatches.Rectangle(xy=[0.775, 0], width=0.225, height=0.2,
              facecolor='white', transform=axs[1].transAxes, zorder=2))
-# Add reference vector
-axs[0].quiverkey(quiver_speed, 0.95, 0.05, 20, 20, zorder=2)
-axs[1].quiverkey(quiver_wind, 0.95, 0.05, 20, 20, zorder=2)
+# Add reference vector and label
+axs[0].quiverkey(quiver_speed, 0.8875, 0.1, 20, 20, zorder=2)
+axs[1].quiverkey(quiver_wind, 0.8875, 0.1, 20, 20, zorder=2)
+axs[0].text(0.785, 0.025, "Reference Vector", transform=axs[0].transAxes, zorder=2)
+axs[1].text(0.785, 0.025, "Reference Vector", transform=axs[1].transAxes, zorder=2)
 
 plt.show()
