@@ -22,7 +22,6 @@ from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
 ###############################################################################
@@ -53,9 +52,10 @@ ax.set_extent([-180, 180, -70, 70], crs=projection)
 ax.add_feature(cfeature.LAND, color='silver')
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax, xticks=np.linspace(-180, 180, 13), yticks=np.linspace(-60, 60, 5))
+gvutil.set_axes_limits_and_ticks(ax, xticks=np.linspace(-180, 180, 13),
+                                 yticks=np.linspace(-60, 60, 5))
 
-# Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
+# Use geocat.viz.util convenience function to make latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
 ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
@@ -63,8 +63,10 @@ ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, labelsize=12)
 
-# Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax, lefttitle=temp.long_name, righttitle=temp.units, lefttitlefontsize=14, righttitlefontsize=14)
+# Use geocat.viz.util convenience function to add titles
+gvutil.set_titles_and_labels(ax, lefttitle=temp.long_name,
+                             righttitle=temp.units, lefttitlefontsize=14,
+                             righttitlefontsize=14)
 
 # Add lower text box
 ax.text(1, -0.15, "CONTOUR FROM -5 TO 30 BY 5",
@@ -78,8 +80,8 @@ contour_lev = np.arange(-5, 35, 5)
 # Specify which contour lines to label
 labels = np.linspace(0, 20, 3)
 # Plot contour lines
-contour = temp.plot.contour(ax=ax, transform=ccrs.PlateCarree(), vmin=-5, vmax=30,
-                  levels=contour_lev, colors='black', linewidths=0.5,
-                  add_labels=False)
+contour = temp.plot.contour(ax=ax, transform=ccrs.PlateCarree(), vmin=-5,
+                            vmax=30, levels=contour_lev, colors='black',
+                            linewidths=0.5, add_labels=False)
 ax.clabel(contour, labels, fmt='%d', inline=True, fontsize=10)
 plt.show()
