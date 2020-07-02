@@ -16,6 +16,7 @@ import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
@@ -29,7 +30,7 @@ from geocat.viz import util as gvutil
 ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"), decode_times=False)
 # Extract slice of the data
 temp = ds.TS.isel(time=43).drop_vars(names=['time'])
-# Convert from celsius to Kelvin
+# Convert from Celsius to Kelvin
 temp.data = temp.data - 273.15
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
@@ -53,6 +54,8 @@ gvutil.set_axes_limits_and_ticks(ax, xticks=np.linspace(-180, 180, 13), yticks=n
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
+ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
+ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, labelsize=12)
