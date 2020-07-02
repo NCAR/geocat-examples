@@ -2,10 +2,12 @@
 NCL_lb_3.py
 ===============
 This script illustrates the following concepts:
+   - Drawing a horizontal colorbar
    - Changing the colorbar labels
    - Changing the angle of colorbar labels
-   - Adding a title to a colorbar
    - Changing the font size of the colorbar's labels
+   - Adding a title to a colorbar
+   - Changing the position of the colorbar title
    - Moving the colorbar away from the plot
 
 See following URLs to see the reproduced NCL plot & script:
@@ -40,7 +42,7 @@ V = gvutil.xr_add_cyclic_longitudes(V, "lon")
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(10, 5))
+fig = plt.figure(figsize=(10, 6))
 
 # Generate axes using Cartopy and draw coastlines
 ax = plt.axes(projection=ccrs.PlateCarree())
@@ -76,4 +78,18 @@ contour = V.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=cmap,
 V.plot.contour(ax=ax, transform=ccrs.PlateCarree(),  colors='k', linewidths=0.5,
                linestyles='solid', levels=contour_lev, add_colorbar=False,
                add_labels=False)
+
+# Create horizontal colorbar
+# By changing the kwarg `pad`, the colorbar can be moved closer to the axis.
+# `pad` defaults to 0.15 for horizontal colorbars
+# `extendrect` and `extendfrac` format the ends of the colorbar, default is
+# pointed ends to show there are values beyond the given contour levels
+cbar = plt.colorbar(contour, ax=ax, orientation='horizontal', shrink=0.75,
+                    pad=0.11, extendrect=True, extendfrac='auto')
+# Make colorbar tick labels larger
+cbar.ax.tick_params(labelsize=14)
+# Rotate colorbar tick labels
+cbar.ax.set_xticklabels(cbar.ax.get_xticklabels(), rotation=45)
+# Format colorbar title, this will make the title appear above the colorbar
+cbar.ax.set_title('Colorbar title', fontsize=10)
 plt.show()
