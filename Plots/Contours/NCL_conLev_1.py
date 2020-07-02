@@ -29,6 +29,11 @@ from geocat.viz import util as gvutil
 ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"), decode_times=False)
 # Extract slice of the data
 temp = ds.TS.isel(time=43).drop_vars(names=['time'])
+# Convert from celsius to Kelvin
+temp.data = temp.data - 273.15
+
+# Fix the artifact of not-shown-data around 0 and 360-degree longitudes
+temp = gvutil.xr_add_cyclic_longitudes(temp, "lon")
 
 ###############################################################################
 # Plot:
@@ -61,4 +66,14 @@ ax.text(1, -0.15, "CONTOUR FROM -5 TO 30 BY 5",
         transform=ax.transAxes,
         bbox=dict(boxstyle='square, pad=0.25', facecolor='white',
                   edgecolor='black'))
+
+# Specify which contour levels to draw
+contour_lev = np.arange(-5, 35, 5)
+# Specify which contour lines to label
+labels = np.linspace(0, 20, 3)
+# Plot contour lines
+contour = temp.plot.contour(ax=ax, transform=ccrs.PlateCarree(), vmin=-5, vmax=30,
+                  levels=contour_lev, colors='black', linewidths=0.5,
+                  add_labels=False)
+ax.clabel(contour, labels, fmt='%d', inline=True, fontsize=10)
 plt.show()
