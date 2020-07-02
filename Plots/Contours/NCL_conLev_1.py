@@ -52,4 +52,13 @@ gvutil.add_lat_lon_ticklabels(ax)
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, labelsize=12)
 
+# Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
+gvutil.set_titles_and_labels(ax, lefttitle=temp.long_name, righttitle=temp.units, lefttitlefontsize=14, righttitlefontsize=14)
+
+# Add lower text box
+ax.text(1, -0.15, "CONTOUR FROM -5 TO 30 BY 5",
+        horizontalalignment='right',
+        transform=ax.transAxes,
+        bbox=dict(boxstyle='square, pad=0.25', facecolor='white',
+                  edgecolor='black'))
 plt.show()
