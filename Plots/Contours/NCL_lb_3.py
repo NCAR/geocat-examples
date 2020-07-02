@@ -60,4 +60,7 @@ gvutil.add_lat_lon_ticklabels(ax)
 ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
+# Use geocat.viz.util convenience function to add titles
+gvutil.set_titles_and_labels(ax, lefttitle=V.long_name, righttitle=V.units,
+                             lefttitlefontsize=12, righttitlefontsize=12)
 plt.show()
