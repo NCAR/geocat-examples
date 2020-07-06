@@ -34,7 +34,7 @@ nlat = np.shape(TS.lat)[0]
 top = np.empty(nlat)
 bottom = np.empty(nlat)
 
-for k in range(0,nlat-1):
+for k in range(0,nlat):
     dx = math.sqrt(TS[k])
     top[k] = TS[k] + dx
     bottom[k] = TS[k] - dx
@@ -48,8 +48,11 @@ ax = plt.axes()
 TS.plot.line(ax=ax, color='black', _labels=False)
 
 # Plot curves that bound the region to be colored
-plt.plot(TS.lat, top)
-plt.plot(TS.lat, bottom)
+plt.plot(TS.lat, top, color='SlateBlue')
+plt.plot(TS.lat, bottom, color='SlateBlue')
+
+# Fill the area between the bounds
+ax.fill_between(TS.lat, top, bottom, color='SlateBlue')
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4,
