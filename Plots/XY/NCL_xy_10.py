@@ -62,4 +62,7 @@ gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4,
 gvutil.set_axes_limits_and_ticks(ax, ylim=(220, 320), xlim=(-90, 90),
                                  xticks=np.arange(-90, 91, 30))
 
+# Use geocat.viz.util convenience function to set titles and labels
+gvutil.set_titles_and_labels(ax, maintitle="A Title with $\\eta\epsilon\lambda\\alpha\sigma$ Characters", ylabel=TS.long_name)
+
 plt.show()
