@@ -65,4 +65,5 @@ gvutil.set_axes_limits_and_ticks(ax, ylim=(220, 320), xlim=(-90, 90),
 # Use geocat.viz.util convenience function to set titles and labels
 gvutil.set_titles_and_labels(ax, maintitle="A Title with $\\eta\epsilon\lambda\\alpha\sigma$ Characters", ylabel=TS.long_name)
 
+ax.text(0.15, 0.15, "$\sigma$", fontsize=40, transform=ax.transAxes)
 plt.show()
