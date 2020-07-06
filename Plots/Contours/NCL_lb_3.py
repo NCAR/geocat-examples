@@ -7,8 +7,7 @@ This script illustrates the following concepts:
    - Changing the angle of colorbar labels
    - Changing the font size of the colorbar's labels
    - Adding a title to a colorbar
-   - Changing the position of the colorbar title
-   - Moving the colorbar away from the plot
+   - Adjusting colorbar position relavtive to  plot axes
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/lb_3.ncl
@@ -32,7 +31,8 @@ from geocat.viz import util as gvutil
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
-# Extract variable
+
+# Extract slice of data
 V = ds.V.isel(time=0, lev = 3)
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
@@ -80,7 +80,8 @@ V.plot.contour(ax=ax, transform=ccrs.PlateCarree(),  colors='k', linewidths=0.5,
                add_labels=False)
 
 # Create horizontal colorbar
-# By changing the kwarg `pad`, the colorbar can be moved closer to the axis.
+# By changing the kwarg `pad`, the colorbar can be moved closer to or farther away from
+# the axis parallel to it.
 # `pad` defaults to 0.15 for horizontal colorbars
 # `extendrect` and `extendfrac` format the ends of the colorbar, default is
 # pointed ends to show there are values beyond the given contour levels
