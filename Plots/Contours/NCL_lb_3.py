@@ -92,5 +92,5 @@ cbar.ax.tick_params(labelsize=14)
 # Rotate colorbar tick labels
 cbar.ax.set_xticklabels(cbar.ax.get_xticklabels(), rotation=45)
 # Format colorbar title, this will make the title appear above the colorbar
-cbar.ax.set_title('Colorbar title', fontsize=10)
+cbar.ax.set_title('Default position for color bar title', fontsize=10)
 plt.show()
