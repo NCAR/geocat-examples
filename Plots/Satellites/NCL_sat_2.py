@@ -2,10 +2,10 @@
 NCL_sat_2.py
 ===============
 This script illustrates the following concepts:
-   - Using 'short2flt' to unpack 'short' data
+   - unpacking 'short' data
    - Drawing filled contours over a satellite map
-   - Changing the view of a satellite map
    - Explicitly setting contour fill colors
+   - Finding local high pressure values
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/sat_2.ncl
@@ -15,12 +15,11 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 import xarray as xr
-import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import numpy as np
 from sklearn.cluster import KMeans
-from matplotlib import cm
+import matplotlib.pyplot as plt
 from matplotlib import colors
 import matplotlib.ticker as mticker
 
@@ -331,15 +330,16 @@ contours = np.sort(contours)
 # Create color map
 colorvalues = [1020, 1036, 1500]
 cmap = colors.ListedColormap(['None', 'lightgray', 'dimgrey'])
-norm= colors.BoundaryNorm(colorvalues, 2) #, cmap
+norm = colors.BoundaryNorm(colorvalues, 2)
 
 # Plot contour data
-p = wrap_pressure.plot.contourf(ax=ax,zorder=2, 
-                               transform=ccrs.PlateCarree(),
-                               levels=contours,
-                               cmap=cmap, norm=norm,
-                               add_labels=False,
-                               add_colorbar=False)
+p = wrap_pressure.plot.contourf(ax=ax,
+                                zorder=2,
+                                transform=ccrs.PlateCarree(),
+                                levels=contours,
+                                cmap=cmap, norm=norm,
+                                add_labels=False,
+                                add_colorbar=False)
 
 p = wrap_pressure.plot.contour(ax=ax,
                                transform=ccrs.PlateCarree(),
@@ -375,8 +375,8 @@ lowClevels = [(x[0], x[1]) for x in lowclevelpoints]
 # Transform the low pressure contour coordinates
 # from geographic to projected
 highclevelpoints = proj.transform_points(ccrs.Geodetic(),
-                                        np.array([x[0] for x in highClevels]),
-                                        np.array([x[1] for x in highClevels]))
+                                         np.array([x[0] for x in highClevels]),
+                                         np.array([x[1] for x in highClevels]))
 highClevels = [(x[0], x[1]) for x in highclevelpoints]
 
 # Transform the regular pressure contour coordinates
