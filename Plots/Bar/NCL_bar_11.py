@@ -31,7 +31,7 @@ months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct',
           'Nov', 'Dec']
 ###############################################################################
 # Plot:
-fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+fig, axs = plt.subplots(2, 2, figsize=(12, 8), gridspec_kw=dict(wspace=0.25))
 x = np.arange(len(months))  # where to draw x ticks
 width = 0.2  # width of each bar within the groups
 
@@ -46,13 +46,13 @@ for row in range(0, 2):
                                          xticklabels=months)
         # Use geocat.viz.util convenience function to add minor and major tick lines
         gvutil.add_major_minor_ticks(axs[row][col], x_minor_per_major=1,
-                                     y_minor_per_major=4, labelsize=9)
+                                     y_minor_per_major=4, labelsize=12)
         # Use geocat.viz.util convenience function to set titles and labels
         gvutil.set_titles_and_labels(axs[row][col], ylabel='(\u00B0C)',
-                                     labelfontsize=12)
+                                     labelfontsize=14)
 
         # Add overall figure title
-        fig.suptitle('Paneling bar plots, dummy data', size=18, y=0.94)
+        fig.suptitle('Paneling bar plots, dummy data', size=20, y=0.94)
 
         # Add data to subplot
         axs[row][col].bar(x-width*3/2, data[panel][0][:], width,
