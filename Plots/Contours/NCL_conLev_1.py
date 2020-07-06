@@ -83,6 +83,7 @@ labels = np.linspace(0, 20, 3)
 # Plot contour lines
 contour = temp.plot.contour(ax=ax, transform=ccrs.PlateCarree(), vmin=-5,
                             vmax=30, levels=contour_lev, colors='black',
-                            linewidths=0.5, add_labels=False)
+                            linestyles='solid', linewidths=0.5,
+                            add_labels=False)
 ax.clabel(contour, labels, fmt='%d', inline=True, fontsize=10)
 plt.show()
