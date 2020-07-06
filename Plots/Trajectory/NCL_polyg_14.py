@@ -1,3 +1,17 @@
+"""
+NCL_polyg_14.py
+================
+This script illustrates the following concepts:
+    - Drawing polylines and markers using great circle paths
+    - Using gc_latlon to calculate a great circle path
+    - Attaching polylines and markers to a map plot
+    
+See following URLs to see the reproduced NCL plot & script:
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/polyg_14.ncl
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/polyg_14_2_lg.png
+                         https://www.ncl.ucar.edu/Applications/Images/polyg_14_1_lg.png
+"""
+
 
 ###############################################################################
 # Import packages:
@@ -10,8 +24,7 @@ from geographiclib.geodesic import Geodesic
 from geocat.viz import util as gvutil
 
 ###############################################################################
-# Read in data:
-###############################################
+#Plot
 
 def Plot(color, row, col, pos, ext, xext, yext, title, style, pt):
 
@@ -32,11 +45,9 @@ def Plot(color, row, col, pos, ext, xext, yext, title, style, pt):
     
     # This gets geodesic between the two points
     # WGS84 ellipsoid is used
-    gl = Geodesic.WGS84.InverseLine(lat_fr, lon_fr, lat_to, lon_to)
-    
-    num_points = 10  #for points on geodesic
-    print("distance latitude longitude azimuth")
-    
+    gl = Geodesic.WGS84.InverseLine(lat_fr, lon_fr, lat_to, lon_to) 
+    num_points = 10
+
     # Compute points on the geodesic, and plot them as red dots
     # gl.s13 is the total length of the geodesic
     # the points are equally spaced by 'true distance', but visually 
@@ -44,7 +55,6 @@ def Plot(color, row, col, pos, ext, xext, yext, title, style, pt):
     
     for ea in np.linspace(0, gl.s13, num_points):
         g = gl.Position(ea, Geodesic.STANDARD | Geodesic.LONG_UNROLL)
-        print("{:.0f} {:.5f} {:.5f} {:.5f}".format(g['s12'], g['lat2'], g['lon2'], g['azi2']))
         lon2 = g['lon2']
         lat2 = g['lat2']
         ax.plot(lon2, lat2, pt, transform=ccrs.PlateCarree())
