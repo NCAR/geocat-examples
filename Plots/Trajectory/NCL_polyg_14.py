@@ -26,10 +26,10 @@ from geocat.viz import util as gvutil
 ###############################################################################
 #Plot
 
-def Plot(color, row, col, pos, ext, xext, yext, title, style, pt):
+def Plot(color, ext, xext, yext, title, style, pt):
 
-    fig = plt.figure(figsize=(12,12))
-    ax = fig.add_subplot(row, col, pos, projection=ccrs.PlateCarree())
+    plt.figure(figsize=(8,8))
+    ax = plt.axes( projection=ccrs.PlateCarree())
     
     ax.set_extent(ext, ccrs.PlateCarree())
     ax.add_feature(cfeature.LAND, color='lightgrey')
@@ -88,9 +88,9 @@ def Plot(color, row, col, pos, ext, xext, yext, title, style, pt):
 
 
 # plot first color map
-Plot("blue", 2, 2, 2, [-125,-60,15,65],[-120, -64], [20, 60], "1st method: Two Points and Great Circle Path", '-', 'blue')
+Plot("blue", [-125,-60,15,65],[-120, -64], [20, 60], "1st method: Two Points and Great Circle Path", '-', 'blue')
 
 # plot second color map
-Plot("red", 2, 2, 2, [-125,-60,15,65], [-120, -64], [20, 60], "2nd method: Two Points and Great Circle Path", '-', 'ko')
+Plot("red", [-125,-60,15,65], [-120, -64], [20, 60], "2nd method: Two Points and Great Circle Path", '-', 'ko')
 
 
