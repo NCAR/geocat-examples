@@ -35,6 +35,7 @@ olr = xr.open_dataset(gdf.get("netcdf_files/olr7991a.nc"))
 sst = sst.isel(time=11, drop=True).SSTA
 olr = olr.isel(time=47, drop=True).OLRA
 
+# Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 sst = gvutil.xr_add_cyclic_longitudes(sst, 'lon')
 olr = gvutil.xr_add_cyclic_longitudes(olr, 'lon')
 
