@@ -316,11 +316,11 @@ ax.set_global()
 
 # Add land, coastlines, and ocean features
 ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1)
-ax.add_feature(cfeature.COASTLINE, linewidth=.5)
+ax.add_feature(cfeature.COASTLINE, linewidth=.3)
 ax.add_feature(cfeature.OCEAN, facecolor='white')
-ax.add_feature(cfeature.BORDERS, linewidth=.5)
+ax.add_feature(cfeature.BORDERS, linewidth=.3)
 ax.add_feature(cfeature.LAKES, facecolor='white',
-               edgecolor='k', linewidth=.5)
+               edgecolor='k', linewidth=.3)
 
 # Make array of the contour levels that will be plotted
 contours = np.arange(948, 1060, 4)
@@ -343,7 +343,7 @@ p = wrap_pressure.plot.contourf(ax=ax,
 
 p = wrap_pressure.plot.contour(ax=ax,
                                transform=ccrs.PlateCarree(),
-                               linewidths=0.5,
+                               linewidths=0.3,
                                levels=contours,
                                cmap='black',
                                add_labels=False)
@@ -391,7 +391,7 @@ for x in lowClevels:
     # Try/except block in place to allow program to
     # "except" plotting coordinates that aren't in visible map range.
     try:
-        ax.clabel(p, manual=[x], inline=True, fontsize=20, colors='k',
+        ax.clabel(p, manual=[x], inline=True, fontsize=24, colors='k',
                   fmt="L" + "$_{%.0f}$", rightside_up=True)
     except:
         continue
@@ -401,7 +401,7 @@ for x in highClevels:
     # Try/except block in place to allow program to
     # "except" plotting coordinates that aren't in visible map range.
     try:
-        ax.clabel(p, manual=[x], inline=True, fontsize=20, colors='k',
+        ax.clabel(p, manual=[x], inline=True, fontsize=24, colors='k',
                   fmt="H" + "$_{%.0f}$", rightside_up=True)
     except:
         continue
