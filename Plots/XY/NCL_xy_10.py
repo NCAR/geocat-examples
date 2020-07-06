@@ -4,7 +4,6 @@ NCL_xy_10.py
 This script illustrates the following concepts:
    - Filling the area between two curves in an XY plot
    - Drawing Greek characters on an XY plot
-   - Controlling the draw order of a polygon
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/xy_10.ncl
@@ -16,6 +15,7 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
+import math
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -29,11 +29,27 @@ ds = xr.open_dataset(gdf.get("netcdf_files/80.nc"))
 TS = ds.isel(time=0, lon=21, drop=True).TS
 
 ###############################################################################
+# Define bounds for region centered on the data with a width of 2 sigma
+nlat = np.shape(TS.lat)[0]
+top = np.empty(nlat)
+bottom = np.empty(nlat)
+
+for k in range(0,nlat-1):
+    dx = math.sqrt(TS[k])
+    top[k] = TS[k] + dx
+    bottom[k] = TS[k] - dx
+
+###############################################################################
 # Plot:
 plt.figure(figsize=(8,8))
 ax = plt.axes()
 
+# Plot data
 TS.plot.line(ax=ax, color='black', _labels=False)
+
+# Plot curves that bound the region to be colored
+plt.plot(TS.lat, top)
+plt.plot(TS.lat, bottom)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4,
