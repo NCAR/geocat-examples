@@ -25,6 +25,22 @@ from geocat.viz import util as gvutil
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/80.nc"))
-
 # Extract slice of data
-temp = ds.isel(time=0, drop=True).TS
+TS = ds.isel(time=0, lon=21, drop=True).TS
+
+###############################################################################
+# Plot:
+plt.figure(figsize=(8,8))
+ax = plt.axes()
+
+TS.plot.line(ax=ax, color='black', _labels=False)
+
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4,
+                             labelsize=14)
+
+# Use geocat.viz.util convenience function to set axes parameters
+gvutil.set_axes_limits_and_ticks(ax, ylim=(220, 320), xlim=(-90, 90),
+                                 xticks=np.arange(-90, 91, 30))
+
+plt.show()
