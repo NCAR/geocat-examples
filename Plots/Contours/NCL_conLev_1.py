@@ -2,7 +2,7 @@
 NCL_conLev_1.py
 ===============
 This script illustrates the following concepts:
-   - Explicitly setting contour levels
+   - Specifying which contour levels will be drawn
    - Explicitly setting which contour levels will be labeled
    - Drawing contour lines over a cylindrical equidistant map
    - Zooming in on a particular area on a cylindrical equidistant map
@@ -57,6 +57,7 @@ gvutil.set_axes_limits_and_ticks(ax, xticks=np.linspace(-180, 180, 13),
 
 # Use geocat.viz.util convenience function to make latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
+# Removing degree symbol from tick labels to more closely resemble NCL example
 ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
