@@ -78,7 +78,9 @@ ax.text(1, -0.15, "CONTOUR FROM -5 TO 30 BY 5",
 
 # Specify which contour levels to draw
 contour_lev = np.arange(-5, 35, 5)
-# Specify which contour lines to label
+# Specify which contour lines to label. Where the labels appear on the contours
+# is handeled by xarray.plot.contour(). The keyword manual can be used to
+# set exactly where the labels will be drawn.
 labels = np.linspace(0, 20, 3)
 # Plot contour lines
 contour = temp.plot.contour(ax=ax, transform=ccrs.PlateCarree(), vmin=-5,
