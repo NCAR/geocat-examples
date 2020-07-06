@@ -13,22 +13,22 @@ from geocat.viz import util as gvutil
 # Read in data:
 ###############################################
 
-def Plot(color, row, col, pos, title, style, pt):
+def Plot(color, row, col, pos, ext, xext, yext, title, style, pt):
 
     fig = plt.figure(figsize=(12,12))
     ax = fig.add_subplot(row, col, pos, projection=ccrs.PlateCarree())
     
-    ax.set_extent([-125,-60,15,65], ccrs.PlateCarree())
+    ax.set_extent(ext, ccrs.PlateCarree())
     ax.add_feature(cfeature.LAND, color='lightgrey')
     
-    plt.plot([-120, -64], [20, 60], style, color= color,  transform=ccrs.Geodetic())
+    plt.plot(xext, yext, style, color= color,  transform=ccrs.Geodetic())
     
     # start location
-    lon_fr = -120
-    lat_fr = 20
+    lon_fr = xext[0]
+    lat_fr = yext[0]
     # end location
-    lon_to = -64
-    lat_to = 60
+    lon_to = xext[1]
+    lat_to = yext[1]
     
     # This gets geodesic between the two points
     # WGS84 ellipsoid is used
@@ -39,11 +39,12 @@ def Plot(color, row, col, pos, title, style, pt):
     
     # Compute points on the geodesic, and plot them as red dots
     # gl.s13 is the total length of the geodesic
-    # the points are equally spaced by true distances, but not on the map
-    # due to the projection distortion
+    # the points are equally spaced by 'true distance', but visually 
+    # there is a slight distortion due to curvature/projection style 
+    
     for ea in np.linspace(0, gl.s13, num_points):
         g = gl.Position(ea, Geodesic.STANDARD | Geodesic.LONG_UNROLL)
-        #print("{:.0f} {:.5f} {:.5f} {:.5f}".format(g['s12'], g['lat2'], g['lon2'], g['azi2']))
+        print("{:.0f} {:.5f} {:.5f} {:.5f}".format(g['s12'], g['lat2'], g['lon2'], g['azi2']))
         lon2 = g['lon2']
         lat2 = g['lat2']
         ax.plot(lon2, lat2, pt, transform=ccrs.PlateCarree())
@@ -77,9 +78,9 @@ def Plot(color, row, col, pos, title, style, pt):
 
 
 # plot first color map
-Plot("blue", 2, 2, 2, "1st method: Two Points and Great Circle Path", '-', 'blue')
+Plot("blue", 2, 2, 2, [-125,-60,15,65],[-120, -64], [20, 60], "1st method: Two Points and Great Circle Path", '-', 'blue')
 
 # plot second color map
-Plot("red", 2, 2, 2, "2nd method: Two Points and Great Circle Path", '-', 'ko')
+Plot("red", 2, 2, 2, [-125,-60,15,65], [-120, -64], [20, 60], "2nd method: Two Points and Great Circle Path", '-', 'ko')
 
 
