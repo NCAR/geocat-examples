@@ -31,40 +31,51 @@ import geocat.viz.util as gvutil
 ds = xr.open_dataset(gdf.get("netcdf_files/slp.1963.nc"), decode_times=False)
 
 # Get data from the 24th timestep
-U = ds.slp[24, :, :]
+pressure = ds.slp[24, :, :]
 
 # Translate short values to float values
-U = U.astype('float64')
+pressure = pressure.astype('float64')
 
 # Convert Pa to hPa data
-U = U*0.01
+pressure = pressure*0.01
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-wrap_U = gvutil.xr_add_cyclic_longitudes(U, "lon")
+wrap_pressure = gvutil.xr_add_cyclic_longitudes(pressure, "lon")
 
 ###############################################################################
+# Helper function that will return an array of (lat, lon) coord tuples with the same dimensions as the pressure data
 
-def findCoordPressureData(coordarr, lat, lon):
-    
-    # Finds pressure at coordinate given lat, lon, and an array of all the coordinates with pressure data
-    for x in range(len(coordarr)):
-        for y in range(len(coordarr[x])):
-            if coordarr[x][y][0] == lat and coordarr[x][y][1] == lon:
-                return U.data[x][y]
 
 def makeCoordArr():
 
-    # Returns an array of (lat, lon) coord tuples with the same dimensions as the pressure data
     coordarr = []
-    for x in np.array(U.lat):
+    for x in np.array(pressure.lat):
         temparr = []
-        for y in np.array(U.lon):
+        for y in np.array(pressure.lon):
             temparr.append((x,y))
         coordarr.append(temparr)
     return np.array(coordarr)
 
+
+###############################################################################
+# Helper function that will find the pressure at point (lat, lon)
+
+
+def findCoordPressureData(coordarr, lat, lon):
+    
+    for x in range(len(coordarr)):
+        for y in range(len(coordarr[x])):
+            if coordarr[x][y][0] == lat and coordarr[x][y][1] == lon:
+                return pressure.data[x][y]
+
+
+###############################################################################
+# Helper function that will cluster the array of coordinates into groups based on geographic location
+# Returns a dictionary of values in the form --> coordinate: cluster label
+
+
 def getKClusters(arr): 
-      
+
     latvals = [a_tuple[0] for a_tuple in arr]
     lonvals = [a_tuple[1] for a_tuple in arr]
     ids = np.arange(1,len(latvals)+1)
@@ -75,8 +86,8 @@ def getKClusters(arr):
     firstCols = np.array(list(zip(ids, latvals, lonvals)))
 
     kmeans = KMeans(n_clusters = 8, init ='k-means++')
-    kmeans.fit(firstCols) # Compute k-means clustering.
-    labels = kmeans.predict(firstCols) # Labels of each point
+    kmeans.fit(firstCols) 
+    labels = kmeans.predict(firstCols) 
 
     # Create an dictionary of values with key being coordinate and value being cluster label
     coordsAndLabels = {}
@@ -89,9 +100,14 @@ def getKClusters(arr):
 
     return coordsAndLabels
 
+
+###############################################################################
+# Helper function that finds the minimum of each cluster of coordinates
+
+
 def findClusterMin(coordarr, coordsAndLabels):
 
-    realMinima = []
+    clusterMins = []
 
     for key in coordsAndLabels:
 
@@ -103,9 +119,17 @@ def findClusterMin(coordarr, coordsAndLabels):
                 tempmincoord = coord
                 tempminpressure = findCoordPressureData(coordarr, coord[0], coord[1])
 
-        realMinima.append(tempmincoord)
+        lonvalue = tempmincoord[1]
+        latvalue = tempmincoord[0]
 
-    return realMinima
+        clusterMins.append((lonvalue, latvalue))
+
+    return clusterMins
+
+
+###############################################################################
+# Helper function that finds the local low pressure coordinates on a contour map
+
 
 def findLocalMinima(minPressure=980):
 
@@ -115,19 +139,27 @@ def findLocalMinima(minPressure=980):
     # Set number that a derivative must be less than in order to classify as a "zero"
     bound = 0.0
 
-    # Get global gradient of U.data
-    grad = np.gradient(wrap_U.data)
+    # Get global gradient of contour data
+    grad = np.gradient(wrap_pressure.data)
+
+    # Gradient in the x direction
     arr1 = grad[0]
+
+    # Gradient in the y direction
     arr2 = grad[1]
 
-    firstzeroes = np.argwhere(arr1<=bound)
-    secondzeroes = np.argwhere(arr2<=bound)
+    # Get all array 1 indexes where gradient value is between -bound and +bound
+    posfirstzeroes = np.argwhere(arr1<=bound)
+    negfirstzeroes = np.argwhere(-bound<=arr1)
 
-    commonzeroes = []
+    # Get all array 2 indexes where gradient value is between -bound and +bound
+    possecondzeroes = np.argwhere(arr2<=bound)
+    negsecondzeroes = np.argwhere(-bound<=arr2)
 
     # Find zeroes of both gradient arrays
-    for x in secondzeroes:
-        if x in firstzeroes:
+    commonzeroes = []
+    for x in possecondzeroes:
+        if x in posfirstzeroes and x in negfirstzeroes and x in negsecondzeroes:
             commonzeroes.append(x)
 
     minimacoords = []
@@ -140,8 +172,8 @@ def findLocalMinima(minPressure=980):
             xval = x[0]
             yval = x[1]
 
-            # If the gradient value is a "zero", and if the U.data value is less than minPressure
-            if -minPressure < wrap_U.data[xval][yval] < minPressure:
+            # If the gradient value is a "zero", and if the pressure.data value is less than minPressure
+            if wrap_pressure.data[xval][yval] < minPressure:
 
                 coordonmap = coordarr[xval][yval]
 
@@ -156,9 +188,10 @@ def findLocalMinima(minPressure=980):
             continue
 
     coordsAndLabels = getKClusters(minimacoords)
-    realMinima = findClusterMin(coordarr, coordsAndLabels)
+    clusterMins = findClusterMin(coordarr, coordsAndLabels)
 
-    return realMinima
+    return clusterMins
+
 
 ###############################################################################
 # Create plot
@@ -184,7 +217,7 @@ contours = np.append(contours, 975)
 contours = np.sort(contours)
 
 # Plot contour data
-p = wrap_U.plot.contour(ax=ax,
+p = wrap_pressure.plot.contourf(ax=ax,
                         transform=ccrs.PlateCarree(),
                         linewidths=0.5,
                         levels=contours,
@@ -199,29 +232,30 @@ p = wrap_U.plot.contour(ax=ax,
 lowClevels = findLocalMinima()
 
 # regular pressure contour levels
-clevels = [(34.63, 176.4), (42.44, -150.46), (28.5, -142.16),
-           (16.32, -134.12), (17.08, -108.90), (15.60, -98.17),
-           (42.19, -108.73), (49.66, -111.25), (41.93, -127.83),
-           (25.64, -92.49), (29.08, -77.29), (16.42, -77.04),
-           (57.59, -95.93), (84.47, -156.05), (82.52, -17.83),
-           (41.99, -76.3), (41.45, -48.89), (37.55, -33.43),
-           (17.17, -46.98), (63.67, 1.79), (67.05, -58.78),
-           (53.68, -44.78), (53.71, -69.69), (52.22, -78.02),
-           (44.33, -16.91), (35.17, -95.72), (73.62, -102.69)]
+clevels = [(176.4, 34.63), (-150.46, 42.44), (-142.16, 28.5), 
+           (-134.12, 16.32), (-108.9, 17.08), (-98.17, 15.6), 
+           (-108.73, 42.19), (-111.25, 49.66), (-127.83, 41.93), 
+           (-92.49, 25.64), (-77.29, 29.08), (-77.04, 16.42), 
+           (-95.93, 57.59), (-156.05, 84.47), (-17.83, 82.52), 
+           (-76.3, 41.99), (-48.89, 41.45), (-33.43, 37.55), 
+           (-46.98, 17.17), (1.79, 63.67), (-58.78, 67.05), 
+           (-44.78, 53.68), (-69.69, 53.71), (-78.02, 52.22), 
+           (-16.91, 44.33), (-95.72, 35.17), (-102.69, 73.62)]
 
 # Transform the low pressure contour coordinates from geographic to projected
-lowclevelpoints = proj.transform_points(ccrs.Geodetic(), np.array([x[1] for x in lowClevels]), np.array([x[0] for x in lowClevels]))
+lowclevelpoints = proj.transform_points(ccrs.Geodetic(), np.array([x[0] for x in lowClevels]), np.array([x[1] for x in lowClevels]))
 lowClevels = [(x[0], x[1]) for x in lowclevelpoints]
 
 # Transform the regular pressure contour coordinates from geographic to projected
-clevelpoints = proj.transform_points(ccrs.Geodetic(), np.array([x[1] for x in clevels]), np.array([x[0] for x in clevels]))
+clevelpoints = proj.transform_points(ccrs.Geodetic(), np.array([x[0] for x in clevels]), np.array([x[1] for x in clevels]))
 clevels = [(x[0], x[1]) for x in clevelpoints]
 
 # Label contours with Low pressure
 for x in lowClevels:
+    # Try/except block in place to allow program to "except" plotting coordinates that aren't in visible map range
     try:
-        ax.clabel(p, manual=[x], inline=True, fontsize=14, colors='k', fmt="L" + "$_{%.0f}$", rightside_up=True)
-    except Exception as E:
+        ax.clabel(p, manual=[x], inline=True, fontsize=16, colors='k', fmt="L" + "$_{%.0f}$", rightside_up=True)
+    except:
         continue
 
 # Label rest of the contours
