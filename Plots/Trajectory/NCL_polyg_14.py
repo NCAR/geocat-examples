@@ -21,21 +21,30 @@ import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import cartopy.feature as cfeature
 from geographiclib.geodesic import Geodesic
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 
 from geocat.viz import util as gvutil
 
 ###############################################################################
 #Plot
 
-def Plot(color, ext, xext, yext, title, style, pt):
-
+def Plot(color, ext, xext, yext, title, subt, style, pt):
+    
+    '''
+    color: color for line on map in format 'color'
+    ext: extent of the projection view in format [minlon, maxlon, minlat, maxlat]
+    xext: start and stop points for curve in format [startlon, stoplon]
+    yext: start and stop points for curve in format [startlat, stoplat]
+    title: title of graph in format "Title"
+    style: line style in format 'style'
+    pt: marker type in format 'type'
+    
+    '''
     plt.figure(figsize=(8,8))
     ax = plt.axes(projection=ccrs.PlateCarree())
 
     ax.set_extent(ext, ccrs.PlateCarree())
     ax.add_feature(cfeature.LAND, color='lightgrey')
-
-    plt.plot(xext, yext, style, color= color,  transform=ccrs.Geodetic())
 
     # This gets geodesic between the two points
     # WGS84 ellipsoid is used
@@ -43,22 +52,30 @@ def Plot(color, ext, xext, yext, title, style, pt):
     # [0] being start, [1] being stop
    
     gl = Geodesic.WGS84.InverseLine(yext[0],xext[0], yext[1], xext[1])
-    num_points = 10
+    npoints = 10
 
     # Compute points on the geodesic, and plot them 
     # gl.s13 is the total length of the geodesic
     # the points are equally spaced by 'true distance', but visually 
     # there is a slight distortion due to curvature/projection style 
-
-    for ea in np.linspace(0, gl.s13, num_points):
+    
+    
+    lons = []
+    lats = []
+    for ea in np.linspace(0, gl.s13, npoints):
         g = gl.Position(ea, Geodesic.STANDARD | Geodesic.LONG_UNROLL)
-        print("{:.0f} {:.5f} {:.5f} {:.5f}".format(g['s12'], g['lat2'], g['lon2'], g['azi2']))
         lon2 = g['lon2']
         lat2 = g['lat2']
-        ax.plot(lon2, lat2, pt, transform=ccrs.PlateCarree())
+        lons.append(lon2)
+        lats.append(lat2)
 
-
-   # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
+   
+    ax.plot(lons, lats, pt, transform=ccrs.PlateCarree())
+    
+    plt.plot(lons, lats, style, color= color, transform=ccrs.Geodetic())
+    plt.suptitle(title, y=0.90, fontsize=16)
+    
+    # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
     # Set axes limits, and tick values
     gvutil.set_axes_limits_and_ticks(
     ax,
@@ -70,23 +87,28 @@ def Plot(color, ext, xext, yext, title, style, pt):
     # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax)
     
+    # Remove the degree symbol from tick labels
+    ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
+    ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
+    
     # Use geocat.viz.util convenience function to add minor and major tick lines
     gvutil.add_major_minor_ticks(ax, labelsize=12)
 
     # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
     gvutil.set_titles_and_labels(
         ax,
-        maintitle=title,
-        maintitlefontsize=16,
-        righttitlefontsize=14,
+        maintitle=subt,
+        maintitlefontsize=12,
         xlabel="",
         ylabel="")
-
+    plt.show()
 
 # plot first color map
-Plot("blue", [-125,-60,15,65],[-120, -64], [20, 60], "1st method: Two Points and Great Circle Path", '-', 'blue')
+Plot("blue", [-125,-60,15,65],[-120, -64], [20, 60], "1st method: Two Points and Great Circle Path", 
+     "Using matplotlib to draw curve", '-', 'blue')
 
 # plot second color map
-Plot("red", [-125,-60,15,65], [-120, -64], [20, 60], "2nd method: Two Points and Great Circle Path", '-', 'ko')
+Plot("red", [-125,-60,15,65], [-120, -64], [20, 60], "2nd method: Two Points and Great Circle Path",
+     "Geographiclib used to calculate great circle points",'-', 'ko')
 
 
