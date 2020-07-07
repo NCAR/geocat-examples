@@ -8,8 +8,9 @@ This script illustrates the following concepts:
     
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/polyg_14.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/polyg_14_2_lg.png
-                         https://www.ncl.ucar.edu/Applications/Images/polyg_14_1_lg.png
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/polyg_14_1_lg.png
+                        https://www.ncl.ucar.edu/Applications/Images/polyg_14_2_lg.png
+                         
 """
 
 
@@ -68,10 +69,10 @@ def Plot(color, ext, xext, yext, npts, title, subt, style, pt):
         lons.append(lon2)
         lats.append(lat2)
 
-   
+    plt.plot(lons, lats, style, color= color, transform=ccrs.Geodetic())
     ax.plot(lons, lats, pt, transform=ccrs.PlateCarree())
     
-    plt.plot(lons, lats, style, color= color, transform=ccrs.Geodetic())
+    
     plt.suptitle(title, y=0.90, fontsize=16)
     
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
