@@ -28,7 +28,7 @@ from geocat.viz import util as gvutil
 ###############################################################################
 #Plot
 
-def Plot(color, ext, xext, yext, title, subt, style, pt):
+def Plot(color, ext, xext, yext, npts, title, subt, style, pt):
     
     '''
     color: color for line on map in format 'color'
@@ -52,13 +52,12 @@ def Plot(color, ext, xext, yext, title, subt, style, pt):
     # [0] being start, [1] being stop
    
     gl = Geodesic.WGS84.InverseLine(yext[0],xext[0], yext[1], xext[1])
-    npoints = 10
+    npoints = npts
 
     # Compute points on the geodesic, and plot them 
     # gl.s13 is the total length of the geodesic
     # the points are equally spaced by 'true distance', but visually 
     # there is a slight distortion due to curvature/projection style 
-    
     
     lons = []
     lats = []
@@ -104,11 +103,11 @@ def Plot(color, ext, xext, yext, title, subt, style, pt):
     plt.show()
 
 # plot first color map
-Plot("blue", [-125,-60,15,65],[-120, -64], [20, 60], "1st method: Two Points and Great Circle Path", 
+Plot("blue", [-125,-60,15,65],[-120, -64], [20, 60], 10, "1st method: Two Points and Great Circle Path", 
      "Using matplotlib to draw curve", '-', 'blue')
 
 # plot second color map
-Plot("red", [-125,-60,15,65], [-120, -64], [20, 60], "2nd method: Two Points and Great Circle Path",
+Plot("red", [-125,-60,15,65], [-120, -64], [20, 60], 10, "2nd method: Two Points and Great Circle Path",
      "Geographiclib used to calculate great circle points",'-', 'ko')
 
 
