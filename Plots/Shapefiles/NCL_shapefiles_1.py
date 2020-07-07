@@ -21,6 +21,8 @@ See following URLs to see the reproduced NCL plot & script:
 import matplotlib.pyplot as plt
 import shapefile as shp
 import numpy as np
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -36,3 +38,14 @@ file4 = open(gdf.get("shape_files/states.prj"), 'r')
 
 # Open shapefiles
 shape = shp.Reader(gdf.get("shape_files/states.dbf"))
+
+###############################################################################
+# Plot:
+plt.figure(figsize=(10,8))
+ax = plt.axes(projection=ccrs.LambertConformal(standard_parallels=(33, 45), central_longitude=-98))
+ax.set_extent([-125, -64, 22, 50])
+
+ax.add_feature(cfeature.LAND, color='silver')
+ax.add_feature(cfeature.LAKES, color='white')
+
+plt.show()
