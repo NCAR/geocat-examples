@@ -41,6 +41,21 @@ open(gdf.get("shape_files/states.prj"), 'r')
 shapefile = shp.Reader(gdf.get("shape_files/states.dbf"))
 
 ###############################################################################
+# Helper function to determine state color:
+def color_assignment(record):
+    population = record.PERSONS
+    unempolyment = record.UNEMPLOY
+    percent = unempolyment / population
+    if (0.01 <= percent and percent < 0.02):
+        return 'blue'
+    elif (0.02 <= percent and percent < 0.03):
+        return 'lime'
+    elif (0.03 <= percent and percent < 0.04):
+        return 'yellow'
+    elif (0.04 <= percent):
+        return 'red'
+
+###############################################################################
 # Plot:
 plt.figure(figsize=(10,8))
 ax = plt.axes(projection=ccrs.LambertConformal(standard_parallels=(33, 45), central_longitude=-98))
@@ -52,17 +67,18 @@ ax.add_feature(cfeature.LAKES, color='white', zorder=1)
 for i in range(0, len(shapefile.shapes())):
     shape = shapefile.shape(i)
     record = shapefile.record(i)
+    color = color_assignment(record)
     if len(shape.parts) > 1: # if a shape has multiple parts make each one a separate patch
         for j in range(0, len(shape.parts)):
             start_index = shape.parts[j]
             if (j is (len(shape.parts)-1)): # the last part uses the remaining points and doesn't require and end_index  
-                patch = mpatches.Polygon(shape.points[start_index:], edgecolor='black', transform=ccrs.PlateCarree(), zorder=2)
+                patch = mpatches.Polygon(shape.points[start_index:], facecolor=color, edgecolor='black', linewidth=0.5, transform=ccrs.PlateCarree(), zorder=2)
             else:
                 end_index = shape.parts[j+1]
-                patch = mpatches.Polygon(shape.points[start_index : end_index], edgecolor='black', transform=ccrs.PlateCarree(), zorder=2)
+                patch = mpatches.Polygon(shape.points[start_index : end_index], facecolor=color, edgecolor='black', linewidth=0.5, transform=ccrs.PlateCarree(), zorder=2)
             ax.add_patch(patch)
     else:
-        patch = mpatches.Polygon(shape.points, edgecolor='black', transform=ccrs.PlateCarree(), zorder=2)
+        patch = mpatches.Polygon(shape.points, facecolor=color, edgecolor='black', linewidth=0.5, transform=ccrs.PlateCarree(), zorder=2)
         ax.add_patch(patch)
     
 plt.show()
