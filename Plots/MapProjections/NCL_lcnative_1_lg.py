@@ -1,5 +1,4 @@
 """
-
 NCL_lcnative_1_lg.py
 ================
 This script illustrates the following concepts:
@@ -22,10 +21,10 @@ import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
-import geocat.datafiles as gdf
 import matplotlib.ticker as mticker
-from geocat.viz import cmaps as gvcmaps
 
+from geocat.viz import cmaps as gvcmaps
+import geocat.datafiles as gdf
 ###############################################################################
 # Read in data:
 
@@ -35,39 +34,55 @@ ds = xr.open_dataset(gdf.get("netcdf_files/pre.8912.mon.nc"), decode_times=False
 # Extract a slice of the data
 t = ds.pre.isel(time=0)
 
-lat2d = ds.lat[:,:]
-lon2d = ds.lon[:,:]
-
-
 ###############################################################################
 # Plot:
 
-def Plot(proj, row, col, pos, title):
+plt.figure(figsize=(12, 12))
 
-    plt.figure(figsize=(14, 14))
+
+def Plot(row, col, pos, proj, title):
+    '''
+    row: number of rows necessary for subplotting of visualizations
+    col: number of columns necessary for subplotting 
+    pos: position of visualization in m x n subplot
+    proj: which projection to visualize
+    title: center title of respective visualization
+    '''    
     # Generate axes using Cartopy and draw coastlines
-    projection = proj#LambertAzimuthalEqualArea()#central_longitude=45)#, standard_parallels=(36,55), globe=ccrs.Globe())
+    projection = proj
     ax = plt.subplot(row, col, pos, projection=projection)
     ax.set_extent((28, 57, 20, 47), crs=ccrs.PlateCarree())
     ax.coastlines(linewidth=0.5)
+    # Import an NCL colormap
+    newcmp = gvcmaps.BlueYellowRed
     
     gl = ax.gridlines(draw_labels=True, dms=False, x_inline=False, y_inline=False)
-    gl.xlabels_top = False
-    gl.ylabels_right = False
+    gl.xlabels_top = True
+    gl.ylabels_right = True
     gl.xlines = False
     gl.ylines = False
     gl.xlocator = mticker.FixedLocator([30,35,40,45,50,55])
     gl.ylocator = mticker.FixedLocator([20,25,30,35,40,45])
     
+    '''
+    When using certain types of projections in Cartopy, you may find that there
+    is not a direct 1-to-1 projection simularity. When looking at the three Lambert
+    projections offered, you will notice the closest match to the NCL projection
+    is actually the Lambert Cylindrical projection. This is due to NCL having certain
+    "smoothing" and "flattening" options for the Lambert Conformal projection not seen 
+    in the Cartopy version. By using Lambert Cylindrical over Lambert Conformal in Python,
+    you will be able to create the "rectangular" style of coordinates not classically 
+    represented by a Lambert Conformal map. 
+    '''
     # Plot data and create colorbar
     newcmp = gvcmaps.BlueYellowRed
-    t.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), levels = 14, cbar_kwargs={"orientation":"horizontal",  "ticks":np.arange(0, 240, 20),  "label":'', "shrink":0.7})
+    t.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), levels = 14, cbar_kwargs={"orientation":"horizontal", 
+                                                                "ticks":np.arange(0, 240, 20),  "label":'', "shrink":0.9})
     
-    plt.title(title, loc='center', size=14)
-    plt.title(t.units, loc='right', size=14)
-    
-    plt.show()
+    plt.title(title, loc='center', y=1.15, size=15)
+    plt.title(t.units, loc='right', y=1.07,  size=14)
+    plt.title("precipitation", loc='left', y=1.07, size=14)
 
-Plot(ccrs.LambertConformal(central_longitude=45, standard_parallels=(36,55), globe=ccrs.Globe()),2,2,1,"Lambert Conformal")
-Plot(ccrs.LambertCylindrical(central_longitude=45),2,2,2,"Lambert Cylindrical")
-Plot(ccrs.LambertAzimuthalEqualArea(central_longitude=45),2,2,3,"Lambert Azimuthal")
+Plot(2,2,1, ccrs.LambertConformal(central_longitude=45, standard_parallels=(36,55), globe=ccrs.Globe()), "Lambert Conformal")
+Plot(2,2,2,ccrs.LambertCylindrical(central_longitude=45),"Lambert Cylindrical")
+Plot(2,2,3,ccrs.LambertAzimuthalEqualArea(central_longitude=45),"Lambert Azimuthal")
