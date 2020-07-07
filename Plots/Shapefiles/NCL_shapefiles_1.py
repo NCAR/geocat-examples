@@ -20,6 +20,8 @@ See following URLs to see the reproduced NCL plot & script:
 # Import packages:
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import matplotlib.colors as colors
+import matplotlib.cm as cm
 import shapefile as shp
 import numpy as np
 import cartopy.crs as ccrs
@@ -41,19 +43,26 @@ open(gdf.get("shape_files/states.prj"), 'r')
 shapefile = shp.Reader(gdf.get("shape_files/states.dbf"))
 
 ###############################################################################
+# Set color map colors and bounds
+colormap = colors.ListedColormap(['blue', 'lime', 'yellow', 'red'])
+
+colorbounds = [0.5, 1.5, 2.5, 3.5, 4.5]
+
+norm = colors.BoundaryNorm(colorbounds, colormap.N)
+###############################################################################
 # Helper function to determine state color:
 def color_assignment(record):
     population = record.PERSONS
     unempolyment = record.UNEMPLOY
     percent = unempolyment / population
     if (0.01 <= percent and percent < 0.02):
-        return 'blue'
+        return colormap.colors[0]
     elif (0.02 <= percent and percent < 0.03):
-        return 'lime'
+        return colormap.colors[1]
     elif (0.03 <= percent and percent < 0.04):
-        return 'yellow'
+        return colormap.colors[2]
     elif (0.04 <= percent):
-        return 'red'
+        return colormap.colors[3]
 
 ###############################################################################
 # Plot:
@@ -80,5 +89,8 @@ for i in range(0, len(shapefile.shapes())):
     else:
         patch = mpatches.Polygon(shape.points, facecolor=color, edgecolor='black', linewidth=0.5, transform=ccrs.PlateCarree(), zorder=2)
         ax.add_patch(patch)
-    
+
+# Create colorbar
+plt.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), ax=ax, boundaries=colorbounds, orientation='horizontal', shrink=0.75, ticks=[1, 2, 3, 4], label='percent', aspect=30)
+
 plt.show()
