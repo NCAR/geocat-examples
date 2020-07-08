@@ -38,7 +38,7 @@ num_months = np.shape(date)[0]
 start_year = int(date[0] / 100)
 # Create array that represents data by months from start date
 date_months = np.arange(0, num_months, 1)
-print(num_months)
+
 ###############################################################################
 # Plot
 
@@ -57,5 +57,8 @@ gvutil.set_axes_limits_and_ticks(ax, ylim=(-3, 3),
                                      xlim=(0, num_months),
                                      xticks=np.arange((1900-start_year)*12, num_months, 12*20),
                                      xticklabels=np.arange(1900, 1981, 20))
+
+# Use geocat.viz.util convenience function to set titles and labels
+gvutil.set_titles_and_labels(ax, maintitle="Darwin Southern Oscillation Index", ylabel='Anomalies')
 
 plt.show()
