@@ -131,8 +131,8 @@ cbar.outline.set_visible(False)
 # Set plot titles
 main = r"$\bf{Example}$" + " " + r"$\bf{of}$" + " " + r"$\bf{Zooming}$" + \
        " " + r"$\bf{a}$" + " " + r"$\bf{Sat}$" + " " + r"$\bf{Projection}$"
-left = r"$\bf{Potential}$" + " " + r"$\bf{Temperature}$"
-right = r"$\bf{Celsius}$"
+left = 'Potential Temperature'
+right = 'Celsius'
 
 # Use geocat-viz function to create main, left, and right plot titles
 title = gvutil.set_titles_and_labels(ax,
