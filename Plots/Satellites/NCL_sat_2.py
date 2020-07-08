@@ -2,7 +2,7 @@
 NCL_sat_2.py
 ===============
 This script illustrates the following concepts:
-   - unpacking 'short' data
+   - Unpacking 'short' data
    - Drawing filled contours over a satellite map
    - Explicitly setting contour fill colors
    - Finding local high pressure values
@@ -33,7 +33,7 @@ import geocat.viz.util as gvutil
 # load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/slp.1963.nc"), decode_times=False)
 
-# Get data from the 24th timestep
+# Get data from the 21st timestep
 pressure = ds.slp[21, :, :]
 
 # Translate short values to float values
@@ -147,7 +147,7 @@ def findLocalMinima(minPressure=980):
 
     # Set number that a derivative must be less than in order to
     # classify as a "zero"
-    bound = 0.5
+    bound = 0.0
 
     # Get global gradient of contour data
     grad = np.gradient(wrap_pressure.data)
@@ -316,16 +316,11 @@ ax.set_global()
 
 # Add land, coastlines, and ocean features
 ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1)
-ax.add_feature(cfeature.COASTLINE, linewidth=.3)
+ax.add_feature(cfeature.COASTLINE, linewidth=.3, zorder=2)
 ax.add_feature(cfeature.OCEAN, facecolor='white')
 ax.add_feature(cfeature.BORDERS, linewidth=.3)
 ax.add_feature(cfeature.LAKES, facecolor='white',
                edgecolor='k', linewidth=.3)
-
-# Make array of the contour levels that will be plotted
-contours = np.arange(948, 1060, 4)
-contours = np.append(contours, 975)
-contours = np.sort(contours)
 
 # Create color map
 colorvalues = [1020, 1036, 1500]
@@ -336,7 +331,7 @@ norm = colors.BoundaryNorm(colorvalues, 2)
 p = wrap_pressure.plot.contourf(ax=ax,
                                 zorder=2,
                                 transform=ccrs.PlateCarree(),
-                                levels=contours,
+                                levels=30,
                                 cmap=cmap, norm=norm,
                                 add_labels=False,
                                 add_colorbar=False)
@@ -344,7 +339,7 @@ p = wrap_pressure.plot.contourf(ax=ax,
 p = wrap_pressure.plot.contour(ax=ax,
                                transform=ccrs.PlateCarree(),
                                linewidths=0.3,
-                               levels=contours,
+                               levels=30,
                                cmap='black',
                                add_labels=False)
 
@@ -391,7 +386,7 @@ for x in lowClevels:
     # Try/except block in place to allow program to
     # "except" plotting coordinates that aren't in visible map range.
     try:
-        ax.clabel(p, manual=[x], inline=True, fontsize=24, colors='k',
+        lowLabels = ax.clabel(p, manual=[x], inline=True, fontsize=24, colors='k',
                   fmt="L" + "$_{%.0f}$", rightside_up=True)
     except:
         continue
@@ -401,13 +396,13 @@ for x in highClevels:
     # Try/except block in place to allow program to
     # "except" plotting coordinates that aren't in visible map range.
     try:
-        ax.clabel(p, manual=[x], inline=True, fontsize=24, colors='k',
+        highLabels = ax.clabel(p, manual=[x], inline=True, fontsize=24, colors='k',
                   fmt="H" + "$_{%.0f}$", rightside_up=True)
     except:
         continue
 
 # Label rest of the contours
-ax.clabel(p, manual=clevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
+regularLabels = ax.clabel(p, manual=clevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax,
