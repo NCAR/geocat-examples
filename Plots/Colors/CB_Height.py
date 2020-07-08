@@ -22,8 +22,8 @@ Figure 1.
 
 Figure 2. 
    -  This is an example of a less distinct contrasting color gradient. This choice in color scheme would 
-    not be a good choice for printing in black and white but may ok for individuals who 
-    experience blue-green colorblindness.
+      not be a good choice for printing in black and white but may ok for individuals who 
+      experience blue-green colorblindness.
 
 Figure 3. 
   - The coolwarm diverging scheme should be used when both high and low values are interesting. 
