@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 CB_Temperature.py
 ================
@@ -31,7 +29,8 @@ Figure 2.
 
 Figure 3. 
   - This is an example of a less distinct contrasting color gradient. This choice in color scheme would 
-    be a good choice for printing in black and white and is also a color blind friendly scheme. 
+    be a good choice for printing in black and white but may create some challenges for individuals who 
+    experience blue-green colorblindness. 
 
 Figure 4.
  - This plot shows how drastically contrasting colors can be incredibly useful for plotting this type of data.
@@ -72,23 +71,6 @@ def Plot(color, row, col, pos, title):
     ax1 = plt.subplot(row, col, pos, projection=projection)
     ax1.coastlines(linewidths=0.5)
     ax1.add_feature(cfeature.LAND, facecolor="lightgray")
-
-    # fig.text(
-    #     0.5,
-    #     0.0001,
-        # """ 
-        # fig 1. The rainbow color scheme is problematic due to the lack of a natural perceived ordering of colors,
-        # perceptual changes in the colors (ex: yellow and green blend together easily), and is sensitive to 
-        # deficiencies in vision
-        # fig 2. The coolwarm diverging scheme should be used when both high and low values are interesting. 
-        # However, be careful using this scheme if the projection will be printed to black and white. 
-        # fig 3. This is an example of a less distinct contrasting color gradient. This choice in color scheme would 
-        # be a good choice for printing in black and white and is also a color blind friendly scheme. 
-        # fig 4. This plot shows how drastically contrasting colors can be incredibly useful for plotting this type of data.
-        # This color scheme will work well for color blind impacted individuals and is black and white print friendly.
-        # """"",
-        # fontsize=10,
-        # ha="center", wrap=True)
 
     # Import an NCL colormap
     newcmp = color
@@ -131,22 +113,10 @@ Plot(gvcmaps.BlAqGrYeOrRe, 2, 2, 1, "Figure 1: \n Rainbow Color Projection")
 Plot("coolwarm", 2, 2, 2, "Figure 2: \n Coolwarm Color Projection")
 
 # plot third color map
-Plot("magma", 2, 2, 3, "Figure 3: \n Magma Color Projection")
+Plot("viridis", 2, 2, 3, "Figure 3: \n Viridis Color Projection")
 
 # Plot fourth color map
-Plot("gnuplot2", 2, 2, 4, "Figure 4: \n Gnuplot2 Color Projection")
+Plot("magma", 2, 2, 4, "Figure 4: \n Magma Color Projection")
+
 
 fig.suptitle("Projections of Temperature", x=.5, y=.95, fontsize=18)
-
-
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Comparison Analysis
-====================
-
-    - text 
-"""
-
-
-
