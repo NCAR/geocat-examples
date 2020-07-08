@@ -30,15 +30,32 @@ from geocat.viz import util as gvutil
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/soi.nc"))
 dsoik = ds.DSOI_KET
-dsoid = ds.DSOI_DEC
 date = ds.date
 
-# Creating a new array for x axis labels
-datedim = np.shape(date)[0]
-new_date = np.empty_like(date)
+num_months = np.shape(date)[0]
+
 # Dates in the file are represented by year and month
-# Create array that represents data by year and months as a fraction of a year
-for n in np.arange(0, datedim, 1):
-    yyyy = date[n]/100
-    mon = date[n]-yyyy*100
-    new_date[n] = yyyy + (mon-1)/12
+start_year = int(date[0] / 100)
+# Create array that represents data by months from start date
+date_months = np.arange(0, num_months, 1)
+print(num_months)
+###############################################################################
+# Plot
+
+# Generate figure (set its size (width, height) in inches) and axes
+plt.figure(figsize=(8, 4))
+ax = plt.axes()
+
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5,
+                             labelsize=14)
+
+# Use geocat.viz.util convenience function to set axes parameters
+gvutil.set_axes_limits_and_ticks(ax, ylim=(-3, 3),
+                                     yticks=np.linspace(-3, 3, 7),
+                                     yticklabels=np.linspace(-3, 3, 7),
+                                     xlim=(0, num_months),
+                                     xticks=np.arange((1900-start_year)*12, num_months, 12*20),
+                                     xticklabels=np.arange(1900, 1981, 20))
+
+plt.show()
