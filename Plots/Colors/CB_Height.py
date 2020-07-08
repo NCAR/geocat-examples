@@ -27,7 +27,7 @@ Figure 2.
 
 Figure 3. 
   - The coolwarm diverging scheme should be used when both high and low values are interesting. 
-     However, be careful using this scheme if the projection will be printed to black and white.
+    However, be careful using this scheme if the projection will be printed to black and white.
 
 Figure 4.
  - This plot shows how a singular color like blue can be incredibly useful for plotting this type of data.
