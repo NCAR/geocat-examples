@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 CB_Height.py
 ================
@@ -16,6 +14,24 @@ More information on this subject can be found here:
 
 More color schemes can be found here:
     - https://matplotlib.org/3.1.1/tutorials/colors/colormaps.html
+
+Figure 1. 
+   - The rainbow color scheme is problematic due to the lack of a natural perceived ordering of colors,
+     perceptual changes in the colors (ex: yellow and green blend together easily), and is sensitive to 
+     deficiencies in vision
+
+Figure 2. 
+   -  This is an example of a less distinct contrasting color gradient. This choice in color scheme would 
+    not be a good choice for printing in black and white but may ok for individuals who 
+    experience blue-green colorblindness.
+
+Figure 3. 
+  - The coolwarm diverging scheme should be used when both high and low values are interesting. 
+     However, be careful using this scheme if the projection will be printed to black and white.
+
+Figure 4.
+ - This plot shows how a singular color like blue can be incredibly useful for plotting this type of data.
+   This color scheme will work well for color blind impacted individuals and is black and white print friendly.
 """
 
 
@@ -95,15 +111,16 @@ def Plot(color,row, col, pos, title):
         ylabel="")
 
 #Plot first color map
-Plot(gvcmaps.BlAqGrYeOrRe, 2,2,1,"Rainbow Color Projection \n of PBL Height")
+Plot(gvcmaps.BlAqGrYeOrRe, 2,2,1,"Rainbow Color Projection")
 
 #plot second color map
-Plot('magma', 2,2,2,"Magma Color Projection \n of PBL Height")
+Plot('magma', 2,2,2,"Magma Color Projection")
 
 #plot third color map
-Plot('coolwarm', 2,2,3, "Coolwarm Color Projection \n of PBL Height")
+Plot('coolwarm', 2,2,3, "Coolwarm Color Projection")
 
 #Plot fourth color map
-Plot('Reds', 2,2,4, "Reds Color Projection \n of PBL Height")
+Plot('Reds', 2,2,4, "Reds Color Projection")
 
+fig.suptitle("Projections of Planetary Boundary Layer Height", x=.5, y=.93, fontsize=18)
 
