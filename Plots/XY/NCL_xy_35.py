@@ -2,14 +2,12 @@
 NCL_xy_35.py
 ============
 This script illustrates the following concepts:
-   - Use of new (with NCL 6.4.0) opacity resources
+   - Use of opacity resources
      to control opacity of curves and markers in
      XYPlots.
-   - The per-curve/per-marker resource arrays override
-     the single-value opacity resources.
-   - Unlike color resources, the opacity resources
-     are applicable with the Mono-color resources
-     are in effect.
+   - How to set line opacity and marker opacity to 
+     different values using RGBA tuples
+   - Opacity is still functional in colorless plots
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/xy_35.ncl
@@ -226,12 +224,26 @@ gvutil.set_axes_limits_and_ticks(ax,
                                  yticks=np.arange(-1.5, 1.5, 0.5),
                                  yticklabels=np.arange(-1.5, 1.5, 0.5))
 
-# Plot x, y, and z lines and markers in black with varying transparency values
-line1 = ax.plot(f, x, 'o', ls='-', color='black', alpha=0.8,
-                ms=3, markevery=.1, mec='None')
-line2 = ax.plot(f, y, 'o', ls='-', color='black', alpha=0.4, ms=3,
-                markevery=.1, mec='None')
-line3 = ax.plot(f, z, 'o', ls='-', color='black', alpha=0.15,
-                ms=3, markevery=.1, mec='None')
+# Set alpha (transparency) value
+alpha = 0.4
+
+# Create RGBA tuples for lines
+lcolor1 = colors.to_rgba('black', alpha=alpha)
+lcolor2 = colors.to_rgba('black', alpha=alpha)
+lcolor3 = colors.to_rgba('black', alpha=alpha)
+
+# Create RGBA tuples for markers
+mcolor1 = colors.to_rgba('black', alpha=1.0)
+mcolor2 = colors.to_rgba('black', alpha=0.4)
+mcolor3 = colors.to_rgba('black', alpha=0.15)
+
+# Plot x, y, and z lines and markers in black- the lines have the same
+# transparency level, but the markers vary in alpha value
+line1 = ax.plot(f, x, 'o', ls='-', color=lcolor1,
+                ms=3, markevery=.1, mec='None', mfc=mcolor1)
+line2 = ax.plot(f, y, 'o', ls='-', color=lcolor2,
+                ms=3, markevery=.1, mec='None', mfc=mcolor2)
+line3 = ax.plot(f, z, 'o', ls='-', color=lcolor3,
+                ms=3, markevery=.1, mec='None', mfc=mcolor3)
 
 plt.show()
