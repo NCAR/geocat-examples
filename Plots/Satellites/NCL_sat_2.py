@@ -317,7 +317,7 @@ def plotCLabels(coords, ptype='regular'):
             # "except" plotting coordinates that aren't in visible map range.
             try:
                 ax.clabel(p, manual=[x], inline=True, fontsize=24, colors='k',
-                                      fmt="L" + "$_{%.0f}$", rightside_up=True)
+                                      fmt="L" + "$_{%.0f}$")
             except:
                 continue
     if ptype == 'high':
@@ -326,7 +326,7 @@ def plotCLabels(coords, ptype='regular'):
             # "except" plotting coordinates that aren't in visible map range.
             try:
                 ax.clabel(p, manual=[x], inline=True, fontsize=24, colors='k',
-                                       fmt="H" + "$_{%.0f}$", rightside_up=True)
+                                       fmt="H" + "$_{%.0f}$")
             except:
                 continue
 
