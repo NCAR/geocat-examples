@@ -93,7 +93,7 @@ for i in range(0, len(shapefile.shapes())):
         ax.add_patch(patch)
 
 # Create colorbar
-plt.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), ax=ax, boundaries=colorbounds, orientation='horizontal', shrink=0.75, ticks=[1, 2, 3, 4], label='percent', aspect=30)
+plt.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), ax=ax, boundaries=colorbounds, orientation='horizontal', shrink=0.75, ticks=[1, 2, 3, 4], label='percent', aspect=30, pad=0.075)
 
 # Add latitude and longitude labels
 gl = ax.gridlines(draw_labels=True, x_inline=False, y_inline=False)
