@@ -104,4 +104,7 @@ gl.ylabel_style = {'rotation': 0}
 gl.xlines = False
 gl.ylines = False
 
+# Use geocat.viz.util convenience function to set titles and labels
+gvutil.set_titles_and_labels(ax, maintitle='Percentage unemployment, by state')
+
 plt.show()
