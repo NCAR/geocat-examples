@@ -22,10 +22,12 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import matplotlib.colors as colors
 import matplotlib.cm as cm
+import matplotlib.ticker as mticker
 import shapefile as shp
 import numpy as np
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+import cartopy.mpl.gridliner as cgrid
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -68,7 +70,7 @@ def color_assignment(record):
 # Plot:
 plt.figure(figsize=(10,8))
 ax = plt.axes(projection=ccrs.LambertConformal(standard_parallels=(33, 45), central_longitude=-98))
-ax.set_extent([-125, -64, 22, 50])
+ax.set_extent([-125, -74, 22, 50])
 
 ax.add_feature(cfeature.LAND, color='silver', zorder=0)
 ax.add_feature(cfeature.LAKES, color='white', zorder=1)
@@ -92,5 +94,14 @@ for i in range(0, len(shapefile.shapes())):
 
 # Create colorbar
 plt.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), ax=ax, boundaries=colorbounds, orientation='horizontal', shrink=0.75, ticks=[1, 2, 3, 4], label='percent', aspect=30)
+
+# Add latitude and longitude labels
+gl = ax.gridlines(draw_labels=True, x_inline=False, y_inline=False)
+gl.xlocator = mticker.FixedLocator(np.linspace(-120, -80, 5))
+gl.ylocator = mticker.FixedLocator(np.linspace(25, 45, 5))
+gl.xlabel_style = {'rotation': 0}
+gl.ylabel_style = {'rotation': 0}
+gl.xlines = False
+gl.ylines = False
 
 plt.show()
