@@ -304,6 +304,45 @@ def findLocalMaxima(maxPressure=1040):
 
 
 ###############################################################################
+# Helper function that will plot the clabels manually, with formatting based
+# on whether they are a high, low, or regular pressure point
+
+def plotCLabels(coords, ptype='regular'):
+
+    if ptype == 'regular':
+        ax.clabel(p, manual=coords, inline=True, fontsize=14, colors='k', fmt="%.0f")
+    if ptype == 'low':
+        for x in coords:
+            # Try/except block in place to allow program to
+            # "except" plotting coordinates that aren't in visible map range.
+            try:
+                ax.clabel(p, manual=[x], inline=True, fontsize=24, colors='k',
+                                      fmt="L" + "$_{%.0f}$", rightside_up=True)
+            except:
+                continue
+    if ptype == 'high':
+        for x in coords:
+            # Try/except block in place to allow program to
+            # "except" plotting coordinates that aren't in visible map range.
+            try:
+                ax.clabel(p, manual=[x], inline=True, fontsize=24, colors='k',
+                                       fmt="H" + "$_{%.0f}$", rightside_up=True)
+            except:
+                continue
+
+###############################################################################
+# Helper function that will transform lat/lon geographic coordinates 
+# to geodetic coordinates
+
+def transformCoords(coords):
+
+    clevelpoints = proj.transform_points(ccrs.Geodetic(),
+                                            np.array([x[0] for x in coords]),
+                                            np.array([x[1] for x in coords]))
+    clevels = [(x[0], x[1]) for x in clevelpoints]
+    return clevels
+
+###############################################################################
 # Create plot
 
 # Set figure size
@@ -360,49 +399,18 @@ clevels = [(-145.27, 50.9), (-125.89, 32.33), (-112.62, 19.89),
            (-57.17, 49.07), (-77.51, 32.42), (-62.17, 12.24),
            (-85.22, 71.78), (-137.39, 40.3)]
 
-# Transform the low pressure contour coordinates
-# from geographic to projected
-lowclevelpoints = proj.transform_points(ccrs.Geodetic(),
-                                        np.array([x[0] for x in lowClevels]),
-                                        np.array([x[1] for x in lowClevels]))
-lowClevels = [(x[0], x[1]) for x in lowclevelpoints]
+# Add another high contour area that didn't get found by the "findLocalMaxima" function
+highClevels.append((-39, 74))
 
-# Transform the low pressure contour coordinates
-# from geographic to projected
-highclevelpoints = proj.transform_points(ccrs.Geodetic(),
-                                         np.array([x[0] for x in highClevels]),
-                                         np.array([x[1] for x in highClevels]))
-highClevels = [(x[0], x[1]) for x in highclevelpoints]
+# Transform the low, high, and regular pressure contour coordinates from geographic to geodetic
+lowClevels = transformCoords(lowClevels)
+highClevels = transformCoords(highClevels)
+clevels = transformCoords(clevels)
 
-# Transform the regular pressure contour coordinates
-# from geographic to projected
-clevelpoints = proj.transform_points(ccrs.Geodetic(),
-                                     np.array([x[0] for x in clevels]),
-                                     np.array([x[1] for x in clevels]))
-clevels = [(x[0], x[1]) for x in clevelpoints]
-
-# Label contours with Low pressure
-for x in lowClevels:
-    # Try/except block in place to allow program to
-    # "except" plotting coordinates that aren't in visible map range.
-    try:
-        lowLabels = ax.clabel(p, manual=[x], inline=True, fontsize=24, colors='k',
-                  fmt="L" + "$_{%.0f}$", rightside_up=True)
-    except:
-        continue
-
-# Label contours with High pressure
-for x in highClevels:
-    # Try/except block in place to allow program to
-    # "except" plotting coordinates that aren't in visible map range.
-    try:
-        highLabels = ax.clabel(p, manual=[x], inline=True, fontsize=24, colors='k',
-                  fmt="H" + "$_{%.0f}$", rightside_up=True)
-    except:
-        continue
-
-# Label rest of the contours
-regularLabels = ax.clabel(p, manual=clevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
+# Label low, high, and regular contours
+plotCLabels(lowClevels, ptype='low')
+plotCLabels(highClevels, ptype='high')
+plotCLabels(clevels, ptype='regular')
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax,
