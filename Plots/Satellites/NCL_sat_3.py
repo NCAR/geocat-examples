@@ -110,7 +110,7 @@ heatmap = t.plot.contourf(ax=ax,
                           transform=ccrs.PlateCarree(),
                           levels=80,
                           vmin=-1.5, vmax=28.5,
-                          cmap='RdBu_r',
+                          cmap='RdGy',
                           add_colorbar=False,
                           zorder=1)
 
