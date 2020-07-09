@@ -44,7 +44,8 @@ start_year = int(date[0] / 100)
 plt.figure(figsize=(8, 4))
 ax = plt.axes()
 
-plt.bar(time[::8], dsoik[::8], align='edge', width=7, edgecolor='black')
+colors = ['red' if (value > 0) else 'blue' for value in dsoik[::8]]
+plt.bar(time[::8], dsoik[::8], align='edge', width=7, edgecolor='black', color=colors)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5,
