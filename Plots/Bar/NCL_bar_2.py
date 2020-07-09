@@ -46,12 +46,12 @@ for n in np.arange(0, num_months, 1):
 # Plot
 
 # Generate figure (set its size (width, height) in inches) and axes
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(12, 6))
 ax = plt.axes()
 
 # Create a list of colors based on the color bar values
 colors = ['red' if (value > 0) else 'blue' for value in dsoik[::8]]
-plt.bar(date_frac[::8], dsoik[::8], align='edge', edgecolor='black', color=colors)
+plt.bar(date_frac[::8], dsoik[::8], align='edge', edgecolor='black', color=colors, width=8/12)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5,
@@ -61,7 +61,7 @@ gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5,
 gvutil.set_axes_limits_and_ticks(ax, ylim=(-3, 3),
                                      yticks=np.linspace(-3, 3, 7),
                                      yticklabels=np.linspace(-3, 3, 7),
-                                     xlim=(date_frac[0], date_frac[-1]),
+                                     xlim=(date_frac[8], date_frac[-5]),
                                      xticks=np.linspace(1900, 1980, 5))
 
 # Use geocat.viz.util convenience function to set titles and labels
