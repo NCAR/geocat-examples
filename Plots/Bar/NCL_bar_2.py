@@ -31,13 +31,11 @@ from geocat.viz import util as gvutil
 ds = xr.open_dataset(gdf.get("netcdf_files/soi.nc"))
 dsoik = ds.DSOI_KET
 date = ds.date
-
+time = ds.time.data
 num_months = np.shape(date)[0]
 
 # Dates in the file are represented by year and month
 start_year = int(date[0] / 100)
-# Create array that represents data by months from start date
-date_months = np.arange(0, num_months, 1)
 
 ###############################################################################
 # Plot
@@ -45,6 +43,8 @@ date_months = np.arange(0, num_months, 1)
 # Generate figure (set its size (width, height) in inches) and axes
 plt.figure(figsize=(8, 4))
 ax = plt.axes()
+
+plt.bar(time[::8], dsoik[::8], align='edge', width=7, edgecolor='black')
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5,
