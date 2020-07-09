@@ -98,13 +98,6 @@ ax.add_feature(cfeature.COASTLINE,
 ax.add_feature(cfeature.LAKES,
                edgecolor='black', linewidth=0.2, facecolor='white', zorder=4)
 
-# Plot gridlines
-gl = ax.gridlines(color='black', linewidth=0.2, zorder=2)
-
-# Set frequency of gridlines in the x and y directions
-gl.xlocator = mticker.FixedLocator(np.arange(-180, 180, 15))
-gl.ylocator = mticker.FixedLocator(np.arange(-90, 90, 15))
-
 # plot filled contour data
 heatmap = t.plot.contourf(ax=ax,
                           transform=ccrs.PlateCarree(),
@@ -129,11 +122,13 @@ cbar = plt.colorbar(heatmap,
 # Get rid of black outline on colorbar
 cbar.outline.set_visible(False)
 
-# Set plot titles
+# Set main plot title
 main = r"$\bf{Example}$" + " " + r"$\bf{of}$" + " " + r"$\bf{Zooming}$" + \
        " " + r"$\bf{a}$" + " " + r"$\bf{Sat}$" + " " + r"$\bf{Projection}$"
-left = 'Potential Temperature'
-right = 'Celsius'
+
+# Set plot subtitles using NetCDF metadata
+left = t.long_name
+right = t.units
 
 # Use geocat-viz function to create main, left, and right plot titles
 title = gvutil.set_titles_and_labels(ax,
@@ -142,7 +137,15 @@ title = gvutil.set_titles_and_labels(ax,
                                      righttitle=right, righttitlefontsize=14,
                                      xlabel="", ylabel="")
 
+# Option 1:
 # Manually plot tick marks
+# Plot gridlines
+gl = ax.gridlines(color='black', linewidth=0.2, zorder=2)
+
+# Set frequency of gridlines in the x and y directions
+gl.xlocator = mticker.FixedLocator(np.arange(-180, 180, 15))
+gl.ylocator = mticker.FixedLocator(np.arange(-90, 90, 15))
+
 plotOrthoTicks([(0, 81.7)], 'zero')
 plotOrthoTicks([(-80, 30), (-76, 20), (-88, 40), (-107, 50)], 'left')
 plotOrthoTicks([(-9, 30), (-6, 40), (1, 50), (13, 60)], 'right')
@@ -150,6 +153,17 @@ plotOrthoTicks([(-120, 60), (-60, 82.5)], 'top')
 plotOrthoTicks([(-75, 16.0), (-60, 25.0), (-45, 29.0),
                 (-30, 29.5), (-15, 26.5)], 'bottom')
 
+
+'''
+# Option 2:
+# Plot gridlines
+gl = ax.gridlines(color='black', linewidth=0.2, zorder=2, draw_labels=True)
+
+# Set frequency of gridlines in the x and y directions
+gl.xlocator = mticker.FixedLocator(np.arange(-180, 180, 15))
+gl.ylocator = mticker.FixedLocator(np.arange(-90, 90, 15))
+gl.rotate_labels = False
+'''
 
 plt.tight_layout()
 plt.show()
