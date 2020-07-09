@@ -108,22 +108,23 @@ gl.ylocator = mticker.FixedLocator(np.arange(-90, 90, 15))
 # plot filled contour data
 heatmap = t.plot.contourf(ax=ax,
                           transform=ccrs.PlateCarree(),
-                          levels=60,
-                          vmin=0, vmax=32,
-                          cmap='magma',
+                          levels=80,
+                          vmin=-1.5, vmax=28.5,
+                          cmap='RdBu_r',
                           add_colorbar=False,
                           zorder=1)
 
 # Create colorbar
 cbar = plt.colorbar(heatmap,
                     orientation='horizontal',
+                    extendfrac=[0, .1],
+                    extend='max',
                     extendrect=True,
                     pad=0.05,
                     shrink=.75,
-                    aspect=12)
-
-# Set ticks on colorbar
-cbar.ax.set_xticklabels([str(i) for i in np.arange(-1.5, 28.5, 3)])
+                    aspect=14,
+                    ticks=np.arange(-1.5, 31.5, 3)
+                    )
 
 # Get rid of black outline on colorbar
 cbar.outline.set_visible(False)
