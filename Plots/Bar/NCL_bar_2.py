@@ -31,11 +31,16 @@ from geocat.viz import util as gvutil
 ds = xr.open_dataset(gdf.get("netcdf_files/soi.nc"))
 dsoik = ds.DSOI_KET
 date = ds.date
-time = ds.time.data
 num_months = np.shape(date)[0]
 
-# Dates in the file are represented by year and month
-start_year = int(date[0] / 100)
+# Dates in the file are represented by year and month (YYYYMM)
+# representing them fractionally will make ploting the data easier
+# This produces the same results as NCL's yyyymm_to_yyyyfrac() function
+date_frac = np.empty_like(date)
+for n in np.arange(0, num_months, 1):
+    yyyy = int(date[n]/100)
+    mon = (date[n]/100-yyyy)*100
+    date_frac[n] = yyyy + (mon-1)/12
 
 ###############################################################################
 # Plot
@@ -44,8 +49,9 @@ start_year = int(date[0] / 100)
 plt.figure(figsize=(8, 4))
 ax = plt.axes()
 
+# Create a list of colors based on the color bar values
 colors = ['red' if (value > 0) else 'blue' for value in dsoik[::8]]
-plt.bar(time[::8], dsoik[::8], align='edge', width=7, edgecolor='black', color=colors)
+plt.bar(date_frac[::8], dsoik[::8], align='edge', edgecolor='black', color=colors)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5,
@@ -55,9 +61,8 @@ gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5,
 gvutil.set_axes_limits_and_ticks(ax, ylim=(-3, 3),
                                      yticks=np.linspace(-3, 3, 7),
                                      yticklabels=np.linspace(-3, 3, 7),
-                                     xlim=(0, num_months),
-                                     xticks=np.arange((1900-start_year)*12, num_months, 12*20),
-                                     xticklabels=np.arange(1900, 1981, 20))
+                                     xlim=(date_frac[0], date_frac[-1]),
+                                     xticks=np.linspace(1900, 1980, 5))
 
 # Use geocat.viz.util convenience function to set titles and labels
 gvutil.set_titles_and_labels(ax, maintitle="Darwin Southern Oscillation Index", ylabel='Anomalies')
