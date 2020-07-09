@@ -55,7 +55,7 @@ plt.bar(date_frac[::8], dsoik[::8], align='edge', edgecolor='black', color=color
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5,
-                             labelsize=14)
+                             labelsize=20)
 
 # Use geocat.viz.util convenience function to set axes parameters
 gvutil.set_axes_limits_and_ticks(ax, ylim=(-3, 3),
@@ -65,6 +65,6 @@ gvutil.set_axes_limits_and_ticks(ax, ylim=(-3, 3),
                                      xticks=np.linspace(1900, 1980, 5))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, maintitle="Darwin Southern Oscillation Index", ylabel='Anomalies')
+gvutil.set_titles_and_labels(ax, maintitle="Darwin Southern Oscillation Index", ylabel='Anomalies', maintitlefontsize=28, labelfontsize=20)
 
 plt.show()
