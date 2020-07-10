@@ -62,7 +62,7 @@ gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5,
 gvutil.set_axes_limits_and_ticks(ax, ylim=(-3, 3),
                                  yticks=np.linspace(-3, 3, 7),
                                  yticklabels=np.linspace(-3, 3, 7),
-                                 xlim=(date_frac[8], date_frac[-5]),
+                                 xlim=(date_frac[40], date_frac[-16]),
                                  xticks=np.linspace(1900, 1980, 5))
 
 # Use geocat.viz.util convenience function to set titles and labels
