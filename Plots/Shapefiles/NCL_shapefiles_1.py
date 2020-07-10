@@ -27,7 +27,6 @@ import shapefile as shp
 import numpy as np
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
-import cartopy.mpl.gridliner as cgrid
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
