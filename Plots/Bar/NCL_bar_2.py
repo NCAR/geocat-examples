@@ -51,7 +51,7 @@ ax = plt.axes()
 
 # Create a list of colors based on the color bar values
 colors = ['red' if (value > 0) else 'blue' for value in dsoik[::8]]
-plt.bar(date_frac[::8], dsoik[::8], align='edge', edgecolor='black', color=colors, width=8/12)
+plt.bar(date_frac[::8], dsoik[::8], align='edge', edgecolor='black', color=colors, width=8/12, linewidth=.6)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5,
