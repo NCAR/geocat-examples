@@ -18,7 +18,7 @@ import xarray as xr
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import numpy as np
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, DBSCAN
 import matplotlib.pyplot as plt
 from matplotlib import colors
 import matplotlib.ticker as mticker
@@ -81,6 +81,8 @@ def getKClusters(arr, numClusters):
 
     lonvals = [a_tuple[0] for a_tuple in arr]
     latvals = [a_tuple[1] for a_tuple in arr]
+    
+    '''
     ids = np.arange(1, len(latvals)+1)
 
     K_clusters = range(1, 10)
@@ -91,7 +93,11 @@ def getKClusters(arr, numClusters):
     kmeans = KMeans(n_clusters=numClusters, init='k-means++')
     kmeans.fit(firstCols)
     labels = kmeans.predict(firstCols)
-
+    '''
+    db = DBSCAN(eps=10, min_samples=1) 
+    new = db.fit(list(zip(lonvals, latvals)))
+    labels = new.labels_
+    
     # Create an dictionary of values with key being coordinate
     # and value being cluster label.
     coordsAndLabels = {}
@@ -140,7 +146,7 @@ def findClusterMin(coordarr, coordsAndLabels):
 # on a contour map.
 
 
-def findLocalMinima(minPressure=980):
+def findLocalMinima(minPressure=993):
 
     # Create a 2D array of all the coordinates with pressure data
     coordarr = makeCoordArr()
@@ -304,29 +310,33 @@ def findLocalMaxima(maxPressure=1040):
 
 
 ###############################################################################
-# Helper function that will plot the clabels manually, with formatting based
-# on whether they are a high, low, or regular pressure point
+# Helper function that will plot contour labels
 
-def plotCLabels(coords, ptype='regular'):
+def plotCLabels(contours, Clevels=[], lowClevels=[], highClevels=[]):
 
-    if ptype == 'regular':
-        ax.clabel(p, manual=coords, inline=True, fontsize=14, colors='k', fmt="%.0f")
-    if ptype == 'low':
-        for x in coords:
-            # Try/except block in place to allow program to
-            # "except" plotting coordinates that aren't in visible map range.
+    coordarr = makeCoordArr()
+
+    if Clevels != []:
+        geodeticClevels = transformCoords(Clevels)
+        ax.clabel(contours, manual=geodeticClevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
+
+    if lowClevels != []:
+        geodeticLowClevels = transformCoords(lowClevels)
+        for x in range(len(geodeticLowClevels)):
             try:
-                ax.clabel(p, manual=[x], inline=True, fontsize=24, colors='k',
-                                      fmt="L" + "$_{%.0f}$")
+                p = (int)(round(findCoordPressureData(coordarr, lowClevels[x][0], lowClevels[x][1])))
+                plt.text(geodeticLowClevels[x][0], geodeticLowClevels[x][1], "L$_{" + str(p) + "}$", fontsize=16,
+                         horizontalalignment='center', verticalalignment='center', rotation=0)
             except:
                 continue
-    if ptype == 'high':
-        for x in coords:
-            # Try/except block in place to allow program to
-            # "except" plotting coordinates that aren't in visible map range.
+
+    if highClevels != []:
+        geodeticHighClevels = transformCoords(highClevels)
+        for x in range(len(geodeticHighClevels)):
             try:
-                ax.clabel(p, manual=[x], inline=True, fontsize=24, colors='k',
-                                       fmt="H" + "$_{%.0f}$")
+                p = (int)(round(findCoordPressureData(coordarr, highClevels[x][0], highClevels[x][1])))
+                plt.text(geodeticHighClevels[x][0], geodeticHighClevels[x][1], "H$_{" + str(p) + "}$", fontsize=16,
+                horizontalalignment='center', verticalalignment='center', rotation=0)
             except:
                 continue
 
@@ -399,18 +409,8 @@ clevels = [(-145.27, 50.9), (-125.89, 32.33), (-112.62, 19.89),
            (-57.17, 49.07), (-77.51, 32.42), (-62.17, 12.24),
            (-85.22, 71.78), (-137.39, 40.3)]
 
-# Add another high contour area that didn't get found by the "findLocalMaxima" function
-highClevels.append((-39, 74))
-
-# Transform the low, high, and regular pressure contour coordinates from geographic to geodetic
-lowClevels = transformCoords(lowClevels)
-highClevels = transformCoords(highClevels)
-clevels = transformCoords(clevels)
-
 # Label low, high, and regular contours
-plotCLabels(lowClevels, ptype='low')
-plotCLabels(highClevels, ptype='high')
-plotCLabels(clevels, ptype='regular')
+plotCLabels(p, Clevels=clevels, lowClevels=lowClevels, highClevels=highClevels)
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax,
