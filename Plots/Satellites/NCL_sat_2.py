@@ -46,15 +46,12 @@ pressure = pressure*0.01
 wrap_pressure = gvutil.xr_add_cyclic_longitudes(pressure, "lon")
 
 ###############################################################################
-# Helper function that will return an array of (lon, lat) coord tuples
-# with the same dimensions as the pressure data.
-
 
 def makeCoordArr():
     """
     Utility function to create an array of coordinate tuples in GPS form (lon in degrees, lat in degrees)
     with the same dimensions as the pressure data, so each coordinate on the map can easily be mapped to
-    the pressure data at that point.
+    the pressure value at that point.
 
     Args:
 
@@ -76,7 +73,6 @@ def makeCoordArr():
     return np.array(coordarr)
 
 ###############################################################################
-
 
 def findCoordPressureData(coordarr, coord):
     """
@@ -104,7 +100,6 @@ def findCoordPressureData(coordarr, coord):
                 return pressure.data[x][y]
 
 ###############################################################################
-
 
 def getKClusters(arr):
     """
@@ -193,7 +188,6 @@ def findClusterExtrema(coordarr, coordsAndLabels, eType):
 
 ###############################################################################
 
-
 def findLocalMinima(minPressure=993):
     """
     Utility function to find local low pressure coordinates on a contour map
@@ -274,7 +268,6 @@ def findLocalMinima(minPressure=993):
     return clusterMins
 
 ###############################################################################
-
 
 def findLocalMaxima(maxPressure=1040):
     """
