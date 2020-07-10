@@ -165,7 +165,7 @@ for row in range(0,2):
         set_map_boundary(axs[row][col], (-180, 180), (0, 90))
 
 # Import color map
-cmap = gvcmaps.MPL_Blues
+cmap = gvcmaps.gui_default
 
 # Plot
 data[0][0].plot.contourf(ax=axs[0][0], cmap=cmap, vmin=0, vmax=30, levels=16, transform=ccrs.PlateCarree(), add_colorbar=False)
