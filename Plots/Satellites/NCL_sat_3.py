@@ -137,8 +137,6 @@ title = gvutil.set_titles_and_labels(ax,
                                      righttitle=right, righttitlefontsize=14,
                                      xlabel="", ylabel="")
 
-# Option 1:
-# Manually plot tick marks
 # Plot gridlines
 gl = ax.gridlines(color='black', linewidth=0.2, zorder=2)
 
@@ -146,24 +144,13 @@ gl = ax.gridlines(color='black', linewidth=0.2, zorder=2)
 gl.xlocator = mticker.FixedLocator(np.arange(-180, 180, 15))
 gl.ylocator = mticker.FixedLocator(np.arange(-90, 90, 15))
 
+# Manually plot tick marks
 plotOrthoTicks([(0, 81.7)], 'zero')
 plotOrthoTicks([(-80, 30), (-76, 20), (-88, 40), (-107, 50)], 'left')
 plotOrthoTicks([(-9, 30), (-6, 40), (1, 50), (13, 60)], 'right')
 plotOrthoTicks([(-120, 60), (-60, 82.5)], 'top')
 plotOrthoTicks([(-75, 16.0), (-60, 25.0), (-45, 29.0),
                 (-30, 29.5), (-15, 26.5)], 'bottom')
-
-
-'''
-# Option 2:
-# Plot gridlines
-gl = ax.gridlines(color='black', linewidth=0.2, zorder=2, draw_labels=True)
-
-# Set frequency of gridlines in the x and y directions
-gl.xlocator = mticker.FixedLocator(np.arange(-180, 180, 15))
-gl.ylocator = mticker.FixedLocator(np.arange(-90, 90, 15))
-gl.rotate_labels = False
-'''
 
 plt.tight_layout()
 plt.show()
