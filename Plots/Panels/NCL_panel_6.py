@@ -164,4 +164,13 @@ for row in range(0,2):
         # Set boundary of plot to be circular
         set_map_boundary(axs[row][col], (-180, 180), (0, 90))
 
+# Import color map
+cmap = gvcmaps.MPL_Blues
+
+# Plot
+data[0][0].plot.contourf(ax=axs[0][0], cmap=cmap, vmin=0, vmax=30, levels=16, transform=ccrs.PlateCarree(), add_colorbar=False)
+data[0][1].plot.contourf(ax=axs[0][1], cmap=cmap, vmin=-2, vmax=26, levels=15, transform=ccrs.PlateCarree(), add_colorbar=False)
+data[1][0].plot.contourf(ax=axs[1][0], cmap=cmap, vmin=-0.0275, vmax=0.005, levels=14, transform=ccrs.PlateCarree(), add_colorbar=False)
+data[1][1].plot.contourf(ax=axs[1][1], cmap=cmap, vmin=-0.016, vmax=0.004, levels=11, transform=ccrs.PlateCarree(), add_colorbar=False)
+
 plt.show()
