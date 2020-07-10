@@ -44,6 +44,36 @@ pressure = pressure*0.01
 wrap_pressure = gvutil.xr_add_cyclic_longitudes(pressure, "lon")
 
 ###############################################################################
+# Helper function that will plot contour labels
+
+def plotCLabels(contours, Clevels=[], lowClevels=[], highClevels=[]):
+
+    coordarr = makeCoordArr()
+
+    if Clevels != []:
+        geodeticClevels = transformCoords(Clevels)
+        ax.clabel(contours, manual=geodeticClevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
+
+    if lowClevels != []:
+        geodeticLowClevels = transformCoords(lowClevels)
+        for x in range(len(geodeticLowClevels)):
+            try:
+                p = (int)(round(findCoordPressureData(coordarr, lowClevels[x][0], lowClevels[x][1])))
+                plt.text(geodeticLowClevels[x][0], geodeticLowClevels[x][1], "L$_{" + str(p) + "}$", fontsize=16)
+            except:
+                continue
+
+    if highClevels != []:
+        geodeticHighClevels = transformCoords(lowClevels)
+        for x in range(len(geodeticHighClevels)):
+            try:
+                p = (int)(round(findCoordPressureData(coordarr, highClevels[x][0], highClevels[x][1])))
+                plt.text(geodeticHighClevels[x][0], geodeticHighClevels[x][1], "H$_{" + str(p) + "}$", fontsize=16)
+            except:
+                continue
+
+
+###############################################################################
 # Helper function that will return an array of (lon, lat) coord tuples
 # with the same dimensions as the pressure data.
 
@@ -201,6 +231,17 @@ def findLocalMinima(minPressure=980):
 
     return clusterMins
 
+###############################################################################
+# Helper function that will transform lat/lon geographic coordinates 
+# to geodetic coordinates
+
+def transformCoords(coords):
+
+    clevelpoints = proj.transform_points(ccrs.Geodetic(),
+                                            np.array([x[0] for x in coords]),
+                                            np.array([x[1] for x in coords]))
+    clevels = [(x[0], x[1]) for x in clevelpoints]
+    return clevels
 
 ###############################################################################
 # Create plot
@@ -234,10 +275,6 @@ p = wrap_pressure.plot.contour(ax=ax,
                                cmap='black',
                                add_labels=False)
 
-# low pressure contour levels- these will be plotted
-# as a subscript to an 'L' symbol.
-lowClevels = findLocalMinima()
-
 # regular pressure contour levels- These values were found by setting
 # 'manual' argument in ax.clabel call to 'True' and then hovering mouse
 # over desired location of countour label to find coordinate
@@ -251,33 +288,13 @@ clevels = [(176.4, 34.63), (-150.46, 42.44), (-142.16, 28.5),
            (-46.98, 17.17), (1.79, 63.67), (-58.78, 67.05),
            (-44.78, 53.68), (-69.69, 53.71), (-78.02, 52.22),
            (-16.91, 44.33), (-95.72, 35.17), (-102.69, 73.62)]
+           
+# low pressure contour levels- these will be plotted
+# as a subscript to an 'L' symbol.
+lowClevels = findLocalMinima()
 
-# Transform the low pressure contour coordinates
-# from geographic to projected
-lowclevelpoints = proj.transform_points(ccrs.Geodetic(),
-                                        np.array([x[0] for x in lowClevels]),
-                                        np.array([x[1] for x in lowClevels]))
-lowClevels = [(x[0], x[1]) for x in lowclevelpoints]
-
-# Transform the regular pressure contour coordinates
-# from geographic to projected
-clevelpoints = proj.transform_points(ccrs.Geodetic(),
-                                     np.array([x[0] for x in clevels]),
-                                     np.array([x[1] for x in clevels]))
-clevels = [(x[0], x[1]) for x in clevelpoints]
-
-# Label contours with Low pressure
-for x in lowClevels:
-    # Try/except block in place to allow program to
-    # "except" plotting coordinates that aren't in visible map range.
-    try:
-        ax.clabel(p, manual=[x], inline=True, fontsize=16, colors='k',
-                  fmt="L" + "$_{%.0f}$", rightside_up=True)
-    except:
-        continue
-
-# Label rest of the contours
-ax.clabel(p, manual=clevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
+# Plot Clabels
+plotCLabels(p, Clevels=clevels, lowClevels=lowClevels)
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax,
