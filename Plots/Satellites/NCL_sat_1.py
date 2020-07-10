@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import numpy as np
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, DBSCAN
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
@@ -105,10 +105,12 @@ def findCoordPressureData(coordarr, lon, lat):
 # Returns a dictionary of values in the form --> coordinate: cluster label.
 
 
-def getKClusters(arr):
+def getKClusters(arr, numClusters):
 
     lonvals = [a_tuple[0] for a_tuple in arr]
     latvals = [a_tuple[1] for a_tuple in arr]
+
+    '''
     ids = np.arange(1, len(latvals)+1)
 
     K_clusters = range(1, 10)
@@ -116,9 +118,14 @@ def getKClusters(arr):
 
     firstCols = np.array(list(zip(ids, latvals, lonvals)))
 
-    kmeans = KMeans(n_clusters=8, init='k-means++')
+    kmeans = KMeans(n_clusters=numClusters, init='k-means++')
     kmeans.fit(firstCols)
     labels = kmeans.predict(firstCols)
+    '''
+
+    db = DBSCAN(eps=5, min_samples=2) 
+    new = db.fit(list(zip(lonvals, latvals)))
+    labels = new.labels_
 
     # Create an dictionary of values with key being coordinate
     # and value being cluster label.
@@ -226,7 +233,7 @@ def findLocalMinima(minPressure=980):
         except:
             continue
 
-    coordsAndLabels = getKClusters(minimacoords)
+    coordsAndLabels = getKClusters(minimacoords, numClusters=8)
     clusterMins = findClusterMin(coordarr, coordsAndLabels)
 
     return clusterMins
@@ -288,7 +295,7 @@ clevels = [(176.4, 34.63), (-150.46, 42.44), (-142.16, 28.5),
            (-46.98, 17.17), (1.79, 63.67), (-58.78, 67.05),
            (-44.78, 53.68), (-69.69, 53.71), (-78.02, 52.22),
            (-16.91, 44.33), (-95.72, 35.17), (-102.69, 73.62)]
-           
+
 # low pressure contour levels- these will be plotted
 # as a subscript to an 'L' symbol.
 lowClevels = findLocalMinima()
