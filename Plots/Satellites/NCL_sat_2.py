@@ -51,7 +51,22 @@ wrap_pressure = gvutil.xr_add_cyclic_longitudes(pressure, "lon")
 
 
 def makeCoordArr():
+    """
+    Utility function to create an array of coordinate tuples in GPS form (lon in degrees, lat in degrees)
+    with the same dimensions as the pressure data, so each coordinate on the map can easily be mapped to
+    the pressure data at that point.
 
+    Args:
+
+        None
+            
+    Returns: 
+    
+        coordarr (:class:`numpy.ndarray`):
+            array of coordinate tuples in GPS form (lon in degrees, lat in degrees) 
+            with the same dimensions as the pressure data.
+            
+    """
     coordarr = []
     for y in np.array(pressure.lat):
         temparr = []
@@ -61,23 +76,54 @@ def makeCoordArr():
     return np.array(coordarr)
 
 ###############################################################################
-# Helper function that will find the pressure at point (lon, lat).
 
 
-def findCoordPressureData(coordarr, lon, lat):
+def findCoordPressureData(coordarr, coord):
+    """
+    Utility function to find pressure at a coordinate in GPS form (lon in degrees, lat in degrees)
+
+    Args:
+
+        coordarr (:class:`list`):
+            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
+            with the same dimensions as the pressure data
+
+        coord (:class:`tuple`):
+            Ccoordinate tuple in GPS form (lon in degrees, lat in degrees)
+            
+    Returns: 
+    
+        pressure.data[x][y] (:class:`float`):
+            Pressure value at the input coordinate
+            
+    """
 
     for x in range(len(coordarr)):
         for y in range(len(coordarr[x])):
-            if coordarr[x][y][0] == lon and coordarr[x][y][1] == lat:
+            if coordarr[x][y][0] == coord[0] and coordarr[x][y][1] == coord[1]:
                 return pressure.data[x][y]
 
 ###############################################################################
-# Helper function that will cluster the array of coordinates
-# into groups based on geographic location.
-# Returns a dictionary of values in the form --> coordinate: cluster label.
 
 
 def getKClusters(arr):
+    """
+    Utility function to cluster coordinates using DBSCAN (Density-based spatial 
+    clustering of applications with noise)
+
+    Args:
+
+        arr (:class:`list`):
+            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
+            where the pressure gradient equals 0
+            
+    Returns: 
+    
+        coordsAndLabels (:class:`dict`):
+            Dictionary of cluster labels and coordinates in the form 
+            {label (int): coordinates (list of tuples)}
+            
+    """
 
     lonvals = [a_tuple[0] for a_tuple in arr]
     latvals = [a_tuple[1] for a_tuple in arr]
@@ -99,41 +145,72 @@ def getKClusters(arr):
     return coordsAndLabels
 
 ###############################################################################
-# Helper function that finds the minimum of each cluster of coordinates.
-
 
 def findClusterExtrema(coordarr, coordsAndLabels, eType):
+    """
+    Utility function to find the minimums or maximums of each cluster of coordinates.
 
-    clusterMins = []
-    clusterMaxs = []
+    Args:
+
+        coordarr (:class:`list`):
+            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
+            with the same dimensions as the pressure data
+            
+        coordarr (:class:`dict`):
+            Dictionary of cluster labels and coordinates in the form 
+            {label (int): coordinates (list of tuples)}
+
+        coordarr (:class:`str`): 'Min' or 'Max'
+            'Min' argument will find Min of each cluster
+            'Max' argument will find Max of each cluster
+            
+    
+    Returns: 
+    
+        clusterExtremas (:class:`list`):
+            List of coordinate tuples in GPS form (lon in degrees, lat in degrees) 
+            that specify either the Mins or Maxes of each labeled cluster
+            
+    """
+
+    clusterExtremas = []
 
     for key in coordsAndLabels:
 
         pressures = []
         for coord in coordsAndLabels[key]:
-            pressure = findCoordPressureData(coordarr, coord[0], coord[1])
+            pressure = findCoordPressureData(coordarr, coord)
             pressures.append(pressure)
 
-        minIndex = np.argmin(np.array(pressures))
-        clusterMins.append((coordsAndLabels[key][minIndex][0], coordsAndLabels[key][minIndex][1]))
+        if eType == 'Min':
+            index = np.argmin(np.array(pressures))
+        if eType == 'Max':
+            index = np.argmax(np.array(pressures))
 
-        maxIndex = np.argmax(np.array(pressures))
-        clusterMaxs.append((coordsAndLabels[key][maxIndex][0], coordsAndLabels[key][maxIndex][1]))
+        clusterExtremas.append((coordsAndLabels[key][index][0], coordsAndLabels[key][index][1]))
 
-    if eType == 'Min':
-        return clusterMins
-
-    if eType == 'Max':
-        return clusterMaxs
-
-    return clusterMins
+    return clusterExtremas
 
 ###############################################################################
-# Helper function that finds the local low pressure coordinates
-# on a contour map.
 
 
 def findLocalMinima(minPressure=993):
+    """
+    Utility function to find local low pressure coordinates on a contour map
+
+    Args:
+
+        minPressure (:class:`int`):
+            Pressure value that the local minimum pressures must be less than
+            to quality as a low pressure location
+    
+    Returns: 
+    
+        clusterMins (:class:`list`):
+            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
+            that specify low pressure areas
+            
+    """
 
     # Create a 2D array of all the coordinates with pressure data
     coordarr = makeCoordArr()
@@ -197,11 +274,25 @@ def findLocalMinima(minPressure=993):
     return clusterMins
 
 ###############################################################################
-# Helper function that finds the local high pressure coordinates
-# on a contour map.
 
 
 def findLocalMaxima(maxPressure=1040):
+    """
+    Utility function to find local high pressure coordinates on a contour map
+
+    Args:
+
+        maxPressure (:class:`int`):
+            Pressure value that the local maximum pressures must be greater than
+            to quality as a high pressure location
+    
+    Returns: 
+    
+        clusterMaxs (:class:`list`):
+            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
+            that specify high pressure areas
+            
+    """
 
     # Create a 2D array of all the coordinates with pressure data
     coordarr = makeCoordArr()
@@ -260,7 +351,7 @@ def findLocalMaxima(maxPressure=1040):
             continue
 
     coordsAndLabels = getKClusters(maximacoords)
-    clusterMaxs = findClusterExtrema(coordarr, coordsAndLabels, extremaType='Max')
+    clusterMaxs = findClusterExtrema(coordarr, coordsAndLabels, eType='Max')
 
     return clusterMaxs
 
@@ -269,7 +360,32 @@ def findLocalMaxima(maxPressure=1040):
 # Helper function that will plot contour labels
 
 def plotCLabels(contours, Clevels=[], lowClevels=[], highClevels=[]):
+    """
+    Utility function to plot contour labels
 
+    Args:
+
+        contours (:class:`cartopy.mpl.contour.GeoContourSet`):
+            Contours that the labels will be plotted on
+
+        Clevels (:class:`list`):
+            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
+            that specify where the contours with regular pressure values should be plotted
+
+        highClevels (:class:`list`):
+            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
+            that specify where the contours with high pressure values should be plotted      
+
+        lowClevels (:class:`list`):
+            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
+            that specify where the contours with low pressure values should be plotted       
+    
+    Returns: 
+    
+        None
+            
+    """
+    print(contours)
     coordarr = makeCoordArr()
 
     if Clevels != []:
@@ -280,7 +396,7 @@ def plotCLabels(contours, Clevels=[], lowClevels=[], highClevels=[]):
         geodeticLowClevels = GPStoGeodetic(lowClevels)
         for x in range(len(geodeticLowClevels)):
             try:
-                p = (int)(round(findCoordPressureData(coordarr, lowClevels[x][0], lowClevels[x][1])))
+                p = (int)(round(findCoordPressureData(coordarr, lowClevels[x])))
                 plt.text(geodeticLowClevels[x][0], geodeticLowClevels[x][1], "L$_{" + str(p) + "}$", fontsize=22,
                          horizontalalignment='center', verticalalignment='center', rotation=0)
             except:
@@ -290,21 +406,35 @@ def plotCLabels(contours, Clevels=[], lowClevels=[], highClevels=[]):
         geodeticHighClevels = GPStoGeodetic(highClevels)
         for x in range(len(geodeticHighClevels)):
             try:
-                p = (int)(round(findCoordPressureData(coordarr, highClevels[x][0], highClevels[x][1])))
+                p = (int)(round(findCoordPressureData(coordarr, highClevels[x])))
                 plt.text(geodeticHighClevels[x][0], geodeticHighClevels[x][1], "H$_{" + str(p) + "}$", fontsize=22,
                 horizontalalignment='center', verticalalignment='center', rotation=0)
             except:
                 continue
 
 ###############################################################################
-# Helper function that will transform GPS coordinates to geodetic coordinates
 
 def GPStoGeodetic(coords):
+    """
+    Utility function to transform GPS coordinates to geodetic coordinates
+
+    Args:
+
+        coords (:class:`list`):
+            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
+    
+    Returns:
+
+        clevels (:class:`list`)
+            List of coordinate tuples in geodetic form (geodetic longitude, geodetic latitude)
+
+    """
 
     clevelpoints = proj.transform_points(ccrs.Geodetic(),
                                             np.array([x[0] for x in coords]),
                                             np.array([x[1] for x in coords]))
     clevels = [(x[0], x[1]) for x in clevelpoints]
+
     return clevels
 
 ###############################################################################
