@@ -77,23 +77,11 @@ def findCoordPressureData(coordarr, lon, lat):
 # Returns a dictionary of values in the form --> coordinate: cluster label.
 
 
-def getKClusters(arr, numClusters):
+def getKClusters(arr):
 
     lonvals = [a_tuple[0] for a_tuple in arr]
     latvals = [a_tuple[1] for a_tuple in arr]
     
-    '''
-    ids = np.arange(1, len(latvals)+1)
-
-    K_clusters = range(1, 10)
-    kmeans = [KMeans(n_clusters=i) for i in K_clusters]
-
-    firstCols = np.array(list(zip(ids, latvals, lonvals)))
-
-    kmeans = KMeans(n_clusters=numClusters, init='k-means++')
-    kmeans.fit(firstCols)
-    labels = kmeans.predict(firstCols)
-    '''
     db = DBSCAN(eps=10, min_samples=1) 
     new = db.fit(list(zip(lonvals, latvals)))
     labels = new.labels_
@@ -120,24 +108,16 @@ def findClusterMin(coordarr, coordsAndLabels):
 
     for key in coordsAndLabels:
 
-        tempmincoord = coordsAndLabels[key][0]
-        tempminpressure = findCoordPressureData(coordarr,
-                                                coordsAndLabels[key][0][0],
-                                                coordsAndLabels[key][0][1])
-
+        minPressures = []
         for coord in coordsAndLabels[key]:
-            if findCoordPressureData(coordarr,
-                                     coord[0],
-                                     coord[1]) <= tempminpressure:
+            minPressures.append(findCoordPressureData(coordarr,
+                                                      coord[0],
+                                                      coord[1]))
 
-                tempmincoord = coord
-                tempminpressure = findCoordPressureData(coordarr,
-                                                        coord[0], coord[1])
 
-        lonvalue = tempmincoord[0]
-        latvalue = tempmincoord[1]
-
-        clusterMins.append((lonvalue, latvalue))
+        minIndex = np.argmin(np.array(minPressures))
+        tempmincoord = coordsAndLabels[key][minIndex]
+        clusterMins.append((tempmincoord[0], tempmincoord[1]))
 
     return clusterMins
 
@@ -204,7 +184,7 @@ def findLocalMinima(minPressure=993):
         except:
             continue
 
-    coordsAndLabels = getKClusters(minimacoords, numClusters=8)
+    coordsAndLabels = getKClusters(minimacoords)
     clusterMins = findClusterMin(coordarr, coordsAndLabels)
 
     return clusterMins
@@ -215,30 +195,22 @@ def findLocalMinima(minPressure=993):
 
 def findClusterMax(coordarr, coordsAndLabels):
 
-    clusterMins = []
+    clusterMaxs = []
 
     for key in coordsAndLabels:
 
-        tempmincoord = coordsAndLabels[key][0]
-        tempminpressure = findCoordPressureData(coordarr,
-                                                coordsAndLabels[key][0][0],
-                                                coordsAndLabels[key][0][1])
-
+        maxPressures = []
         for coord in coordsAndLabels[key]:
-            if findCoordPressureData(coordarr,
-                                     coord[0],
-                                     coord[1]) >= tempminpressure:
+            maxPressures.append(findCoordPressureData(coordarr,
+                                                      coord[0],
+                                                      coord[1]))
 
-                tempmincoord = coord
-                tempminpressure = findCoordPressureData(coordarr,
-                                                        coord[0], coord[1])
 
-        lonvalue = tempmincoord[0]
-        latvalue = tempmincoord[1]
+        maxIndex = np.argmax(np.array(maxPressures))
+        tempmaxcoord = coordsAndLabels[key][maxIndex]
+        clusterMaxs.append((tempmaxcoord[0], tempmaxcoord[1]))
 
-        clusterMins.append((lonvalue, latvalue))
-
-    return clusterMins
+    return clusterMaxs
 
 ###############################################################################
 # Helper function that finds the local high pressure coordinates
@@ -303,7 +275,7 @@ def findLocalMaxima(maxPressure=1040):
         except:
             continue
 
-    coordsAndLabels = getKClusters(maximacoords, numClusters=3)
+    coordsAndLabels = getKClusters(maximacoords)
     clusterMaxs = findClusterMax(coordarr, coordsAndLabels)
 
     return clusterMaxs
