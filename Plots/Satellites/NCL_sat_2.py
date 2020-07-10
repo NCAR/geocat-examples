@@ -297,7 +297,7 @@ def plotCLabels(contours, Clevels=[], lowClevels=[], highClevels=[]):
         for x in range(len(geodeticLowClevels)):
             try:
                 p = (int)(round(findCoordPressureData(coordarr, lowClevels[x][0], lowClevels[x][1])))
-                plt.text(geodeticLowClevels[x][0], geodeticLowClevels[x][1], "L$_{" + str(p) + "}$", fontsize=16,
+                plt.text(geodeticLowClevels[x][0], geodeticLowClevels[x][1], "L$_{" + str(p) + "}$", fontsize=22,
                          horizontalalignment='center', verticalalignment='center', rotation=0)
             except:
                 continue
@@ -307,7 +307,7 @@ def plotCLabels(contours, Clevels=[], lowClevels=[], highClevels=[]):
         for x in range(len(geodeticHighClevels)):
             try:
                 p = (int)(round(findCoordPressureData(coordarr, highClevels[x][0], highClevels[x][1])))
-                plt.text(geodeticHighClevels[x][0], geodeticHighClevels[x][1], "H$_{" + str(p) + "}$", fontsize=16,
+                plt.text(geodeticHighClevels[x][0], geodeticHighClevels[x][1], "H$_{" + str(p) + "}$", fontsize=22,
                 horizontalalignment='center', verticalalignment='center', rotation=0)
             except:
                 continue
@@ -374,12 +374,11 @@ highClevels = findLocalMaxima()
 # over desired location of countour label to find coordinate
 # (which can be found in bottom left of figure window).
 clevels = [(-145.27, 50.9), (-125.89, 32.33), (-112.62, 19.89),
-           (-139.31, 18.22), (-165.77, 36.86), (-119.15, 51.02),
+           (-139.31, 18.22), (-119.15, 51.02), (-85.22, 71.78),
            (-100.31, 18.73), (-97.75, 39.4), (-94.18, 51.19),
-           (-81.94, 60.78), (-73.58, 47.14), (-61.38, 83.36),
-           (-55.75, 22.96), (-16.19, 46.72), (-28.55, 39.81),
-           (-57.17, 49.07), (-77.51, 32.42), (-62.17, 12.24),
-           (-85.22, 71.78), (-137.39, 40.3)]
+           (-81.94, 60.78), (-73.58, 47.14), (-99.6, 82.9), 
+           (-55.75, 22.96), (-16.19, 46.72), (-137.39, 40.3),
+           (-57.17, 49.07), (-62.17, 12.24), (-77.51, 32.42)]
 
 # Label low, high, and regular contours
 plotCLabels(p, Clevels=clevels, lowClevels=lowClevels, highClevels=highClevels)
