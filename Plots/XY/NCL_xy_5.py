@@ -34,9 +34,6 @@ dsoid = ds.DSOI_DEC
 date = ds.date
 num_months = np.shape(date)[0]
 
-# Creating a new array for x axis labels
-datedim = np.shape(date)[0]
-new_date = np.empty_like(date)
 # Dates in the file are represented by year and month (YYYYMM)
 # representing them fractionally will make ploting the data easier
 # This produces the same results as NCL's yyyymm_to_yyyyfrac() function
@@ -54,16 +51,16 @@ plt.figure(figsize=(8, 4))
 ax = plt.gca()
 
 # Plot reference line
-plt.plot([0, datedim], [0, 0], color='grey', linewidth=0.75)
+ax.axhline(y=0, color='grey', linewidth=0.75)
 
 # Plot data
 # _labels=False prevents axis labels from being drawn
-dsoik.plot.line(ax=ax, color='black', linewidth=0.5, _labels=False)
-dsoid.plot.line(ax=ax, color='black', _labels=False)
+ax.plot(date_frac, dsoik, color='black', linewidth=0.5)
+ax.plot(date_frac, dsoid, color='black')
 
 # Fill above and below the 0 line
-ax.fill_between(dsoik.time, dsoik, where=dsoik>0, color='red')
-ax.fill_between(dsoik.time, dsoik, where=dsoik<0, color='blue')
+ax.fill_between(date_frac, dsoik, where=dsoik>0, color='red')
+ax.fill_between(date_frac, dsoik, where=dsoik<0, color='blue')
 
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
@@ -74,9 +71,8 @@ gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5,
 gvutil.set_axes_limits_and_ticks(ax, ylim=(-3, 3), 
                                      yticks=np.linspace(-3, 3, 7),
                                      yticklabels=np.linspace(-3, 3, 7),
-                                     xlim=(0, datedim),
-                                     xticks=np.arange(0, datedim, 12*20),
-                                     xticklabels=np.arange(1880, 1995, 20))
+                                     xlim=(date_frac[0], date_frac[-1]),
+                                     xticks=np.linspace(1880, 1980, 6))
 
 # Use geocat.viz.util convenience function to set titles and labels
 gvutil.set_titles_and_labels(ax, maintitle="Darwin Southern Oscillation Index")
