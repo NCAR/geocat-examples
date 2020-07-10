@@ -102,22 +102,29 @@ def getKClusters(arr):
 # Helper function that finds the minimum of each cluster of coordinates.
 
 
-def findClusterMin(coordarr, coordsAndLabels):
+def findClusterExtrema(coordarr, coordsAndLabels, eType):
 
     clusterMins = []
+    clusterMaxs = []
 
     for key in coordsAndLabels:
 
-        minPressures = []
+        pressures = []
         for coord in coordsAndLabels[key]:
-            minPressures.append(findCoordPressureData(coordarr,
-                                                      coord[0],
-                                                      coord[1]))
+            pressure = findCoordPressureData(coordarr, coord[0], coord[1])
+            pressures.append(pressure)
 
+        minIndex = np.argmin(np.array(pressures))
+        clusterMins.append((coordsAndLabels[key][minIndex][0], coordsAndLabels[key][minIndex][1]))
 
-        minIndex = np.argmin(np.array(minPressures))
-        tempmincoord = coordsAndLabels[key][minIndex]
-        clusterMins.append((tempmincoord[0], tempmincoord[1]))
+        maxIndex = np.argmax(np.array(pressures))
+        clusterMaxs.append((coordsAndLabels[key][maxIndex][0], coordsAndLabels[key][maxIndex][1]))
+
+    if eType == 'Min':
+        return clusterMins
+
+    if eType == 'Max':
+        return clusterMaxs
 
     return clusterMins
 
@@ -185,32 +192,9 @@ def findLocalMinima(minPressure=993):
             continue
 
     coordsAndLabels = getKClusters(minimacoords)
-    clusterMins = findClusterMin(coordarr, coordsAndLabels)
+    clusterMins = findClusterExtrema(coordarr, coordsAndLabels, eType='Min')
 
     return clusterMins
-
-###############################################################################
-# Helper function that finds the maximum of each cluster of coordinates.
-
-
-def findClusterMax(coordarr, coordsAndLabels):
-
-    clusterMaxs = []
-
-    for key in coordsAndLabels:
-
-        maxPressures = []
-        for coord in coordsAndLabels[key]:
-            maxPressures.append(findCoordPressureData(coordarr,
-                                                      coord[0],
-                                                      coord[1]))
-
-
-        maxIndex = np.argmax(np.array(maxPressures))
-        tempmaxcoord = coordsAndLabels[key][maxIndex]
-        clusterMaxs.append((tempmaxcoord[0], tempmaxcoord[1]))
-
-    return clusterMaxs
 
 ###############################################################################
 # Helper function that finds the local high pressure coordinates
@@ -276,7 +260,7 @@ def findLocalMaxima(maxPressure=1040):
             continue
 
     coordsAndLabels = getKClusters(maximacoords)
-    clusterMaxs = findClusterMax(coordarr, coordsAndLabels)
+    clusterMaxs = findClusterExtrema(coordarr, coordsAndLabels, extremaType='Max')
 
     return clusterMaxs
 
@@ -289,11 +273,11 @@ def plotCLabels(contours, Clevels=[], lowClevels=[], highClevels=[]):
     coordarr = makeCoordArr()
 
     if Clevels != []:
-        geodeticClevels = transformCoords(Clevels)
+        geodeticClevels = GPStoGeodetic(Clevels)
         ax.clabel(contours, manual=geodeticClevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
 
     if lowClevels != []:
-        geodeticLowClevels = transformCoords(lowClevels)
+        geodeticLowClevels = GPStoGeodetic(lowClevels)
         for x in range(len(geodeticLowClevels)):
             try:
                 p = (int)(round(findCoordPressureData(coordarr, lowClevels[x][0], lowClevels[x][1])))
@@ -303,7 +287,7 @@ def plotCLabels(contours, Clevels=[], lowClevels=[], highClevels=[]):
                 continue
 
     if highClevels != []:
-        geodeticHighClevels = transformCoords(highClevels)
+        geodeticHighClevels = GPStoGeodetic(highClevels)
         for x in range(len(geodeticHighClevels)):
             try:
                 p = (int)(round(findCoordPressureData(coordarr, highClevels[x][0], highClevels[x][1])))
@@ -313,10 +297,9 @@ def plotCLabels(contours, Clevels=[], lowClevels=[], highClevels=[]):
                 continue
 
 ###############################################################################
-# Helper function that will transform lat/lon geographic coordinates 
-# to geodetic coordinates
+# Helper function that will transform GPS coordinates to geodetic coordinates
 
-def transformCoords(coords):
+def GPStoGeodetic(coords):
 
     clevelpoints = proj.transform_points(ccrs.Geodetic(),
                                             np.array([x[0] for x in coords]),
