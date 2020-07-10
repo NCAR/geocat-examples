@@ -144,7 +144,9 @@ gl = ax.gridlines(color='black', linewidth=0.2, zorder=2)
 gl.xlocator = mticker.FixedLocator(np.arange(-180, 180, 15))
 gl.ylocator = mticker.FixedLocator(np.arange(-90, 90, 15))
 
-# Manually plot tick marks
+# Manually plot tick marks.
+# NCL has automatic tick mark placement on orthographic projections, 
+# Python's cartopy module does not have this functionality yet.
 plotOrthoTicks([(0, 81.7)], 'zero')
 plotOrthoTicks([(-80, 30), (-76, 20), (-88, 40), (-107, 50)], 'left')
 plotOrthoTicks([(-9, 30), (-6, 40), (1, 50), (13, 60)], 'right')
