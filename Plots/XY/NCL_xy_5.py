@@ -32,16 +32,19 @@ ds = xr.open_dataset(gdf.get("netcdf_files/soi.nc"))
 dsoik = ds.DSOI_KET
 dsoid = ds.DSOI_DEC
 date = ds.date
+num_months = np.shape(date)[0]
 
 # Creating a new array for x axis labels
 datedim = np.shape(date)[0]
 new_date = np.empty_like(date)
-# Dates in the file are represented by year and month
-# Create array that represents data by year and months as a fraction of a year
-for n in np.arange(0, datedim, 1):
-    yyyy = date[n]/100
-    mon = date[n]-yyyy*100
-    new_date[n] = yyyy + (mon-1)/12
+# Dates in the file are represented by year and month (YYYYMM)
+# representing them fractionally will make ploting the data easier
+# This produces the same results as NCL's yyyymm_to_yyyyfrac() function
+date_frac = np.empty_like(date)
+for n in np.arange(0, num_months, 1):
+    yyyy = int(date[n]/100)
+    mon = (date[n]/100-yyyy)*100
+    date_frac[n] = yyyy + (mon-1)/12
 
 ###############################################################################
 # Plot:
