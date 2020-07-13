@@ -47,81 +47,118 @@ wrap_pressure = gvutil.xr_add_cyclic_longitudes(pressure, "lon")
 
 ###############################################################################
 
-def makeCoordArr():
+def findLocalExtrema(pressure, maxPressure=1040, minPressure=993, eType='Min'):
     """
-    Utility function to create an array of coordinate tuples in GPS form (lon in degrees, lat in degrees)
-    with the same dimensions as the pressure data, so each coordinate on the map can easily be mapped to
-    the pressure value at that point.
+    Utility function to find local low pressure coordinates on a contour map
 
     Args:
 
-        None
-            
+        pressure: (:class:`xarray.DataArray`):
+            Xarray data array containing the lat and lon values
+
+        maxPressure (:class:`int`):
+            Pressure value that the local maximum pressures must be greater than
+            to qualify as a high pressure location
+
+        minPressure (:class:`int`):
+            Pressure value that the local minimum pressures must be less than
+            to qualify as a low pressure location
+
+        eType (:class:`str`):
+            'Min' or 'Max'
+            Determines which extrema are being found- minimum or maximum,
+            respectively
+    
     Returns: 
     
-        coordarr (:class:`numpy.ndarray`):
-            array of coordinate tuples in GPS form (lon in degrees, lat in degrees) 
-            with the same dimensions as the pressure data.
+        clusterMins (:class:`list`):
+            List of coordinate tuples in GPS form (lon in degrees,
+            lat in degrees)
+            that specify low pressure areas
             
     """
+
+    # Create a 2D array of all the coordinates with pressure data
     coordarr = []
     for y in np.array(pressure.lat):
         temparr = []
         for x in np.array(pressure.lon):
             temparr.append((x, y))
         coordarr.append(temparr)
-    return np.array(coordarr)
+    coordarr =  np.array(coordarr)
 
-###############################################################################
+    # Set number that a derivative must be less than in order to
+    # classify as a "zero"
+    bound = 0.0
 
-def findCoordPressureData(coordarr, coord):
-    """
-    Utility function to find pressure at a coordinate in GPS form (lon in degrees, lat in degrees)
+    # Get global gradient of contour data
+    grad = np.gradient(wrap_pressure.data)
 
-    Args:
+    # Gradient in the x direction
+    arr1 = grad[0]
 
-        coordarr (:class:`list`):
-            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
-            with the same dimensions as the pressure data
+    # Gradient in the y direction
+    arr2 = grad[1]
 
-        coord (:class:`tuple`):
-            Ccoordinate tuple in GPS form (lon in degrees, lat in degrees)
-            
-    Returns: 
-    
-        pressure.data[x][y] (:class:`float`):
-            Pressure value at the input coordinate
-            
-    """
+    # Get all array 1 indexes where gradient value is between -bound and +bound
+    posfirstzeroes = np.argwhere(arr1 <= bound)
+    negfirstzeroes = np.argwhere(-bound <= arr1)
 
-    for x in range(len(coordarr)):
-        for y in range(len(coordarr[x])):
-            if coordarr[x][y][0] == coord[0] and coordarr[x][y][1] == coord[1]:
-                return pressure.data[x][y]
+    # Get all array 2 indexes where gradient value is between -bound and +bound
+    possecondzeroes = np.argwhere(arr2 <= bound)
+    negsecondzeroes = np.argwhere(-bound <= arr2)
 
-###############################################################################
+    # Find zeroes of all four gradient arrays
+    commonzeroes = []
+    for x in possecondzeroes:
+        if x in posfirstzeroes and x in negfirstzeroes and x in negsecondzeroes:
+            commonzeroes.append(x)
 
-def getKClusters(arr):
-    """
-    Utility function to cluster coordinates using DBSCAN (Density-based spatial 
-    clustering of applications with noise)
+    extremacoords = []
+    coordsinthearray = []
 
-    Args:
+    # For every common zero in both gradient arrays
+    for x in commonzeroes:
 
-        arr (:class:`list`):
-            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
-            where the pressure gradient equals 0
-            
-    Returns: 
-    
-        coordsAndLabels (:class:`dict`):
-            Dictionary of cluster labels and coordinates in the form 
-            {label (int): coordinates (list of tuples)}
-            
-    """
+        try:
+            xval = x[0]
+            yval = x[1]
 
-    lonvals = [a_tuple[0] for a_tuple in arr]
-    latvals = [a_tuple[1] for a_tuple in arr]
+            if eType == 'Min':
+                # If the gradient value is a "zero", and if the
+                # pressure.data value is less than minPressure:
+                if wrap_pressure.data[xval][yval] < minPressure:
+
+                    coordonmap = coordarr[xval][yval]
+
+                    coordsinthearray.append((xval, yval))
+
+                    # Get coordinate from index in coordArr
+                    xcoord = coordonmap[0]
+                    ycoord = coordonmap[1]
+
+                    extremacoords.append((xcoord, ycoord))
+
+            if eType == 'Max':
+                # If the gradient value is a "zero", and if the
+                # pressure.data value is less than minPressure:
+                if wrap_pressure.data[xval][yval] > maxPressure:
+
+                    coordonmap = coordarr[xval][yval]
+
+                    coordsinthearray.append((xval, yval))
+
+                    # Get coordinate from index in coordArr
+                    xcoord = coordonmap[0]
+                    ycoord = coordonmap[1]
+
+                    extremacoords.append((xcoord, ycoord))
+        except:
+            continue
+
+    # coordsAndLabels = getKClusters(extremacoords)
+    lonvals = [a_tuple[0] for a_tuple in extremacoords]
+    latvals = [a_tuple[1] for a_tuple in extremacoords]
     
     db = DBSCAN(eps=10, min_samples=1) 
     new = db.fit(list(zip(lonvals, latvals)))
@@ -131,42 +168,11 @@ def getKClusters(arr):
     # and value being cluster label.
     coordsAndLabels = {}
 
-    for x in range(len(arr)):
+    for x in range(len(extremacoords)):
         if labels[x] in coordsAndLabels:
-            coordsAndLabels[labels[x]].append(arr[x])
+            coordsAndLabels[labels[x]].append(extremacoords[x])
         else:
-            coordsAndLabels[labels[x]] = [arr[x]]
-
-    return coordsAndLabels
-
-###############################################################################
-
-def findClusterExtrema(coordarr, coordsAndLabels, eType):
-    """
-    Utility function to find the minimums or maximums of each cluster of coordinates.
-
-    Args:
-
-        coordarr (:class:`list`):
-            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
-            with the same dimensions as the pressure data
-            
-        coordarr (:class:`dict`):
-            Dictionary of cluster labels and coordinates in the form 
-            {label (int): coordinates (list of tuples)}
-
-        coordarr (:class:`str`): 'Min' or 'Max'
-            'Min' argument will find Min of each cluster
-            'Max' argument will find Max of each cluster
-            
-    
-    Returns: 
-    
-        clusterExtremas (:class:`list`):
-            List of coordinate tuples in GPS form (lon in degrees, lat in degrees) 
-            that specify either the Mins or Maxes of each labeled cluster
-            
-    """
+            coordsAndLabels[labels[x]] = [extremacoords[x]]
 
     clusterExtremas = []
 
@@ -174,8 +180,13 @@ def findClusterExtrema(coordarr, coordsAndLabels, eType):
 
         pressures = []
         for coord in coordsAndLabels[key]:
-            pressure = findCoordPressureData(coordarr, coord)
-            pressures.append(pressure)
+
+            for x in range(len(coordarr)):
+                for y in range(len(coordarr[x])):
+                    if coordarr[x][y][0] == coord[0] and coordarr[x][y][1] == coord[1]:
+                        pval = pressure.data[x][y]
+
+            pressures.append(pval)
 
         if eType == 'Min':
             index = np.argmin(np.array(pressures))
@@ -187,249 +198,101 @@ def findClusterExtrema(coordarr, coordsAndLabels, eType):
     return clusterExtremas
 
 ###############################################################################
-
-def findLocalMinima(minPressure=993):
-    """
-    Utility function to find local low pressure coordinates on a contour map
-
-    Args:
-
-        minPressure (:class:`int`):
-            Pressure value that the local minimum pressures must be less than
-            to quality as a low pressure location
-    
-    Returns: 
-    
-        clusterMins (:class:`list`):
-            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
-            that specify low pressure areas
-            
-    """
-
-    # Create a 2D array of all the coordinates with pressure data
-    coordarr = makeCoordArr()
-
-    # Set number that a derivative must be less than in order to
-    # classify as a "zero"
-    bound = 0.0
-
-    # Get global gradient of contour data
-    grad = np.gradient(wrap_pressure.data)
-
-    # Gradient in the x direction
-    arr1 = grad[0]
-
-    # Gradient in the y direction
-    arr2 = grad[1]
-
-    # Get all array 1 indexes where gradient value is between -bound and +bound
-    posfirstzeroes = np.argwhere(arr1 <= bound)
-    negfirstzeroes = np.argwhere(-bound <= arr1)
-
-    # Get all array 2 indexes where gradient value is between -bound and +bound
-    possecondzeroes = np.argwhere(arr2 <= bound)
-    negsecondzeroes = np.argwhere(-bound <= arr2)
-
-    # Find zeroes of all four gradient arrays
-    commonzeroes = []
-    for x in possecondzeroes:
-        if x in posfirstzeroes and x in negfirstzeroes and x in negsecondzeroes:
-            commonzeroes.append(x)
-
-    minimacoords = []
-    coordsinthearray = []
-
-    # For every common zero in both gradient arrays
-    for x in commonzeroes:
-
-        try:
-            xval = x[0]
-            yval = x[1]
-
-            # If the gradient value is a "zero", and if the
-            # pressure.data value is less than minPressure:
-            if wrap_pressure.data[xval][yval] < minPressure:
-
-                coordonmap = coordarr[xval][yval]
-
-                coordsinthearray.append((xval, yval))
-
-                # Get coordinate from index in coordArr
-                xcoord = coordonmap[0]
-                ycoord = coordonmap[1]
-
-                minimacoords.append((xcoord, ycoord))
-        except:
-            continue
-
-    coordsAndLabels = getKClusters(minimacoords)
-    clusterMins = findClusterExtrema(coordarr, coordsAndLabels, eType='Min')
-
-    return clusterMins
-
-###############################################################################
-
-def findLocalMaxima(maxPressure=1040):
-    """
-    Utility function to find local high pressure coordinates on a contour map
-
-    Args:
-
-        maxPressure (:class:`int`):
-            Pressure value that the local maximum pressures must be greater than
-            to quality as a high pressure location
-    
-    Returns: 
-    
-        clusterMaxs (:class:`list`):
-            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
-            that specify high pressure areas
-            
-    """
-
-    # Create a 2D array of all the coordinates with pressure data
-    coordarr = makeCoordArr()
-
-    # Set number that a derivative must be less than in order to
-    # classify as a "zero"
-    bound = 0.0
-
-    # Get global gradient of contour data
-    grad = np.gradient(wrap_pressure.data)
-
-    # Gradient in the x direction
-    arr1 = grad[0]
-
-    # Gradient in the y direction
-    arr2 = grad[1]
-
-    # Get all array 1 indexes where gradient value is between -bound and +bound
-    posfirstzeroes = np.argwhere(arr1 <= bound)
-    negfirstzeroes = np.argwhere(-bound <= arr1)
-
-    # Get all array 2 indexes where gradient value is between -bound and +bound
-    possecondzeroes = np.argwhere(arr2 <= bound)
-    negsecondzeroes = np.argwhere(-bound <= arr2)
-
-    # Find zeroes of all four gradient arrays
-    commonzeroes = []
-    for x in possecondzeroes:
-        if x in posfirstzeroes and x in negfirstzeroes and x in negsecondzeroes:
-            commonzeroes.append(x)
-
-    maximacoords = []
-    coordsinthearray = []
-
-    # For every common zero in both gradient arrays
-    for x in commonzeroes:
-
-        try:
-            xval = x[0]
-            yval = x[1]
-
-            # If the gradient value is a "zero", and if the
-            # pressure.data value is greater than maxPressure:
-            if wrap_pressure.data[xval][yval] >= maxPressure:
-
-                coordonmap = coordarr[xval][yval]
-
-                coordsinthearray.append((xval, yval))
-
-                # Get coordinate from index in coordArr
-                xcoord = coordonmap[0]
-                ycoord = coordonmap[1]
-
-                maximacoords.append((xcoord, ycoord))
-        except:
-            continue
-
-    coordsAndLabels = getKClusters(maximacoords)
-    clusterMaxs = findClusterExtrema(coordarr, coordsAndLabels, eType='Max')
-
-    return clusterMaxs
-
-
-###############################################################################
 # Helper function that will plot contour labels
 
-def plotCLabels(contours, Clevels=[], lowClevels=[], highClevels=[]):
+def plotCLabels(pressure, contours, transform, Clevels=[], lowClevels=[], highClevels=[]):
+
     """
     Utility function to plot contour labels
 
     Args:
 
+        pressure: (:class:`xarray.DataArray`):
+            Xarray data array containing the lat and lon values
+
         contours (:class:`cartopy.mpl.contour.GeoContourSet`):
             Contours that the labels will be plotted on
 
+        transform (:class:`cartopy._crs.Geodetic`):
+            Projection that the input coordinates (in GPS form of lon, lat) should be transformed to
+
         Clevels (:class:`list`):
             List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
-            that specify where the contours with regular pressure values should be plotted
-
-        highClevels (:class:`list`):
-            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
-            that specify where the contours with high pressure values should be plotted      
+            that specify where the contours with regular pressure values should be plotted  
 
         lowClevels (:class:`list`):
             List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
-            that specify where the contours with low pressure values should be plotted       
+            that specify where the contours with low pressure values should be plotted   
+
+        highClevels (:class:`list`):
+            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
+            that specify where the contours with high pressure values should be plotted        
     
     Returns: 
     
         None
             
     """
-    coordarr = makeCoordArr()
 
+    # Create coord arr to map to pressure values
+    coordarr = []
+    for y in np.array(pressure.lat):
+        temparr = []
+        for x in np.array(pressure.lon):
+            temparr.append((x, y))
+        coordarr.append(temparr)
+    coordarr = np.array(coordarr)
+
+    # Plot any regular contour levels
     if Clevels != []:
-        geodeticClevels = GPStoGeodetic(Clevels)
-        ax.clabel(contours, manual=geodeticClevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
+        clevelpoints = proj.transform_points(transform,
+                                            np.array([x[0] for x in Clevels]),
+                                            np.array([x[1] for x in Clevels]))
+        transformedClevels = [(x[0], x[1]) for x in clevelpoints]
+        ax.clabel(contours, manual=transformedClevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
 
+    # Plot any low contour levels
     if lowClevels != []:
-        geodeticLowClevels = GPStoGeodetic(lowClevels)
-        for x in range(len(geodeticLowClevels)):
+        clevelpoints = proj.transform_points(transform,
+                                            np.array([x[0] for x in lowClevels]),
+                                            np.array([x[1] for x in lowClevels]))
+        transformedLowClevels = [(x[0], x[1]) for x in clevelpoints]
+        for x in range(len(transformedLowClevels)):
             try:
-                p = (int)(round(findCoordPressureData(coordarr, lowClevels[x])))
-                plt.text(geodeticLowClevels[x][0], geodeticLowClevels[x][1], "L$_{" + str(p) + "}$", fontsize=22,
+                # Find pressure data at that coordinate
+                coord = lowClevels[x]
+                for z in range(len(coordarr)):
+                    for y in range(len(coordarr[z])):
+                        if coordarr[z][y][0] == coord[0] and coordarr[z][y][1] == coord[1]:
+                            p = int(round(pressure.data[z][y]))
+
+                plt.text(transformedLowClevels[x][0], transformedLowClevels[x][1], "L$_{" + str(p) + "}$", fontsize=22,
                          horizontalalignment='center', verticalalignment='center', rotation=0)
             except:
                 continue
 
+    # Plot any high contour levels
     if highClevels != []:
-        geodeticHighClevels = GPStoGeodetic(highClevels)
-        for x in range(len(geodeticHighClevels)):
+        clevelpoints = proj.transform_points(transform,
+                                            np.array([x[0] for x in highClevels]),
+                                            np.array([x[1] for x in highClevels]))
+        transformedHighClevels = [(x[0], x[1]) for x in clevelpoints]
+        for x in range(len(transformedHighClevels)):
             try:
-                p = (int)(round(findCoordPressureData(coordarr, highClevels[x])))
-                plt.text(geodeticHighClevels[x][0], geodeticHighClevels[x][1], "H$_{" + str(p) + "}$", fontsize=22,
-                horizontalalignment='center', verticalalignment='center', rotation=0)
+                # Find pressure data at that coordinate
+                coord = highClevels[x]
+                for z in range(len(coordarr)):
+                    for y in range(len(coordarr[z])):
+                        if coordarr[z][y][0] == coord[0] and coordarr[z][y][1] == coord[1]:
+                            p = int(round(pressure.data[z][y]))
+
+                plt.text(transformedHighClevels[x][0], transformedHighClevels[x][1], "H$_{" + str(p) + "}$", fontsize=22,
+                         horizontalalignment='center', verticalalignment='center', rotation=0)
             except:
                 continue
 
 ###############################################################################
 
-def GPStoGeodetic(coords):
-    """
-    Utility function to transform GPS coordinates to geodetic coordinates
-
-    Args:
-
-        coords (:class:`list`):
-            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
-    
-    Returns:
-
-        clevels (:class:`list`)
-            List of coordinate tuples in geodetic form (geodetic longitude, geodetic latitude)
-
-    """
-
-    clevelpoints = proj.transform_points(ccrs.Geodetic(),
-                                            np.array([x[0] for x in coords]),
-                                            np.array([x[1] for x in coords]))
-    clevels = [(x[0], x[1]) for x in clevelpoints]
-
-    return clevels
-
-###############################################################################
 # Create plot
 
 # Set figure size
@@ -471,8 +334,8 @@ p = wrap_pressure.plot.contour(ax=ax,
 
 # low pressure contour levels- these will be plotted
 # as a subscript to an 'L' symbol.
-lowClevels = findLocalMinima()
-highClevels = findLocalMaxima()
+lowClevels = findLocalExtrema(pressure, eType='Min')
+highClevels = findLocalExtrema(pressure, eType='Max')
 
 # regular pressure contour levels- These values were found by setting
 # 'manual' argument in ax.clabel call to 'True' and then hovering mouse
@@ -486,7 +349,7 @@ clevels = [(-145.27, 50.9), (-125.89, 32.33), (-112.62, 19.89),
            (-57.17, 49.07), (-62.17, 12.24), (-77.51, 32.42)]
 
 # Label low, high, and regular contours
-plotCLabels(p, Clevels=clevels, lowClevels=lowClevels, highClevels=highClevels)
+plotCLabels(pressure, p, ccrs.Geodetic(), Clevels=clevels, lowClevels=lowClevels, highClevels=highClevels)
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax,
