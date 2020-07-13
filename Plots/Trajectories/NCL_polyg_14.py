@@ -8,8 +8,7 @@ This script illustrates the following concepts:
     
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/polyg_14.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/polyg_14_1_lg.png
-                        https://www.ncl.ucar.edu/Applications/Images/polyg_14_2_lg.png
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/polyg_14_1_lg.png https://www.ncl.ucar.edu/Applications/Images/polyg_14_2_lg.png
                          
 """
 
@@ -32,13 +31,22 @@ from geocat.viz import util as gvutil
 def Plot(color, ext, xext, yext, npts, title, subt, style, pt):
     
     '''
-    color: color for line on map in format 'color'
-    ext: extent of the projection view in format [minlon, maxlon, minlat, maxlat]
-    xext: start and stop points for curve in format [startlon, stoplon]
-    yext: start and stop points for curve in format [startlat, stoplat]
-    title: title of graph in format "Title"
-    style: line style in format 'style'
-    pt: marker type in format 'type'
+    Args:
+        
+        color (:class: 'str'): 
+            color for line on map in format 'color'
+        ext (:class: 'list'):
+            extent of the projection view in format [minlon, maxlon, minlat, maxlat]
+        xext (:class: 'list'): 
+            start and stop points for curve in format [startlon, stoplon]
+        yext (:class: 'list'): 
+            start and stop points for curve in format [startlat, stoplat]
+        title (:class: 'str'): 
+            title of graph in format "Title"
+        style (:class: 'str'): 
+            line style in format 'style'
+        pt (:class: 'str'): 
+            marker type in format 'type'
     
     '''
     plt.figure(figsize=(8,8))
