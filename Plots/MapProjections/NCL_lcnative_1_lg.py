@@ -23,8 +23,10 @@ import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 
+
 from geocat.viz import cmaps as gvcmaps
 import geocat.datafiles as gdf
+
 ###############################################################################
 # Read in data:
 
@@ -37,16 +39,23 @@ t = ds.pre.isel(time=0)
 ###############################################################################
 # Plot:
 
-plt.figure(figsize=(12, 12))
+plt.figure(figsize=(14, 14))
 
 
 def Plot(row, col, pos, proj, title):
     '''
-    row: number of rows necessary for subplotting of visualizations
-    col: number of columns necessary for subplotting 
-    pos: position of visualization in m x n subplot
-    proj: which projection to visualize
-    title: center title of respective visualization
+    Args:
+        
+        row (:class: 'int'): 
+            number of rows necessary for subplotting of visualizations
+        col (:class: 'int'): 
+            number of columns necessary for subplotting 
+        pos (:class: 'int'): 
+            position of visualization in m x n subplot
+        proj (:class: 'cartopy.crs'): 
+            which projection to visualize
+        title (:class: 'str'): 
+            center title of respective visualization
     '''    
     # Generate axes using Cartopy and draw coastlines
     projection = proj
@@ -55,14 +64,17 @@ def Plot(row, col, pos, proj, title):
     ax.coastlines(linewidth=0.5)
     # Import an NCL colormap
     newcmp = gvcmaps.BlueYellowRed
+
     
     gl = ax.gridlines(draw_labels=True, dms=False, x_inline=False, y_inline=False)
-    gl.xlabels_top = True
-    gl.ylabels_right = True
+    gl.top_labels = True
+    gl.right_labels = True
     gl.xlines = False
     gl.ylines = False
     gl.xlocator = mticker.FixedLocator([30,35,40,45,50,55])
     gl.ylocator = mticker.FixedLocator([20,25,30,35,40,45])
+    gl.xlabel_style = {'rotation':0}
+    gl.ylabel_style = {'rotation':0}
     
     '''
     When using certain types of projections in Cartopy, you may find that there
@@ -72,17 +84,24 @@ def Plot(row, col, pos, proj, title):
     "smoothing" and "flattening" options for the Lambert Conformal projection not seen 
     in the Cartopy version. By using Lambert Cylindrical over Lambert Conformal in Python,
     you will be able to create the "rectangular" style of coordinates not classically 
-    represented by a Lambert Conformal map. 
+    represented by a Lambert Conformal map. Additionally, Cartopy does not currently support 
+    adding tick marks to a projection like NCL, this is why these Python projections do not 
+    have this feature. The GeoCAT Team is actively adding to the list of convenience functions
+    supported and hopes to add this functionality one day.
     '''
+    
     # Plot data and create colorbar
     newcmp = gvcmaps.BlueYellowRed
     t.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), levels = 14, cbar_kwargs={"orientation":"horizontal", 
                                                                 "ticks":np.arange(0, 240, 20),  "label":'', "shrink":0.9})
-    
-    plt.title(title, loc='center', y=1.15, size=15)
-    plt.title(t.units, loc='right', y=1.07,  size=14)
-    plt.title("precipitation", loc='left', y=1.07, size=14)
+
+    plt.title(title, loc='center', y=1.17, size=15)
+    plt.title(t.units, loc='right', y=1.08,  size=14)
+    plt.title("precipitation", loc='left', y=1.08, size=14)
 
 Plot(2,2,1, ccrs.LambertConformal(central_longitude=45, standard_parallels=(36,55), globe=ccrs.Globe()), "Lambert Conformal")
 Plot(2,2,2,ccrs.LambertCylindrical(central_longitude=45),"Lambert Cylindrical")
 Plot(2,2,3,ccrs.LambertAzimuthalEqualArea(central_longitude=45),"Lambert Azimuthal")
+
+
+
