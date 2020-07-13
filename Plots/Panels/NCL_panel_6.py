@@ -15,6 +15,7 @@ See following URLs to see the reproduced NCL plot & script:
 # Import packages:
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import numpy as np
@@ -151,13 +152,13 @@ fig, axs = plt.subplots(2, 2, figsize=(8, 8), gridspec_kw=dict(wspace=0.5), subp
 for row in range(0,2):
     for col in range(0,2):
         # Add map features
-        axs[row][col].add_feature(cfeature.LAND, facecolor='silver')
-        axs[row][col].add_feature(cfeature.COASTLINE, linewidth=0.5)
+        axs[row][col].add_feature(cfeature.LAND, facecolor='silver', zorder=2)
+        axs[row][col].add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=3)
         axs[row][col].add_feature(cfeature.LAKES, linewidth=0.5, edgecolor='black',
-                            facecolor='None')
+                            facecolor='None', zorder=4)
 
         # Add gridlines and latitude and longitude labels
-        gl = axs[row][col].gridlines(ccrs.PlateCarree(), y_inline=False, draw_labels=True, color='gray', linestyle="--")
+        gl = axs[row][col].gridlines(ccrs.PlateCarree(), y_inline=False, draw_labels=True, color='gray', linestyle="--", zorder=5)
         gl.xlocator = mticker.FixedLocator(np.linspace(-180, 150, 12))
         gl.xlabel_style = {'rotation': 0}
 
@@ -166,11 +167,16 @@ for row in range(0,2):
 
 # Import color map
 cmap = gvcmaps.gui_default
+# Plot filled contours
+data[0][0].plot.contourf(ax=axs[0][0], cmap=cmap, vmin=0, vmax=30, levels=16, transform=ccrs.PlateCarree(), add_colorbar=False, zorder=0)
+data[0][1].plot.contourf(ax=axs[0][1], cmap=cmap, vmin=-2, vmax=26, levels=15, transform=ccrs.PlateCarree(), add_colorbar=False, zorder=0)
+data[1][0].plot.contourf(ax=axs[1][0], cmap=cmap, transform=ccrs.PlateCarree(), add_colorbar=False, zorder=0)
+data[1][1].plot.contourf(ax=axs[1][1], cmap=cmap, transform=ccrs.PlateCarree(), add_colorbar=False, zorder=0)
 
-# Plot
-data[0][0].plot.contourf(ax=axs[0][0], cmap=cmap, vmin=0, vmax=30, levels=16, transform=ccrs.PlateCarree(), add_colorbar=False)
-data[0][1].plot.contourf(ax=axs[0][1], cmap=cmap, vmin=-2, vmax=26, levels=15, transform=ccrs.PlateCarree(), add_colorbar=False)
-data[1][0].plot.contourf(ax=axs[1][0], cmap=cmap, vmin=-0.0275, vmax=0.005, levels=14, transform=ccrs.PlateCarree(), add_colorbar=False)
-data[1][1].plot.contourf(ax=axs[1][1], cmap=cmap, vmin=-0.016, vmax=0.004, levels=11, transform=ccrs.PlateCarree(), add_colorbar=False)
+# Plot contour lines
+data[0][0].plot.contour(ax=axs[0][0], colors='black', linestyles='solid', linewidths=0.5, vmin=0, vmax=30, levels=16, transform=ccrs.PlateCarree(), zorder=1)
+data[0][1].plot.contour(ax=axs[0][1], colors='black', linestyles='solid', linewidths=0.5, vmin=-2, vmax=26, levels=15, transform=ccrs.PlateCarree(), zorder=1)
+data[1][0].plot.contour(ax=axs[1][0], colors='black', linestyles='solid', linewidths=0.5, transform=ccrs.PlateCarree(), zorder=1)
+data[1][1].plot.contour(ax=axs[1][1], colors='black', linestyles='solid', linewidths=0.5, transform=ccrs.PlateCarree(), zorder=1)
 
 plt.show()
