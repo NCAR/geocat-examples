@@ -18,7 +18,7 @@ import xarray as xr
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import numpy as np
-from sklearn.cluster import KMeans, DBSCAN
+from sklearn.cluster import DBSCAN
 import matplotlib.pyplot as plt
 from matplotlib import colors
 import matplotlib.ticker as mticker
@@ -378,7 +378,6 @@ def plotCLabels(contours, Clevels=[], lowClevels=[], highClevels=[]):
         None
             
     """
-    print(contours)
     coordarr = makeCoordArr()
 
     if Clevels != []:
