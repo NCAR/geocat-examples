@@ -168,15 +168,15 @@ for row in range(0,2):
 cmap = gvcmaps.gui_default
 
 # Plot filled contours
-data[0][0].plot.contourf(ax=axs[0][0], cmap=cmap, vmin=0, vmax=30, levels=17, transform=ccrs.PlateCarree(), add_colorbar=True, zorder=0)
-data[0][1].plot.contourf(ax=axs[0][1], cmap=cmap, vmin=-2, vmax=26, levels=16, transform=ccrs.PlateCarree(), add_colorbar=True, zorder=0)
-data[1][0].plot.contourf(ax=axs[1][0], cmap=cmap, vmin=5, vmax=41, levels=18, transform=ccrs.PlateCarree(), add_colorbar=True, zorder=0)
-data[1][1].plot.contourf(ax=axs[1][1], cmap=cmap, vmin=5, vmax=41, levels=13, transform=ccrs.PlateCarree(), add_colorbar=True, zorder=0)
+data[0][0].plot.contourf(ax=axs[0][0], cmap=cmap, levels=np.arange(-2, 34, 2), transform=ccrs.PlateCarree(), add_colorbar=False, zorder=0)
+data[0][1].plot.contourf(ax=axs[0][1], cmap=cmap, levels=np.arange(-4, 30, 2), transform=ccrs.PlateCarree(), add_colorbar=False, zorder=0)
+data[1][0].plot.contourf(ax=axs[1][0], cmap=cmap, levels=15, transform=ccrs.PlateCarree(), add_colorbar=False, zorder=0)
+data[1][1].plot.contourf(ax=axs[1][1], cmap=cmap, levels=12, transform=ccrs.PlateCarree(), add_colorbar=False, zorder=0)
 
 # Plot contour lines
-data[0][0].plot.contour(ax=axs[0][0], colors='black', linestyles='solid', linewidths=0.5, vmin=0, vmax=30, levels=17, transform=ccrs.PlateCarree(), zorder=1)
-data[0][1].plot.contour(ax=axs[0][1], colors='black', linestyles='solid', linewidths=0.5, vmin=-2, vmax=26, levels=16, transform=ccrs.PlateCarree(), zorder=1)
-data[1][0].plot.contour(ax=axs[1][0], colors='black', linestyles='solid', linewidths=0.5, vmin=5, vmax=41, levels=18, transform=ccrs.PlateCarree(), zorder=1)
-data[1][1].plot.contour(ax=axs[1][1], colors='black', linestyles='solid', linewidths=0.5, vmin=5, vmax=41, levels=13, transform=ccrs.PlateCarree(), zorder=1)
+data[0][0].plot.contour(ax=axs[0][0], colors='black', linestyles='solid', linewidths=0.5, levels=np.arange(-2, 34, 2), transform=ccrs.PlateCarree(), zorder=1)
+data[0][1].plot.contour(ax=axs[0][1], colors='black', linestyles='solid', linewidths=0.5, levels=np.arange(-4, 30, 2), transform=ccrs.PlateCarree(), zorder=1)
+data[1][0].plot.contour(ax=axs[1][0], colors='black', linestyles='solid', linewidths=0.5, levels=15, transform=ccrs.PlateCarree(), zorder=1)
+data[1][1].plot.contour(ax=axs[1][1], colors='black', linestyles='solid', linewidths=0.5, levels=12, transform=ccrs.PlateCarree(), zorder=1)
 
 plt.show()
