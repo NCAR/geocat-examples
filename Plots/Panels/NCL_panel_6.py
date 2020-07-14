@@ -157,9 +157,13 @@ for row in range(0,2):
                             facecolor='None', zorder=4)
 
         # Add gridlines and latitude and longitude labels
-        gl = axs[row][col].gridlines(ccrs.PlateCarree(), y_inline=False, draw_labels=True, color='gray', linestyle="--", zorder=5)
+        gl = axs[row][col].gridlines(ccrs.PlateCarree(), draw_labels=False, color='gray', linestyle="--", zorder=5)
         gl.xlocator = mticker.FixedLocator(np.linspace(-180, 150, 12))
-        gl.xlabel_style = {'rotation': 0}
+        x = np.arange(0, 360, 30)
+        y = np.full_like(x, -10)
+        labels = ['0', '30E', '60E', '90E', '120E', '150E', '180', '150W', '120W', '90W', '60W', '30W']
+        for x, y, label in zip(x, y, labels):
+            axs[row][col].text(x, y, label, transform=ccrs.Geodetic())
 
         # Set boundary of plot to be circular
         set_map_boundary(axs[row][col], (-180, 180), (0, 90))
