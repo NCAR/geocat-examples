@@ -92,11 +92,11 @@ def Plot(color,row, col, pos, title):
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
     # Set axes limits, and tick values
     gvutil.set_axes_limits_and_ticks(
-    ax1,
-    xlim=(0, 90),
-    ylim=(0, 90),
-    xticks=np.linspace(-180, 180, 13),
-    yticks=np.linspace(-90, 90, 7))
+        ax1,
+        xlim=(0, 90),
+        ylim=(0, 90),
+        xticks=np.linspace(-180, 180, 13),
+        yticks=np.linspace(-90, 90, 7))
     
     # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax1)
