@@ -65,9 +65,13 @@ verts = np.vstack([np.sin(theta), np.cos(theta)]).T
 circle = mpath.Path(verts * radius + center)
 ax.set_boundary(circle, transform=ax.transAxes)
 
-# Create longitude labels
-labels = ['0', '30E', '60E', '90E', '120E', '150E', '180',
-          '150W', '120W', '90W', '60W', '30W']
+# Manipulate longitude labels (0, 30 E, 60 E, ..., 30 W, etc.)
+ticks = np.arange(0, 210, 30)
+etick = ['0'] + [r'%dE' % tick 
+                 for tick in ticks if (tick != 0) & (tick != 180)] + ['180']
+wtick = [r'%dW' % tick 
+         for tick in ticks if (tick != 0) & (tick != 180)]
+labels = etick + wtick
 xticks = np.arange(0, 360, 30)
 yticks = np.full_like(xticks, -5)  # Latitude where the labels will be drawn
 
