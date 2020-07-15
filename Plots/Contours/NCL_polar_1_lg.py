@@ -100,7 +100,6 @@ gvutil.set_titles_and_labels(ax, lefttitle="Zonal Wind", righttitle="m/s")
 
 # Add lower text box
 ax.text(1.0, -.10, "CONTOUR FROM -12 TO 40 BY 4",
-        fontname='Helvetica',
         horizontalalignment='right',
         transform=ax.transAxes,
         bbox=dict(boxstyle='square, pad=0.25',
