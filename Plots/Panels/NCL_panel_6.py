@@ -129,7 +129,7 @@ def set_map_boundary(ax, lon_range, lat_range, north_pad=0, south_pad=0, east_pa
 ###############################################################################
 # Read in data:
 
-# Open a netCDF data file using xarray default engine and load the data into xarrays, choosing the 2nd timestamp
+# Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"), decode_times=False)
 
 data0 = ds.T.isel(time=0, drop=True).isel(z_t=0, drop=True)
@@ -146,24 +146,31 @@ data = [[data0, data1], [data2, data3]]
 ###############################################################################
 # Plot without extra whitespace:
 projection = ccrs.NorthPolarStereo()
-fig, axs = plt.subplots(2, 2, figsize=(8, 8), gridspec_kw=dict(wspace=0.5), subplot_kw=dict(projection=projection))
+fig, axs = plt.subplots(2, 2, figsize=(8, 8), gridspec_kw=dict(wspace=0.5),
+                        subplot_kw=dict(projection=projection))
 
 for row in range(0,2):
     for col in range(0,2):
         # Add map features
         axs[row][col].add_feature(cfeature.LAND, facecolor='silver', zorder=2)
         axs[row][col].add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=3)
-        axs[row][col].add_feature(cfeature.LAKES, linewidth=0.5, edgecolor='black',
-                            facecolor='None', zorder=4)
+        axs[row][col].add_feature(cfeature.LAKES, linewidth=0.5,
+                                  edgecolor='black', facecolor='None',
+                                  zorder=4)
 
         # Add gridlines and latitude and longitude labels
-        gl = axs[row][col].gridlines(ccrs.PlateCarree(), draw_labels=False, color='gray', linestyle="--", zorder=5)
+        gl = axs[row][col].gridlines(ccrs.PlateCarree(), draw_labels=False,
+                                     color='gray', linestyle="--", zorder=5)
         gl.xlocator = mticker.FixedLocator(np.linspace(-180, 150, 12))
         x = np.arange(0, 360, 30)
-        y = np.full_like(x, -10)
-        labels = ['0', '30E', '60E', '90E', '120E', '150E', '180', '150W', '120W', '90W', '60W', '30W']
+        y = np.full_like(x, -10) # Array specifying 10S, this makes an offset from the circle boundary which lies at the equator
+        labels = ['0', '30E', '60E', '90E', '120E', '150E', '180',
+                  '150W', '120W', '90W', '60W', '30W']
+
         for x, y, label in zip(x, y, labels):
-            axs[row][col].text(x, y, label, horizontalalignment='center', verticalalignment='center', transform=ccrs.Geodetic())
+            axs[row][col].text(x, y, label, horizontalalignment='center',
+                               verticalalignment='center',
+                               transform=ccrs.Geodetic())
 
         # Set boundary of plot to be circular
         set_map_boundary(axs[row][col], (-180, 180), (0, 90))
@@ -172,15 +179,59 @@ for row in range(0,2):
 cmap = gvcmaps.gui_default
 
 # Plot filled contours
-data[0][0].plot.contourf(ax=axs[0][0], cmap=cmap, levels=np.arange(-2, 34, 2), transform=ccrs.PlateCarree(), add_colorbar=False, zorder=0)
-data[0][1].plot.contourf(ax=axs[0][1], cmap=cmap, levels=np.arange(-4, 30, 2), transform=ccrs.PlateCarree(), add_colorbar=False, zorder=0)
-data[1][0].plot.contourf(ax=axs[1][0], cmap=cmap, levels=15, transform=ccrs.PlateCarree(), add_colorbar=False, zorder=0)
-data[1][1].plot.contourf(ax=axs[1][1], cmap=cmap, levels=12, transform=ccrs.PlateCarree(), add_colorbar=False, zorder=0)
+data[0][0].plot.contourf(ax=axs[0][0],
+                         cmap=cmap,
+                         levels=np.arange(-2, 34, 2),
+                         transform=ccrs.PlateCarree(),
+                         add_colorbar=False,
+                         zorder=0)
+data[0][1].plot.contourf(ax=axs[0][1],
+                         cmap=cmap,
+                         levels=np.arange(-4, 30, 2),
+                         transform=ccrs.PlateCarree(),
+                         add_colorbar=False,
+                         zorder=0)
+data[1][0].plot.contourf(ax=axs[1][0],
+                         cmap=cmap,
+                         levels=15,
+                         transform=ccrs.PlateCarree(),
+                         add_colorbar=False,
+                         zorder=0)
+data[1][1].plot.contourf(ax=axs[1][1],
+                         cmap=cmap,
+                         levels=12,
+                         transform=ccrs.PlateCarree(),
+                         add_colorbar=False,
+                         zorder=0)
 
 # Plot contour lines
-data[0][0].plot.contour(ax=axs[0][0], colors='black', linestyles='solid', linewidths=0.5, levels=np.arange(-2, 34, 2), transform=ccrs.PlateCarree(), zorder=1)
-data[0][1].plot.contour(ax=axs[0][1], colors='black', linestyles='solid', linewidths=0.5, levels=np.arange(-4, 30, 2), transform=ccrs.PlateCarree(), zorder=1)
-data[1][0].plot.contour(ax=axs[1][0], colors='black', linestyles='solid', linewidths=0.5, levels=15, transform=ccrs.PlateCarree(), zorder=1)
-data[1][1].plot.contour(ax=axs[1][1], colors='black', linestyles='solid', linewidths=0.5, levels=12, transform=ccrs.PlateCarree(), zorder=1)
+data[0][0].plot.contour(ax=axs[0][0],
+                        colors='black',
+                        linestyles='solid',
+                        linewidths=0.5,
+                        levels=np.arange(-2, 34, 2),
+                        transform=ccrs.PlateCarree(),
+                        zorder=1)
+data[0][1].plot.contour(ax=axs[0][1],
+                        colors='black',
+                        linestyles='solid',
+                        linewidths=0.5,
+                        levels=np.arange(-4, 30, 2),
+                        transform=ccrs.PlateCarree(),
+                        zorder=1)
+data[1][0].plot.contour(ax=axs[1][0],
+                        colors='black',
+                        linestyles='solid',
+                        linewidths=0.5,
+                        levels=15,
+                        transform=ccrs.PlateCarree(),
+                        zorder=1)
+data[1][1].plot.contour(ax=axs[1][1],
+                        colors='black',
+                        linestyles='solid',
+                        linewidths=0.5,
+                        levels=12,
+                        transform=ccrs.PlateCarree(),
+                        zorder=1)
 
 plt.show()
