@@ -7,7 +7,7 @@ This script illustrates the following concepts:
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/panel_6.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_6_lg.png
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_6_1_lg.png
         https://www.ncl.ucar.edu/Applications/Images/panel_6_2_lg.png
 """
 
@@ -163,7 +163,7 @@ for row in range(0,2):
         y = np.full_like(x, -10)
         labels = ['0', '30E', '60E', '90E', '120E', '150E', '180', '150W', '120W', '90W', '60W', '30W']
         for x, y, label in zip(x, y, labels):
-            axs[row][col].text(x, y, label, transform=ccrs.Geodetic())
+            axs[row][col].text(x, y, label, horizontalalignment='center', verticalalignment='center', transform=ccrs.Geodetic())
 
         # Set boundary of plot to be circular
         set_map_boundary(axs[row][col], (-180, 180), (0, 90))
