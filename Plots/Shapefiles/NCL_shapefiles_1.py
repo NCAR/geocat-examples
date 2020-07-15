@@ -34,7 +34,7 @@ from geocat.viz import util as gvutil
 ###############################################################################
 # Read in data:
 
-# Open all shapefiles and associated .dbf, .shp, and .prj files so sphinx can run and generate documents
+# Open all shapefiles and associated .dbf, .shp, and .prj files
 open(gdf.get("shape_files/states.dbf"), 'r')
 open(gdf.get("shape_files/states.shp"), 'r')
 open(gdf.get("shape_files/states.shx"), 'r')
@@ -50,8 +50,11 @@ colormap = colors.ListedColormap(['blue', 'lime', 'yellow', 'red'])
 colorbounds = [0.5, 1.5, 2.5, 3.5, 4.5]
 
 norm = colors.BoundaryNorm(colorbounds, colormap.N)
+
 ###############################################################################
 # Helper function to determine state color:
+
+
 def color_assignment(record):
     population = record.PERSONS
     unempolyment = record.UNEMPLOY
@@ -65,10 +68,12 @@ def color_assignment(record):
     elif (0.04 <= percent):
         return colormap.colors[3]
 
+
 ###############################################################################
 # Plot:
-plt.figure(figsize=(10,8))
-ax = plt.axes(projection=ccrs.LambertConformal(standard_parallels=(33, 45), central_longitude=-98))
+plt.figure(figsize=(10, 8))
+ax = plt.axes(projection=ccrs.LambertConformal(standard_parallels=(33, 45),
+                                               central_longitude=-98))
 ax.set_extent([-125, -74, 22, 50])
 
 ax.add_feature(cfeature.LAND, color='silver', zorder=0)
@@ -78,21 +83,46 @@ for i in range(0, len(shapefile.shapes())):
     shape = shapefile.shape(i)
     record = shapefile.record(i)
     color = color_assignment(record)
-    if len(shape.parts) > 1: # if a shape has multiple parts make each one a separate patch
+    # if a shape has multiple parts make each one a separate patch
+    if len(shape.parts) > 1:
         for j in range(0, len(shape.parts)):
             start_index = shape.parts[j]
-            if (j is (len(shape.parts)-1)): # the last part uses the remaining points and doesn't require and end_index  
-                patch = mpatches.Polygon(shape.points[start_index:], facecolor=color, edgecolor='black', linewidth=0.5, transform=ccrs.PlateCarree(), zorder=2)
+            # the last part uses the remaining points and doesn't require and end_index
+            if (j is (len(shape.parts)-1)):
+                patch = mpatches.Polygon(shape.points[start_index:],
+                                         facecolor=color,
+                                         edgecolor='black',
+                                         linewidth=0.5,
+                                         transform=ccrs.PlateCarree(),
+                                         zorder=2)
             else:
                 end_index = shape.parts[j+1]
-                patch = mpatches.Polygon(shape.points[start_index : end_index], facecolor=color, edgecolor='black', linewidth=0.5, transform=ccrs.PlateCarree(), zorder=2)
+                patch = mpatches.Polygon(shape.points[start_index:end_index],
+                                         facecolor=color,
+                                         edgecolor='black',
+                                         linewidth=0.5,
+                                         transform=ccrs.PlateCarree(),
+                                         zorder=2)
             ax.add_patch(patch)
     else:
-        patch = mpatches.Polygon(shape.points, facecolor=color, edgecolor='black', linewidth=0.5, transform=ccrs.PlateCarree(), zorder=2)
+        patch = mpatches.Polygon(shape.points,
+                                 facecolor=color,
+                                 edgecolor='black',
+                                 linewidth=0.5,
+                                 transform=ccrs.PlateCarree(),
+                                 zorder=2)
         ax.add_patch(patch)
 
 # Create colorbar
-plt.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), ax=ax, boundaries=colorbounds, orientation='horizontal', shrink=0.75, ticks=[1, 2, 3, 4], label='percent', aspect=30, pad=0.075)
+plt.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm),
+             ax=ax,
+             boundaries=colorbounds,
+             orientation='horizontal',
+             shrink=0.75,
+             ticks=[1, 2, 3, 4],
+             label='percent',
+             aspect=30,
+             pad=0.075)
 
 # Add latitude and longitude labels
 gl = ax.gridlines(draw_labels=True, x_inline=False, y_inline=False)
