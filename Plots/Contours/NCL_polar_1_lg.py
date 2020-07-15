@@ -67,20 +67,19 @@ ax.set_boundary(circle, transform=ax.transAxes)
 
 # Manipulate longitude labels (0, 30 E, 60 E, ..., 30 W, etc.)
 ticks = np.arange(0, 210, 30)
-etick = ['0'] + [r'%d$^\circ$E' %
-                 tick for tick in ticks if (tick != 0) & (tick != 180)] + ['180']
-wtick = [
-    r'%d$^\circ$W' %
-    tick for tick in ticks if (
-        tick != 0) & (
-            tick != 180)]
+etick = ['0'] + [r'%dE' % tick 
+                 for tick in ticks if (tick != 0) & (tick != 180)] + ['180']
+wtick = [r'%dW' % tick 
+         for tick in ticks if (tick != 0) & (tick != 180)]
 labels = etick + wtick
-xticks = [-0.8, 28, 58, 89.1, 120, 151, 182.9, -36, -63, -89, -114, -140, -151]
-yticks = [-3] + [-2] + [-1] + [-1] * 2 + [-1] + [-3] + [-7] + [-7] * 3 + [-7]
 
+xticks = np.arange(0, 360, 30)
+# Array specifying 5S, this makes an offset from the circle boundary which lies at the equator
+yticks = np.full_like(xticks, -5)
 
 for xtick, ytick, label in zip(xticks, yticks, labels):
-    ax.text(xtick, ytick, label, transform=ccrs.Geodetic())
+    ax.text(xtick, ytick, label, fontsize=14, horizontalalignment='center',
+            verticalalignment='center', transform=ccrs.Geodetic())
 
 
 # Contour-plot U-data
