@@ -103,8 +103,8 @@ speed_cbar.ax.xaxis.set_major_formatter(FormatStrFormatter('%g'))
 
 
 # Plotting vector field
-quiver_speed = axs[0].quiver(U['lon'], U['lat'], U.data, V.data, width=0.0025, headwidth=4, zorder=2)
-quiver_wind = axs[1].quiver(U['lon'], U['lat'], U.data, V.data, width=0.0025, headwidth=4, zorder=2)
+quiver_speed = axs[0].quiver(U['lon'], U['lat'], U.data, V.data, scale=400, width=0.002, headwidth=6, headlength=7, zorder=2)
+quiver_wind = axs[1].quiver(U['lon'], U['lat'], U.data, V.data, scale=400, width=0.002, headwidth=6, headlength=7, zorder=2)
 
 # Add white box to go behind reference vector
 axs[0].add_patch(mpatches.Rectangle(xy=[0.775, 0], width=0.225, height=0.2,
