@@ -2,7 +2,6 @@
 """
 NCL_polar_1_lg.py
 ================
-
 This script illustrates the following concepts:
     - Drawing black-and-white contours over a polar stereographic map
     - Drawing the northern hemisphere of a polar stereographic map
@@ -19,8 +18,9 @@ import cartopy.feature as cfeature
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import matplotlib.path as mpath
-import geocat.datafiles as gdf
 import matplotlib.ticker as mticker
+
+import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
 ###############################################################################
@@ -35,7 +35,7 @@ U = ds.U[1, :, :]
 wrap_U = gvutil.xr_add_cyclic_longitudes(U, "lon")
 
 ###############################################################################
-#Plot:
+# Plot:
 
 # Generate axes, using Cartopy, drawing coastlines, and adding features
 fig = plt.figure(figsize=(10, 10))
@@ -67,15 +67,14 @@ ax.set_boundary(circle, transform=ax.transAxes)
 
 # Manipulate longitude labels (0, 30 E, 60 E, ..., 30 W, etc.)
 ticks = np.arange(0, 210, 30)
-etick = ['0'] + [r'%dE' % tick 
+etick = ['0'] + [r'%dE' % tick
                  for tick in ticks if (tick != 0) & (tick != 180)] + ['180']
-wtick = [r'%dW' % tick 
+wtick = [r'%dW' % tick
          for tick in ticks if (tick != 0) & (tick != 180)]
 labels = etick + wtick
 
 xticks = np.arange(0, 360, 30)
-# Array specifying 5S, this makes an offset from the circle boundary which lies at the equator
-yticks = np.full_like(xticks, -5)
+yticks = np.full_like(xticks, -5)  # Latitude where the labels will be drawn
 
 for xtick, ytick, label in zip(xticks, yticks, labels):
     ax.text(xtick, ytick, label, fontsize=14, horizontalalignment='center',
@@ -87,16 +86,14 @@ p = wrap_U.plot.contour(ax=ax,
                         vmin=-8,
                         vmax=16,
                         transform=ccrs.PlateCarree(),
-                        levels=np.arange(-12,
-                                         44,
-                                         4),
+                        levels=np.arange(-12, 44, 4),
                         linewidths=0.5,
                         cmap='k',
                         add_labels=False)
 
 ax.clabel(p, np.arange(-8, 17, 8), fmt='%d', inline=1, fontsize=14)
 
-# # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
+# Use geocat.viz.util convenience function to add left and right titles
 gvutil.set_titles_and_labels(ax, lefttitle="Zonal Wind", righttitle="m/s")
 
 # Add lower text box
@@ -104,7 +101,9 @@ ax.text(1.0, -.10, "CONTOUR FROM -12 TO 40 BY 4",
         fontname='Helvetica',
         horizontalalignment='right',
         transform=ax.transAxes,
-        bbox=dict(boxstyle='square, pad=0.25', facecolor='white', edgecolor='black'))
+        bbox=dict(boxstyle='square, pad=0.25',
+                  facecolor='white',
+                  edgecolor='black'))
 
 # Show the plot
 plt.show()
