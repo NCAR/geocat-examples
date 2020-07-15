@@ -17,6 +17,7 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import numpy as np
 import xarray as xr
 
@@ -149,6 +150,8 @@ projection = ccrs.NorthPolarStereo()
 fig, axs = plt.subplots(2, 2, figsize=(8, 8), gridspec_kw=dict(wspace=0.5),
                         subplot_kw=dict(projection=projection))
 
+# Format axes and inset axes for color bars
+cax = np.empty((2,2), dtype=plt.Axes)
 for row in range(0,2):
     for col in range(0,2):
         # Add map features
@@ -164,6 +167,7 @@ for row in range(0,2):
         gl.xlocator = mticker.FixedLocator(np.linspace(-180, 150, 12))
         x = np.arange(0, 360, 30)
         y = np.full_like(x, -10) # Array specifying 10S, this makes an offset from the circle boundary which lies at the equator
+        
         labels = ['0', '30E', '60E', '90E', '120E', '150E', '180',
                   '150W', '120W', '90W', '60W', '30W']
 
@@ -174,35 +178,40 @@ for row in range(0,2):
 
         # Set boundary of plot to be circular
         set_map_boundary(axs[row][col], (-180, 180), (0, 90))
-
+        # Create inset axes for color bars
+        cax[row][col] = inset_axes(axs[row][col], width='5%', height='100%',
+                                   loc='lower right',
+                                   bbox_to_anchor=(0.25, 0, 1, 1),
+                                   bbox_transform=axs[row][col].transAxes,
+                                   borderpad=0)
 # Import color map
 cmap = gvcmaps.gui_default
 
 # Plot filled contours
-data[0][0].plot.contourf(ax=axs[0][0],
-                         cmap=cmap,
-                         levels=np.arange(-2, 34, 2),
-                         transform=ccrs.PlateCarree(),
-                         add_colorbar=False,
-                         zorder=0)
-data[0][1].plot.contourf(ax=axs[0][1],
-                         cmap=cmap,
-                         levels=np.arange(-4, 30, 2),
-                         transform=ccrs.PlateCarree(),
-                         add_colorbar=False,
-                         zorder=0)
-data[1][0].plot.contourf(ax=axs[1][0],
-                         cmap=cmap,
-                         levels=15,
-                         transform=ccrs.PlateCarree(),
-                         add_colorbar=False,
-                         zorder=0)
-data[1][1].plot.contourf(ax=axs[1][1],
-                         cmap=cmap,
-                         levels=12,
-                         transform=ccrs.PlateCarree(),
-                         add_colorbar=False,
-                         zorder=0)
+contour1 = data[0][0].plot.contourf(ax=axs[0][0],
+                                    cmap=cmap,
+                                    levels=np.arange(-2, 34, 2),
+                                    transform=ccrs.PlateCarree(),
+                                    add_colorbar=False,
+                                    zorder=0)
+contour2 = data[0][1].plot.contourf(ax=axs[0][1],
+                                    cmap=cmap,
+                                    levels=np.arange(-4, 30, 2),
+                                    transform=ccrs.PlateCarree(),
+                                    add_colorbar=False,
+                                    zorder=0)
+contour3 = data[1][0].plot.contourf(ax=axs[1][0],
+                                    cmap=cmap,
+                                    levels=15,
+                                    transform=ccrs.PlateCarree(),
+                                    add_colorbar=False,
+                                    zorder=0)
+contour4 = data[1][1].plot.contourf(ax=axs[1][1],
+                                    cmap=cmap,
+                                    levels=12,
+                                    transform=ccrs.PlateCarree(),
+                                    add_colorbar=False,
+                                    zorder=0)
 
 # Plot contour lines
 data[0][0].plot.contour(ax=axs[0][0],
@@ -233,5 +242,11 @@ data[1][1].plot.contour(ax=axs[1][1],
                         levels=12,
                         transform=ccrs.PlateCarree(),
                         zorder=1)
+
+# Create colorbars
+plt.colorbar(contour1, cax=cax[0][0])
+plt.colorbar(contour2, cax=cax[0][1])
+plt.colorbar(contour3, cax=cax[1][0])
+plt.colorbar(contour4, cax=cax[1][1])
 
 plt.show()
