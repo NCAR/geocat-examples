@@ -193,7 +193,7 @@ for row in range(0,2):
         # Create inset axes for color bars
         cax[row][col] = inset_axes(axs[row][col], width='5%', height='100%',
                                    loc='lower right',
-                                   bbox_to_anchor=(0.25, 0, 1, 1),
+                                   bbox_to_anchor=(0.175, 0, 1, 1),
                                    bbox_transform=axs[row][col].transAxes,
                                    borderpad=0)
 # Import color map
@@ -264,7 +264,7 @@ plt.colorbar(contour4, cax=cax[1][1])
 # Use geocat.viz.util convenience function to add left and right titles
 for row in range(0,2):
     for col in range(0,2):
-        axs[row][col].set_title(data[row][col].long_name, loc='left', fontsize=7, pad=25)
-        axs[row][col].set_title(data[row][col].units, loc='right', fontsize=7, pad=25)
+        axs[row][col].set_title(data[row][col].long_name, loc='left', fontsize=7, pad=20)
+        axs[row][col].set_title(data[row][col].units, loc='right', fontsize=7, pad=20)
 
 plt.show()
