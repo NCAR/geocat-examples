@@ -7,8 +7,7 @@ This script illustrates the following concepts:
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/panel_6.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_6_1_lg.png
-        https://www.ncl.ucar.edu/Applications/Images/panel_6_2_lg.png
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_6_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/panel_6_2_lg.png
 """
 
 ###############################################################################
@@ -274,6 +273,11 @@ plt.show()
 
 ###############################################################################
 # Plot with extra whitespace:
+#
+# The keyword argument ``gridspec_kw`` accepts a dictionary with keywords passed
+# to the GridSpec constructor used to create the grid the subplots are placed
+# on. See the documentation for `GridSpec <https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.gridspec.GridSpec.html#matplotlib.gridspec.GridSpec>`_ for more information on how to manipulate the gridlayout.
+
 projection = ccrs.NorthPolarStereo()
 fig, axs = plt.subplots(2, 2, figsize=(8, 8), gridspec_kw=(dict(wspace=0.5)),
                         subplot_kw=dict(projection=projection))
