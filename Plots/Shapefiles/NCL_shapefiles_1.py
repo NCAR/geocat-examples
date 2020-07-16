@@ -14,6 +14,13 @@ This script illustrates the following concepts:
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/shapefiles_1.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/shapefiles_1_lg.png
+
+Note:
+    At the time of making this example, there isn't a good way to draw tick 
+    marks along with the latitude and longitude labels. We have chosen to draw
+    gridlines to show exactly where the labels are pointing. The gridlines can
+    be removed by calling ``gl.xlines = False`` and ``gl.ylines = False``
+    after drawing the labels.
 """
 
 ###############################################################################
@@ -130,8 +137,6 @@ gl.xlocator = mticker.FixedLocator(np.linspace(-120, -80, 5))
 gl.ylocator = mticker.FixedLocator(np.linspace(25, 45, 5))
 gl.xlabel_style = {'rotation': 0}
 gl.ylabel_style = {'rotation': 0}
-gl.xlines = False
-gl.ylines = False
 
 # Use geocat.viz.util convenience function to set titles and labels
 gvutil.set_titles_and_labels(ax, maintitle='Percentage unemployment, by state')
