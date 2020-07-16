@@ -198,7 +198,7 @@ for row in range(0,2):
                                    bbox_transform=axs[row][col].transAxes,
                                    borderpad=0)
 # Import color map
-cmap = gvcmaps.gui_default
+cmap = "magma"
 
 # Plot filled contours
 contour = np.empty((2,2), dtype=mcontour.ContourSet)
