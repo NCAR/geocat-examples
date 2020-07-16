@@ -112,10 +112,10 @@ plt.colorbar(wind, ax=axs[1], orientation='horizontal', ticks=wind_ticks,
 speed_cbar.ax.xaxis.set_major_formatter(FormatStrFormatter('%g'))
 
 # Ensuring smaller vectors are legible by setting a minimum size
-minSize=5
+minSize = 5
 angle = np.arctan2(V.data, U.data)
-U.data = np.where(magnitude<minSize, minSize*np.cos(angle), U.data)
-V.data = np.where(magnitude<minSize, minSize*np.sin(angle), V.data)
+U.data = np.where(magnitude < minSize, minSize * np.cos(angle), U.data)
+V.data = np.where(magnitude < minSize, minSize * np.sin(angle), V.data)
 
 # Plotting vector field
 quiver_speed = axs[0].quiver(U['lon'], U['lat'], U.data, V.data, scale=400,
