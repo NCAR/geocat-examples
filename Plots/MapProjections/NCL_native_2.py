@@ -87,11 +87,5 @@ plt.title("Native Mercator Projection", loc='center', y=1.05, size=15, fontweigh
 plt.title(t.units, loc='right', y=1.0,  size=14)
 plt.title("free surface deviation", loc='left', y=1.0, size=14)
 
-
-# Use geocat.viz.util convenience function to add titles to left and right
-# of the plot axis.
-# gvutil.set_titles_and_labels(ax, lefttitle="free surface deviation", righttitle="m")
-# plt.suptitle("Native Mercator Projection", fontsize=15, y=.97)
-
 # Show the plot
 plt.show()
