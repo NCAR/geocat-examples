@@ -17,6 +17,7 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
+import matplotlib.contour as mcontour
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import numpy as np
 import xarray as xr
@@ -200,25 +201,26 @@ for row in range(0,2):
 cmap = gvcmaps.gui_default
 
 # Plot filled contours
-contour1 = data[0][0].plot.contourf(ax=axs[0][0],
+contour = np.empty((2,2), dtype=mcontour.ContourSet)
+contour[0][0] = data[0][0].plot.contourf(ax=axs[0][0],
                                     cmap=cmap,
                                     levels=np.arange(-2, 34, 2),
                                     transform=ccrs.PlateCarree(),
                                     add_colorbar=False,
                                     zorder=0)
-contour2 = data[0][1].plot.contourf(ax=axs[0][1],
+contour[0][1] = data[0][1].plot.contourf(ax=axs[0][1],
                                     cmap=cmap,
                                     levels=np.arange(-4, 30, 2),
                                     transform=ccrs.PlateCarree(),
                                     add_colorbar=False,
                                     zorder=0)
-contour3 = data[1][0].plot.contourf(ax=axs[1][0],
+contour[1][0] = data[1][0].plot.contourf(ax=axs[1][0],
                                     cmap=cmap,
                                     levels=15,
                                     transform=ccrs.PlateCarree(),
                                     add_colorbar=False,
                                     zorder=0)
-contour4 = data[1][1].plot.contourf(ax=axs[1][1],
+contour[1][1] = data[1][1].plot.contourf(ax=axs[1][1],
                                     cmap=cmap,
                                     levels=12,
                                     transform=ccrs.PlateCarree(),
@@ -255,13 +257,13 @@ data[1][1].plot.contour(ax=axs[1][1],
                         transform=ccrs.PlateCarree(),
                         zorder=1)
 
-# Create colorbars
-plt.colorbar(contour1, cax=cax[0][0])
-plt.colorbar(contour2, cax=cax[0][1])
-plt.colorbar(contour3, cax=cax[1][0])
-plt.colorbar(contour4, cax=cax[1][1])
+# Create colorbars and reduce the font size
+for row in range(0,2):
+    for col in range(0,2):
+        cbar = plt.colorbar(contour[row][col], cax=cax[row][col])
+        cbar.ax.tick_params(labelsize=7)
 
-# Use geocat.viz.util convenience function to add left and right titles
+# Format titles for each subplot
 for row in range(0,2):
     for col in range(0,2):
         axs[row][col].set_title(data[row][col].long_name, loc='left', fontsize=7, pad=20)
