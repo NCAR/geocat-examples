@@ -166,16 +166,27 @@ for row in range(0,2):
                                      color='gray', linestyle="--", zorder=5)
         gl.xlocator = mticker.FixedLocator(np.linspace(-180, 150, 12))
         x = np.arange(0, 360, 30)
-        y = np.full_like(x, -10) # Array specifying 10S, this makes an offset from the circle boundary which lies at the equator
+        y = np.full_like(x, -8) # Array specifying 10S, this makes an offset from the circle boundary which lies at the equator
         
         labels = ['0', '30E', '60E', '90E', '120E', '150E', '180',
                   '150W', '120W', '90W', '60W', '30W']
 
         for x, y, label in zip(x, y, labels):
-            axs[row][col].text(x, y, label, fontsize=7, 
-                               horizontalalignment='center',
-                               verticalalignment='center',
-                               transform=ccrs.Geodetic())
+            if label == '180':
+                axs[row][col].text(x, y, label, fontsize=7,
+                                   horizontalalignment='center',
+                                   verticalalignment='top',
+                                   transform=ccrs.Geodetic())
+            elif label == '0':
+                axs[row][col].text(x, y, label, fontsize=7,
+                                   horizontalalignment='center',
+                                   verticalalignment='bottom',
+                                   transform=ccrs.Geodetic())
+            else:
+                axs[row][col].text(x, y, label, fontsize=7,
+                                   horizontalalignment='center',
+                                   verticalalignment='center',
+                                   transform=ccrs.Geodetic())
 
         # Set boundary of plot to be circular
         set_map_boundary(axs[row][col], (-180, 180), (0, 90))
