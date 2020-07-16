@@ -172,7 +172,8 @@ for row in range(0,2):
                   '150W', '120W', '90W', '60W', '30W']
 
         for x, y, label in zip(x, y, labels):
-            axs[row][col].text(x, y, label, horizontalalignment='center',
+            axs[row][col].text(x, y, label, fontsize=7, 
+                               horizontalalignment='center',
                                verticalalignment='center',
                                transform=ccrs.Geodetic())
 
@@ -248,5 +249,11 @@ plt.colorbar(contour1, cax=cax[0][0])
 plt.colorbar(contour2, cax=cax[0][1])
 plt.colorbar(contour3, cax=cax[1][0])
 plt.colorbar(contour4, cax=cax[1][1])
+
+# Use geocat.viz.util convenience function to add left and right titles
+for row in range(0,2):
+    for col in range(0,2):
+        axs[row][col].set_title(data[row][col].long_name, loc='left', fontsize=7, pad=25)
+        axs[row][col].set_title(data[row][col].units, loc='right', fontsize=7, pad=25)
 
 plt.show()
