@@ -8,9 +8,7 @@ This script illustrates the following concepts:
    - Drawing a map using the medium resolution map outlines
    - Turning on map tickmark labels with degree symbols
    - Selecting a different color map
-   - Turning off the addition of a longitude cyclic point
    - Zooming in on a particular area on a mercator map
-   - Adding a color to an existing color map
    - Using best practices when choosing plot color scheme to accomodate visual impairments
 
 See following URLs to see the reproduced NCL plot & script:
@@ -63,12 +61,6 @@ pt = t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), vmin=0, vmax=70,
         "label": '',
         })
 
-
-
-# Contour-plot data (for borderlines)
-t.plot.contour(ax=ax, transform=ccrs.PlateCarree(),
-                    levels=12, linewidths=0.5, cmap='k')
-
 # Draw gridlines
 gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True, dms=False, x_inline=False, y_inline=False, 
                   linewidth=1, color='k', alpha=0.5)
@@ -76,20 +68,30 @@ gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True, dms=False, x_inline=
 # Manipulate latitude and longitude gridline numbers and spacing
 gl.ylocator = mticker.FixedLocator(np.arange(128, 145, 20))
 gl.xlocator = mticker.FixedLocator(np.arange(34, 53, 20))
-
 gl.top_labels = False
 gl.right_labels = False
 gl.xlines = False
 gl.ylines = False
 gl.xlocator = mticker.FixedLocator([130,134,138,142])
 gl.ylocator = mticker.FixedLocator([36,38,40,42,44,46,48,50])
-gl.xlabel_style = {'rotation':0}
-gl.ylabel_style = {'rotation':0}
+gl.xlabel_style = {'rotation': 0, 'size': 15}
+gl.ylabel_style = {'rotation': 0, 'size': 15}
+
+'''
+Currently, Cartopy does not have the ability to add tick marks on projections. 
+The GeoCAT Team is working to update the GeoCAT-viz convenience functions to 
+account for this 
+'''
+
+plt.title("Native Mercator Projection", loc='center', y=1.05, size=15, fontweight='bold')
+plt.title(t.units, loc='right', y=1.0,  size=14)
+plt.title("free surface deviation", loc='left', y=1.0, size=14)
+
 
 # Use geocat.viz.util convenience function to add titles to left and right
 # of the plot axis.
-gvutil.set_titles_and_labels(ax, maintitle="Native Mercator Projection",
-                             lefttitle="Sfree surface deviation", righttitle="m")
+# gvutil.set_titles_and_labels(ax, lefttitle="free surface deviation", righttitle="m")
+# plt.suptitle("Native Mercator Projection", fontsize=15, y=.97)
 
 # Show the plot
 plt.show()
