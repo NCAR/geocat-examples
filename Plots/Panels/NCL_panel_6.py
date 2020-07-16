@@ -145,12 +145,138 @@ data2 = gvutil.xr_add_cyclic_longitudes(data2, "lon_t")
 data3 = gvutil.xr_add_cyclic_longitudes(data3, "lon_t")
 
 data = [[data0, data1], [data2, data3]]
+
 ###############################################################################
 # Plot without extra whitespace:
 projection = ccrs.NorthPolarStereo()
-fig, axs = plt.subplots(2, 2, figsize=(8, 8), gridspec_kw=dict(wspace=0.5),
+fig, axs = plt.subplots(2, 2, figsize=(8, 8),
                         subplot_kw=dict(projection=projection))
 
+# Format axes and inset axes for color bars
+cax = np.empty((2,2), dtype=plt.Axes)
+for row in range(0,2):
+    for col in range(0,2):
+        # Add map features
+        axs[row][col].add_feature(cfeature.LAND, facecolor='silver', zorder=2)
+        axs[row][col].add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=3)
+        axs[row][col].add_feature(cfeature.LAKES, linewidth=0.5,
+                                  edgecolor='black', facecolor='None',
+                                  zorder=4)
+
+        # Add gridlines and latitude and longitude labels
+        gl = axs[row][col].gridlines(ccrs.PlateCarree(), draw_labels=False,
+                                     color='gray', linestyle="--", zorder=5)
+        gl.xlocator = mticker.FixedLocator(np.linspace(-180, 150, 12))
+        x = np.arange(0, 360, 30)
+        y = np.full_like(x, -8) # Array specifying 10S, this makes an offset from the circle boundary which lies at the equator
+        
+        labels = ['0', '30E', '60E', '90E', '120E', '150E', '180',
+                  '150W', '120W', '90W', '60W', '30W']
+
+        for x, y, label in zip(x, y, labels):
+            if label == '180':
+                axs[row][col].text(x, y, label, fontsize=7,
+                                   horizontalalignment='center',
+                                   verticalalignment='top',
+                                   transform=ccrs.Geodetic())
+            elif label == '0':
+                axs[row][col].text(x, y, label, fontsize=7,
+                                   horizontalalignment='center',
+                                   verticalalignment='bottom',
+                                   transform=ccrs.Geodetic())
+            else:
+                axs[row][col].text(x, y, label, fontsize=7,
+                                   horizontalalignment='center',
+                                   verticalalignment='center',
+                                   transform=ccrs.Geodetic())
+
+        # Set boundary of plot to be circular
+        set_map_boundary(axs[row][col], (-180, 180), (0, 90))
+        # Create inset axes for color bars
+        cax[row][col] = inset_axes(axs[row][col], width='5%', height='100%',
+                                   loc='lower right',
+                                   bbox_to_anchor=(0.175, 0, 1, 1),
+                                   bbox_transform=axs[row][col].transAxes,
+                                   borderpad=0)
+# Import color map
+cmap = "magma"
+
+# Plot filled contours
+contour = np.empty((2,2), dtype=mcontour.ContourSet)
+contour[0][0] = data[0][0].plot.contourf(ax=axs[0][0],
+                                    cmap=cmap,
+                                    levels=np.arange(-2, 34, 2),
+                                    transform=ccrs.PlateCarree(),
+                                    add_colorbar=False,
+                                    zorder=0)
+contour[0][1] = data[0][1].plot.contourf(ax=axs[0][1],
+                                    cmap=cmap,
+                                    levels=np.arange(-4, 30, 2),
+                                    transform=ccrs.PlateCarree(),
+                                    add_colorbar=False,
+                                    zorder=0)
+contour[1][0] = data[1][0].plot.contourf(ax=axs[1][0],
+                                    cmap=cmap,
+                                    levels=15,
+                                    transform=ccrs.PlateCarree(),
+                                    add_colorbar=False,
+                                    zorder=0)
+contour[1][1] = data[1][1].plot.contourf(ax=axs[1][1],
+                                    cmap=cmap,
+                                    levels=12,
+                                    transform=ccrs.PlateCarree(),
+                                    add_colorbar=False,
+                                    zorder=0)
+
+# Plot contour lines
+data[0][0].plot.contour(ax=axs[0][0],
+                        colors='black',
+                        linestyles='solid',
+                        linewidths=0.5,
+                        levels=np.arange(-2, 34, 2),
+                        transform=ccrs.PlateCarree(),
+                        zorder=1)
+data[0][1].plot.contour(ax=axs[0][1],
+                        colors='black',
+                        linestyles='solid',
+                        linewidths=0.5,
+                        levels=np.arange(-4, 30, 2),
+                        transform=ccrs.PlateCarree(),
+                        zorder=1)
+data[1][0].plot.contour(ax=axs[1][0],
+                        colors='black',
+                        linestyles='solid',
+                        linewidths=0.5,
+                        levels=15,
+                        transform=ccrs.PlateCarree(),
+                        zorder=1)
+data[1][1].plot.contour(ax=axs[1][1],
+                        colors='black',
+                        linestyles='solid',
+                        linewidths=0.5,
+                        levels=12,
+                        transform=ccrs.PlateCarree(),
+                        zorder=1)
+
+# Create colorbars and reduce the font size
+for row in range(0,2):
+    for col in range(0,2):
+        cbar = plt.colorbar(contour[row][col], cax=cax[row][col])
+        cbar.ax.tick_params(labelsize=7)
+
+# Format titles for each subplot
+for row in range(0,2):
+    for col in range(0,2):
+        axs[row][col].set_title(data[row][col].long_name, loc='left', fontsize=7, pad=20)
+        axs[row][col].set_title(data[row][col].units, loc='right', fontsize=7, pad=20)
+
+plt.show()
+
+###############################################################################
+# Plot with extra whitespace:
+projection = ccrs.NorthPolarStereo()
+fig, axs = plt.subplots(2, 2, figsize=(8, 8), gridspec_kw=(dict(wspace=0.5)),
+                        subplot_kw=dict(projection=projection))
 # Format axes and inset axes for color bars
 cax = np.empty((2,2), dtype=plt.Axes)
 for row in range(0,2):
