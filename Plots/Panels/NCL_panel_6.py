@@ -8,6 +8,13 @@ This script illustrates the following concepts:
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/panel_6.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_6_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/panel_6_2_lg.png
+Note:
+    A different colormap was used in this example than in the NCL example 
+    because rainbow colormaps do not translate well to black and white formats,
+    are not accessible for individuals affected by color blindness, and
+    vary widely in how they are percieved by different people. See this
+    `example <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py>`_
+    for more information on choosing colormaps.
 """
 
 ###############################################################################
@@ -281,6 +288,7 @@ plt.show()
 projection = ccrs.NorthPolarStereo()
 fig, axs = plt.subplots(2, 2, figsize=(8, 8), gridspec_kw=(dict(wspace=0.5)),
                         subplot_kw=dict(projection=projection))
+# Everything beyond this is the same code for the example without extra white space
 # Format axes and inset axes for color bars
 cax = np.empty((2,2), dtype=plt.Axes)
 for row in range(0,2):
