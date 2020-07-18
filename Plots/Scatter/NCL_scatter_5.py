@@ -30,3 +30,10 @@ import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
 ################################################################################
+# Generate random data with an average of 10 and a stddev of 3
+npts = 300
+random = np.random.default_rng()
+data = random.normal(loc=10, scale=3, size=npts)
+
+plt.scatter(range(0, npts), data)
+plt.show()
