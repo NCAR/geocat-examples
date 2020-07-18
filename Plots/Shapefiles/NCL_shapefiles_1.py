@@ -5,11 +5,11 @@ This script illustrates the following concepts:
    - Reading shapefiles
    - Plotting data from shapefiles
    - Using shapefile data to plot unemployment percentages in the U.S.
-   - Drawing a custom labelbar on a map
+   - Drawing a custom colorbar on a map
    - Drawing filled polygons over a Lambert Conformal plot
    - Drawing the US with a Lambert Conformal projection
    - Zooming in on a particular area on a Lambert Conformal map
-   - Centering the labels under the labelbar boxes
+   - Centering the labels under the colorbar boxes
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/shapefiles_1.ncl
