@@ -25,7 +25,6 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
 from cycler import cycler
 
 import geocat.datafiles as gdf
@@ -38,24 +37,31 @@ random = np.random.default_rng()
 data = random.normal(loc=10, scale=3, size=npts)
 
 ################################################################################
-# Plot
-plt.figure(figsize=(8, 8))
-
 # Specify colors and markers
 colors = ['darkgoldenrod', 'darkgreen', 'coral', 'cyan', 'firebrick',
           'darkslateblue', 'limegreen', 'goldenrod']
 markers = ['+', '*', 'o', 'x', 's', '^', 'v', 'D']
 plt.rcParams['axes.prop_cycle'] = cycler(color=colors)
 
+################################################################################
+# Plot
+plt.figure(figsize=(8, 8))
+
 # Divide data into 8 bins and plot
+numBins = 8
 indices = np.arange(0, 300)
-partitions = np.linspace(0, 20, 9)
+partitions = np.linspace(0, 20, numBins + 1)
 label = "{start:.1f}:{end:.1f}"
-for x in range(0, 8):
-    print(label.format(start=partitions[x], end=partitions[x+1]))
+for x in range(0, numBins):
     bins = np.where(data>partitions[x], data, np.nan)
     bins = np.where(bins<partitions[x+1], bins, np.nan)
     indices = np.where(bins!=np.nan, indices, np.nan)
-    plt.scatter(indices, bins, marker=markers[x])
+    plt.scatter(indices, bins, marker=markers[x], label=label.format(start=partitions[x], end=partitions[x+1]))
 
+legend = plt.legend(bbox_to_anchor=(0, -0.1), ncol=numBins, loc='lower left', frameon=True)
+for txt in legend.get_texts():
+    txt.set_ha("center") # horizontal alignment of text item
+    txt.set_va("center") # vertical alignment of text item
+    txt.set_x(-25) # x-position
+    txt.set_y(-20) # y-position
 plt.show()
