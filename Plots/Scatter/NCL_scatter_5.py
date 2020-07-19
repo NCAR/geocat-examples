@@ -46,6 +46,7 @@ plt.rcParams['axes.prop_cycle'] = cycler(color=colors)
 ################################################################################
 # Plot
 plt.figure(figsize=(8, 8))
+ax = plt.axes()
 
 # Divide data into 8 bins and plot
 numBins = 8
@@ -58,10 +59,16 @@ for x in range(0, numBins):
     indices = np.where(bins!=np.nan, indices, np.nan)
     plt.scatter(indices, bins, marker=markers[x], label=label.format(start=partitions[x], end=partitions[x+1]))
 
-legend = plt.legend(bbox_to_anchor=(0, -0.1), ncol=numBins, loc='lower left', frameon=True)
-for txt in legend.get_texts():
-    txt.set_ha("center") # horizontal alignment of text item
-    txt.set_va("center") # vertical alignment of text item
-    txt.set_x(-25) # x-position
-    txt.set_y(-20) # y-position
+# Use geocat.viz.util convenience function to set axes parameters
+gvutil.set_axes_limits_and_ticks(ax, xlim=(0, 300), ylim=(0, 21),
+                                 xticks=range(0, 301, 50),
+                                 yticks=range(0, 22, 3))
+
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=3,
+                             labelsize=14)
+
+# Use geocat.viz.util convenience function to set titles and labels
+gvutil.set_titles_and_labels(ax, maintitle="Scatter plot with grouped markers")
+            
 plt.show()
