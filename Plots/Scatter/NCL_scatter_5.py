@@ -25,6 +25,8 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+from cycler import cycler
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -35,5 +37,25 @@ npts = 300
 random = np.random.default_rng()
 data = random.normal(loc=10, scale=3, size=npts)
 
-plt.scatter(range(0, npts), data)
+################################################################################
+# Plot
+plt.figure(figsize=(8, 8))
+
+# Specify colors and markers
+colors = ['darkgoldenrod', 'darkgreen', 'coral', 'cyan', 'firebrick',
+          'darkslateblue', 'limegreen', 'goldenrod']
+markers = ['+', '*', 'o', 'x', 's', '^', 'v', 'D']
+plt.rcParams['axes.prop_cycle'] = cycler(color=colors)
+
+# Divide data into 8 bins and plot
+indices = np.arange(0, 300)
+partitions = np.linspace(0, 20, 9)
+label = "{start:.1f}:{end:.1f}"
+for x in range(0, 8):
+    print(label.format(start=partitions[x], end=partitions[x+1]))
+    bins = np.where(data>partitions[x], data, np.nan)
+    bins = np.where(bins<partitions[x+1], bins, np.nan)
+    indices = np.where(bins!=np.nan, indices, np.nan)
+    plt.scatter(indices, bins, marker=markers[x])
+
 plt.show()
