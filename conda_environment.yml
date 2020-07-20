@@ -1,0 +1,20 @@
+name: geocat-examples
+channels:
+  - conda-forge
+  - ncar
+dependencies:
+  - python=3
+  - geocat-comp
+  - geocat-datafiles
+  - geocat-viz=2020.2.18.1
+  - netcdf4
+  - cartopy
+  - mock
+  - pillow
+  - sphinx
+  - matplotlib
+  - sphinx-gallery
+  - sphinx_rtd_theme
+  - jupyter
+  - make
+  - geographiclib
