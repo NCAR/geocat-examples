@@ -1,3 +1,7 @@
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/NCAR/GeoCAT-examples/Build%20documentation%20pages?logo=github&style=for-the-badge)](https://github.com/NCAR/GeoCAT-examples/actions)
+[![Documentation Status](https://img.shields.io/readthedocs/geocat-examples/latest.svg?style=for-the-badge)](https://geocat-examples.readthedocs.io/en/latest/?badge=latest)
+
+
 GeoCAT-examples
 ===============
 Future home of the GeoCAT-examples repository!
