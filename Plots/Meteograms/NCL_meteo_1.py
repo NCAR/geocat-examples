@@ -128,13 +128,6 @@ cont3labels = ax1.clabel(contour3,
                    edgecolor='none',
                    pad=.5)) for txt in contour3.labelTexts]
 
-# Use the geocat.viz function to set the main title of the plot
-gvutil.set_titles_and_labels(ax1,
-                             maintitle='Meteogram for LGSA, 28/12Z',
-                             maintitlefontsize=18,
-                             ylabel='Pressure (mb)',
-                             labelfontsize=12)
-
 # Determine the labels for each tick on the x and y axes
 yticklabels = np.array(levels, dtype=np.int)
 xticklabels = ['12z', '15z', '18z', '21z', 'Apr29',
@@ -143,11 +136,18 @@ xticklabels = ['12z', '15z', '18z', '21z', 'Apr29',
                '12z', '15z', '18z', '21z', 'May01', '03z',
                '06z', '09z', '12z']
 
-# Add a pad between the y axis label and the axis spine
-ax1.yaxis.labelpad = 5
-
 # Make an axis to overlay on top of the contour plot
 axin = fig.add_subplot(spec[0, 0])
+
+# Use the geocat.viz function to set the main title of the plot
+gvutil.set_titles_and_labels(axin,
+                             maintitle='Meteogram for LGSA, 28/12Z',
+                             maintitlefontsize=18,
+                             ylabel='Pressure (mb)',
+                             labelfontsize=12)
+
+# Add a pad between the y axis label and the axis spine
+axin.yaxis.labelpad = 5
 
 # Use the geocat.viz function to set axes limits and ticks
 gvutil.set_axes_limits_and_ticks(axin,
