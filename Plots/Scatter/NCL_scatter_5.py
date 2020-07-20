@@ -54,7 +54,8 @@ partitions = np.linspace(0, 20, numBins + 1)
 label = "{start:g}:{end:g}"
 for x in range(0, numBins):
     bins = np.where(data > partitions[x], data, np.nan)
-    bins = np.where(bins < partitions[x + 1], bins, np.nan)
+    with np.errstate(invalid='ignore'):     # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
+        bins = np.where(bins < partitions[x + 1], bins, np.nan)
     indices = np.where(bins != np.nan, indices, np.nan)
     plt.plot(indices, bins, marker=markers[x], fillstyle='none', linewidth=0,
                label=label.format(start=partitions[x], end=partitions[x+1]))
