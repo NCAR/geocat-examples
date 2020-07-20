@@ -40,7 +40,7 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 # Define a utility plotting function in order not to repeat many lines of codes
 # since we need to make the same figure with two different variables.
 
-def plot_labelled_filled_contours(data, ax=None):
+def plot_labelled_filled_contours(data, ax=None, label=None):
     """
     A utility function for convenience that plots labelled, filled contours with black contours
     marking each level.It will return a dictionary containing three objects corresponding to the
@@ -93,6 +93,8 @@ def plot_labelled_filled_contours(data, ax=None):
     gvutil.set_titles_and_labels(ax, lefttitle=data.attrs['long_name'], lefttitlefontsize=10,
                                  righttitle=data.attrs['units'], righttitlefontsize=10)
 
+    # Add a label in the upper left of the axes
+    ax.text(0.025, 0.9, label, transform=ax.transAxes, bbox=dict(boxstyle='square, pad=0.25', facecolor='white'))
     return handles
 
 
@@ -110,16 +112,16 @@ fig, ax = plt.subplots(3, 1, figsize=(6, 10), gridspec_kw=dict(hspace=0.3),
 levels = np.linspace(-10, 50, 13)
 
 # Contour-plot U data, save "handles" to add a colorbar later
-handles = plot_labelled_filled_contours(ds.U, ax=ax[0])
+handles = plot_labelled_filled_contours(ds.U, ax=ax[0], label='a)')
 
 # Set a common title
 plt.suptitle("A common title", fontsize=16, y=0.94)
 
 # Contour-plot V data
-plot_labelled_filled_contours(ds.V, ax=ax[1])
+plot_labelled_filled_contours(ds.V, ax=ax[1], label='b)')
 
 # Contour-plot U data again but in the bottom axes
-plot_labelled_filled_contours(ds.U, ax=ax[2])
+plot_labelled_filled_contours(ds.U, ax=ax[2], label='c)')
 
 # Create inset axes for colorbar
 cax = inset_axes(ax[2], width='100%', height='7%', loc='lower left',
