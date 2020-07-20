@@ -1,18 +1,18 @@
 """
-NCL_xy_5.py
+NCL_bar_2.py
 ===============
 This script illustrates the following concepts:
-   - Draw multiple curves on an XY plot
-   - Drawing a Y reference line in an XY plot
-   - Filling the areas of an XY curve above and below a reference line
+   - Drawing bars instead of curves in an XY plot
+   - Changing the aspect ratio of a bar plot
+   - Drawing filled bars up or down based on a Y reference value
+   - Setting the minimum/maximum value of the Y axis in a bar plot
    - Using named colors to indicate a fill color
-   - Converting dates from YYYYMM format to floats
+   - Creating array of dates to use as x-axis tick labels
    - Creating a main title
-   - Setting the mininum/maximum value of the Y axis in an XY plot
 
 See following URLs to see the reproduced NCL plot & script:
-    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/xy_5.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/xy_5_1_lg.png
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/bar_2.ncl
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/bar_2_lg.png
 """
 
 ###############################################################################
@@ -30,7 +30,6 @@ from geocat.viz import util as gvutil
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/soi.nc"))
 dsoik = ds.DSOI_KET
-dsoid = ds.DSOI_DEC
 date = ds.date
 num_months = np.shape(date)[0]
 
@@ -44,37 +43,31 @@ for n in np.arange(0, num_months, 1):
     date_frac[n] = yyyy + (mon-1)/12
 
 ###############################################################################
-# Plot:
+# Plot
 
 # Generate figure (set its size (width, height) in inches) and axes
-plt.figure(figsize=(8, 4))
-ax = plt.gca()
+plt.figure(figsize=(12, 6))
+ax = plt.axes()
 
-# Plot reference line
-ax.axhline(y=0, color='grey', linewidth=0.75)
-
-# Plot data
-# _labels=False prevents axis labels from being drawn
-ax.plot(date_frac, dsoik, color='black', linewidth=0.5)
-ax.plot(date_frac, dsoid, color='black')
-
-# Fill above and below the 0 line
-ax.fill_between(date_frac, dsoik, where=dsoik > 0, color='red')
-ax.fill_between(date_frac, dsoik, where=dsoik < 0, color='blue')
-
+# Create a list of colors based on the color bar values
+colors = ['red' if (value > 0) else 'blue' for value in dsoik[::8]]
+plt.bar(date_frac[::8], dsoik[::8], align='edge', edgecolor='black',
+        color=colors, width=8/12, linewidth=.6)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5,
-                             labelsize=14)
+                             labelsize=20)
 
 # Use geocat.viz.util convenience function to set axes parameters
 gvutil.set_axes_limits_and_ticks(ax, ylim=(-3, 3),
                                  yticks=np.linspace(-3, 3, 7),
                                  yticklabels=np.linspace(-3, 3, 7),
-                                 xlim=(date_frac[0], date_frac[-1]),
-                                 xticks=np.linspace(1880, 1980, 6))
+                                 xlim=(date_frac[40], date_frac[-16]),
+                                 xticks=np.linspace(1900, 1980, 5))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, maintitle="Darwin Southern Oscillation Index")
+gvutil.set_titles_and_labels(ax, maintitle="Darwin Southern Oscillation Index",
+                             ylabel='Anomalies', maintitlefontsize=28,
+                             labelfontsize=20)
 
 plt.show()
