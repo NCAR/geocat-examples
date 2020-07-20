@@ -94,7 +94,7 @@ contour3 = ax1.contour(tempisobar,
                        transform=ccrs.PlateCarree(),
                        colors='red',
                        levels=[-20, -10, 0, 10, 20, 30, 40, 50, 60],
-                       linewidths=0.4,
+                       linewidths=0.7,
                        linestyles='solid',
                        zorder=4)
 
@@ -187,7 +187,7 @@ barbs = axin.barbs(taus,
                    ugrid,
                    vgrid,
                    color='k',
-                   lw=0.2,
+                   lw=0.1,
                    length=5)
 
 # Create text box at lower right of contour plot
