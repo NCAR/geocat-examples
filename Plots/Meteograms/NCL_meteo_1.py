@@ -75,7 +75,7 @@ colors = ListedColormap(np.array(['white', 'honeydew', 'palegreen', 'limegreen',
 
 bounds = [-20, -10, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
 
-norm = BoundaryNorm(boundaries=bounds, ncolors=5)
+norm = BoundaryNorm(boundaries=bounds, ncolors=5) 
 
 # Plot filled contour
 contour1 = ax1.contourf(smoothrh, transform=ccrs.PlateCarree(), cmap=colors, norm=norm,
@@ -103,24 +103,33 @@ cont3labels = ax1.clabel(contour3, manual=cont3Labels, fmt='%d', inline=True, fo
 [txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=.5)) for txt in contour2.labelTexts]
 [txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=.5)) for txt in contour3.labelTexts]
 
-# Plot barbs
-barbs = ax1.quiver(taus, levels, ugrid, vgrid, color='k', pivot='middle', zorder=5)
-#transform=ccrs.PlateCarree(), 
-
 gvutil.set_titles_and_labels(ax1, maintitle='Meteogram for LGSA, 28/12Z', maintitlefontsize=18, ylabel='Pressure (mb)', labelfontsize=12)
 
 yticklabels = np.array(levels)
-
 xticklabels = ['12z', '15z', '18z', '21z', 'Apr29', '03z', '06z', '09z', '12z', '15z', '18z',
                '21z', 'Apr30', '03z', '06z', '09z', '12z', '15z', '18z', '21z', 'May01', '03z', '06z', '09z', '12z']
 
-gvutil.set_axes_limits_and_ticks(ax1, xlim=[0,24], ylim=[0,7], xticks=np.arange(0,25), yticks=np.arange(0,8), xticklabels=xticklabels, yticklabels=yticklabels)
+gvutil.set_axes_limits_and_ticks(ax1, xlim=[0,24], ylim=[0,7],
+                                 xticks=np.arange(0,25), yticks=np.arange(0,8),
+                                 xticklabels=xticklabels, yticklabels=yticklabels)
 
 ax1.tick_params(axis="x", direction="in")
 ax1.tick_params(axis="y", labelsize=9) 
 ax1.yaxis.labelpad = -3
 for tick in ax1.get_xticklabels():
     tick.set_rotation(90)
+
+axin0 = fig.add_subplot(311)
+gvutil.set_axes_limits_and_ticks(axin0, 
+                                 xlim=[taus[0], taus[-1]], ylim=[levels[0], levels[-1]],
+                                 xticks=np.array(taus), yticks=np.linspace(1000, 400, 8),
+                                 xticklabels=np.array(taus), yticklabels=np.array(levels))
+axin0.patch.set_alpha(0.0)
+axin0.axis('off')
+axin0.set_aspect(0.052)
+
+# Plot barbs
+barbs = axin0.barbs(taus, np.linspace(1000, 400, 8), ugrid, vgrid, color='k', lw=0.2, length=5)
 
 # Create text box
 ax1.text(1.0, -0.35, "CONTOUR FROM -20 TO 60 BY 10",
