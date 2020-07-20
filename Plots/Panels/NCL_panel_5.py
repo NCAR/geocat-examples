@@ -118,6 +118,9 @@ plt.suptitle("A common title", fontsize=16)
 # Contour-plot V data
 plot_labelled_filled_contours(ds.V, ax=ax[1])
 
+# Contour-plot U data again but in the bottom axes
+plot_labelled_filled_contours(ds.U, ax=ax[2])
+
 # Add horizontal colorbar
 cbar = plt.colorbar(handles["filled"], ax=ax, orientation="horizontal",
                     ticks=levels[:-1], drawedges=True, aspect=30, 
