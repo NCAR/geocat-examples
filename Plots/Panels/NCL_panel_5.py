@@ -17,6 +17,7 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 import cartopy.crs as ccrs
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
@@ -84,7 +85,9 @@ def plot_labelled_filled_contours(data, ax=None):
 
     # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax)
-
+    # Remove degree symbol from tick labels
+    ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
+    ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
     # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
     gvutil.set_titles_and_labels(ax, lefttitle=data.attrs['long_name'], lefttitlefontsize=10,
                                  righttitle=data.attrs['units'], righttitlefontsize=10)
@@ -100,24 +103,25 @@ def plot_labelled_filled_contours(data, ax=None):
 # See https://matplotlib.org/tutorials/intermediate/constrainedlayout_guide.html
 # Generate figure and axes using Cartopy projection
 projection = ccrs.PlateCarree()
-fig, ax = plt.subplots(3, 1, figsize=(8, 8), constrained_layout=True,
+fig, ax = plt.subplots(3, 1, figsize=(6, 10), constrained_layout=True,
                        subplot_kw={"projection": projection})
 
 # Define the contour levels
-levels = np.arange(-10, 50, 5)
+levels = np.linspace(-10, 50, 13)
 
 # Contour-plot U data, save "handles" to add a colorbar later
 handles = plot_labelled_filled_contours(ds.U, ax=ax[0])
 
 # Set a common title
-ax[0].set_title("A plot with a common colorbar", fontsize=14, y=1.15)
+plt.suptitle("A common title", fontsize=16)
 
 # Contour-plot V data
 plot_labelled_filled_contours(ds.V, ax=ax[1])
 
 # Add horizontal colorbar
 cbar = plt.colorbar(handles["filled"], ax=ax, orientation="horizontal",
-                    ticks=levels[:-1], drawedges=True, aspect=30, )
+                    ticks=levels[:-1], drawedges=True, aspect=30, 
+                    extendrect=True, extendfrac='auto', shrink=0.9)
 cbar.ax.tick_params(labelsize=10)
 
 # Show the plot
