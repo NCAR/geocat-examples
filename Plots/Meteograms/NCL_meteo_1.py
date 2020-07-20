@@ -51,8 +51,8 @@ vgrid = ds.vgrid
 rain03 = ds.rain03
 tempht = ds.tempht
 
-smoothtemp = smooth_n_point(tempisobar, n=5, passes=1)
-smoothrh   = smooth_n_point(rh, n=5, passes=1)
+#smoothtemp = smooth_n_point(tempisobar, n=9, passes=1)
+#smoothrh   = smooth_n_point(rh, n=9, passes=1)
 smoothtemp=tempisobar
 smoothrh=rh
 
@@ -71,11 +71,11 @@ ax1.set_aspect(1.5)
 
 # Import an NCL colormap
 cmap = gvcmaps.wgne15
-colors = ListedColormap(np.array(['white', 'honeydew', 'palegreen', 'limegreen', 'green', 'darkgreen']))
+#colors = ListedColormap(np.array(['white', 'white', 'white', 'honeydew', 'honeydew', 'palegreen', 'palegreen', 'springgreen', 'limegreen', 'green', 'darkgreen']))
+colors = ListedColormap(np.array(['white', 'white', 'white', 'white', 'white', 'mintcream', "#DAF6D3", "#B2FAB9", "#B2FAB9", 'springgreen', 'lime', "#54A63F"]))
+bounds = [-20, -10, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 
-bounds = [-20, -10, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
-
-norm = BoundaryNorm(boundaries=bounds, ncolors=5) 
+norm = BoundaryNorm(boundaries=bounds, ncolors=12) 
 
 # Plot filled contour
 contour1 = ax1.contourf(smoothrh, transform=ccrs.PlateCarree(), cmap=colors, norm=norm,
@@ -105,7 +105,7 @@ cont3labels = ax1.clabel(contour3, manual=cont3Labels, fmt='%d', inline=True, fo
 
 gvutil.set_titles_and_labels(ax1, maintitle='Meteogram for LGSA, 28/12Z', maintitlefontsize=18, ylabel='Pressure (mb)', labelfontsize=12)
 
-yticklabels = np.array(levels)
+yticklabels = np.array(levels, dtype=np.int)
 xticklabels = ['12z', '15z', '18z', '21z', 'Apr29', '03z', '06z', '09z', '12z', '15z', '18z',
                '21z', 'Apr30', '03z', '06z', '09z', '12z', '15z', '18z', '21z', 'May01', '03z', '06z', '09z', '12z']
 
@@ -150,7 +150,7 @@ axin1.bar(taus, rain03, width=3, color='limegreen', edgecolor='k', linewidth=.2)
 
 gvutil.set_titles_and_labels(axin1, ylabel='3hr rain total', labelfontsize=12)
 
-yticklabels = [0, 0.1, 0.2, 0.3, 0.4, 0.5]
+yticklabels = ['0.0', '0.10', '0.20', '0.30', '0.40', '0.50']
 
 xticklabels = ['12z', '', '18z', '', 'Apr29', '', '06z', '', '12z', '', '18z',
                '', 'Apr30', '', '06z', '', '12z', '', '18z', '', 'May01', '', '06z', '', '12z']
@@ -169,7 +169,7 @@ axin2.plot(taus, tempht, color='red')
 
 gvutil.set_titles_and_labels(axin2, ylabel='Temp at 2m', labelfontsize=12)
 
-yticklabels = [59, 60, 61, 62, 63, 64]
+yticklabels = ['59.0', '60.0', '61.0', '62.0', '63.0', '64.0']
 
 gvutil.set_axes_limits_and_ticks(axin2, xlim=[0,72], ylim=[59,64.5], xticks=np.arange(0, 75, 3), yticks=np.arange(59,65), xticklabels=xticklabels, yticklabels=yticklabels) 
 
