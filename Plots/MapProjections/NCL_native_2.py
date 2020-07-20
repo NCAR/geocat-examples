@@ -1,5 +1,5 @@
 """
-NCL_proj_2_lg.py
+NCL_native_2_lg.py
 ================
 
 This script illustrates the following concepts:
@@ -27,7 +27,6 @@ import matplotlib.ticker as mticker
 import cartopy.feature as cfeature
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
 ###############################################################################
 # Read in data:
 # Open a netCDF data file using xarray default engine and
@@ -53,7 +52,7 @@ ax.set_extent([128, 144, 34, 52], ccrs.PlateCarree())
 
 # Contourf-plot data (for filled contours)
 pt = t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), vmin=0, vmax=70,
-                     levels=15, linewidths=0,cmap='inferno',
+                     levels=15, cmap='inferno',
                      cbar_kwargs={
         "extendrect": True,
         "orientation": "vertical",
