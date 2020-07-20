@@ -56,7 +56,7 @@ for x in range(0, numBins):
     bins = np.where(data > partitions[x], data, np.nan)
     bins = np.where(bins < partitions[x + 1], bins, np.nan)
     indices = np.where(bins != np.nan, indices, np.nan)
-    ax.scatter(indices, bins, marker=markers[x],
+    plt.plot(indices, bins, marker=markers[x], fillstyle='none', linewidth=0,
                label=label.format(start=partitions[x], end=partitions[x+1]))
 
 legend = ax.legend(bbox_to_anchor=(-0.075, -0.2), ncol=numBins,
