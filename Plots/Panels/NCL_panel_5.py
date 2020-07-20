@@ -91,7 +91,7 @@ def plot_labelled_filled_contours(data, ax=None, label=None):
     # Remove degree symbol from tick labels
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
-    
+
     # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
     gvutil.set_titles_and_labels(ax, lefttitle=data.attrs['long_name'], lefttitlefontsize=10,
                                  righttitle=data.attrs['units'], righttitlefontsize=10)
@@ -104,9 +104,8 @@ def plot_labelled_filled_contours(data, ax=None, label=None):
 ###############################################################################
 # Plot:
 
-# Make two panels (i.e. subplots in matplotlib)
-# Specify ``constrained_layout=True`` to automatically layout panels, colorbars and axes decorations nicely.
-# See https://matplotlib.org/tutorials/intermediate/constrainedlayout_guide.html
+# Make three panels (i.e. subplots in matplotlib) specifying white space
+# between them using gridspec_kw and hspace
 # Generate figure and axes using Cartopy projection
 projection = ccrs.PlateCarree()
 fig, ax = plt.subplots(3, 1, figsize=(6, 10), gridspec_kw=dict(hspace=0.3),
