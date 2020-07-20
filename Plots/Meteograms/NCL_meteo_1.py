@@ -43,8 +43,8 @@ ds = xr.open_dataset(gdf.get("netcdf_files/meteo_data.nc"), decode_times=False)
 
 # Extract slice of data
 tempisobar = ds.tempisobar
-levels = np.sort(np.array(ds.levels).flatten())/10
-taus = ds.taus       
+levels = ds.levels
+taus = ds.taus
 rh = ds.rh
 ugrid = ds.ugrid
 vgrid = ds.vgrid
@@ -53,6 +53,8 @@ tempht = ds.tempht
 
 smoothtemp = smooth_n_point(tempisobar, n=5, passes=1)
 smoothrh   = smooth_n_point(rh, n=5, passes=1)
+smoothtemp=tempisobar
+smoothrh=rh
 
 ###############################################################################
 # Plot:
@@ -71,33 +73,43 @@ ax1.set_aspect(1.5)
 cmap = gvcmaps.wgne15
 colors = ListedColormap(np.array(['white', 'honeydew', 'palegreen', 'limegreen', 'green', 'darkgreen']))
 
-bounds = [-20, -10, 0, 10, 20, 30, 50, 60, 70, 80, 90]
+bounds = [-20, -10, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
 
 norm = BoundaryNorm(boundaries=bounds, ncolors=5)
 
 # Plot filled contour
 contour1 = ax1.contourf(smoothrh, transform=ccrs.PlateCarree(), cmap=colors, norm=norm,
-                          levels=20, zorder=2)
+                          levels=bounds, zorder=2)
 
 # Plot filled contour
 contour2 = ax1.contour(smoothrh, transform=ccrs.PlateCarree(), colors='black',
-                          levels=20, linewidths=0.1, zorder=3)
+                          levels=bounds, linewidths=0.1, zorder=3)
 
 # Plot filled contour
 contour3 = ax1.contour(smoothtemp, transform=ccrs.PlateCarree(), colors='red',
-                          levels=[-20, -10, 0, 10, 20, 30, 40, 50, 60], linewidths=0.4, linestyles='solid', zorder=3)
+                          levels=[-20, -10, 0, 10, 20, 30, 40, 50, 60], linewidths=0.4, linestyles='solid', zorder=4)
 
-#ax.clabel(contour2, manual=True)
+cont2Labels = [(1.71, 3.82), (5.49, 3.23), (9.53, 4.34), (9.27, 3.53), (14.08, 4.81),
+               (19.21, 2.24), (17.74, 1.00), (22.23, 3.87), (12.87, 2.54), (10.45, 6.02),
+               (11.51, 4.92)]
 
-#X, Y = np.meshgrid(taus, taus)
+cont3Labels = [(7.5, 6.1), (10.0, 4.58), (19.06, 1.91), (8.68, 0.46), (19.52, 4.80),
+               (16.7, 6.07), (8.62, 5.41), (18.53, 5.46)]
+
+cont2labels = ax1.clabel(contour2, manual=cont2Labels, fmt='%d', inline=True, fontsize=7)
+cont3labels = ax1.clabel(contour3, manual=cont3Labels, fmt='%d', inline=True, fontsize=7, colors='k')
+
+# Set label backgrounds white
+[txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=.5)) for txt in contour2.labelTexts]
+[txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=.5)) for txt in contour3.labelTexts]
 
 # Plot barbs
-#barbs = ax.barbs(taus, taus, ugrid, vgrid)
-
+barbs = ax1.quiver(taus, levels, ugrid, vgrid, color='k', pivot='middle', zorder=5)
+#transform=ccrs.PlateCarree(), 
 
 gvutil.set_titles_and_labels(ax1, maintitle='Meteogram for LGSA, 28/12Z', maintitlefontsize=18, ylabel='Pressure (mb)', labelfontsize=12)
 
-yticklabels = [1000, 975, 950, 925, 850, 700, 500, 400]
+yticklabels = np.array(levels)
 
 xticklabels = ['12z', '15z', '18z', '21z', 'Apr29', '03z', '06z', '09z', '12z', '15z', '18z',
                '21z', 'Apr30', '03z', '06z', '09z', '12z', '15z', '18z', '21z', 'May01', '03z', '06z', '09z', '12z']
@@ -137,8 +149,8 @@ xticklabels = ['12z', '', '18z', '', 'Apr29', '', '06z', '', '12z', '', '18z',
 gvutil.set_axes_limits_and_ticks(axin1, xlim=[0,72], ylim=[0,.5], xticks=np.arange(0, 75, 3), yticks=np.arange(0,.6,0.1), xticklabels=xticklabels, yticklabels=yticklabels) 
 
 gvutil.add_major_minor_ticks(axin1, y_minor_per_major=5, labelsize="small")
-axin1.yaxis.set_ticks_position('left')
-axin1.xaxis.set_ticks_position('bottom')
+axin1.tick_params(bottom=True, left=True, right=True, top=False)
+axin1.tick_params(which='minor', top=False)
 
 # Plot line chart beneath it
 
@@ -153,8 +165,8 @@ yticklabels = [59, 60, 61, 62, 63, 64]
 gvutil.set_axes_limits_and_ticks(axin2, xlim=[0,72], ylim=[59,64.5], xticks=np.arange(0, 75, 3), yticks=np.arange(59,65), xticklabels=xticklabels, yticklabels=yticklabels) 
 
 gvutil.add_major_minor_ticks(axin2, y_minor_per_major=5, labelsize="small")
-axin2.yaxis.set_ticks_position('left')
-axin2.xaxis.set_ticks_position('bottom')
+axin2.tick_params(bottom=True, left=True, right=True, top=False)
+axin2.tick_params(which='minor', top=False)
 
 plt.subplots_adjust(hspace=-0.3)
 
