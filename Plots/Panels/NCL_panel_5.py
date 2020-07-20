@@ -19,6 +19,7 @@ See following URLs to see the reproduced NCL plot & script:
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import numpy as np
 import xarray as xr
 
@@ -77,8 +78,8 @@ def plot_labelled_filled_contours(data, ax=None):
         handles["contour"], fontsize=8, fmt="%.0f",  # Turn off decimal points
     )
 
-    # Add coastlines
-    ax.coastlines(linewidth=0.5)
+    # Add coastlines and make them semitransparent for plot legibility
+    ax.coastlines(linewidth=0.5, alpha=0.75)
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
     gvutil.add_major_minor_ticks(ax)
@@ -103,9 +104,8 @@ def plot_labelled_filled_contours(data, ax=None):
 # See https://matplotlib.org/tutorials/intermediate/constrainedlayout_guide.html
 # Generate figure and axes using Cartopy projection
 projection = ccrs.PlateCarree()
-fig, ax = plt.subplots(3, 1, figsize=(6, 10), constrained_layout=True,
+fig, ax = plt.subplots(3, 1, figsize=(6, 10), gridspec_kw=dict(hspace=0.3),
                        subplot_kw={"projection": projection})
-
 # Define the contour levels
 levels = np.linspace(-10, 50, 13)
 
@@ -113,7 +113,7 @@ levels = np.linspace(-10, 50, 13)
 handles = plot_labelled_filled_contours(ds.U, ax=ax[0])
 
 # Set a common title
-plt.suptitle("A common title", fontsize=16)
+plt.suptitle("A common title", fontsize=16, y=0.94)
 
 # Contour-plot V data
 plot_labelled_filled_contours(ds.V, ax=ax[1])
@@ -121,11 +121,19 @@ plot_labelled_filled_contours(ds.V, ax=ax[1])
 # Contour-plot U data again but in the bottom axes
 plot_labelled_filled_contours(ds.U, ax=ax[2])
 
+# Create inset axes for colorbar
+cax = inset_axes(ax[2], width='100%', height='7%', loc='lower left',
+                 bbox_to_anchor=(0, -0.25, 1, 1),
+                 bbox_transform=ax[2].transAxes,
+                 borderpad=0)
 # Add horizontal colorbar
-cbar = plt.colorbar(handles["filled"], ax=ax, orientation="horizontal",
+cbar = plt.colorbar(handles["filled"], cax=cax, orientation="horizontal",
                     ticks=levels[:-1], drawedges=True, aspect=30, 
-                    extendrect=True, extendfrac='auto', shrink=0.9)
+                    extendrect=True, extendfrac='auto', shrink=0.8)
 cbar.ax.tick_params(labelsize=10)
+
+# Add figure label underneath subplots
+fig.text(0.5, 0.015, "Figure 1: A nifty panel plot", horizontalalignment='center', fontsize=14)
 
 # Show the plot
 plt.show()
