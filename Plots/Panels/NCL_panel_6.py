@@ -88,7 +88,6 @@ def set_map_boundary(ax, lon_range, lat_range, north_pad=0, south_pad=0, east_pa
     """
     import cartopy.crs as ccrs
     import matplotlib.path as mpath
-    import matplotlib.patches as mpatches
     import numpy as np
 
     if (lon_range[0] >= lon_range[1]): 
