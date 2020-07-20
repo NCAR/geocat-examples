@@ -52,19 +52,17 @@ tempht = ds.tempht
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(6, 10))
+fig = plt.figure(figsize=(6, 8))
+spec = fig.add_gridspec(ncols=1, nrows=3, height_ratios=[4, 1, 1], hspace=0.4)
 
-# Create two axes, one on the top for the first subplot,
-# and one on the bottom for the second and third subplots
-ax1 = fig.add_subplot(311, projection=ccrs.PlateCarree())
-ax2 = fig.add_subplot(312)
-ax2.axis("off")
+# Create axis for contour/wind barb plot
+ax1 = fig.add_subplot(spec[0, 0], projection=ccrs.PlateCarree())
 
 # Add coastlines to first axis
 ax1.coastlines(linewidths=0.5, alpha=-1)
 
 # Set aspect ratio of the first axis
-ax1.set_aspect(1.5)
+ax1.set_aspect(2)
 
 # Create a color map with a combination of matplotlib colors and hex values
 colors = ListedColormap(np.array(['white', 'white', 'white', 'white', 'white',
@@ -99,6 +97,9 @@ contour3 = ax1.contour(tempisobar,
                        zorder=4)
 
 # Create lists of coordinates where the contour labels are going to go
+# Before creating an axes over top of the contour plot, hover your
+# mouse over the locations where you want to plot the contour labels.
+# The coordinate will show up on the bottom right of the figure window.
 cont2Labels = [(1.71, 3.82), (5.49, 3.23), (9.53, 4.34), (9.27, 3.53),
                (14.08, 4.81), (19.21, 2.24), (17.74, 1.00), (22.23, 3.87),
                (12.87, 2.54), (10.45, 6.02), (11.51, 4.92)]
@@ -142,28 +143,11 @@ xticklabels = ['12z', '15z', '18z', '21z', 'Apr29',
                '12z', '15z', '18z', '21z', 'May01', '03z',
                '06z', '09z', '12z']
 
-# Use the geocat.viz function to set axes limits and ticks
-gvutil.set_axes_limits_and_ticks(ax1,
-                                 xlim=[0, 24],
-                                 ylim=[0, 7],
-                                 xticks=np.arange(0, 25),
-                                 yticks=np.arange(0, 8),
-                                 xticklabels=xticklabels,
-                                 yticklabels=yticklabels)
-
-# Make the ticks on each axis point inwards instead of outwards
-ax1.tick_params(axis="x", direction="in")
-ax1.tick_params(axis="y", direction="in", labelsize=9)
-
 # Add a pad between the y axis label and the axis spine
-ax1.yaxis.labelpad = 4
-
-# Rotate the labels on the x axis so they are vertical
-for tick in ax1.get_xticklabels():
-    tick.set_rotation(90)
+ax1.yaxis.labelpad = 5
 
 # Make an axis to overlay on top of the contour plot
-axin = fig.add_subplot(311)
+axin = fig.add_subplot(spec[0, 0])
 
 # Use the geocat.viz function to set axes limits and ticks
 gvutil.set_axes_limits_and_ticks(axin,
@@ -171,15 +155,22 @@ gvutil.set_axes_limits_and_ticks(axin,
                                  ylim=[levels[0], levels[-1]],
                                  xticks=np.array(taus),
                                  yticks=np.linspace(1000, 400, 8),
-                                 xticklabels=np.array(taus),
-                                 yticklabels=np.array(levels))
+                                 xticklabels=xticklabels,
+                                 yticklabels=yticklabels)
 
 # Make axis invisible
 axin.patch.set_alpha(0.0)
-axin.axis('off')
+
+# Make ticks point inwards
+axin.tick_params(axis="x", direction="in", length=8)
+axin.tick_params(axis="y", direction="in", length=8, labelsize=9)
+
+# Rotate the labels on the x axis so they are vertical
+for tick in axin.get_xticklabels():
+    tick.set_rotation(90)
 
 # Set aspect ratio of axin so it lines up with axis underneath (ax1)
-axin.set_aspect(0.052)
+axin.set_aspect(0.07)
 
 # Plot wind barbs
 barbs = axin.barbs(taus,
@@ -192,7 +183,7 @@ barbs = axin.barbs(taus,
 
 # Create text box at lower right of contour plot
 ax1.text(1.0,
-         -0.35,
+         -0.28,
          "CONTOUR FROM -20 TO 60 BY 10",
          horizontalalignment='right',
          transform=ax1.transAxes,
@@ -200,14 +191,11 @@ ax1.text(1.0,
                    facecolor='white',
                    edgecolor='black'))
 
-# Create two inset axes in the second axes
-axin1 = ax2.inset_axes([0.0, 0.3, 1, 0.30])
-axin2 = ax2.inset_axes([0.0, -.1, 1, 0.35])
+# Create two more axes, one for the bar chart and one for the line graph
+axin1 = fig.add_subplot(spec[1, 0])
+axin2 = fig.add_subplot(spec[2, 0])
 
 # Plot bar chart
-
-# Set aspect ratio of inset axis
-axin1.set_aspect(30)
 
 # Plot bars depicting the rain03 variable
 axin1.bar(taus,
@@ -245,12 +233,9 @@ gvutil.add_major_minor_ticks(axin1,
 
 # Make ticks only show up on bottom, right, and left of inset axis
 axin1.tick_params(bottom=True, left=True, right=True, top=False)
-axin1.tick_params(which='minor', top=False)
+axin1.tick_params(which='minor', top=False, bottom=False)
 
 # Plot line chart
-
-# Set aspect ratio of inset axis
-axin2.set_aspect(2)
 
 # Plot lines depicting the tempht variable
 axin2.plot(taus, tempht, color='red')
@@ -283,7 +268,7 @@ gvutil.add_major_minor_ticks(axin2,
 
 # Make ticks only show up on bottom, right, and left of inset axis
 axin2.tick_params(bottom=True, left=True, right=True, top=False)
-axin2.tick_params(which='minor', top=False)
+axin2.tick_params(which='minor', top=False, bottom=False)
 
 # Adjust space between the first and second axes on the plot
 plt.subplots_adjust(hspace=-0.3)
