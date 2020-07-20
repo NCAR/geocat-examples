@@ -29,7 +29,6 @@ import numpy as np
 import xarray as xr
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
 import geocat.viz.util as gvutil
 
 ###############################################################################
