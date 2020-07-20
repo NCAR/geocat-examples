@@ -3,17 +3,15 @@ NCL_scatter_5.py
 ================
 This script illustrates the following concepts:
    - Drawing a scatter plot with markers of different colors
-   - Generating dummy data using "random_normal"
+   - Generating dummy data using "random.normal"
+   - Manually creating a legend using markers and text
+   - Customizing the label locations in a legend
+   - Changing the orientation of a legend
    - Drawing a legend outside an XY plot
    - Changing the markers in an XY plot
    - Changing the marker color in an XY plot
    - Changing the marker size in an XY plot
-   - Manually creating a legend using markers and text
-   - Adding text to a plot
-   - Creating a color map using named colors
-   - Moving a legend closer to a plot
-   - Customizing the labels in a legend
-   - Changing the orientation of a legend
+
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/scatter_5.ncl
@@ -39,6 +37,8 @@ data = random.normal(loc=10, scale=3, size=npts)
 colors = ['darkgoldenrod', 'darkgreen', 'coral', 'cyan', 'firebrick',
           'darkslateblue', 'limegreen', 'goldenrod']
 markers = ['+', '*', 'o', 'x', 's', '^', 'v', 'D']
+
+# This line cycles which color is used to plot the markers
 plt.rcParams['axes.prop_cycle'] = cycler(color=colors)
 
 ##############################################################################
@@ -60,6 +60,7 @@ for x in range(0, numBins):
     plt.plot(indices, bins, marker=markers[x], fillstyle='none', linewidth=0,
                label=label.format(start=partitions[x], end=partitions[x+1]))
 
+# `ncol` being equal to the number of labels makes it appear horizontal
 legend = ax.legend(bbox_to_anchor=(-0.075, -0.2), ncol=numBins,
                    loc='lower left', columnspacing=0.5, frameon=False)
 for txt in legend.get_texts():
