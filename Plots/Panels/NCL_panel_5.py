@@ -55,8 +55,6 @@ def plot_labelled_filled_contours(data, ax=None, label=None):
         ax=ax,  # this is the axes we want to plot to
         cmap=newcmp,  # our special colormap
         levels=levels,  # contour levels specified outside this function
-        xticks=np.arange(-180, 181, 30),  # nice x ticks
-        yticks=np.arange(-90, 91, 30),  # nice y ticks
         transform=projection,  # data projection
         add_colorbar=False,  # don't add individual colorbars for each plot call
         add_labels=False,  # turn off xarray's automatic Lat, lon labels
@@ -81,6 +79,10 @@ def plot_labelled_filled_contours(data, ax=None, label=None):
     # Add coastlines and make them semitransparent for plot legibility
     ax.coastlines(linewidth=0.5, alpha=0.75)
 
+    # Use geocat.viz.util convenience function to set axes tick values
+    gvutil.set_axes_limits_and_ticks(ax, xticks=np.arange(-180, 181, 30),
+                                    yticks=np.arange(-90, 91, 30))
+
     # Use geocat.viz.util convenience function to add minor and major tick lines
     gvutil.add_major_minor_ticks(ax)
 
@@ -89,6 +91,7 @@ def plot_labelled_filled_contours(data, ax=None, label=None):
     # Remove degree symbol from tick labels
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
+    
     # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
     gvutil.set_titles_and_labels(ax, lefttitle=data.attrs['long_name'], lefttitlefontsize=10,
                                  righttitle=data.attrs['units'], righttitlefontsize=10)
