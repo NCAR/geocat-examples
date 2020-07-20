@@ -1,6 +1,6 @@
-.. _trajectory_examples
+.. _trajectory_examples:
 
-.. _trajectory-examples-index
+.. _trajectory-examples-index:
 
-Trajectory
-====
+Trajectories
+============
