@@ -9,7 +9,7 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/panel_6.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_6_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/panel_6_2_lg.png
 Note:
-    A different colormap was used in this example than in the NCL example 
+    A different colormap was used in this example than in the NCL example
     because rainbow colormaps do not translate well to black and white formats,
     are not accessible for individuals affected by color blindness, and
     vary widely in how they are percieved by different people. See this
@@ -32,6 +32,8 @@ import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
 
 ###############################################################################
+
+
 # Define a helper function to draw the map boundary
 def set_map_boundary(ax, lon_range, lat_range, north_pad=0, south_pad=0, east_pad=0, west_pad=0, res=1):
     """
@@ -41,7 +43,7 @@ def set_map_boundary(ax, lon_range, lat_range, north_pad=0, south_pad=0, east_pa
     any curves created by the projection. As of now, this only works
     consistently for the Lambert Conformal Projection and North/South
     Polar Stereographic Projections.
-    Note: Due to the behavior of cartopy's set_extent() function, the curved 
+    Note: Due to the behavior of cartopy's set_extent() function, the curved
     edges of the boundary may be flattened and cut off. To solve this, use the
     kwargs north_pad, south_pad, east_pad, and west_pad. These will modify the
     coordinates passed to set_extent(). For the Lambert Conformal and Polar
@@ -76,7 +78,7 @@ def set_map_boundary(ax, lon_range, lat_range, north_pad=0, south_pad=0, east_pa
         east_pad (:class:`int`):
             A constant to be added to the second entry in lon_range. Use this
             if the eastern edge of the plot is cut off. Defaults to 0.
-        
+
         west_pad (:class:`int`):
             A constant to be subtracted from the first entry in lon_range. Use
             this if the western edge of the plot is cut off. Defaults to 0.
@@ -88,12 +90,15 @@ def set_map_boundary(ax, lon_range, lat_range, north_pad=0, south_pad=0, east_pa
     import cartopy.crs as ccrs
     import matplotlib.path as mpath
 
-    if (lon_range[0] >= lon_range[1]): 
+    if (lon_range[0] >= lon_range[1]):
         if not (lon_range[0] > 0 and lon_range[1] < 0):
-            raise ValueError("The first longitude value must be strictly less than the second longitude value unless the region crosses over the antimeridian")
+            raise ValueError("The first longitude value must be strictly less \
+                              than the second longitude value unless the \
+                              region crosses over the antimeridian")
 
     if (lat_range[0] >= lat_range[1]):
-        raise ValueError("The first latitude value must be strictly less than the second latitude value")
+        raise ValueError("The first latitude value must be strictly less than \
+                          the second latitude value")
 
     if (lon_range[0] > 180 or lon_range[0] < -180 or lon_range[1] > 180 or lon_range[1] < -180):
         raise ValueError("The longitudes must be within the range [-180, 180] inclusive")
@@ -101,19 +106,17 @@ def set_map_boundary(ax, lon_range, lat_range, north_pad=0, south_pad=0, east_pa
     if (lat_range[0] > 90 or lat_range[0] < -90 or lat_range[1] > 90 or lat_range[1] < -90):
         raise ValueError("The latitudes must be within the range [-90, 90] inclusive")
 
-
-
     # Make a boundary path in PlateCarree projection beginning in the south
     # west and continuing anticlockwise creating a point every `res` degree
-    if (lon_range[0] >= 0 and lon_range[1] <= 0): # Case when range crosses antimeridian
+    if (lon_range[0] >= 0 and lon_range[1] <= 0):  # Case when range crosses antimeridian
         vertices = [(lon, lat_range[0]) for lon in range(lon_range[0], 180 + 1, res)] + \
                    [(lon, lat_range[0]) for lon in range(-180, lon_range[1] + 1, res)] + \
                    [(lon_range[1], lat) for lat in range(lat_range[0], lat_range[1] + 1, res)] + \
                    [(lon, lat_range[1]) for lon in range(lon_range[1], -180 - 1, -res)] + \
                    [(lon, lat_range[1]) for lon in range(180, lon_range[0] - 1, -res)] + \
                    [(lon_range[0], lat) for lat in range(lat_range[1], lat_range[0] - 1, -res)]
-        path = mpath.Path(vertices)         
-    elif ((lon_range[0] == 180 or lon_range[0] == -180) and (lon_range[1] == 180 or lon_range[1] == -180)):  
+        path = mpath.Path(vertices)
+    elif ((lon_range[0] == 180 or lon_range[0] == -180) and (lon_range[1] == 180 or lon_range[1] == -180)):
         verts = [(lon, lat_range[0]) for lon in range(0, 360 + 1, res)]
         path = mpath.Path(verts)
     else:
@@ -123,13 +126,13 @@ def set_map_boundary(ax, lon_range, lat_range, north_pad=0, south_pad=0, east_pa
                    [(lon_range[0], lat) for lat in range(lat_range[1], lat_range[0] - 1, -res)]
         path = mpath.Path(vertices)
 
-
     proj_to_data = ccrs.PlateCarree()._as_mpl_transform(ax) - ax.transData
     ax.set_boundary(proj_to_data.transform_path(path))
 
     ax.set_extent([lon_range[0] - west_pad, lon_range[1] + east_pad,
                   lat_range[0] - south_pad, lat_range[1] + north_pad],
                   crs=ccrs.PlateCarree())
+
 
 ###############################################################################
 # Read in data:
@@ -156,9 +159,9 @@ fig, axs = plt.subplots(2, 2, figsize=(8, 8),
                         subplot_kw=dict(projection=projection))
 
 # Format axes and inset axes for color bars
-cax = np.empty((2,2), dtype=plt.Axes)
-for row in range(0,2):
-    for col in range(0,2):
+cax = np.empty((2, 2), dtype=plt.Axes)
+for row in range(0, 2):
+    for col in range(0, 2):
         # Add map features
         axs[row][col].add_feature(cfeature.LAND, facecolor='silver', zorder=2)
         axs[row][col].add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=3)
@@ -166,16 +169,18 @@ for row in range(0,2):
                                   edgecolor='black', facecolor='None',
                                   zorder=4)
 
-        # Add gridlines and latitude and longitude labels
+        # Add gridlines
         gl = axs[row][col].gridlines(ccrs.PlateCarree(), draw_labels=False,
                                      color='gray', linestyle="--", zorder=5)
         gl.xlocator = mticker.FixedLocator(np.linspace(-180, 150, 12))
+
+        # Add latitude and longitude labels
         x = np.arange(0, 360, 30)
-        y = np.full_like(x, -8) # Array specifying 10S, this makes an offset from the circle boundary which lies at the equator
-        
+        # Array specifying 8S, this makes an offset from the circle boundary
+        # which lies at the equator
+        y = np.full_like(x, -8)
         labels = ['0', '30E', '60E', '90E', '120E', '150E', '180',
                   '150W', '120W', '90W', '60W', '30W']
-
         for x, y, label in zip(x, y, labels):
             if label == '180':
                 axs[row][col].text(x, y, label, fontsize=7,
@@ -205,31 +210,31 @@ for row in range(0,2):
 cmap = "magma"
 
 # Plot filled contours
-contour = np.empty((2,2), dtype=mcontour.ContourSet)
+contour = np.empty((2, 2), dtype=mcontour.ContourSet)
 contour[0][0] = data[0][0].plot.contourf(ax=axs[0][0],
-                                    cmap=cmap,
-                                    levels=np.arange(-2, 34, 2),
-                                    transform=ccrs.PlateCarree(),
-                                    add_colorbar=False,
-                                    zorder=0)
+                                         cmap=cmap,
+                                         levels=np.arange(-2, 34, 2),
+                                         transform=ccrs.PlateCarree(),
+                                         add_colorbar=False,
+                                         zorder=0)
 contour[0][1] = data[0][1].plot.contourf(ax=axs[0][1],
-                                    cmap=cmap,
-                                    levels=np.arange(-4, 30, 2),
-                                    transform=ccrs.PlateCarree(),
-                                    add_colorbar=False,
-                                    zorder=0)
+                                         cmap=cmap,
+                                         levels=np.arange(-4, 30, 2),
+                                         transform=ccrs.PlateCarree(),
+                                         add_colorbar=False,
+                                         zorder=0)
 contour[1][0] = data[1][0].plot.contourf(ax=axs[1][0],
-                                    cmap=cmap,
-                                    levels=15,
-                                    transform=ccrs.PlateCarree(),
-                                    add_colorbar=False,
-                                    zorder=0)
+                                         cmap=cmap,
+                                         levels=15,
+                                         transform=ccrs.PlateCarree(),
+                                         add_colorbar=False,
+                                         zorder=0)
 contour[1][1] = data[1][1].plot.contourf(ax=axs[1][1],
-                                    cmap=cmap,
-                                    levels=12,
-                                    transform=ccrs.PlateCarree(),
-                                    add_colorbar=False,
-                                    zorder=0)
+                                         cmap=cmap,
+                                         levels=12,
+                                         transform=ccrs.PlateCarree(),
+                                         add_colorbar=False,
+                                         zorder=0)
 
 # Plot contour lines
 data[0][0].plot.contour(ax=axs[0][0],
@@ -262,16 +267,18 @@ data[1][1].plot.contour(ax=axs[1][1],
                         zorder=1)
 
 # Create colorbars and reduce the font size
-for row in range(0,2):
-    for col in range(0,2):
+for row in range(0, 2):
+    for col in range(0, 2):
         cbar = plt.colorbar(contour[row][col], cax=cax[row][col])
         cbar.ax.tick_params(labelsize=7)
 
 # Format titles for each subplot
-for row in range(0,2):
-    for col in range(0,2):
-        axs[row][col].set_title(data[row][col].long_name, loc='left', fontsize=7, pad=20)
-        axs[row][col].set_title(data[row][col].units, loc='right', fontsize=7, pad=20)
+for row in range(0, 2):
+    for col in range(0, 2):
+        axs[row][col].set_title(data[row][col].long_name, loc='left',
+                                fontsize=7, pad=20)
+        axs[row][col].set_title(data[row][col].units, loc='right',
+                                fontsize=7, pad=20)
 
 plt.show()
 
@@ -280,16 +287,20 @@ plt.show()
 #
 # The keyword argument ``gridspec_kw`` accepts a dictionary with keywords passed
 # to the GridSpec constructor used to create the grid the subplots are placed
-# on. See the documentation for `GridSpec <https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.gridspec.GridSpec.html#matplotlib.gridspec.GridSpec>`_ for more information on how to manipulate the gridlayout.
+# on. See the documentation for `GridSpec <https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.gridspec.GridSpec.html#matplotlib.gridspec.GridSpec>`_
+# for more information on how to manipulate the gridlayout.
 
 projection = ccrs.NorthPolarStereo()
 fig, axs = plt.subplots(2, 2, figsize=(8, 8), gridspec_kw=(dict(wspace=0.5)),
                         subplot_kw=dict(projection=projection))
+#
 # Everything beyond this is the same code for the example without extra white space
+#
+
 # Format axes and inset axes for color bars
-cax = np.empty((2,2), dtype=plt.Axes)
-for row in range(0,2):
-    for col in range(0,2):
+cax = np.empty((2, 2), dtype=plt.Axes)
+for row in range(0, 2):
+    for col in range(0, 2):
         # Add map features
         axs[row][col].add_feature(cfeature.LAND, facecolor='silver', zorder=2)
         axs[row][col].add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=3)
@@ -297,16 +308,18 @@ for row in range(0,2):
                                   edgecolor='black', facecolor='None',
                                   zorder=4)
 
-        # Add gridlines and latitude and longitude labels
+        # Add gridlines
         gl = axs[row][col].gridlines(ccrs.PlateCarree(), draw_labels=False,
                                      color='gray', linestyle="--", zorder=5)
         gl.xlocator = mticker.FixedLocator(np.linspace(-180, 150, 12))
+
+        # Add latitude and longitude labels
         x = np.arange(0, 360, 30)
-        y = np.full_like(x, -8) # Array specifying 10S, this makes an offset from the circle boundary which lies at the equator
-        
+        # Array specifying 8S, this makes an offset from the circle boundary
+        # which lies at the equator
+        y = np.full_like(x, -8)
         labels = ['0', '30E', '60E', '90E', '120E', '150E', '180',
                   '150W', '120W', '90W', '60W', '30W']
-
         for x, y, label in zip(x, y, labels):
             if label == '180':
                 axs[row][col].text(x, y, label, fontsize=7,
@@ -336,31 +349,31 @@ for row in range(0,2):
 cmap = "magma"
 
 # Plot filled contours
-contour = np.empty((2,2), dtype=mcontour.ContourSet)
+contour = np.empty((2, 2), dtype=mcontour.ContourSet)
 contour[0][0] = data[0][0].plot.contourf(ax=axs[0][0],
-                                    cmap=cmap,
-                                    levels=np.arange(-2, 34, 2),
-                                    transform=ccrs.PlateCarree(),
-                                    add_colorbar=False,
-                                    zorder=0)
+                                         cmap=cmap,
+                                         levels=np.arange(-2, 34, 2),
+                                         transform=ccrs.PlateCarree(),
+                                         add_colorbar=False,
+                                         zorder=0)
 contour[0][1] = data[0][1].plot.contourf(ax=axs[0][1],
-                                    cmap=cmap,
-                                    levels=np.arange(-4, 30, 2),
-                                    transform=ccrs.PlateCarree(),
-                                    add_colorbar=False,
-                                    zorder=0)
+                                         cmap=cmap,
+                                         levels=np.arange(-4, 30, 2),
+                                         transform=ccrs.PlateCarree(),
+                                         add_colorbar=False,
+                                         zorder=0)
 contour[1][0] = data[1][0].plot.contourf(ax=axs[1][0],
-                                    cmap=cmap,
-                                    levels=15,
-                                    transform=ccrs.PlateCarree(),
-                                    add_colorbar=False,
-                                    zorder=0)
+                                         cmap=cmap,
+                                         levels=15,
+                                         transform=ccrs.PlateCarree(),
+                                         add_colorbar=False,
+                                         zorder=0)
 contour[1][1] = data[1][1].plot.contourf(ax=axs[1][1],
-                                    cmap=cmap,
-                                    levels=12,
-                                    transform=ccrs.PlateCarree(),
-                                    add_colorbar=False,
-                                    zorder=0)
+                                         cmap=cmap,
+                                         levels=12,
+                                         transform=ccrs.PlateCarree(),
+                                         add_colorbar=False,
+                                         zorder=0)
 
 # Plot contour lines
 data[0][0].plot.contour(ax=axs[0][0],
@@ -393,15 +406,17 @@ data[1][1].plot.contour(ax=axs[1][1],
                         zorder=1)
 
 # Create colorbars and reduce the font size
-for row in range(0,2):
-    for col in range(0,2):
+for row in range(0, 2):
+    for col in range(0, 2):
         cbar = plt.colorbar(contour[row][col], cax=cax[row][col])
         cbar.ax.tick_params(labelsize=7)
 
 # Format titles for each subplot
-for row in range(0,2):
-    for col in range(0,2):
-        axs[row][col].set_title(data[row][col].long_name, loc='left', fontsize=7, pad=20)
-        axs[row][col].set_title(data[row][col].units, loc='right', fontsize=7, pad=20)
+for row in range(0, 2):
+    for col in range(0, 2):
+        axs[row][col].set_title(data[row][col].long_name, loc='left',
+                                fontsize=7, pad=20)
+        axs[row][col].set_title(data[row][col].units, loc='right',
+                                fontsize=7, pad=20)
 
 plt.show()
