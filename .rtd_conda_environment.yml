@@ -16,3 +16,4 @@ dependencies:
     - sphinx-gallery
     - mock
     - pillow
+    - scikit-learn
