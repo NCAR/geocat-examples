@@ -45,52 +45,48 @@ wrap_pressure = gvutil.xr_add_cyclic_longitudes(pressure, "lon")
 
 ###############################################################################
 
-def findLocalExtrema(pressure, maxPressure=1040, minPressure=975, eType='Min'):
+def findLocalExtrema(da, highVal=1040, lowVal=975, eType='Low'):
     """
-    Utility function to find local low pressure coordinates on a contour map
-
+    Utility function to find local low/high field variable coordinates on a contour map. To classify as a local high, the data
+    point must be greater than highVal, and to classify as a local low, the data point must be less than lowVal.
     Args:
-
-        pressure: (:class:`xarray.DataArray`):
-            Xarray data array containing the lat and lon values
-
-        maxPressure (:class:`int`):
-            Pressure value that the local maximum pressures must be greater than
-            to qualify as a high pressure location
-
-        minPressure (:class:`int`):
-            Pressure value that the local minimum pressures must be less than
-            to qualify as a low pressure location
-
+        da: (:class:`xarray.DataArray`):
+            Xarray data array containing the lat, lon, and field variable (ex. pressure) data values
+        highVal (:class:`int`):
+            Data value that the local high must be greater than to qualify as a "local high" location.
+            Default highVal is a pressure value of 1040 hectopascals.
+        lowVal (:class:`int`):
+            Data value that the local low must be less than to qualify as a "local low" location.
+            Default lowVal is a pressure value of 975 hectopascals.
         eType (:class:`str`):
-            'Min' or 'Max'
-            Determines which extrema are being found- minimum or maximum,
-            respectively
-    
-    Returns: 
-    
-        clusterMins (:class:`list`):
-            List of coordinate tuples in GPS form (lon in degrees,
-            lat in degrees)
-            that specify low pressure areas
-            
+            'Low' or 'High'
+            Determines which extrema are being found- minimum or maximum, respectively.
+            Default eType is 'Low'.
+    Returns:
+        clusterExtremas (:class:`list`):
+            List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
+            that specify local low/high locations
     """
+    import numpy as np
+    from sklearn.cluster import DBSCAN
+    import warnings
 
-    # Create a 2D array of all the coordinates with pressure data
+    # Create a 2D array of coordinates in the same shape as the field variable data
+    # so each coordinate is easily mappable to a data value
     coordarr = []
-    for y in np.array(pressure.lat):
+    for y in np.array(da.lat):
         temparr = []
-        for x in np.array(pressure.lon):
+        for x in np.array(da.lon):
             temparr.append((x, y))
         coordarr.append(temparr)
-    coordarr =  np.array(coordarr)
+    coordarr = np.array(coordarr)
 
     # Set number that a derivative must be less than in order to
     # classify as a "zero"
     bound = 0.0
 
     # Get global gradient of contour data
-    grad = np.gradient(wrap_pressure.data)
+    grad = np.gradient(da.data)
 
     # Gradient in the x direction
     arr1 = grad[0]
@@ -112,85 +108,73 @@ def findLocalExtrema(pressure, maxPressure=1040, minPressure=975, eType='Min'):
         if x in posfirstzeroes and x in negfirstzeroes and x in negsecondzeroes:
             commonzeroes.append(x)
 
+    # Find all zeroes that also qualify as low or high values
     extremacoords = []
-    coordsinthearray = []
-
-    # For every common zero in both gradient arrays
     for x in commonzeroes:
-
         try:
+            # xval is x index of the zero and yval is y index of the zero
             xval = x[0]
             yval = x[1]
 
-            if eType == 'Min':
-                # If the gradient value is a "zero", and if the
-                # pressure.data value is less than minPressure:
-                if wrap_pressure.data[xval][yval] < minPressure:
-
-                    coordonmap = coordarr[xval][yval]
-
-                    coordsinthearray.append((xval, yval))
-
-                    # Get coordinate from index in coordArr
-                    xcoord = coordonmap[0]
-                    ycoord = coordonmap[1]
-
-                    extremacoords.append((xcoord, ycoord))
-
-            if eType == 'Max':
-                # If the gradient value is a "zero", and if the
-                # pressure.data value is less than minPressure:
-                if wrap_pressure.data[xval][yval] > maxPressure:
-
-                    coordonmap = coordarr[xval][yval]
-
-                    coordsinthearray.append((xval, yval))
-
-                    # Get coordinate from index in coordArr
-                    xcoord = coordonmap[0]
-                    ycoord = coordonmap[1]
-
-                    extremacoords.append((xcoord, ycoord))
+            # If the field variable value at the coordinate is less than lowVal:
+            if eType == 'Low' and da.data[xval][yval] < lowVal:
+                # Add coordinate as an extrema
+                extremacoords.append(tuple(coordarr[xval][yval]))
+            # If the field variable value at the coordinate is greater than maxVal:
+            if eType == 'High' and da.data[xval][yval] > highVal:
+                # Add coordinate as an extrema
+                extremacoords.append(tuple(coordarr[xval][yval]))
         except:
             continue
 
-    # coordsAndLabels = getKClusters(extremacoords)
-    lonvals = [a_tuple[0] for a_tuple in extremacoords]
-    latvals = [a_tuple[1] for a_tuple in extremacoords]
-    
-    db = DBSCAN(eps=10, min_samples=1) 
-    new = db.fit(list(zip(lonvals, latvals)))
+    if extremacoords == []:
+        if eType == 'Low':
+            warnings.warn('No local extrema with data value less than given lowVal')
+            return []
+        if eType == 'High':
+            warnings.warn('No local extrema with data value greater than given highVal')
+            return []
+
+    # Clean up noisy data to find actual extrema
+
+    # Use Density-based spatial clustering of applications with noise
+    # to cluster and label coordinates
+    db = DBSCAN(eps=10, min_samples=1)
+    new = db.fit(extremacoords)
     labels = new.labels_
-    
+
     # Create an dictionary of values with key being coordinate
     # and value being cluster label.
     coordsAndLabels = {}
-
     for x in range(len(extremacoords)):
         if labels[x] in coordsAndLabels:
             coordsAndLabels[labels[x]].append(extremacoords[x])
         else:
             coordsAndLabels[labels[x]] = [extremacoords[x]]
 
+    # Initialize array of coordinates to be returned
     clusterExtremas = []
 
+    # Iterate through the coordinates in each cluster
     for key in coordsAndLabels:
-
-        pressures = []
+        # Create array to hold all the field variable values for that cluster
+        datavals = []
         for coord in coordsAndLabels[key]:
-
+            # Find field variable value of each coordinate
             for x in range(len(coordarr)):
                 for y in range(len(coordarr[x])):
                     if coordarr[x][y][0] == coord[0] and coordarr[x][y][1] == coord[1]:
-                        pval = pressure.data[x][y]
+                        pval = da.data[x][y]
+            # Append the field variable value to the array for that cluster
+            datavals.append(pval)
 
-            pressures.append(pval)
+        # Find the index of the smallest/greatest field variable value of each cluster
+        if eType == 'Low':
+            index = np.argmin(np.array(datavals))
+        if eType == 'High':
+            index = np.argmax(np.array(datavals))
 
-        if eType == 'Min':
-            index = np.argmin(np.array(pressures))
-        if eType == 'Max':
-            index = np.argmax(np.array(pressures))
-
+        # Append the coordinate corresponding to that index to the array to be returned
         clusterExtremas.append((coordsAndLabels[key][index][0], coordsAndLabels[key][index][1]))
 
     return clusterExtremas
@@ -198,96 +182,128 @@ def findLocalExtrema(pressure, maxPressure=1040, minPressure=975, eType='Min'):
 ###############################################################################
 # Helper function that will plot contour labels
 
-def plotCLabels(pressure, contours, transform, Clevels=[], lowClevels=[], highClevels=[]):
+def plotCLabels(da, contours, transform, ax, proj, Clevels=[], lowClevels=[], highClevels=[], rfs=14, efs=22, whitebbox=False,
+                rHorizontal=False, eHorizontal=True):
 
     """
-    Utility function to plot contour labels
-
+    Utility function to plot contour labels. Regular contour labels will be plotted using the built-in matplotlib
+    clabel function. High/Low contour labels will be plotted using text boxes for more accurate label values 
+    and placement.
     Args:
-
-        pressure: (:class:`xarray.DataArray`):
-            Xarray data array containing the lat and lon values
-
+        da: (:class:`xarray.DataArray`):
+            Xarray data array containing the lat, lon, and field variable data values.
         contours (:class:`cartopy.mpl.contour.GeoContourSet`):
-            Contours that the labels will be plotted on
-
-        transform (:class:`cartopy._crs.Geodetic`):
-            Projection that the input coordinates (in GPS form of lon, lat) should be transformed to
-
+            Contour set that is being labeled.
+        transform (:class:`cartopy._crs`):
+            Instance of CRS that represents the source coordinate system of coordinates.
+            (ex. ccrs.Geodetic()).
+        ax (:class:`matplotlib.pyplot.axis`):
+            Axis containing the contour set.
+        proj (:class:`cartopy.crs`):
+            Projection 'ax' is defined by.
+            This is the instaance of CRS that the coordinates will be transformed to.
         Clevels (:class:`list`):
             List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
-            that specify where the contours with regular pressure values should be plotted  
-
+            that specify where the contours with regular field variable values should be plotted.
         lowClevels (:class:`list`):
             List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
-            that specify where the contours with low pressure values should be plotted   
-
+            that specify where the contours with low field variable values should be plotted.
         highClevels (:class:`list`):
             List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
-            that specify where the contours with high pressure values should be plotted        
-    
-    Returns: 
-    
-        None
-            
+            that specify where the contours with high field variable values should be plotted.
+        rfs (:class:`int`):
+            Font size of regular contour labels.
+        efs (:class:`int`):
+            Font size of extrema contour labels.
+        rHorizontal (:class:`bool`):
+            Setting this to "True" will cause the regular contour labels to be horizontal.
+        eHorizontal (:class:`bool`):
+            Setting this to "True" will cause the extrema contour labels to be horizontal.
+        
+        whitebbox (:class:`bool`):
+            Setting this to "True" will cause all labels to be plotted with white backgrounds
+    Returns:
+        allLabels (:class:`list`):
+            List of text instances of all contour labels
     """
 
-    # Create coord arr to map to pressure values
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    # Create array of coordinates in the same shape as field variable data
+    # so each coordinate can be easily mapped to its data value.
     coordarr = []
-    for y in np.array(pressure.lat):
+    for y in np.array(da.lat):
         temparr = []
-        for x in np.array(pressure.lon):
+        for x in np.array(da.lon):
             temparr.append((x, y))
         coordarr.append(temparr)
     coordarr = np.array(coordarr)
 
+    # Initialize empty array that will be filled with contour label text objects and returned
+    allLabels = []
+
     # Plot any regular contour levels
     if Clevels != []:
         clevelpoints = proj.transform_points(transform,
-                                            np.array([x[0] for x in Clevels]),
-                                            np.array([x[1] for x in Clevels]))
+                                             np.array([x[0] for x in Clevels]),
+                                             np.array([x[1] for x in Clevels]))
         transformedClevels = [(x[0], x[1]) for x in clevelpoints]
-        ax.clabel(contours, manual=transformedClevels, inline=True, fontsize=14, colors='k', fmt="%.0f")
+        ax.clabel(contours, manual=transformedClevels, inline=True, fontsize=rfs, colors='k', fmt="%.0f")
+        [allLabels.append(txt) for txt in contours.labelTexts]
+        if rHorizontal == True:
+            [txt.set_rotation('horizontal') for txt in contours.labelTexts]
 
     # Plot any low contour levels
     if lowClevels != []:
         clevelpoints = proj.transform_points(transform,
-                                            np.array([x[0] for x in lowClevels]),
-                                            np.array([x[1] for x in lowClevels]))
+                                             np.array([x[0] for x in lowClevels]),
+                                             np.array([x[1] for x in lowClevels]))
         transformedLowClevels = [(x[0], x[1]) for x in clevelpoints]
         for x in range(len(transformedLowClevels)):
             try:
-                # Find pressure data at that coordinate
+                # Find field variable data at that coordinate
                 coord = lowClevels[x]
                 for z in range(len(coordarr)):
                     for y in range(len(coordarr[z])):
                         if coordarr[z][y][0] == coord[0] and coordarr[z][y][1] == coord[1]:
-                            p = int(round(pressure.data[z][y]))
+                            p = int(round(da.data[z][y]))
 
-                plt.text(transformedLowClevels[x][0], transformedLowClevels[x][1], "L$_{" + str(p) + "}$", fontsize=22,
-                         horizontalalignment='center', verticalalignment='center', rotation=0)
+                lab = plt.text(transformedLowClevels[x][0], transformedLowClevels[x][1], "L$_{" + str(p) + "}$", fontsize=efs,
+                         horizontalalignment='center', verticalalignment='center')
+                if eHorizontal == True:
+                    lab.set_rotation('horizontal')
+                allLabels.append(lab)
             except:
                 continue
 
     # Plot any high contour levels
     if highClevels != []:
         clevelpoints = proj.transform_points(transform,
-                                            np.array([x[0] for x in highClevels]),
-                                            np.array([x[1] for x in highClevels]))
+                                             np.array([x[0] for x in highClevels]),
+                                             np.array([x[1] for x in highClevels]))
         transformedHighClevels = [(x[0], x[1]) for x in clevelpoints]
         for x in range(len(transformedHighClevels)):
             try:
-                # Find pressure data at that coordinate
+                # Find field variable data at that coordinate
                 coord = highClevels[x]
                 for z in range(len(coordarr)):
                     for y in range(len(coordarr[z])):
                         if coordarr[z][y][0] == coord[0] and coordarr[z][y][1] == coord[1]:
-                            p = int(round(pressure.data[z][y]))
+                            p = int(round(da.data[z][y]))
 
-                plt.text(transformedHighClevels[x][0], transformedHighClevels[x][1], "H$_{" + str(p) + "}$", fontsize=22,
-                         horizontalalignment='center', verticalalignment='center', rotation=0)
+                lab = plt.text(transformedHighClevels[x][0], transformedHighClevels[x][1], "H$_{" + str(p) + "}$", fontsize=efs,
+                         horizontalalignment='center', verticalalignment='center')
+                if eHorizontal == True:
+                    lab.set_rotation('horizontal')
+                allLabels.append(lab)
             except:
                 continue
+
+    if whitebbox == True:
+        [txt.set_bbox(dict(facecolor='w', edgecolor='none', pad=2)) for txt in allLabels]
+
+    return allLabels
 
 ###############################################################################
 # Create plot
@@ -337,10 +353,10 @@ clevels = [(176.4, 34.63), (-150.46, 42.44), (-142.16, 28.5),
 
 # low pressure contour levels- these will be plotted
 # as a subscript to an 'L' symbol.
-lowClevels = findLocalExtrema(pressure, eType='Min')
+lowClevels = findLocalExtrema(pressure, eType='Low')
 
 # Plot Clabels
-plotCLabels(pressure, p, ccrs.Geodetic(), Clevels=clevels, lowClevels=lowClevels)
+plotCLabels(pressure, p, ccrs.Geodetic(), ax, proj, Clevels=clevels, lowClevels=lowClevels)
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax,
