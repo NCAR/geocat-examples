@@ -19,7 +19,8 @@ import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import numpy as np
-from sklearn.cluster import KMeans, DBSCAN
+from sklearn.cluster import DBSCAN
+import warnings
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
@@ -45,6 +46,7 @@ wrap_pressure = gvutil.xr_add_cyclic_longitudes(pressure, "lon")
 
 ###############################################################################
 
+
 def findLocalExtrema(da, highVal=1040, lowVal=975, eType='Low'):
     """
     Utility function to find local low/high field variable coordinates on a contour map. To classify as a local high, the data
@@ -67,9 +69,6 @@ def findLocalExtrema(da, highVal=1040, lowVal=975, eType='Low'):
             List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
             that specify local low/high locations
     """
-    import numpy as np
-    from sklearn.cluster import DBSCAN
-    import warnings
 
     # Create a 2D array of coordinates in the same shape as the field variable data
     # so each coordinate is easily mappable to a data value
@@ -187,7 +186,7 @@ def plotCLabels(da, contours, transform, ax, proj, Clevels=[], lowClevels=[], hi
 
     """
     Utility function to plot contour labels. Regular contour labels will be plotted using the built-in matplotlib
-    clabel function. High/Low contour labels will be plotted using text boxes for more accurate label values 
+    clabel function. High/Low contour labels will be plotted using text boxes for more accurate label values
     and placement.
     Args:
         da: (:class:`xarray.DataArray`):
@@ -219,7 +218,7 @@ def plotCLabels(da, contours, transform, ax, proj, Clevels=[], lowClevels=[], hi
             Setting this to "True" will cause the regular contour labels to be horizontal.
         eHorizontal (:class:`bool`):
             Setting this to "True" will cause the extrema contour labels to be horizontal.
-        
+
         whitebbox (:class:`bool`):
             Setting this to "True" will cause all labels to be plotted with white backgrounds
     Returns:
@@ -251,7 +250,7 @@ def plotCLabels(da, contours, transform, ax, proj, Clevels=[], lowClevels=[], hi
         transformedClevels = [(x[0], x[1]) for x in clevelpoints]
         ax.clabel(contours, manual=transformedClevels, inline=True, fontsize=rfs, colors='k', fmt="%.0f")
         [allLabels.append(txt) for txt in contours.labelTexts]
-        if rHorizontal == True:
+        if rHorizontal is True:
             [txt.set_rotation('horizontal') for txt in contours.labelTexts]
 
     # Plot any low contour levels
@@ -270,8 +269,8 @@ def plotCLabels(da, contours, transform, ax, proj, Clevels=[], lowClevels=[], hi
                             p = int(round(da.data[z][y]))
 
                 lab = plt.text(transformedLowClevels[x][0], transformedLowClevels[x][1], "L$_{" + str(p) + "}$", fontsize=efs,
-                         horizontalalignment='center', verticalalignment='center')
-                if eHorizontal == True:
+                               horizontalalignment='center', verticalalignment='center')
+                if eHorizontal is True:
                     lab.set_rotation('horizontal')
                 allLabels.append(lab)
             except:
@@ -293,17 +292,18 @@ def plotCLabels(da, contours, transform, ax, proj, Clevels=[], lowClevels=[], hi
                             p = int(round(da.data[z][y]))
 
                 lab = plt.text(transformedHighClevels[x][0], transformedHighClevels[x][1], "H$_{" + str(p) + "}$", fontsize=efs,
-                         horizontalalignment='center', verticalalignment='center')
-                if eHorizontal == True:
+                               horizontalalignment='center', verticalalignment='center')
+                if eHorizontal is True:
                     lab.set_rotation('horizontal')
                 allLabels.append(lab)
             except:
                 continue
 
-    if whitebbox == True:
+    if whitebbox is True:
         [txt.set_bbox(dict(facecolor='w', edgecolor='none', pad=2)) for txt in allLabels]
 
     return allLabels
+
 
 ###############################################################################
 # Create plot
