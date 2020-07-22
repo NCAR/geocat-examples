@@ -34,8 +34,7 @@ from geocat.viz import util as gvutil
 ###############################################################################
 # Read in data:
 
-# Open a netCDF data file using xarray default engine
-# and load the data into xarray
+# Open a netCDF data file using xarray default engine and load the data into xarray
 ds = xr.open_dataset(gdf.get("netcdf_files/meteo_data.nc"), decode_times=False)
 
 # Extract variables from the data
