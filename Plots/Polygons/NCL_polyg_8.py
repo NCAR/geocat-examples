@@ -37,7 +37,7 @@ r = random.uniform(low=-1.2, high=35, size=npts)
 
 bins = [0, 5, 10, 15, 20, 23, 26]
 colors = ['mediumpurple', 'darkblue', 'blue', 'darkgreen', 'green', 'limegreen',
-          'yellow', 'darkorange']
+          'gold', 'darkorange']
 
 ###############################################################################
 # Plot:
@@ -71,7 +71,7 @@ gvutil.set_titles_and_labels(ax, maintitlefontsize=16,
 masked_lon = np.where(r<bins[0], lon, np.nan)
 masked_lat = np.where(r<bins[0], lat, np.nan)
 label = "x < " + str(bins[0])
-plt.scatter(masked_lon, masked_lat, label=label, color=colors[0], zorder=1)
+plt.scatter(masked_lon, masked_lat, label=label, s=12, color=colors[0], zorder=1)
 
 # Plot all other markers but those in the last bin
 label_format = "{} <= x < {}"
@@ -81,13 +81,13 @@ for x in range(1, len(bins)):
     masked_lat = np.where(bins[x - 1] <= r, lat, np.nan)
     masked_lat = np.where(r < bins[x], masked_lat, np.nan)
     label = label_format.format(bins[x - 1], bins[x])
-    plt.scatter(masked_lon, masked_lat, label=label, color=colors[x], zorder=1)
+    plt.scatter(masked_lon, masked_lat, label=label, s=12, color=colors[x], zorder=1)
 
 # Plot markers with values greater than or equal to last bin value
 masked_lon = np.where(r>=bins[-1], lon, np.nan)
 masked_lat = np.where(r>=bins[-1], lat, np.nan)
 label = "x >= " + str(bins[-1])
-plt.scatter(masked_lon, masked_lat, label=label, color=colors[-1], zorder=1)
+plt.scatter(masked_lon, masked_lat, label=label, s=12, color=colors[-1], zorder=1)
 
 # `ncol` being equal to the half number of labels makes it appear horizontal with two rows
 legend = ax.legend(bbox_to_anchor=(-0.05, -0.3), ncol=4,
