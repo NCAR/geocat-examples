@@ -68,22 +68,22 @@ ax1.set_aspect(2)
 colors = ListedColormap(np.array(['white', 'white', 'white', 'white', 'white',
                                   'mintcream', "#DAF6D3", "#B2FAB9", "#B2FAB9",
                                   'springgreen', 'lime', "#54A63F"]))
-bounds = [-20, -10, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-norm = BoundaryNorm(boundaries=bounds, ncolors=12)
+contour_levels = [-20, -10, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+normalized_levels = BoundaryNorm(boundaries=contour_levels, ncolors=12)
 
 # Plot filled contours for the rh variable
 contour1 = ax1.contourf(rh,
                         transform=ccrs.PlateCarree(),
                         cmap=colors,
-                        norm=norm,
-                        levels=bounds,
+                        norm=normalized_levels,
+                        levels=contour_levels,
                         zorder=2)
 
 # Plot black outlines on top of the filled rh contours
 contour2 = ax1.contour(rh,
                        transform=ccrs.PlateCarree(),
                        colors='black',
-                       levels=bounds,
+                       levels=contour_levels,
                        linewidths=0.1,
                        zorder=3)
 
