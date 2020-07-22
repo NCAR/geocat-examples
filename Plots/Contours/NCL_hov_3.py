@@ -47,6 +47,14 @@ cf = ax.contourf(lon,
                  colors='None',
                  hatches=['..'])
 
+# Fill area at the lowest contour level, -6, with line hatching
+cf = ax.contourf(lon,
+                 times,
+                 chi,
+                 levels=[-7, -6],
+                 colors='None',
+                 hatches=['///'])
+
 # Draw contour lines at levels [-6, -4, -2, 0, 2, 4, 6, 8, 10]
 cs = ax.contour(lon,
                 times,
