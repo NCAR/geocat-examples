@@ -8,6 +8,12 @@ This script illustrates the following concepts:
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: http://www.ncl.ucar.edu/Applications/Scripts/panel_13.ncl
     - Original NCL plot: http://www.ncl.ucar.edu/Applications/Images/panel_13_lg.png
+    
+Note:
+    Due to differences in how NCL and Python scale glyphs in vector fields, the
+    smallest vectors in the Python version are much harder to read than in the
+    NCL version. An issue has been opened on the geoCAT examples gallery github
+    so this can be addressed at a later date.
 """
 
 ###############################################################################
