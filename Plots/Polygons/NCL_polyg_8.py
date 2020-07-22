@@ -36,9 +36,9 @@ lon = random.uniform(low=-125, high=-70, size=npts)
 r = random.uniform(low=-1.2, high=35, size=npts)
 
 bins = [0, 5, 10, 15, 20, 23, 26]
-colors = ['mediumpurple', 'darkblue', 'blue', 'darkgreen', 'green', 'limegreen',
-          'gold', 'darkorange']
-sizes = np.linspace(20, 30, len(bins))  # increasing sizes for the markers in
+colors = ['mediumpurple', 'mediumblue', 'blue', 'green', 'limegreen',
+          'greenyellow', 'gold', 'orangered']
+sizes = np.linspace(15, 25, len(bins))  # increasing sizes for the markers in
                                         # each bin
 
 ###############################################################################
