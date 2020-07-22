@@ -3,14 +3,14 @@ NCL_mask_5.py
 ================
 
 This script illustrates the following concepts:
-   - Using cartopy.feature options to display map information
-   - Paneling two plots on a page with 'subplots' command
-   - Drawing contours
-   - Explicitly setting the fill colors for contours
-   - Drawing contours over land only
-   - Using draw order resources to mask areas in a plot
-   - Adding a label bar
-   - Implementing best practices when choosing a color scheme 
+    - Using cartopy.feature options to display map information
+    - Paneling two plots on a page with 'subplots' command
+    - Drawing contours
+    - Explicitly setting the fill colors for contours
+    - Drawing contours over land only
+    - Using draw order resources to mask areas in a plot
+    - Adding a label bar
+    - Implementing best practices when choosing a color scheme 
 
     
 See following URLs to see the reproduced NCL plot & script:
@@ -40,7 +40,7 @@ wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
 ###############################################################################
 #Plot:
 
-fig = plt.figure(figsize=(20, 14))
+fig = plt.figure(figsize=(12, 14))
 
 def Plot(row, col, pos, title):
     """
@@ -58,7 +58,7 @@ def Plot(row, col, pos, title):
             position of visualization in m x n subplot
         title (:class: 'str'): 
             title of graph in format "Title"
-     """
+      """
     
     # Generate axes, using Cartopy, drawing coastlines, and adding features
     projection = ccrs.PlateCarree()
@@ -82,7 +82,7 @@ def Plot(row, col, pos, title):
     labels = ['Land ', 'Lakes', 'Ocean']
     
     plt.legend([land, lakes, ocean], labels,
-               loc='lower center', bbox_to_anchor=(0.5, -0.2), ncol=3)
+                loc='lower center', fontsize=14, bbox_to_anchor=(0.5, -0.20), ncol=3)
     ''' 
     Python allows for a better representation of labeling in legends. The NCL version
     of this projection has the labels set in a caption on the graph and creates a colorbar
@@ -93,10 +93,10 @@ def Plot(row, col, pos, title):
     gvutil.set_titles_and_labels(
         ax,
         maintitle=title,
-        maintitlefontsize=12)
+        maintitlefontsize=16)
 
 # Plot first color map
-Plot(2, 2, 1, "land sea mask using 'atmos.nc'")
+Plot(20, 1, (1,7), "land sea mask using 'atmos.nc'")
 
 # Plot second subplot
 
@@ -117,23 +117,20 @@ def Plot2(row, col, pos, title):
             position of visualization in m x n subplot
         title (:class: 'str'): 
             title of graph in format "Title"
-     """
+      """
    
     ax1 = plt.subplot(row, col, pos, projection=ccrs.PlateCarree())
-    ax1.set_extent([-180, 180, -90, 90], ccrs.PlateCarree())
     ax1.coastlines(linewidths=0.5)
-
-    plt.suptitle(title, x=0.3, y=.5, fontsize=12)
 
     # Import an NCL colormap
     newcmp = 'magma' 
     
     # Contourf-plot data
     contour = wrap_t.plot.contourf(ax=ax1, transform=ccrs.PlateCarree(),
-                    vmin = 235, vmax = 315, levels = 18, cmap = newcmp, add_colorbar=False)
+                    vmin = 240, vmax = 315, levels = 18, cmap = newcmp, add_colorbar=False)
                  
     #Create a colorbar for projection 
-    cbar = plt.colorbar(contour, ax=ax1, orientation='horizontal', shrink=0.75,
+    cbar = plt.colorbar(contour, ax=ax1, orientation='horizontal', shrink=0.70,
                     pad=0.11, extendrect=True, extendfrac='auto', 
                     ticks = [240,245,250,255,260,265,270,275,280,285,290,295,300,305,310])
     
@@ -146,12 +143,12 @@ def Plot2(row, col, pos, title):
     # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
     gvutil.set_titles_and_labels(
         ax1,
-        maintitle="",
-        maintitlefontsize=14,
+        maintitle=title,
+        maintitlefontsize=16,
         righttitle="degK",
-        righttitlefontsize=12,
+        righttitlefontsize=14,
         lefttitle="temperature",
-        lefttitlefontsize=12)
+        lefttitlefontsize=14)
     
-Plot2(2, 2, 3, "Dummy TS Field (ocean-masked)")
+Plot2(20, 1, (12,20), "Dummy TS Field (ocean-masked)")
 
