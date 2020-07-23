@@ -37,10 +37,13 @@ ds = xr.open_dataset(gdf.get("netcdf_files/HGT500_MON_1958-1997.nc"),
 ###############################################################################
 # Plot:
 
-# Generate axes, using Cartopy, drawing coastlines, and adding features
+# Generate a figure
 fig = plt.figure(figsize=(8, 8))
-projection = ccrs.NorthPolarStereo()
-ax = plt.axes(projection=projection)
+
+# Create an axis with a polar stereographic projection
+ax = plt.axes(projection=ccrs.NorthPolarStereo())
+
+# Add land feature to map
 ax.add_feature(cfeature.LAND, facecolor='lightgray')
 
 # Set extent to include latitudes between 0 and 40 and longitudes between
