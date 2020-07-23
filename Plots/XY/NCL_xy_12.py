@@ -61,3 +61,46 @@ gvutil.set_titles_and_labels(ax, maintitle="Highlight Part of a Line",
 
 plt.show()
 
+###############################################################################
+# Method 2: Drawing a polygon around the section of interest
+plt.figure(figsize=(8, 8))
+ax = plt.axes()
+
+bins = [5, 20]
+# Slicing data is exclusive for the last value, to work around this we increment it
+highlight = U.data[bins[0]:bins[1]+1]
+
+#Define bounds for region centered on the data with a width of 4
+nlat = np.shape(highlight)[0]
+top = np.empty(nlat)
+bottom = np.empty(nlat)
+
+for k in range(0,nlat):
+    top[k] = highlight[k] + 2
+    bottom[k] = highlight[k] - 2
+
+# Plot curves that bound the region to be colored
+ax.plot(U.lat[bins[0]:bins[1]+1], top, color='coral')
+ax.plot(U.lat[bins[0]:bins[1]+1], bottom, color='coral')
+
+# Fill the area between the bounds
+ax.fill_between(U.lat[bins[0]:bins[1]+1], top, bottom, color='coral')
+
+ax.plot(U.lat, U.data, color='black', linewidth=0.5)
+
+# Use geocat.viz.util convenience function to set axes parameters
+gvutil.set_axes_limits_and_ticks(ax, ylim=(-10, 40), xlim=(-90, 90),
+                                 xticks=np.arange(-90, 91, 30),
+                                 yticks=np.arange(-10, 41, 10),
+                                 xticklabels=['90S', '60S', '30S', '0', '30N',
+                                              '60N', '90N'])
+
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=5,
+                             labelsize=14)
+
+# Use geocat.viz.util convenience function to set titles and labels
+gvutil.set_titles_and_labels(ax, maintitle="Highlight Part of a Line",
+                             ylabel=U.long_name + " " + U.units)
+
+plt.show()
