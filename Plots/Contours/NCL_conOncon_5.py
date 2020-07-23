@@ -83,12 +83,14 @@ yticks = [-3] + [-2] + [-1] + [-1] * 2 + [-1] + [-3] + [-7] + [-7] * 3 + [-7]
 for xtick, ytick, label in zip(xticks, yticks, labels):
     ax.text(xtick, ytick, label, transform=ccrs.Geodetic(), fontsize=10)
 
-# Contour-plot data
+# Get slice of data at the 0th timestep
+p = ds.HGT.isel(time=0)
 
-newds = ds.isel(time=0)
-s = newds.HGT
-slon = gvutil.xr_add_cyclic_longitudes(s, "lon")
+# Use geocat-viz utility function to handle the no-shown-data
+# artifact of 0 and 360-degree longitudes
+slon = gvutil.xr_add_cyclic_longitudes(p, "lon")
 
+# Plot contour data at pressure level 5500 at the first timestep
 p = slon.plot.contour(ax=ax,
                       transform=ccrs.PlateCarree(),
                       linewidths=1.5,
@@ -96,17 +98,23 @@ p = slon.plot.contour(ax=ax,
                       colors='k',
                       add_labels=False)
 
+# Create a color list for each of the next 18 contours
 colorlist = ["r", "green", "blue", "yellow", "cyan", "hotpink",
              "r", "skyblue", "navy", "lightyellow", "mediumorchid", "orange",
              "slateblue", "palegreen", "magenta", "springgreen", "pink",
              "forestgreen", "violet"]
 
+# Iterate through 18 different timesteps
 for x in range(18):
 
-    newds = ds.isel(time=12*x+1)
-    s = newds.HGT
-    slon = gvutil.xr_add_cyclic_longitudes(s, "lon")
+    # Get a slice of data at the 12*x+1 timestep
+    p = ds.HGT.isel(time=12*x+1)
 
+    # Use geocat-viz utility function to handle the no-shown-data artifact
+    # of 0 and 360-degree longitudes
+    slon = gvutil.xr_add_cyclic_longitudes(p, "lon")
+
+    # Plot contour data at pressure level 5500 for the 12*x+1 timestep
     p = slon.plot.contour(ax=ax,
                           transform=ccrs.PlateCarree(),
                           linewidths=0.5,
