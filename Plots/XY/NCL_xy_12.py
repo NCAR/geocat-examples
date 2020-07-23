@@ -30,7 +30,7 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 # Method 1: Splitting the line into parts and coloring them differently
 U = ds.isel(time=0, lon=5, drop=True).U
 
-plt.figure(figsize=(8, 8))
+plt.figure(figsize=(7, 7))
 ax = plt.axes()
 
 bins = [0, 5, 20]
@@ -64,7 +64,7 @@ plt.show()
 # Method 2: Drawing a polygon around the section of interest
 U = ds.isel(time=0, lon=84, drop=True).U
 
-plt.figure(figsize=(8, 8))
+plt.figure(figsize=(7, 7))
 ax = plt.axes()
 
 bins = [5, 24]
