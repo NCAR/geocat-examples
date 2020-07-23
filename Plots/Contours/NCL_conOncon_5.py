@@ -80,8 +80,8 @@ wtick = [
         tick != 0) & (
             tick != 180)]
 labels = etick + wtick
-xticks = [-0.8, 28, 58, 89.1, 120, 151, 182.9, -36, -63, -89, -114, -140, -151]
-yticks = [-3] + [-2] + [-1] + [-1] * 2 + [-1] + [-3] + [-7] + [-7] * 3 + [-7]
+xticks = [-0.8, 28, 58, 89.1, 120, 151, 182.9, -36, -63, -89, -117, -145, -151]
+yticks = [-3] + [-2] + [-1] + [-1] * 2 + [-1] + [-3] + [-7] + [-7] * 3 + [-5]
 
 for xtick, ytick, label in zip(xticks, yticks, labels):
     ax.text(xtick, ytick, label, transform=ccrs.Geodetic(), fontsize=10)
