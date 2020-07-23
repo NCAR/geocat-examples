@@ -1,7 +1,6 @@
 """
 NCL_mask_5.py
 ================
-
 This script illustrates the following concepts:
     - Using cartopy.feature options to display map information
     - Paneling two plots on a page with 'subplots' command
@@ -11,7 +10,6 @@ This script illustrates the following concepts:
     - Using draw order resources to mask areas in a plot
     - Adding a label bar
     - Implementing best practices when choosing a color scheme 
-
     
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/mask_5.ncl
@@ -20,6 +18,7 @@ See following URLs to see the reproduced NCL plot & script:
 """
 ###############################################################################
 # Import packages:
+import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
@@ -36,7 +35,7 @@ t = ds.TS.isel(time=0)
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
-                    
+
 ###############################################################################
 #Plot:
 
@@ -58,8 +57,8 @@ def Plot(row, col, pos, title):
             position of visualization in m x n subplot
         title (:class: 'str'): 
             title of graph in format "Title"
-      """
-    
+    """
+
     # Generate axes, using Cartopy, drawing coastlines, and adding features
     projection = ccrs.PlateCarree()
     ax = plt.subplot(row, col, pos, projection=projection)
@@ -67,10 +66,10 @@ def Plot(row, col, pos, title):
     ax.add_feature(cfeature.LAND, color="green")
     ax.add_feature(cfeature.LAKES, color="plum")
     ax.add_feature(cfeature.OCEAN, color="blue")
-   
+
     '''
     Cartopy does not currently have a feature that separates island land from 
-    main land. There is also no feature to add 'ice shelf' data to a projection.
+    main land. There is also no feature to add ice shelf data to a projection.
     This addition would require another subset of data to specify area encompassed
     by an ice shelf in a region. 
     '''
@@ -78,9 +77,9 @@ def Plot(row, col, pos, title):
     land = mpatches.Rectangle((0, 0), 1, 1, facecolor="green")
     lakes = mpatches.Rectangle((0, 0), 1, 1, facecolor="plum")
     ocean = mpatches.Rectangle((0, 0), 1, 1, facecolor="blue")
-    
+
     labels = ['Land ', 'Lakes', 'Ocean']
-    
+
     plt.legend([land, lakes, ocean], labels,
                 loc='lower center', fontsize=14, bbox_to_anchor=(0.5, -0.20), ncol=3)
     ''' 
@@ -98,10 +97,18 @@ def Plot(row, col, pos, title):
 # Plot first color map
 Plot(20, 1, (1,7), "land sea mask using 'atmos.nc'")
 
+'''
+Using many more subplots than necessay is not generally the norm when plotting only a couple of maps.
+however, by using many subplots, you can change the size of each projection by specifying
+the number of subplots it will span. For the first plot, the projection will span subplots 1-7.
+In the second projection, the plot will span subplots 12-20. As for subplots between these two,
+they will be projected as white space between the two projections.  
+'''
 # Plot second subplot
 
 def Plot2(row, col, pos, title):
 
+   
     """
     Helper function to create two similar plots where subplot position
     and title can all be customized on the same style
@@ -118,28 +125,28 @@ def Plot2(row, col, pos, title):
         title (:class: 'str'): 
             title of graph in format "Title"
       """
-   
+
     ax1 = plt.subplot(row, col, pos, projection=ccrs.PlateCarree())
     ax1.coastlines(linewidths=0.5)
 
     # Import an NCL colormap
     newcmp = 'magma' 
-    
+
     # Contourf-plot data
     contour = wrap_t.plot.contourf(ax=ax1, transform=ccrs.PlateCarree(),
                     vmin = 240, vmax = 315, levels = 18, cmap = newcmp, add_colorbar=False)
-                 
+
     #Create a colorbar for projection 
     cbar = plt.colorbar(contour, ax=ax1, orientation='horizontal', shrink=0.70,
                     pad=0.11, extendrect=True, extendfrac='auto', 
-                    ticks = [240,245,250,255,260,265,270,275,280,285,290,295,300,305,310])
-    
+                    ticks = np.arange(240,315,5))
+   
     cbar.ax.tick_params(labelsize=10)
-    
+
     # Draw contours over land only by using the 'OCEAN' feature in Cartopy
     ax1.add_feature(cfeature.OCEAN, zorder=10, edgecolor='k')
- 
-    
+
+
     # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
     gvutil.set_titles_and_labels(
         ax1,
@@ -149,6 +156,5 @@ def Plot2(row, col, pos, title):
         righttitlefontsize=14,
         lefttitle="temperature",
         lefttitlefontsize=14)
-    
-Plot2(20, 1, (12,20), "Dummy TS Field (ocean-masked)")
 
+Plot2(20, 1, (12,20), "Dummy TS Field (ocean-masked)")
