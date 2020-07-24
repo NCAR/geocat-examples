@@ -47,7 +47,7 @@ wrap_pressure = gvutil.xr_add_cyclic_longitudes(pressure, "lon")
 ###############################################################################
 
 
-def findLocalExtrema(da, highVal=1040, lowVal=975, eType='Low'):
+def findLocalExtrema(da, highVal=0, lowVal=1000, eType='Low'):
     """
     Utility function to find local low/high field variable coordinates on a contour map. To classify as a local high, the data
     point must be greater than highVal, and to classify as a local low, the data point must be less than lowVal.
@@ -56,10 +56,10 @@ def findLocalExtrema(da, highVal=1040, lowVal=975, eType='Low'):
             Xarray data array containing the lat, lon, and field variable (ex. pressure) data values
         highVal (:class:`int`):
             Data value that the local high must be greater than to qualify as a "local high" location.
-            Default highVal is a pressure value of 1040 hectopascals.
+            Default highVal is 0.
         lowVal (:class:`int`):
             Data value that the local low must be less than to qualify as a "local low" location.
-            Default lowVal is 975.
+            Default lowVal is 1000.
         eType (:class:`str`):
             'Low' or 'High'
             Determines which extrema are being found- minimum or maximum, respectively.
@@ -76,17 +76,8 @@ def findLocalExtrema(da, highVal=1040, lowVal=975, eType='Low'):
     # (1, 1), (2, 1), (3, 1)
     # (1, 2)................
     # (1, 3)................
-    coordarr = []
-    for y in np.array(da.lat):
-        temparr = []
-        for x in np.array(da.lon):
-            temparr.append((x, y))
-        coordarr.append(temparr)
-    coordarr = np.array(coordarr)
-
-    # Set number that a derivative must be less than in order to
-    # classify as a "zero"
-    bound = (int)(0)
+    lons, lats = np.meshgrid(np.array(da.lon), np.array(da.lat))
+    coordarr = np.dstack((lons, lats))
 
     # Get global gradient of contour data
     grad = np.gradient(da.data)
@@ -97,6 +88,10 @@ def findLocalExtrema(da, highVal=1040, lowVal=975, eType='Low'):
     # Gradient in the y direction
     arr2 = grad[1]
 
+    # Set number that a derivative must be less than in order to
+    # classify as a "zero"
+    bound = 0.0
+
     # Get all array 1 indexes where gradient value is between -bound and +bound
     posfirstzeroes = np.argwhere(arr1 <= bound)
     negfirstzeroes = np.argwhere(-bound <= arr1)
@@ -105,30 +100,32 @@ def findLocalExtrema(da, highVal=1040, lowVal=975, eType='Low'):
     possecondzeroes = np.argwhere(arr2 <= bound)
     negsecondzeroes = np.argwhere(-bound <= arr2)
 
+
     # Find zeroes of all four gradient arrays
     commonzeroes = []
+
     for x in possecondzeroes:
-        if x in posfirstzeroes and x in negfirstzeroes and x in negsecondzeroes:
-            commonzeroes.append(x)
+        if x in posfirstzeroes:
+            if x in negfirstzeroes:
+                if x in negsecondzeroes:
+                    commonzeroes.append(x)
+
+    '''
+    intersect1 = set(map(tuple, posfirstzeroes)).intersection(set(map(tuple, possecondzeroes)))
+    intersect2 = set(map(tuple, negfirstzeroes)).intersection(set(map(tuple, negsecondzeroes)))
+    commonzeroes =intersect1.intersection(intersect2)
+    print(commonzeroes)
+    '''
 
     # Find all zeroes that also qualify as low or high values
     extremacoords = []
-    for x in commonzeroes:
-        try:
-            # xval is x index of the zero and yval is y index of the zero
-            xval = x[0]
-            yval = x[1]
 
-            # If the field variable value at the coordinate is less than lowVal:
-            if eType == 'Low' and da.data[xval][yval] < lowVal:
-                # Add coordinate as an extrema
-                extremacoords.append(tuple(coordarr[xval][yval]))
-            # If the field variable value at the coordinate is greater than maxVal:
-            if eType == 'High' and da.data[xval][yval] > highVal:
-                # Add coordinate as an extrema
-                extremacoords.append(tuple(coordarr[xval][yval]))
-        except:
-            continue
+    if eType == 'Low':
+        coordlist = np.argwhere(da.data < lowVal)
+        extremacoords = [tuple(coordarr[x[0]][x[1]]) for x in coordlist]
+    if eType == 'High':
+        coordlist = np.argwhere(da.data < lowVal)
+        extremacoords = [tuple(coordarr[x[0]][x[1]]) for x in coordlist]
 
     if extremacoords == []:
         if eType == 'Low':
@@ -142,24 +139,22 @@ def findLocalExtrema(da, highVal=1040, lowVal=975, eType='Low'):
 
     # Use Density-based spatial clustering of applications with noise
     # to cluster and label coordinates
-    db = DBSCAN(eps=10, min_samples=1)
+    db = DBSCAN(eps=30, min_samples=1)
     new = db.fit(extremacoords)
     labels = new.labels_
 
     # Create an dictionary of values with key being coordinate
     # and value being cluster label.
-    coordsAndLabels = {}
-    for x in range(len(extremacoords)):
-        if labels[x] in coordsAndLabels:
-            coordsAndLabels[labels[x]].append(extremacoords[x])
-        else:
-            coordsAndLabels[labels[x]] = [extremacoords[x]]
+    coordsAndLabels = {label:[] for label in labels}
+    for label, coord in zip(labels, extremacoords):
+        coordsAndLabels[label].append(coord)
 
     # Initialize array of coordinates to be returned
     clusterExtremas = []
 
     # Iterate through the coordinates in each cluster
     for key in coordsAndLabels:
+
         # Create array to hold all the field variable values for that cluster
         datavals = []
         for coord in coordsAndLabels[key]:
@@ -185,7 +180,7 @@ def findLocalExtrema(da, highVal=1040, lowVal=975, eType='Low'):
 ###############################################################################
 # Helper function that will plot contour labels
 
-def plotCLabels(da, contours, transform, ax, proj, clevels, fontsize=12, whitebbox=False, horizontal=True):
+def plotCLabels(da, contours, transform, ax, proj, clevels, fontsize=12, whitebbox=False, horizontal=False):
 
     """
     Utility function to plot contour labels with the clabel function
@@ -216,20 +211,6 @@ def plotCLabels(da, contours, transform, ax, proj, clevels, fontsize=12, whitebb
         cLabels (:class:`list`):
             List of text instances of all contour labels
     """
-
-    # Create array of coordinates in the same shape as field variable data
-    # so each coordinate can be easily mapped to its data value.
-    # ex:
-    # (1, 1), (2, 1), (3, 1)
-    # (1, 2)................
-    # (1, 3)................
-    coordarr = []
-    for y in np.array(da.lat):
-        temparr = []
-        for x in np.array(da.lon):
-            temparr.append((x, y))
-        coordarr.append(temparr)
-    coordarr = np.array(coordarr)
 
     # Initialize empty array that will be filled with contour label text objects and returned
     cLabels = []
@@ -297,13 +278,8 @@ def plotELabels(da, contours, transform, ax, proj, clevels=[], eType='Low', font
     # (1, 1), (2, 1), (3, 1)
     # (1, 2)................
     # (1, 3)................
-    coordarr = []
-    for y in np.array(da.lat):
-        temparr = []
-        for x in np.array(da.lon):
-            temparr.append((x, y))
-        coordarr.append(temparr)
-    coordarr = np.array(coordarr)
+    lons, lats = np.meshgrid(np.array(da.lon), np.array(da.lat))
+    coordarr = np.dstack((lons, lats))
 
     # Initialize empty array that will be filled with contour label text objects and returned
     extremaLabels = []
@@ -313,7 +289,7 @@ def plotELabels(da, contours, transform, ax, proj, clevels=[], eType='Low', font
                                          np.array([x[0] for x in clevels]),
                                          np.array([x[1] for x in clevels]))
     transformedClevels = [(x[0], x[1]) for x in clevelpoints]
-    
+
     for x in range(len(transformedClevels)):
         try:
             # Find field variable data at that coordinate
@@ -390,7 +366,7 @@ clevels = [(176.4, 34.63), (-150.46, 42.44), (-142.16, 28.5),
 
 # low pressure contour levels- these will be plotted
 # as a subscript to an 'L' symbol.
-lowClevels = findLocalExtrema(pressure, eType='Low')
+lowClevels = findLocalExtrema(pressure, eType='Low', highVal=1040, lowVal=975)
 
 # Plot Clabels
 plotCLabels(pressure, p, ccrs.Geodetic(), ax, proj, clevels=clevels)
