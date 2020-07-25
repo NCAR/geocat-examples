@@ -139,7 +139,7 @@ def findLocalExtrema(da, highVal=0, lowVal=1000, eType='Low'):
 
     # Use Density-based spatial clustering of applications with noise
     # to cluster and label coordinates
-    db = DBSCAN(eps=30, min_samples=1)
+    db = DBSCAN(eps=10, min_samples=1)
     new = db.fit(extremacoords)
     labels = new.labels_
 
@@ -158,13 +158,10 @@ def findLocalExtrema(da, highVal=0, lowVal=1000, eType='Low'):
         # Create array to hold all the field variable values for that cluster
         datavals = []
         for coord in coordsAndLabels[key]:
-            # Find field variable value of each coordinate
-            for x in range(len(coordarr)):
-                for y in range(len(coordarr[x])):
-                    if coordarr[x][y][0] == coord[0] and coordarr[x][y][1] == coord[1]:
-                        pval = da.data[x][y]
-            # Append the field variable value to the array for that cluster
-            datavals.append(pval)
+
+            cond = np.logical_and(coordarr[:,:,0]==coord[0], coordarr[:,:,1]==coord[1])
+            x, y = np.where(cond)
+            datavals.append(da.data[x[0]][y[0]])
 
         # Find the index of the smallest/greatest field variable value of each cluster
         if eType == 'Low':
@@ -294,10 +291,10 @@ def plotELabels(da, contours, transform, ax, proj, clevels=[], eType='Low', font
         try:
             # Find field variable data at that coordinate
             coord = clevels[x]
-            for z in range(len(coordarr)):
-                for y in range(len(coordarr[z])):
-                    if coordarr[z][y][0] == coord[0] and coordarr[z][y][1] == coord[1]:
-                        p = int(round(da.data[z][y]))
+
+            cond = np.logical_and(coordarr[:,:,0]==coord[0], coordarr[:,:,1]==coord[1])
+            z, y = np.where(cond)
+            p = int(round(da.data[z[0]][y[0]]))
 
             if eType == 'High':
                 lab = plt.text(transformedClevels[x][0], transformedClevels[x][1], "H$_{" + str(p) + "}$", fontsize=fontsize,
