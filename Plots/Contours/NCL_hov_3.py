@@ -43,9 +43,14 @@ fig, ax = plt.subplots(figsize=(7, 7.5))
 cf = ax.contourf(lon,
                  times,
                  chi,
-                 levels=[4, 10],
+                 levels=[4, 12],
                  colors='None',
                  hatches=['....'])
+
+# Make all dot-filled areas light gray so contour lines are still visible
+for i, collection in enumerate(cf.collections):
+    collection.set_edgecolor('lightgray')
+    collection.set_linewidth(0.)
 
 # Fill area at the lowest contour level, -6, with line hatching
 cf = ax.contourf(lon,
