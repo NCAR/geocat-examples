@@ -108,9 +108,9 @@ p = slon.plot.contour(ax=ax,
 
 # Create a color list for each of the next 18 contours
 colorlist = ["crimson", "green", "blue", "yellow", "cyan", "hotpink",
-             "crimson", "skyblue", "navy", "lightyellow", "mediumorchid", "orange",
-             "slateblue", "palegreen", "magenta", "springgreen", "pink",
-             "forestgreen", "violet"]
+             "crimson", "skyblue", "navy", "lightyellow", "mediumorchid",
+             "orange", "slateblue", "palegreen", "magenta", "springgreen",
+             "pink", "forestgreen", "violet"]
 
 # Iterate through 18 different timesteps
 for x in range(18):
