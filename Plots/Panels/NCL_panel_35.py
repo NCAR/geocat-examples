@@ -201,8 +201,8 @@ fig, axs = plt.subplots(1, 3, figsize=(12, 6), sharex='all', sharey='all',
                         gridspec_kw={'wspace': 0})
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(axs[0], xticks=np.arange(0, 120, 20),
-                                 yticks=np.arange(0, 120, 20),
+gvutil.set_axes_limits_and_ticks(axs[0], xticks=np.arange(0, 100, 20),
+                                 yticks=np.arange(0, 100, 20),
                                  xticklabels=np.arange(0, 100, 20),
                                  yticklabels=np.arange(0, 100, 20))
 # Use geocat.viz.util convenience function to add minor and major tick lines
@@ -213,16 +213,16 @@ axs[0].tick_params(axis='both', which='both', left=True, right=False)
 axs[0].set_aspect(aspect='equal')
 
 # Repeat for other subplots with a few changes
-gvutil.set_axes_limits_and_ticks(axs[1], xticks=np.arange(0, 120, 20),
-                                 yticks=np.arange(0, 120, 20),
+gvutil.set_axes_limits_and_ticks(axs[1], xticks=np.arange(0, 100, 20),
+                                 yticks=np.arange(0, 100, 20),
                                  xticklabels=np.arange(0, 100, 20),
                                  yticklabels=np.arange(0, 100, 20))
 gvutil.add_major_minor_ticks(axs[1], x_minor_per_major=4, y_minor_per_major=4)
 axs[1].tick_params(axis='both', which='both', left=False, right=False)
 axs[1].set_aspect(aspect='equal')
 
-gvutil.set_axes_limits_and_ticks(axs[2], xticks=np.arange(0, 120, 20),
-                                 yticks=np.arange(0, 120, 20),
+gvutil.set_axes_limits_and_ticks(axs[2], xticks=np.arange(0, 100, 20),
+                                 yticks=np.arange(0, 100, 20),
                                  xticklabels=np.arange(0, 100, 20),
                                  yticklabels=np.arange(0, 100, 20))
 gvutil.add_major_minor_ticks(axs[2], x_minor_per_major=4, y_minor_per_major=4)
