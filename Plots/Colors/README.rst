@@ -3,4 +3,4 @@
 .. _color-examples-index:
 
 Colors
-===============
+======
