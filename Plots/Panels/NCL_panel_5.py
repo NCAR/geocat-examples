@@ -84,7 +84,7 @@ def plot_labelled_filled_contours(data, ax=None, label=None):
                                     yticks=np.arange(-90, 91, 30))
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax)
+    gvutil.add_major_minor_ticks(ax, labelsize=8)
 
     # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax)
