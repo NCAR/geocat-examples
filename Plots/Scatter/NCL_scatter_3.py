@@ -34,14 +34,8 @@ lon = ds.lon.isel()
 ###############################################################################
 # Plot
 
-# Generate figure (set its size (width, height) in inches) and axes using Cartopy projection
-
-
-
 def Plots(xext, yext, xtic, ytic, size, color):
     '''
-    
-
     Parameters
     ----------
     xext : 'tuple'
@@ -57,7 +51,7 @@ def Plots(xext, yext, xtic, ytic, size, color):
     size : 'int'
         Size of marker being used in format of font size number.
     color : 'str'
-        Color of marker being used in for mat 'color'.
+        Color of marker being used in format 'color'.
 
     Returns
     -------
