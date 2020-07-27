@@ -72,21 +72,26 @@ ax.set_boundary(circle, transform=ax.transAxes)
 
 # Manipulate longitude labels (0, 30 E, 60 E, ..., 30 W, etc.)
 ticks = np.arange(0, 210, 30)
-etick = ['0'] + [r'%dE' %
-                 tick for tick in ticks if (tick != 0) & (tick != 180)] + ['180']
-wtick = [
-    r'%dW' %
-    tick for tick in ticks if (
-        tick != 0) & (
-            tick != 180)]
+etick = ['0'] + [r'%dE' % tick
+                 for tick in ticks if (tick != 0) & (tick != 180)] + ['180']
+wtick = [r'%dW' % tick
+         for tick in ticks if (tick != 0) & (tick != 180)]
 labels = etick + wtick
-xticks = [-0.8, 28, 58, 89.1, 120, 151, 182.9, -36, -63, -89, -117, -145, -151]
-yticks = [-3] + [-2] + [-1] + [-1] * 2 + [-1] + [-3] + [-7] + [-7] * 3 + [-5]
-
+xticks = np.arange(0, 360, 30)
+yticks = np.full_like(xticks, -5)  # Latitude where the labels will be drawn
 for xtick, ytick, label in zip(xticks, yticks, labels):
-    ax.text(xtick, ytick, label, transform=ccrs.Geodetic(), fontsize=10)
+    if label == '180':
+        ax.text(xtick, ytick, label, fontsize=14, horizontalalignment='center',
+                verticalalignment='top', transform=ccrs.Geodetic())
+    elif label == '0':
+        ax.text(xtick, ytick, label, fontsize=14, horizontalalignment='center',
+                verticalalignment='bottom', transform=ccrs.Geodetic())
+    else:
+        ax.text(xtick, ytick, label, fontsize=14, horizontalalignment='center',
+                verticalalignment='center', transform=ccrs.Geodetic())
 
-# Get slice of data at the 0th timestep
+# Get slice of data at the 0th timestep - plot this contour line separately
+# because it will be thicker than the other contour lines
 p = ds.HGT.isel(time=0)
 
 # Use geocat-viz utility function to handle the no-shown-data
@@ -102,8 +107,8 @@ p = slon.plot.contour(ax=ax,
                       add_labels=False)
 
 # Create a color list for each of the next 18 contours
-colorlist = ["r", "green", "blue", "yellow", "cyan", "hotpink",
-             "r", "skyblue", "navy", "lightyellow", "mediumorchid", "orange",
+colorlist = ["crimson", "green", "blue", "yellow", "cyan", "hotpink",
+             "crimson", "skyblue", "navy", "lightyellow", "mediumorchid", "orange",
              "slateblue", "palegreen", "magenta", "springgreen", "pink",
              "forestgreen", "violet"]
 
