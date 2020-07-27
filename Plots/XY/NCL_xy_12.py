@@ -34,8 +34,9 @@ plt.figure(figsize=(7, 7))
 ax = plt.axes()
 
 bins = [0, 5, 20]
-# Slicing data is exclusive for the last value, to work around this we
-# increment it
+# Slicing data in Python excludes the last value. To include the last value we
+# can increment it by 1. This ensures that the different colored line segments
+# touch
 start = U.data[bins[0]:bins[1] + 1]
 highlight = U.data[bins[1]:bins[2] + 1]
 end = U.data[bins[2]:]
@@ -69,8 +70,9 @@ plt.figure(figsize=(7, 7))
 ax = plt.axes()
 
 bins = [5, 24]
-# Slicing data is exclusive for the last value, to work around this we
-# increment it
+# Slicing data in Python excludes the last value. To include the last value we
+# can increment it by 1. This ensures that the highlight extends thorugh the
+# last bin value
 highlight = U.data[bins[0]:bins[1] + 1]
 
 # Define bounds for region centered on the data with a width of 4
