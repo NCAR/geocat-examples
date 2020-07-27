@@ -53,7 +53,6 @@ cf = ax.contourf(lon,
                  chi,
                  levels=[-7, -6],
                  colors='None',
-                 edge_color='gray',
                  hatches=['///'])
 
 # Draw contour lines at levels [-6, -4, -2, 0, 2, 4, 6, 8, 10]
