@@ -51,6 +51,7 @@ def findLocalExtrema(da, highVal=0, lowVal=1000, eType='Low'):
     """
     Utility function to find local low/high field variable coordinates on a contour map. To classify as a local high, the data
     point must be greater than highVal, and to classify as a local low, the data point must be less than lowVal.
+
     Args:
         da: (:class:`xarray.DataArray`):
             Xarray data array containing the lat, lon, and field variable (ex. pressure) data values
@@ -78,44 +79,6 @@ def findLocalExtrema(da, highVal=0, lowVal=1000, eType='Low'):
     # (1, 3)................
     lons, lats = np.meshgrid(np.array(da.lon), np.array(da.lat))
     coordarr = np.dstack((lons, lats))
-
-    # Get global gradient of contour data
-    grad = np.gradient(da.data)
-
-    # Gradient in the x direction
-    arr1 = grad[0]
-
-    # Gradient in the y direction
-    arr2 = grad[1]
-
-    # Set number that a derivative must be less than in order to
-    # classify as a "zero"
-    bound = 0.0
-
-    # Get all array 1 indexes where gradient value is between -bound and +bound
-    posfirstzeroes = np.argwhere(arr1 <= bound)
-    negfirstzeroes = np.argwhere(-bound <= arr1)
-
-    # Get all array 2 indexes where gradient value is between -bound and +bound
-    possecondzeroes = np.argwhere(arr2 <= bound)
-    negsecondzeroes = np.argwhere(-bound <= arr2)
-
-
-    # Find zeroes of all four gradient arrays
-    commonzeroes = []
-
-    for x in possecondzeroes:
-        if x in posfirstzeroes:
-            if x in negfirstzeroes:
-                if x in negsecondzeroes:
-                    commonzeroes.append(x)
-
-    '''
-    intersect1 = set(map(tuple, posfirstzeroes)).intersection(set(map(tuple, possecondzeroes)))
-    intersect2 = set(map(tuple, negfirstzeroes)).intersection(set(map(tuple, negsecondzeroes)))
-    commonzeroes =intersect1.intersection(intersect2)
-    print(commonzeroes)
-    '''
 
     # Find all zeroes that also qualify as low or high values
     extremacoords = []
@@ -145,7 +108,7 @@ def findLocalExtrema(da, highVal=0, lowVal=1000, eType='Low'):
 
     # Create an dictionary of values with key being coordinate
     # and value being cluster label.
-    coordsAndLabels = {label:[] for label in labels}
+    coordsAndLabels = {label: [] for label in labels}
     for label, coord in zip(labels, extremacoords):
         coordsAndLabels[label].append(coord)
 
@@ -159,7 +122,8 @@ def findLocalExtrema(da, highVal=0, lowVal=1000, eType='Low'):
         datavals = []
         for coord in coordsAndLabels[key]:
 
-            cond = np.logical_and(coordarr[:,:,0]==coord[0], coordarr[:,:,1]==coord[1])
+            # Find pressure data at that coordinate
+            cond = np.logical_and(coordarr[:, :, 0] == coord[0], coordarr[:, :, 1] == coord[1])
             x, y = np.where(cond)
             datavals.append(da.data[x[0]][y[0]])
 
@@ -177,10 +141,13 @@ def findLocalExtrema(da, highVal=0, lowVal=1000, eType='Low'):
 ###############################################################################
 # Helper function that will plot contour labels
 
+
 def plotCLabels(da, contours, transform, ax, proj, clabel_locations=[], fontsize=12, whitebbox=False, horizontal=False):
 
     """
-    Utility function to plot contour labels with the clabel function
+    Utility function to plot contour labels by passing in a coordinate to the clabel function.
+    This allows the user to specify the exact locations of the labels, rather than having matplotlib
+    plot them automatically.
 
     Args:
         da: (:class:`xarray.DataArray`):
@@ -232,12 +199,13 @@ def plotCLabels(da, contours, transform, ax, proj, clabel_locations=[], fontsize
 ###############################################################################
 # Helper function that will plot contour labels
 
+
 def plotELabels(da, contours, transform, ax, proj, clabel_locations=[], eType='Low', fontsize=22, horizontal=True, whitebbox=False):
 
     """
-    Utility function to plot contour labels. Regular contour labels will be plotted using the built-in matplotlib
-    clabel function. High/Low contour labels will be plotted using text boxes for more accurate label values
+    Utility function to plot contour labels. High/Low contour labels will be plotted using text boxes for more accurate label values
     and placement.
+
     Args:
         da: (:class:`xarray.DataArray`):
             Xarray data array containing the lat, lon, and field variable data values.
@@ -283,16 +251,16 @@ def plotELabels(da, contours, transform, ax, proj, clabel_locations=[], eType='L
 
     # Plot any low contour levels
     clabel_points = proj.transform_points(transform,
-                                         np.array([x[0] for x in clabel_locations]),
-                                         np.array([x[1] for x in clabel_locations]))
+                                          np.array([x[0] for x in clabel_locations]),
+                                          np.array([x[1] for x in clabel_locations]))
     transformed_locations = [(x[0], x[1]) for x in clabel_points]
 
     for x in range(len(transformed_locations)):
+
         try:
             # Find field variable data at that coordinate
             coord = clabel_locations[x]
-
-            cond = np.logical_and(coordarr[:,:,0]==coord[0], coordarr[:,:,1]==coord[1])
+            cond = np.logical_and(coordarr[:, :, 0] == coord[0], coordarr[:, :, 1] == coord[1])
             z, y = np.where(cond)
             p = int(round(da.data[z[0]][y[0]]))
 
@@ -315,6 +283,7 @@ def plotELabels(da, contours, transform, ax, proj, clabel_locations=[], eType='L
         [txt.set_bbox(dict(facecolor='w', edgecolor='none', pad=2)) for txt in extremaLabels]
 
     return extremaLabels
+
 
 ###############################################################################
 # Create plot
@@ -351,14 +320,14 @@ p = wrap_pressure.plot.contour(ax=ax,
 # over desired location of countour label to find coordinate
 # (which can be found in bottom left of figure window).
 regularCLabels = [(176.4, 34.63), (-150.46, 42.44), (-142.16, 28.5),
-           (-134.12, 16.32), (-108.9, 17.08), (-98.17, 15.6),
-           (-108.73, 42.19), (-111.25, 49.66), (-127.83, 41.93),
-           (-92.49, 25.64), (-77.29, 29.08), (-77.04, 16.42),
-           (-95.93, 57.59), (-156.05, 84.47), (-17.83, 82.52),
-           (-76.3, 41.99), (-48.89, 41.45), (-33.43, 37.55),
-           (-46.98, 17.17), (1.79, 63.67), (-58.78, 67.05),
-           (-44.78, 53.68), (-69.69, 53.71), (-78.02, 52.22),
-           (-16.91, 44.33), (-95.72, 35.17), (-102.69, 73.62)]
+                  (-134.12, 16.32), (-108.9, 17.08), (-98.17, 15.6),
+                  (-108.73, 42.19), (-111.25, 49.66), (-127.83, 41.93),
+                  (-92.49, 25.64), (-77.29, 29.08), (-77.04, 16.42),
+                  (-95.93, 57.59), (-156.05, 84.47), (-17.83, 82.52),
+                  (-76.3, 41.99), (-48.89, 41.45), (-33.43, 37.55),
+                  (-46.98, 17.17), (1.79, 63.67), (-58.78, 67.05),
+                  (-44.78, 53.68), (-69.69, 53.71), (-78.02, 52.22),
+                  (-16.91, 44.33), (-95.72, 35.17), (-102.69, 73.62)]
 
 # low pressure contour levels- these will be plotted
 # as a subscript to an 'L' symbol.
