@@ -1,5 +1,5 @@
 """
-NCL_native_2_lg.py
+NCL_native_2.py
 ================
 
 This script illustrates the following concepts:
@@ -22,9 +22,9 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
+import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
-import cartopy.feature as cfeature
 
 import geocat.datafiles as gdf
 
@@ -72,7 +72,7 @@ gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
     y_inline=False,
     linewidth=1,
     color="k",
-    alpha=0.5)
+    alpha=0.25)
 
 # Manipulate latitude and longitude gridline numbers and spacing
 gl.top_labels = False
