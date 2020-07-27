@@ -27,7 +27,7 @@ from cycler import cycler
 from geocat.viz import util as gvutil
 
 ##############################################################################
-# Generate random data with an average of 10 and a stddev of 3
+# Generate random data from a normal (Gaussian) distribution with a mean of 10 and standard deviation of 3
 npts = 300
 random = np.random.default_rng(seed=1)
 data = random.normal(loc=10, scale=3, size=npts)
