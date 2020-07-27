@@ -92,14 +92,16 @@ def Plot(row, col, pos, proj, title):
     
     # Plot data and create colorbar
     newcmp = gvcmaps.BlueYellowRed
-    t.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), levels = 14, cbar_kwargs={"orientation":"horizontal", 
-                                                                "ticks":np.arange(0, 240, 20),  "label":'', "shrink":0.9})
+    t.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), 
+                    levels = 14, cbar_kwargs={"orientation":"horizontal", 
+                    "ticks":np.arange(0, 240, 20),  "label":'', "shrink":0.9})
 
     plt.title(title, loc='center', y=1.17, size=15)
     plt.title(t.units, loc='right', y=1.08,  size=14)
     plt.title("precipitation", loc='left', y=1.08, size=14)
 
-Plot(2,2,1, ccrs.LambertConformal(central_longitude=45, standard_parallels=(36,55), globe=ccrs.Globe()), "Lambert Conformal")
+Plot(2,2,1, ccrs.LambertConformal(central_longitude=45, standard_parallels=(36,55), 
+                                  globe=ccrs.Globe()), "Lambert Conformal")
 Plot(2,2,2,ccrs.LambertCylindrical(central_longitude=45),"Lambert Cylindrical")
 Plot(2,2,3,ccrs.LambertAzimuthalEqualArea(central_longitude=45),"Lambert Azimuthal")
 
