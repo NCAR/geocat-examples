@@ -20,6 +20,7 @@ See following URLs to see the reproduced NCL plot & script:
 import xarray as xr
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
 
 from geocat.viz import util as gvutil
@@ -77,6 +78,9 @@ def Plots(xext, yext, xtic, ytic, xminor, yminor, size, color):
     # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
     gvutil.set_axes_limits_and_ticks(ax, xlim=xext, ylim=yext,
                                          xticks=range(-180, 180, xtic), yticks=range(-90,90,ytic))
+    # Remove the degree symbol from tick labels
+    ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
+    ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
     
     # Turn on continent shading
     ax.add_feature(cfeature.LAND, edgecolor='lightgray', facecolor='lightgray', zorder=0)
