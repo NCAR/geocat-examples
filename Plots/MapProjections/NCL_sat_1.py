@@ -45,7 +45,7 @@ pressure = pressure*0.01
 wrap_pressure = gvutil.xr_add_cyclic_longitudes(pressure, "lon")
 
 ###############################################################################
-
+# Define a helper function to find local extrema
 
 def findLocalExtrema(da, highVal=0, lowVal=1000, eType='Low'):
     """
@@ -139,8 +139,7 @@ def findLocalExtrema(da, highVal=0, lowVal=1000, eType='Low'):
     return clusterExtremas
 
 ###############################################################################
-# Helper function that will plot contour labels
-
+# Define a helper function that will plot contour labels
 
 def plotCLabels(da, contours, transform, ax, proj, clabel_locations=[], fontsize=12, whitebbox=False, horizontal=False):
 
@@ -197,8 +196,7 @@ def plotCLabels(da, contours, transform, ax, proj, clabel_locations=[], fontsize
     return cLabels
 
 ###############################################################################
-# Helper function that will plot contour labels
-
+# Define a helper function that will plot contour labels
 
 def plotELabels(da, contours, transform, ax, proj, clabel_locations=[], eType='Low', fontsize=22, horizontal=True, whitebbox=False):
 
