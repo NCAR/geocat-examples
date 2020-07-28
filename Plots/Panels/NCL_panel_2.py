@@ -18,7 +18,6 @@ import xarray as xr
 import matplotlib.pyplot as plt
 import cartopy
 import cartopy.crs as ccrs
-from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
@@ -118,6 +117,5 @@ ax[2].set_yticks(kwargs["yticks"])
 
 # Display plot
 plt.show()
-
 
 
