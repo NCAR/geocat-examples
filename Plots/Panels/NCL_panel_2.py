@@ -37,7 +37,10 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 # Generate figure and anxes using Cartopy projection
 # Make three subplots using matplotlib
 projection = ccrs.PlateCarree()
-fix, ax = plt.subplots(3, 1, figsize=(6, 10), constrained_layout=True, subplot_kw={"projection": projection})
+fig, ax = plt.subplots(3, 1, constrained_layout=True, subplot_kw={"projection": projection})
+
+# Set figure size
+fig.set_size_inches((6, 9.6))
 
 # Define contour levels
 levels = np.linspace(-10, 50, 13)
