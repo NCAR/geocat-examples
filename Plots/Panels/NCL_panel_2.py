@@ -42,9 +42,6 @@ fig, ax = plt.subplots(3, 1, constrained_layout=True, subplot_kw={"projection": 
 # Set figure size
 fig.set_size_inches((6, 9.6))
 
-# Define contour levels
-levels = np.linspace(-10, 50, 13)
-
 # Set common plot title
 plt.suptitle("A common title", fontsize=16)
 
@@ -56,7 +53,6 @@ continents = cartopy.feature.NaturalEarthFeature(name="coastline", category="phy
 
 # Using a dictionary makes it easy to reuse the same keyword arguments twice for the contours
 kwargs = dict(
-    levels=levels,  # contour levels specified outside this function
     xticks=np.arange(-180, 181, 30),  # nice x ticks
     yticks=np.arange(-90, 91, 30),  # nice y ticks
     transform=projection,  # ds projection
@@ -66,20 +62,26 @@ kwargs = dict(
     linestyles="-",
     linewidths=0.5)
 
+# Define first contour levels
+levels = np.arange(-16,33,4)
+
 # Panel 1 (Subplot 1)
 # Contour-plot U data (for borderlines)
-hdl = ds.U.plot.contour(x="lon", y="lat", ax=ax[0], **kwargs,)
+hdl = ds.U.plot.contour(x="lon", y="lat", ax=ax[0], levels=levels, **kwargs)
 
 # Label the contours and set axes title
-ax[0].clabel(hdl, levels, fontsize="small", fmt="%.0f")
+ax[0].clabel(hdl, np.arange(0, 33, 8), fontsize="small", fmt="%.0f")
 
 # Use geocat.viz.util convenience function to add left and right title to the plot axes.
 gvutil.set_titles_and_labels(ax[0], lefttitle="Zonal Wind", lefttitlefontsize=12,
                              righttitle=ds.U.units, righttitlefontsize=12)
 
 # Panel 2
+# Define second contour levels
+levels = np.arange(-10, 50, 2)
+
 # Contour-plot V data (for borderlines)
-hdl = ds.V.plot.contour(x="lon", y="lat", ax=ax[1], **kwargs)
+hdl = ds.V.plot.contour(x="lon", y="lat", ax=ax[1],levels=levels, **kwargs)
 
 # Label the contours and set axes title
 ax[1].clabel(hdl, [0], fontsize="small", fmt="%.0f")
