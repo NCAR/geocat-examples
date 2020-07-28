@@ -8,6 +8,14 @@ This script illustrates the following concepts:
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/mask_2.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/mask_2_lg.png
+
+Using zorder:
+    The ``zorder`` keyword is used by ``matplotlib`` to layer elements in a
+    plot. Elements with lower ``zorder`` values are plotted first and other
+    elements are layered on top based on increasing ``zorder`` values. For
+    more information, please refer to ``matplotlib``'s
+    `zorder demo <https://matplotlib.org/3.3.0/gallery/misc/zorder_demo.html>`_
+    page.
 """
 
 ###############################################################################
@@ -44,15 +52,15 @@ fig = plt.figure(figsize=(10, 6))
 
 # Generate axes using Cartopy and draw land masses, coastlines, and lakes
 ax = plt.axes(projection=ccrs.PlateCarree())
-ax.add_feature(cfeature.LAND, facecolor='lightgray')
-ax.add_feature(cfeature.COASTLINE, linewidth=0.5)
+ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1)
+ax.add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=1)
 ax.add_feature(cfeature.LAKES, linewidth=0.5, edgecolor='black',
-               facecolor='None')
+               facecolor='None', zorder=1)
 
 # Plot filled contour
 contour = TS.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap='magma',
                            levels=np.arange(216, 315, 3), extend='neither',
-                           add_colorbar=False, add_labels=False)
+                           add_colorbar=False, add_labels=False, zorder=0)
 plt.colorbar(contour, ax=ax, ticks=np.linspace(219, 303, 8),
              orientation='horizontal', pad=0.075, drawedges=True)
 
