@@ -52,8 +52,6 @@ continents = cartopy.feature.NaturalEarthFeature(name="coastline", category="phy
                                                  facecolor="lightgray")
 [axes.add_feature(continents) for axes in ax.flat]
 
-# Define the contour levels
-levels = np.arange(-48, 48, 4)
 
 # Using a dictionary makes it easy to reuse the same keyword arguments twice for the contours
 kwargs = dict(
@@ -72,7 +70,7 @@ kwargs = dict(
 hdl = ds.U.plot.contour(x="lon", y="lat", ax=ax[0], **kwargs,)
 
 # Label the contours and set axes title
-ax[0].clabel(hdl, np.arange(0, 32, 8), fontsize="small", fmt="%.0f")
+ax[0].clabel(hdl, levels, fontsize="small", fmt="%.0f")
 
 # Use geocat.viz.util convenience function to add left and right title to the plot axes.
 gvutil.set_titles_and_labels(ax[0], lefttitle="Zonal Wind", lefttitlefontsize=12,
