@@ -49,6 +49,13 @@ ax.add_feature(cfeature.COASTLINE, linewidth=0.5)
 ax.add_feature(cfeature.LAKES, linewidth=0.5, edgecolor='black',
                facecolor='None')
 
+# Plot filled contour
+contour = TS.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap='magma',
+                           levels=np.arange(216, 315, 3), extend='neither',
+                           add_colorbar=False, add_labels=False)
+plt.colorbar(contour, ax=ax, ticks=np.linspace(219, 303, 8),
+             orientation='horizontal', pad=0.075, drawedges=True)
+
 # Use geocat.viz.util convenience function to set axes limits & tick values
 gvutil.set_axes_limits_and_ticks(ax, xlim=(-180, 180), ylim=(-90,90),
                                  xticks=np.linspace(-180, 180, 13),
