@@ -3,7 +3,7 @@ NCL_panel_6.py
 ===============
 This script illustrates the following concepts:
    - Paneling four plots on a page
-   - Adding white space aroudn paneled plots
+   - Adding white space around paneled plots
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/panel_6.ncl
