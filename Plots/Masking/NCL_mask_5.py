@@ -16,8 +16,10 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/mask_5_lg.png
                          
 """
+
 ###############################################################################
 # Import packages:
+    
 import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
@@ -27,8 +29,10 @@ import matplotlib.patches as mpatches
 
 from geocat.viz import util as gvutil
 import geocat.datafiles as gdf
+
 ###############################################################################
 # Plot
+
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 t = ds.TS.isel(time=0)
