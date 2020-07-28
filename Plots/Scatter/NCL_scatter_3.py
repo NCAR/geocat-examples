@@ -13,6 +13,7 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/scatter_3_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/scatter_3_2_lg.png
                          
 """
+
 ###############################################################################
 # Import packages:
 
@@ -30,6 +31,7 @@ import geocat.datafiles as gdf
 ds = xr.open_dataset(gdf.get("netcdf_files/95031800_sao.cdf"), decode_times=False)
 lat = ds.lat.isel()
 lon = ds.lon.isel()
+
 ###############################################################################
 # Plot
 
