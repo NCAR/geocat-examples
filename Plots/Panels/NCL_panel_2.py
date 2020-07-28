@@ -65,8 +65,7 @@ kwargs = dict(
     add_labels=False,  # turn off xarray's automatic Lat, lon labels
     colors="k",  # note plurals in this and following kwargs
     linestyles="-",
-    linewidths=0.5,
-)
+    linewidths=0.5)
 
 # Panel 1 (Subplot 1)
 # Contour-plot U data (for borderlines)
