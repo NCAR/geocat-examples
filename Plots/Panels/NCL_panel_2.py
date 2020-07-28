@@ -40,7 +40,7 @@ projection = ccrs.PlateCarree()
 fig, ax = plt.subplots(3, 1, constrained_layout=True, subplot_kw={"projection": projection})
 
 # Set figure size
-fig.set_size_inches((6, 9.6))
+fig.set_size_inches((8, 13.5))
 
 # Set common plot title
 plt.suptitle("A common title", fontsize=16)
@@ -70,7 +70,7 @@ levels = np.arange(-16,33,4)
 hdl = ds.U.plot.contour(x="lon", y="lat", ax=ax[0], levels=levels, **kwargs)
 
 # Label the contours and set axes title
-ax[0].clabel(hdl, np.arange(0, 33, 8), fontsize="small", fmt="%.0f")
+ax[0].clabel(hdl, np.arange(0, 33, 8), fmt="%.0f")
 
 # Use geocat.viz.util convenience function to add left and right title to the plot axes.
 gvutil.set_titles_and_labels(ax[0], lefttitle="Zonal Wind", lefttitlefontsize=12,
@@ -84,7 +84,7 @@ levels = np.arange(-10, 50, 2)
 hdl = ds.V.plot.contour(x="lon", y="lat", ax=ax[1],levels=levels, **kwargs)
 
 # Label the contours and set axes title
-ax[1].clabel(hdl, [0], fontsize="small", fmt="%.0f")
+ax[1].clabel(hdl, [0], fmt="%.0f")
 
 # Use geocat.viz.util convenience function to add left and right title to the plot axes.
 gvutil.set_titles_and_labels(ax[1], lefttitle="Meridional Wind", lefttitlefontsize=12,
