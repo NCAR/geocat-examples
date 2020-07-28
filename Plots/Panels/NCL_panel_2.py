@@ -18,6 +18,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 import cartopy
 import cartopy.crs as ccrs
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
@@ -111,6 +112,11 @@ ax[2].set_yticks(kwargs["yticks"])
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 [gvutil.add_lat_lon_ticklabels(axes) for axes in ax.flat]
+
+# Remove degree markers from x and y labels
+[axes.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol='')) for axes in ax.flat]
+[axes.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol='')) for axes in ax.flat]
+
 
 # Display plot
 plt.show()
