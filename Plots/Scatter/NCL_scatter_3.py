@@ -10,8 +10,7 @@ This script illustrates the following concepts:
    
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/scatter_3.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/scatter_3_1_lg.png and
-                        https://www.ncl.ucar.edu/Applications/Images/scatter_3_2_lg.png
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/scatter_3_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/scatter_3_2_lg.png
                          
 """
 ###############################################################################
@@ -19,8 +18,8 @@ See following URLs to see the reproduced NCL plot & script:
 
 import xarray as xr
 import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
 import cartopy.feature as cfeature
+import matplotlib.pyplot as plt
 
 from geocat.viz import util as gvutil
 import geocat.datafiles as gdf
@@ -34,30 +33,33 @@ lon = ds.lon.isel()
 ###############################################################################
 # Plot
 
-def Plots(xext, yext, xtic, ytic, size, color):
+def Plots(xext, yext, xtic, ytic, xminor, yminor, size, color):
     '''
+    Creates plot using user specified variables.
+    
     Parameters
     ----------
     xext : 'tuple'
-        Extent of projection in format (xstart, xend) with values between -180 
+        Inclusive extent of projection in format (xstart, xend) with values between -180 
         and 180.
     yext : 'tuple'
-        Extent of projection in format (ystart, yend) with values between -90 
+        Inclusive extent of projection in format (ystart, yend) with values between -90 
         and 90.
     xtic : 'int'
-        Location of x tick labels instances in format of number between each tick.
+        Step number of x tick label instances in format of number between each tick.
     ytic : 'int'
-        Location of y tick labels instances in format of number between each tick.
+        Step number of y tick label instances in format of number between each tick.
+    xminor : 'int'
+        Exclusive number of minor ticks between each major x-axis tick mark
+    yminor : 'int'
+        Exclusive number of minor ticks between each major y-axis tick mark
     size : 'int'
         Size of marker being used in format of font size number.
     color : 'str'
-        Color of marker being used in format 'color'.
-
-    Returns
-    -------
-    Projections using specified parameters.
+        Matplotlib color of marker being used in format 'color'.
 
     '''
+
     # Generate figure (set its size (width, height) in inches) and axes using Cartopy projection
     plt.figure(figsize=(12, 12))
     
@@ -65,7 +67,7 @@ def Plots(xext, yext, xtic, ytic, size, color):
     ax = plt.axes(projection=ccrs.PlateCarree())
     
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5, labelsize=14)
+    gvutil.add_major_minor_ticks(ax, x_minor_per_major=xminor, y_minor_per_major=yminor, labelsize=14)
     
     # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax)
@@ -86,5 +88,5 @@ def Plots(xext, yext, xtic, ytic, size, color):
     
     plt.show()
 
-Plots((-125,-65), (20,60), 10, 10, 50, 'b')
-Plots((-180,160), (-20,90), 30, 30, 50, 'firebrick')
+Plots((-180,160), (-20,90), 30, 30, 3, 3, 50, 'firebrick')
+Plots((-125,-65), (20,60), 10, 10, 4, 5, 50, 'b')
