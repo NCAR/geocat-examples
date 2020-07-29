@@ -29,8 +29,6 @@ import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 
-from geocat.viz import util as gvutil
-from geocat.viz import cmaps as gvcmaps
 import geocat.datafiles as gdf
 
 ###############################################################################
