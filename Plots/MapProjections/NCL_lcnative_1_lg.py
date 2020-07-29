@@ -67,9 +67,6 @@ def Plot(row, col, pos, proj, title):
     ax.set_extent((28, 57, 20, 47), crs=ccrs.PlateCarree())
     ax.coastlines(linewidth=0.5)
     
-    # Import an NCL colormap
-    newcmp = "Blues_r"
-    
     # Use ax "gridlines" function to draw lat/lon markers on projections
     gl = ax.gridlines(draw_labels=True, dms=False, x_inline=False, y_inline=False)
     gl.top_labels = True
@@ -96,7 +93,7 @@ def Plot(row, col, pos, proj, title):
     '''
     
     # Plot data and create colorbar
-    t.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(), 
+    t.plot.contourf(ax=ax, cmap="Blues_r", transform=ccrs.PlateCarree(), 
                     levels = 14, cbar_kwargs={"orientation":"horizontal", 
                     "ticks":np.arange(0, 240, 20),  "label":'', "shrink":0.9})
   
