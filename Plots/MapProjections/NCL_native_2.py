@@ -4,7 +4,7 @@ NCL_native_2.py
 
 This script illustrates the following concepts:
    - Drawing filled contours over a mercator map
-   - Overlaying contours on a map without having lat,lon coordinates
+   - Overlaying contours on a map without having latitude and longitude coordinates
    - Drawing a map using the medium resolution map outlines
    - Turning on map tickmark labels with degree symbols
    - Selecting a different color map
