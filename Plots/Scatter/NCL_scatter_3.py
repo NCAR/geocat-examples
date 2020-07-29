@@ -3,9 +3,7 @@ NCL_scatter_3.py
 ================
 This script illustrates the following concepts:
     - Drawing a scatter plot over a map
-    - Drawing markers on a map
-    - Attaching markers to a map
-    - Changing the marker color and size in a map plot
+    - Choosing marker color, size, and style 
     - Drawing markers on a map indicating the locations of station data
    
 See following URLs to see the reproduced NCL plot & script:
@@ -36,7 +34,7 @@ lon = ds.lon.isel()
 ###############################################################################
 # Plot
 
-def Plots(xext, yext, xtic, ytic, xminor, yminor, size, color):
+def Plots(xlim, ylim, xtic, ytic, xminor, yminor, size, color):
     '''
     Creates plot using user specified variables.
     
@@ -76,8 +74,9 @@ def Plots(xext, yext, xtic, ytic, xminor, yminor, size, color):
     gvutil.add_lat_lon_ticklabels(ax)
     
     # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-    gvutil.set_axes_limits_and_ticks(ax, xlim=xext, ylim=yext,
+    gvutil.set_axes_limits_and_ticks(ax, xlim=xlim, ylim=ylim,
                                          xticks=range(-180, 180, xtic), yticks=range(-90,90,ytic))
+    
     # Remove the degree symbol from tick labels
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
@@ -95,4 +94,4 @@ def Plots(xext, yext, xtic, ytic, xminor, yminor, size, color):
     plt.show()
 
 Plots((-180,160), (-20,90), 30, 30, 3, 3, 50, 'firebrick')
-Plots((-125,-65), (20,60), 10, 10, 4, 5, 50, 'b')
+Plots((-125,-65), (21,60), 20, 10, 4, 5, 50, 'b')
