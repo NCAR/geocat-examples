@@ -2,7 +2,7 @@
 NCL_sat_2.py
 ===============
 This script illustrates the following concepts:
-   - Unpacking 'short' data
+   - Converting float data into short data
    - Drawing filled contours over a satellite map
    - Explicitly setting contour fill colors
    - Finding local high pressure values
@@ -37,8 +37,8 @@ ds = xr.open_dataset(gdf.get("netcdf_files/slp.1963.nc"), decode_times=False)
 # Get data from the 21st timestep
 pressure = ds.slp[21, :, :]
 
-# Translate short values to float values
-pressure = pressure.astype('float64')
+# Translate float values to short values
+pressure = pressure.astype('float32')
 
 # Convert Pa to hPa data
 pressure = pressure*0.01
@@ -142,25 +142,24 @@ def findLocalExtrema(da, highVal=0, lowVal=1000, eType='Low'):
 ###############################################################################
 
 
-def plotCLabels(da, contours, transform, ax, proj, clabel_locations=[], fontsize=12, whitebbox=False, horizontal=False):
+def plotCLabels(ax, contours, transform, proj, clabel_locations=[], fontsize=12, whitebbox=False, horizontal=False):
 
     """
     Utility function to plot contour labels by passing in a coordinate to the clabel function.
     This allows the user to specify the exact locations of the labels, rather than having matplotlib
     plot them automatically.
+    This function is exemplified in the python version of https://www.ncl.ucar.edu/Applications/Images/sat_1_lg.png
     Args:
-        da: (:class:`xarray.DataArray`):
-            Xarray data array containing the lat, lon, and field variable data values.
+        ax (:class:`matplotlib.pyplot.axis`):
+            Axis containing the contour set.
         contours (:class:`cartopy.mpl.contour.GeoContourSet`):
             Contour set that is being labeled.
         transform (:class:`cartopy._crs`):
             Instance of CRS that represents the source coordinate system of coordinates.
             (ex. ccrs.Geodetic()).
-        ax (:class:`matplotlib.pyplot.axis`):
-            Axis containing the contour set.
         proj (:class:`cartopy.crs`):
             Projection 'ax' is defined by.
-            This is the instaance of CRS that the coordinates will be transformed to.
+            This is the instance of CRS that the coordinates will be transformed to.
         clabel_locations (:class:`list`):
             List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
             that specify where the contours with regular field variable values should be plotted.
@@ -198,31 +197,27 @@ def plotCLabels(da, contours, transform, ax, proj, clabel_locations=[], fontsize
 ###############################################################################
 
 
-def plotELabels(da, contours, transform, ax, proj, clabel_locations=[], eType='Low', fontsize=22, horizontal=True, whitebbox=False):
+def plotELabels(transform, proj, da, clabel_locations=[], label='L', fontsize=22, whitebbox=False, horizontal=True):
 
     """
     Utility function to plot contour labels. High/Low contour labels will be plotted using text boxes for more accurate label values
     and placement.
+    This function is exemplified in the python version of https://www.ncl.ucar.edu/Applications/Images/sat_1_lg.png
     Args:
         da: (:class:`xarray.DataArray`):
             Xarray data array containing the lat, lon, and field variable data values.
-        contours (:class:`cartopy.mpl.contour.GeoContourSet`):
-            Contour set that is being labeled.
         transform (:class:`cartopy._crs`):
             Instance of CRS that represents the source coordinate system of coordinates.
             (ex. ccrs.Geodetic()).
-        ax (:class:`matplotlib.pyplot.axis`):
-            Axis containing the contour set.
         proj (:class:`cartopy.crs`):
             Projection 'ax' is defined by.
-            This is the instaance of CRS that the coordinates will be transformed to.
+            This is the instance of CRS that the coordinates will be transformed to.
         clabel_locations (:class:`list`):
             List of coordinate tuples in GPS form (lon in degrees, lat in degrees)
             that specify where the contour labels should be plotted.
-        type (:class:`list`):
-            'high' or 'low'
-            High contour labels will be plotted with an H
-            Low contour labels will be plotted with an L
+        label (:class:`str`):
+            ex. 'L' or 'H'
+            The data value will be plotted as a subscript of this label.
         fontsize (:class:`int`):
             Font size of regular contour labels.
         horizontal (:class:`bool`):
@@ -261,19 +256,16 @@ def plotELabels(da, contours, transform, ax, proj, clabel_locations=[], eType='L
             z, y = np.where(cond)
             p = int(round(da.data[z[0]][y[0]]))
 
-            if eType == 'High':
-                lab = plt.text(transformed_locations[x][0], transformed_locations[x][1], "H$_{" + str(p) + "}$", fontsize=fontsize,
-                               horizontalalignment='center', verticalalignment='center')
-            elif eType == 'Low':
-                lab = plt.text(transformed_locations[x][0], transformed_locations[x][1], "L$_{" + str(p) + "}$", fontsize=fontsize,
-                               horizontalalignment='center', verticalalignment='center')
+            lab = plt.text(transformed_locations[x][0], transformed_locations[x][1], label+"$_{" + str(p) + "}$", fontsize=fontsize,
+                           horizontalalignment='center', verticalalignment='center')
 
             if horizontal is True:
                 lab.set_rotation('horizontal')
 
             extremaLabels.append(lab)
 
-        except:
+        except Exception as E:
+            print(E)
             continue
 
     if whitebbox is True:
@@ -328,21 +320,13 @@ p = wrap_pressure.plot.contour(ax=ax,
 lowClevels = findLocalExtrema(pressure, lowVal=995, eType='Low')
 highClevels = findLocalExtrema(pressure, highVal=1042, eType='High')
 
-# regular pressure contour levels- These values were found by setting
-# 'manual' argument in ax.clabel call to 'True' and then hovering mouse
-# over desired location of countour label to find coordinate
-# (which can be found in bottom left of figure window).
-clevels = [(-145.27, 50.9), (-125.89, 32.33), (-112.62, 19.89),
-           (-139.31, 18.22), (-119.15, 51.02), (-85.22, 71.78),
-           (-100.31, 18.73), (-97.75, 39.4), (-94.18, 51.19),
-           (-81.94, 60.78), (-73.58, 47.14), (-99.6, 82.9),
-           (-55.75, 22.96), (-16.19, 46.72), (-137.39, 40.3),
-           (-57.17, 49.07), (-62.17, 12.24), (-77.51, 32.42)]
+# Label regular contours with automatic matplotlib labeling
+# Specify the levels to label every other contour level
+ax.clabel(p, levels=np.arange(956, 1064, 8), inline=True, fontsize=12, colors='k', fmt="%.0f")
 
-# Label low, high, and regular contours
-plotCLabels(pressure, p, ccrs.Geodetic(), ax, proj, clabel_locations=clevels)
-plotELabels(pressure, p, ccrs.Geodetic(), ax, proj, clabel_locations=lowClevels, eType='Low')
-plotELabels(pressure, p, ccrs.Geodetic(), ax, proj, clabel_locations=highClevels, eType='High')
+# Label low and high contours
+plotELabels(ccrs.Geodetic(), proj, wrap_pressure, clabel_locations=lowClevels, label='L')
+plotELabels(ccrs.Geodetic(), proj, wrap_pressure, clabel_locations=highClevels, label='H')
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax,
