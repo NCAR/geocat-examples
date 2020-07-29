@@ -5,7 +5,6 @@ NCL_native_2.py
 This script illustrates the following concepts:
    - Drawing filled contours over a mercator map
    - Overlaying contours on a map without having latitude and longitude coordinates
-   - Drawing a map using the medium resolution map outlines
    - Turning on map tickmark labels with degree symbols
    - Selecting a different color map
    - Zooming in on a particular area on a mercator map
@@ -53,31 +52,26 @@ ax.set_extent([128, 144, 34, 52], ccrs.PlateCarree())
 
 # Contourf-plot data (for filled contours)
 pt = t.plot.contourf(
-    ax=ax,
-    transform=ccrs.PlateCarree(),
-    vmin=0,
-    vmax=70,
-    levels=15,
-    cmap="inferno",
-    cbar_kwargs={
+     ax=ax,
+     transform=ccrs.PlateCarree(),
+     vmin=0,
+     vmax=70,
+     levels=15,
+     cmap="inferno",
+     cbar_kwargs={
         "extendrect": True,
         "orientation": "vertical",
         "ticks": np.arange(0, 71, 5),
-        "label": "",
-    },
-)
+        "label": ""})
 
 # Draw gridlines
-gl = ax.gridlines(
-    crs=ccrs.PlateCarree(),
-    draw_labels=True,
-    dms=False,
-    x_inline=False,
-    y_inline=False,
-    linewidth=1,
-    color="k",
-    alpha=0.25,
-)
+gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
+     dms=False,
+     x_inline=False,
+     y_inline=False,
+     linewidth=1,
+     color="k",
+     alpha=0.25)
 
 # Manipulate latitude and longitude gridline numbers and spacing
 gl.top_labels = False
@@ -87,9 +81,8 @@ gl.ylocator = mticker.FixedLocator([36, 38, 40, 42, 44, 46, 48, 50])
 gl.xlabel_style = {"rotation": 0, "size": 15}
 gl.ylabel_style = {"rotation": 0, "size": 15}
 
-plt.title(
-    "Native Mercator Projection", loc="center", y=1.05, size=15, fontweight="bold"
-)
+plt.title("Native Mercator Projection", loc="center", 
+          y=1.05, size=15, fontweight="bold")
 plt.title(t.units, loc="right", y=1.0, size=14)
 plt.title("free surface deviation", loc="left", y=1.0, size=14)
 
