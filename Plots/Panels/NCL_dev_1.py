@@ -31,6 +31,24 @@ from geocat.viz import cmaps as gvcmaps
 import geocat.viz.util as gvutil
 
 ##############################################################################
+# Helper funtion to calculate zonal averages
+
+
+##############################################################################
+# Read in data:
+
+# Open a netCDF data file using xarray default engine and load the data into xarrays
+ds = xr.open_dataset(gdf.get("netcdf_files/83.nc"))
+
+# Extract slice of data
+TS = ds.TS.isel(time=0).drop('time')
+# Fix the artifact of not-shown-data around 0 and 360-degree longitudes
+TS = gvutil.xr_add_cyclic_longitudes(TS, "lon")
+
+# Calculate zonal mean
+mean = TS.mean(dim='lon')
+
+##############################################################################
 # Plot:
 
 # Specify projection for maps
@@ -44,7 +62,7 @@ grid = fig.add_gridspec(ncols=2, nrows=2, width_ratios=[0.85, 0.15])
 ax1 = fig.add_subplot(grid[0, 0], projection=ccrs.PlateCarree())
 ax1.coastlines(linewidths=0.5)
 
-# Create axis for zonal average plot
+# Create axis for zonal mean plot
 ax2 = fig.add_subplot(grid[0, 1])
 
 # Create axis for deviation data plot
@@ -71,4 +89,11 @@ gvutil.set_axes_limits_and_ticks(ax2, xlim=[0, 375], ylim=[-90, 90],
 gvutil.add_major_minor_ticks(ax2, x_minor_per_major=2)
 
 
+# Plot original data contour lines
+TS.plot.contour(ax=ax1, transform=proj, vmin=235, vmax=305,
+                levels=np.arange(235, 305, 5), colors='black', linewidths=0.5,
+                add_labels=False)
+
+# Plot zonal mean
+ax2.plot(mean.data, mean.lat, color='black', linewidth=0.5)
 plt.show()
