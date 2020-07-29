@@ -63,16 +63,21 @@ pt = t.plot.contourf(
         "extendrect": True,
         "orientation": "vertical",
         "ticks": np.arange(0, 71, 5),
-        "label": ""})
+        "label": "",
+    },
+)
 
 # Draw gridlines
-gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
+gl = ax.gridlines(
+    crs=ccrs.PlateCarree(),
+    draw_labels=True,
     dms=False,
     x_inline=False,
     y_inline=False,
     linewidth=1,
     color="k",
-    alpha=0.25)
+    alpha=0.25,
+)
 
 # Manipulate latitude and longitude gridline numbers and spacing
 gl.top_labels = False
@@ -82,8 +87,9 @@ gl.ylocator = mticker.FixedLocator([36, 38, 40, 42, 44, 46, 48, 50])
 gl.xlabel_style = {"rotation": 0, "size": 15}
 gl.ylabel_style = {"rotation": 0, "size": 15}
 
-plt.title( "Native Mercator Projection", loc="center", 
-          y=1.05, size=15, fontweight="bold")
+plt.title(
+    "Native Mercator Projection", loc="center", y=1.05, size=15, fontweight="bold"
+)
 plt.title(t.units, loc="right", y=1.0, size=14)
 plt.title("free surface deviation", loc="left", y=1.0, size=14)
 
