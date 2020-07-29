@@ -37,7 +37,7 @@ import geocat.viz.util as gvutil
 proj = ccrs.PlateCarree()
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(6, 8))
+fig = plt.figure(figsize=(8, 8))
 grid = fig.add_gridspec(ncols=2, nrows=2, width_ratios=[0.85, 0.15])
 
 # Create axis for original data plot
@@ -50,6 +50,25 @@ ax2 = fig.add_subplot(grid[0, 1])
 # Create axis for deviation data plot
 ax3 = fig.add_subplot(grid[1, 0], projection=ccrs.PlateCarree())
 ax3.coastlines(linewidths=0.5)
+
+# Format ticks and ticklabels for the map axes
+for ax in [ax1, ax3]:
+    # Use the geocat.viz function to set axes limits and ticks
+    gvutil.set_axes_limits_and_ticks(ax, xlim=[-180, 180], ylim=[-90, 90],
+                                    xticks=np.arange(-180, 181, 30),
+                                    yticks=np.arange(-90, 91, 30))
+    # Use the geocat.viz function to add minor ticks
+    gvutil.add_major_minor_ticks(ax)
+    # Use geocat.viz.util convenience function to make plots look like NCL
+    # plots by using latitude, longitude tick labels
+    gvutil.add_lat_lon_ticklabels(ax)
+
+# Format ticks and ticklabels for zonal average plot
+# Use the geocat.viz function to set axes limits and ticks
+gvutil.set_axes_limits_and_ticks(ax2, xlim=[0, 375], ylim=[-90, 90],
+                                 xticks=[0, 200], yticks=[])
+# Use the geocat.viz function to add minor ticks
+gvutil.add_major_minor_ticks(ax2, x_minor_per_major=2)
 
 
 plt.show()
