@@ -2,7 +2,6 @@
 NCL_write_csv_1.py
 ===============
 This script illustrates the following concepts:
-   - Writing a CSV file
    - Using python tools 'csv' and 'pandas' to write integers to a CSV file
    
 See following URLs to see the reproduced NCL plot & script:
@@ -36,7 +35,6 @@ export_cols = zip_longest(*col, fillvalue='')
 with open('example1a.csv', mode='w') as myfile:
     example_writer = csv.writer(myfile, delimiter=',')
     example_writer.writerows(export_cols)
-myfile.close()
 
 ###############################################################################
 # Creat CSV file using 'pandas'
@@ -48,4 +46,7 @@ df = pd.DataFrame([x1, x2, x3])
 df = df.T
 
 # Export data frame to csv file
+# setting 'header' and 'index' to False will remove a default crow and column
+# number label 
 df.to_csv('example1b.csv', header=False, index=False)
+
