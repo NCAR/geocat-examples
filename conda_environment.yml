@@ -11,9 +11,11 @@ dependencies:
   - cartopy
   - mock
   - pillow
+  - scikit-learn
   - sphinx
   - matplotlib
   - sphinx-gallery
   - sphinx_rtd_theme
   - jupyter
   - make
+  - geographiclib
