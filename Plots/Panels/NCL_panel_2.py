@@ -34,7 +34,7 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 ###############################################################################
 # Plot using cartopy and matplotlib
 
-# Generate figure and anxes using Cartopy projection
+# Generate figure and axes using Cartopy projection
 # Make three subplots using matplotlib
 projection = ccrs.PlateCarree()
 fig, ax = plt.subplots(3, 1, constrained_layout=True, subplot_kw={"projection": projection})
