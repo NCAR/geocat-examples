@@ -90,10 +90,28 @@ gvutil.add_major_minor_ticks(ax2, x_minor_per_major=2)
 
 
 # Plot original data contour lines
-TS.plot.contour(ax=ax1, transform=proj, vmin=235, vmax=305,
+contour = TS.plot.contour(ax=ax1, transform=proj, vmin=235, vmax=305,
                 levels=np.arange(235, 305, 5), colors='black', linewidths=0.5,
                 add_labels=False)
+ax1.clabel(contour, np.arange(240, 301, 10), fmt='%d', inline=True, fontsize=10)
+# Set label backgrounds white
+[txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=0)) for txt in contour.labelTexts]
+# Add lower text box
+ax1.text(0.995, 0.02, "CONTOUR FROM 235 TO 305 BY 5",
+         horizontalalignment='right',
+         transform=ax1.transAxes,
+         fontsize=8,
+         bbox=dict(boxstyle='square, pad=0.25', facecolor='white',
+                   edgecolor='black'),
+         zorder=5)
+# Add titles
+size=10
+y = 1.05
+ax1.set_title('Original Data', fontsize=size, y=y)
+ax1.set_title(TS.long_name, fontsize=size, loc='left', y=y)
+ax1.set_title(TS.units, fontsize=size, loc='right', y=y)
 
 # Plot zonal mean
 ax2.plot(mean.data, mean.lat, color='black', linewidth=0.5)
+
 plt.show()
