@@ -2,9 +2,9 @@
 NCL_table_2.py
 ===============
 This script illustrates the following concepts:
-   - Drawing a table with headers using gsn_table
+   - Drawing a table with headers
    - Filling table cells with a given color
-   - Specifying the NDC position of individual tables
+   - Specifying the position of individual tables
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/table_2.ncl
@@ -95,8 +95,7 @@ table = ax.table(rowLabels=rows,
 plt.table(cellText=[['CAM METRICS']],
           cellColours=[['skyblue']],
           cellLoc='center',
-          bbox=[-.694, .815, 0.694, 0.091],
-          loc='bottom',)
+          bbox=[-.694, .815, 0.694, 0.091])
 
 # Give plot a tight layout
 fig.tight_layout()
