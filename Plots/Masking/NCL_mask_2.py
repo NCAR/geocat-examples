@@ -63,7 +63,7 @@ contour = TS.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap='magma',
                            levels=np.arange(216, 315, 3), extend='neither',
                            add_colorbar=False, add_labels=False, zorder=0)
 plt.colorbar(contour, ax=ax, ticks=np.linspace(219, 303, 8),
-             orientation='horizontal', pad=0.075, drawedges=True)
+             orientation='horizontal', pad=0.075, drawedges=True, shrink=0.7)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values
 gvutil.set_axes_limits_and_ticks(ax, xlim=(-180, 180), ylim=(-90, 90),
