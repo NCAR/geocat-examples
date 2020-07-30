@@ -69,7 +69,9 @@ plt.colorbar(contour, ax=ax, ticks=np.linspace(219, 303, 8),
 gvutil.set_axes_limits_and_ticks(ax, xlim=(-180, 180), ylim=(-90,90),
                                  xticks=np.linspace(-180, 180, 13),
                                  yticks=np.linspace(-90, 90, 7))
-
+# Remove the degree symbol from tick labels
+    ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
+    ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, labelsize=12)
 
