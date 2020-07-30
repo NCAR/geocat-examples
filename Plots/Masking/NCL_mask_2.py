@@ -4,6 +4,7 @@ NCL_mask_2.py
 This script illustrates the following concepts:
    - Using keyword zorder to mask areas in a plot
    - Drawing filled land areas on top of a contour plot
+   - Selecting a different colormap to abide by best practices. See the `color examples <https://geocat-examples.readthedocs.io/en/latest/gallery/index.html#colors>`_ for more information.
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/mask_2.ncl
