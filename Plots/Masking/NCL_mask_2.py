@@ -19,22 +19,22 @@ Using zorder:
     page.
 """
 
-###############################################################################
+##############################################################################
 # Import packages:
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
-###############################################################################
+##############################################################################
 # Read in data:
 
-# Open a netCDF data file using xarray default engine and load the data into xarrays
+# Open a netCDF data file using xarray and load the data into xarrays
 # Disable time decoding due to missing necessary metadata
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 
@@ -66,19 +66,20 @@ plt.colorbar(contour, ax=ax, ticks=np.linspace(219, 303, 8),
              orientation='horizontal', pad=0.075, drawedges=True)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values
-gvutil.set_axes_limits_and_ticks(ax, xlim=(-180, 180), ylim=(-90,90),
+gvutil.set_axes_limits_and_ticks(ax, xlim=(-180, 180), ylim=(-90, 90),
                                  xticks=np.linspace(-180, 180, 13),
                                  yticks=np.linspace(-90, 90, 7))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, labelsize=12)
 
-# Use geocat.viz.util convenience function to make latitude, longitude tick labels
+# Use geocat.viz.util convenience function to make latitude and
+# longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
 # Remove the degree symbol from tick labels
 ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
-      
+
 # Use geocat.viz.util convenience function to add titles
 gvutil.set_titles_and_labels(ax, maintitle='Draw land ON TOP of contours',
                              lefttitle=TS.long_name, righttitle=TS.units,
