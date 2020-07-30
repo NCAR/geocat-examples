@@ -56,14 +56,14 @@ proj = ccrs.PlateCarree()
 
 # Generate figure (set its size (width, height) in inches)
 fig = plt.figure(figsize=(8, 8))
-grid = fig.add_gridspec(ncols=2, nrows=2, width_ratios=[0.85, 0.15])
+grid = fig.add_gridspec(ncols=2, nrows=2, width_ratios=[0.85, 0.15], wspace=0.08)
 
 # Create axis for original data plot
 ax1 = fig.add_subplot(grid[0, 0], projection=ccrs.PlateCarree())
 ax1.coastlines(linewidths=0.5)
 
 # Create axis for zonal mean plot
-ax2 = fig.add_subplot(grid[0, 1])
+ax2 = fig.add_subplot(grid[0, 1], aspect=5.9)
 
 # Create axis for deviation data plot
 ax3 = fig.add_subplot(grid[1, 0], projection=ccrs.PlateCarree())
