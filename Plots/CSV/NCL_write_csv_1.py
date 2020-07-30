@@ -6,6 +6,21 @@ This script illustrates the following concepts:
    
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/write_csv_1.ncl
+
+Expected format for output csv files is:
+    
+    34,67,56
+    
+    36,87,78
+    
+    31,56,88
+    
+    29,67,92
+    
+    54,71,68
+    
+    42,65,82
+    
 """
 
 ###############################################################################
