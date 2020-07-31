@@ -17,15 +17,7 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 import numpy as np
-import xarray as xr
-import cartopy.feature as cfeature
-import cartopy.crs as ccrs
-import matplotlib.path as mpath
 import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
-
-import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
 
 ###############################################################################
 # Create dummy data:
@@ -41,7 +33,7 @@ fig = plt.figure(figsize=(8, 8))
 
 # Create axis with a polar projection
 ax = fig.add_subplot(111, projection='polar')
-ax.set_ylim([0,90])
+ax.set_ylim([0, 90])
 
 # Change orientation of projection
 ax.set_theta_zero_location("S")
@@ -56,10 +48,10 @@ bins = np.linspace(100, 2000, 10)
 # Plot all points
 # longitude points must be transformed to be plotted on polar projection
 for x in range(numpoints):
-    ax.scatter((np.pi/180.0 )*lon[x],
+    ax.scatter((np.pi/180.0)*lon[x],
                lat[x],
-               color=colors[x%10],
-               s=bins[x%10],
+               color=colors[x % 10],
+               s=bins[x % 10],
                edgecolors='black',
                linewidths=1,
                alpha=0.9,
@@ -68,7 +60,7 @@ for x in range(numpoints):
 # set the labels and locations of the angular gridlines
 linelabels = ('O', '30E', '60E', '90E', '120E', '150E',
               '180', '150W', '120W', '90E', '60E', '30E')
-lines, labels = plt.thetagrids(range(0,360,30), linelabels, fontsize=12)
+lines, labels = plt.thetagrids(range(0, 360, 30), linelabels, fontsize=12)
 
 # Set y-axis gridlines and turn off y-axis labels
 ax.set_yticks([0, 20, 40, 60, 80, 100])
