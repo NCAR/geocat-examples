@@ -20,6 +20,7 @@ import numpy as np
 import xarray as xr
 from PIL import Image
 import glob
+from IPython.display import display
 
 import geocat.datafiles as gdf
 
@@ -68,9 +69,12 @@ for i in range(30):
     plt.savefig(f"Python_Animation_frame_{i:04}.png")
     plt.show()
     plt.close()
-  
+   
+im = Image.open('Python_Animation_frame_0000.png', 'r')
+
+display(im)
 # Gather and sort the png images 
-imgs = sorted(glob.glob("Python_Animation_frame_*.png"))
+imgs = sorted(glob.glob("Python_Animation_frame_00*.png"))
 
 # Load each png image into the empty data array in order of time
 for i in imgs:
@@ -82,3 +86,7 @@ frames[0].save('png_to_gif.gif', format='GIF',
                append_images=frames[:],
                save_all=True,
                duration=300, loop=0)
+
+
+
+
