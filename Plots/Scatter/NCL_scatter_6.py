@@ -23,8 +23,8 @@ import matplotlib.pyplot as plt
 # Create dummy data:
 
 numpoints = 100
-lon = np.random.randint(0, 360, numpoints)
-lat = np.random.randint(5, 90, numpoints)
+lon = np.random.uniform(0, 360, numpoints)
+lat = np.random.uniform(5, 90, numpoints)
 
 ###############################################################################
 
@@ -46,7 +46,8 @@ colors = ("limegreen", "orange", "green", "red", "yellow", "purple",
 bins = np.linspace(100, 2000, 10)
 
 # Plot all points
-# longitude points must be transformed to be plotted on polar projection
+# longitude points must be transformed from degrees to radians 
+# to be plotted on polar projection
 for x in range(numpoints):
     ax.scatter((np.pi/180.0)*lon[x],
                lat[x],
@@ -58,9 +59,12 @@ for x in range(numpoints):
                zorder=2)
 
 # set the labels and locations of the angular gridlines
-linelabels = ('O', '30E', '60E', '90E', '120E', '150E',
+linelabels = ('0', '30E', '60E', '90E', '120E', '150E',
               '180', '150W', '120W', '90E', '60E', '30E')
 lines, labels = plt.thetagrids(range(0, 360, 30), linelabels, fontsize=12)
+
+# Create distance between the x tick labels and the axis
+ax.tick_params(axis='x', pad=10)
 
 # Set y-axis gridlines and turn off y-axis labels
 ax.set_yticks([0, 20, 40, 60, 80, 100])
