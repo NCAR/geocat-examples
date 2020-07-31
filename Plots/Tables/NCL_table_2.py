@@ -1,6 +1,6 @@
 """
 NCL_table_2.py
-===============
+==============
 This script illustrates the following concepts:
    - Drawing a table with headers
    - Filling table cells with a given color
@@ -16,20 +16,10 @@ See following URLs to see the reproduced NCL plot & script:
 import matplotlib.pyplot as plt
 
 ###############################################################################
-# Plot:
-
-# Create figure and axis
-fig, ax = plt.subplots()
-
-# Set axis aspect ratio
-ax.set_aspect(2)
-
-# Make axis spines invisible
-fig.patch.set_visible(False)
-ax.axis('off')
+# Generate data:
 
 # Set row headers (first column)
-rows = ["", "", "SLP_ERA40", "Tsfc_ERA40", "Prc_GPCP", "Prc 30S-30N_GPCP",
+row_text = ["", "", "SLP_ERA40", "Tsfc_ERA40", "Prc_GPCP", "Prc 30S-30N_GPCP",
         "LW_ERS", "SW_ERS", "U300_ERA40", "Guess_BOGUS", "RH_NCEP",
         "LHFLX_ERA40", "TWP_ERA40", "CLDTOT_NCEP", "O3_NASA", "Q_JMA",
         "PBLH_JMA", "Omega_CAS"]
@@ -82,8 +72,21 @@ colors = [['lightgray', 'lightgray'],
           ["White", "palegreen"],
           ["White", "hotpink"]]
 
+###############################################################################
+# Plot:
+
+# Create figure and axis
+fig, ax = plt.subplots()
+
+# Set axis aspect ratio
+ax.set_aspect(2)
+
+# Make axis spines invisible
+fig.patch.set_visible(False)
+ax.axis('off')
+
 # Plot first table
-table = ax.table(rowLabels=rows,
+table = ax.table(rowLabels=row_text,
                  rowColours=rowcolors,
                  rowLoc='center',
                  cellText=cell_text,
