@@ -87,6 +87,9 @@ for ax in [ax1, ax3]:
     # Use geocat.viz.util convenience function to make plots look like NCL
     # plots by using latitude, longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax)
+    # Removing degree symbol from tick labels to more closely resemble NCL example
+    ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
+    ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Format ticks and ticklabels for zonal average plot
 # Use the geocat.viz function to set axes limits and ticks
