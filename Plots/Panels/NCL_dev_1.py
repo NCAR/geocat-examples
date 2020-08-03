@@ -147,6 +147,7 @@ ax3.set_title(TS.long_name, fontsize=size, loc='left', y=y)
 ax3.set_title(TS.units, fontsize=size, loc='right', y=y)
 
 # Add colorbar
-plt.colorbar(deviations, cax=ax4, shrink=0.9)
+plt.colorbar(deviations, cax=ax4, shrink=0.9, ticks=np.linspace(-35, 30, 14),
+             drawedges=True)
 
 plt.show()
