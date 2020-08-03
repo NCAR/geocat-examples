@@ -22,17 +22,12 @@ See following URLs to see the reproduced NCL plot & script:
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
-from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import numpy as np
 import xarray as xr
 
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 import geocat.viz.util as gvutil
-
-##############################################################################
-# Helper funtion to calculate zonal averages
-
 
 ##############################################################################
 # Read in data:
@@ -48,8 +43,12 @@ TS = gvutil.xr_add_cyclic_longitudes(TS, "lon")
 # Calculate zonal mean
 mean = TS.mean(dim='lon')
 
-# Calculate deviations from zonal mean
+# Using meshgrid, a 2-D array can be created with the same shape as the
+# temperature data with the zonal mean for each latitude filling each row.
+# This way we can subtract each element of the mean 2-D array from the
+# corresponding element in the data array.
 waste, mean_grid = np.meshgrid(TS['lon'], mean)
+# Calculate deviations from zonal mean
 dev = TS.data - mean_grid
 
 ##############################################################################
@@ -60,7 +59,8 @@ proj = ccrs.PlateCarree()
 
 # Generate figure (set its size (width, height) in inches)
 fig = plt.figure(figsize=(8, 8))
-grid = fig.add_gridspec(ncols=2, nrows=2, width_ratios=[0.85, 0.15], wspace=0.08)
+grid = fig.add_gridspec(ncols=2, nrows=2, width_ratios=[0.85, 0.15],
+                        wspace=0.08)
 
 # Create axis for original data plot
 ax1 = fig.add_subplot(grid[0, 0], projection=ccrs.PlateCarree())
@@ -80,8 +80,8 @@ ax4 = fig.add_subplot(grid[1, 1], aspect=10)
 for ax in [ax1, ax3]:
     # Use the geocat.viz function to set axes limits and ticks
     gvutil.set_axes_limits_and_ticks(ax, xlim=[-180, 180], ylim=[-90, 90],
-                                    xticks=np.arange(-180, 181, 30),
-                                    yticks=np.arange(-90, 91, 30))
+                                     xticks=np.arange(-180, 181, 30),
+                                     yticks=np.arange(-90, 91, 30))
     # Use the geocat.viz function to add minor ticks
     gvutil.add_major_minor_ticks(ax)
     # Use geocat.viz.util convenience function to make plots look like NCL
@@ -98,11 +98,13 @@ gvutil.add_major_minor_ticks(ax2, x_minor_per_major=2)
 
 # Plot original data contour lines
 contour = TS.plot.contour(ax=ax1, transform=proj, vmin=235, vmax=305,
-                levels=np.arange(235, 305, 5), colors='black', linewidths=0.5,
-                add_labels=False)
-ax1.clabel(contour, np.arange(240, 301, 10), fmt='%d', inline=True, fontsize=10)
+                          levels=np.arange(235, 305, 5), colors='black',
+                          linewidths=0.5, add_labels=False)
+ax1.clabel(contour, np.arange(240, 301, 10), fmt='%d', inline=True,
+           fontsize=10)
 # Set label backgrounds white
 [txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=0)) for txt in contour.labelTexts]
+
 # Add lower text box
 ax1.text(0.995, 0.02, "CONTOUR FROM 235 TO 305 BY 5",
          horizontalalignment='right',
@@ -111,6 +113,7 @@ ax1.text(0.995, 0.02, "CONTOUR FROM 235 TO 305 BY 5",
          bbox=dict(boxstyle='square, pad=0.25', facecolor='white',
                    edgecolor='black'),
          zorder=5)
+
 # Add titles to top plot
 size = 10
 y = 1.05
@@ -121,11 +124,14 @@ ax1.set_title(TS.units, fontsize=size, loc='right', y=y)
 # Plot zonal mean
 ax2.plot(mean.data, mean.lat, color='black', linewidth=0.5)
 
-# Plot deviations from zonal mean
+# Import color map
 cmap = gvcmaps.BlWhRe
-deviations = ax3.contourf(TS['lon'], TS['lat'], dev, levels=np.arange(-40, 40, 5),
-             cmap=cmap, vmin=-40, vmax=35)
-ax3.contour(TS['lon'], TS['lat'], dev, levels=np.arange(-40, 40, 5),
+
+# Plot deviations from zonal mean
+deviations = ax3.contourf(TS['lon'], TS['lat'], dev,
+                          levels=np.linspace(-40, 35, 16), cmap=cmap,
+                          vmin=-40, vmax=35)
+ax3.contour(TS['lon'], TS['lat'], dev, levels=np.linspace(-40, 35, 16),
             colors='black', linewidths=0.5, linestyles='solid')
 
 # Add titles to bottom plot
@@ -135,6 +141,5 @@ ax3.set_title(TS.units, fontsize=size, loc='right', y=y)
 
 # Add colorbar
 plt.colorbar(deviations, cax=ax4, shrink=0.9)
-
 
 plt.show()
