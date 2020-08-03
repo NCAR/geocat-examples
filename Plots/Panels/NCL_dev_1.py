@@ -48,6 +48,10 @@ TS = gvutil.xr_add_cyclic_longitudes(TS, "lon")
 # Calculate zonal mean
 mean = TS.mean(dim='lon')
 
+# Calculate deviations from zonal mean
+waste, mean_grid = np.meshgrid(TS['lon'], mean)
+dev = TS.data - mean_grid
+
 ##############################################################################
 # Plot:
 
@@ -113,5 +117,12 @@ ax1.set_title(TS.units, fontsize=size, loc='right', y=y)
 
 # Plot zonal mean
 ax2.plot(mean.data, mean.lat, color='black', linewidth=0.5)
+
+# Plot deviations from zonal mean
+cmap = gvcmaps.BlWhRe
+ax3.contourf(TS['lon'], TS['lat'], dev, levels=np.arange(-40, 40, 5),
+             cmap=cmap)
+ax3.contour(TS['lon'], TS['lat'], dev, levels=np.arange(-40, 40, 5),
+            colors='black', linewidths=0.5, linestyles='solid')
 
 plt.show()
