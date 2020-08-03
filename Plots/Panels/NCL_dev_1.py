@@ -108,8 +108,8 @@ ax1.text(0.995, 0.02, "CONTOUR FROM 235 TO 305 BY 5",
          bbox=dict(boxstyle='square, pad=0.25', facecolor='white',
                    edgecolor='black'),
          zorder=5)
-# Add titles
-size=10
+# Add titles to top plot
+size = 10
 y = 1.05
 ax1.set_title('Original Data', fontsize=size, y=y)
 ax1.set_title(TS.long_name, fontsize=size, loc='left', y=y)
@@ -124,5 +124,10 @@ ax3.contourf(TS['lon'], TS['lat'], dev, levels=np.arange(-40, 40, 5),
              cmap=cmap)
 ax3.contour(TS['lon'], TS['lat'], dev, levels=np.arange(-40, 40, 5),
             colors='black', linewidths=0.5, linestyles='solid')
+
+# Add titles to bottom plot
+ax3.set_title('Deviation from zonal ave', fontsize=size, y=y)
+ax3.set_title(TS.long_name, fontsize=size, loc='left', y=y)
+ax3.set_title(TS.units, fontsize=size, loc='right', y=y)
 
 plt.show()
