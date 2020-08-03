@@ -34,7 +34,6 @@ import geocat.viz.util as gvutil
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/83.nc"))
-
 # Extract slice of data
 TS = ds.TS.isel(time=0).drop('time')
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
@@ -82,19 +81,24 @@ for ax in [ax1, ax3]:
     gvutil.set_axes_limits_and_ticks(ax, xlim=[-180, 180], ylim=[-90, 90],
                                      xticks=np.arange(-180, 181, 30),
                                      yticks=np.arange(-90, 91, 30))
+    
     # Use the geocat.viz function to add minor ticks
     gvutil.add_major_minor_ticks(ax)
+    
     # Use geocat.viz.util convenience function to make plots look like NCL
     # plots by using latitude, longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax)
+    
     # Removing degree symbol from tick labels to more closely resemble NCL example
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
+
 
 # Format ticks and ticklabels for zonal average plot
 # Use the geocat.viz function to set axes limits and ticks
 gvutil.set_axes_limits_and_ticks(ax2, xlim=[0, 375], ylim=[-90, 90],
                                  xticks=[0, 200], yticks=[])
+
 # Use the geocat.viz function to add minor ticks
 gvutil.add_major_minor_ticks(ax2, x_minor_per_major=2)
 
@@ -103,9 +107,9 @@ gvutil.add_major_minor_ticks(ax2, x_minor_per_major=2)
 contour = TS.plot.contour(ax=ax1, transform=proj, vmin=235, vmax=305,
                           levels=np.arange(235, 305, 5), colors='black',
                           linewidths=0.5, add_labels=False)
+# Label contours and set label backgrounds white
 ax1.clabel(contour, np.arange(240, 301, 10), fmt='%d', inline=True,
            fontsize=10)
-# Set label backgrounds white
 [txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=0)) for txt in contour.labelTexts]
 
 # Add lower text box
