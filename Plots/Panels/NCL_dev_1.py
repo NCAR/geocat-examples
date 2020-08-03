@@ -73,6 +73,9 @@ ax2 = fig.add_subplot(grid[0, 1], aspect=5.9)
 ax3 = fig.add_subplot(grid[1, 0], projection=ccrs.PlateCarree())
 ax3.coastlines(linewidths=0.5)
 
+# Create axis for colorbar
+ax4 = fig.add_subplot(grid[1, 1], aspect=10)
+
 # Format ticks and ticklabels for the map axes
 for ax in [ax1, ax3]:
     # Use the geocat.viz function to set axes limits and ticks
@@ -120,8 +123,8 @@ ax2.plot(mean.data, mean.lat, color='black', linewidth=0.5)
 
 # Plot deviations from zonal mean
 cmap = gvcmaps.BlWhRe
-ax3.contourf(TS['lon'], TS['lat'], dev, levels=np.arange(-40, 40, 5),
-             cmap=cmap)
+deviations = ax3.contourf(TS['lon'], TS['lat'], dev, levels=np.arange(-40, 40, 5),
+             cmap=cmap, vmin=-40, vmax=35)
 ax3.contour(TS['lon'], TS['lat'], dev, levels=np.arange(-40, 40, 5),
             colors='black', linewidths=0.5, linestyles='solid')
 
@@ -129,5 +132,9 @@ ax3.contour(TS['lon'], TS['lat'], dev, levels=np.arange(-40, 40, 5),
 ax3.set_title('Deviation from zonal ave', fontsize=size, y=y)
 ax3.set_title(TS.long_name, fontsize=size, loc='left', y=y)
 ax3.set_title(TS.units, fontsize=size, loc='right', y=y)
+
+# Add colorbar
+plt.colorbar(deviations, cax=ax4, shrink=0.9)
+
 
 plt.show()
