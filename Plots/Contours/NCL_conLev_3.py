@@ -58,7 +58,7 @@ T.plot.contour(ax=ax, vmin=244, vmax=308, levels=np.arange(244, 312, 4),
                colors='black', linewidths=0.5, add_labels=False)
 
 # Add horizontal colorbar
-cbar = plt.colorbar(temp, orientation='vertical')
+cbar = plt.colorbar(temp, orientation='vertical', pad=0.005)
 cbar.ax.tick_params(labelsize=11)
 cbar.set_ticks(np.arange(248, 308, 4))
 
@@ -73,6 +73,9 @@ gvutil.add_lat_lon_ticklabels(ax)
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=5,
                              labelsize=12)
+
+# Remove ticks on right side
+ax.tick_params(which='both', right=False)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
 gvutil.set_titles_and_labels(ax, maintitle="Explaination of Python contour levels")
