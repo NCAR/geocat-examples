@@ -48,7 +48,7 @@ plt.figure(figsize=(8, 8))
 ax = plt.axes()
 
 # Import an NCL colormap
-newcmp = 'magma'
+newcmp = 'plasma'
 
 # Contourf-plot data (for filled contours)
 num_lev = 16  # Number of levels
