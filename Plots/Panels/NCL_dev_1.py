@@ -110,6 +110,7 @@ gvutil.add_major_minor_ticks(ax2, x_minor_per_major=2)
 contour = TS.plot.contour(ax=ax1, transform=proj, vmin=235, vmax=305,
                           levels=np.arange(235, 305, 5), colors='black',
                           linewidths=0.5, add_labels=False)
+
 # Label contours and set label backgrounds white
 ax1.clabel(contour, np.arange(240, 301, 10), fmt='%d', inline=True,
            fontsize=10)
