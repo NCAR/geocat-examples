@@ -47,6 +47,7 @@ mean = TS.mean(dim='lon')
 # This way we can subtract each element of the mean 2-D array from the
 # corresponding element in the data array.
 waste, mean_grid = np.meshgrid(TS['lon'], mean)
+
 # Calculate deviations from zonal mean
 dev = TS.data - mean_grid
 
