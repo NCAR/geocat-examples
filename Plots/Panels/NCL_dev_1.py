@@ -96,13 +96,11 @@ for ax in [ax1, ax3]:
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
-
-# Format ticks and ticklabels for zonal average plot
-# Use the geocat.viz function to set axes limits and ticks
+# Use the geocat.viz function to set axes limits and ticks for zonal average plot
 gvutil.set_axes_limits_and_ticks(ax2, xlim=[0, 375], ylim=[-90, 90],
                                  xticks=[0, 200], yticks=[])
 
-# Use the geocat.viz function to add minor ticks
+# Use the geocat.viz function to add minor ticks to zonal average plot
 gvutil.add_major_minor_ticks(ax2, x_minor_per_major=2)
 
 
