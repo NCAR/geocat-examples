@@ -36,6 +36,7 @@ import geocat.viz.util as gvutil
 ds = xr.open_dataset(gdf.get("netcdf_files/83.nc"))
 # Extract slice of data
 TS = ds.TS.isel(time=0).drop('time')
+
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 TS = gvutil.xr_add_cyclic_longitudes(TS, "lon")
 
