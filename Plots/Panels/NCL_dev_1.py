@@ -34,6 +34,7 @@ import geocat.viz.util as gvutil
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/83.nc"))
+
 # Extract slice of data
 TS = ds.TS.isel(time=0).drop('time')
 
