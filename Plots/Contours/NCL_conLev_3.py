@@ -26,9 +26,9 @@ Note:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
 ###############################################################################
@@ -72,6 +72,10 @@ gvutil.set_axes_limits_and_ticks(ax, xlim=(-140, -50), ylim=(20, 60),
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
 
+# Remove the degree symbol from tick labels
+ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
+ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
+
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=5,
                              labelsize=12)
@@ -80,7 +84,7 @@ gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=5,
 ax.tick_params(which='both', right=False)
 
 # Use geocat.viz.util convenience function to add title
-gvutil.set_titles_and_labels(ax, maintitle="Explaination of Python contour levels")
+gvutil.set_titles_and_labels(ax, maintitle="Explanation of Python contour levels")
 
 # Create labels by colorbar
 size = 8
