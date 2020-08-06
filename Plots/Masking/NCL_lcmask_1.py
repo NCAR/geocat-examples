@@ -26,45 +26,6 @@ from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
 ###############################################################################
-# Utility function to create a wedge shaped path for plot boundary:
-def wedge_boundary(ax, lon_range, lat_range, res=1):
-    """
-    Utility function to create a custom wedge shaped map boundary using given
-    ranges of longitudes and latitudes.
-
-    Args:
-
-        ax (:class:'matplotlib.axes'):
-            The axes to which the boundary will be applied.
-
-        lon_range (:class:'tuple'):
-            The two-tuple containting the start and end of the desired range of
-            longitudes. The first entry must be smaller than the second entry.
-            Both entries must be between [-180 , 180].
-
-        lat_range (:class:'tuple'):
-            The two-tuple containting the start and end of the desired range of
-            longitudes. The first entry must be smaller than the second entry.
-            Both entries must be between (-90 , 90).
-
-        res (:class:'int'):
-            The size of the incrementation for vertices in degrees. Default is
-            a vertex every one degree of longitude.
-
-    """
-
-    # Set extent of map
-    ax.set_extent([lon_range[0], lon_range[1], lat_range[0], lat_range[1]],
-                  ccrs.PlateCarree())
-    # Make a boundary path in PlateCarree projection begining in the bottom
-    # left and continuing anitclockwise creating a point every `res` degree
-    vertices = [(lon, lat_range[0]) for lon in range(lon_range[0], lon_range[1] + 1, res)] + \
-               [(lon, lat_range[1]) for lon in range(lon_range[1], lon_range[0] - 1, -res)]
-    boundary = mpath.Path(vertices)
-    ax.set_boundary(boundary, transform=ccrs.PlateCarree())
-
-
-###############################################################################
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into
@@ -128,7 +89,7 @@ ax = plt.axes(projection=proj)
 ax.coastlines(linewidth=0.5)
 
 # Make a custom boundary using convenience function
-wedge_boundary(ax, [-85, 40], [20, 80])
+gvutil.set_map_boundary(ax, [-85, 40], [20, 80], south_pad=1)
 
 # Plot data and create colorbar
 wind = masked.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(),
