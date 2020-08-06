@@ -54,6 +54,7 @@ newcmp = 'plasma'
 num_lev = 16  # Number of levels
 temp = T.plot.contourf(ax=ax, vmin=244, vmax=308, levels=np.linspace(244, 308, num_lev + 1),
                        cmap=newcmp, add_colorbar=False, add_labels=False)
+
 # Contour-plot data (for line contours)
 T.plot.contour(ax=ax, vmin=244, vmax=308, levels=np.linspace(244, 308, num_lev + 1),
                colors='black', linewidths=0.5, add_labels=False)
