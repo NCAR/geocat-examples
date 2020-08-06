@@ -1,15 +1,30 @@
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/NCAR/GeoCAT-examples/Build%20documentation%20pages?logo=github&style=for-the-badge)](https://github.com/NCAR/GeoCAT-examples/actions)
-[![Documentation Status](https://img.shields.io/readthedocs/geocat-examples/latest.svg?style=for-the-badge)](https://geocat-examples.readthedocs.io/en/latest/?badge=latest)
+![Build documentation pages](https://github.com/NCAR/GeoCAT-examples/workflows/Build%20documentation%20pages/badge.svg)
+[![Documentation Status](https://readthedocs.org/projects/geocat-examples/badge/?version=latest)](https://geocat-examples.readthedocs.io/en/latest/?badge=latest)
 
 
-GeoCAT-examples
-===============
-Future home of the GeoCAT-examples repository!
+# GeoCAT-examples
 
-The goal of this repository will be to provide Python implementations of NCL scripts from the [NCL Application Examples website](https://ncl.ucar.edu/Applications/).
+GeoCAT-examples repo contains visualization examples that demonstrate how to use GeoCAT’s computational functions 
+or how to plot data with packages in the Python ecosystem (primarily, Matplotlib and Cartopy).
 
-Check out our (work-in-progress) [examples gallery](https://geocat-examples.readthedocs.io/en/latest/)!
+Check out our [GeoCAT-Examples Gallery](https://geocat-examples.readthedocs.io/en/latest/) to see the example plots 
+and to access Python code files as well as auto-generated Jupyter notebooks of this repo!
 
-Contributing
-============
-Please read our [contributor guide](CONTRIBUTING.md) for more information on how to contribute to this project. 
+Several visualizations in this repository could be compared to NCL scripts from the 
+[NCL Application Examples website](https://ncl.ucar.edu/Applications/).
+
+
+# Documentation
+
+[GeoCAT Homepage](https://geocat.ucar.edu/)
+
+[GeoCAT Contributor's Guide](https://geocat.ucar.edu/pages/contributing.html)
+
+[GeoCAT-Examples Gallery](https://geocat-examples.readthedocs.io)
+
+[NCL Application Examples website](https://ncl.ucar.edu/Applications/)
+
+
+# Installation instructions
+
+Please see our documentation for [installation instructions](https://github.com/NCAR/geocat-examples/INSTALLATION.md). 
