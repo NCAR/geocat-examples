@@ -66,14 +66,14 @@ grid = fig.add_gridspec(ncols=2, nrows=2, width_ratios=[0.85, 0.15],
 
 # Create axis for original data plot
 ax1 = fig.add_subplot(grid[0, 0], projection=ccrs.PlateCarree())
-ax1.coastlines(linewidths=0.5)
+ax1.coastlines(linewidths=0.25)
 
 # Create axis for zonal mean plot
 ax2 = fig.add_subplot(grid[0, 1], aspect=5.9)
 
 # Create axis for deviation data plot
 ax3 = fig.add_subplot(grid[1, 0], projection=ccrs.PlateCarree())
-ax3.coastlines(linewidths=0.5)
+ax3.coastlines(linewidths=0.25)
 
 # Create axis for colorbar
 ax4 = fig.add_subplot(grid[1, 1], aspect=10)
@@ -107,7 +107,7 @@ gvutil.add_major_minor_ticks(ax2, x_minor_per_major=2)
 # Plot original data contour lines
 contour = TS.plot.contour(ax=ax1, transform=proj, vmin=235, vmax=305,
                           levels=np.arange(235, 305, 5), colors='black',
-                          linewidths=0.5, add_labels=False)
+                          linewidths=0.25, add_labels=False)
 
 # Label contours lines
 ax1.clabel(contour, np.arange(240, 301, 10), fmt='%d', inline=True,
@@ -147,7 +147,7 @@ deviations = ax3.contourf(TS['lon'], TS['lat'], dev,
                           levels=np.linspace(-40, 35, 16), cmap=cmap,
                           vmin=-40, vmax=35)
 ax3.contour(TS['lon'], TS['lat'], dev, levels=np.linspace(-40, 35, 16),
-            colors='black', linewidths=0.5, linestyles='solid')
+            colors='black', linewidths=0.25, linestyles='solid')
 
 # Add titles to bottom plot
 ax3.set_title('Deviation from zonal ave', fontsize=size, y=y)
