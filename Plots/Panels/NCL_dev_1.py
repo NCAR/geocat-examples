@@ -8,7 +8,8 @@ This script illustrates the following concepts:
    - Changing the background color of the contour line labels
    - Spanning part of a color map for contour fill
    - Making the labelbar be vertical
-   - Paneling two plots vertically on a page
+   - Paneling four subplots in a two by two grid using `gridspec`
+   - Changing the aspect ratio of a subplot
    - Drawing color-filled contours over a cylindrical equidistant map
    - Using a blue-white-red color map
 
