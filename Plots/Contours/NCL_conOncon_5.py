@@ -46,9 +46,9 @@ ax = plt.axes(projection=ccrs.NorthPolarStereo())
 # Add land feature to map
 ax.add_feature(cfeature.LAND, facecolor='lightgray')
 
-# Set extent to include latitudes between 0 and 40 and longitudes between
-# -180 and 180 only
-ax.set_extent([-180, 180, 0, 40], ccrs.PlateCarree())
+# Set map boundary to include latitudes between 0 and 40 and longitudes
+# between -180 and 180 only
+gvutil.set_map_boundary(ax, [-180, 180], [0, 40], south_pad=1)
 
 # Set draw_labels to False so that you can manually manipulate it later
 gl = ax.gridlines(
@@ -62,13 +62,6 @@ gl = ax.gridlines(
 # Manipulate latitude and longitude gridline numbers and spacing
 gl.ylocator = mticker.FixedLocator(np.arange(0, 90, 15))
 gl.xlocator = mticker.FixedLocator(np.arange(-180, 180, 30))
-
-# Set boundary to a circle
-theta = np.linspace(0, 2 * np.pi, 100)
-center, radius = [0.5, 0.5], 0.5
-verts = np.vstack([np.sin(theta), np.cos(theta)]).T
-circle = mpath.Path(verts * radius + center)
-ax.set_boundary(circle, transform=ax.transAxes)
 
 # Manipulate longitude labels (0, 30 E, 60 E, ..., 30 W, etc.)
 ticks = np.arange(0, 210, 30)
