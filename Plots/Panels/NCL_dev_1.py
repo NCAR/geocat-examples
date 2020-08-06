@@ -115,7 +115,7 @@ ax1.clabel(contour, np.arange(240, 301, 10), fmt='%d', inline=True,
 [txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=0)) for txt in contour.labelTexts]
 
 # Add lower text box
-ax1.text(0.995, 0.02, "CONTOUR FROM 235 TO 305 BY 5",
+ax1.text(0.995, 0.03, "CONTOUR FROM 235 TO 305 BY 5",
          horizontalalignment='right',
          transform=ax1.transAxes,
          fontsize=8,
