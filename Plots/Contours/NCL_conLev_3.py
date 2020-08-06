@@ -104,6 +104,7 @@ for i in range(0, 14):
             bbox=dict(boxstyle='square, pad=0.25',
                       facecolor='papayawhip',
                       edgecolor='papayawhip'))
+
 y = y + 1 / num_lev  # Increment height once more for top label
 ax.text(0.94, y, 'T >= 304', fontsize=size, horizontalalignment='center',
         verticalalignment='center', transform=ax.transAxes,
