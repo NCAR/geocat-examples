@@ -31,7 +31,7 @@ lon = ds.lon
 times = ds.time
 scale = 1000000
 chi = ds.CHI
-chi = chi/scale
+chi = chi / scale
 
 ###############################################################################
 # Plot:
@@ -77,16 +77,14 @@ cs = ax.contour(lon,
 cs.collections[3].set_linewidth(1)
 
 # Label the contour levels -4, 0, and 4
-cl = ax.clabel(cs,
-               fmt='%d',
-               levels=[-4, 0, 4])
+cl = ax.clabel(cs, fmt='%d', levels=[-4, 0, 4])
 
 # Use geocat.viz.util convenience function to set axes limits & tick values
 gvutil.set_axes_limits_and_ticks(ax,
                                  xlim=[100, 220],
-                                 ylim=[0, 1.55*1e16],
+                                 ylim=[0, 1.55 * 1e16],
                                  xticks=[135, 180],
-                                 yticks=np.linspace(0, 1.55*1e16, 7),
+                                 yticks=np.linspace(0, 1.55 * 1e16, 7),
                                  xticklabels=['135E', '180'],
                                  yticklabels=np.linspace(0, 180, 7,
                                                          dtype='int'))
@@ -109,10 +107,13 @@ gvutil.set_titles_and_labels(ax,
                              labelfontsize=18)
 
 # Add lower text box
-ax.text(1, -0.12, "CONTOUR FROM -6 TO 10 BY 2",
+ax.text(1,
+        -0.12,
+        "CONTOUR FROM -6 TO 10 BY 2",
         horizontalalignment='right',
         transform=ax.transAxes,
-        bbox=dict(boxstyle='square, pad=0.25', facecolor='white',
+        bbox=dict(boxstyle='square, pad=0.25',
+                  facecolor='white',
                   edgecolor='black'))
 
 plt.tight_layout()
