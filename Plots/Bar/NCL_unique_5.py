@@ -22,8 +22,10 @@ from geocat.viz import util as gvutil
 ###############################################################################
 # Generate labels:
 x = np.arange(1, 13)
-labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May',
-          'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+labels = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
+    'Dec'
+]
 
 # Generate random data:
 obs = []
@@ -56,22 +58,59 @@ w = 0.15
 
 # Create subplots for each category
 sub = plt.subplot(111)
-sub.bar(x+w, obs, width=0.15, color=color_list[0], edgecolor='black', linewidth=0.25, align='center')
-sub.bar((x+(2*w)), ccsm2_t42, width=0.15, color=color_list[1], edgecolor='black', linewidth=0.25, align='center')
-sub.bar(x+3*w, ccsm3_t42, width=0.15, color=color_list[2], edgecolor='black', linewidth=0.25, align='center')
-sub.bar(x+4*w, ccsm3_t85, width=0.15, color=color_list[3], edgecolor='black', linewidth=0.25, align='center')
+sub.bar(x + w,
+        obs,
+        width=0.15,
+        color=color_list[0],
+        edgecolor='black',
+        linewidth=0.25,
+        align='center')
+sub.bar((x + (2 * w)),
+        ccsm2_t42,
+        width=0.15,
+        color=color_list[1],
+        edgecolor='black',
+        linewidth=0.25,
+        align='center')
+sub.bar(x + 3 * w,
+        ccsm3_t42,
+        width=0.15,
+        color=color_list[2],
+        edgecolor='black',
+        linewidth=0.25,
+        align='center')
+sub.bar(x + 4 * w,
+        ccsm3_t85,
+        width=0.15,
+        color=color_list[3],
+        edgecolor='black',
+        linewidth=0.25,
+        align='center')
 
 # Add the legend
-plt.legend(['OBS', 'CCSM2 (T42)', 'CCSM3 (T42)', 'CCSM3 (T85)'], loc='lower center', bbox_to_anchor=(0.5, -0.30), ncol=2)
+plt.legend(['OBS', 'CCSM2 (T42)', 'CCSM3 (T42)', 'CCSM3 (T85)'],
+           loc='lower center',
+           bbox_to_anchor=(0.5, -0.30),
+           ncol=2)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gvutil.set_axes_limits_and_ticks(ax, ylim=(0.4, plot_y_max), xticks=x, xticklabels=labels, yticks=np.linspace(0.4, plot_y_max, 5))
+gvutil.set_axes_limits_and_ticks(ax,
+                                 ylim=(0.4, plot_y_max),
+                                 xticks=x,
+                                 xticklabels=labels,
+                                 yticks=np.linspace(0.4, plot_y_max, 5))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=1, y_minor_per_major=4, labelsize=12)
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=1,
+                             y_minor_per_major=4,
+                             labelsize=12)
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, maintitle='Nino3.4 Monthly Standard Deviation', maintitlefontsize=16, ylabel="("+u'\N{DEGREE SIGN}'+"C)")
+gvutil.set_titles_and_labels(ax,
+                             maintitle='Nino3.4 Monthly Standard Deviation',
+                             maintitlefontsize=16,
+                             ylabel="(" + u'\N{DEGREE SIGN}' + "C)")
 
 # Show the plot
 plt.tight_layout()

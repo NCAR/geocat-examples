@@ -36,7 +36,8 @@ from geocat.viz import util as gvutil
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get('netcdf_files/AtmJan360_xy_4.nc'), decode_times=False)
+ds = xr.open_dataset(gdf.get('netcdf_files/AtmJan360_xy_4.nc'),
+                     decode_times=False)
 
 # Extract a slice of the data
 ds = ds['T']
@@ -52,11 +53,15 @@ ax = plt.axes()
 plt.scatter(t.time, t.data, color='red')
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, maintitle="Scatter Plot",
-                             xlabel=t['time'].long_name, ylabel=t.long_name)
+gvutil.set_titles_and_labels(ax,
+                             maintitle="Scatter Plot",
+                             xlabel=t['time'].long_name,
+                             ylabel=t.long_name)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4,
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=5,
+                             y_minor_per_major=4,
                              labelsize=14)
 
 # Calculate xlim by rounding the min value down and the max value up to a
@@ -64,11 +69,12 @@ gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4,
 xmin = 5 * math.floor(t.time.min().data / 5)
 xmax = 5 * math.ceil(t.time.max().data / 5)
 
-gvutil.set_axes_limits_and_ticks(ax, xlim=(xmin, xmax),
-                                 ylim=(220.0, 232.0),
-                                 xticklabels=[' ', 131160, ' ', 131170, ' ',
-                                              131180, ' ', 131190],
-                                 yticklabels=np.arange(220.0, 233.0, 2.0))
+gvutil.set_axes_limits_and_ticks(
+    ax,
+    xlim=(xmin, xmax),
+    ylim=(220.0, 232.0),
+    xticklabels=[' ', 131160, ' ', 131170, ' ', 131180, ' ', 131190],
+    yticklabels=np.arange(220.0, 233.0, 2.0))
 
 plt.show()
 
@@ -96,11 +102,19 @@ time4 = t.time[24:]
 plt.scatter(time1, data1, color='blue', marker='s', label='matplotlib.markers')
 
 # Use a mathematical symbol for a marker
-plt.scatter(time2, data2, color='green', marker='$\Omega$', s=100,
+plt.scatter(time2,
+            data2,
+            color='green',
+            marker='$\Omega$',
+            s=100,
             label='mathematical symbol')
 
 # Unicode symbol marker
-plt.scatter(time3, data3, color='black', marker='$\u2608$', s=100,
+plt.scatter(time3,
+            data3,
+            color='black',
+            marker='$\u2608$',
+            s=100,
             label='unicode symbol')
 
 # Create custom path for marker
@@ -112,17 +126,22 @@ plt.scatter(time4, data4, color='red', marker=path, s=100, label='custom path')
 plt.legend()
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, maintitle="Make your own marker",
-                             xlabel=t['time'].long_name, ylabel=t.long_name)
+gvutil.set_titles_and_labels(ax,
+                             maintitle="Make your own marker",
+                             xlabel=t['time'].long_name,
+                             ylabel=t.long_name)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4,
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=5,
+                             y_minor_per_major=4,
                              labelsize=14)
 
-gvutil.set_axes_limits_and_ticks(ax, xlim=(xmin, xmax),
-                                 ylim=(220.0, 232.0),
-                                 xticklabels=[' ', 131160, ' ', 131170, ' ',
-                                              131180, ' ', 131190],
-                                 yticklabels=np.arange(220.0, 233.0, 2.0))
+gvutil.set_axes_limits_and_ticks(
+    ax,
+    xlim=(xmin, xmax),
+    ylim=(220.0, 232.0),
+    xticklabels=[' ', 131160, ' ', 131170, ' ', 131180, ' ', 131190],
+    yticklabels=np.arange(220.0, 233.0, 2.0))
 
 plt.show()
