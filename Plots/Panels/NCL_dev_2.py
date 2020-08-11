@@ -43,7 +43,8 @@ TS_0 = ds.TS.isel(time=0).drop('time')
 # Calculate zonal mean
 mean = TS_0.mean(dim='lon')
 
-# Calculate deviation from time average
+# Calculate deviation from time average by finding the temperatures averaged
+# over all timesteps. Then that average is subtracted from the first timestep
 time_avg = ds.TS.mean(dim='time')
 time_dev = TS_0 - time_avg
 
@@ -58,7 +59,10 @@ time_dev = gvutil.xr_add_cyclic_longitudes(time_dev, "lon")
 proj = ccrs.PlateCarree()
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(10, 10))
+fig = plt.figure(figsize=(8, 8))
+
+# Create girdspec for layout, width_ratio is used to make the plots on the
+# right narrower than the ones on the left
 grid = fig.add_gridspec(ncols=2, nrows=2, width_ratios=[0.85, 0.15],
                         wspace=0.08)
 
@@ -104,10 +108,10 @@ gvutil.add_major_minor_ticks(ax2, x_minor_per_major=2)
 
 # Plot contour lines for data at first timestep
 contour = TS_0.plot.contour(ax=ax1, transform=proj, vmin=235, vmax=305,
-                          levels=np.arange(210, 311, 10), colors='black',
-                          linewidths=0.25, add_labels=False)
+                            levels=np.arange(210, 311, 10), colors='black',
+                            linewidths=0.25, add_labels=False)
 
-# Label contours lines
+# Label every other contour lines
 ax1.clabel(contour, np.arange(220, 311, 20), fmt='%d', inline=True,
            fontsize=10)
 
@@ -147,6 +151,7 @@ cmap = gvutil.truncate_colormap(cmap, minval=0.22, maxval=0.74, n=14)
 deviations = time_dev.plot.contourf(ax=ax3, transform=proj, vmin=-14, vmax=18,
                                     levels=np.arange(-14, 20, 2), cmap=cmap,
                                     add_colorbar=False, add_labels=False)
+
 # Draw contour lines for deviation from time avg plot
 time_dev.plot.contour(ax=ax3, transform=proj, vmin=-14, vmax=18,
                       levels=np.arange(-14, 20, 2), colors='black',
@@ -158,7 +163,7 @@ ax3.set_title(ds.TS.long_name, fontsize=size, loc='left', y=y)
 ax3.set_title(ds.TS.units, fontsize=size, loc='right', y=y)
 
 # Add colorbar
-plt.colorbar(deviations, cax=ax4, shrink=0.9, ticks=np.linspace(-12, 16, 15),
+plt.colorbar(deviations, cax=ax4, ticks=np.linspace(-12, 16, 15),
              drawedges=True)
 
 plt.show()
