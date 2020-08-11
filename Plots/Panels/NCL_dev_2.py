@@ -152,4 +152,13 @@ time_dev.plot.contour(ax=ax3, transform=proj, vmin=-14, vmax=18,
                       levels=np.arange(-14, 20, 2), colors='black',
                       linewidths=0.25, linestyles='solid', add_labels=False)
 
+# Add titles to bottom plot
+ax3.set_title('Deviation from time ave', fontsize=size, y=y)
+ax3.set_title(ds.TS.long_name, fontsize=size, loc='left', y=y)
+ax3.set_title(ds.TS.units, fontsize=size, loc='right', y=y)
+
+# Add colorbar
+plt.colorbar(deviations, cax=ax4, shrink=0.9, ticks=np.linspace(-12, 16, 15),
+             drawedges=True)
+
 plt.show()
