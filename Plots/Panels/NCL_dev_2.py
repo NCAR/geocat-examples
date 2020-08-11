@@ -36,25 +36,21 @@ import geocat.viz.util as gvutil
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"),
                      decode_times=False)
-print(ds)
+
 # Extract slice of data at first timestep
 TS_0 = ds.TS.isel(time=0).drop('time')
 
-# Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-TS_0 = gvutil.xr_add_cyclic_longitudes(TS_0, "lon")
-
 # Calculate zonal mean
 mean = TS_0.mean(dim='lon')
-"""
-# Using meshgrid, a 2-D array can be created with the same shape as the
-# temperature data with the zonal mean for each latitude filling each row.
-# This way we can subtract each element of the mean 2-D array from the
-# corresponding element in the data array.
-waste, mean_grid = np.meshgrid(TS['lon'], mean)
 
-# Calculate deviations from zonal mean
-dev = TS.data - mean_grid
-"""
+# Calculate deviation from time average
+time_avg = ds.TS.mean(dim='time')
+time_dev = TS_0 - time_avg
+
+# Fix the artifact of not-shown-data around 0 and 360-degree longitudes
+TS_0 = gvutil.xr_add_cyclic_longitudes(TS_0, "lon")
+time_dev = gvutil.xr_add_cyclic_longitudes(time_dev, "lon")
+
 ##############################################################################
 # Plot:
 
@@ -62,7 +58,7 @@ dev = TS.data - mean_grid
 proj = ccrs.PlateCarree()
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(8, 8))
+fig = plt.figure(figsize=(10, 10))
 grid = fig.add_gridspec(ncols=2, nrows=2, width_ratios=[0.85, 0.15],
                         wspace=0.08)
 
@@ -140,5 +136,20 @@ ax2.plot(mean.data, mean.lat, color='black', linewidth=0.5)
 
 # Plot vertical reference line in zonal mean plot
 ax2.axvline(273.15, color='black', linewidth=0.5)
+
+# Import color map
+cmap = gvcmaps.BlWhRe
+
+# Truncate colormap to only use paler colors in the center of the colormap
+cmap = gvutil.truncate_colormap(cmap, minval=0.22, maxval=0.74, n=14)
+
+# Plot filled contour for deviation from time avg plot
+deviations = time_dev.plot.contourf(ax=ax3, transform=proj, vmin=-14, vmax=18,
+                                    levels=np.arange(-14, 20, 2), cmap=cmap,
+                                    add_colorbar=False, add_labels=False)
+# Draw contour lines for deviation from time avg plot
+time_dev.plot.contour(ax=ax3, transform=proj, vmin=-14, vmax=18,
+                      levels=np.arange(-14, 20, 2), colors='black',
+                      linewidths=0.25, linestyles='solid', add_labels=False)
 
 plt.show()
