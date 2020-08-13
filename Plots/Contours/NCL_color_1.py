@@ -52,13 +52,6 @@ gvutil.add_major_minor_ticks(ax, labelsize=10)
 # Use geocat.viz.util convenience function to make latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
 
-# Use geocat.viz.util convenience function to add titles
-gvutil.set_titles_and_labels(ax,
-                             lefttitle=ds.U.long_name,
-                             righttitle=ds.U.units,
-                             lefttitlefontsize=12,
-                             righttitlefontsize=12)
-
 # Import the default color map
 # Note: this may not be the best colormap to interpret the information, but was
 # included here in order to demonstrate how to recreate the original NCL colormap
@@ -102,10 +95,10 @@ ds.U.plot.contour(ax=ax,
                   levels=levels,
                   transform=ccrs.PlateCarree())
 
-plt.xlabel("")
-plt.ylabel("")
-plt.title("")
-plt.suptitle("Default Color", fontsize=16, y=0.9, fontweight='bold')
+# Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
+gvutil.set_titles_and_labels(ax, maintitle="Default Color",
+                                 lefttitle=ds.U.long_name, lefttitlefontsize=16,
+                                 righttitle=ds.U.units, righttitlefontsize=16, xlabel="", ylabel="")
 
 # Show the plot
 plt.show()
