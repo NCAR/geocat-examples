@@ -18,7 +18,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import xarray as xr
 import cartopy.crs as ccrs
-from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
@@ -52,9 +51,6 @@ gvutil.add_major_minor_ticks(ax, labelsize=10)
 
 # Use geocat.viz.util convenience function to make latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
-# Remove degree symbol from tick labels
-ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
-ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add titles
 gvutil.set_titles_and_labels(ax,
