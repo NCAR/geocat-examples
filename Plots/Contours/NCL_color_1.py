@@ -9,6 +9,11 @@ This script illustrates the following concepts:
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/color_1.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/color_1_lg.png
+
+Note:
+This may not be the best colormap to interpret the information, but was included here in order to
+demonstrate how to recreate the original NCL colormap. For more information on colormap choices, see the
+Colors examples in the GeoCAT-examples documentation.
 """
 
 ###############################################################################
@@ -53,10 +58,6 @@ gvutil.add_major_minor_ticks(ax, labelsize=10)
 gvutil.add_lat_lon_ticklabels(ax)
 
 # Import the default color map
-# Note: this may not be the best colormap to interpret the information, but was
-# included here in order to demonstrate how to recreate the original NCL colormap
-# For more information on colormap choices, see the Colors examples in the GeoCAT-examples documentation:
-# https://geocat-examples.readthedocs.io/en/latest/gallery/index.html#colors
 newcmp = gvcmaps.ncl_default
 
 # Define contour levels
