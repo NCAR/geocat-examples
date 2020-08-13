@@ -11,9 +11,9 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/color_1_lg.png
 
 Note:
-This may not be the best colormap to interpret the information, but was included here in order to
-demonstrate how to recreate the original NCL colormap. For more information on colormap choices, see the
-Colors examples in the GeoCAT-examples documentation.
+    This may not be the best colormap to interpret the information, but was included here in order to
+    demonstrate how to recreate the original NCL colormap. For more information on colormap choices, see the
+    Colors examples in the GeoCAT-examples documentation.
 """
 
 ###############################################################################
