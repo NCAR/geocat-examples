@@ -57,7 +57,7 @@ gvutil.add_lat_lon_ticklabels(ax)
 # included here in order to demonstrate how to recreate the original NCL colormap
 # For more information on colormap choices, see the Colors examples in the GeoCAT-examples documentation:
 # https://geocat-examples.readthedocs.io/en/latest/gallery/index.html#colors
-newcmp = gvcmaps.amwg_blueyellowred
+newcmp = gvcmaps.ncl_default
 
 # Define contour levels
 levels = np.arange(-16, 48, 4)
