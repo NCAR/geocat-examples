@@ -46,21 +46,24 @@ ds = xr.open_dataset(gdf.get("netcdf_files/dz.nc"), decode_times=False)
 # Convert data to radial form:
 
 # Use a mesh grid
-y = np.arange(0,240,0.25)
+y = np.arange(0, 240, 0.25)
 xx, yy = np.meshgrid(ds.Azimuth.data, y)
-
 
 ##############################################################################
 # Plot:
 
-fig = plt.figure(figsize=(10,8))
+fig = plt.figure(figsize=(10, 8))
 
 cmap = gvcmaps.gui_default
 
-reflec = ds.DZ.plot.contourf(cmap=cmap, add_colorbar=False, vmin=-20, vmax=65, levels=np.arange(-20,70,5))
+reflec = ds.DZ.plot.contourf(cmap=cmap,
+                             add_colorbar=False,
+                             vmin=-20,
+                             vmax=65,
+                             levels=np.arange(-20, 70, 5))
 
-
-cbar = plt.colorbar(reflec, orientation="horizontal",
+cbar = plt.colorbar(reflec,
+                    orientation="horizontal",
                     ticks=np.arange(-15, 65, 15))
 
 plt.show()
