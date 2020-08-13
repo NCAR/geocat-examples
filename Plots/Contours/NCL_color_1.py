@@ -4,7 +4,7 @@ NCL_color_1.py
 This script illustrates the following concepts:
    - Drawing a horizonal color bar
    - Adjusting a colorbar position relative to plot axes
-   - Recreating the default NCL colormap
+   - Recreating a default NCL colormap
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/color_1.ncl
@@ -96,9 +96,14 @@ ds.U.plot.contour(ax=ax,
                   transform=ccrs.PlateCarree())
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax, maintitle="Default Color",
-                                 lefttitle=ds.U.long_name, lefttitlefontsize=16,
-                                 righttitle=ds.U.units, righttitlefontsize=16, xlabel="", ylabel="")
+gvutil.set_titles_and_labels(ax,
+                             maintitle="Default Color",
+                             lefttitle=ds.U.long_name,
+                             lefttitlefontsize=16,
+                             righttitle=ds.U.units,
+                             righttitlefontsize=16,
+                             xlabel="",
+                             ylabel="")
 
 # Show the plot
 plt.show()
