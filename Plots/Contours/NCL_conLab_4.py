@@ -81,7 +81,7 @@ gvutil.set_titles_and_labels(ax,
 # Select a color map
 cmap = gvcmaps.gui_default
 
-# Draw filled contours 
+# Draw filled contours
 colors = U.plot.contourf(ax=ax,
                          cmap=cmap,
                          levels=np.arange(-16, 48, 4),
