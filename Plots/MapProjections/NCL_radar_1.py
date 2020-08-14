@@ -25,7 +25,6 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
-import matplotlib as mpl
 
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
@@ -36,31 +35,53 @@ from geocat.viz import util as gvutil
 
 ds = xr.open_dataset(gdf.get("netcdf_files/dz.nc"), decode_times=False)
 
-# print(ds.DZ.data)
-# print()
-# print(ds.Azimuth.isel())
-# print()
-# print(ds.DZ.maxCells)
-
 ##############################################################################
 # Convert data to radial form:
 
-# Use a mesh grid
-y = np.arange(0,240,0.25)
-xx, yy = np.meshgrid(ds.Azimuth.data, y)
+# Designate center of radial data
+xcenter = 0.0
+ycenter = 0.0
+
+# construct radial array from netcdf metadata
+km_between_cells = 0.25
+radius = ds.DZ.data.shape[1] * km_between_cells
+r = np.arange(0, radius, 0.25)
+
+values = ds.DZ.data
+
+# Make angles monotonic
+theta = ds.Azimuth.data
+theta[0:63] = theta[0:63] - 360
+
+radius_matrix, theta_matrix = np.meshgrid(r, theta)
+X = radius_matrix * np.cos(theta_matrix)
+Y = radius_matrix * np.sin(theta_matrix)
 
 
 ##############################################################################
 # Plot:
 
-fig = plt.figure(figsize=(10,8))
+fig, ax = plt.subplots(figsize=(8, 10))
 
 cmap = gvcmaps.gui_default
 
-reflec = ds.DZ.plot.contourf(cmap=cmap, add_colorbar=False, vmin=-20, vmax=65, levels=np.arange(-20,70,5))
+p = plt.scatter(X, Y, c=values, cmap=cmap, marker=',', s=1)
 
-
-cbar = plt.colorbar(reflec, orientation="horizontal",
+cbar = plt.colorbar(p,
+                    orientation="horizontal",
                     ticks=np.arange(-15, 65, 15))
+
+
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax, labelsize=12)
+
+# Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
+gvutil.set_titles_and_labels(ax,
+                             lefttitle=ds.DZ.long_name,
+                             lefttitlefontsize=16,
+                             righttitle=ds.DZ.units,
+                             righttitlefontsize=16,
+                             xlabel="",
+                             ylabel="")
 
 plt.show()
