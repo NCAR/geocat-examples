@@ -32,8 +32,7 @@ from geocat.viz import util as gvutil
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"),
-                     decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"), decode_times=False)
 U = ds.isel(time=1, drop=True).U
 
 ##############################################################################
@@ -74,14 +73,12 @@ gvutil.add_major_minor_ticks(ax,
 
 # Use geocat.viz.util convenience function to add titles to left and right of
 # the plot axis
-gvutil.set_titles_and_labels(ax,
-                             lefttitle=U.long_name,
-                             righttitle=U.units)
+gvutil.set_titles_and_labels(ax, lefttitle=U.long_name, righttitle=U.units)
 
 # Select a color map
 cmap = gvcmaps.gui_default
 
-# Draw filled contours 
+# Draw filled contours
 colors = U.plot.contourf(ax=ax,
                          cmap=cmap,
                          levels=np.arange(-16, 48, 4),
