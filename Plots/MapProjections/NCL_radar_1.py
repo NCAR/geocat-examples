@@ -64,7 +64,7 @@ fig, ax = plt.subplots(figsize=(8, 10))
 
 cmap = gvcmaps.gui_default
 
-p = plt.scatter(X, Y, c=values, cmap=cmap, marker=',', s=1)
+p = plt.scatter(X, Y, c=values, cmap=cmap, marker=',', s=0.5)
 
 cbar = plt.colorbar(p, orientation="horizontal", ticks=np.arange(-15, 65, 15))
 
@@ -79,5 +79,17 @@ gvutil.set_titles_and_labels(ax,
                              righttitlefontsize=16,
                              xlabel="",
                              ylabel="")
+
+# Use geocat.viz.util convenience function to set axes limits & tick values
+gvutil.set_axes_limits_and_ticks(ax,
+                                 xlim=(-240, 240),
+                                 ylim=(-240, 240),
+                                 xticks=np.arange(-200, 201, 100),
+                                 yticks=np.arange(-200, 201, 100))
+
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=5,
+                             y_minor_per_major=5,
+                             labelsize=12)
 
 plt.show()
