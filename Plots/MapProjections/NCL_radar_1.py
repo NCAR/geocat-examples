@@ -54,8 +54,8 @@ theta = ds.Azimuth.data
 theta[0:63] = theta[0:63] - 360
 
 radius_matrix, theta_matrix = np.meshgrid(r, theta)
-X = radius_matrix * np.cos(theta_matrix)
-Y = radius_matrix * np.sin(theta_matrix)
+X = radius_matrix * np.cos(np.deg2rad(theta_matrix))
+Y = radius_matrix * np.sin(np.deg2rad(theta_matrix))
 
 ##############################################################################
 # Plot:
