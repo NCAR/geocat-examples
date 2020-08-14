@@ -66,10 +66,7 @@ cmap = gvcmaps.gui_default
 
 p = plt.scatter(X, Y, c=values, cmap=cmap, marker=',', s=1)
 
-cbar = plt.colorbar(p,
-                    orientation="horizontal",
-                    ticks=np.arange(-15, 65, 15))
-
+cbar = plt.colorbar(p, orientation="horizontal", ticks=np.arange(-15, 65, 15))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, labelsize=12)
