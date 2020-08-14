@@ -57,7 +57,6 @@ radius_matrix, theta_matrix = np.meshgrid(r, theta)
 X = radius_matrix * np.cos(theta_matrix)
 Y = radius_matrix * np.sin(theta_matrix)
 
-
 ##############################################################################
 # Plot:
 
