@@ -123,7 +123,9 @@ plt.scatter(masked_lon,
             zorder=1)
 
 # Creat colorbar
-cbar = plt.colorbar(mappable, orientation='horizontal',
-                    ticks=np.linspace(1/8, 7/8, 7), drawedges=True)
+cbar = plt.colorbar(mappable,
+                    orientation='horizontal',
+                    ticks=np.linspace(1 / 8, 7 / 8, 7),
+                    drawedges=True)
 cbar.ax.set_xticklabels(bins)
 plt.show()
