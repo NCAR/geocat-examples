@@ -2,16 +2,8 @@
 NCL_radar_1.py
 ===============
 This script illustrates the following concepts:
-   - Calculating deviation from zonal mean
-   - Drawing zonal average plots
-   - Moving the contour informational label into the plot
-   - Changing the background color of the contour line labels
-   - Spanning part of a color map for contour fill
-   - Making the colorbar be vertical
-   - Paneling four subplots in a two by two grid using `gridspec`
-   - Changing the aspect ratio of a subplot
-   - Drawing color-filled contours over a cylindrical equidistant map
-   - Using a blue-white-red color map
+   - Fitting radial data to a cartesian grid
+   - Creating a vertical colorbar
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/radar_1.ncl
@@ -25,6 +17,7 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
+import copy
 
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
@@ -51,6 +44,9 @@ r = np.arange(0, radius, 0.25)
 values = ds.DZ.data
 values = values*100
 
+# Force bad values for nan plotting later
+values[np.isnan(values)] = -100000000
+
 # Make angles monotonic
 theta = ds.Azimuth.data
 theta[0:63] = theta[0:63] - 360
@@ -63,13 +59,15 @@ Y = radius_matrix * np.sin(np.deg2rad(theta_matrix))
 ##############################################################################
 # Plot:
 
+# Create a figure and axes using subplots
 fig, ax = plt.subplots(figsize=(6, 8))
 
 # Choose default colormap
-cmap = gvcmaps.gui_default
+cmap = copy.copy(gvcmaps.gui_default)
+cmap.set_under("lightgrey")
 
 # Plot using contourf
-p = plt.contourf(X, Y, values, cmap=cmap, levels=np.arange(-20, 70, 5)*100)
+p = plt.contourf(X, Y, values, cmap=cmap, levels=np.arange(-20, 70, 5)*100,extend='min',nchunk=0)
 
 # Change orientation and tick marks of colorbar
 cbar = plt.colorbar(p, orientation="horizontal", ticks=np.arange(-15, 65, 15)*100)
