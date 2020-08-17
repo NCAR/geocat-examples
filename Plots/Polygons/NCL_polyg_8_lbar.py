@@ -95,25 +95,20 @@ gvutil.set_titles_and_labels(
 # Plot markers with values less than first bin value
 masked_lon = np.where(r < bins[0], lon, np.nan)
 masked_lat = np.where(r < bins[0], lat, np.nan)
-label = "x < " + str(bins[0])
 plt.scatter(masked_lon,
             masked_lat,
-            label=label,
             s=sizes[0],
             color=marker_colors[0],
             zorder=1)
 
 # Plot all other markers but those in the last bin
-label_format = "{} <= x < {}"
 for x in range(1, len(bins)):
     masked_lon = np.where(bins[x - 1] <= r, lon, np.nan)
     masked_lon = np.where(r < bins[x], masked_lon, np.nan)
     masked_lat = np.where(bins[x - 1] <= r, lat, np.nan)
     masked_lat = np.where(r < bins[x], masked_lat, np.nan)
-    label = label_format.format(bins[x - 1], bins[x])
     plt.scatter(masked_lon,
                 masked_lat,
-                label=label,
                 s=sizes[x],
                 color=marker_colors[x],
                 zorder=1)
@@ -121,10 +116,8 @@ for x in range(1, len(bins)):
 # Plot markers with values greater than or equal to last bin value
 masked_lon = np.where(r >= bins[-1], lon, np.nan)
 masked_lat = np.where(r >= bins[-1], lat, np.nan)
-label = "x >= " + str(bins[-1])
 plt.scatter(masked_lon,
             masked_lat,
-            label=label,
             s=sizes[-1],
             color=marker_colors[-1],
             zorder=1)
