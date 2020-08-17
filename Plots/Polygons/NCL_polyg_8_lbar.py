@@ -20,16 +20,16 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
-from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
-from matplotlib import colorbar, colors, cm
+from matplotlib import colors, cm
 
 from geocat.viz import util as gvutil
 from geocat.viz import cmaps as gvcmap
+
 ###############################################################################
 # Generate dummy data
 npts = 100
-random = np.random.default_rng()
+random = np.random.default_rng(seed=1)
 
 # Create random coordinates to position the markers
 lat = random.uniform(low=25, high=50, size=npts)
@@ -38,11 +38,13 @@ lon = random.uniform(low=-125, high=-70, size=npts)
 # Create random data which the color will be based off of
 r = random.uniform(low=-1.2, high=35, size=npts)
 
-# Specify bins
+###############################################################################
+# Specify bins and sizes and create custom mappable based on NCV_jet colormap
 bins = [0, 5, 10, 15, 20, 23, 26]
-
-# Create custom mappable based on bins and NCV_jet colormap
 cmap = gvcmap.NCV_jet
+
+# Create the boundaries for your data, this may be larger than bins to
+# accomodate colors for data outside of the smallest and largest bins
 boundaries = [-1.2, 0, 5, 10, 15, 20, 23, 26, 35]
 norm = colors.BoundaryNorm(boundaries, cmap.N)
 mappable = cm.ScalarMappable(norm=norm, cmap=cmap)
@@ -50,7 +52,8 @@ mappable = cm.ScalarMappable(norm=norm, cmap=cmap)
 # Retreive the list of colors to use for the markers
 marker_colors = mappable.to_rgba(boundaries)
 
-# increasing sizes for the markers in each bin
+# Increasing sizes for the markers in each bin, by using logspace the
+# size differences are more noticeable
 sizes = np.logspace(1, 2.5, len(bins))
 
 ###############################################################################
