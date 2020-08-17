@@ -52,9 +52,9 @@ mappable = cm.ScalarMappable(norm=norm, cmap=cmap)
 # Retreive the list of colors to use for the markers
 marker_colors = mappable.to_rgba(boundaries)
 
-# Increasing sizes for the markers in each bin, by using logspace the
+# Increasing sizes for the markers in each bin, by using numpy.geomspace the
 # size differences are more noticeable
-sizes = np.logspace(1, 2.5, len(bins))
+sizes = np.geomspace(10, 250, len(boundaries))
 
 ###############################################################################
 # Plot:
