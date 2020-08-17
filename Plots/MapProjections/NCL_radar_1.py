@@ -9,8 +9,7 @@ This script illustrates the following concepts:
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/radar_1.ncl
-    - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/radar_1_1_lg.png
-                          https://www.ncl.ucar.edu/Applications/Images/radar_1_2_lg.png
+    - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/radar_1_1_lg.png, https://www.ncl.ucar.edu/Applications/Images/radar_1_2_lg.png
 """
 
 ##############################################################################
