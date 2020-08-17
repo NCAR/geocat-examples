@@ -22,15 +22,14 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
-from matplotlib import cm
-import matplotlib.colors as mcolors
+from matplotlib import colorbar, colors, cm
 
 from geocat.viz import util as gvutil
 from geocat.viz import cmaps as gvcmap
 ###############################################################################
 # Generate dummy data
 npts = 100
-random = np.random.default_rng(seed=1)
+random = np.random.default_rng()
 
 # Create random coordinates to position the markers
 lat = random.uniform(low=25, high=50, size=npts)
@@ -39,13 +38,18 @@ lon = random.uniform(low=-125, high=-70, size=npts)
 # Create random data which the color will be based off of
 r = random.uniform(low=-1.2, high=35, size=npts)
 
-bins = [0.00, 5.00, 10.00, 15.00, 20.00, 23.00, 26.00]
-colors = [
-    'darkblue', 'blue', 'dodgerblue', 'turquoise', 'greenyellow', 'orange',
-    'red', 'darkred'
-]
-cmap = mcolors.ListedColormap(colors)
-mappable = cm.ScalarMappable(cmap=cmap)
+# Specify bins
+bins = [0, 5, 10, 15, 20, 23, 26]
+
+# Create custom mappable based on bins and NCV_jet colormap
+cmap = gvcmap.NCV_jet
+boundaries = [-1.2, 0, 5, 10, 15, 20, 23, 26, 35]
+norm = colors.BoundaryNorm(boundaries, cmap.N)
+mappable = cm.ScalarMappable(norm=norm, cmap=cmap)
+
+# Retreive the list of colors to use for the markers
+marker_colors = mappable.to_rgba(boundaries)
+
 # increasing sizes for the markers in each bin
 sizes = np.logspace(1, 2.5, len(bins))
 
@@ -93,7 +97,7 @@ plt.scatter(masked_lon,
             masked_lat,
             label=label,
             s=sizes[0],
-            color=colors[0],
+            color=marker_colors[0],
             zorder=1)
 
 # Plot all other markers but those in the last bin
@@ -108,7 +112,7 @@ for x in range(1, len(bins)):
                 masked_lat,
                 label=label,
                 s=sizes[x],
-                color=colors[x],
+                color=marker_colors[x],
                 zorder=1)
 
 # Plot markers with values greater than or equal to last bin value
@@ -119,11 +123,11 @@ plt.scatter(masked_lon,
             masked_lat,
             label=label,
             s=sizes[-1],
-            color=colors[-1],
+            color=marker_colors[-1],
             zorder=1)
 
-# Creat colorbar
-cbar = plt.colorbar(mappable, orientation='horizontal',
-                    ticks=np.linspace(1/8, 7/8, 7), drawedges=True)
-cbar.ax.set_xticklabels(bins)
+# Create colorbar
+plt.colorbar(mappable=mappable, ax=ax, orientation='horizontal',
+             drawedges=True, format='%.2f', ticks=bins)
+
 plt.show()
