@@ -19,8 +19,6 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
-import copy
-from matplotlib.image import NonUniformImage
 
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
@@ -63,7 +61,7 @@ Y = radius_matrix * np.sin(np.deg2rad(theta_matrix))
 fig, ax = plt.subplots(figsize=(6, 8))
 
 # Choose default colormap
-cmap = copy.copy(gvcmaps.gui_default)
+cmap = gvcmaps.gui_default
 
 # Uncomment to add grey circle behind data
 # circle_bg = plt.Circle((0, 0), 240, color='lightgrey', zorder=1)
