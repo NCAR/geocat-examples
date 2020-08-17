@@ -43,7 +43,7 @@ r = np.arange(0, radius, 0.25)
 
 # Convert reflectivity factor
 values = ds.DZ.data
-values = values*100
+values = values * 100
 
 # Make angles monotonic
 theta = ds.Azimuth.data
@@ -68,10 +68,17 @@ cmap = gvcmaps.gui_default
 # ax.add_artist(circle_bg)
 
 # Plot using contourf
-p = plt.contourf(X, Y, values, cmap=cmap, levels=np.arange(-20, 70, 5)*100, zorder=3)
+p = plt.contourf(X,
+                 Y,
+                 values,
+                 cmap=cmap,
+                 levels=np.arange(-20, 70, 5) * 100,
+                 zorder=3)
 
 # Change orientation and tick marks of colorbar
-cbar = plt.colorbar(p, orientation="horizontal", ticks=np.arange(-15, 65, 15)*100)
+cbar = plt.colorbar(p,
+                    orientation="horizontal",
+                    ticks=np.arange(-15, 65, 15) * 100)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, labelsize=12)
