@@ -4,6 +4,8 @@ NCL_radar_1.py
 This script illustrates the following concepts:
    - Fitting radial data to a cartesian grid
    - Creating a vertical colorbar
+   - Adding a background behind plotted data
+   - Creating a square aspect ratio
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/radar_1.ncl
@@ -18,6 +20,7 @@ import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
 import copy
+from matplotlib.image import NonUniformImage
 
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
@@ -44,9 +47,6 @@ r = np.arange(0, radius, 0.25)
 values = ds.DZ.data
 values = values*100
 
-# Force bad values for nan plotting later
-values[np.isnan(values)] = -100000000
-
 # Make angles monotonic
 theta = ds.Azimuth.data
 theta[0:63] = theta[0:63] - 360
@@ -64,10 +64,13 @@ fig, ax = plt.subplots(figsize=(6, 8))
 
 # Choose default colormap
 cmap = copy.copy(gvcmaps.gui_default)
-cmap.set_under("lightgrey")
+
+# Uncomment to add grey circle behind data
+# circle_bg = plt.Circle((0, 0), 240, color='lightgrey', zorder=1)
+# ax.add_artist(circle_bg)
 
 # Plot using contourf
-p = plt.contourf(X, Y, values, cmap=cmap, levels=np.arange(-20, 70, 5)*100,extend='min',nchunk=0)
+p = plt.contourf(X, Y, values, cmap=cmap, levels=np.arange(-20, 70, 5)*100, zorder=3)
 
 # Change orientation and tick marks of colorbar
 cbar = plt.colorbar(p, orientation="horizontal", ticks=np.arange(-15, 65, 15)*100)
@@ -96,6 +99,9 @@ gvutil.add_major_minor_ticks(ax,
                              x_minor_per_major=5,
                              y_minor_per_major=5,
                              labelsize=14)
+
+# Fix aspect ratio
+ax.set_aspect('equal')
 
 # Show plot
 plt.show()
