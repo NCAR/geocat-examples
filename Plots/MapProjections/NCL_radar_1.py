@@ -47,12 +47,15 @@ km_between_cells = 0.25
 radius = ds.DZ.data.shape[1] * km_between_cells
 r = np.arange(0, radius, 0.25)
 
+# Convert reflectivity factor
 values = ds.DZ.data
+values = values*100
 
 # Make angles monotonic
 theta = ds.Azimuth.data
 theta[0:63] = theta[0:63] - 360
 
+# Make a cartesian mesh grid
 radius_matrix, theta_matrix = np.meshgrid(r, theta)
 X = radius_matrix * np.cos(np.deg2rad(theta_matrix))
 Y = radius_matrix * np.sin(np.deg2rad(theta_matrix))
@@ -60,13 +63,16 @@ Y = radius_matrix * np.sin(np.deg2rad(theta_matrix))
 ##############################################################################
 # Plot:
 
-fig, ax = plt.subplots(figsize=(8, 10))
+fig, ax = plt.subplots(figsize=(6, 8))
 
+# Choose default colormap
 cmap = gvcmaps.gui_default
 
-p = plt.scatter(X, Y, c=values, cmap=cmap, marker=',', s=0.5)
+# Plot using contourf
+p = plt.contourf(X, Y, values, cmap=cmap, levels=np.arange(-20, 70, 5)*100)
 
-cbar = plt.colorbar(p, orientation="horizontal", ticks=np.arange(-15, 65, 15))
+# Change orientation and tick marks of colorbar
+cbar = plt.colorbar(p, orientation="horizontal", ticks=np.arange(-15, 65, 15)*100)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, labelsize=12)
@@ -87,9 +93,11 @@ gvutil.set_axes_limits_and_ticks(ax,
                                  xticks=np.arange(-200, 201, 100),
                                  yticks=np.arange(-200, 201, 100))
 
+# Use geocat.viz.util convenience function to set tick placements
 gvutil.add_major_minor_ticks(ax,
                              x_minor_per_major=5,
                              y_minor_per_major=5,
-                             labelsize=12)
+                             labelsize=14)
 
+# Show plot
 plt.show()
