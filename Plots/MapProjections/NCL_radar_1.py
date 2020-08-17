@@ -3,7 +3,7 @@ NCL_radar_1.py
 ===============
 This script illustrates the following concepts:
    - Fitting radial data to a cartesian grid
-   - Creating a vertical colorbar
+   - Creating a horizontal colorbar
    - Adding a background behind plotted data
    - Creating a square aspect ratio
 
