@@ -75,7 +75,9 @@ def radar_plot(X, Y, values, bg_color=None):
     # Change orientation and tick marks of colorbar
     plt.colorbar(p,
                  orientation="horizontal",
-                 ticks=np.arange(-15, 65, 15) * 100)
+                 ticks=np.arange(-15, 65, 15) * 100,
+                 drawedges=True,
+                 aspect=12)
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
     gvutil.add_major_minor_ticks(ax, labelsize=12)
