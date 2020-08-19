@@ -79,5 +79,4 @@ plt.table(cellText=[['CAM METRICS']],
           cellLoc='center',
           bbox=[-.694, .815, 0.694, 0.091])
 
-
 plt.show()
