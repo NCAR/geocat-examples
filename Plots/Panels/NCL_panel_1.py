@@ -33,13 +33,10 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 # Plot:
 
 # Make three panels (i.e. subplots in matplotlib)
-# Specify ``constrained_layout=True`` to automatically layout panels, colorbars and axes decorations nicely.
-# See https://matplotlib.org/tutorials/intermediate/constrainedlayout_guide.html
 # Generate figure and axes using Cartopy projection
 projection = ccrs.PlateCarree()
 fig, ax = plt.subplots(3,
                        1,
-                       constrained_layout=True,
                        subplot_kw={"projection": projection})
 
 # Set figure size (width, height) in inches

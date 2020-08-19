@@ -101,13 +101,10 @@ def plot_labelled_filled_contours(data, ax=None):
 # Plot:
 
 # Make two panels (i.e. subplots in matplotlib)
-# Specify ``constrained_layout=True`` to automatically layout panels, colorbars and axes decorations nicely.
-# See https://matplotlib.org/tutorials/intermediate/constrainedlayout_guide.html
 # Generate figure and axes using Cartopy projection
 projection = ccrs.PlateCarree()
 fig, ax = plt.subplots(2,
                        1,
-                       constrained_layout=True,
                        subplot_kw={"projection": projection})
 
 # Set figure size (width, height) in inches
