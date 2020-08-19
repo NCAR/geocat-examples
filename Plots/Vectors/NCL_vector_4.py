@@ -113,6 +113,5 @@ ax.add_feature(cartopy.feature.LAND,
                facecolor='lightgray',
                zorder=0)
 
-# Generate plot!
-plt.tight_layout()
+# Generate plot
 plt.show()

@@ -81,5 +81,4 @@ gvutil.set_axes_limits_and_ticks(ax2,
 ax2.set_ylabel(f"{ds.P.long_name} [dash]", fontsize=16)
 
 # Show the plot
-plt.tight_layout()
 plt.show()

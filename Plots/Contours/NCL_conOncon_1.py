@@ -89,5 +89,4 @@ axRHS.yaxis.label.set_size(20)
 axRHS.tick_params('both', length=20, width=2, which='major', labelsize=18)
 
 # Show the plot
-plt.tight_layout()
 plt.show()

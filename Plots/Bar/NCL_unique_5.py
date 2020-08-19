@@ -113,5 +113,4 @@ gvutil.set_titles_and_labels(ax,
                              ylabel="(" + u'\N{DEGREE SIGN}' + "C)")
 
 # Show the plot
-plt.tight_layout()
 plt.show()

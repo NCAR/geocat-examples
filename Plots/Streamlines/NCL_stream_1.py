@@ -84,5 +84,4 @@ gvutil.set_titles_and_labels(ax,
                              ylabel="")
 
 # Show the plot
-plt.tight_layout()
 plt.show()

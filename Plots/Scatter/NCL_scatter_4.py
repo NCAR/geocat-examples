@@ -74,5 +74,4 @@ gvutil.set_titles_and_labels(ax,
                              ylabel="Surface temperature")
 
 # Show the plot
-plt.tight_layout()
 plt.show()

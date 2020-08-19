@@ -116,5 +116,4 @@ ax.text(1,
                   facecolor='white',
                   edgecolor='black'))
 
-plt.tight_layout()
 plt.show()

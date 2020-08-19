@@ -113,5 +113,4 @@ gvutil.set_titles_and_labels(ax,
                              ylabel="Number of Deaths")
 
 # Show the plot
-plt.tight_layout()
 plt.show()

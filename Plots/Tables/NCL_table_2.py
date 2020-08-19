@@ -79,7 +79,5 @@ plt.table(cellText=[['CAM METRICS']],
           cellLoc='center',
           bbox=[-.694, .815, 0.694, 0.091])
 
-# Give plot a tight layout
-fig.tight_layout()
 
 plt.show()
