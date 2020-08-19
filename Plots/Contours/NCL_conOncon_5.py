@@ -145,8 +145,5 @@ gvutil.set_titles_and_labels(ax,
                              lefttitle=slon.long_name,
                              righttitle=slon.units)
 
-# Make tight layout
-plt.tight_layout()
-
 # Show the plot
 plt.show()

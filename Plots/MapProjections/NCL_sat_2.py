@@ -401,7 +401,4 @@ gl = ax.gridlines(color='gray', linestyle='--')
 gl.xlocator = mticker.FixedLocator(np.arange(-180, 180, 20))
 gl.ylocator = mticker.FixedLocator(np.arange(-90, 90, 20))
 
-# Make layout tight
-plt.tight_layout()
-
 plt.show()

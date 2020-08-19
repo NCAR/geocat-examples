@@ -170,5 +170,4 @@ plotOrthoTicks([(-120, 60), (-60, 82.5)], 'top')
 plotOrthoTicks([(-75, 16.0), (-60, 25.0), (-45, 29.0), (-30, 29.5),
                 (-15, 26.5)], 'bottom')
 
-plt.tight_layout()
 plt.show()

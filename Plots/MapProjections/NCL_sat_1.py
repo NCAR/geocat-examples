@@ -413,7 +413,4 @@ ax.text(0.40,
         fontsize=16,
         bbox=props)
 
-# Make layout tight
-plt.tight_layout()
-
 plt.show()
