@@ -35,9 +35,7 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 # Make three panels (i.e. subplots in matplotlib)
 # Generate figure and axes using Cartopy projection
 projection = ccrs.PlateCarree()
-fig, ax = plt.subplots(3,
-                       1,
-                       subplot_kw={"projection": projection})
+fig, ax = plt.subplots(3, 1, subplot_kw={"projection": projection})
 
 # Set figure size (width, height) in inches
 fig.set_size_inches((6, 9.6))

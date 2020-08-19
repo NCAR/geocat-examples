@@ -103,9 +103,7 @@ def plot_labelled_filled_contours(data, ax=None):
 # Make two panels (i.e. subplots in matplotlib)
 # Generate figure and axes using Cartopy projection
 projection = ccrs.PlateCarree()
-fig, ax = plt.subplots(2,
-                       1,
-                       subplot_kw={"projection": projection})
+fig, ax = plt.subplots(2, 1, subplot_kw={"projection": projection})
 
 # Set figure size (width, height) in inches
 fig.set_size_inches((8, 8.2))
