@@ -105,10 +105,9 @@ def plot_labelled_filled_contours(data, ax=None):
 projection = ccrs.PlateCarree()
 fig, ax = plt.subplots(2,
                        1,
+                       figsize=(8, 12),
+                       gridspec_kw=dict(hspace=0.3),
                        subplot_kw={"projection": projection})
-
-# Set figure size (width, height) in inches
-fig.set_size_inches((8, 8.2))
 
 # Define the contour levels
 levels = np.linspace(-10, 50, 13)
@@ -128,7 +127,10 @@ cbar = plt.colorbar(handles["filled"],
                     orientation="horizontal",
                     ticks=levels[:-1],
                     drawedges=True,
-                    aspect=30)
+                    aspect=30,
+                    pad = 0.05,
+                    fraction=0.4)
+
 cbar.ax.tick_params(labelsize=10)
 
 # Show the plot

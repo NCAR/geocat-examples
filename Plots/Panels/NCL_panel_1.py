@@ -37,6 +37,8 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 projection = ccrs.PlateCarree()
 fig, ax = plt.subplots(3,
                        1,
+                       figsize=(7, 10),
+                       gridspec_kw=dict(hspace=0.3),
                        subplot_kw={"projection": projection})
 
 # Set figure size (width, height) in inches
@@ -81,9 +83,9 @@ ax[0].clabel(hdl, np.arange(0, 32, 8), fontsize="small", fmt="%.0f")
 # Use geocat.viz.util convenience function to add left and right title to the plot axes.
 gvutil.set_titles_and_labels(ax[0],
                              lefttitle="Zonal Wind",
-                             lefttitlefontsize=12,
+                             lefttitlefontsize=10,
                              righttitle=ds.U.units,
-                             righttitlefontsize=12)
+                             righttitlefontsize=10)
 
 # Panel 2 (Subplot 2)
 # Contour-plot V data (for borderlines)
@@ -95,9 +97,9 @@ ax[1].clabel(hdl, [0], fontsize="small", fmt="%.0f")
 # Use geocat.viz.util convenience function to add left and right title to the plot axes.
 gvutil.set_titles_and_labels(ax[1],
                              lefttitle="Meridional Wind",
-                             lefttitlefontsize=12,
+                             lefttitlefontsize=10,
                              righttitle=ds.V.units,
-                             righttitlefontsize=12)
+                             righttitlefontsize=10)
 
 # Panel 3 (Subplot 3)
 # Draw arrows
@@ -119,9 +121,9 @@ ax[2].set_title("Vector Wind", loc="left", y=1.05)
 # Use geocat.viz.util convenience function to add left and right title to the plot axes.
 gvutil.set_titles_and_labels(ax[2],
                              lefttitle="Vector Wind",
-                             lefttitlefontsize=12,
+                             lefttitlefontsize=10,
                              righttitle=ds.U.units,
-                             righttitlefontsize=12)
+                             righttitlefontsize=10)
 
 # cartopy axes require this to be manual
 ax[2].set_xticks(kwargs["xticks"])
