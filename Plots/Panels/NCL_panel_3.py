@@ -128,7 +128,7 @@ cbar = plt.colorbar(handles["filled"],
                     ticks=levels[:-1],
                     drawedges=True,
                     aspect=30,
-                    pad = 0.05,
+                    pad=0.05,
                     fraction=0.4)
 
 cbar.ax.tick_params(labelsize=10)
