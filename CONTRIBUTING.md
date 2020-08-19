@@ -53,8 +53,7 @@ following contribution guidelines:
 from this repo by running the following commands from the root directory:
 
    ```bash 
-   $ make html
-   $ open _build/html/gallery/index.html
+   make html
    ```
    
    - This is particularly important to see the final look of a plotting example on 
@@ -65,5 +64,10 @@ from this repo by running the following commands from the root directory:
    beforehand to ensure an accurate conda environment is installed and activated for GeoCAT-examples, including 
    [Sphinx](https://www.sphinx-doc.org/en/master/).
    
-   - The generated HTML file can be viewed at `$GEOCAT_EXAMPLES/_build/html/gallery/` to ensure that 
-   any output (text or graphical) matches what you expected.
+   - The generated HTML file can be viewed under `$GEOCAT_EXAMPLES/_build/html/gallery/` to ensure that 
+   any output (text or graphical) matches what you expected. The complete list of the plotting examples can be 
+   viewed by running the following command as well:
+   
+     ```bash
+     open _build/html/gallery/index.html
+     ```
