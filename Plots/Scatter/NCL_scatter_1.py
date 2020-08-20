@@ -36,12 +36,16 @@ ax = plt.axes()
 plt.plot(data, marker='o', linewidth=0, color='darkblue')
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax, xlim=(0, 50), ylim=(0, 10),
+gvutil.set_axes_limits_and_ticks(ax,
+                                 xlim=(0, 50),
+                                 ylim=(0, 10),
                                  xticks=range(0, 51, 10),
                                  yticks=range(0, 11, 2))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4,
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=5,
+                             y_minor_per_major=4,
                              labelsize=14)
 
 # Use geocat.viz.util convenience function to set titles and labels
