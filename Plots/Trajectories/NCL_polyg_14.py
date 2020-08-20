@@ -12,7 +12,6 @@ See following URLs to see the reproduced NCL plot & script:
                          
 """
 
-
 ###############################################################################
 
 # Import packages:
@@ -30,7 +29,6 @@ from geocat.viz import util as gvutil
 
 
 def Plot(color, ext, xext, yext, npts, title, subt, style, pt):
-
     """
     Helper function to create two similar plots where color, extent, title, 
     line style, and marker style can all be customized on the same style
@@ -106,9 +104,11 @@ def Plot(color, ext, xext, yext, npts, title, subt, style, pt):
     gvutil.add_major_minor_ticks(ax, labelsize=12)
 
     # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-    gvutil.set_titles_and_labels(
-        ax, maintitle=subt, maintitlefontsize=12, xlabel="", ylabel=""
-    )
+    gvutil.set_titles_and_labels(ax,
+                                 maintitle=subt,
+                                 maintitlefontsize=12,
+                                 xlabel="",
+                                 ylabel="")
     plt.show()
 
 

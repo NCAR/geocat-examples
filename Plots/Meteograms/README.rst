@@ -3,4 +3,4 @@
 .. _meteogram-examples-index:
 
 Meteograms
-=======
+==========
