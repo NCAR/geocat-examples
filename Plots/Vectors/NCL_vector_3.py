@@ -49,7 +49,7 @@ z = gvutil.set_vector_density(ds, 0.017)
 # Draw vector plot
 # Notes
 
-# 1. We plot every third vector in each direction, which is not as nice as vcMinDistanceF in NCL
+# 1. We are using `set_vector_density` on line 47 as a replacement for NCL's vcMinDistanceF
 # 2. There is no matplotlib equivalent to "CurlyVector"
 Q = plt.quiver(z['lon'],
                z['lat'],
