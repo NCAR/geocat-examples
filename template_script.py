@@ -28,7 +28,6 @@ print("This is a code cell")
 
 print("More code")
 
-
 ###############################################################################
 # <Another text/markdown cell. This cell may be dedicated to a task such as following>
 # Plot:
