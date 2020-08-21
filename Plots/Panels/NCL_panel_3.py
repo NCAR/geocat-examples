@@ -18,6 +18,7 @@ import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
@@ -28,6 +29,7 @@ import geocat.viz.util as gvutil
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays, choosing the 2nd timestamp
 ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
+
 
 ###############################################################################
 # Utility Function: Labelled Filled Contour Plot:
@@ -87,12 +89,16 @@ def plot_labelled_filled_contours(data, ax=None):
     # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax)
 
+    # Remove the degree symbol from tick labels
+    ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=""))
+    ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=""))
+
     # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
     gvutil.set_titles_and_labels(ax,
                                  lefttitle=data.attrs['long_name'],
-                                 lefttitlefontsize=10,
+                                 lefttitlefontsize=12,
                                  righttitle=data.attrs['units'],
-                                 righttitlefontsize=10)
+                                 righttitlefontsize=12)
 
     return handles
 
@@ -101,17 +107,14 @@ def plot_labelled_filled_contours(data, ax=None):
 # Plot:
 
 # Make two panels (i.e. subplots in matplotlib)
-# Specify ``constrained_layout=True`` to automatically layout panels, colorbars and axes decorations nicely.
-# See https://matplotlib.org/tutorials/intermediate/constrainedlayout_guide.html
 # Generate figure and axes using Cartopy projection
 projection = ccrs.PlateCarree()
 fig, ax = plt.subplots(2,
                        1,
-                       constrained_layout=True,
                        subplot_kw={"projection": projection})
 
 # Set figure size (width, height) in inches
-fig.set_size_inches((8, 8.2))
+fig.set_size_inches((14, 14))
 
 # Define the contour levels
 levels = np.linspace(-10, 50, 13)
@@ -120,7 +123,7 @@ levels = np.linspace(-10, 50, 13)
 handles = plot_labelled_filled_contours(ds.U, ax=ax[0])
 
 # Set a common title
-ax[0].set_title("A plot with a common colorbar", fontsize=14, y=1.15)
+ax[0].set_title("A plot with a common colorbar", fontsize=16, y=1.1)
 
 # Contour-plot V data
 plot_labelled_filled_contours(ds.V, ax=ax[1])
@@ -129,8 +132,11 @@ plot_labelled_filled_contours(ds.V, ax=ax[1])
 cbar = plt.colorbar(handles["filled"],
                     ax=ax,
                     orientation="horizontal",
-                    ticks=levels[:-1],
+                    ticks=np.arange(-15, 50, 5),
                     drawedges=True,
+                    extendrect=True,
+                    pad=0.05,
+                    shrink=0.8,
                     aspect=30)
 cbar.ax.tick_params(labelsize=10)
 
