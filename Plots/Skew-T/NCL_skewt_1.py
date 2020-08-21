@@ -44,11 +44,17 @@ ax = skew.ax
 
 # Choose starting temperatures in Kelvin for the dry adiabats
 t0 = units.K * np.arange(253.15, 444.15, 10)
-skew.plot_dry_adiabats(t0=t0, linestyles='solid', colors='goldenrod', linewidths=1.5)
+skew.plot_dry_adiabats(t0=t0,
+                       linestyles='solid',
+                       colors='goldenrod',
+                       linewidths=1.5)
 
 # Choose starting temperatures in Kelvin for the moist adiabats
 t0 = units.K * np.arange(282.15, 306.15, 4)
-skew.plot_moist_adiabats(t0=t0, linestyles='solid', colors='lime', linewidth=1.5)
+skew.plot_moist_adiabats(t0=t0,
+                         linestyles='solid',
+                         colors='lime',
+                         linewidth=1.5)
 
 # Choose mixing ratios
 w = np.array([0.001, 0.002, 0.003, 0.005, 0.008, 0.012, 0.020]).reshape(-1, 1)
@@ -57,9 +63,16 @@ w = np.array([0.001, 0.002, 0.003, 0.005, 0.008, 0.012, 0.020]).reshape(-1, 1)
 p = units.hPa * np.linspace(1000, 400, 7)
 
 # Plot mixing ratio lines
-skew.plot_mixing_lines(w=w, p=p, linestyle='dashed', colors='lime', linewidths=1)
+skew.plot_mixing_lines(w=w,
+                       p=p,
+                       linestyle='dashed',
+                       colors='lime',
+                       linewidths=1)
 
-gvutil.set_axes_limits_and_ticks(ax=ax, xlim=[-32, 38], yticks=[1000, 850, 700, 500, 400, 300, 250, 200, 150, 100])
+gvutil.set_axes_limits_and_ticks(
+    ax=ax,
+    xlim=[-32, 38],
+    yticks=[1000, 850, 700, 500, 400, 300, 250, 200, 150, 100])
 gvutil.set_titles_and_labels(ax=ax, maintitle="NCL Style Plot")
 
 plt.show()
