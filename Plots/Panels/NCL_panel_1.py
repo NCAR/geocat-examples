@@ -137,8 +137,14 @@ ax[2].set_yticks(kwargs["yticks"])
 [gvutil.add_lat_lon_ticklabels(axes) for axes in ax.flat]
 
 # Remove the degree symbol from tick labels
-[axes.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol="")) for axes in ax.flat]
-[axes.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol="")) for axes in ax.flat]
+[
+    axes.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=""))
+    for axes in ax.flat
+]
+[
+    axes.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=""))
+    for axes in ax.flat
+]
 
 # Show the plot
 plt.show()

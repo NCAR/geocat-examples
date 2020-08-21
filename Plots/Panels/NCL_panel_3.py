@@ -30,7 +30,6 @@ import geocat.viz.util as gvutil
 # Open a netCDF data file using xarray default engine and load the data into xarrays, choosing the 2nd timestamp
 ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 
-
 ###############################################################################
 # Utility Function: Labelled Filled Contour Plot:
 
@@ -109,9 +108,7 @@ def plot_labelled_filled_contours(data, ax=None):
 # Make two panels (i.e. subplots in matplotlib)
 # Generate figure and axes using Cartopy projection
 projection = ccrs.PlateCarree()
-fig, ax = plt.subplots(2,
-                       1,
-                       subplot_kw={"projection": projection})
+fig, ax = plt.subplots(2, 1, subplot_kw={"projection": projection})
 
 # Set figure size (width, height) in inches
 fig.set_size_inches((14, 14))
