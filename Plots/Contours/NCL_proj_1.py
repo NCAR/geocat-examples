@@ -38,7 +38,7 @@ wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(10,10))
+fig = plt.figure(figsize=(10, 10))
 
 # Generate axes using Cartopy and draw coastlines
 ax = plt.axes(projection=ccrs.Mollweide())
@@ -51,16 +51,28 @@ gl = ax.gridlines(crs=ccrs.PlateCarree(), linewidth=1, color='k', alpha=0.5)
 newcmp = gvcmaps.gui_default
 
 # Contourf-plot data (for filled contours)
-wrap_t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), 
-                    levels = 11, cmap = newcmp,
-                    cbar_kwargs={"orientation":"horizontal", "ticks":np.linspace(220, 300, 9), "label":'', "shrink":0.9})
+wrap_t.plot.contourf(ax=ax,
+                     transform=ccrs.PlateCarree(),
+                     levels=11,
+                     cmap=newcmp,
+                     cbar_kwargs={
+                         "orientation": "horizontal",
+                         "ticks": np.linspace(220, 300, 9),
+                         "label": '',
+                         "shrink": 0.9
+                     })
 # Contour-plot data (for borderlines)
-wrap_t.plot.contour(ax=ax, transform=ccrs.PlateCarree(), 
-                    levels = 11, linewidths=0.5, cmap='k')
+wrap_t.plot.contour(ax=ax,
+                    transform=ccrs.PlateCarree(),
+                    levels=11,
+                    linewidths=0.5,
+                    cmap='k')
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax, maintitle="Example of Mollweide Projection",
-                             lefttitle="Surface Temperature", righttitle="K")
+gvutil.set_titles_and_labels(ax,
+                             maintitle="Example of Mollweide Projection",
+                             lefttitle="Surface Temperature",
+                             righttitle="K")
 
 # Show the plot
 plt.show()

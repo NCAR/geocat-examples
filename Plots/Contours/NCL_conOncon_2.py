@@ -53,11 +53,21 @@ ax.set_extent([100, 300, -60, 60], crs=ccrs.PlateCarree())
 cmap = gvcmaps.BlWhRe
 sst_levels = np.arange(-5.5, 6, 0.5)
 # Draw SST contour
-temp = sst.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=cmap,
-                         levels=sst_levels, extend='neither',
-                         add_colorbar=False, add_labels=False, zorder=0)
-plt.colorbar(temp, ax=ax, orientation='vertical', ticks=np.arange(-5, 6, 1),
-             drawedges=True, shrink=0.5, aspect=10)
+temp = sst.plot.contourf(ax=ax,
+                         transform=ccrs.PlateCarree(),
+                         cmap=cmap,
+                         levels=sst_levels,
+                         extend='neither',
+                         add_colorbar=False,
+                         add_labels=False,
+                         zorder=0)
+plt.colorbar(temp,
+             ax=ax,
+             orientation='vertical',
+             ticks=np.arange(-5, 6, 1),
+             drawedges=True,
+             shrink=0.5,
+             aspect=10)
 
 # Draw map features on top of filled contour
 ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1)
@@ -68,17 +78,26 @@ ax.add_feature(cfeature.COASTLINE, edgecolor='gray', linewidth=0.5, zorder=1)
 olr_levels = np.arange(-80, 0, 10)
 olr_levels = np.append(olr_levels, np.arange(10, 50, 10))
 
-rad = olr.plot.contour(ax=ax, transform=ccrs.PlateCarree(), levels=olr_levels,
-                       colors='gray', linewidths=0.5, add_labels=False)
+rad = olr.plot.contour(ax=ax,
+                       transform=ccrs.PlateCarree(),
+                       levels=olr_levels,
+                       colors='gray',
+                       linewidths=0.5,
+                       add_labels=False)
 ax.clabel(rad, [-40, -20, 20], fmt='%d', inline=True, colors='black')
 
 # Plot the zero contour with a black color
-rad = olr.plot.contour(ax=ax, transform=ccrs.PlateCarree(), levels=[0],
-                       colors='black', linewidths=0.5, add_labels=False)
+rad = olr.plot.contour(ax=ax,
+                       transform=ccrs.PlateCarree(),
+                       levels=[0],
+                       colors='black',
+                       linewidths=0.5,
+                       add_labels=False)
 ax.clabel(rad, [0], fmt='%d', inline=True, colors='black')
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax, ylim=(-60, 60),
+gvutil.set_axes_limits_and_ticks(ax,
+                                 ylim=(-60, 60),
                                  yticks=np.arange(-60, 90, 30),
                                  xticks=np.arange(-80, 120, 30))
 
@@ -91,21 +110,29 @@ ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=3,
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=3,
+                             y_minor_per_major=3,
                              labelsize=10)
 
-gvutil.set_titles_and_labels(ax, maintitle=olr.long_name, maintitlefontsize=14,
-                             lefttitle='degC', lefttitlefontsize=12,
+gvutil.set_titles_and_labels(ax,
+                             maintitle=olr.long_name,
+                             maintitlefontsize=14,
+                             lefttitle='degC',
+                             lefttitlefontsize=12,
                              righttitle='(W m s$^{-2}$)',
                              righttitlefontsize=12)
 # Add center title
 ax.text(0.35, 1.06, 'December 1982', fontsize=12, transform=ax.transAxes)
 
 # Add lower text box
-ax.text(1, -0.2, "CONTOUR FROM -80 TO 40 BY 10",
+ax.text(1,
+        -0.2,
+        "CONTOUR FROM -80 TO 40 BY 10",
         horizontalalignment='right',
         transform=ax.transAxes,
-        bbox=dict(boxstyle='square, pad=0.25', facecolor='white',
+        bbox=dict(boxstyle='square, pad=0.25',
+                  facecolor='white',
                   edgecolor='black'))
 
 plt.show()

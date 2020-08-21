@@ -22,7 +22,6 @@ See following URLs to see the reproduced NCL plot & script <If this example orig
 # Import packages:
 print("This is a code cell")
 
-
 ###############################################################################
 # <Another text/markdown cell. This cell may be dedicated to a task such as following>
 # Read in data:
@@ -39,9 +38,7 @@ print("Plotting code")
 # This line will be a comment inside a code cell, *NOT* a markdown cell
 print("Even more code")
 
-
 ###############################################################################
 # Note the inline comment in the previous code cell. This was not converted to
 # its own markdown cell because it was not contiguously preceeded with a
 # comment line beginning with 20+ '#' characters.
-
