@@ -12,11 +12,13 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 import matplotlib.pyplot as plt
+import matplotlib.lines as mlines
 import numpy as np
 from metpy.plots import SkewT
 from metpy.units import units
+
 import geocat.viz.util as gvutil
-"""
+
 ###############################################################################
 # Plot Skew-T with MetPy Defaults:
 ## Note that there are not labels on the axes. This is because we have not yet
@@ -33,10 +35,11 @@ skew.plot_mixing_lines()
 gvutil.set_titles_and_labels(ax, maintitle="MetPy Default Skew-T")
 plt.show()
 plt.close()
-"""
+
 ###############################################################################
 # Plot Skew-T that is similar to NCL's default Skew-T plot
 fig = plt.figure(figsize=(9, 9))
+
 # The rotation keyword changes how skewed the temperature lines are. MetPy has
 # a default skew of 30 degrees
 skew = SkewT(fig, rotation=45)
@@ -55,7 +58,11 @@ skew.plot_moist_adiabats(t0=t0,
                          linestyles='solid',
                          colors='lime',
                          linewidth=1.5)
+<<<<<<< Updated upstream
 
+=======
+                         
+>>>>>>> Stashed changes
 # Choose mixing ratios
 w = np.array([0.001, 0.002, 0.003, 0.005, 0.008, 0.012, 0.020]).reshape(-1, 1)
 
@@ -68,11 +75,35 @@ skew.plot_mixing_lines(w=w,
                        linestyle='dashed',
                        colors='lime',
                        linewidths=1)
+<<<<<<< Updated upstream
 
 gvutil.set_axes_limits_and_ticks(
     ax=ax,
     xlim=[-32, 38],
     yticks=[1000, 850, 700, 500, 400, 300, 250, 200, 150, 100])
+=======
+
+# Use geocat.viz utility functions to set axes limits and ticks
+gvutil.set_axes_limits_and_ticks(
+    ax=ax,
+    xlim=[-32, 38],
+    yticks=[1000, 850, 700, 500, 400, 300, 250, 200, 150, 100])
+
+# Use geocat.viz utility functions to add a main title
+>>>>>>> Stashed changes
 gvutil.set_titles_and_labels(ax=ax, maintitle="NCL Style Plot")
+
+# Plot empty wind barbs with dummy data
+u = np.zeros(22)
+v = u
+p = np.linspace(1010, 110, 22)
+skew.plot_barbs(p=p, u=u, v=v, xloc=1.05, fill_empty=True,
+                sizes=dict(emptybarb=0.075,
+                           width=0.1,
+                           height=0.2))
+
+# Draw line underneath wind barbs
+line = mlines.Line2D([1.05, 1.05], [0, 1], color='gray', linewidth=0.5, transform=ax.transAxes, clip_on=False, zorder=1)
+ax.add_line(line)
 
 plt.show()
