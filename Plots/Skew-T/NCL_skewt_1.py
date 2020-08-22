@@ -90,13 +90,20 @@ gvutil.set_titles_and_labels(ax=ax, maintitle="NCL Style Plot")
 u = np.zeros(22)
 v = u
 p = np.linspace(1010, 110, 22)
-skew.plot_barbs(p=p, u=u, v=v, xloc=1.05, fill_empty=True,
-                sizes=dict(emptybarb=0.075,
-                           width=0.1,
-                           height=0.2))
+skew.plot_barbs(p=p,
+                u=u,
+                v=v,
+                xloc=1.05,
+                fill_empty=True,
+                sizes=dict(emptybarb=0.075, width=0.1, height=0.2))
 
 # Draw line underneath wind barbs
-line = mlines.Line2D([1.05, 1.05], [0, 1], color='gray', linewidth=0.5, transform=ax.transAxes, clip_on=False, zorder=1)
+line = mlines.Line2D([1.05, 1.05], [0, 1],
+                     color='gray',
+                     linewidth=0.5,
+                     transform=ax.transAxes,
+                     clip_on=False,
+                     zorder=1)
 ax.add_line(line)
 
 plt.show()
