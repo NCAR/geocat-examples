@@ -58,11 +58,7 @@ skew.plot_moist_adiabats(t0=t0,
                          linestyles='solid',
                          colors='lime',
                          linewidth=1.5)
-<<<<<<< Updated upstream
 
-=======
-                         
->>>>>>> Stashed changes
 # Choose mixing ratios
 w = np.array([0.001, 0.002, 0.003, 0.005, 0.008, 0.012, 0.020]).reshape(-1, 1)
 
@@ -75,13 +71,11 @@ skew.plot_mixing_lines(w=w,
                        linestyle='dashed',
                        colors='lime',
                        linewidths=1)
-<<<<<<< Updated upstream
 
 gvutil.set_axes_limits_and_ticks(
     ax=ax,
     xlim=[-32, 38],
     yticks=[1000, 850, 700, 500, 400, 300, 250, 200, 150, 100])
-=======
 
 # Use geocat.viz utility functions to set axes limits and ticks
 gvutil.set_axes_limits_and_ticks(
@@ -90,7 +84,6 @@ gvutil.set_axes_limits_and_ticks(
     yticks=[1000, 850, 700, 500, 400, 300, 250, 200, 150, 100])
 
 # Use geocat.viz utility functions to add a main title
->>>>>>> Stashed changes
 gvutil.set_titles_and_labels(ax=ax, maintitle="NCL Style Plot")
 
 # Plot empty wind barbs with dummy data
