@@ -47,10 +47,7 @@ ax = skew.ax
 
 # Choose starting temperatures in Kelvin for the dry adiabats
 t0 = units.K * np.arange(253.15, 444.15, 10)
-skew.plot_dry_adiabats(t0=t0,
-                       linestyles='solid',
-                       colors='tan',
-                       linewidths=1.5)
+skew.plot_dry_adiabats(t0=t0, linestyles='solid', colors='tan', linewidths=1.5)
 
 # Choose starting temperatures in Kelvin for the moist adiabats
 t0 = units.K * np.arange(282.15, 306.15, 4)
@@ -58,7 +55,7 @@ skew.plot_moist_adiabats(t0=t0,
                          linestyles='solid',
                          colors='lime',
                          linewidth=1.5)
-                         
+
 # Choose mixing ratios
 w = np.array([0.001, 0.002, 0.003, 0.005, 0.008, 0.012, 0.020]).reshape(-1, 1)
 
@@ -85,14 +82,15 @@ gvutil.set_titles_and_labels(ax=ax, maintitle="NCL Style Plot")
 u = np.zeros(22)
 v = u
 p = np.linspace(1010, 110, 22)
-skew.plot_barbs(p=p, u=u, v=v, xloc=1.05, fill_empty=True,
-                sizes=dict(emptybarb=0.075,
-                           width=0.1,
-                           height=0.2))
+skew.plot_barbs(p=p,
+                u=u,
+                v=v,
+                xloc=1.05,
+                fill_empty=True,
+                sizes=dict(emptybarb=0.075, width=0.1, height=0.2))
 
 # Draw line underneath wind barbs
-line = mlines.Line2D([1.05, 1.05],
-                     [0, 1],
+line = mlines.Line2D([1.05, 1.05], [0, 1],
                      color='gray',
                      linewidth=0.5,
                      transform=ax.transAxes,
