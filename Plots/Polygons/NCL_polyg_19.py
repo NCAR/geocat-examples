@@ -150,9 +150,6 @@ def plotPR(region, axis, xlim, puertoRico, waterBody):
     # Determine the key of each region to get the value from the population dictionary
         if puertoRico is True:
             abbrevstate = 'PR'
-
-        # If the region being plotted is a state with a population
-        if waterBody is False:
             pop = population_dict[abbrevstate]
             color = findDivColor(colorbounds, pop)
             # Set characteristics and measurements of each filled polygon "patch"
@@ -160,6 +157,17 @@ def plotPR(region, axis, xlim, puertoRico, waterBody):
             pc = PatchCollection(patches, match_original=True, edgecolor='k', linewidths=0.1, zorder=2)
             # Plot filled region on axis
             axis.add_collection(pc)
+
+        # # If the region being plotted is a state with a population
+        # if waterBody is False:
+        #     pop = population_dict[abbrevstate]
+        #     color = findDivColor(colorbounds, pop)
+        #     # Set characteristics and measurements of each filled polygon "patch"
+        #     patches.append(Polygon(np.vstack((x, y)).T, True, color=color, linewidth=0.1))
+        #     pc = PatchCollection(patches, match_original=True, edgecolor='k', linewidths=0.1, zorder=2)
+        #     # Plot filled region on axis
+        #     axis.add_collection(pc)
+            
         # If the region being plotted is a body of water with no population
         else:
             # Set characteristics and measurements of each filled polygon "patch"
