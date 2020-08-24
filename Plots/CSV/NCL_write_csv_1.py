@@ -61,6 +61,7 @@ df = pd.DataFrame([x1, x2, x3])
 df = df.T
 
 # Export data frame to csv file
-# setting 'header' and 'index' to False will remove a default row and column
+# setting 'header' and 'index' to False will remove a default crow and column
 # number label 
 df.to_csv('example1b.csv', header=False, index=False)
+
