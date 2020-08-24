@@ -1,6 +1,6 @@
 """
 NCL_write_csv_1.py
-===============
+==================
 This script illustrates the following concepts:
    - Using python tools 'csv' and 'pandas' to write integers to a CSV file
    
