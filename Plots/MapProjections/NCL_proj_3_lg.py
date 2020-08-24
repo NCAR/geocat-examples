@@ -1,4 +1,3 @@
-
 """
 NCL_proj_3_lg.py
 ================
@@ -39,7 +38,8 @@ wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
 fig = plt.figure(figsize=(10, 10))
 
 # Generate axes using Cartopy and draw coastlines with
-ax = plt.axes(projection=ccrs.Orthographic(central_longitude=-120, central_latitude=50))
+ax = plt.axes(
+    projection=ccrs.Orthographic(central_longitude=-120, central_latitude=50))
 
 # Set extent to include latitudes between 0 and 90, and longitude between
 # 0 and -180 only
@@ -48,24 +48,23 @@ ax.set_global()
 ax.coastlines(linewidths=0.5)
 
 # Contourf-plot data (for filled contours)
-wrap_t.plot.contourf(
-    ax=ax,
-    transform=ccrs.PlateCarree(),
-    levels=11,
-    cmap='coolwarm',
-    cbar_kwargs={
-        "orientation": "horizontal",
-        "ticks": np.linspace(
-            210,
-            310,
-            11),
-        "label": '',
-        "shrink": 0.9})
+wrap_t.plot.contourf(ax=ax,
+                     transform=ccrs.PlateCarree(),
+                     levels=11,
+                     cmap='coolwarm',
+                     cbar_kwargs={
+                         "orientation": "horizontal",
+                         "ticks": np.linspace(210, 310, 11),
+                         "label": '',
+                         "shrink": 0.9
+                     })
 
 # Use geocat.viz.util convenience function to add titles to left and right
 # of the plot axis.
-gvutil.set_titles_and_labels(ax, maintitle="Example of Orthogonal Projection",
-                             lefttitle="Surface Temperature", righttitle="K")
+gvutil.set_titles_and_labels(ax,
+                             maintitle="Example of Orthogonal Projection",
+                             lefttitle="Surface Temperature",
+                             righttitle="K")
 
 # Show the plot
 plt.show()

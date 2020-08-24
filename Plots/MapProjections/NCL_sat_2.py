@@ -41,7 +41,7 @@ pressure = ds.slp[21, :, :]
 pressure = pressure.astype('float32')
 
 # Convert Pa to hPa data
-pressure = pressure*0.01
+pressure = pressure * 0.01
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 wrap_pressure = gvutil.xr_add_cyclic_longitudes(pressure, "lon")
@@ -93,10 +93,12 @@ def findLocalExtrema(da, highVal=0, lowVal=1000, eType='Low'):
 
     if extremacoords == []:
         if eType == 'Low':
-            warnings.warn('No local extrema with data value less than given lowVal')
+            warnings.warn(
+                'No local extrema with data value less than given lowVal')
             return []
         if eType == 'High':
-            warnings.warn('No local extrema with data value greater than given highVal')
+            warnings.warn(
+                'No local extrema with data value greater than given highVal')
             return []
 
     # Clean up noisy data to find actual extrema
@@ -124,7 +126,8 @@ def findLocalExtrema(da, highVal=0, lowVal=1000, eType='Low'):
         for coord in coordsAndLabels[key]:
 
             # Find pressure data at that coordinate
-            cond = np.logical_and(coordarr[:, :, 0] == coord[0], coordarr[:, :, 1] == coord[1])
+            cond = np.logical_and(coordarr[:, :, 0] == coord[0],
+                                  coordarr[:, :, 1] == coord[1])
             x, y = np.where(cond)
             datavals.append(da.data[x[0]][y[0]])
 
@@ -135,15 +138,23 @@ def findLocalExtrema(da, highVal=0, lowVal=1000, eType='Low'):
             index = np.argmax(np.array(datavals))
 
         # Append the coordinate corresponding to that index to the array to be returned
-        clusterExtremas.append((coordsAndLabels[key][index][0], coordsAndLabels[key][index][1]))
+        clusterExtremas.append(
+            (coordsAndLabels[key][index][0], coordsAndLabels[key][index][1]))
 
     return clusterExtremas
+
 
 ###############################################################################
 
 
-def plotCLabels(ax, contours, transform, proj, clabel_locations=[], fontsize=12, whitebbox=False, horizontal=False):
-
+def plotCLabels(ax,
+                contours,
+                transform,
+                proj,
+                clabel_locations=[],
+                fontsize=12,
+                whitebbox=False,
+                horizontal=False):
     """
     Utility function to plot contour labels by passing in a coordinate to the clabel function.
     This allows the user to specify the exact locations of the labels, rather than having matplotlib
@@ -179,26 +190,41 @@ def plotCLabels(ax, contours, transform, proj, clabel_locations=[], fontsize=12,
 
     # Plot any regular contour levels
     if clabel_locations != []:
-        clevelpoints = proj.transform_points(transform,
-                                             np.array([x[0] for x in clabel_locations]),
-                                             np.array([x[1] for x in clabel_locations]))
+        clevelpoints = proj.transform_points(
+            transform, np.array([x[0] for x in clabel_locations]),
+            np.array([x[1] for x in clabel_locations]))
         transformed_locations = [(x[0], x[1]) for x in clevelpoints]
-        ax.clabel(contours, manual=transformed_locations, inline=True, fontsize=fontsize, colors='k', fmt="%.0f")
+        ax.clabel(contours,
+                  manual=transformed_locations,
+                  inline=True,
+                  fontsize=fontsize,
+                  colors='k',
+                  fmt="%.0f")
         [cLabels.append(txt) for txt in contours.labelTexts]
 
         if horizontal is True:
             [txt.set_rotation('horizontal') for txt in contours.labelTexts]
 
     if whitebbox is True:
-        [txt.set_bbox(dict(facecolor='w', edgecolor='none', pad=2)) for txt in cLabels]
+        [
+            txt.set_bbox(dict(facecolor='w', edgecolor='none', pad=2))
+            for txt in cLabels
+        ]
 
     return cLabels
+
 
 ###############################################################################
 
 
-def plotELabels(transform, proj, da, clabel_locations=[], label='L', fontsize=22, whitebbox=False, horizontal=True):
-
+def plotELabels(transform,
+                proj,
+                da,
+                clabel_locations=[],
+                label='L',
+                fontsize=22,
+                whitebbox=False,
+                horizontal=True):
     """
     Utility function to plot contour labels. High/Low contour labels will be plotted using text boxes for more accurate label values
     and placement.
@@ -242,9 +268,9 @@ def plotELabels(transform, proj, da, clabel_locations=[], label='L', fontsize=22
     extremaLabels = []
 
     # Plot any low contour levels
-    clabel_points = proj.transform_points(transform,
-                                          np.array([x[0] for x in clabel_locations]),
-                                          np.array([x[1] for x in clabel_locations]))
+    clabel_points = proj.transform_points(
+        transform, np.array([x[0] for x in clabel_locations]),
+        np.array([x[1] for x in clabel_locations]))
     transformed_locations = [(x[0], x[1]) for x in clabel_points]
 
     for x in range(len(transformed_locations)):
@@ -252,12 +278,17 @@ def plotELabels(transform, proj, da, clabel_locations=[], label='L', fontsize=22
         try:
             # Find field variable data at that coordinate
             coord = clabel_locations[x]
-            cond = np.logical_and(coordarr[:, :, 0] == coord[0], coordarr[:, :, 1] == coord[1])
+            cond = np.logical_and(coordarr[:, :, 0] == coord[0],
+                                  coordarr[:, :, 1] == coord[1])
             z, y = np.where(cond)
             p = int(round(da.data[z[0]][y[0]]))
 
-            lab = plt.text(transformed_locations[x][0], transformed_locations[x][1], label+"$_{" + str(p) + "}$", fontsize=fontsize,
-                           horizontalalignment='center', verticalalignment='center')
+            lab = plt.text(transformed_locations[x][0],
+                           transformed_locations[x][1],
+                           label + "$_{" + str(p) + "}$",
+                           fontsize=fontsize,
+                           horizontalalignment='center',
+                           verticalalignment='center')
 
             if horizontal is True:
                 lab.set_rotation('horizontal')
@@ -269,7 +300,10 @@ def plotELabels(transform, proj, da, clabel_locations=[], label='L', fontsize=22
             continue
 
     if whitebbox is True:
-        [txt.set_bbox(dict(facecolor='w', edgecolor='none', pad=2)) for txt in extremaLabels]
+        [
+            txt.set_bbox(dict(facecolor='w', edgecolor='none', pad=2))
+            for txt in extremaLabels
+        ]
 
     return extremaLabels
 
@@ -291,8 +325,7 @@ ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1)
 ax.add_feature(cfeature.COASTLINE, linewidth=.3, zorder=2)
 ax.add_feature(cfeature.OCEAN, facecolor='white')
 ax.add_feature(cfeature.BORDERS, linewidth=.3)
-ax.add_feature(cfeature.LAKES, facecolor='white',
-               edgecolor='k', linewidth=.3)
+ax.add_feature(cfeature.LAKES, facecolor='white', edgecolor='k', linewidth=.3)
 
 # Create color map
 colorvalues = [1020, 1036, 1500]
@@ -304,7 +337,8 @@ p = wrap_pressure.plot.contourf(ax=ax,
                                 zorder=2,
                                 transform=ccrs.PlateCarree(),
                                 levels=30,
-                                cmap=cmap, norm=norm,
+                                cmap=cmap,
+                                norm=norm,
                                 add_labels=False,
                                 add_colorbar=False)
 
@@ -322,15 +356,29 @@ highClevels = findLocalExtrema(pressure, highVal=1042, eType='High')
 
 # Label regular contours with automatic matplotlib labeling
 # Specify the levels to label every other contour level
-ax.clabel(p, levels=np.arange(956, 1064, 8), inline=True, fontsize=12, colors='k', fmt="%.0f")
+ax.clabel(p,
+          levels=np.arange(956, 1064, 8),
+          inline=True,
+          fontsize=12,
+          colors='k',
+          fmt="%.0f")
 
 # Label low and high contours
-plotELabels(ccrs.Geodetic(), proj, wrap_pressure, clabel_locations=lowClevels, label='L')
-plotELabels(ccrs.Geodetic(), proj, wrap_pressure, clabel_locations=highClevels, label='H')
+plotELabels(ccrs.Geodetic(),
+            proj,
+            wrap_pressure,
+            clabel_locations=lowClevels,
+            label='L')
+plotELabels(ccrs.Geodetic(),
+            proj,
+            wrap_pressure,
+            clabel_locations=highClevels,
+            label='H')
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax,
-                             maintitle=r"$\bf{SLP}$"+" "+r"$\bf{1963,}$"+" "+r"$\bf{January}$"+" "+r"$\bf{24th}$",
+                             maintitle=r"$\bf{SLP}$" + " " + r"$\bf{1963,}$" +
+                             " " + r"$\bf{January}$" + " " + r"$\bf{24th}$",
                              maintitlefontsize=20,
                              lefttitle="mean Daily Sea Level Pressure",
                              lefttitlefontsize=16,
@@ -341,8 +389,12 @@ gvutil.set_titles_and_labels(ax,
 props = dict(facecolor='white', edgecolor='black', alpha=0.5)
 
 # Place text box
-ax.text(0.40, -0.1, 'CONTOUR FROM 948 TO 1064 BY 4',
-        transform=ax.transAxes, fontsize=16, bbox=props)
+ax.text(0.40,
+        -0.1,
+        'CONTOUR FROM 948 TO 1064 BY 4',
+        transform=ax.transAxes,
+        fontsize=16,
+        bbox=props)
 
 # Add gridlines to axis
 gl = ax.gridlines(color='gray', linestyle='--')

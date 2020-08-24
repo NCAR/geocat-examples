@@ -34,14 +34,14 @@ nlat = np.shape(TS.lat)[0]
 top = np.empty(nlat)
 bottom = np.empty(nlat)
 
-for k in range(0,nlat):
+for k in range(0, nlat):
     dx = math.sqrt(TS[k])
     top[k] = TS[k] + dx
     bottom[k] = TS[k] - dx
 
 ###############################################################################
 # Plot:
-plt.figure(figsize=(8,8))
+plt.figure(figsize=(8, 8))
 ax = plt.axes()
 
 # Plot data
@@ -55,17 +55,24 @@ plt.plot(TS.lat, bottom, color='SlateBlue')
 ax.fill_between(TS.lat, top, bottom, color='SlateBlue')
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4,
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=3,
+                             y_minor_per_major=4,
                              labelsize=14)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax, ylim=(220, 320), xlim=(-90, 90),
-                                 xticks=np.arange(-90, 91, 30),
-                                 xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'])
+gvutil.set_axes_limits_and_ticks(
+    ax,
+    ylim=(220, 320),
+    xlim=(-90, 90),
+    xticks=np.arange(-90, 91, 30),
+    xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'])
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, maintitle="A Title with $\\eta\epsilon\lambda\\alpha\sigma$ Characters", ylabel=TS.long_name)
-
+gvutil.set_titles_and_labels(
+    ax,
+    maintitle="A Title with $\\eta\epsilon\lambda\\alpha\sigma$ Characters",
+    ylabel=TS.long_name)
 
 # Draw sigma on axes
 ax.text(0.15, 0.15, "$\sigma$", fontsize=40, transform=ax.transAxes)
