@@ -33,15 +33,16 @@ from geocat.viz import util as gvutil
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get('netcdf_files/h_avg_Y0191_D000.00.nc'), decode_times=False)
+ds = xr.open_dataset(gdf.get('netcdf_files/h_avg_Y0191_D000.00.nc'),
+                     decode_times=False)
 # Extract a slice of the data
-t = ds.T.isel(time=0, z_t=0).sel(lat_t = slice(-60,30), lon_t = slice(30,120))
+t = ds.T.isel(time=0, z_t=0).sel(lat_t=slice(-60, 30), lon_t=slice(30, 120))
 
 ###############################################################################
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(7,7))
+fig = plt.figure(figsize=(7, 7))
 
 # Generate axes, using Cartopy, drawing coastlines, and adding features
 projection = ccrs.PlateCarree()
@@ -53,16 +54,25 @@ ax.add_feature(cfeature.LAND, facecolor='lightgray')
 newcmp = gvcmaps.BlAqGrYeOrRe
 
 # Contourf-plot data
-heatmap = t.plot.contourf(ax=ax, transform=projection, levels=40, vmin=0, vmax=32, cmap=newcmp, add_colorbar=False)
+heatmap = t.plot.contourf(ax=ax,
+                          transform=projection,
+                          levels=40,
+                          vmin=0,
+                          vmax=32,
+                          cmap=newcmp,
+                          add_colorbar=False)
 
 # Add colorbar
-cbar = plt.colorbar(heatmap, ticks = np.arange(0,32,2))
-cbar.ax.set_yticklabels([str(i) for i in np.arange(0,32,2)])
+cbar = plt.colorbar(heatmap, ticks=np.arange(0, 32, 2))
+cbar.ax.set_yticklabels([str(i) for i in np.arange(0, 32, 2)])
 
 # Usa geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values
-gvutil.set_axes_limits_and_ticks(ax, xlim=(30,120), ylim=(-60,30),
-                                     xticks=np.linspace(-180, 180, 13), yticks=np.linspace(-90, 90, 7))
+gvutil.set_axes_limits_and_ticks(ax,
+                                 xlim=(30, 120),
+                                 ylim=(-60, 30),
+                                 xticks=np.linspace(-180, 180, 13),
+                                 yticks=np.linspace(-90, 90, 7))
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
@@ -71,9 +81,16 @@ gvutil.add_lat_lon_ticklabels(ax)
 gvutil.add_major_minor_ticks(ax, labelsize=12)
 
 # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-gvutil.set_titles_and_labels(ax, maintitle="30-degree major and 10-degree minor ticks", maintitlefontsize=16,
-                                 lefttitle="Potential Temperature", lefttitlefontsize=14,
-                                 righttitle="Celsius", righttitlefontsize=14, xlabel="", ylabel="")
+gvutil.set_titles_and_labels(
+    ax,
+    maintitle="30-degree major and 10-degree minor ticks",
+    maintitlefontsize=16,
+    lefttitle="Potential Temperature",
+    lefttitlefontsize=14,
+    righttitle="Celsius",
+    righttitlefontsize=14,
+    xlabel="",
+    ylabel="")
 
 # Show the plot
 plt.show()

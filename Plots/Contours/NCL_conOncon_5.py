@@ -46,49 +46,56 @@ ax = plt.axes(projection=ccrs.NorthPolarStereo())
 # Add land feature to map
 ax.add_feature(cfeature.LAND, facecolor='lightgray')
 
-# Set extent to include latitudes between 0 and 40 and longitudes between
-# -180 and 180 only
-ax.set_extent([-180, 180, 0, 40], ccrs.PlateCarree())
+# Set map boundary to include latitudes between 0 and 40 and longitudes
+# between -180 and 180 only
+gvutil.set_map_boundary(ax, [-180, 180], [0, 40], south_pad=1)
 
 # Set draw_labels to False so that you can manually manipulate it later
-gl = ax.gridlines(
-    ccrs.PlateCarree(),
-    draw_labels=False,
-    linestyle="--",
-    linewidth=1,
-    color='darkgray',
-    zorder=2)
+gl = ax.gridlines(ccrs.PlateCarree(),
+                  draw_labels=False,
+                  linestyle="--",
+                  linewidth=1,
+                  color='darkgray',
+                  zorder=2)
 
 # Manipulate latitude and longitude gridline numbers and spacing
 gl.ylocator = mticker.FixedLocator(np.arange(0, 90, 15))
 gl.xlocator = mticker.FixedLocator(np.arange(-180, 180, 30))
 
-# Set boundary to a circle
-theta = np.linspace(0, 2 * np.pi, 100)
-center, radius = [0.5, 0.5], 0.5
-verts = np.vstack([np.sin(theta), np.cos(theta)]).T
-circle = mpath.Path(verts * radius + center)
-ax.set_boundary(circle, transform=ax.transAxes)
-
 # Manipulate longitude labels (0, 30 E, 60 E, ..., 30 W, etc.)
 ticks = np.arange(0, 210, 30)
-etick = ['0'] + [r'%dE' % tick
-                 for tick in ticks if (tick != 0) & (tick != 180)] + ['180']
-wtick = [r'%dW' % tick
-         for tick in ticks if (tick != 0) & (tick != 180)]
+etick = ['0'] + [
+    r'%dE' % tick for tick in ticks if (tick != 0) & (tick != 180)
+] + ['180']
+wtick = [r'%dW' % tick for tick in ticks if (tick != 0) & (tick != 180)]
 labels = etick + wtick
 xticks = np.arange(0, 360, 30)
 yticks = np.full_like(xticks, -5)  # Latitude where the labels will be drawn
 for xtick, ytick, label in zip(xticks, yticks, labels):
     if label == '180':
-        ax.text(xtick, ytick, label, fontsize=14, horizontalalignment='center',
-                verticalalignment='top', transform=ccrs.Geodetic())
+        ax.text(xtick,
+                ytick,
+                label,
+                fontsize=14,
+                horizontalalignment='center',
+                verticalalignment='top',
+                transform=ccrs.Geodetic())
     elif label == '0':
-        ax.text(xtick, ytick, label, fontsize=14, horizontalalignment='center',
-                verticalalignment='bottom', transform=ccrs.Geodetic())
+        ax.text(xtick,
+                ytick,
+                label,
+                fontsize=14,
+                horizontalalignment='center',
+                verticalalignment='bottom',
+                transform=ccrs.Geodetic())
     else:
-        ax.text(xtick, ytick, label, fontsize=14, horizontalalignment='center',
-                verticalalignment='center', transform=ccrs.Geodetic())
+        ax.text(xtick,
+                ytick,
+                label,
+                fontsize=14,
+                horizontalalignment='center',
+                verticalalignment='center',
+                transform=ccrs.Geodetic())
 
 # Get slice of data at the 0th timestep - plot this contour line separately
 # because it will be thicker than the other contour lines
@@ -107,16 +114,17 @@ p = slon.plot.contour(ax=ax,
                       add_labels=False)
 
 # Create a color list for each of the next 18 contours
-colorlist = ["crimson", "green", "blue", "yellow", "cyan", "hotpink",
-             "crimson", "skyblue", "navy", "lightyellow", "mediumorchid",
-             "orange", "slateblue", "palegreen", "magenta", "springgreen",
-             "pink", "forestgreen", "violet"]
+colorlist = [
+    "crimson", "green", "blue", "yellow", "cyan", "hotpink", "crimson",
+    "skyblue", "navy", "lightyellow", "mediumorchid", "orange", "slateblue",
+    "palegreen", "magenta", "springgreen", "pink", "forestgreen", "violet"
+]
 
 # Iterate through 18 different timesteps
 for x in range(18):
 
     # Get a slice of data at the 12*x+1 timestep
-    p = ds.HGT.isel(time=12*x+1)
+    p = ds.HGT.isel(time=12 * x + 1)
 
     # Use geocat-viz utility function to handle the no-shown-data artifact
     # of 0 and 360-degree longitudes
@@ -132,7 +140,8 @@ for x in range(18):
 
 # Use geocat.viz.util convenience function to add titles
 gvutil.set_titles_and_labels(ax,
-                             maintitle=r"$\bf{Spaghetti}$" + " " + r"$\bf{Plot}$",
+                             maintitle=r"$\bf{Spaghetti}$" + " " +
+                             r"$\bf{Plot}$",
                              lefttitle=slon.long_name,
                              righttitle=slon.units)
 

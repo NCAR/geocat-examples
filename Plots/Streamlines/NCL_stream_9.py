@@ -30,8 +30,10 @@ from geocat.viz import util as gvutil
 ################################################################################
 # Make color map
 
-colormap = colors.ListedColormap(['darkblue', 'mediumblue', 'blue', 'cornflowerblue', 'skyblue', 'aquamarine',
-                                  'lime', 'greenyellow', 'gold', 'orange', 'orangered', 'red', 'maroon'])
+colormap = colors.ListedColormap([
+    'darkblue', 'mediumblue', 'blue', 'cornflowerblue', 'skyblue', 'aquamarine',
+    'lime', 'greenyellow', 'gold', 'orange', 'orangered', 'red', 'maroon'
+])
 
 colorbounds = np.arange(0, 56, 4)
 
@@ -51,7 +53,11 @@ ds2 = xr.open_dataset(gdf.get('netcdf_files/V500storm.cdf'))
 fig = plt.figure(figsize=(10, 10))
 
 # Create first subplot on figure for map
-ax = fig.add_axes([.1, .2, .8, .6], projection=ccrs.LambertAzimuthalEqualArea(central_longitude=-100, central_latitude=40), frameon=False, aspect='auto')
+ax = fig.add_axes([.1, .2, .8, .6],
+                  projection=ccrs.LambertAzimuthalEqualArea(
+                      central_longitude=-100, central_latitude=40),
+                  frameon=False,
+                  aspect='auto')
 
 # Set axis projection
 ax.set_extent([-128, -58, 18, 65], crs=ccrs.PlateCarree())
@@ -70,7 +76,16 @@ V = ds2.v.isel(timestep=0)
 magnitude = np.sqrt(np.square(U.data) + np.square(V.data))
 
 # Plot streamline data
-streams = ax.streamplot(U.lon, U.lat, U.data, V.data, transform=ccrs.PlateCarree(), arrowstyle='->', linewidth=1, density=2.0, color=magnitude, cmap=colormap)
+streams = ax.streamplot(U.lon,
+                        U.lat,
+                        U.data,
+                        V.data,
+                        transform=ccrs.PlateCarree(),
+                        arrowstyle='->',
+                        linewidth=1,
+                        density=2.0,
+                        color=magnitude,
+                        cmap=colormap)
 
 # Set streamlines and arrows to partially transparent
 streams.lines.set_alpha(.5)
@@ -81,11 +96,19 @@ ax2 = fig.add_axes([.1, .1, .8, .05])
 
 # Set title of plot
 # Make title font bold using r"$\bf{_______}$" formatting
-gvutil.set_titles_and_labels(ax, maintitle=r"$\bf{Assigning}$"+" "+r"$\bf{color}$"+" "+r"$\bf{palette}$"+" "+r"$\bf{to}$"+" "+r"$\bf{streamlines}$", maintitlefontsize=25)
+gvutil.set_titles_and_labels(ax,
+                             maintitle=r"$\bf{Assigning}$" + " " +
+                             r"$\bf{color}$" + " " + r"$\bf{palette}$" + " " +
+                             r"$\bf{to}$" + " " + r"$\bf{streamlines}$",
+                             maintitlefontsize=25)
 
 # Plot colorbar on subplot
-cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm), cax=ax2, boundaries=colorbounds,
-                  ticks=np.arange(4, 52, 4), spacing='uniform', orientation='horizontal')
+cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm),
+                  cax=ax2,
+                  boundaries=colorbounds,
+                  ticks=np.arange(4, 52, 4),
+                  spacing='uniform',
+                  orientation='horizontal')
 
 # Change size of colorbar tick font
 ax2.tick_params(labelsize=20)

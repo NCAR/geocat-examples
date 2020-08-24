@@ -1,11 +1,18 @@
 """
 NCL_write_csv_1.py
+<<<<<<< HEAD
 ==================
 This script illustrates the following concepts:
+=======
+===============
+This script illustrates the following concepts:
+   - Writing a CSV file
+>>>>>>> master
    - Using python tools 'csv' and 'pandas' to write integers to a CSV file
    
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/write_csv_1.ncl
+<<<<<<< HEAD
 
 Expected format for output csv files is:
     
@@ -21,6 +28,8 @@ Expected format for output csv files is:
     
     42,65,82
     
+=======
+>>>>>>> master
 """
 
 ###############################################################################
@@ -31,7 +40,11 @@ from itertools import zip_longest
 import pandas as pd
 
 ###############################################################################
+<<<<<<< HEAD
 # Create data in column format 
+=======
+# Create data in column format
+>>>>>>> master
 
 x1 = [34, 36, 31, 29, 54, 42]
 x2 = [67, 87, 56, 67, 71, 65]
@@ -50,6 +63,10 @@ export_cols = zip_longest(*col, fillvalue='')
 with open('example1a.csv', mode='w') as myfile:
     example_writer = csv.writer(myfile, delimiter=',')
     example_writer.writerows(export_cols)
+<<<<<<< HEAD
+=======
+myfile.close()
+>>>>>>> master
 
 ###############################################################################
 # Creat CSV file using 'pandas'
@@ -61,7 +78,11 @@ df = pd.DataFrame([x1, x2, x3])
 df = df.T
 
 # Export data frame to csv file
+<<<<<<< HEAD
 # setting 'header' and 'index' to False will remove a default crow and column
 # number label 
 df.to_csv('example1b.csv', header=False, index=False)
 
+=======
+df.to_csv('example1b.csv', header=False, index=False)
+>>>>>>> master

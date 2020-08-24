@@ -29,12 +29,12 @@ import geocat.viz.util as gvutil
 # Open a netCDF data file using xarray default engine and load the data into xarrays, choosing the 2nd timestamp
 ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 
-
 ###############################################################################
 # Utility Function: Labelled Filled Contour Plot:
 
 # Define a utility plotting function in order not to repeat many lines of codes since we need to make the same figure
 # with two different variables.
+
 
 def plot_labelled_filled_contours(data, ax=None):
     """
@@ -44,7 +44,9 @@ def plot_labelled_filled_contours(data, ax=None):
     """
 
     # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
-    newcmp = gvutil.truncate_colormap(gvcmaps.gui_default, minval=0.03, maxval=0.9)
+    newcmp = gvutil.truncate_colormap(gvcmaps.gui_default,
+                                      minval=0.03,
+                                      maxval=0.9)
 
     handles = dict()
     handles["filled"] = data.plot.contourf(
@@ -71,7 +73,9 @@ def plot_labelled_filled_contours(data, ax=None):
 
     # Label the contours
     ax.clabel(
-        handles["contour"], fontsize=8, fmt="%.0f",  # Turn off decimal points
+        handles["contour"],
+        fontsize=8,
+        fmt="%.0f",  # Turn off decimal points
     )
 
     # Add coastlines
@@ -84,8 +88,11 @@ def plot_labelled_filled_contours(data, ax=None):
     gvutil.add_lat_lon_ticklabels(ax)
 
     # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
-    gvutil.set_titles_and_labels(ax, lefttitle=data.attrs['long_name'], lefttitlefontsize=10,
-                                 righttitle=data.attrs['units'], righttitlefontsize=10)
+    gvutil.set_titles_and_labels(ax,
+                                 lefttitle=data.attrs['long_name'],
+                                 lefttitlefontsize=10,
+                                 righttitle=data.attrs['units'],
+                                 righttitlefontsize=10)
 
     return handles
 
@@ -98,7 +105,10 @@ def plot_labelled_filled_contours(data, ax=None):
 # See https://matplotlib.org/tutorials/intermediate/constrainedlayout_guide.html
 # Generate figure and axes using Cartopy projection
 projection = ccrs.PlateCarree()
-fig, ax = plt.subplots(2, 1, constrained_layout=True, subplot_kw={"projection": projection})
+fig, ax = plt.subplots(2,
+                       1,
+                       constrained_layout=True,
+                       subplot_kw={"projection": projection})
 
 # Set figure size (width, height) in inches
 fig.set_size_inches((8, 8.2))
@@ -116,7 +126,12 @@ ax[0].set_title("A plot with a common colorbar", fontsize=14, y=1.15)
 plot_labelled_filled_contours(ds.V, ax=ax[1])
 
 # Add horizontal colorbar
-cbar = plt.colorbar(handles["filled"], ax=ax, orientation="horizontal", ticks=levels[:-1], drawedges=True, aspect=30)
+cbar = plt.colorbar(handles["filled"],
+                    ax=ax,
+                    orientation="horizontal",
+                    ticks=levels[:-1],
+                    drawedges=True,
+                    aspect=30)
 cbar.ax.tick_params(labelsize=10)
 
 # Show the plot
