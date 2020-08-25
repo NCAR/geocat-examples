@@ -31,7 +31,7 @@ from itertools import zip_longest
 import pandas as pd
 
 ###############################################################################
-# Create data in column format 
+# Create data in column format
 
 x1 = [34, 36, 31, 29, 54, 42]
 x2 = [67, 87, 56, 67, 71, 65]
@@ -62,5 +62,10 @@ df = df.T
 
 # Export data frame to csv file
 # setting 'header' and 'index' to False will remove a default crow and column
+<<<<<<< HEAD
 # number label 
 df.to_csv(r'Downloads\example1b.csv', header=False, index=False)
+=======
+# number label
+df.to_csv('example1b.csv', header=False, index=False)
+>>>>>>> b929d31d1d639a04e96faace94d2ff3298866022
