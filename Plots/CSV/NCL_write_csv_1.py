@@ -31,8 +31,7 @@ from itertools import zip_longest
 import pandas as pd
 
 ###############################################################################
-# Create data in column format 
-
+# Create data in column format
 
 x1 = [34, 36, 31, 29, 54, 42]
 x2 = [67, 87, 56, 67, 71, 65]
