@@ -38,12 +38,27 @@ plt.close()
 
 ###############################################################################
 # Plot Skew-T that is similar to NCL's default Skew-T plot
+## Note that MetPy forces the x axis scale to be in Celcius and the y axis
+## scale to be in hectoPascals. Once data is plotted, then the axes labels are
+## automatically added
 fig = plt.figure(figsize=(9, 9))
 
 # The rotation keyword changes how skewed the temperature lines are. MetPy has
 # a default skew of 30 degrees
 skew = SkewT(fig, rotation=45)
 ax = skew.ax
+
+# Shade every other section between isotherms
+x1 = np.linspace(-100, 40, 8)  # The starting x values for the shaded regions
+x2 = np.linspace(-90, 50, 8)  # The ending x values for the shaded regions
+y = [1050, 100]  # The range of y values that the shades regions should cover
+for i in range(0, 8):
+    skew.shade_area(y=y,
+                    x1=x1[i],
+                    x2=x2[i],
+                    color='limegreen',
+                    alpha=0.25,
+                    zorder=1)
 
 # Choose starting temperatures in Kelvin for the dry adiabats
 t0 = units.K * np.arange(253.15, 444.15, 10)
