@@ -47,7 +47,7 @@ col = [x1, x2, x3]
 export_cols = zip_longest(*col, fillvalue='')
 
 # Create a new CSV file and write data to it
-with open('example1a.csv', mode='w') as myfile:
+with open(r'Downloads\example1a.csv', mode='w') as myfile:
     example_writer = csv.writer(myfile, delimiter=',')
     example_writer.writerows(export_cols)
 
@@ -63,5 +63,4 @@ df = df.T
 # Export data frame to csv file
 # setting 'header' and 'index' to False will remove a default crow and column
 # number label 
-df.to_csv('example1b.csv', header=False, index=False)
-
+df.to_csv(r'Downloads\example1b.csv', header=False, index=False)
