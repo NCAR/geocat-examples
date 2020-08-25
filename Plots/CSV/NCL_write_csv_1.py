@@ -31,7 +31,8 @@ from itertools import zip_longest
 import pandas as pd
 
 ###############################################################################
-# Create data in column format
+# Create data in column format 
+
 
 x1 = [34, 36, 31, 29, 54, 42]
 x2 = [67, 87, 56, 67, 71, 65]
@@ -47,7 +48,7 @@ col = [x1, x2, x3]
 export_cols = zip_longest(*col, fillvalue='')
 
 # Create a new CSV file and write data to it
-with open(r'Downloads\example1a.csv', mode='w') as myfile:
+with open('example1a.csv', mode='w') as myfile:
     example_writer = csv.writer(myfile, delimiter=',')
     example_writer.writerows(export_cols)
 
@@ -62,10 +63,5 @@ df = df.T
 
 # Export data frame to csv file
 # setting 'header' and 'index' to False will remove a default crow and column
-<<<<<<< HEAD
-# number label 
-df.to_csv(r'Downloads\example1b.csv', header=False, index=False)
-=======
 # number label
 df.to_csv('example1b.csv', header=False, index=False)
->>>>>>> b929d31d1d639a04e96faace94d2ff3298866022
