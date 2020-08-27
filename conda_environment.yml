@@ -20,3 +20,4 @@ dependencies:
   - jupyter
   - make
   - geographiclib
+  - metpy
