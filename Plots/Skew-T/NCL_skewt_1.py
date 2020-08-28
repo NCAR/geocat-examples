@@ -4,6 +4,7 @@ NCL_skewt_1.py
 This script illustrates the following concepts:
    - Drawing a default Skew-T background
    - Customizing the background of a Skew-T plot
+
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/skewt_1.ncl
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/skewt_1_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/skewt_1_2_lg.png and https://www.ncl.ucar.edu/Applications/Images/skewt_1_3_lg.png
@@ -22,9 +23,9 @@ import geocat.viz.util as gvutil
 ###############################################################################
 # Plot Skew-T with MetPy Defaults:
 
-## Note that there are not labels on the axes. This is because we have not yet
-## plotted any data. Once data is plotted, MetPy will use the units of the
-## data to create appropriate labels.
+# Note that there are no labels on the axes. This is because we have not yet
+# plotted any data. Once data is plotted, MetPy will use the units of the
+# data to create appropriate labels.
 fig = plt.figure(figsize=(9, 9))
 skew = SkewT(fig)
 ax = skew.ax
@@ -35,14 +36,13 @@ skew.plot_mixing_lines()
 
 gvutil.set_titles_and_labels(ax, maintitle="MetPy Default Skew-T")
 plt.show()
-plt.close()
 
 ###############################################################################
-# Plot Skew-T that is similar to NCL's default Skew-T plot
+# Plot Skew-T that is similar to NCL's default Skew-T plot:
 
-## Note that MetPy forces the x axis scale to be in Celsius and the y axis
-## scale to be in hectoPascals. Once data is plotted, then the axes labels are
-## automatically added
+# Note that MetPy forces the x axis scale to be in Celsius and the y axis
+# scale to be in hectoPascals. Once data is plotted, then the axes labels are
+# automatically added
 fig = plt.figure(figsize=(9, 9))
 
 # The rotation keyword changes how skewed the temperature lines are. MetPy has
