@@ -22,6 +22,6 @@ jobs:
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'noreply@github.com'
-          git tag yapf
+          git tag -f yapf
           git commit --allow-empty -am "yapf google style formatting, pushed by github action"
           git push
