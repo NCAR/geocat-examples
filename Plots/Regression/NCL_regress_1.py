@@ -68,7 +68,7 @@ gvutil.set_titles_and_labels(ax=ax, maintitle="Regression 1")
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax,
                              x_minor_per_major=5,
-                             y_minor_per_major=5,
+                             y_minor_per_major=4,
                              labelsize=12)
 
 # Show plot
