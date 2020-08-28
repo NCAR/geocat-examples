@@ -4,12 +4,16 @@ on:
     branches-ignore:
       - master
       - develop
+    tags-ignore:
+      - yapf
 jobs:
   yapf_formatting:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.AKOOTZ_TOKEN }}
       - name: yapf
         run: |
           pip3 install yapf
@@ -18,5 +22,6 @@ jobs:
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'noreply@github.com'
+          git tag yapf
           git commit --allow-empty -am "yapf google style formatting, pushed by github action"
           git push
