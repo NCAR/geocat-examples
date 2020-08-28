@@ -21,6 +21,7 @@ import geocat.viz.util as gvutil
 
 ###############################################################################
 # Plot Skew-T with MetPy Defaults:
+
 ## Note that there are not labels on the axes. This is because we have not yet
 ## plotted any data. Once data is plotted, MetPy will use the units of the
 ## data to create appropriate labels.
@@ -38,6 +39,7 @@ plt.close()
 
 ###############################################################################
 # Plot Skew-T that is similar to NCL's default Skew-T plot
+
 ## Note that MetPy forces the x axis scale to be in Celsius and the y axis
 ## scale to be in hectoPascals. Once data is plotted, then the axes labels are
 ## automatically added

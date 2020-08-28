@@ -3,4 +3,4 @@
 .. skewt-examples-index:
 
 Skew-T
-===
+======
