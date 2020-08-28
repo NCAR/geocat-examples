@@ -5,6 +5,7 @@ This script illustrates the following concepts:
     - Plotting WRF data on native grid
     - Subsetting data to 'zoom in' on an area
     - Plotting data using wrf python functions
+    - Following best practices when choosing a colormap
     
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/wrf_zoom_1.ncl
@@ -18,9 +19,9 @@ from netCDF4 import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
-import cartopy.crs as crs
-from cartopy.feature import NaturalEarthFeature
 import cartopy.crs as ccrs
+from cartopy.feature import NaturalEarthFeature
+
 import cartopy.feature as cfeature
 
 from wrf import (getvar, to_np, latlon_coords, get_cartopy)
@@ -74,7 +75,7 @@ plt.contourf(to_np(lons),
              to_np(lats),
              to_np(td2_zoom),
              levels=13, cmap="magma",
-             transform=crs.PlateCarree(),
+             transform=ccrs.PlateCarree(),
              vmin=-8,
              vmax=18)
 
