@@ -74,7 +74,20 @@ gvutil.set_axes_limits_and_ticks(ax,
                                  ylim=ax.get_ylim()[::-1],
                                  yticks=U["lev"])
 
-# Change formatter or else we tick values formatted in exponential form
+# Change formatter or else tick values will be in exponential form
 ax.yaxis.set_major_formatter(ScalarFormatter())
+
+# Use geocat.viz.util convenience function to add major tick lines with no
+# minor ticks
+gvutil.add_major_minor_ticks(ax=ax,
+                             x_minor_per_major=3,
+                             y_minor_per_major=1,
+                             labelsize=12)
+
+# Use geocat.viz.util convenience function to add titles and the pressure label
+gvutil.set_titles_and_labels(ax,
+                             lefttitle=U.long_name,
+                             righttitle=U.units,
+                             ylabel=U.lev.long_name + " (" + U.lev.units + ")")
 
 plt.show()
