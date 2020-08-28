@@ -38,7 +38,7 @@ plt.close()
 
 ###############################################################################
 # Plot Skew-T that is similar to NCL's default Skew-T plot
-## Note that MetPy forces the x axis scale to be in Celcius and the y axis
+## Note that MetPy forces the x axis scale to be in Celsius and the y axis
 ## scale to be in hectoPascals. Once data is plotted, then the axes labels are
 ## automatically added
 fig = plt.figure(figsize=(9, 9))
