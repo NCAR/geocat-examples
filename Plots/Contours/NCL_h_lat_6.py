@@ -71,7 +71,9 @@ plt.colorbar(colors,
              orientation='horizontal',
              ticks=levels[1::2],
              drawedges=True,
-             aspect=12)
+             aspect=12,
+             shrink=0.7,
+             pad=0.1)
 
 # Use geocat.viz.util convenience function to set axes tick values
 # Set y-lim inorder for y-axis to have descending values
@@ -89,13 +91,16 @@ ax.yaxis.set_major_formatter(ScalarFormatter())
 gvutil.add_major_minor_ticks(ax=ax,
                              x_minor_per_major=3,
                              y_minor_per_major=1,
-                             labelsize=12)
+                             labelsize=10)
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
 gvutil.set_titles_and_labels(ax,
                              lefttitle=U.long_name,
+                             lefttitlefontsize=14,
                              righttitle=U.units,
-                             ylabel=U.lev.long_name + " (" + U.lev.units + ")")
+                             righttitlefontsize=14,
+                             ylabel=U.lev.long_name + " (" + U.lev.units + ")",
+                             labelfontsize=14)
 
 # Create second y-axis to show geo-potential height.
 # Currently we're using arbitrary values for height as we haven't figured out
@@ -103,7 +108,13 @@ gvutil.set_titles_and_labels(ax,
 axRHS = ax.twinx()
 axRHS.set_ylim(0, 32)
 axRHS.set_yticks(np.arange(4, 32, 4))
+axRHS.tick_params(labelsize=10)
 axRHS.set_ylabel('Height (km)')
-axRHS.yaxis.label.set_size(20)
+axRHS.yaxis.label.set_size(14)
 
+# Force the plot to be square by setting the aspect ratio to 1
+ax.set_box_aspect(1)
+axRHS.set_box_aspect(1)
+
+plt.tight_layout()
 plt.show()
