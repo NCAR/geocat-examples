@@ -65,6 +65,13 @@ colors = U.plot.contourf(ax=ax,
                          cmap=gvcmap.BlWhRe,
                          add_labels=False,
                          add_colorbar=False)
+# Add colorbar
+plt.colorbar(colors,
+             ax=ax,
+             orientation='horizontal',
+             ticks=levels[1::2],
+             drawedges=True,
+             aspect=12)
 
 # Use geocat.viz.util convenience function to set axes tick values
 # Set y-lim inorder for y-axis to have descending values
