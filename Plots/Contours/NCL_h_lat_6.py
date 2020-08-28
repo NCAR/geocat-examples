@@ -97,4 +97,13 @@ gvutil.set_titles_and_labels(ax,
                              righttitle=U.units,
                              ylabel=U.lev.long_name + " (" + U.lev.units + ")")
 
+# Create second y-axis to show geo-potential height.
+# Currently we're using arbitrary values for height as we haven't figured out
+# how to make this work properly yet
+axRHS = ax.twinx()
+axRHS.set_ylim(0, 32)
+axRHS.set_yticks(np.arange(4, 32, 4))
+axRHS.set_ylabel('Height (km)')
+axRHS.yaxis.label.set_size(20)
+
 plt.show()
