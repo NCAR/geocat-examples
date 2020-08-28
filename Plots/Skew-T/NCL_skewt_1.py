@@ -67,7 +67,7 @@ t0 = units.K * np.arange(253.15, 444.15, 10)
 skew.plot_dry_adiabats(t0=t0, linestyles='solid', colors='tan', linewidths=1.5)
 
 # Choose starting temperatures in Kelvin for the moist adiabats
-t0 = units.K * np.arange(282.15, 306.15, 4)
+t0 = units.K * np.arange(278.15, 306.15, 4)
 skew.plot_moist_adiabats(t0=t0,
                          linestyles='solid',
                          colors='lime',
