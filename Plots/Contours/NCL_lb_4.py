@@ -26,7 +26,6 @@ import matplotlib.pyplot as plt
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
-<<<<<<< HEAD
 
 ###############################################################################
 # Read in data:
@@ -96,25 +95,34 @@ V.plot.contour(ax=ax,
                add_labels=False)
 
 # Create horizontal colorbar
-# By changing the kwarg `pad`, the colorbar can be moved closer to or farther away from
-# the axis parallel to it.
-# `pad` defaults to 0.15 for horizontal colorbars
-# `extendrect` and `extendfrac` format the ends of the colorbar, default is
-# pointed ends to show there are values beyond the given contour levels
+# By changing the kwarg `pad`, the colorbar can be moved closer to or farther
+# away from the axis parallel to it. `pad` defaults to 0.15 for horizontal
+# colorbars. `extendrect` and `extendfrac` format the ends of the colorbar,
+# default is pointed ends to show there are values beyond the given contour
+# levels
 cbar = plt.colorbar(contour,
                     ax=ax,
                     orientation='horizontal',
-                    shrink=0.75,
+                    shrink=0.5,
                     pad=0.11,
                     extendrect=True,
-                    extendfrac='auto')
-# Make colorbar tick labels larger
-cbar.ax.tick_params(labelsize=14)
-# Rotate colorbar tick labels
-cbar.ax.set_xticklabels(cbar.ax.get_xticklabels(), rotation=45)
+                    extendfrac='auto',
+                    aspect=11)
+
+# Turn off automatically created ticks and tick labels
+cbar.ax.set_xticklabels([])
+cbar.ax.get_xaxis().set_ticks([])
+
+# Draw text in the center of each box
+offset = 1 / 13 / 2
+for i in range(1, 14):
+    cbar.ax.text(i / 13 - offset, 0.45, i,
+                 horizontalalignment='center',
+                 verticalalignment='center',
+                 fontweight='bold',
+                 transform=cbar.ax.transAxes)
+
 # Format colorbar title, this will make the title appear above the colorbar
 cbar.ax.set_title('Default position for color bar title', fontsize=10)
 
 plt.show()
-=======
->>>>>>> f1cef3f1aeb3f3808d942972e0c924953d06b51a
