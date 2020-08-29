@@ -29,18 +29,33 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 # Extract data
 V = ds.isel(time=0, lon=30, drop=True).V
 
-# Create arrays to represent error above and below the line
+# Create arrays to represent the magnitude of error above and below the line
 # This data is arbitrary and you should replace these arrays with the actual
 # error for your dataset
 err_above = V.data + 1.5
 err_below = V.data - 1
+x = range(0, 64)  # the x values used to plot the data and error bars
+
+# Make a tuple to represent the bottom and top points of the error bar
+err_below = tuple(zip(x, err_below))  
+err_above = tuple(zip(x, err_above))
+
+# Make a tuple containing those points to describe the line segment
+segments = tuple(zip(err_below, err_above))
+
+# Create a line collection so we can plot all of the segments with one call
+bars = mc.LineCollection(segments, colors='black', linewidths=0.5)
 
 ##############################################################################
 # Plot:
 plt.figure(figsize=(8, 8))
 ax = plt.axes()
 
-plt.plot(range(0, 64), V.data)
+# Plots the data with markers
+plt.plot(x, V.data, color='black', linewidth=0.5, marker='.')
+
+# Plot the error bars
+ax.add_collection(bars)
 
 # Use geocat.viz.util convenience function to set axes parameters
 gvutil.set_axes_limits_and_ticks(ax,
