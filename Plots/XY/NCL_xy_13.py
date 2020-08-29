@@ -53,4 +53,3 @@ gvutil.set_titles_and_labels(ax,
                              ylabel=V.long_name + " " + V.units)
 
 plt.show()
-
