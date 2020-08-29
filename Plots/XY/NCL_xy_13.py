@@ -29,7 +29,7 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 V = ds.isel(time=0, lat=30, drop=True).V
 
 ##############################################################################
-# Method 1: Splitting the line into parts and coloring them differently
+# Plot:
 plt.figure(figsize=(8, 8))
 ax = plt.axes()
 
@@ -53,4 +53,3 @@ gvutil.set_titles_and_labels(ax,
                              ylabel=V.long_name + " " + V.units)
 
 plt.show()
-
