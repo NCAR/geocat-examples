@@ -116,7 +116,9 @@ cbar.ax.get_xaxis().set_ticks([])
 # Draw text in the center of each box
 offset = 1 / 13 / 2
 for i in range(1, 14):
-    cbar.ax.text(i / 13 - offset, 0.45, i,
+    cbar.ax.text(i / 13 - offset,
+                 0.45,
+                 i,
                  horizontalalignment='center',
                  verticalalignment='center',
                  fontweight='bold',
