@@ -124,7 +124,12 @@ for i in range(1, 14):
                  fontweight='bold',
                  transform=cbar.ax.transAxes)
 
-# Format colorbar title, this will make the title appear above the colorbar
-cbar.ax.set_title('Default position for color bar title', fontsize=10)
+# Draw the colorbar title
+cbar.ax.text(1.1,
+             0.5,
+             V.units,
+             horizontalalignment='center',
+             verticalalignment='center',
+             transform=cbar.ax.transAxes)
 
 plt.show()
