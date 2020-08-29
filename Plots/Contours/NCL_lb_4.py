@@ -26,6 +26,7 @@ import matplotlib.pyplot as plt
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
+<<<<<<< HEAD
 
 ###############################################################################
 # Read in data:
@@ -115,3 +116,5 @@ cbar.ax.set_xticklabels(cbar.ax.get_xticklabels(), rotation=45)
 cbar.ax.set_title('Default position for color bar title', fontsize=10)
 
 plt.show()
+=======
+>>>>>>> f1cef3f1aeb3f3808d942972e0c924953d06b51a
