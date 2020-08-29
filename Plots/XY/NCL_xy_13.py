@@ -14,6 +14,7 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
+from matplotlib import collections as mc
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -26,12 +27,20 @@ from geocat.viz import util as gvutil
 ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 
 # Extract data
-V = ds.isel(time=0, lat=30, drop=True).V
+V = ds.isel(time=0, lon=30, drop=True).V
+
+# Create arrays to represent error above and below the line
+# This data is arbitrary and you should replace these arrays with the actual
+# error for your dataset
+err_above = V.data + 1.5
+err_below = V.data - 1
 
 ##############################################################################
 # Plot:
 plt.figure(figsize=(8, 8))
 ax = plt.axes()
+
+plt.plot(range(0, 64), V.data)
 
 # Use geocat.viz.util convenience function to set axes parameters
 gvutil.set_axes_limits_and_ticks(ax,
