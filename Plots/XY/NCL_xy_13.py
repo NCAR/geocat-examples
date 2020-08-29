@@ -37,7 +37,7 @@ err_below = V.data - 1
 x = range(0, 64)  # the x values used to plot the data and error bars
 
 # Make a tuple to represent the bottom and top points of the error bar
-err_below = tuple(zip(x, err_below))  
+err_below = tuple(zip(x, err_below))
 err_above = tuple(zip(x, err_above))
 
 # Make a tuple containing those points to describe the line segment
