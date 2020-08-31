@@ -38,11 +38,11 @@ td2 = getvar(wrfin, "td2")
 
 dims = td2.shape
 
-y_start = int(dims[0]/2)
-y_end = int(dims[0]-1)
+y_start = int(dims[0] / 2)
+y_end = int(dims[0] - 1)
 
 x_start = int(0)
-x_end = int(dims[1]/2)
+x_end = int(dims[1] / 2)
 
 td2_zoom = td2[y_start:y_end, x_start:x_end]
 
@@ -52,11 +52,11 @@ lats, lons = latlon_coords(td2_zoom)
 ###############################################################################
 # Plot the data
 
-# The `get_cartopy` wrf function will automatically find and use the 
-# intended map projection for this dataset 
+# The `get_cartopy` wrf function will automatically find and use the
+# intended map projection for this dataset
 cart_proj = get_cartopy(td2_zoom)
 
-fig = plt.figure(figsize=(12,12))
+fig = plt.figure(figsize=(12, 12))
 ax = plt.axes(projection=cart_proj)
 
 # Add features to the projection
@@ -74,7 +74,8 @@ ax.coastlines('50m', linewidth=0.8)
 plt.contourf(to_np(lons),
              to_np(lats),
              to_np(td2_zoom),
-             levels=13, cmap="magma",
+             levels=13,
+             cmap="magma",
              transform=ccrs.PlateCarree(),
              vmin=-8,
              vmax=18)
@@ -82,7 +83,7 @@ plt.contourf(to_np(lons),
 # Add a colorbar
 cbar = plt.colorbar(ax=ax,
                     orientation="horizontal",
-                    ticks=np.arange(-6,18,2),
+                    ticks=np.arange(-6, 18, 2),
                     drawedges=True,
                     extendrect=True,
                     pad=0.08,
@@ -97,7 +98,7 @@ cbar.ax.text(0.5,
              verticalalignment='center',
              transform=cbar.ax.transAxes)
 
-# Format colorbar ticks and labels 
+# Format colorbar ticks and labels
 cbar.ax.tick_params(labelsize=10)
 cbar.ax.get_xaxis().labelpad = -48
 
@@ -126,6 +127,3 @@ plt.title("2m Dewpoint Temperature (C)", loc='left', y=1.02, size=12)
 plt.title("Zoomed in plot", loc='center', y=1.1, size=14)
 
 plt.show()
-
-
-
