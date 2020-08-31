@@ -56,7 +56,7 @@ ax = plt.gca()
 plt.scatter(x, y, c='r', s=4)
 
 # Plot regression
-plt.plot(x_regress, y_regress, c='k')
+plt.plot(x_regress, y_regress, c='k', linewidth=0.5)
 
 # specify X and Y axis limits
 plt.xlim([6000, 9000])
