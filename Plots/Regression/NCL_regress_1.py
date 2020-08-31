@@ -73,11 +73,10 @@ gvutil.add_major_minor_ticks(ax,
 
 # Use geocat.viz.util convenience function to set axes parameters
 gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(6000,9000),
+                                 xlim=(6000, 9000),
                                  xticks=np.arange(6000, 9001, 500),
                                  ylim=(266, 274),
                                  yticks=np.arange(266, 275, 2))
-
 
 # Show plot
 plt.tight_layout()
