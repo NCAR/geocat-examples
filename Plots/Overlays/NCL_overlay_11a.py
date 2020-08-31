@@ -113,8 +113,11 @@ shapefile = natural_earth(category='cultural',
                           name='admin_1_states_provinces')
 
 # Extract the Chinese province borders
-province_geos = [record.geometry for record in ShapeReader(shapefile).records()
-                 if record.attributes['admin'] == 'China']
+province_geos = [
+    record.geometry
+    for record in ShapeReader(shapefile).records()
+    if record.attributes['admin'] == 'China'
+]
 
 # Define a Cartopy Feature for the province borders, so they can be easily plotted
 provinces = ShapelyFeature(province_geos,
@@ -128,7 +131,7 @@ provinces = ShapelyFeature(province_geos,
 # -----
 
 # Generate figure (set its size (width, height) in inches) and axes using Cartopy
-fig = plt.figure(figsize=(10,10))
+fig = plt.figure(figsize=(10, 10))
 ax = plt.axes(projection=projection)
 
 ax.set_extent([100, 145, 15, 55], crs=projection)
@@ -137,7 +140,10 @@ ax.set_extent([100, 145, 15, 55], crs=projection)
 clevs = np.arange(228, 273, 4, dtype=float)
 
 # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
-newcmp = gvutil.truncate_colormap(gvcmaps.BkBlAqGrYeOrReViWh200, minval=0.1, maxval=0.6, n=len(clevs))
+newcmp = gvutil.truncate_colormap(gvcmaps.BkBlAqGrYeOrReViWh200,
+                                  minval=0.1,
+                                  maxval=0.6,
+                                  n=len(clevs))
 
 # Draw the temperature contour plot with the subselected colormap
 # (Place the zorder of the contour plot at the lowest level)
@@ -145,7 +151,12 @@ cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp, zorder=1)
 
 # Draw horizontal color bar
 cax = plt.axes((0.14, 0.08, 0.74, 0.02))
-cbar = plt.colorbar(cf, ax=ax, cax=cax, ticks=clevs[1:-1], drawedges=True, orientation='horizontal')
+cbar = plt.colorbar(cf,
+                    ax=ax,
+                    cax=cax,
+                    ticks=clevs[1:-1],
+                    drawedges=True,
+                    orientation='horizontal')
 cbar.ax.tick_params(labelsize=12)
 
 # Add the land mask feature on top of the contour plot (higher zorder)
@@ -160,30 +171,67 @@ ax.add_feature(countries, zorder=3)
 ax.add_feature(provinces, zorder=3)
 
 # Draw the wind quiver plot on top of everything else
-Q = ax.quiver(lon, lat, U, V, color='black', width=.003, scale=600., headwidth=3.75, zorder=4)
+Q = ax.quiver(lon,
+              lat,
+              U,
+              V,
+              color='black',
+              width=.003,
+              scale=600.,
+              headwidth=3.75,
+              zorder=4)
 
 # Draw the key for the quiver plot
-rect = plt.Rectangle((142, 52), 3, 3, facecolor='mediumorchid', edgecolor=None, zorder=4)
+rect = plt.Rectangle((142, 52),
+                     3,
+                     3,
+                     facecolor='mediumorchid',
+                     edgecolor=None,
+                     zorder=4)
 ax.add_patch(rect)
-ax.quiverkey(Q, 0.9675, 0.95, 30, '30', labelpos='N', color='black',
-             coordinates='axes', fontproperties={'size': 14}, labelsep=0.1)
+ax.quiverkey(Q,
+             0.9675,
+             0.95,
+             30,
+             '30',
+             labelpos='N',
+             color='black',
+             coordinates='axes',
+             fontproperties={'size': 14},
+             labelsep=0.1)
 
 # Add a text box to indicate the pressure level
 props = dict(facecolor='white', edgecolor='none', alpha=0.8)
-ax.text(105, 52.7, '500hPa', transform=projection, fontsize=18, ha='center', va='center',
-        color='mediumorchid', bbox=props)
+ax.text(105,
+        52.7,
+        '500hPa',
+        transform=projection,
+        fontsize=18,
+        ha='center',
+        va='center',
+        color='mediumorchid',
+        bbox=props)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax, xticks=[100, 120, 140], yticks=[20, 30, 40, 50])
+gvutil.set_axes_limits_and_ticks(ax,
+                                 xticks=[100, 120, 140],
+                                 yticks=[20, 30, 40, 50])
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5, labelsize=18)
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=4,
+                             y_minor_per_major=5,
+                             labelsize=18)
 
 # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
-gvutil.set_titles_and_labels(ax, lefttitle="Temp", lefttitlefontsize=20, righttitle="Wind", righttitlefontsize=20)
+gvutil.set_titles_and_labels(ax,
+                             lefttitle="Temp",
+                             lefttitlefontsize=20,
+                             righttitle="Wind",
+                             righttitlefontsize=20)
 
 # Show the plot
 plt.show()

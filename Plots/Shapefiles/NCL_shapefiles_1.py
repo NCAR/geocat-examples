@@ -95,7 +95,7 @@ for i in range(0, len(shapefile.shapes())):
         for j in range(0, len(shape.parts)):
             start_index = shape.parts[j]
             # the last part uses the remaining points and doesn't require and end_index
-            if (j is (len(shape.parts)-1)):
+            if (j is (len(shape.parts) - 1)):
                 patch = mpatches.Polygon(shape.points[start_index:],
                                          facecolor=color,
                                          edgecolor='black',
@@ -103,7 +103,7 @@ for i in range(0, len(shapefile.shapes())):
                                          transform=ccrs.PlateCarree(),
                                          zorder=2)
             else:
-                end_index = shape.parts[j+1]
+                end_index = shape.parts[j + 1]
                 patch = mpatches.Polygon(shape.points[start_index:end_index],
                                          facecolor=color,
                                          edgecolor='black',
