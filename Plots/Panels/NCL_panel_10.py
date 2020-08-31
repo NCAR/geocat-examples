@@ -65,4 +65,3 @@ gvutil.set_axes_limits_and_ticks(ax=ax2,
 gvutil.add_major_minor_ticks(ax=ax2, x_minor_per_major=1)
 
 plt.show()
-
