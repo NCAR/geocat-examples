@@ -2,7 +2,7 @@
 NCL_xy_13.py
 ===============
 This script illustrates the following concepts:
-   - Adding error bars on an XY plot
+    - Adding error bars on an XY plot
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/xy_13.ncl
