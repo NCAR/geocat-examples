@@ -107,7 +107,8 @@ cbar = plt.colorbar(contour,
                     pad=0.11,
                     extendrect=True,
                     extendfrac='auto',
-                    aspect=11)
+                    aspect=11,
+                    drawedges=True)
 
 # Turn off automatically created ticks and tick labels
 cbar.ax.set_xticklabels([])
@@ -132,4 +133,5 @@ cbar.ax.text(1.1,
              verticalalignment='center',
              transform=cbar.ax.transAxes)
 
+plt.tight_layout()
 plt.show()
