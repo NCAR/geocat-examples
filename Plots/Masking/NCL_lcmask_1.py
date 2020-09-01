@@ -43,27 +43,36 @@ V = gvutil.xr_add_cyclic_longitudes(V, "lon")
 
 # Generate figure and projection using Cartopy
 plt.figure(figsize=(7, 10))
-proj = ccrs.LambertConformal(central_longitude=0,
-                                   standard_parallels=(45, 89))
+proj = ccrs.LambertConformal(central_longitude=0, standard_parallels=(45, 89))
 # Set axis projection
 ax = plt.axes(projection=proj, frameon=False)
 # Set extent to include all longitudes and the northern hemisphere
 ax.set_extent((0, 359, 0, 89), crs=ccrs.PlateCarree())
 ax.coastlines(linewidth=0.5)
 
-
 # Plot data and create colorbar
 newcmp = gvcmaps.BlWhRe
 
-wind = V.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(),
-                       add_colorbar=False, levels=24)
-cbar = plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True,
-             ticks=np.arange(-48, 48, 8), pad=0.1, aspect=12)
-cbar.ax.tick_params(length=0) # remove tick marks but leave in labels
+wind = V.plot.contourf(ax=ax,
+                       cmap=newcmp,
+                       transform=ccrs.PlateCarree(),
+                       add_colorbar=False,
+                       levels=24)
+cbar = plt.colorbar(wind,
+                    ax=ax,
+                    orientation='horizontal',
+                    drawedges=True,
+                    ticks=np.arange(-48, 48, 8),
+                    pad=0.1,
+                    aspect=12)
+cbar.ax.tick_params(length=0)  # remove tick marks but leave in labels
 
 # Use geocat.viz.util convenience function to add left and right titles
-gvutil.set_titles_and_labels(ax, lefttitle=V.long_name, lefttitlefontsize=16,
-                             righttitle=V.units, righttitlefontsize=16)
+gvutil.set_titles_and_labels(ax,
+                             lefttitle=V.long_name,
+                             lefttitlefontsize=16,
+                             righttitle=V.units,
+                             righttitlefontsize=16)
 
 plt.show()
 
@@ -92,13 +101,24 @@ ax.coastlines(linewidth=0.5)
 gvutil.set_map_boundary(ax, [-85, 40], [20, 80], south_pad=1)
 
 # Plot data and create colorbar
-wind = masked.plot.contourf(ax=ax, cmap=newcmp, transform=ccrs.PlateCarree(),
-                            add_colorbar=False, levels=24)
-cbar = plt.colorbar(wind, ax=ax, orientation='horizontal', drawedges=True,
-             ticks=np.arange(-40, 44, 4), pad=0.1, aspect=18)
-cbar.ax.tick_params(length=0) # remove tick marks but leave in labels
+wind = masked.plot.contourf(ax=ax,
+                            cmap=newcmp,
+                            transform=ccrs.PlateCarree(),
+                            add_colorbar=False,
+                            levels=24)
+cbar = plt.colorbar(wind,
+                    ax=ax,
+                    orientation='horizontal',
+                    drawedges=True,
+                    ticks=np.arange(-40, 44, 4),
+                    pad=0.1,
+                    aspect=18)
+cbar.ax.tick_params(length=0)  # remove tick marks but leave in labels
 
 # Use geocat.viz.util convenience function to add left and right titles
-gvutil.set_titles_and_labels(ax, lefttitle=V.long_name, lefttitlefontsize=16,
-                             righttitle=V.units, righttitlefontsize=16)
+gvutil.set_titles_and_labels(ax,
+                             lefttitle=V.long_name,
+                             lefttitlefontsize=16,
+                             righttitle=V.units,
+                             righttitlefontsize=16)
 plt.show()

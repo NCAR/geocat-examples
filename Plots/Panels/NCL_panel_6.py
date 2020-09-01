@@ -35,7 +35,8 @@ import geocat.viz.util as gvutil
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"), decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"),
+                     decode_times=False)
 
 data0 = ds.T.isel(time=0, drop=True).isel(z_t=0, drop=True)
 data1 = ds.T.isel(time=0, drop=True).isel(z_t=5, drop=True)
@@ -52,7 +53,9 @@ data = [[data0, data1], [data2, data3]]
 ###############################################################################
 # Plot without extra whitespace:
 projection = ccrs.NorthPolarStereo()
-fig, axs = plt.subplots(2, 2, figsize=(8, 8),
+fig, axs = plt.subplots(2,
+                        2,
+                        figsize=(8, 8),
                         subplot_kw=dict(projection=projection))
 
 # Format axes and inset axes for color bars
@@ -62,13 +65,18 @@ for row in range(0, 2):
         # Add map features
         axs[row][col].add_feature(cfeature.LAND, facecolor='silver', zorder=2)
         axs[row][col].add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=3)
-        axs[row][col].add_feature(cfeature.LAKES, linewidth=0.5,
-                                  edgecolor='black', facecolor='None',
+        axs[row][col].add_feature(cfeature.LAKES,
+                                  linewidth=0.5,
+                                  edgecolor='black',
+                                  facecolor='None',
                                   zorder=4)
 
         # Add gridlines
-        gl = axs[row][col].gridlines(ccrs.PlateCarree(), draw_labels=False,
-                                     color='gray', linestyle="--", zorder=5)
+        gl = axs[row][col].gridlines(ccrs.PlateCarree(),
+                                     draw_labels=False,
+                                     color='gray',
+                                     linestyle="--",
+                                     zorder=5)
         gl.xlocator = mticker.FixedLocator(np.linspace(-180, 150, 12))
 
         # Add latitude and longitude labels
@@ -76,21 +84,32 @@ for row in range(0, 2):
         # Array specifying 8S, this makes an offset from the circle boundary
         # which lies at the equator
         y = np.full_like(x, -8)
-        labels = ['0', '30E', '60E', '90E', '120E', '150E', '180',
-                  '150W', '120W', '90W', '60W', '30W']
+        labels = [
+            '0', '30E', '60E', '90E', '120E', '150E', '180', '150W', '120W',
+            '90W', '60W', '30W'
+        ]
         for x, y, label in zip(x, y, labels):
             if label == '180':
-                axs[row][col].text(x, y, label, fontsize=7,
+                axs[row][col].text(x,
+                                   y,
+                                   label,
+                                   fontsize=7,
                                    horizontalalignment='center',
                                    verticalalignment='top',
                                    transform=ccrs.Geodetic())
             elif label == '0':
-                axs[row][col].text(x, y, label, fontsize=7,
+                axs[row][col].text(x,
+                                   y,
+                                   label,
+                                   fontsize=7,
                                    horizontalalignment='center',
                                    verticalalignment='bottom',
                                    transform=ccrs.Geodetic())
             else:
-                axs[row][col].text(x, y, label, fontsize=7,
+                axs[row][col].text(x,
+                                   y,
+                                   label,
+                                   fontsize=7,
                                    horizontalalignment='center',
                                    verticalalignment='center',
                                    transform=ccrs.Geodetic())
@@ -99,7 +118,9 @@ for row in range(0, 2):
         gvutil.set_map_boundary(axs[row][col], (-180, 180), (0, 90),
                                 south_pad=1)
         # Create inset axes for color bars
-        cax[row][col] = inset_axes(axs[row][col], width='5%', height='100%',
+        cax[row][col] = inset_axes(axs[row][col],
+                                   width='5%',
+                                   height='100%',
                                    loc='lower right',
                                    bbox_to_anchor=(0.175, 0, 1, 1),
                                    bbox_transform=axs[row][col].transAxes,
@@ -173,10 +194,14 @@ for row in range(0, 2):
 # Format titles for each subplot
 for row in range(0, 2):
     for col in range(0, 2):
-        axs[row][col].set_title(data[row][col].long_name, loc='left',
-                                fontsize=7, pad=20)
-        axs[row][col].set_title(data[row][col].units, loc='right',
-                                fontsize=7, pad=20)
+        axs[row][col].set_title(data[row][col].long_name,
+                                loc='left',
+                                fontsize=7,
+                                pad=20)
+        axs[row][col].set_title(data[row][col].units,
+                                loc='right',
+                                fontsize=7,
+                                pad=20)
 
 plt.show()
 
@@ -189,7 +214,10 @@ plt.show()
 # for more information on how to manipulate the gridlayout.
 
 projection = ccrs.NorthPolarStereo()
-fig, axs = plt.subplots(2, 2, figsize=(8, 8), gridspec_kw=(dict(wspace=0.5)),
+fig, axs = plt.subplots(2,
+                        2,
+                        figsize=(8, 8),
+                        gridspec_kw=(dict(wspace=0.5)),
                         subplot_kw=dict(projection=projection))
 #
 # Everything beyond this is the same code for the example without extra white space
@@ -202,13 +230,18 @@ for row in range(0, 2):
         # Add map features
         axs[row][col].add_feature(cfeature.LAND, facecolor='silver', zorder=2)
         axs[row][col].add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=3)
-        axs[row][col].add_feature(cfeature.LAKES, linewidth=0.5,
-                                  edgecolor='black', facecolor='None',
+        axs[row][col].add_feature(cfeature.LAKES,
+                                  linewidth=0.5,
+                                  edgecolor='black',
+                                  facecolor='None',
                                   zorder=4)
 
         # Add gridlines
-        gl = axs[row][col].gridlines(ccrs.PlateCarree(), draw_labels=False,
-                                     color='gray', linestyle="--", zorder=5)
+        gl = axs[row][col].gridlines(ccrs.PlateCarree(),
+                                     draw_labels=False,
+                                     color='gray',
+                                     linestyle="--",
+                                     zorder=5)
         gl.xlocator = mticker.FixedLocator(np.linspace(-180, 150, 12))
 
         # Add latitude and longitude labels
@@ -216,21 +249,32 @@ for row in range(0, 2):
         # Array specifying 8S, this makes an offset from the circle boundary
         # which lies at the equator
         y = np.full_like(x, -8)
-        labels = ['0', '30E', '60E', '90E', '120E', '150E', '180',
-                  '150W', '120W', '90W', '60W', '30W']
+        labels = [
+            '0', '30E', '60E', '90E', '120E', '150E', '180', '150W', '120W',
+            '90W', '60W', '30W'
+        ]
         for x, y, label in zip(x, y, labels):
             if label == '180':
-                axs[row][col].text(x, y, label, fontsize=7,
+                axs[row][col].text(x,
+                                   y,
+                                   label,
+                                   fontsize=7,
                                    horizontalalignment='center',
                                    verticalalignment='top',
                                    transform=ccrs.Geodetic())
             elif label == '0':
-                axs[row][col].text(x, y, label, fontsize=7,
+                axs[row][col].text(x,
+                                   y,
+                                   label,
+                                   fontsize=7,
                                    horizontalalignment='center',
                                    verticalalignment='bottom',
                                    transform=ccrs.Geodetic())
             else:
-                axs[row][col].text(x, y, label, fontsize=7,
+                axs[row][col].text(x,
+                                   y,
+                                   label,
+                                   fontsize=7,
                                    horizontalalignment='center',
                                    verticalalignment='center',
                                    transform=ccrs.Geodetic())
@@ -239,7 +283,9 @@ for row in range(0, 2):
         gvutil.set_map_boundary(axs[row][col], (-180, 180), (0, 90),
                                 south_pad=1)
         # Create inset axes for color bars
-        cax[row][col] = inset_axes(axs[row][col], width='5%', height='100%',
+        cax[row][col] = inset_axes(axs[row][col],
+                                   width='5%',
+                                   height='100%',
                                    loc='lower right',
                                    bbox_to_anchor=(0.175, 0, 1, 1),
                                    bbox_transform=axs[row][col].transAxes,
@@ -313,9 +359,13 @@ for row in range(0, 2):
 # Format titles for each subplot
 for row in range(0, 2):
     for col in range(0, 2):
-        axs[row][col].set_title(data[row][col].long_name, loc='left',
-                                fontsize=7, pad=20)
-        axs[row][col].set_title(data[row][col].units, loc='right',
-                                fontsize=7, pad=20)
+        axs[row][col].set_title(data[row][col].long_name,
+                                loc='left',
+                                fontsize=7,
+                                pad=20)
+        axs[row][col].set_title(data[row][col].units,
+                                loc='right',
+                                fontsize=7,
+                                pad=20)
 
 plt.show()

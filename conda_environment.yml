@@ -14,7 +14,7 @@ dependencies:
   - pillow
   - scikit-learn
   - sphinx
-  - matplotlib
+  - matplotlib=3.3.0
   - sphinx-gallery
   - sphinx_rtd_theme
   - jupyter
