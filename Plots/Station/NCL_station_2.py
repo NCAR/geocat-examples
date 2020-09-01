@@ -49,10 +49,12 @@ dummy_data = np.random.uniform(-1.2, 35, npts)
 # color[-1] => dummy_data => bin_bounds[-1]
 # color[j] => bin_bounds[j-1] <= dummy_data < bin_bounds[j]
 
-bin_bounds = [0.,5.,10.,15.,20.,23.,26.]
-colors = ['purple', 'darkblue', 'blue', 'lightblue', 'yellow', 'orange', 'red', 'pink']
+bin_bounds = [0., 5., 10., 15., 20., 23., 26.]
+colors = [
+    'purple', 'darkblue', 'blue', 'lightblue', 'yellow', 'orange', 'red', 'pink'
+]
 
-nbins = len(colors)   # One bin for each color
+nbins = len(colors)  # One bin for each color
 
 # Define colormap for plotting based on these colors
 cmap = mpl.colors.ListedColormap(colors)
@@ -60,6 +62,7 @@ cmap = mpl.colors.ListedColormap(colors)
 ###################################################
 # Utility Function: Make Shared Plot:
 # -----------------------------------
+
 
 # Define a utility function to create the basic contour plot that will be used twice to create two slightly
 # different plots, both of which rely on same base figure
@@ -70,18 +73,30 @@ def make_shared_plot(title):
     ax = plt.axes(projection=ccrs.PlateCarree())
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5, labelsize=14)
+    gvutil.add_major_minor_ticks(ax,
+                                 x_minor_per_major=4,
+                                 y_minor_per_major=5,
+                                 labelsize=14)
 
     # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax)
 
     # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-    gvutil.set_axes_limits_and_ticks(ax, xlim=(-125,-70), ylim=(25,50),
-                                         xticks=range(-120, -75, 20), yticks=range(30, 51, 10))
+    gvutil.set_axes_limits_and_ticks(ax,
+                                     xlim=(-125, -70),
+                                     ylim=(25, 50),
+                                     xticks=range(-120, -75, 20),
+                                     yticks=range(30, 51, 10))
 
     # Turn on continent shading
-    ax.add_feature(cartopy.feature.LAND, edgecolor='lightgray', facecolor='lightgray', zorder=0)
-    ax.add_feature(cartopy.feature.LAKES, edgecolor='white', facecolor='white', zorder=0)
+    ax.add_feature(cartopy.feature.LAND,
+                   edgecolor='lightgray',
+                   facecolor='lightgray',
+                   zorder=0)
+    ax.add_feature(cartopy.feature.LAKES,
+                   edgecolor='white',
+                   facecolor='white',
+                   zorder=0)
 
     # Scatter-plot the location data on the map
     scatter = plt.scatter(lon, lat, c=dummy_data, cmap=cmap, zorder=1)
@@ -90,12 +105,14 @@ def make_shared_plot(title):
 
     return scatter, ax
 
+
 ###################################################
 # Plot 1 (with a legend outside, i.e. station_2_1.png)
 # ----------------------------------------------------
 
 # Draw the base plot
-scatter1, ax = make_shared_plot("Dummy station data colored according to range of values")
+scatter1, ax = make_shared_plot(
+    "Dummy station data colored according to range of values")
 
 # Add a legend to the bottom outside of the plot
 # Given how we generated the plot, adding a legend is a little kludgy. Basically, we draw a second plot where no data
@@ -103,14 +120,14 @@ scatter1, ax = make_shared_plot("Dummy station data colored according to range o
 lax = plt.axes((0, 0, 1, 0.1), frameon=False)
 
 # Plotting window is [0,1] x [0,1]
-plt.xlim(0,1)
-plt.ylim(0,1)
+plt.xlim(0, 1)
+plt.ylim(0, 1)
 plt.axis('off')
 
 for n, color in enumerate(colors):
     if n == 0:
         label = f'x < {bin_bounds[0]:.0f}'
-    elif n == nbins-1:
+    elif n == nbins - 1:
         label = f'x >= {bin_bounds[-1]:.0f}'
     else:
         label = f'{bin_bounds[n-1]:.0f} <= x < {bin_bounds[n]:.0f}'
@@ -129,13 +146,18 @@ plt.show()
 # ----------------------------------------------
 
 # Draw the base plot
-scatter2 = make_shared_plot("Dummy station data colored according to range of values")
+scatter2 = make_shared_plot(
+    "Dummy station data colored according to range of values")
 
 # Add a horizontal colorbar
 cax = plt.axes((0.225, 0.05, 0.55, 0.025))
-norm = mpl.colors.BoundaryNorm([-1.2] + bin_bounds+ [35], len(colors))
-mpl.colorbar.ColorbarBase(cax, cmap=cmap, orientation='horizontal', norm=norm,
-                                boundaries=[-1.2] + bin_bounds + [35], ticks=bin_bounds)
+norm = mpl.colors.BoundaryNorm([-1.2] + bin_bounds + [35], len(colors))
+mpl.colorbar.ColorbarBase(cax,
+                          cmap=cmap,
+                          orientation='horizontal',
+                          norm=norm,
+                          boundaries=[-1.2] + bin_bounds + [35],
+                          ticks=bin_bounds)
 
 # Show the plot
 plt.show()
