@@ -1,6 +1,6 @@
 """
 NCL_mask_2.py
-===============
+==============
 This script illustrates the following concepts:
    - Using keyword zorder to mask areas in a plot
    - Drawing filled land areas on top of a contour plot
