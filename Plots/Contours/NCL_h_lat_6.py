@@ -1,5 +1,5 @@
 """
-NCL_conOncon_1.py
+NCL_h_lat_6.py
 =================
 This script illustrates the following concepts:
    - Drawing filled contours of zonal wind 
