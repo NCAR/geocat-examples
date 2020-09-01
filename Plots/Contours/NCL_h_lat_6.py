@@ -106,11 +106,16 @@ gvutil.set_titles_and_labels(ax,
 # Currently we're using arbitrary values for height as we haven't figured out
 # how to make this work properly yet
 axRHS = ax.twinx()
-axRHS.set_ylim(0, 32)
-axRHS.set_yticks(np.arange(4, 32, 4))
-axRHS.tick_params(labelsize=10)
-axRHS.set_ylabel('Height (km)')
-axRHS.yaxis.label.set_size(14)
+
+# Use geocat.viz.util convenience function to set axes tick values
+gvutil.set_axes_limits_and_ticks(axRHS,
+                                 ylim=(0, 32),
+                                 yticks=np.arange(4, 32, 4))
+
+# Use geocat.viz.util convenience function to add titles and the pressure label
+gvutil.set_titles_and_labels(axRHS,
+                             ylabel='Height (km)',
+                             labelfontsize=14)
 
 # Force the plot to be square by setting the aspect ratio to 1
 ax.set_box_aspect(1)
