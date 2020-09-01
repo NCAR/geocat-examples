@@ -87,11 +87,11 @@ gvutil.set_axes_limits_and_ticks(ax,
 ax.yaxis.set_major_formatter(ScalarFormatter())
 
 # Use geocat.viz.util convenience function to add major tick lines with no
-# minor ticks
+# minor ticks on lefthand side y axis and some minor ticks on the x axis
 gvutil.add_major_minor_ticks(ax=ax,
                              x_minor_per_major=3,
                              y_minor_per_major=1,
-                             labelsize=10)
+                             labelsize=12)
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
 gvutil.set_titles_and_labels(ax,
@@ -100,7 +100,7 @@ gvutil.set_titles_and_labels(ax,
                              righttitle=U.units,
                              righttitlefontsize=14,
                              ylabel=U.lev.long_name + " (" + U.lev.units + ")",
-                             labelfontsize=14)
+                             labelfontsize=16)
 
 # Create second y-axis to show geo-potential height.
 # Currently we're using arbitrary values for height as we haven't figured out
@@ -111,9 +111,10 @@ axRHS = ax.twinx()
 gvutil.set_axes_limits_and_ticks(axRHS,
                                  ylim=(0, 32),
                                  yticks=np.arange(4, 32, 4))
+axRHS.tick_params(labelsize=12)  # manually set tick label size
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
-gvutil.set_titles_and_labels(axRHS, ylabel='Height (km)', labelfontsize=14)
+gvutil.set_titles_and_labels(axRHS, ylabel='Height (km)', labelfontsize=16)
 
 # Force the plot to be square by setting the aspect ratio to 1
 ax.set_box_aspect(1)
