@@ -23,19 +23,22 @@ import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
+from geocat.viz import cmaps as gvcmaps
 
 ###############################################################################
 # Read in data:
 
-# Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/chi200_ud_smooth.nc"))
-chi = ds.CHI
+# Open a netCDF data file using xarray default engine
+# and load the data into xarrays
+ds = xr.open_dataset(gdf.get('netcdf_files/chi200_ud_smooth.nc'))
 
-# Scale the data for convenience
-scale = 1e6
+lon = ds.lon
+times = ds.time
+scale = 1000000
+chi = ds.CHI
 chi = chi / scale
 
-##############################################################################
+###############################################################################
 # Creat Single Plot:
 fig, (ax1, ax2) = plt.subplots(nrows=1,
                                ncols=2,
@@ -43,25 +46,44 @@ fig, (ax1, ax2) = plt.subplots(nrows=1,
                                figsize=(12, 9),
                                gridspec_kw=dict(wspace=0,
                                                 width_ratios=[0.75, 0.25]))
-# Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax=ax1,
-                                 xlim=(100, 215),
-                                 ylim=(0, 180),
-                                 xticks=(135, 180),
-                                 yticks=np.arange(0, 181, 30),
-                                 xticklabels=('135E', '180'))
+
+# Draw contour lines
+ax1.contour(lon,
+            times,
+            chi,
+            levels=np.arange(-12, 13, 2),
+            colors='black',
+            linestyles='solid',
+            linewidths=.5)
+
+# Draw filled contours
+cf = ax1.contourf(lon,
+                  times,
+                  chi,
+                  levels=np.arange(-12, 13, 2),
+                  cmap=gvcmaps.BlWhRe)
+
+# Use geocat.viz.util convenience function to set axes limits & tick values
+gvutil.set_axes_limits_and_ticks(ax1,
+                                 xlim=[100, 220],
+                                 ylim=[0, 1.55 * 1e16],
+                                 xticks=[135, 180],
+                                 yticks=np.linspace(0, 1.55 * 1e16, 7),
+                                 xticklabels=['135E', '180'],
+                                 yticklabels=np.arange(0, 181, 30))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax=ax1)
+gvutil.add_major_minor_ticks(ax1,
+                             x_minor_per_major=3,
+                             y_minor_per_major=3,
+                             labelsize=12)
 
-# Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax=ax2,
-                                 xlim=(-0.6, 0.9),
-                                 ylim=(0, 180),
-                                 xticks=np.arange(-0.3, 0.9, 0.3),
-                                 yticks=np.arange(0, 181, 30))
+# Use geocat.viz.util convenience function to add titles
+gvutil.set_titles_and_labels(ax1,
+                             maintitle="Pacific Region",
+                             lefttitle="Velocity Potential",
+                             righttitle="m2/s",
+                             ylabel="elapsed time")
 
-# Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax=ax2, x_minor_per_major=1)
-
+plt.tight_layout()
 plt.show()
