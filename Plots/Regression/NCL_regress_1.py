@@ -5,6 +5,7 @@ This script illustrates the following concepts:
    - Read tabular values from an ascii file
    - Calculating the least squared regression for a one dimensional array
    - Drawing a scatter plot with a regression line
+   - Changing the size and color of markers, thickness of line
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/regress_1.ncl
@@ -53,10 +54,11 @@ plt.figure(figsize=(6, 6))
 ax = plt.gca()
 
 # Plot original data
-plt.scatter(x, y, c='r', s=4)
+# Note that the s parameter sets the size of the markers in pts
+plt.scatter(x, y, color='r', s=4)
 
 # Plot regression
-plt.plot(x_regress, y_regress, c='k', linewidth=0.5)
+plt.plot(x_regress, y_regress, color='k', linewidth=0.5)
 
 # specify X and Y axis limits
 plt.xlim([6000, 9000])
