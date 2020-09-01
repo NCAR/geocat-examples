@@ -113,9 +113,7 @@ gvutil.set_axes_limits_and_ticks(axRHS,
                                  yticks=np.arange(4, 32, 4))
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
-gvutil.set_titles_and_labels(axRHS,
-                             ylabel='Height (km)',
-                             labelfontsize=14)
+gvutil.set_titles_and_labels(axRHS, ylabel='Height (km)', labelfontsize=14)
 
 # Force the plot to be square by setting the aspect ratio to 1
 ax.set_box_aspect(1)
