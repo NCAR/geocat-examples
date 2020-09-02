@@ -20,5 +20,5 @@ dependencies:
   - jupyter
   - make
   - geographiclib
-  - wrf
+  - wrf-python
   - metpy
