@@ -3,13 +3,12 @@ NCL_datagrid_4_lg.py
 ==================
 This script illustrates the following concepts:
     - Plotting WRF data on native grid
-    - Drawing a WRF lat/lon grid
     - Plotting data using wrf python functions
     - Following best practices when choosing a colormap
     
 See following URLs to see the reproduced NCL plot & script:
-    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/datagrid_4.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/datagrid_4_lg.png
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/dataonmap_10.ncl
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/dataonmap_10_1_lg.png
 """
 
 ###############################################################################
