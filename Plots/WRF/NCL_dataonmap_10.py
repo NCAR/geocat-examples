@@ -45,17 +45,14 @@ fig = plt.figure(figsize=(10,10))
 cart_proj = get_cartopy(q2)
 ax = plt.axes(projection=cart_proj)
 
-# Add features to the projection
-# ax.add_feature(cfeature.OCEAN, edgecolor='lightgray', facecolor='lightblue', zorder=1)
-
 # Add filled contours
 plt.contourf(to_np(lons),
              to_np(lats),
              q2,
              levels=16, cmap="magma",
              transform=ccrs.PlateCarree(),
-             vmin=np.amin(q2),
-             vmax=np.amax(q2))
+             vmin=0,
+             vmax=0.05)
 
 # Add a colorbar
 cbar = plt.colorbar(ax=ax,
@@ -63,8 +60,8 @@ cbar = plt.colorbar(ax=ax,
                     ticks= np.arange(0.0125, 0.0475, 0.0025),
                     drawedges=True,
                     extendrect=True,
-                    shrink=0.7,)
-                    # aspect=30)
+                    shrink=0.7)
+                    
 
 # Format colorbar ticks and labels 
 cbar.ax.tick_params(size=0, labelsize=10)
