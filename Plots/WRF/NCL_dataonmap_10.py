@@ -1,10 +1,11 @@
 """
-NCL_datagrid_4_lg.py
-==================
+NCL_dataonmap_10_lg.py
+====================
 This script illustrates the following concepts:
     - Plotting WRF data on native grid
     - Plotting data using wrf python functions
-    - Following best practices when choosing a colormap
+    - Following best practices when choosing a colormap.
+      More information on colormap best practices can be found `here <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py>`_.
     
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/dataonmap_10.ncl
@@ -43,6 +44,7 @@ cart_proj = get_cartopy(q2)
 ax = plt.axes(projection=cart_proj)
 
 # Add filled contours
+# 
 plt.contourf(to_np(lons),
              to_np(lats),
              q2,
