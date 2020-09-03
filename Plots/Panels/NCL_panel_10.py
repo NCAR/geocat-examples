@@ -39,6 +39,9 @@ scale = 1000000
 chi = ds.CHI
 chi = chi / scale
 
+# Calculate zonal mean
+mean = chi.mean(dim='lon')
+
 ###############################################################################
 # Creat Single Plot:
 fig, (ax1, ax2) = plt.subplots(nrows=1,
@@ -131,5 +134,8 @@ ax2.tick_params('y', which='both', left=False)
 gvutil.set_titles_and_labels(ax2,
                              maintitle="Zonal Ave",
                              maintitlefontsize=12)
+
+# Plot zonal average
+ax2.plot(mean, times, linewidth=0.5, color='black')
 
 plt.show()
