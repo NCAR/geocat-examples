@@ -77,7 +77,10 @@ cf = ax1.contourf(lon,
                   cmap=gvcmaps.BlWhRe)
 
 # Draw colorbar with larger tick labels
-cbar = plt.colorbar(cf, cax=cax1, orientation='horizontal', ticks=np.arange(-10, 11, 2))
+cbar = plt.colorbar(cf,
+                    cax=cax1,
+                    orientation='horizontal',
+                    ticks=np.arange(-10, 11, 2))
 cbar.ax.tick_params(labelsize=12)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values
