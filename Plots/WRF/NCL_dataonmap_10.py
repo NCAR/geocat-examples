@@ -1,6 +1,6 @@
 """
 NCL_dataonmap_10_lg.py
-====================
+======================
 This script illustrates the following concepts:
     - Plotting WRF data on native grid
     - Plotting data using wrf python functions
