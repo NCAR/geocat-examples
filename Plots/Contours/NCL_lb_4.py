@@ -1,6 +1,6 @@
 """
 NCL_lb_4.py
-===============
+==============
 This script illustrates the following concepts:
    - Drawing a horizontal colorbar
    - Changing the labelbar labels
