@@ -4,6 +4,7 @@ NCL_dataonmap_10_lg.py
 This script illustrates the following concepts:
     - Plotting WRF data on native grid
     - Plotting data using wrf python functions
+    - Overlaying continent outlines on a map
     - Following best practices when choosing a colormap.
       More information on colormap best practices can be found `here <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py>`_.
     
@@ -20,6 +21,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import cartopy.crs as ccrs
+import cartopy.feature as cfeature
 from wrf import (getvar, to_np, latlon_coords, get_cartopy)
 
 import geocat.datafiles as gdf
@@ -43,8 +45,10 @@ fig = plt.figure(figsize=(10,10))
 cart_proj = get_cartopy(q2)
 ax = plt.axes(projection=cart_proj)
 
+# Add features to the map
+ax.add_feature(cfeature.LAND, facecolor="", edgecolor="k", zorder=1)
+
 # Add filled contours
-# 
 plt.contourf(to_np(lons),
              to_np(lats),
              q2,
