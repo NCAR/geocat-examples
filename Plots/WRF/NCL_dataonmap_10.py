@@ -33,7 +33,7 @@ from geocat.viz import util as gvutil
 wrfin = Dataset(gdf.get("netcdf_files/wrfout_d01_2003-07-15_00_00_00"), decode_times=True)
 
 q2 = getvar(wrfin, "Q2")
-print(np.amax(q2))
+
 ###############################################################################
 # Plot the data
 
@@ -52,7 +52,7 @@ ax.add_feature(cfeature.LAND, facecolor="", edgecolor="k", zorder=1)
 plt.contourf(to_np(lons),
              to_np(lats),
              q2,
-             levels=np.linspace(0.01, 0.05, 32), cmap="magma",
+             levels=np.linspace(0.01125, 0.05, 32), cmap="magma",
              transform=ccrs.PlateCarree(),
              vmin=0,
              vmax=0.05)
