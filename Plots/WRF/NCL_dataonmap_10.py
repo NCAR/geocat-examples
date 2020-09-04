@@ -30,7 +30,7 @@ from geocat.viz import util as gvutil
 ###############################################################################
 # Read in the data
 
-wrfin = Dataset(gdf.get("netcdf_files/wrfout_d01_2003-07-15_00:00:00"), decode_times=True)
+wrfin = Dataset(gdf.get("netcdf_files/wrfout_d01_2005-08-28_00_00_00"), decode_times=True)
 
 q2 = getvar(wrfin, "Q2")
 
@@ -52,15 +52,15 @@ ax.add_feature(cfeature.LAND, facecolor="", edgecolor="k", zorder=1)
 plt.contourf(to_np(lons),
              to_np(lats),
              q2,
-             levels=16, cmap="magma",
+             levels=np.linspace(0.01, 0.05, 32), cmap="magma",
              transform=ccrs.PlateCarree(),
-             vmin=0.0125,
-             vmax=0.0475)
+             vmin=0,
+             vmax=0.05)
 
 # Add a colorbar
 cbar = plt.colorbar(ax=ax,
                     orientation="vertical",
-                    ticks=np.arange(0.0125, 0.0475, 0.0025),
+                    ticks=np.arange(0.0125, 0.0476, 0.0025),
                     drawedges=True,
                     extendrect=True,
                     shrink=0.7)
