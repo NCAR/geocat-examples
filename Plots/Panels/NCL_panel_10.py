@@ -21,6 +21,7 @@ import cartopy
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+import matplotlib.gridspec as gridspec
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
@@ -43,7 +44,7 @@ chi = chi / scale
 mean = chi.mean(dim='lon')
 
 ###############################################################################
-# Creat Single Plot:
+# Create Single Plot:
 fig, (ax1, ax2) = plt.subplots(nrows=1,
                                ncols=2,
                                sharey=True,
@@ -137,5 +138,102 @@ gvutil.set_titles_and_labels(ax2,
 
 # Plot zonal average
 ax2.plot(mean, times, linewidth=0.5, color='black')
+
+plt.show()
+
+##############################################################################
+# Define helper function to create the four subplots
+def make_subplot(fig, gridspec, xlim):
+    # Create axes for the contour plot and the zonal average plot
+    ax1 = fig.add_subplot(gridspec[0])
+    ax2 = fig.add_subplot(gridspec[1])
+
+    # Draw contour lines
+    ax1.contour(lon,
+                times,
+                chi,
+                levels=np.arange(-12, 13, 2),
+                colors='black',
+                linestyles='solid',
+                linewidths=.5)
+
+    # Draw filled contours
+    cf = ax1.contourf(lon,
+                      times,
+                      chi,
+                      levels=np.arange(-12, 13, 2),
+                      cmap=gvcmaps.BlWhRe)
+    
+    # Use geocat.viz.util convenience function to set axes limits & tick values
+    gvutil.set_axes_limits_and_ticks(ax1,
+                                     xlim=xlim,
+                                     ylim=[0, 1.55 * 1e16],
+                                     xticks=np.arange(xlim[0], xlim[1], 30),
+                                     yticks=np.linspace(0, 1.55 * 1e16, 7),
+                                     yticklabels=[])
+
+    # Use geocat.viz.util convenience function to add minor and major tick lines
+    gvutil.add_major_minor_ticks(ax1,
+                                 x_minor_per_major=2,
+                                 y_minor_per_major=3,
+                                 labelsize=10)
+
+    # Remove tick marks on right side of ax1
+    ax1.tick_params('y', which='both', right=False)
+
+    # Use geocat.viz.util convenience function to add titles
+    gvutil.set_titles_and_labels(ax1,
+                                 lefttitle="Velocity Potential",
+                                 righttitle="m2/s",
+                                 lefttitlefontsize=10,
+                                 righttitlefontsize=10)
+
+    # Format axes for zonal average plot
+    # Use geocat.viz.util convenience function to set axes limits & tick values
+    gvutil.set_axes_limits_and_ticks(ax2,
+                                     xlim=[-0.6, 0.9],
+                                     ylim=[0, 1.55 * 1e16],
+                                     xticks=np.arange(-0.3, 0.7, 0.3),
+                                     yticks=np.linspace(0, 1.55 * 1e16, 7),
+                                     xticklabels=['-0.30', '', '0.30', ''],
+                                     yticklabels=[])
+
+    # Use geocat.viz.util convenience function to add minor and major tick lines
+    gvutil.add_major_minor_ticks(ax2,
+                                 x_minor_per_major=1,
+                                 y_minor_per_major=3,
+                                 labelsize=8)
+
+    # Remove tick marks on left side of ax2
+    ax2.tick_params('y', which='both', left=False)
+
+    # Use geocat.viz.util convenience function to add titles
+    gvutil.set_titles_and_labels(ax2,
+                                 maintitle="Zonal Ave",
+                                 maintitlefontsize=8)
+
+    # Plot zonal average
+    ax2.plot(mean, times, linewidth=0.5, color='black')
+
+##############################################################################
+# Create the four panel plot
+fig = plt.figure(figsize=(10, 10))
+
+# Create a two by two grid to hold the four plots
+outer_grid = gridspec.GridSpec(2, 2, figure=fig)
+
+# Create an array to hold the internal gridspecs
+inner_grids = np.empty(4, dtype=gridspec.GridSpec)
+print(inner_grids)
+# Create the gridspecs for each of the four plots
+for i in range(0, 4):
+    inner_grids[i] = gridspec.GridSpecFromSubplotSpec(1, 2,
+                                                subplot_spec=outer_grid[i],
+                                                wspace=0,
+                                                width_ratios=[0.75, 0.25])
+make_subplot(fig, inner_grids[0], [0, 90])
+make_subplot(fig, inner_grids[1], [90, 180])
+make_subplot(fig, inner_grids[2], [180, 270])
+make_subplot(fig, inner_grids[3], [270, 360])
 
 plt.show()
