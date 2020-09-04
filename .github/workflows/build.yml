@@ -3,7 +3,7 @@ name: Build documentation pages
 on:
   push:
     branches:
-      - '*'
+    - '*'
 
 jobs:
   build-and-run:
