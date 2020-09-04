@@ -30,10 +30,10 @@ from geocat.viz import util as gvutil
 ###############################################################################
 # Read in the data
 
-wrfin = Dataset(gdf.get("netcdf_files/wrfout_d01_2005-08-28_00_00_00"), decode_times=True)
+wrfin = Dataset(gdf.get("netcdf_files/wrfout_d01_2003-07-15_00_00_00"), decode_times=True)
 
 q2 = getvar(wrfin, "Q2")
-
+print(np.amax(q2))
 ###############################################################################
 # Plot the data
 
