@@ -38,23 +38,39 @@ plt.figure(figsize=(7, 6.5))
 ax = plt.gca()
 
 # Plot slices of data
-U.isel(time=0).sel(lon=82, method='nearest').plot(x="lat", marker='', color='#C0C2EA', linewidth=1.1)
-U.isel(time=0).sel(lon=-69, method='nearest').plot(x="lat", marker='', color='#E28D90', linewidth=1.1, linestyle='--',
+U.isel(time=0).sel(lon=82, method='nearest').plot(x="lat",
+                                                  marker='',
+                                                  color='#C0C2EA',
+                                                  linewidth=1.1)
+U.isel(time=0).sel(lon=-69, method='nearest').plot(x="lat",
+                                                   marker='',
+                                                   color='#E28D90',
+                                                   linewidth=1.1,
+                                                   linestyle='--',
                                                    dashes=[6.5, 3.7])
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=5, labelsize=16)
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=3,
+                             y_minor_per_major=5,
+                             labelsize=16)
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, tick values, and tick labels to show latitude & longitude (i.e. North (N) - South (S))
-gvutil.set_axes_limits_and_ticks(ax, xlim=(-90,90), ylim=(-20,50),
-                                     xticks=np.linspace(-90, 90, 7), yticks=np.linspace(-20, 50, 8),
-                                     xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'])
+gvutil.set_axes_limits_and_ticks(
+    ax,
+    xlim=(-90, 90),
+    ylim=(-20, 50),
+    xticks=np.linspace(-90, 90, 7),
+    yticks=np.linspace(-20, 50, 8),
+    xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'])
 
 # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-gvutil.set_titles_and_labels(ax, maintitle="Two Curve XY Plot", xlabel="", ylabel="Zonal Wind")
+gvutil.set_titles_and_labels(ax,
+                             maintitle="Two Curve XY Plot",
+                             xlabel="",
+                             ylabel="Zonal Wind")
 
 # Show the plot
 plt.tight_layout()
 plt.show()
-

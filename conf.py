@@ -16,13 +16,11 @@ import warnings
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-
 # -- Project information -----------------------------------------------------
 
 project = 'GeoCAT-examples'
 copyright = '2019, GeoCAT'
 author = 'GeoCAT'
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -41,21 +39,22 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '**/README.rst']
 
-
 # -- suppress warnings -------------------------------------------------------
 import warnings
 
 # filter Matplotlib 'agg' warnings
-warnings.filterwarnings("ignore", category=UserWarning,
+warnings.filterwarnings("ignore",
+                        category=UserWarning,
                         message='Matplotlib is currently using agg, which is a'
-                                ' non-GUI backend, so cannot show the figure.')
+                        ' non-GUI backend, so cannot show the figure.')
 
 # filter seaborn warnings
-warnings.filterwarnings("ignore", category=UserWarning,
+warnings.filterwarnings("ignore",
+                        category=UserWarning,
                         message='As seaborn no longer sets a default style on'
-                                ' import, the seaborn.apionly module is'
-                                ' deprecated. It will be removed in a future'
-                                ' version.')
+                        ' import, the seaborn.apionly module is'
+                        ' deprecated. It will be removed in a future'
+                        ' version.')
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -78,9 +77,10 @@ master_doc = 'index'
 # Configure sphinx-gallery plugin
 from sphinx_gallery.sorting import ExampleTitleSortKey
 sphinx_gallery_conf = {
-    'examples_dirs': ['Plots',],   # path to your example scripts
+    'examples_dirs': ['Plots',],  # path to your example scripts
     'filename_pattern': '^((?!sgskip).)*$',
-    'gallery_dirs': ['gallery'],  # path to where to save gallery generated output
+    'gallery_dirs': ['gallery'
+                    ],  # path to where to save gallery generated output
     'within_subsection_order': ExampleTitleSortKey,
 }
 
