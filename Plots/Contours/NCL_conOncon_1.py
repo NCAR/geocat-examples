@@ -30,8 +30,8 @@ from geocat.viz import util as gvutil
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/mxclim.nc"))
 # Extract variables
-U = ds.U[0,:,:]
-V = ds.V[0,:,:]
+U = ds.U[0, :, :]
+V = ds.V[0, :, :]
 
 ################################################################################
 # Plot:
@@ -44,17 +44,20 @@ ax = plt.gca()
 plt.yscale('log')
 
 # Contour-plot U-data
-p = U.plot.contour(ax=ax,  levels=16, colors='red', extend='neither')
+p = U.plot.contour(ax=ax, levels=16, colors='red', extend='neither')
 ax.clabel(p, fmt='%d', inline=1, fontsize=14)
 
 # Contour-plot V-data
-p = V.plot.contour(ax=ax,  levels=16, colors='blue', extend='neither')
+p = V.plot.contour(ax=ax, levels=16, colors='blue', extend='neither')
 ax.clabel(p, fmt='%d', inline=1, fontsize=14)
 
 # Use geocat.viz.util convenience function to set axes tick values
 # Set y-lim inorder for y-axis to have descending values
-gvutil.set_axes_limits_and_ticks(ax, xticks=np.linspace(-60, 60, 5), xticklabels=['60S', '30S', '0', '30N', '60N'],
-                                 ylim=ax.get_ylim()[::-1], yticks=U["lev"])
+gvutil.set_axes_limits_and_ticks(ax,
+                                 xticks=np.linspace(-60, 60, 5),
+                                 xticklabels=['60S', '30S', '0', '30N', '60N'],
+                                 ylim=ax.get_ylim()[::-1],
+                                 yticks=U["lev"])
 
 # Change formatter or else we tick values formatted in exponential form
 ax.yaxis.set_major_formatter(ScalarFormatter())
@@ -65,9 +68,14 @@ ax.tick_params('both', length=20, width=2, which='major', labelsize=18)
 ax.minorticks_off()
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax, maintitle="Ensemble Average 1987-89", maintitlefontsize=20,
-                                 lefttitle=U.long_name, lefttitlefontsize=18,
-                                 righttitle=U.units, righttitlefontsize=18, xlabel="")
+gvutil.set_titles_and_labels(ax,
+                             maintitle="Ensemble Average 1987-89",
+                             maintitlefontsize=20,
+                             lefttitle=U.long_name,
+                             lefttitlefontsize=18,
+                             righttitle=U.units,
+                             righttitlefontsize=18,
+                             xlabel="")
 
 # Create second y-axis to show geo-potential height.
 # Currently we're using bogus values for height, cause we haven't figured out how to make this work.

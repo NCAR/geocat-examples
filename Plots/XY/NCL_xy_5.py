@@ -39,9 +39,9 @@ num_months = np.shape(date)[0]
 # This produces the same results as NCL's yyyymm_to_yyyyfrac() function
 date_frac = np.empty_like(date)
 for n in np.arange(0, num_months, 1):
-    yyyy = int(date[n]/100)
-    mon = (date[n]/100-yyyy)*100
-    date_frac[n] = yyyy + (mon-1)/12
+    yyyy = int(date[n] / 100)
+    mon = (date[n] / 100 - yyyy) * 100
+    date_frac[n] = yyyy + (mon - 1) / 12
 
 ###############################################################################
 # Plot:
@@ -62,13 +62,15 @@ ax.plot(date_frac, dsoid, color='black')
 ax.fill_between(date_frac, dsoik, where=dsoik > 0, color='red')
 ax.fill_between(date_frac, dsoik, where=dsoik < 0, color='blue')
 
-
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5,
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=4,
+                             y_minor_per_major=5,
                              labelsize=14)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax, ylim=(-3, 3),
+gvutil.set_axes_limits_and_ticks(ax,
+                                 ylim=(-3, 3),
                                  yticks=np.linspace(-3, 3, 7),
                                  yticklabels=np.linspace(-3, 3, 7),
                                  xlim=(date_frac[0], date_frac[-1]),
