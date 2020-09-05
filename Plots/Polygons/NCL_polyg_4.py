@@ -41,6 +41,7 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 # Utility Function: Make Base Plot:
 # ---------------------------------
 
+
 # Define a utility function to create the basic contour plot, which will get used twice to create two slightly
 # different plots
 def make_base_plot():
@@ -82,17 +83,30 @@ def make_base_plot():
 
     # Add contour labels.   Default contour labels are sparsely placed, so we specify label locations manually.
     # Label locations only need to be approximate; the nearest contour will be selected.
-    label_locations = [(-123, 35), (-116, 17), (-94, 4), (-85, -6), (-95, -10),
-                       (-85, -15), (-70, 35), (-42, 28), (-54, 7), (-53, -5),
-                       (-39, -11), (-28, 11), (-16, -1), (-8, -9),             # Python allows trailing list separators.
-                       ]
-    ax.clabel(hdl,
-              np.arange(-8, 24, 8),    # Only label these contour levels: [-8, 0, 8, 16]
-              fontsize="small",
-              colors="black",
-              fmt="%.0f",              # Turn off decimal points
-              manual=label_locations,  # Manual label locations
-              inline=False)            # Don't remove the contour line where labels are located.
+    label_locations = [
+        (-123, 35),
+        (-116, 17),
+        (-94, 4),
+        (-85, -6),
+        (-95, -10),
+        (-85, -15),
+        (-70, 35),
+        (-42, 28),
+        (-54, 7),
+        (-53, -5),
+        (-39, -11),
+        (-28, 11),
+        (-16, -1),
+        (-8, -9),  # Python allows trailing list separators.
+    ]
+    ax.clabel(
+        hdl,
+        np.arange(-8, 24, 8),  # Only label these contour levels: [-8, 0, 8, 16]
+        fontsize="small",
+        colors="black",
+        fmt="%.0f",  # Turn off decimal points
+        manual=label_locations,  # Manual label locations
+        inline=False)  # Don't remove the contour line where labels are located.
 
     # Create a rectangle patch, to color the border of the rectangle a different color.
     # Specify the rectangle as a corner point with width and height, to help place border text more easily.
@@ -102,10 +116,14 @@ def make_base_plot():
     top = bottom + height
 
     # Draw rectangle patch on the plot
-    p = plt.Rectangle((left, bottom), width, height, fill=False,
-                      zorder=3,          # Plot on top of the purple box border.
-                      edgecolor='red',
-                      alpha=0.5)         # Lower color intensity.
+    p = plt.Rectangle(
+        (left, bottom),
+        width,
+        height,
+        fill=False,
+        zorder=3,  # Plot on top of the purple box border.
+        edgecolor='red',
+        alpha=0.5)  # Lower color intensity.
     ax.add_patch(p)
 
     # Draw text labels around the box.
@@ -113,51 +131,68 @@ def make_base_plot():
     # Create "text_args" to keep from repeating code when drawing text.
     text_shared_args = dict(
         fontsize=8,
-        bbox=dict(boxstyle='square, pad=0', facecolor='white', edgecolor='white'),
+        bbox=dict(boxstyle='square, pad=0',
+                  facecolor='white',
+                  edgecolor='white'),
     )
 
     # Draw top text
-    ax.text(left + 0.6 * width, top, 'test',
+    ax.text(left + 0.6 * width,
+            top,
+            'test',
             horizontalalignment='right',
             verticalalignment='center',
-            **text_shared_args
-            )
+            **text_shared_args)
 
     # Draw bottom text.   Change text background to match the map.
-    ax.text(left + 0.5 * width, bottom, 'test',
-            horizontalalignment='right',
-            verticalalignment='center',
-            fontsize=8,
-            bbox=dict(boxstyle='square, pad=0', facecolor='lightgrey', edgecolor='lightgrey'),
-            )
+    ax.text(
+        left + 0.5 * width,
+        bottom,
+        'test',
+        horizontalalignment='right',
+        verticalalignment='center',
+        fontsize=8,
+        bbox=dict(boxstyle='square, pad=0',
+                  facecolor='lightgrey',
+                  edgecolor='lightgrey'),
+    )
 
     # Draw left text
-    ax.text(left, top, 'test',
+    ax.text(left,
+            top,
+            'test',
             horizontalalignment='center',
             verticalalignment='top',
             rotation=90,
-            **text_shared_args
-            )
+            **text_shared_args)
 
     # Draw right text
-    ax.text(right, bottom, 'test',
+    ax.text(right,
+            bottom,
+            'test',
             horizontalalignment='center',
             verticalalignment='bottom',
             rotation=-90,
-            **text_shared_args
-            )
+            **text_shared_args)
 
     # Add lower text box.  Box appears off-center, but this is to leave room
     # for lower-case letters that drop lower.
-    ax.text(1.0, -0.20, "CONTOUR FROM -12 TO 40 BY 4",
+    ax.text(1.0,
+            -0.20,
+            "CONTOUR FROM -12 TO 40 BY 4",
             fontname='Helvetica',
             horizontalalignment='right',
             transform=ax.transAxes,
-            bbox=dict(boxstyle='square, pad=0.15', facecolor='white', edgecolor='black'))
+            bbox=dict(boxstyle='square, pad=0.15',
+                      facecolor='white',
+                      edgecolor='black'))
 
     # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
-    gvutil.set_titles_and_labels(ax, lefttitle="Zonal Wind", lefttitlefontsize=12,
-                                 righttitle="m/s", righttitlefontsize=12)
+    gvutil.set_titles_and_labels(ax,
+                                 lefttitle="Zonal Wind",
+                                 lefttitlefontsize=12,
+                                 righttitle="m/s",
+                                 righttitlefontsize=12)
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
     gvutil.add_major_minor_ticks(ax, y_minor_per_major=4)
@@ -181,32 +216,38 @@ ax.text(-60.0, 15.0, "sample", fontsize=11, horizontalalignment='center')
 # Show the plot
 plt.show()
 
-
 ###############################################################################
 # Utility Function: Draw Hatch Polygon:
 # -------------------------------------
+
 
 # Define a utility function that draws a polygon and then erases its border with another polygon.
 def draw_hatch_polygon(xvals, yvals, hatchcolor, hatchpattern):
     """ Draw a polygon filled with a hatch pattern, but with no edges on the polygon.
     """
-    ax.fill(xvals, yvals,
-            edgecolor=hatchcolor,
-            zorder=-1,              # Place underneath contour map (larger zorder is closer to viewer).
-            fill=False,
-            linewidth=0.5,
-            hatch=hatchpattern,
-            alpha=0.3               # Reduce color intensity
-            )
+    ax.fill(
+        xvals,
+        yvals,
+        edgecolor=hatchcolor,
+        zorder=
+        -1,  # Place underneath contour map (larger zorder is closer to viewer).
+        fill=False,
+        linewidth=0.5,
+        hatch=hatchpattern,
+        alpha=0.3  # Reduce color intensity
+    )
 
     # Hatch color and polygon edge color are tied together, so we have to draw a white polygon edge
     # on top of the original polygon to remove the edge.
-    ax.fill(xvals, yvals,
-            edgecolor='white',
-            zorder=0,            # Place on top of other polygon (larger zorder is closer to viewer).
-            fill=False,
-            linewidth=1          # Slightly larger linewidth removes ghost edges.
-            )
+    ax.fill(
+        xvals,
+        yvals,
+        edgecolor='white',
+        zorder=
+        0,  # Place on top of other polygon (larger zorder is closer to viewer).
+        fill=False,
+        linewidth=1  # Slightly larger linewidth removes ghost edges.
+    )
 
 
 ###############################################################################
@@ -222,20 +263,22 @@ ax = make_base_plot()
 # Plot the hatch pattern "underneath" the red box, to hide the purple border that is unavoidably attached to producing
 # the hatch pattern.
 x_points = [-90.0, -45.0, -45.0, -90.0, -90.0]
-y_points = [ 30.0,  30.0,   0.0,   0.0,  30.0]
+y_points = [30.0, 30.0, 0.0, 0.0, 30.0]
 
-ax.fill(x_points, y_points,
-        edgecolor='purple',   # Box hatch pattern is purple.
-        zorder=2,             # Place on top of map (larger zorder is closer to viewer).
-        fill=False,
-        hatch='...',          # Adding more or fewer dots to '...' will change hatch density.
-        linewidth=0.5,        # Make each dot smaller
-        alpha=0.2             # Make hatch semi-transparent using alpha level in range [0, 1].
-        )
+ax.fill(
+    x_points,
+    y_points,
+    edgecolor='purple',  # Box hatch pattern is purple.
+    zorder=2,  # Place on top of map (larger zorder is closer to viewer).
+    fill=False,
+    hatch='...',  # Adding more or fewer dots to '...' will change hatch density.
+    linewidth=0.5,  # Make each dot smaller
+    alpha=0.2  # Make hatch semi-transparent using alpha level in range [0, 1].
+)
 
 # Draw some triangles with various hatch pattern densities.
 x_tri = np.array([-125, -115, -120])
-y_tri = np.array([-15,   -10,    5])
+y_tri = np.array([-15, -10, 5])
 
 draw_hatch_polygon(x_tri, y_tri, 'brown', '++++')
 

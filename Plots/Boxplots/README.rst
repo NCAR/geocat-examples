@@ -3,4 +3,4 @@
 .. _boxplot-examples-index:
 
 Boxplots
-=======
+========

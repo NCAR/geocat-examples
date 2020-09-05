@@ -2,5 +2,5 @@
 
 .. _polygon-examples-index:
 
-Polygon
-=======
+Polygons
+========

@@ -6,15 +6,19 @@ dependencies:
   - python=3
   - geocat-comp
   - geocat-datafiles
-  - geocat-viz=2020.2.18.1
+  - geocat-viz=2020.7.30.1
   - netcdf4
   - cartopy
+  - scikit-learn
   - mock
   - pillow
+  - scikit-learn
   - sphinx
-  - matplotlib
+  - matplotlib=3.3.0
   - sphinx-gallery
   - sphinx_rtd_theme
   - jupyter
   - make
   - geographiclib
+  - wrf-python
+  - metpy

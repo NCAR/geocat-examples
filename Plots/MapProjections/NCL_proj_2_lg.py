@@ -1,4 +1,3 @@
-
 """
 NCL_proj_2_lg.py
 ================
@@ -46,7 +45,7 @@ wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
 fig = plt.figure(figsize=(10, 10))
 
 # Generate axes using Cartopy and draw coastlines
-ax = plt.axes(projection=ccrs.Mercator(min_latitude= -84.5))
+ax = plt.axes(projection=ccrs.Mercator(min_latitude=-84.5))
 ax.coastlines(linewidths=0.5)
 
 # Set extent to include latitudes from -90 to 89 and longitudes from -180
@@ -61,19 +60,25 @@ gl.ylocator = mticker.FixedLocator(np.arange(-84.5, 91, 20))
 gl.xlocator = mticker.FixedLocator(np.arange(-180, 181, 20))
 
 # Contourf-plot data (for filled contours)
-wrap_t.plot.contourf(ax=ax, transform=ccrs.PlateCarree(),
-                     levels=12, cmap='inferno',
+wrap_t.plot.contourf(ax=ax,
+                     transform=ccrs.PlateCarree(),
+                     levels=12,
+                     cmap='inferno',
                      add_colorbar=False)
 
 # Contour-plot data (for borderlines)
-wrap_t.plot.contour(ax=ax, transform=ccrs.PlateCarree(),
-                    levels=12, linewidths=0.5, cmap='k')
+wrap_t.plot.contour(ax=ax,
+                    transform=ccrs.PlateCarree(),
+                    levels=12,
+                    linewidths=0.5,
+                    cmap='k')
 
 # Use geocat.viz.util convenience function to add titles to left and right
 # of the plot axis.
-gvutil.set_titles_and_labels(ax, maintitle="Example of Mercator Projection",
-                             lefttitle="Surface Temperature", righttitle="K")
-
+gvutil.set_titles_and_labels(ax,
+                             maintitle="Example of Mercator Projection",
+                             lefttitle="Surface Temperature",
+                             righttitle="K")
 
 # Show the plot
 plt.show()
