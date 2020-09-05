@@ -45,20 +45,20 @@ dfran_rseq = [.749, .973, .666, .804, .081, .483, .919, .903,   \
               .689, .354, .372, .429                            \
              ]
 
-
 #  Random number generator for generate_2d_array.
 
+
 def _dfran():
-  global dfran_iseq
-  global dfran_rseq
-  dfran_iseq = dfran_iseq % 100
-  r = dfran_rseq[dfran_iseq]
-  dfran_iseq = dfran_iseq + 1
-  return r
+    global dfran_iseq
+    global dfran_rseq
+    dfran_iseq = dfran_iseq % 100
+    r = dfran_rseq[dfran_iseq]
+    dfran_iseq = dfran_iseq + 1
+    return r
 
 def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0, \
                       highs_at=None, lows_at=None):
-  """
+    """
 Generates smooth 2D arrays primarily for use in examples.
 array = generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0,
                           highs_at=None, lows_at=None)
@@ -82,109 +82,132 @@ highs_at -- an optional argument that is a list of coordinate
             pairs specifying where the highs will occur.  If this
             argument appears, then its length must equal num_high and
             the coordinates must be in the ranges specified in dims.
-  """  
+  """
 
-#  Globals for random numbers.
+    #  Globals for random numbers.
 
-  global dfran_iseq
-  dfran_iseq = seed
+    global dfran_iseq
+    dfran_iseq = seed
 
-#  Check arguments.
+    #  Check arguments.
 
-  try:
-    alen = len(dims)
-  except:
-    print("generate_2d_array: first argument must be a list, tuple, or array having two elements specifying the dimensions of the output array.")
-    return None
-  if (alen != 2):
-    print("generate_2d_array: first argument must have two elements specifying the dimensions of the output array.")
-    return None
-  if (int(dims[0]) <=1 and int(dims[1]) <=1):
-    print("generate_2d_array: array must have at least two elements.")
-    return None
-  if (num_low < 1):
-    print("generate_2d_array: number of lows must be at least 1 - defaulting to 1.")
-    num_low = 1
-  if (num_low > 25):
-    print("generate_2d_array: number of lows must be at most 25 - defaulting to 25.")
-    num_high =25
-  if (num_high < 1):
-    print("generate_2d_array: number of highs must be at least 1 - defaulting to 1.")
-    num_high = 1
-  if (num_high > 25):
-    print("generate_2d_array: number of highs must be at most 25 - defaulting to 25.")
-    num_high =25
-  if (seed > 100 or seed < 0):
-    print("generate_2d_array: seed must be in the interval [0,100] - seed set to 0.")
-    seed = 0
-  if not lows_at is None:
-    if (len(lows_at) != num_low):
-      print("generate_2d_array: the list of positions for the lows must be the same size as num_low.")
-  if not highs_at is None:
-    if (len(highs_at) != num_high):
-      print("generate_2d_array: the list of positions for the highs must be the same size as num_high.")
+    try:
+        alen = len(dims)
+    except:
+        print(
+            "generate_2d_array: first argument must be a list, tuple, or array having two elements specifying the dimensions of the output array."
+        )
+        return None
+    if (alen != 2):
+        print(
+            "generate_2d_array: first argument must have two elements specifying the dimensions of the output array."
+        )
+        return None
+    if (int(dims[0]) <= 1 and int(dims[1]) <= 1):
+        print("generate_2d_array: array must have at least two elements.")
+        return None
+    if (num_low < 1):
+        print(
+            "generate_2d_array: number of lows must be at least 1 - defaulting to 1."
+        )
+        num_low = 1
+    if (num_low > 25):
+        print(
+            "generate_2d_array: number of lows must be at most 25 - defaulting to 25."
+        )
+        num_high = 25
+    if (num_high < 1):
+        print(
+            "generate_2d_array: number of highs must be at least 1 - defaulting to 1."
+        )
+        num_high = 1
+    if (num_high > 25):
+        print(
+            "generate_2d_array: number of highs must be at most 25 - defaulting to 25."
+        )
+        num_high = 25
+    if (seed > 100 or seed < 0):
+        print(
+            "generate_2d_array: seed must be in the interval [0,100] - seed set to 0."
+        )
+        seed = 0
+    if not lows_at is None:
+        if (len(lows_at) != num_low):
+            print(
+                "generate_2d_array: the list of positions for the lows must be the same size as num_low."
+            )
+    if not highs_at is None:
+        if (len(highs_at) != num_high):
+            print(
+                "generate_2d_array: the list of positions for the highs must be the same size as num_high."
+            )
 
 
 #  Dims are reversed in order to get the same results as the NCL function.
 
-  nx = int(dims[1])
-  ny = int(dims[0])
-  out_array = np.zeros([nx,ny],'f')
-  tmp_array = np.zeros([3,51],'f')
-  fovm = 9./float(nx)
-  fovn = 9./float(ny)
-  nlow = max(1,min(25,num_low))
-  nhgh = max(1,min(25,num_high))
-  ncnt = nlow + nhgh
+    nx = int(dims[1])
+    ny = int(dims[0])
+    out_array = np.zeros([nx, ny], 'f')
+    tmp_array = np.zeros([3, 51], 'f')
+    fovm = 9. / float(nx)
+    fovn = 9. / float(ny)
+    nlow = max(1, min(25, num_low))
+    nhgh = max(1, min(25, num_high))
+    ncnt = nlow + nhgh
+
+    for k in range(num_low):
+        if not lows_at is None:
+            tmp_array[0,
+                      k] = float(lows_at[k][1])  # lows at specified locations.
+            tmp_array[1, k] = float(lows_at[k][0])
+            tmp_array[2, k] = -1.
+        else:
+            tmp_array[0, k] = 1. + (float(nx) -
+                                    1.) * _dfran()  # lows at random locations.
+            tmp_array[1, k] = 1. + (float(ny) -
+                                    1.) * _dfran()  # lows at random locations.
+            tmp_array[2, k] = -1.
+    for k in range(num_low, num_low + num_high):
+        if not highs_at is None:
+            tmp_array[0, k] = float(highs_at[k - num_low][1])  # highs locations
+            tmp_array[1, k] = float(highs_at[k - num_low][0])  # highs locations
+            tmp_array[2, k] = 1.
+        else:
+            tmp_array[0, k] = 1. + (float(nx) -
+                                    1.) * _dfran()  # highs at random locations.
+            tmp_array[1, k] = 1. + (float(ny) -
+                                    1.) * _dfran()  # highs at random locations.
+            tmp_array[2, k] = 1.
+
+    dmin = 1.e+36
+    dmax = -1.e+36
+    midpt = 0.5 * (minv + maxv)
+    for j in range(ny):
+        for i in range(nx):
+            out_array[i, j] = midpt
+            for k in range(ncnt):
+                tempi = fovm * (float(i + 1) - tmp_array[0, k])
+                tempj = fovn * (float(j + 1) - tmp_array[1, k])
+                temp = -(tempi * tempi + tempj * tempj)
+                if (temp >= -20.):
+                    out_array[i,j] = out_array[i,j] +    \
+                       0.5*(maxv - minv)*tmp_array[2,k]*math.exp(temp)
+            dmin = min(dmin, out_array[i, j])
+            dmax = max(dmax, out_array[i, j])
+
+    out_array = (((out_array - dmin) / (dmax - dmin)) * (maxv - minv)) + minv
+
+    del tmp_array
+
+    return np.transpose(out_array, [1, 0])
 
 
-  for k in range(num_low):
-    if not lows_at is None:
-      tmp_array[0,k] =  float(lows_at[k][1])   # lows at specified locations.
-      tmp_array[1,k] =  float(lows_at[k][0])
-      tmp_array[2,k] = -1.
-    else:
-      tmp_array[0,k] =  1.+(float(nx)-1.)*_dfran() # lows at random locations.
-      tmp_array[1,k] =  1.+(float(ny)-1.)*_dfran() # lows at random locations.
-      tmp_array[2,k] = -1.
-  for k in range(num_low,num_low+num_high):
-    if not highs_at is None:
-      tmp_array[0,k] =  float(highs_at[k-num_low][1])  # highs locations
-      tmp_array[1,k] =  float(highs_at[k-num_low][0])  # highs locations
-      tmp_array[2,k] =  1.
-    else:
-      tmp_array[0,k] =  1.+(float(nx)-1.)*_dfran() # highs at random locations.
-      tmp_array[1,k] =  1.+(float(ny)-1.)*_dfran() # highs at random locations.
-      tmp_array[2,k] =  1.
-  
-  dmin =  1.e+36
-  dmax = -1.e+36
-  midpt = 0.5*(minv + maxv)
-  for j in range(ny):
-    for i in range(nx):
-      out_array[i,j] = midpt
-      for k in range(ncnt):
-        tempi = fovm*(float(i+1)-tmp_array[0,k])
-        tempj = fovn*(float(j+1)-tmp_array[1,k])
-        temp  = -(tempi*tempi + tempj*tempj)
-        if (temp >= -20.):
-          out_array[i,j] = out_array[i,j] +    \
-             0.5*(maxv - minv)*tmp_array[2,k]*math.exp(temp)
-      dmin = min(dmin,out_array[i,j])
-      dmax = max(dmax,out_array[i,j])
-                   
-  out_array = (((out_array-dmin)/(dmax-dmin))*(maxv-minv))+minv
-
-  del tmp_array
-
-  return np.transpose(out_array,[1,0])
+def _get_double(obj, name):
+    return (NhlGetDouble(_int_id(obj), name))
 
 
-def _get_double(obj,name):
-  return(NhlGetDouble(_int_id(obj),name))
-
-def _get_double_array(obj,name):
-  return(NhlGetDoubleArray(_int_id(obj),name))
+def _get_double_array(obj, name):
+    return (NhlGetDoubleArray(_int_id(obj), name))
 
 
 ###############################################################################
@@ -197,11 +220,16 @@ data3 = generate_2d_array((ny, nx), 10, 10, -25., 18., 2)
 
 ###############################################################################
 # Create figure and axes using gvutil
-fig, axs = plt.subplots(1, 3, figsize=(12, 6), sharex='all', sharey='all',
+fig, axs = plt.subplots(1,
+                        3,
+                        figsize=(12, 6),
+                        sharex='all',
+                        sharey='all',
                         gridspec_kw={'wspace': 0})
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(axs[0], xticks=np.arange(0, 100, 20),
+gvutil.set_axes_limits_and_ticks(axs[0],
+                                 xticks=np.arange(0, 100, 20),
                                  yticks=np.arange(0, 100, 20),
                                  xticklabels=np.arange(0, 100, 20),
                                  yticklabels=np.arange(0, 100, 20))
@@ -213,7 +241,8 @@ axs[0].tick_params(axis='both', which='both', left=True, right=False)
 axs[0].set_aspect(aspect='equal')
 
 # Repeat for other subplots with a few changes
-gvutil.set_axes_limits_and_ticks(axs[1], xticks=np.arange(0, 100, 20),
+gvutil.set_axes_limits_and_ticks(axs[1],
+                                 xticks=np.arange(0, 100, 20),
                                  yticks=np.arange(0, 100, 20),
                                  xticklabels=np.arange(0, 100, 20),
                                  yticklabels=np.arange(0, 100, 20))
@@ -221,7 +250,8 @@ gvutil.add_major_minor_ticks(axs[1], x_minor_per_major=4, y_minor_per_major=4)
 axs[1].tick_params(axis='both', which='both', left=False, right=False)
 axs[1].set_aspect(aspect='equal')
 
-gvutil.set_axes_limits_and_ticks(axs[2], xticks=np.arange(0, 100, 20),
+gvutil.set_axes_limits_and_ticks(axs[2],
+                                 xticks=np.arange(0, 100, 20),
                                  yticks=np.arange(0, 100, 20),
                                  xticklabels=np.arange(0, 100, 20),
                                  yticklabels=np.arange(0, 100, 20))
@@ -241,13 +271,20 @@ axs[1].contour(filled2, colors='k', linestyles='solid', linewidths=0.4)
 filled3 = axs[2].contourf(data3, cmap=newcmap, levels=contour_levels)
 axs[2].contour(filled3, colors='k', linestyles='solid', linewidths=0.4)
 
-plt.colorbar(filled3, orientation='horizontal', ax=axs,
-             ticks=np.arange(-28, 20, 4), shrink=0.75, drawedges=True,
+plt.colorbar(filled3,
+             orientation='horizontal',
+             ax=axs,
+             ticks=np.arange(-28, 20, 4),
+             shrink=0.75,
+             drawedges=True,
              pad=0.1)
 
 # Add title
 fig.suptitle("Three dummy plots attached along Y axes",
-             horizontalalignment='center', y=0.9, fontsize=18,
-             fontweight='bold', fontfamily='sans-serif')
+             horizontalalignment='center',
+             y=0.9,
+             fontsize=18,
+             fontweight='bold',
+             fontfamily='sans-serif')
 
 plt.show()

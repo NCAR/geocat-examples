@@ -33,36 +33,46 @@ def plotOrthoTicks(coords, loc):
 
     if loc == 'zero':
         for lon, lat in coords:
-            ax.text(lon, lat,
+            ax.text(lon,
+                    lat,
                     '{0}\N{DEGREE SIGN}'.format(lon),
-                    va='bottom', ha='center',
+                    va='bottom',
+                    ha='center',
                     transform=ccrs.PlateCarree())
     if loc == 'left':
         for lon, lat in coords:
-            ax.text(lon, lat,
+            ax.text(lon,
+                    lat,
                     '{0}\N{DEGREE SIGN} N '.format(lat),
-                    va='center', ha='right',
+                    va='center',
+                    ha='right',
                     transform=ccrs.PlateCarree())
 
     if loc == 'right':
         for lon, lat in coords:
-            ax.text(lon, lat,
+            ax.text(lon,
+                    lat,
                     '{0}\N{DEGREE SIGN} N '.format(lat),
-                    va='center', ha='left',
+                    va='center',
+                    ha='left',
                     transform=ccrs.PlateCarree())
 
     if loc == 'top':
         for lon, lat in coords:
-            ax.text(lon, lat,
+            ax.text(lon,
+                    lat,
                     '{0}\N{DEGREE SIGN} W '.format(-lon),
-                    va='bottom', ha='center',
+                    va='bottom',
+                    ha='center',
                     transform=ccrs.PlateCarree())
 
     if loc == 'bottom':
         for lon, lat in coords:
-            ax.text(lon, lat,
+            ax.text(lon,
+                    lat,
                     '{0}\N{DEGREE SIGN} W '.format(-lon),
-                    va='top', ha='center',
+                    va='top',
+                    ha='center',
                     transform=ccrs.PlateCarree())
 
 
@@ -84,25 +94,28 @@ plt.figure(figsize=(8, 8))
 
 # Create an axis with an orthographic projection
 ax = plt.axes(projection=ccrs.Orthographic(central_longitude=-35,
-                                           central_latitude=60), anchor='C')
+                                           central_latitude=60),
+              anchor='C')
 
 # Set extent of map
 ax.set_extent((-80, -10, 30, 80), crs=ccrs.PlateCarree())
 
 # Add natural feature to map
 ax.coastlines(resolution='110m')
-ax.add_feature(cfeature.LAND,
-               facecolor='lightgray', zorder=3)
-ax.add_feature(cfeature.COASTLINE,
-               linewidth=0.2, zorder=3)
+ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=3)
+ax.add_feature(cfeature.COASTLINE, linewidth=0.2, zorder=3)
 ax.add_feature(cfeature.LAKES,
-               edgecolor='black', linewidth=0.2, facecolor='white', zorder=4)
+               edgecolor='black',
+               linewidth=0.2,
+               facecolor='white',
+               zorder=4)
 
 # plot filled contour data
 heatmap = t.plot.contourf(ax=ax,
                           transform=ccrs.PlateCarree(),
                           levels=80,
-                          vmin=-1.5, vmax=28.5,
+                          vmin=-1.5,
+                          vmax=28.5,
                           cmap='RdGy',
                           add_colorbar=False,
                           zorder=1)
@@ -116,8 +129,7 @@ cbar = plt.colorbar(heatmap,
                     pad=0.05,
                     shrink=.75,
                     aspect=14,
-                    ticks=np.arange(-1.5, 31.5, 3)
-                    )
+                    ticks=np.arange(-1.5, 31.5, 3))
 
 # Get rid of black outline on colorbar
 cbar.outline.set_visible(False)
@@ -132,10 +144,14 @@ right = t.units
 
 # Use geocat-viz function to create main, left, and right plot titles
 title = gvutil.set_titles_and_labels(ax,
-                                     maintitle=main, maintitlefontsize=16,
-                                     lefttitle=left, lefttitlefontsize=14,
-                                     righttitle=right, righttitlefontsize=14,
-                                     xlabel="", ylabel="")
+                                     maintitle=main,
+                                     maintitlefontsize=16,
+                                     lefttitle=left,
+                                     lefttitlefontsize=14,
+                                     righttitle=right,
+                                     righttitlefontsize=14,
+                                     xlabel="",
+                                     ylabel="")
 
 # Plot gridlines
 gl = ax.gridlines(color='black', linewidth=0.2, zorder=2)
@@ -151,8 +167,8 @@ plotOrthoTicks([(0, 81.7)], 'zero')
 plotOrthoTicks([(-80, 30), (-76, 20), (-88, 40), (-107, 50)], 'left')
 plotOrthoTicks([(-9, 30), (-6, 40), (1, 50), (13, 60)], 'right')
 plotOrthoTicks([(-120, 60), (-60, 82.5)], 'top')
-plotOrthoTicks([(-75, 16.0), (-60, 25.0), (-45, 29.0),
-                (-30, 29.5), (-15, 26.5)], 'bottom')
+plotOrthoTicks([(-75, 16.0), (-60, 25.0), (-45, 29.0), (-30, 29.5),
+                (-15, 26.5)], 'bottom')
 
 plt.tight_layout()
 plt.show()

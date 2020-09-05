@@ -73,27 +73,39 @@ from geocat.viz import util as gvutil
 # the Xarray function ``decode_cf``).  Work-arounds like this are needed
 # whenever you have "errors" or "inconsistancies" in your data.
 
+
 # Define the xarray.open_mfdataset pre-processing function
 # (Must take an xarray.Dataset as input and return an xarray.Dataset)
 def assume_noleap_calendar(ds):
     ds.time.attrs['calendar'] = 'noleap'
     return xr.decode_cf(ds)
 
+
 # Create a dataset for the "natural" (i.e., no anthropogenic effects) data
-nfiles = [gdf.get("netcdf_files/TREFHT.B06.66.atm.1890-1999ANN.nc"),
-          gdf.get("netcdf_files/TREFHT.B06.67.atm.1890-1999ANN.nc"),
-          gdf.get("netcdf_files/TREFHT.B06.68.atm.1890-1999ANN.nc"),
-          gdf.get("netcdf_files/TREFHT.B06.69.atm.1890-1999ANN.nc")]
-nds = xr.open_mfdataset(nfiles, concat_dim='case', combine='nested',
-                        preprocess=assume_noleap_calendar, decode_times=False)
+nfiles = [
+    gdf.get("netcdf_files/TREFHT.B06.66.atm.1890-1999ANN.nc"),
+    gdf.get("netcdf_files/TREFHT.B06.67.atm.1890-1999ANN.nc"),
+    gdf.get("netcdf_files/TREFHT.B06.68.atm.1890-1999ANN.nc"),
+    gdf.get("netcdf_files/TREFHT.B06.69.atm.1890-1999ANN.nc")
+]
+nds = xr.open_mfdataset(nfiles,
+                        concat_dim='case',
+                        combine='nested',
+                        preprocess=assume_noleap_calendar,
+                        decode_times=False)
 
 # Create a dataset for the "natural + anthropogenic" data
-vfiles = [gdf.get("netcdf_files/TREFHT.B06.61.atm.1890-1999ANN.nc"),
-          gdf.get("netcdf_files/TREFHT.B06.59.atm.1890-1999ANN.nc"),
-          gdf.get("netcdf_files/TREFHT.B06.60.atm.1890-1999ANN.nc"),
-          gdf.get("netcdf_files/TREFHT.B06.57.atm.1890-1999ANN.nc")]
-vds = xr.open_mfdataset(vfiles, concat_dim='case', combine='nested',
-                        preprocess=assume_noleap_calendar, decode_times=False)
+vfiles = [
+    gdf.get("netcdf_files/TREFHT.B06.61.atm.1890-1999ANN.nc"),
+    gdf.get("netcdf_files/TREFHT.B06.59.atm.1890-1999ANN.nc"),
+    gdf.get("netcdf_files/TREFHT.B06.60.atm.1890-1999ANN.nc"),
+    gdf.get("netcdf_files/TREFHT.B06.57.atm.1890-1999ANN.nc")
+]
+vds = xr.open_mfdataset(vfiles,
+                        concat_dim='case',
+                        combine='nested',
+                        preprocess=assume_noleap_calendar,
+                        decode_times=False)
 
 # Read the "weights" file
 # (The xarray.Dataset.expand_dims call adds the longitude dimension to the
@@ -112,9 +124,12 @@ gds = gds.expand_dims(dim={'lon': nds.lon})
 # ``DataArray`` explicitly, since the time values are not stored in the
 # ASCII data file (we have to know them!).
 
-obs_data = np.loadtxt(gdf.get("ascii_files/jones_glob_ann_2002.asc"), dtype=float)
-obs_time = xr.cftime_range('1856-07-16T22:00:00', freq='365D',
-                           periods=len(obs_data), calendar='noleap')
+obs_data = np.loadtxt(gdf.get("ascii_files/jones_glob_ann_2002.asc"),
+                      dtype=float)
+obs_time = xr.cftime_range('1856-07-16T22:00:00',
+                           freq='365D',
+                           periods=len(obs_data),
+                           calendar='noleap')
 obs = xr.DataArray(name='TREFHT', data=obs_data, coords=[('time', obs_time)])
 
 ###############################################################################
@@ -124,8 +139,10 @@ obs = xr.DataArray(name='TREFHT', data=obs_data, coords=[('time', obs_time)])
 # We define this function just for convenience.  This is equivalent to how
 # NCL computes the weighted mean.
 
+
 def horizontal_weighted_mean(var, wgts):
     return (var * wgts).sum(dim=['lat', 'lon']) / wgts.sum(dim=['lat', 'lon'])
+
 
 ###############################################################################
 # Natural data:
@@ -136,7 +153,7 @@ def horizontal_weighted_mean(var, wgts):
 # anomaly measured from the average of the first 30 years.
 
 gavn = horizontal_weighted_mean(nds["TREFHT"], gds["gw"])
-gavan = gavn - gavn.sel(time=slice('1890','1920')).mean(dim='time')
+gavan = gavn - gavn.sel(time=slice('1890', '1920')).mean(dim='time')
 
 ###############################################################################
 # Natural + Anthropogenic data:
@@ -145,7 +162,7 @@ gavan = gavn - gavn.sel(time=slice('1890','1920')).mean(dim='time')
 # We do the same thing for the "natural + anthropogenic" data.
 
 gavv = horizontal_weighted_mean(vds["TREFHT"], gds["gw"])
-gavav = gavv - gavv.sel(time=slice('1890','1920')).mean(dim='time')
+gavav = gavv - gavv.sel(time=slice('1890', '1920')).mean(dim='time')
 
 ###############################################################################
 # Observation data:
@@ -153,7 +170,8 @@ gavav = gavv - gavv.sel(time=slice('1890','1920')).mean(dim='time')
 #
 # We do the same thing for the observation data.
 
-obs_avg = obs.sel(time=slice('1890','1999')) - obs.sel(time=slice('1890','1920')).mean(dim='time')
+obs_avg = obs.sel(time=slice('1890', '1999')) - obs.sel(
+    time=slice('1890', '1920')).mean(dim='time')
 
 ###############################################################################
 # Calculate the ensemble Min. & Max. & Mean:
@@ -191,16 +209,34 @@ ax.plot(time, gavav_avg, color='red', label='Anthropogenic + Natural', zorder=2)
 ax.legend(loc='upper left', frameon=False, fontsize=18)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=3, labelsize=20)
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=4,
+                             y_minor_per_major=3,
+                             labelsize=20)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gvutil.set_axes_limits_and_ticks(ax, xlim=(1890, 2000), ylim=(-0.4, 1),
-                                     xticks=np.arange(1900, 2001, step=20), yticks=np.arange(-0.3, 1, step=0.3))
+gvutil.set_axes_limits_and_ticks(ax,
+                                 xlim=(1890, 2000),
+                                 ylim=(-0.4, 1),
+                                 xticks=np.arange(1900, 2001, step=20),
+                                 yticks=np.arange(-0.3, 1, step=0.3))
 
 # Set three titles on top of each other using axes title and texts
 ax.set_title('Parallel Climate Model Ensembles', fontsize=24, pad=60.0)
-ax.text(0.5, 1.125, 'Global Temperature Anomalies', fontsize=18, ha='center', va='center', transform=ax.transAxes)
-ax.text(0.5, 1.06, 'from 1890-1919 average', fontsize=14, ha='center', va='center', transform=ax.transAxes)
+ax.text(0.5,
+        1.125,
+        'Global Temperature Anomalies',
+        fontsize=18,
+        ha='center',
+        va='center',
+        transform=ax.transAxes)
+ax.text(0.5,
+        1.06,
+        'from 1890-1919 average',
+        fontsize=14,
+        ha='center',
+        va='center',
+        transform=ax.transAxes)
 ax.set_ylabel('$^\circ$C', fontsize=24)
 ax.fill_between(time, gavan_min, gavan_max, color='lightblue', zorder=0)
 ax.fill_between(time, gavav_min, gavav_max, color='lightpink', zorder=1)
