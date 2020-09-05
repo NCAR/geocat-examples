@@ -33,7 +33,7 @@ from geocat.viz import util as gvutil
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 
 # Extract slice of data
-V = ds.V.isel(time=0, lev = 3)
+V = ds.V.isel(time=0, lev=3)
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 V = gvutil.xr_add_cyclic_longitudes(V, "lon")
@@ -49,7 +49,9 @@ ax = plt.axes(projection=ccrs.PlateCarree())
 ax.coastlines(linewidths=0.5, alpha=0.6)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values
-gvutil.set_axes_limits_and_ticks(ax, xlim=(-180, 180), ylim=(-90,90),
+gvutil.set_axes_limits_and_ticks(ax,
+                                 xlim=(-180, 180),
+                                 ylim=(-90, 90),
                                  xticks=np.linspace(-180, 180, 13),
                                  yticks=np.linspace(-90, 90, 7))
 
@@ -63,8 +65,11 @@ ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add titles
-gvutil.set_titles_and_labels(ax, lefttitle=V.long_name, righttitle=V.units,
-                             lefttitlefontsize=12, righttitlefontsize=12)
+gvutil.set_titles_and_labels(ax,
+                             lefttitle=V.long_name,
+                             righttitle=V.units,
+                             lefttitlefontsize=12,
+                             righttitlefontsize=12)
 
 # Import an NCL colormap
 cmap = gvcmaps.wgne15
@@ -72,11 +77,20 @@ cmap = gvcmaps.wgne15
 # Specify which contour levels to draw
 contour_lev = np.arange(-20, 28, 4)
 # Plot filled contour
-contour = V.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=cmap,
-                          levels=contour_lev, add_colorbar=False, add_labels=False)
+contour = V.plot.contourf(ax=ax,
+                          transform=ccrs.PlateCarree(),
+                          cmap=cmap,
+                          levels=contour_lev,
+                          add_colorbar=False,
+                          add_labels=False)
 # Plot line contour
-V.plot.contour(ax=ax, transform=ccrs.PlateCarree(),  colors='k', linewidths=0.5,
-               linestyles='solid', levels=contour_lev, add_colorbar=False,
+V.plot.contour(ax=ax,
+               transform=ccrs.PlateCarree(),
+               colors='k',
+               linewidths=0.5,
+               linestyles='solid',
+               levels=contour_lev,
+               add_colorbar=False,
                add_labels=False)
 
 # Create horizontal colorbar
@@ -85,8 +99,13 @@ V.plot.contour(ax=ax, transform=ccrs.PlateCarree(),  colors='k', linewidths=0.5,
 # `pad` defaults to 0.15 for horizontal colorbars
 # `extendrect` and `extendfrac` format the ends of the colorbar, default is
 # pointed ends to show there are values beyond the given contour levels
-cbar = plt.colorbar(contour, ax=ax, orientation='horizontal', shrink=0.75,
-                    pad=0.11, extendrect=True, extendfrac='auto')
+cbar = plt.colorbar(contour,
+                    ax=ax,
+                    orientation='horizontal',
+                    shrink=0.75,
+                    pad=0.11,
+                    extendrect=True,
+                    extendfrac='auto')
 # Make colorbar tick labels larger
 cbar.ax.tick_params(labelsize=14)
 # Rotate colorbar tick labels
