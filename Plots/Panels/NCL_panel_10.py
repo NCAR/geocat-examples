@@ -165,6 +165,7 @@ def make_subplot(fig, gridspec, xlim):
                       levels=np.arange(-12, 13, 2),
                       cmap=gvcmaps.BlWhRe)
     
+    # Use geocat.viz.util convenience function to add longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax1)
 
     # Use geocat.viz.util convenience function to set axes limits & tick values
