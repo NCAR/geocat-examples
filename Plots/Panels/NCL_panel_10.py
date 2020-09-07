@@ -32,7 +32,8 @@ from geocat.viz import cmaps as gvcmaps
 
 # Open a netCDF data file using xarray default engine
 # and load the data into xarrays
-ds = xr.open_dataset(gdf.get('netcdf_files/chi200_ud_smooth.nc'))
+filename = 'chi200_ud_smooth.nc'
+ds = xr.open_dataset(gdf.get('netcdf_files/' + filename))
 
 lon = ds.lon
 times = ds.time
@@ -164,6 +165,8 @@ def make_subplot(fig, gridspec, xlim):
                       levels=np.arange(-12, 13, 2),
                       cmap=gvcmaps.BlWhRe)
     
+    gvutil.add_lat_lon_ticklabels(ax1)
+
     # Use geocat.viz.util convenience function to set axes limits & tick values
     gvutil.set_axes_limits_and_ticks(ax1,
                                      xlim=xlim,
@@ -240,6 +243,7 @@ make_subplot(fig, inner_grids[1], [90, 180])
 make_subplot(fig, inner_grids[2], [180, 270])
 make_subplot(fig, inner_grids[3], [270, 360])
 
+# Create axes for colorbar and then draw colorbar
 cax = fig.add_subplot(outer_grid[2,:])
 plt.colorbar(cf,
              cax=cax,
@@ -247,4 +251,6 @@ plt.colorbar(cf,
              orientation='horizontal',
              drawedges=True)
 
+# Add figure title
+fig.suptitle(filename, fontsize=18, y=0.95)
 plt.show()
