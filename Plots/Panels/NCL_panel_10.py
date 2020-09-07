@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[62]:
-
-
 """
 NCL_panel_10.py
 ===============
@@ -19,10 +13,6 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_10_lg.png and https://www.ncl.ucar.edu/Applications/Images/panel_attach_10_lg.png
 """
 
-
-# In[63]:
-
-
 ###############################################################################
 # Import packages:
 import numpy as np
@@ -36,10 +26,6 @@ import matplotlib.gridspec as gridspec
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
 from geocat.viz import cmaps as gvcmaps
-
-
-# In[64]:
-
 
 ###############################################################################
 # Read in data:
@@ -56,10 +42,6 @@ chi = chi / scale
 
 # Calculate zonal mean
 mean = chi.mean(dim='lon')
-
-
-# In[65]:
-
 
 ###############################################################################
 # Create Single Plot:
@@ -159,10 +141,6 @@ ax2.plot(mean, times, linewidth=0.5, color='black')
 
 plt.show()
 
-
-# In[66]:
-
-
 ##############################################################################
 # Define helper function to create the four subplots
 def make_subplot(fig, gridspec, xlim):
@@ -238,10 +216,6 @@ def make_subplot(fig, gridspec, xlim):
     ax2.plot(mean, times, linewidth=0.5, color='black')
     return ax1, ax2
 
-
-# In[71]:
-
-
 ##############################################################################
 # Create the four panel plot
 fig = plt.figure(figsize=(10, 10))
@@ -274,10 +248,3 @@ plt.colorbar(cf,
              drawedges=True)
 
 plt.show()
-
-
-# In[ ]:
-
-
-
-
