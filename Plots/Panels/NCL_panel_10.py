@@ -17,8 +17,6 @@ See following URLs to see the reproduced NCL plot & script:
 # Import packages:
 import numpy as np
 import xarray as xr
-import cartopy
-import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import matplotlib.gridspec as gridspec
@@ -144,6 +142,8 @@ plt.show()
 
 ##############################################################################
 # Define helper function to create the four subplots
+
+
 def make_subplot(fig, gridspec, xlim):
     # Create axes for the contour plot and the zonal average plot
     ax1 = fig.add_subplot(gridspec[0])
@@ -158,13 +158,13 @@ def make_subplot(fig, gridspec, xlim):
                 linestyles='solid',
                 linewidths=.5)
 
-    # Draw filled contours
+    # Draw filled contours, save the mappable to create colorbar later
     cf = ax1.contourf(lon,
                       times,
                       chi,
                       levels=np.arange(-12, 13, 2),
                       cmap=gvcmaps.BlWhRe)
-    
+
     # Use geocat.viz.util convenience function to add longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax1)
 
@@ -220,6 +220,7 @@ def make_subplot(fig, gridspec, xlim):
     ax2.plot(mean, times, linewidth=0.5, color='black')
     return ax1, ax2
 
+
 ##############################################################################
 # Create the four panel plot
 fig = plt.figure(figsize=(10, 10))
@@ -245,7 +246,7 @@ make_subplot(fig, inner_grids[2], [180, 270])
 make_subplot(fig, inner_grids[3], [270, 360])
 
 # Create axes for colorbar and then draw colorbar
-cax = fig.add_subplot(outer_grid[2,:])
+cax = fig.add_subplot(outer_grid[2, :])
 plt.colorbar(cf,
              cax=cax,
              ticks=np.arange(-10, 12, 2),
