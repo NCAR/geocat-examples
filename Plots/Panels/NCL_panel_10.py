@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[62]:
+
+
 """
 NCL_panel_10.py
 ===============
@@ -13,6 +19,10 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_10_lg.png and https://www.ncl.ucar.edu/Applications/Images/panel_attach_10_lg.png
 """
 
+
+# In[63]:
+
+
 ###############################################################################
 # Import packages:
 import numpy as np
@@ -26,6 +36,10 @@ import matplotlib.gridspec as gridspec
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
 from geocat.viz import cmaps as gvcmaps
+
+
+# In[64]:
+
 
 ###############################################################################
 # Read in data:
@@ -42,6 +56,10 @@ chi = chi / scale
 
 # Calculate zonal mean
 mean = chi.mean(dim='lon')
+
+
+# In[65]:
+
 
 ###############################################################################
 # Create Single Plot:
@@ -141,6 +159,10 @@ ax2.plot(mean, times, linewidth=0.5, color='black')
 
 plt.show()
 
+
+# In[66]:
+
+
 ##############################################################################
 # Define helper function to create the four subplots
 def make_subplot(fig, gridspec, xlim):
@@ -214,26 +236,48 @@ def make_subplot(fig, gridspec, xlim):
 
     # Plot zonal average
     ax2.plot(mean, times, linewidth=0.5, color='black')
+    return ax1, ax2
+
+
+# In[71]:
+
 
 ##############################################################################
 # Create the four panel plot
 fig = plt.figure(figsize=(10, 10))
 
-# Create a two by two grid to hold the four plots
-outer_grid = gridspec.GridSpec(2, 2, figure=fig)
+# Create a three by two grid to hold the four plots and the colorbar
+outer_grid = gridspec.GridSpec(3, 2,
+                               figure=fig,
+                               hspace=0.35,
+                               height_ratios=[0.475, 0.475, 0.05])
 
 # Create an array to hold the internal gridspecs
 inner_grids = np.empty(4, dtype=gridspec.GridSpec)
-print(inner_grids)
+
 # Create the gridspecs for each of the four plots
 for i in range(0, 4):
     inner_grids[i] = gridspec.GridSpecFromSubplotSpec(1, 2,
-                                                subplot_spec=outer_grid[i],
-                                                wspace=0,
-                                                width_ratios=[0.75, 0.25])
+                                                      subplot_spec=outer_grid[i],
+                                                      wspace=0,
+                                                      width_ratios=[0.75, 0.25])
 make_subplot(fig, inner_grids[0], [0, 90])
 make_subplot(fig, inner_grids[1], [90, 180])
 make_subplot(fig, inner_grids[2], [180, 270])
 make_subplot(fig, inner_grids[3], [270, 360])
 
+cax = fig.add_subplot(outer_grid[2,:])
+plt.colorbar(cf,
+             cax=cax,
+             ticks=np.arange(-10, 12, 2),
+             orientation='horizontal',
+             drawedges=True)
+
 plt.show()
+
+
+# In[ ]:
+
+
+
+
