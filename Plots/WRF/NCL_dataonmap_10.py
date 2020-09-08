@@ -41,8 +41,8 @@ lats, lons = latlon_coords(q2)
 
 # The `get_cartopy` wrf function will automatically find and use the 
 # intended map projection for this dataset 
-fig = plt.figure(figsize=(10,10))
 cart_proj = get_cartopy(q2)
+fig = plt.figure(figsize=(10,10))
 ax = plt.axes(projection=cart_proj)
 
 # Add features to the map
