@@ -5,7 +5,7 @@ This script illustrates the following concepts:
    - Drawing a scatter plot on a map
    - Changing the marker color and size in a map plot
    - Plotting station locations using markers
-   - Create a custom color bar
+   - Creating a custom color bar
    - Adding text to a plot
    - Generating dummy data using "random_uniform"
    - Binning data
