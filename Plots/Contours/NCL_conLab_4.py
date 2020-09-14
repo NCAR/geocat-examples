@@ -102,7 +102,7 @@ cbar = plt.colorbar(colors,
                     pad=0.075)
 cbar.ax.tick_params(labelsize=14)  # Make the labels larger
 
-# By defualt, `clabel` labels every contour line
+# By default, `clabel` labels every contour line
 ax.clabel(lines, fontsize=12, fmt='%d', inline=True)
 
 # Set label backgrounds white
