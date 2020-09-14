@@ -1,5 +1,5 @@
 """
-NCL_polyg_8.py
+NCL_polyg_8_lbar.py
 ==============
 This script illustrates the following concepts:
    - Drawing a scatter plot on a map
