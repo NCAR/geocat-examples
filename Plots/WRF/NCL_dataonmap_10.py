@@ -46,14 +46,14 @@ fig = plt.figure(figsize=(10,10))
 ax = plt.axes(projection=cart_proj)
 
 # Add features to the map
-ax.add_feature(cfeature.LAND, facecolor="", edgecolor="k", zorder=1)
+ax.add_feature(cfeature.LAND, facecolor="", edgecolor="k", zorder=5)
 
 # Add filled contours
 plt.contourf(to_np(lons),
              to_np(lats),
              q2,
              levels=np.linspace(0.01125, 0.05, 32), cmap="magma",
-             transform=ccrs.PlateCarree(),
+             # transform=ccrs.PlateCarree(),
              vmin=0,
              vmax=0.05)
 
