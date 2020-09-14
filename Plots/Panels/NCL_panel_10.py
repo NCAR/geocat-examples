@@ -159,11 +159,11 @@ def make_subplot(fig, gridspec, xlim):
                 linewidths=.5)
 
     # Draw filled contours, save the mappable to create colorbar later
-    ax1.contourf(lon,
-                      times,
-                      chi,
-                      levels=np.arange(-12, 13, 2),
-                      cmap=gvcmaps.BlWhRe)
+    color_mappable = ax1.contourf(lon,
+                                  times,
+                                  chi,
+                                  levels=np.arange(-12, 13, 2),
+                                  cmap=gvcmaps.BlWhRe)
 
     # Use geocat.viz.util convenience function to add longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax1)
@@ -218,7 +218,7 @@ def make_subplot(fig, gridspec, xlim):
 
     # Plot zonal average
     ax2.plot(mean, times, linewidth=0.5, color='black')
-    return ax1, ax2
+    return color_mappable
 
 
 ##############################################################################
@@ -243,11 +243,11 @@ for i in range(0, 4):
 make_subplot(fig, inner_grids[0], [0, 90])
 make_subplot(fig, inner_grids[1], [90, 180])
 make_subplot(fig, inner_grids[2], [180, 270])
-make_subplot(fig, inner_grids[3], [270, 360])
+color_mappable = make_subplot(fig, inner_grids[3], [270, 360])
 
 # Create axes for colorbar and then draw colorbar
 cax = fig.add_subplot(outer_grid[2, :])
-plt.colorbar(cf,
+plt.colorbar(color_mappable,
              cax=cax,
              ticks=np.arange(-10, 12, 2),
              orientation='horizontal',
