@@ -159,7 +159,7 @@ def make_subplot(fig, gridspec, xlim):
                 linewidths=.5)
 
     # Draw filled contours, save the mappable to create colorbar later
-    cf = ax1.contourf(lon,
+    ax1.contourf(lon,
                       times,
                       chi,
                       levels=np.arange(-12, 13, 2),
