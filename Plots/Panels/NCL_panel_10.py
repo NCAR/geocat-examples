@@ -20,6 +20,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import matplotlib.gridspec as gridspec
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
@@ -167,6 +168,9 @@ def make_subplot(fig, gridspec, xlim):
 
     # Use geocat.viz.util convenience function to add longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax1)
+
+    # Remove degree symbol from tick labels
+    ax1.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
     # Use geocat.viz.util convenience function to set axes limits & tick values
     gvutil.set_axes_limits_and_ticks(ax1,
