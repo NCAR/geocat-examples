@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import matplotlib.gridspec as gridspec
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
+import warnings
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
@@ -41,7 +42,9 @@ chi = ds.CHI
 chi = chi / scale
 
 # Calculate zonal mean
-mean = chi.mean(dim='lon')
+with warnings.catch_warnings():  # This is not needed but is supressing a warning thrown by numpy checking for NaN values
+    warnings.simplefilter("ignore")
+    mean = chi.mean(dim='lon')
 
 ###############################################################################
 # Create Single Plot:
