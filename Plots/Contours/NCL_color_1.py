@@ -88,7 +88,7 @@ fig.colorbar(fillplot,
 
 # Plot line contours
 ds.U.plot.contour(ax=ax,
-                  colors='k',
+                  colors='black',
                   alpha=0.8,
                   linewidths=0.4,
                   linestyles='solid',

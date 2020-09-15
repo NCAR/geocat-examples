@@ -45,7 +45,7 @@ ax = plt.axes(projection=ccrs.Mollweide())
 ax.coastlines(linewidths=0.5)
 
 # Draw gridlines
-gl = ax.gridlines(crs=ccrs.PlateCarree(), linewidth=1, color='k', alpha=0.5)
+gl = ax.gridlines(crs=ccrs.PlateCarree(), linewidth=1, color='black', alpha=0.5)
 
 # Import an NCL colormap
 newcmp = gvcmaps.gui_default
