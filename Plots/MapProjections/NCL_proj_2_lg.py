@@ -53,7 +53,7 @@ ax.coastlines(linewidths=0.5)
 ax.set_extent([180, -180, -90, 89], ccrs.PlateCarree())
 
 # Draw gridlines
-gl = ax.gridlines(crs=ccrs.PlateCarree(), linewidth=1, color='k', alpha=0.5)
+gl = ax.gridlines(crs=ccrs.PlateCarree(), linewidth=1, color='black', alpha=0.5)
 
 # Manipulate latitude and longitude gridline numbers and spacing
 gl.ylocator = mticker.FixedLocator(np.arange(-84.5, 91, 20))
@@ -71,7 +71,7 @@ wrap_t.plot.contour(ax=ax,
                     transform=ccrs.PlateCarree(),
                     levels=12,
                     linewidths=0.5,
-                    cmap='k')
+                    cmap='black')
 
 # Use geocat.viz.util convenience function to add titles to left and right
 # of the plot axis.
