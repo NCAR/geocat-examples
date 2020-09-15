@@ -66,7 +66,7 @@ wrap_t.plot.contour(ax=ax,
                     transform=ccrs.PlateCarree(),
                     levels=11,
                     linewidths=0.5,
-                    cmap='k')
+                    cmap='black')
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
 gvutil.set_titles_and_labels(ax,
