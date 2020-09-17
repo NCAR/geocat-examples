@@ -29,8 +29,11 @@ import geocat.viz.util as gvutil
 # xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"), decode_times=False)
 
+# Ensure longitudes range from 0 to 360 degrees
+t = gvutil.xr_add_cyclic_longitudes(ds.T, "lon_t")
+
 # Selecting the first time step and then the three levels of interest
-t = ds.T.isel(time=0)
+t = t.isel(time=0)
 t_1 = t.isel(z_t=0)
 t_2 = t.isel(z_t=1)
 t_6 = t.isel(z_t=5)
@@ -69,6 +72,34 @@ ax1 = fig.add_subplot(inner_grid[0], projection=proj) # upper cell of inner grid
 ax2 = fig.add_subplot(inner_grid[1], projection=proj) # lower cell of inner grid
 cax1 = fig.add_subplot(outer_grid[1]) # upper right cell of outer grid, for top color bar
 ax3 = fig.add_subplot(outer_grid[2], projection=proj) # bottom left cell of outer grid
-cax1 = fig.add_subplot(outer_grid[3]) # bottom right cell of outer grid, for bottom color bar
+cax2 = fig.add_subplot(outer_grid[3]) # bottom right cell of outer grid, for bottom color bar
+
+# Use geocat.viz.util convenience function to set axes tick values for the contour plots
+gvutil.set_axes_limits_and_ticks(ax=ax1,
+                                 xlim=(-180, 180),
+                                 ylim=(-90, 90),
+                                 xticks=np.linspace(-180, 180, 13),
+                                 yticks=np.linspace(-90, 90, 7))
+gvutil.set_axes_limits_and_ticks(ax=ax2,
+                                 xlim=(-180, 180),
+                                 ylim=(-90, 90),
+                                 xticks=np.linspace(-180, 180, 13),
+                                 yticks=np.linspace(-90, 90, 7))
+gvutil.set_axes_limits_and_ticks(ax=ax3,
+                                 xlim=(-180, 180),
+                                 ylim=(-90, 90),
+                                 xticks=np.linspace(-180, 180, 13),
+                                 yticks=np.linspace(-90, 90, 7))
+
+# Use geocat.viz.util convenience function to make plots look like NCL plots by
+# using latitude, longitude tick labels
+gvutil.add_lat_lon_ticklabels(ax1)
+gvutil.add_lat_lon_ticklabels(ax2)
+gvutil.add_lat_lon_ticklabels(ax3)
+
+# Remove the degree symbol from tick labels
+for ax in [ax1, ax2, ax3]:
+    ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
+    ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 plt.show()
