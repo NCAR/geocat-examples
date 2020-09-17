@@ -90,4 +90,6 @@ for ax in [ax1, ax2, ax3]:
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
+    ax.coastlines(linewidth=0.5)
+
 plt.show()
