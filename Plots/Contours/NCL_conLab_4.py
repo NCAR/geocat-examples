@@ -4,7 +4,7 @@ NCL_conLab_4.py
 This script illustrates the following concepts:
    - Drawing color-filled contours over a cylindrical equidistant map
    - Setting the background fill color for contour labels to white
-   - Forcing labels to appear on every contour line
+   - Forcing labels to appear on every other contour line
    - Changing the contour level spacing
    - Zooming in on a particular area on a cylindrical equidistant map
    - Creating left and right titles
@@ -34,6 +34,13 @@ from geocat.viz import util as gvutil
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"), decode_times=False)
 U = ds.isel(time=1, drop=True).U
+
+# Reduce the dataset to something just bigger than the area we want to plot.
+# This will improve how the contour lines are labeled
+U = U.where(U.lon >= 0)
+U = U.where(U.lon <= 71)
+U = U.where(U.lat >= -33)
+U = U.where(U.lat <= 33)
 
 ##############################################################################
 # Plot:
@@ -102,8 +109,8 @@ cbar = plt.colorbar(colors,
                     pad=0.075)
 cbar.ax.tick_params(labelsize=14)  # Make the labels larger
 
-# By defualt, `clabel` labels every contour line
-ax.clabel(lines, fontsize=12, fmt='%d', inline=True)
+# Adding contour line labels, use `levels` to specify which levels to label
+ax.clabel(lines, levels=np.arange(-8, 28, 8), fontsize=12, fmt='%d', inline=True)
 
 # Set label backgrounds white
 [
