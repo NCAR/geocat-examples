@@ -2,8 +2,9 @@
 NCL_panel_15.py
 ===============
 This script illustrates the following concepts:
-   - Paneling two sets of paneled plots on one figure
-   - Using nested `gridspec` objects to make a more complex panelled plot 
+   - Paneling three plots vertically
+   - Making a color bar span over two axes
+   - Selecting a different colormap to abide by best practices. See the `color examples <https://geocat-examples.readthedocs.io/en/latest/gallery/index.html#colors>`_ for more information.
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: http://www.ncl.ucar.edu/Applications/Scripts/panel_15.ncl
@@ -40,39 +41,19 @@ t_6 = t.isel(z_t=5)
 
 ##############################################################################
 # Plot:
-
-"""
-The outer gridspec will be a 2x2 grid with the top row having a height that
-is two thirds of the figure height. The bottom row will have a height that is
-one third of the figure height. The right column will be just thick enough to
-accommodate the color bars.
-"""
 fig = plt.figure(figsize=(7, 15))
 
-outer_grid = gridspec.GridSpec(nrows=2,
-                               ncols=2,
-                               figure=fig,
-                               height_ratios=[2/3, 1/3],
-                               width_ratios=[0.95, 0.05])
-
-"""
-The inner gridspec will be nested in the top, left cell of the outer gridspec.
-This inner gridspec will have two rows and one column to accommodate the
-stacked plots that will share a colorbar.
-"""
-inner_grid = gridspec.GridSpecFromSubplotSpec(nrows=2,
-                                              ncols=1,
-                                              subplot_spec=outer_grid[0])
+grid = gridspec.GridSpec(nrows=3,
+                               ncols=1,
+                               figure=fig)
 
 # Choose the map projection
 proj = ccrs.PlateCarree()
 
 # Add the subplots
-ax1 = fig.add_subplot(inner_grid[0], projection=proj) # upper cell of inner grid
-ax2 = fig.add_subplot(inner_grid[1], projection=proj) # lower cell of inner grid
-cax1 = fig.add_subplot(outer_grid[1]) # upper right cell of outer grid, for top color bar
-ax3 = fig.add_subplot(outer_grid[2], projection=proj) # bottom left cell of outer grid
-cax2 = fig.add_subplot(outer_grid[3]) # bottom right cell of outer grid, for bottom color bar
+ax1 = fig.add_subplot(grid[0], projection=proj) # upper cell of grid
+ax2 = fig.add_subplot(grid[1], projection=proj) # middle cell of grid
+ax3 = fig.add_subplot(grid[2], projection=proj) # lower cell of grid
 
 for ax in [ax1, ax2, ax3]:
     # Use geocat.viz.util convenience function to set axes tick values for the contour plots
@@ -95,4 +76,5 @@ for ax in [ax1, ax2, ax3]:
 
     # Draw coastlines
     ax.coastlines(linewidth=0.5)
+
 plt.show()
