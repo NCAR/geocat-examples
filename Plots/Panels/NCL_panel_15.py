@@ -77,4 +77,15 @@ for ax in [ax1, ax2, ax3]:
     # Draw coastlines
     ax.coastlines(linewidth=0.5)
 
+# Select an appropriate colormap
+cmap = 'magma'
+
+# Plot data
+C = ax1.contourf(t_1['lon_t'], t_1['lat_t'], t_1.data, levels=np.arange(0, 30, 2), cmap=cmap, extend='both')
+ax2.contourf(t_2['lon_t'], t_2['lat_t'], t_2.data, levels=np.arange(0, 30, 2), cmap=cmap, extend='both')
+C_2 = ax3.contourf(t_6['lon_t'], t_6['lat_t'], t_6.data, levels=np.arange(0, 22, 2), cmap=cmap, extend='both')
+
+plt.colorbar(C, ax=[ax1, ax2], ticks=range(0, 30, 2), extendrect=True, extendfrac='auto', shrink=0.85, aspect=13)
+plt.colorbar(C_2, ax=ax3, ticks=range(0, 22, 2), extendrect=True, extendfrac='auto', shrink=0.85, aspect=5.5)
+
 plt.show()
