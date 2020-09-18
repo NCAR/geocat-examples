@@ -21,15 +21,15 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import cartopy.crs as ccrs
 from cartopy.feature import NaturalEarthFeature
-
 import cartopy.feature as cfeature
 
 from wrf import (getvar, to_np, latlon_coords, get_cartopy)
+import geocat.datafiles as gdf
 
 ###############################################################################
 # Read in the data
 
-wrfin = Dataset("wrfout_d03_2012-04-22_23_00_00_subset.nc")
+wrfin = Dataset(gdf.get("netcdf_files/wrfout_d03_2012-04-22_23_00_00_subset.nc"))
 
 td2 = getvar(wrfin, "td2")
 
