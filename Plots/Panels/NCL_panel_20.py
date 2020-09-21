@@ -15,6 +15,7 @@ See following URLs to see the reproduced NCL plot & script:
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
 import numpy as np
 import xarray as xr
 
@@ -34,3 +35,23 @@ ds = ds.isel(time=1).drop_vars('time')
 # Ensure longitudes range from 0 to 360 degrees
 U = gvutil.xr_add_cyclic_longitudes(ds.U, "lon")
 V = gvutil.xr_add_cyclic_longitudes(ds.V, "lon")
+
+###############################################################################
+# Plot:
+fig = plt.figure(figsize=(8, 7))
+
+grid = gridspec.GridSpec(nrows=2,
+                         ncols=2,
+                         height_ratios=[0.6, 0.4],
+                         figure=fig)
+
+# Choose the map projection
+proj = ccrs.PlateCarree()
+
+# Add the subplots
+ax1 = fig.add_subplot(grid[0], aspect=1)  # upper left cell of grid
+ax2 = fig.add_subplot(grid[1], aspect=1)  # upper right cell of grid
+ax3 = fig.add_subplot(grid[2], projection=proj) # lower left cell of grid
+ax4 = fig.add_subplot(grid[3], projection=proj) # lower right cell of grid
+
+plt.show()
