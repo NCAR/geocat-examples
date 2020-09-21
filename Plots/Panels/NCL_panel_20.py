@@ -39,11 +39,12 @@ U_1 = gvutil.xr_add_cyclic_longitudes(time_1.U, "lon")
 
 ###############################################################################
 # Plot:
-fig = plt.figure(figsize=(8, 7))
+fig = plt.figure(figsize=(9, 8))
 
 grid = gridspec.GridSpec(nrows=2,
                          ncols=2,
                          height_ratios=[0.6, 0.4],
+                         hspace=0.1,
                          figure=fig)
 
 # Choose the map projection
@@ -54,6 +55,10 @@ ax1 = fig.add_subplot(grid[0])  # upper left cell of grid
 ax2 = fig.add_subplot(grid[1])  # upper right cell of grid
 ax3 = fig.add_subplot(grid[2], projection=proj) # lower left cell of grid
 ax4 = fig.add_subplot(grid[3], projection=proj) # lower right cell of grid
+
+# Draw coastlines on maps
+ax3.coastlines(linewidth=0.5)
+ax4.coastlines(linewidth=0.5)
 
 # Plot xy data
 ax1.plot(U_0['lat'], U_0.isel(lon=93).drop_vars('lon').data, c='black', linewidth=0.5)
@@ -86,5 +91,51 @@ for ax in [ax1, ax2]:
 
 # Remove tick labels for top left plot
 ax1.set_yticklabels([])
+
+
+# Plot zonal wind maps
+for ax in [ax3, ax4]:
+    # Use geocat.viz.util convenience function to set axes tick values for the contour plots
+    gvutil.set_axes_limits_and_ticks(ax=ax,
+                                     xlim=(-180, 180),
+                                     ylim=(-90, 90),
+                                     xticks=np.arange(-180, 181, 30),
+                                     yticks=np.arange(-90, 91, 30))
+    
+    # Use geocat.viz.util convenience function to add minor and major tick lines
+    gvutil.add_major_minor_ticks(ax)
+
+    # Use geocat.viz.util convenience function to make plots look like NCL plots by
+    # using latitude, longitude tick labels
+    gvutil.add_lat_lon_ticklabels(ax)
+
+    # Remove the degree symbol from tick labels
+    ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
+    ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
+
+    # Use geocat.viz.util convenience function to set titles and labels
+    gvutil.set_titles_and_labels(ax,
+                                 maintitle='300mb',
+                                 maintitlefontsize=8)
+
+# Add left and right titles for both map plots
+ax3.set_title(U_0.long_name, loc='left', y=1.04, fontsize=8)
+ax3.set_title('Time = 0', loc='right', y=1.04, fontsize=8)
+ax4.set_title(U_0.long_name, loc='left', y=1.04, fontsize=8)
+ax4.set_title('Time = 0', loc='right', y=1.04, fontsize=8)
+
+# Choose colormap for contour plots
+cmap = gvcmaps.StepSeq25
+
+# Specify levels for contours
+levels = np.arange(-10, 36, 5)
+
+# Add filled contour to maps
+ax3.contourf(U_0['lon'], U_0['lat'], U_0.data, cmap=cmap, levels=levels, extend='both')
+ax4.contourf(U_1['lon'], U_1['lat'], U_1.data, cmap=cmap, levels=levels, extend='both')
+
+# Add contour line to maps
+ax3.contour(U_0['lon'], U_0['lat'], U_0.data, colors='black', linewidths=0.5, linestyles='solid', levels=levels)
+ax4.contour(U_1['lon'], U_1['lat'], U_1.data, colors='black', linewidths=0.5, linestyles='solid', levels=levels)
 
 plt.show()
