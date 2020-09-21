@@ -55,7 +55,7 @@ ax1 = fig.add_subplot(grid[0], projection=proj) # upper cell of grid
 ax2 = fig.add_subplot(grid[1], projection=proj) # middle cell of grid
 ax3 = fig.add_subplot(grid[2], projection=proj) # lower cell of grid
 
-for ax in [ax1, ax2, ax3]:
+for (ax, title) in [(ax1, 'level 0'), (ax2, 'level 1'), (ax3, 'level 6')]:
     # Use geocat.viz.util convenience function to set axes tick values for the contour plots
     gvutil.set_axes_limits_and_ticks(ax=ax,
                                      xlim=(-180, 180),
@@ -77,6 +77,15 @@ for ax in [ax1, ax2, ax3]:
     # Draw coastlines
     ax.coastlines(linewidth=0.5)
 
+    # Use geocat.viz.util convenience function to set titles without calling several matplotlib functions
+    gvutil.set_titles_and_labels(ax,
+                                 lefttitle=t_1.long_name,
+                                 righttitle=t_1.units,
+                                 lefttitlefontsize=10,
+                                 righttitlefontsize=10)
+    # Add center title
+    ax.set_title(title, loc='center', y=1.04, fontsize=10)
+
 # Select an appropriate colormap
 cmap = 'magma'
 
@@ -85,6 +94,7 @@ C = ax1.contourf(t_1['lon_t'], t_1['lat_t'], t_1.data, levels=np.arange(0, 30, 2
 ax2.contourf(t_2['lon_t'], t_2['lat_t'], t_2.data, levels=np.arange(0, 30, 2), cmap=cmap, extend='both')
 C_2 = ax3.contourf(t_6['lon_t'], t_6['lat_t'], t_6.data, levels=np.arange(0, 22, 2), cmap=cmap, extend='both')
 
+# Add colorbars, by specifying two axes for `ax` the colorbar will span both of them
 plt.colorbar(C, ax=[ax1, ax2], ticks=range(0, 30, 2), extendrect=True, extendfrac='auto', shrink=0.85, aspect=13)
 plt.colorbar(C_2, ax=ax3, ticks=range(0, 22, 2), extendrect=True, extendfrac='auto', shrink=0.85, aspect=5.5)
 
