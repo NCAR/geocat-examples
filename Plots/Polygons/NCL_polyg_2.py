@@ -137,7 +137,7 @@ for varname, da in ds.data_vars.items():
         im = ax.add_geometries([track],
                                ccrs.PlateCarree(),
                                facecolor=color,
-                               edgecolor='k',
+                               edgecolor='black',
                                linewidths=.5)
 
 # Create and plot colorbar

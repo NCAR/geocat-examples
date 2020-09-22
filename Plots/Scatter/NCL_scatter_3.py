@@ -114,4 +114,4 @@ def Plots(xlim, ylim, xtic, ytic, xminor, yminor, size, color):
 
 
 Plots((-180, 160), (-20, 90), 30, 30, 3, 3, 50, 'firebrick')
-Plots((-125, -65), (21, 60), 20, 10, 4, 5, 50, 'b')
+Plots((-125, -65), (21, 60), 20, 10, 4, 5, 50, 'blue')
