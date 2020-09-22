@@ -52,7 +52,7 @@ a = wrap_v.plot.contourf(levels=14,
                          add_colorbar=False,
                          add_labels=False)
 # Contour-plot data (for borderlines)
-wrap_v.plot.contour(levels=14, linewidths=0.5, cmap='k', add_labels=False)
+wrap_v.plot.contour(levels=14, linewidths=0.5, cmap='black', add_labels=False)
 
 # Add vertical colorbar
 clabels = [
