@@ -1,6 +1,6 @@
 """
 NCL_regress_1.py
-===============
+================
 This script illustrates the following concepts:
    - Read tabular values from an ascii file
    - Calculating the least squared regression for a one dimensional array
