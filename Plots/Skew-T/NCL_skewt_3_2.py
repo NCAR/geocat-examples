@@ -5,7 +5,6 @@ This script illustrates the following concepts:
     - Drawing Skew-T plots
     - Thinning the wind barbs in a Skew-T plot
     - Customizing the background of a Skew_T plot
-    - Following best practices when choosing a colormap
     
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/skewt_3.ncl
