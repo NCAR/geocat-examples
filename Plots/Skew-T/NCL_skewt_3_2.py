@@ -54,7 +54,7 @@ for i in range(0, 8):
     skew.shade_area(y=y,
                     x1=x1[i],
                     x2=x2[i],
-                    color='limegreen',
+                    color='lime',
                     alpha=0.25,
                     zorder=1)
 
