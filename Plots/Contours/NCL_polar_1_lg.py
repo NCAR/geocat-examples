@@ -1,5 +1,5 @@
 """
-NCL_polar_1_lg.py
+NCL_polar_1.py
 ================
 This script illustrates the following concepts:
     - Drawing black-and-white contours over a polar stereographic map
