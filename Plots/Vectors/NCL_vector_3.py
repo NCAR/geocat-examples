@@ -2,12 +2,10 @@
 NCL_vector_3.py
 ===============
 Plot U & V vectors globally
-
 This script illustrates the following concepts:
   - Drawing a black-and-white vector plot over a PlateCarree map
   - Adding a time stamp to a plot
   - Moving the vector reference annotation to the top right of the plot
-
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/vector_3.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/vector_3_lg.png
@@ -34,8 +32,7 @@ file_in = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 # Read in data from netCDF file.
 # Note that when we extract ``u`` and ``v`` from the file,
 # we only read every third latitude and longitude.
-# This choice was made because ``geocat.viz`` doesn't offer an
-# equivalent function to ncl's ``vcMinDistanceF`` yet.
+
 ds = file_in.isel(time=1, lon=slice(0, -1, 3), lat=slice(1, -1, 3))
 
 ###############################################################################
@@ -46,15 +43,17 @@ plt.subplots(figsize=(10, 5.25))
 
 # Generate axes using Cartopy projection
 ax = plt.axes(projection=ccrs.PlateCarree())
+z = gvutil.set_vector_density(ds, 0.017)
 
 # Draw vector plot
 # Notes
-# 1. We plot every third vector in each direction, which is not as nice as vcMinDistanceF in NCL
+
+# 1. We are using `set_vector_density` on line 47 as a replacement for NCL's vcMinDistanceF
 # 2. There is no matplotlib equivalent to "CurlyVector"
-Q = plt.quiver(ds['lon'],
-               ds['lat'],
-               ds['U'].data,
-               ds['V'].data,
+Q = plt.quiver(z['lon'],
+               z['lat'],
+               z['U'].data,
+               z['V'].data,
                color='black',
                zorder=1,
                pivot="middle",
