@@ -27,6 +27,7 @@ import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
+
 from geocat.viz import util as gvutil
 import geocat.datafiles as gdf
 
@@ -43,9 +44,7 @@ wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
 ###############################################################################
 #Plot:
 
-fig = plt.figure(figsize=(12, 14))
-
-def Plot(row, col, pos, title):
+def Plot(title):
     """
     Helper function to create two similar plots where subplot position
     and title can all be customized on the same style
@@ -64,8 +63,9 @@ def Plot(row, col, pos, title):
     """
 
     # Generate axes, using Cartopy, drawing coastlines, and adding features
+    plt.figure(figsize=(10, 10))
     projection = ccrs.PlateCarree()
-    ax = plt.subplot(row, col, pos, projection=projection)
+    ax = plt.axes(projection=projection)
     ax.coastlines(linewidths=0.5)
     ax.add_feature(cfeature.LAND, color="green")
     ax.add_feature(cfeature.LAKES, color="plum")
@@ -97,20 +97,16 @@ def Plot(row, col, pos, title):
         ax,
         maintitle=title,
         maintitlefontsize=16)
-
+    
+    plt.show()
+    
+    
 # Plot first color map
-Plot(20, 1, (1,7), "land sea mask using 'atmos.nc'")
+Plot("land sea mask using 'atmos.nc'")
 
-'''
-Using many more subplots than necessay is not generally the norm when plotting only a couple of maps.
-however, by using many subplots, you can change the size of each projection by specifying
-the number of subplots it will span. For the first plot, the projection will span subplots 1-7.
-In the second projection, the plot will span subplots 12-20. As for subplots between these two,
-they will be projected as white space between the two projections.  
-'''
 # Plot second subplot
 
-def Plot2(row, col, pos, title):
+def Plot2(title):
 
    
     """
@@ -129,8 +125,8 @@ def Plot2(row, col, pos, title):
         title (:class: 'str'): 
             title of graph in format "Title"
       """
-
-    ax1 = plt.subplot(row, col, pos, projection=ccrs.PlateCarree())
+    plt.figure(figsize=(10, 10))
+    ax1 = plt.axes(projection=ccrs.PlateCarree())
     ax1.coastlines(linewidths=0.5)
 
     # Import an NCL colormap
@@ -161,4 +157,4 @@ def Plot2(row, col, pos, title):
         lefttitle="temperature",
         lefttitlefontsize=14)
 
-Plot2(20, 1, (12,20), "Dummy TS Field (ocean-masked)")
+Plot2( "Dummy TS Field (ocean-masked)")
