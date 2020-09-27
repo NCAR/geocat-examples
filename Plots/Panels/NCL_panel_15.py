@@ -40,11 +40,11 @@ t_6 = t.isel(z_t=5)
 
 ##############################################################################
 # Plot:
-fig = plt.figure(figsize=(7, 15))
+fig = plt.figure(figsize=(8, 12))
 
 grid = gridspec.GridSpec(nrows=3,
-                               ncols=1,
-                               figure=fig)
+                         ncols=1,
+                         figure=fig)
 
 # Choose the map projection
 proj = ccrs.PlateCarree()
