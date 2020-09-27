@@ -56,28 +56,28 @@ ax2 = fig.add_subplot(grid[1], projection=proj) # middle cell of grid
 ax3 = fig.add_subplot(grid[2], projection=proj) # lower cell of grid
 
 for (ax, title) in [(ax1, 'level 0'), (ax2, 'level 1'), (ax3, 'level 6')]:
-    # Use geocat.viz.util convenience function to set axes tick values for the contour plots
+    # Use geocat.viz.util convenience function to set axes tick values
     gvutil.set_axes_limits_and_ticks(ax=ax,
                                      xlim=(-180, 180),
                                      ylim=(-90, 90),
                                      xticks=np.linspace(-180, 180, 13),
                                      yticks=np.linspace(-90, 90, 7))
     
-    # Use geocat.viz.util convenience function to make plots look like NCL plots by
-    # using latitude, longitude tick labels
+    # Use geocat.viz.util convenience function to make plots look like NCL
+    # plots by using latitude, longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax)
     
     # Remove the degree symbol from tick labels
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
-    # Use geocat.viz.util convenience function to add minor and major tick lines
+    # Use geocat.viz.util convenience function to add minor and major ticks
     gvutil.add_major_minor_ticks(ax)
 
     # Draw coastlines
     ax.coastlines(linewidth=0.5)
 
-    # Use geocat.viz.util convenience function to set titles without calling several matplotlib functions
+    # Use geocat.viz.util convenience function to set titles
     gvutil.set_titles_and_labels(ax,
                                  lefttitle=t_1.long_name,
                                  righttitle=t_1.units,
@@ -90,12 +90,40 @@ for (ax, title) in [(ax1, 'level 0'), (ax2, 'level 1'), (ax3, 'level 6')]:
 cmap = 'magma'
 
 # Plot data
-C = ax1.contourf(t_1['lon_t'], t_1['lat_t'], t_1.data, levels=np.arange(0, 30, 2), cmap=cmap, extend='both')
-ax2.contourf(t_2['lon_t'], t_2['lat_t'], t_2.data, levels=np.arange(0, 30, 2), cmap=cmap, extend='both')
-C_2 = ax3.contourf(t_6['lon_t'], t_6['lat_t'], t_6.data, levels=np.arange(0, 22, 2), cmap=cmap, extend='both')
+C = ax1.contourf(t_1['lon_t'],
+                 t_1['lat_t'],
+                 t_1.data,
+                 levels=np.arange(0, 30, 2),
+                 cmap=cmap,
+                 extend='both')
+ax2.contourf(t_2['lon_t'], 
+             t_2['lat_t'],
+             t_2.data,
+             levels=np.arange(0, 30, 2),
+             cmap=cmap,
+             extend='both')
+C_2 = ax3.contourf(t_6['lon_t'],
+                   t_6['lat_t'],
+                   t_6.data,
+                   levels=np.arange(0, 22, 2),
+                   cmap=cmap,
+                   extend='both')
 
-# Add colorbars, by specifying two axes for `ax` the colorbar will span both of them
-plt.colorbar(C, ax=[ax1, ax2], ticks=range(0, 30, 2), extendrect=True, extendfrac='auto', shrink=0.85, aspect=13)
-plt.colorbar(C_2, ax=ax3, ticks=range(0, 22, 2), extendrect=True, extendfrac='auto', shrink=0.85, aspect=5.5)
+# Add colorbars
+# By specifying two axes for `ax` the colorbar will span both of them
+plt.colorbar(C,
+             ax=[ax1, ax2],
+             ticks=range(0, 30, 2),
+             extendrect=True,
+             extendfrac='auto',
+             shrink=0.85,
+             aspect=13)
+plt.colorbar(C_2,
+             ax=ax3,
+             ticks=range(0, 22, 2),
+             extendrect=True,
+             extendfrac='auto',
+             shrink=0.85,
+             aspect=5.5)
 
 plt.show()
