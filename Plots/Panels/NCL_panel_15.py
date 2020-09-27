@@ -21,7 +21,6 @@ import numpy as np
 import xarray as xr
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
 import geocat.viz.util as gvutil
 ##############################################################################
 # Read in data:
@@ -117,13 +116,15 @@ plt.colorbar(C,
              extendrect=True,
              extendfrac='auto',
              shrink=0.85,
-             aspect=13)
+             aspect=13,
+             drawedges=True)
 plt.colorbar(C_2,
              ax=ax3,
              ticks=range(0, 22, 2),
              extendrect=True,
              extendfrac='auto',
              shrink=0.85,
-             aspect=5.5)
+             aspect=5.5,
+             drawedges=True)
 
 plt.show()
