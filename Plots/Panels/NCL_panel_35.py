@@ -265,11 +265,11 @@ newcmap = gvcmaps.BlueYellowRed
 contour_levels = np.arange(-32, 24, 4)
 
 filled1 = axs[0].contourf(data1, cmap=newcmap, levels=contour_levels)
-axs[0].contour(filled1, colors='k', linestyles='solid', linewidths=0.4)
+axs[0].contour(filled1, colors='black', linestyles='solid', linewidths=0.4)
 filled2 = axs[1].contourf(data2, cmap=newcmap, levels=contour_levels)
-axs[1].contour(filled2, colors='k', linestyles='solid', linewidths=0.4)
+axs[1].contour(filled2, colors='black', linestyles='solid', linewidths=0.4)
 filled3 = axs[2].contourf(data3, cmap=newcmap, levels=contour_levels)
-axs[2].contour(filled3, colors='k', linestyles='solid', linewidths=0.4)
+axs[2].contour(filled3, colors='black', linestyles='solid', linewidths=0.4)
 
 plt.colorbar(filled3,
              orientation='horizontal',
