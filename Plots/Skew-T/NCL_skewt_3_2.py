@@ -1,5 +1,5 @@
 """
-NCL_Skew_3_2.py
+NCL_Skew_3.py
 ==================
 This script illustrates the following concepts:
     - Drawing Skew-T plots
@@ -33,7 +33,6 @@ ds = pd.read_csv(gdf.get('ascii_files/sounding_ATS.csv'),  header=None)
 p = ds[0].values*units.hPa   # Pressure [mb/hPa]
 tc = ds[1].values*units.degC  # Temperature [C]
 tdc = ds[2].values*units.degC  # Dew pt temp  [C]
-z = ds[4]   # Geopotential [gpm]
 wspd = ds[5].values*units.knots    # Wind speed   [knots or m/s]
 wdir = ds[6].values*units.degrees    # Meteorological wind dir
 u, v = mpcalc.wind_components(wspd, wdir)   # Calculate wind components 
@@ -42,13 +41,13 @@ u, v = mpcalc.wind_components(wspd, wdir)   # Calculate wind components
 # Plot
 
 fig = plt.figure(figsize=(12,12))
-skew = SkewT(fig)
+skew = SkewT(fig, rotation=45)
 ax = skew.ax
 
 # Shade every other section between isotherms
 x1 = np.linspace(-100, 40, 8)  # The starting x values for the shaded regions
 x2 = np.linspace(-90, 50, 8)  # The ending x values for the shaded regions
-y = [1050, 100]  # The range of y values that the shades regions should cover
+y = [1050, 100]  # The range of y values that the shaded regions should cover
 
 for i in range(0, 8):
     skew.shade_area(y=y,
@@ -58,8 +57,8 @@ for i in range(0, 8):
                     alpha=0.25,
                     zorder=1)
 
-skew.plot(p, tc, 'k')
-skew.plot(p, tdc, 'b')
+skew.plot(p, tc, 'black')
+skew.plot(p, tdc, 'blue')
 # Plot only every third windbarb
 skew.plot_barbs(p[::3], u[::3], v[::3],
                 xloc=1.05,
@@ -78,22 +77,22 @@ ax.add_line(line)
 
 # Add relevant special lines
 # Choose starting temperatures in Kelvin for the dry adiabats
-t0 = units.K * np.arange(243.15, 443.15, 10)
+t0 = units.K * np.arange(243.15, 473.15, 10)
 skew.plot_dry_adiabats(t0=t0,
                          linestyles='solid',
                          colors='gray',
                          linewidth=1.5)
 
 # Choose temperatures for moist adiabats
-t0 = units.K * np.arange(278.15, 306.15, 4)
+t0 = units.K * np.arange(281.15, 306.15, 4)
 msa = skew.plot_moist_adiabats(t0=t0, linestyles='solid', colors='lime', linewidths=1.5)
 
 # Choose mixing ratios
 w = np.array([0.001, 0.002, 0.003, 0.005, 0.008, 0.012, 0.020]).reshape(-1, 1)
 
 # Choose the range of pressures that the mixing ratio lines are drawn over
-p = units.hPa * np.linspace(1000, 400, 7)
-skew.plot_mixing_lines(w=w, p=p, colors='lime')
+p_levs = units.hPa * np.linspace(1000, 400, 7)
+skew.plot_mixing_lines(w=w, p=p_levs, colors='lime')
 
 skew.ax.set_ylim(1000, 100)
 
