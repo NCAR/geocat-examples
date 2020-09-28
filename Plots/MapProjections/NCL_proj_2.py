@@ -1,6 +1,6 @@
 """
-NCL_proj_2_lg.py
-================
+NCL_proj_2.py
+=============
 
 This script illustrates the following concepts:
    - Drawing filled contours over a Mercator map
