@@ -1,6 +1,6 @@
 """
 NCL_scatter_1.py
-===============
+================
 This script illustrates the following concepts:
     - Drawing a scatter plot
     - Changing the markers in an XY plot
