@@ -2,10 +2,12 @@
 NCL_vector_3.py
 ===============
 Plot U & V vectors globally
+
 This script illustrates the following concepts:
   - Drawing a black-and-white vector plot over a PlateCarree map
   - Adding a time stamp to a plot
   - Moving the vector reference annotation to the top right of the plot
+
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/vector_3.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/vector_3_lg.png
