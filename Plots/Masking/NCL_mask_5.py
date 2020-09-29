@@ -88,7 +88,7 @@ def Plot(row, col, pos, title):
         maintitlefontsize=14)
 
 # #Plot first color map
-Plot(2, 3, (1,3), "land sea mask using 'atmos.nc'")
+Plot(2, 1, 1, "land sea mask using 'atmos.nc'")
 
 
 def Plot2(row, col, pos, title):
@@ -139,4 +139,4 @@ def Plot2(row, col, pos, title):
         lefttitle="temperature",
         lefttitlefontsize=14)
 
-Plot2(2, 3, (4,6), "dummy TS field (ocean-masked)")
+Plot2(2, 1, 2, "dummy TS field (ocean-masked)")
