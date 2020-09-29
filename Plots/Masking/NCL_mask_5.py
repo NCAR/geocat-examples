@@ -9,7 +9,8 @@ This script illustrates the following concepts:
     - Drawing contours over land only
     - Using draw order resources to mask areas in a plot
     - Adding a label bar
-    - Implementing best practices when choosing a color scheme 
+    - Following best practices when choosing a colormap.
+      More information on colormap best practices can be found `here <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py>`_.
     
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/mask_5.ncl
