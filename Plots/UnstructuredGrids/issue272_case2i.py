@@ -2,16 +2,10 @@
 issue272_case2i.py
 ===============
 This script illustrates the following concepts:
-    - Exploring the Datashader capabilities and parallel rendering performance on an
-    unstructured grid case (Case 2.ii. at issue https://github.com/NCAR/GeoCAT-examples/issues/272).
-    - Generating a synthetic mesh (rectangular) with no connectivity data. i.e. all we really
-    have are a collection of points.
-    - Triangulating the rectangular mesh to generate a triangle mesh. Currently Matplotlib's
-    Delaunay triangulation is used for this. It's time consuming and will introduce errors
-    that may or may not be significant for plotting purposes. Any alternative solution from
-    Datashader stack for this?
-    - Rendering the triangle mesh. Currently Matplotlib's "tripcolor" function is used for
-    this. Any alternative solution from Datashader and Geoviews stack for this?
+    - Exploring the Datashader capabilities and parallel rendering performance on an unstructured grid case (Case 2.ii. at issue https://github.com/NCAR/GeoCAT-examples/issues/272).
+    - Generating a synthetic mesh (rectangular) with no connectivity data. i.e. all we really have are a collection of points.
+    - Triangulating the rectangular mesh to generate a triangle mesh. Currently Matplotlib's Delaunay triangulation is used for this. It's time consuming and will introduce errors that may or may not be significant for plotting purposes. Any alternative solution from Datashader stack for this?
+    - Rendering the triangle mesh. Currently Matplotlib's "tripcolor" function is used for this. Any alternative solution from Datashader and Geoviews stack for this?
 
 """
 
