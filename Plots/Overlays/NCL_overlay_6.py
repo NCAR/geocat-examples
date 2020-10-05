@@ -1,6 +1,6 @@
 """
 NCL_overlay_6.py
-===============
+================
 This script illustrates the following concepts:
    - Overlaying filled contours, streamlines, and vectors over the same map
    - Adding various map elements to a figure

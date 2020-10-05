@@ -1,6 +1,6 @@
 """
 NCL_shapefiles_1.py
-===============
+===================
 This script illustrates the following concepts:
    - Reading shapefiles
    - Plotting data from shapefiles
@@ -21,6 +21,7 @@ Note:
     gridlines to show exactly where the labels are pointing. The gridlines can
     be removed by calling ``gl.xlines = False`` and ``gl.ylines = False``
     after drawing the labels.
+
 """
 
 ###############################################################################

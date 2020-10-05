@@ -52,10 +52,10 @@ plt.figure(figsize=(6.2, 6))
 ax = plt.gca()
 
 # Scatter-plot the data
-plt.scatter(ts_rolled.time, ts_rolled.values, c='r', s=3)
+plt.scatter(ts_rolled.time, ts_rolled.values, c='red', s=3)
 
 # Plot a regression line
-plt.plot(ts.time, regline_vals, 'k')
+plt.plot(ts.time, regline_vals, 'black')
 
 # specify X and Y axis limits
 plt.xlim([6000, 9500])
