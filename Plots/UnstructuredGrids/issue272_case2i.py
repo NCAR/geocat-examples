@@ -2,15 +2,17 @@
 issue272_case2i.py
 ===============
 This script illustrates the following concepts:
-    - Exploring the Datashader capabilities and parallel rendering performance on an unstructured grid case (Case 2.ii. at issue https://github.com/NCAR/GeoCAT-examples/issues/272).
+    -            Exploring the Datashader capabilities and parallel rendering performance on an unstructured grid case (Case 2.ii. at issue https://github.com/NCAR/GeoCAT-examples/issues/272).
     - Generating a synthetic mesh (rectangular) with no connectivity data. i.e. all we really have are a collection of points.
     - Triangulating the rectangular mesh to generate a triangle mesh. Currently Matplotlib's Delaunay triangulation is used for this. It's time consuming and will introduce errors that may or may not be significant for plotting purposes. Any alternative solution from Datashader stack for this?
     - Rendering the triangle mesh. Currently Matplotlib's "tripcolor" function is used for this. Any alternative solution from Datashader and Geoviews stack for this?
+    - Profiling the execution time of triangulation and rendering seperately
 
 """
 
 ###############################################################################
 # Import packages:
+
 import numpy as np
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
@@ -19,18 +21,44 @@ import time
 
 
 ###############################################################################
-# User-defined arguments
-num_pts = 1740980    # Number of points can be adjusted to analyze algorithm performance
+# User-defined arguments:
+
+# Lon-lat resolutions in degrees
+# NOTE: Single-threaded matplotlib implementation in this script was first
+# examined on a 3-km lon-lat resolution (i.e. 0.03 degrees) case and ran for
+# more than 7 hours with close-to-full memory use on a 16 GB memory system
+# but did not seem to succeed it (No further analysis or profiling done though).
+# However, below 10 km resolution case succeeds, taking 145 seconds for triangulation
+# and 99 seconds for rendering.
+lon_res = 0.1     # Roughly 10 km around equator
+lat_res = 0.1
+
+# Lon-lat min, max
+lon_min = 0
+lon_max = 360
+lat_min = -90
+lat_max = 90
 
 
 ###############################################################################
 # Generate a synthetic rectangular mesh:
 
-# Generate lon and lat values
-x = np.random.uniform(low=0, high=360, size=(num_pts,))
-y = np.random.uniform(low=-90, high=90, size=(num_pts,))
+# Generate lon-lat value vectors first
+lons = np.arange(lon_min, lon_max, lon_res)
+lats = np.arange(lat_min, lat_max, lat_res)
 
-# Generate random (meaningless but ok) values for points
+
+# Generate lon-lat meshgrid
+x, y = np.meshgrid(lons, lats)
+
+# Convert x and y meshes to vectors
+num_pts = x.size
+x = x.reshape(num_pts, )
+y = y.reshape(num_pts, )
+
+# Generate random (meaningless but ok) values for the points
+# Low and high values below are from a CAM-SE data, which is meaningless here,
+# but no problem
 var = np.random.uniform(low=183, high=262, size=(num_pts,))
 
 # Use PlateCarree projection
