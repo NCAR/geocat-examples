@@ -1,6 +1,6 @@
 """
-NCL_Skew_3.py
-==================
+NCL_skewt_3_2.py
+=================
 This script illustrates the following concepts:
     - Drawing Skew-T plots
     - Thinning the wind barbs in a Skew-T plot
@@ -10,6 +10,7 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/skewt_3.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/skewt_3_2_lg.png
 """
+
 ###############################################################################
 # Import packages:
 
@@ -23,6 +24,7 @@ from metpy.units import units
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
+
 ###############################################################################
 # Read in data:
 
@@ -41,6 +43,8 @@ u, v = mpcalc.wind_components(wspd, wdir)   # Calculate wind components
 # Plot
 
 fig = plt.figure(figsize=(12,12))
+# Adding the "rotation" kwarg will over-ride the default MetPy rotation of 
+# 30 degrees for the 45 degree default found in NCL Skew-T plots
 skew = SkewT(fig, rotation=45)
 ax = skew.ax
 
