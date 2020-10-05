@@ -72,7 +72,7 @@ gl = ax.gridlines(crs=ccrs.PlateCarree(),
                   x_inline=False,
                   y_inline=False,
                   linewidth=1,
-                  color="k",
+                  color="black",
                   alpha=0.25)
 
 # Manipulate latitude and longitude gridline numbers and spacing

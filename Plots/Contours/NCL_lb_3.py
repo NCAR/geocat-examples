@@ -86,7 +86,7 @@ contour = V.plot.contourf(ax=ax,
 # Plot line contour
 V.plot.contour(ax=ax,
                transform=ccrs.PlateCarree(),
-               colors='k',
+               colors='black',
                linewidths=0.5,
                linestyles='solid',
                levels=contour_lev,
