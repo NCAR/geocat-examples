@@ -1,6 +1,6 @@
 """
-NCL_dataonmap_10_lg.py
-======================
+NCL_dataonmap_10.py
+===================
 This script illustrates the following concepts:
     - Plotting WRF data on native grid
     - Plotting data using wrf python functions
@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
-from wrf import (getvar, to_np, latlon_coords, get_cartopy)
+from wrf import (getvar, to_np, latlon_coords, get_cartopy, cartopy_xlim)
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -37,6 +37,7 @@ q2 = getvar(wrfin, "Q2")
 ###############################################################################
 # Plot the data
 
+# Get the latitude and longitude coordinate. This is usually needed for plotting.
 lats, lons = latlon_coords(q2)
 
 # The `get_cartopy` wrf function will automatically find and use the 
@@ -46,16 +47,16 @@ fig = plt.figure(figsize=(10,10))
 ax = plt.axes(projection=cart_proj)
 
 # Add features to the map
-ax.add_feature(cfeature.LAND, facecolor="", edgecolor="k", zorder=5)
-
+# ax.add_feature(cfeature.LAND, facecolor="", edgecolor="black", zorder=1)
+print(to_np(lons))
 # Add filled contours
 plt.contourf(to_np(lons),
              to_np(lats),
              q2,
              levels=np.linspace(0.01125, 0.05, 32), cmap="magma",
-             # transform=ccrs.PlateCarree(),
              vmin=0,
-             vmax=0.05)
+             vmax=0.05,
+             zorder=4)
 
 # Add a colorbar
 cbar = plt.colorbar(ax=ax,
@@ -63,7 +64,7 @@ cbar = plt.colorbar(ax=ax,
                     ticks=np.arange(0.0125, 0.0476, 0.0025),
                     drawedges=True,
                     extendrect=True,
-                    shrink=0.7)
+                    shrink=0.65)
                     
 
 # Format colorbar ticks and labels 
@@ -79,21 +80,24 @@ gl = ax.gridlines(crs=ccrs.PlateCarree(),
                   color="k",
                   alpha=0.25)
 
+
 # Manipulate latitude and longitude gridline numbers and spacing
 gl.top_labels = False
 gl.right_labels = False
-gl.xlocator = mticker.FixedLocator(np.arange(-105, -80, 5))
-gl.ylocator = mticker.FixedLocator(np.arange(18,35,2))
-gl.xlabel_style = {"rotation": 0, "size": 15}
-gl.ylabel_style = {"rotation": 0, "size": 15}
-gl.xlines = False
-gl.ylines = False
 
-# Add titles to the plot
+# gl.xlocator = mticker.FixedLocator(np.arange(-105, -80, 5))
+# gl.ylocator = mticker.FixedLocator(np.arange(18,35,2))
+# gl.xlabel_style = {"rotation": 0, "size": 15}
+# gl.ylabel_style = {"rotation": 0, "size": 15}
+# gl.xlines = False
+# gl.ylines = False
+
+# Add titles and labels to projection
 gvutil.set_titles_and_labels(ax,
                              maintitle="WRF data on native grid",
                              lefttitle="QV at 2 M",
                              maintitlefontsize= 16,
                              lefttitlefontsize=14)
+
 
 plt.show()
