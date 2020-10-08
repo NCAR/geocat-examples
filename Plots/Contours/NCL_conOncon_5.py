@@ -110,7 +110,7 @@ p = slon.plot.contour(ax=ax,
                       transform=ccrs.PlateCarree(),
                       linewidths=1.5,
                       levels=[5500],
-                      colors='k',
+                      colors='black',
                       add_labels=False)
 
 # Create a color list for each of the next 18 contours
