@@ -38,46 +38,15 @@ U_0 = gvutil.xr_add_cyclic_longitudes(time_0.U, "lon")
 U_1 = gvutil.xr_add_cyclic_longitudes(time_1.U, "lon")
 
 ###############################################################################
-# Plot:
-fig = plt.figure(figsize=(12, 10))
+# Create helper functions:
+def format_linegraph_axes(ax):
+    """
+    Format the axes limits, tick marks, and tick labels for the line graphs
 
-grid = gridspec.GridSpec(nrows=2,
-                         ncols=2,
-                         height_ratios=[0.6, 0.4],
-                         hspace=0.1,
-                         figure=fig)
-
-# Choose the map projection
-proj = ccrs.PlateCarree()
-
-# Add the subplots
-ax1 = fig.add_subplot(grid[0])  # upper left cell of grid
-ax2 = fig.add_subplot(grid[1])  # upper right cell of grid
-ax3 = fig.add_subplot(grid[2], projection=proj) # lower left cell of grid
-ax4 = fig.add_subplot(grid[3], projection=proj) # lower right cell of grid
-
-# Draw coastlines on maps
-ax3.coastlines(linewidth=0.5)
-ax4.coastlines(linewidth=0.5)
-
-# Plot xy data
-ax1.plot(U_0['lat'], U_0.isel(lon=93).drop_vars('lon').data, c='black', linewidth=0.5)
-ax2.plot(U_1['lat'], U_1.isel(lon=93).drop_vars('lon').data, c='black', linewidth=0.5)
-
-# Use geocat.viz.util convenience function to set titles without calling several matplotlib functions
-gvutil.set_titles_and_labels(ax1,
-                             maintitle='Time=0',
-                             maintitlefontsize=10,
-                             ylabel=U_0.long_name,
-                             labelfontsize=10)
-gvutil.set_titles_and_labels(ax2,
-                             maintitle='Time=1',
-                             maintitlefontsize=10)
-
-# Draw tick labels on the right side of the top right plot
-ax2.yaxis.tick_right()
-
-for ax in [ax1, ax2]:
+    Args:
+        ax (:class: 'matplotlib.Axes'):
+            The set of axes to be manipulated
+    """
     # Use geocat.viz.util convenience function to set axes tick values for the contour plots
     gvutil.set_axes_limits_and_ticks(ax=ax,
                                      xlim=(-90, 90),
@@ -89,12 +58,14 @@ for ax in [ax1, ax2]:
     # Use geocat.viz.util convenience function to add minor and major tick lines
     gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=5)
 
-# Remove tick labels for top left plot
-ax1.set_yticklabels([])
+def format_contour_axes(ax):
+    """
+    Format the axes limits, tick marks, and tick labels for the contour plots
 
-
-# Plot zonal wind maps
-for ax in [ax3, ax4]:
+    Args:
+        ax (:class: 'matplotlib.Axes'):
+            The set of axes to be manipulated
+    """
     # Use geocat.viz.util convenience function to set axes tick values for the contour plots
     gvutil.set_axes_limits_and_ticks(ax=ax,
                                      xlim=(-180, 180),
@@ -118,11 +89,62 @@ for ax in [ax3, ax4]:
                                  maintitle='300mb',
                                  maintitlefontsize=8)
 
+###############################################################################
+# Plot:
+fig = plt.figure(figsize=(12, 10))
+
+grid = gridspec.GridSpec(nrows=2,
+                         ncols=2,
+                         height_ratios=[0.6, 0.4],
+                         hspace=0.1,
+                         figure=fig)
+
+# Choose the map projection
+proj = ccrs.PlateCarree()
+
+# Add the subplots
+ax1 = fig.add_subplot(grid[0])  # upper left cell of grid
+ax2 = fig.add_subplot(grid[1])  # upper right cell of grid
+ax3 = fig.add_subplot(grid[2], projection=proj) # lower left cell of grid
+ax4 = fig.add_subplot(grid[3], projection=proj) # lower right cell of grid
+
+# Draw coastlines on maps
+ax3.coastlines(linewidth=0.5)
+ax4.coastlines(linewidth=0.5)
+
+# Use geocat.viz.util convenience function to set titles without calling several matplotlib functions
+gvutil.set_titles_and_labels(ax1,
+                             maintitle='Time=0',
+                             maintitlefontsize=10,
+                             ylabel=U_0.long_name,
+                             labelfontsize=10)
+gvutil.set_titles_and_labels(ax2,
+                             maintitle='Time=1',
+                             maintitlefontsize=10)
+
+# Draw tick labels on the right side of the top right plot
+ax2.yaxis.tick_right()
+
+# Use helper function to create linegraphs with identical axes parameters
+format_linegraph_axes(ax1)
+format_linegraph_axes(ax2)
+
+# Remove tick labels for top left plot
+ax1.set_yticklabels([])
+
+# Use helper function to create contour plots with identical axes parameters
+format_contour_axes(ax3)
+format_contour_axes(ax4)
+
 # Add left and right titles for both map plots
 ax3.set_title(U_0.long_name, loc='left', y=1.04, fontsize=8)
 ax3.set_title('Time = 0', loc='right', y=1.04, fontsize=8)
 ax4.set_title(U_0.long_name, loc='left', y=1.04, fontsize=8)
 ax4.set_title('Time = 0', loc='right', y=1.04, fontsize=8)
+
+# Plot xy data
+ax1.plot(U_0['lat'], U_0.isel(lon=93).drop_vars('lon').data, c='black', linewidth=0.5)
+ax2.plot(U_1['lat'], U_1.isel(lon=93).drop_vars('lon').data, c='black', linewidth=0.5)
 
 # Choose colormap for contour plots
 cmap = gvcmaps.StepSeq25
