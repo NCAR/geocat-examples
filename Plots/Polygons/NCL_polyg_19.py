@@ -201,6 +201,7 @@ def plotPR(region, axis, xlim, puertoRico, waterBody):
             # Plot filled region on axis
             axis.add_collection(pc)
             del pop
+            del color
             # print("Creating garbage...")
             # for i in range(len(findDivColor(colorbounds, pop))): 
             #     findDivColor(colorbounds, pop)
@@ -208,16 +209,6 @@ def plotPR(region, axis, xlim, puertoRico, waterBody):
             #     n = gc.collect()
             #     print("Number of unreachable objects collected by GC:", n)
             #     print("Uncollectable garbage:", gc.garbage)
-
-        # # If the region being plotted is a state with a population
-        # if waterBody is False:
-        #     pop = population_dict[abbrevstate]
-        #     color = findDivColor(colorbounds, pop)
-        #     # Set characteristics and measurements of each filled polygon "patch"
-        #     patches.append(Polygon(np.vstack((x, y)).T, True, color=color, linewidth=0.1))
-        #     pc = PatchCollection(patches, match_original=True, edgecolor='k', linewidths=0.1, zorder=2)
-        #     # Plot filled region on axis
-        #     axis.add_collection(pc)
 
         # If the region being plotted is a body of water with no population
         else:
@@ -261,9 +252,6 @@ def plotRegion(region, axis, xlim, puertoRico, waterBody):
 
         # Plot outline of each region
         axis.plot(x, y, color='black', linewidth=0.1, zorder=1)
-
-        # Fill each state with color:
-        # Determine the key of each region to get the value from the population dictionary
 
         # Fill each state with color:
         # Determine the key of each region to get the value from the population dictionary
@@ -343,11 +331,13 @@ for shape in us.shapeRecords():
                    waterBody=False)
     else:
         plotRegion(shape, ax1, [None, None], puertoRico=False, waterBody=False)
-
+        del shape
+    
 # Plot every shape in the puerto rico shapefile
 for shape in pr.shapeRecords():
     plotPR(shape, axin3, [None, None], puertoRico=True, waterBody=False)
     del shape
+    
 # Plot every body of water shape in the detailed US shapefile
 # for shape in usdetailed.shapeRecords():
 
@@ -371,7 +361,7 @@ cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm),
 
 plt.show()
 z = time.perf_counter()
-# print('total time', (z - x) / 60)
+print('total time', (z - x) / 60)
 
 # snapshot = tracemalloc.take_snapshot()
 # display_top(snapshot)
