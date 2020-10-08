@@ -39,7 +39,7 @@ U_1 = gvutil.xr_add_cyclic_longitudes(time_1.U, "lon")
 
 ###############################################################################
 # Plot:
-fig = plt.figure(figsize=(9, 8))
+fig = plt.figure(figsize=(12, 10))
 
 grid = gridspec.GridSpec(nrows=2,
                          ncols=2,
@@ -103,7 +103,7 @@ for ax in [ax3, ax4]:
                                      yticks=np.arange(-90, 91, 30))
     
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax)
+    gvutil.add_major_minor_ticks(ax, labelsize=8)
 
     # Use geocat.viz.util convenience function to make plots look like NCL plots by
     # using latitude, longitude tick labels
