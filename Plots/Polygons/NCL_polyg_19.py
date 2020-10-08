@@ -32,11 +32,11 @@ import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
 
-import linecache
-import os
-import tracemalloc
-from memory_profiler import profile
-import sys, gc
+# import linecache
+# import os
+# import tracemalloc
+# from memory_profiler import profile
+# import sys, gc
 
 # def display_top(snapshot, key_type='lineno', limit=10):
 #     snapshot = snapshot.filter_traces((
@@ -63,7 +63,7 @@ import sys, gc
 
 # tracemalloc.start()
 
-print(gc.get_threshold())
+# print(gc.get_threshold())
 ###############################################################################
 
 # Read in data:
@@ -126,7 +126,7 @@ def getStatePopulations(state_population_file):
 ###############################################################################
 # Define helper function to get the color of each state based on its population
 
-@profile
+# @profile
 def findDivColor(colorbounds, pdata):
 
     for x in range(len(colorbounds)):
@@ -347,7 +347,7 @@ for shape in us.shapeRecords():
 # Plot every shape in the puerto rico shapefile
 for shape in pr.shapeRecords():
     plotPR(shape, axin3, [None, None], puertoRico=True, waterBody=False)
-
+    del shape
 # Plot every body of water shape in the detailed US shapefile
 # for shape in usdetailed.shapeRecords():
 
