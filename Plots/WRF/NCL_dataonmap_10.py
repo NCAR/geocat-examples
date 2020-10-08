@@ -21,8 +21,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-from wrf import (getvar, to_np, latlon_coords, get_cartopy, cartopy_xlim)
+from wrf import (getvar, to_np, latlon_coords, get_cartopy)
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -44,11 +43,10 @@ lats, lons = latlon_coords(q2)
 # intended map projection for this dataset 
 cart_proj = get_cartopy(q2)
 fig = plt.figure(figsize=(10,10))
-ax = plt.axes(projection=cart_proj)
+ax = plt.axes(projection=ccrs.PlateCarree())
 
 # Add features to the map
-# ax.add_feature(cfeature.LAND, facecolor="", edgecolor="black", zorder=1)
-print(to_np(lons))
+
 # Add filled contours
 plt.contourf(to_np(lons),
              to_np(lats),
@@ -78,19 +76,20 @@ gl = ax.gridlines(crs=ccrs.PlateCarree(),
                   y_inline=False,
                   linewidth=1,
                   color="k",
-                  alpha=0.25)
+                  alpha=0.25,
+                  zorder=4)
 
 
 # Manipulate latitude and longitude gridline numbers and spacing
 gl.top_labels = False
 gl.right_labels = False
 
-# gl.xlocator = mticker.FixedLocator(np.arange(-105, -80, 5))
-# gl.ylocator = mticker.FixedLocator(np.arange(18,35,2))
-# gl.xlabel_style = {"rotation": 0, "size": 15}
-# gl.ylabel_style = {"rotation": 0, "size": 15}
-# gl.xlines = False
-# gl.ylines = False
+gl.xlocator = mticker.FixedLocator(np.arange(-105, -80, 5))
+gl.ylocator = mticker.FixedLocator(np.arange(18,35,2))
+gl.xlabel_style = {"rotation": 0, "size": 10}
+gl.ylabel_style = {"rotation": 0, "size": 10}
+gl.xlines = True
+gl.ylines = True
 
 # Add titles and labels to projection
 gvutil.set_titles_and_labels(ax,
