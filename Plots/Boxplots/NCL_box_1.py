@@ -45,7 +45,7 @@ boxplots = ax.boxplot(data,
 plt.setp(boxplots['whiskers'], linestyle='--')
 
 # Set median line to black
-plt.setp(boxplots['medians'], color='k')
+plt.setp(boxplots['medians'], color='black')
 
 # Remove axis lines on top and right sides
 ax.spines['right'].set_visible(False)
