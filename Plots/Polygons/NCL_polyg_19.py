@@ -8,7 +8,6 @@ This script illustrates the following concepts:
    - Drawing a custom colorbar on a map
    - Using functions for cleaner code
    - Overlaying a shape from one shapefile over another
-
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/polyg_19.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/polyg_19_lg.png
@@ -32,7 +31,41 @@ import time
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
+
+import linecache
+import os
+import tracemalloc
+from memory_profiler import profile
+import sys, gc
+
+# def display_top(snapshot, key_type='lineno', limit=10):
+#     snapshot = snapshot.filter_traces((
+#         tracemalloc.Filter(False, "<frozen importlib._bootstrap>"),
+#         tracemalloc.Filter(False, "<unknown>"),
+#     ))
+#     top_stats = snapshot.statistics(key_type)
+
+#     print("Top %s lines" % limit)
+#     for index, stat in enumerate(top_stats[:limit], 1):
+#         frame = stat.traceback[0]
+#         print("#%s: %s:%s: %.1f KiB"
+#               % (index, frame.filename, frame.lineno, stat.size / 1024))
+#         line = linecache.getline(frame.filename, frame.lineno).strip()
+#         if line:
+#             print('    %s' % line)
+
+#     other = top_stats[limit:]
+#     if other:
+#         size = sum(stat.size for stat in other)
+#         print("%s other: %.1f KiB" % (len(other), size / 1024))
+#     total = sum(stat.size for stat in top_stats)
+#     print("Total allocated size: %.1f KiB" % (total / 1024))
+
+# tracemalloc.start()
+
+print(gc.get_threshold())
 ###############################################################################
+
 # Read in data:
 x = time.perf_counter()
 # Open all shapefiles and associated .dbf, .shp, and .prj files so sphinx can run and generate documents
@@ -93,7 +126,7 @@ def getStatePopulations(state_population_file):
 ###############################################################################
 # Define helper function to get the color of each state based on its population
 
-
+@profile
 def findDivColor(colorbounds, pdata):
 
     for x in range(len(colorbounds)):
@@ -105,8 +138,7 @@ def findDivColor(colorbounds, pdata):
         else:
             # Index is 'x-1' because colorbounds is one item longer than colormap
             return colormap.colors[x - 1]
-
-
+       
 ###############################################################################
 # Define helper function to remove ticks from axes
 
@@ -168,6 +200,14 @@ def plotPR(region, axis, xlim, puertoRico, waterBody):
                                  zorder=2)
             # Plot filled region on axis
             axis.add_collection(pc)
+            del pop
+            # print("Creating garbage...")
+            # for i in range(len(findDivColor(colorbounds, pop))): 
+            #     findDivColor(colorbounds, pop)
+            #     print("Collecting...")
+            #     n = gc.collect()
+            #     print("Number of unreachable objects collected by GC:", n)
+            #     print("Uncollectable garbage:", gc.garbage)
 
         # # If the region being plotted is a state with a population
         # if waterBody is False:
@@ -331,4 +371,7 @@ cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm),
 
 plt.show()
 z = time.perf_counter()
-print('total time', (z - x) / 60)
+# print('total time', (z - x) / 60)
+
+# snapshot = tracemalloc.take_snapshot()
+# display_top(snapshot)
