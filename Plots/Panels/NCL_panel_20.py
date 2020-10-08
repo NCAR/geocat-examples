@@ -39,6 +39,8 @@ U_1 = gvutil.xr_add_cyclic_longitudes(time_1.U, "lon")
 
 ###############################################################################
 # Create helper functions:
+
+
 def format_linegraph_axes(ax):
     """
     Format the axes limits, tick marks, and tick labels for the line graphs
@@ -47,16 +49,18 @@ def format_linegraph_axes(ax):
         ax (:class: 'matplotlib.Axes'):
             The set of axes to be manipulated
     """
-    # Use geocat.viz.util convenience function to set axes tick values for the contour plots
+    # Use geocat.viz.util convenience function to set axes tick values
     gvutil.set_axes_limits_and_ticks(ax=ax,
                                      xlim=(-90, 90),
                                      ylim=(-20, 50),
                                      xticks=np.arange(-90, 91, 30),
                                      yticks=np.arange(-20, 51, 10),
-                                     xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'])
-    
-    # Use geocat.viz.util convenience function to add minor and major tick lines
+                                     xticklabels=['90S', '60S', '30S', '0',
+                                                  '30N', '60N', '90N'])
+
+    # Use geocat.viz.util convenience function to add minor and major ticks
     gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=5)
+
 
 def format_contour_axes(ax):
     """
@@ -66,18 +70,18 @@ def format_contour_axes(ax):
         ax (:class: 'matplotlib.Axes'):
             The set of axes to be manipulated
     """
-    # Use geocat.viz.util convenience function to set axes tick values for the contour plots
+    # Use geocat.viz.util convenience function to set axes tick values
     gvutil.set_axes_limits_and_ticks(ax=ax,
                                      xlim=(-180, 180),
                                      ylim=(-90, 90),
                                      xticks=np.arange(-180, 181, 30),
                                      yticks=np.arange(-90, 91, 30))
-    
-    # Use geocat.viz.util convenience function to add minor and major tick lines
+
+    # Use geocat.viz.util convenience function to add minor and major ticks
     gvutil.add_major_minor_ticks(ax, labelsize=8)
 
-    # Use geocat.viz.util convenience function to make plots look like NCL plots by
-    # using latitude, longitude tick labels
+    # Use geocat.viz.util convenience function to make plots look like NCL
+    # plots by using latitude, longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax)
 
     # Remove the degree symbol from tick labels
@@ -88,6 +92,7 @@ def format_contour_axes(ax):
     gvutil.set_titles_and_labels(ax,
                                  maintitle='300mb',
                                  maintitlefontsize=8)
+
 
 ###############################################################################
 # Plot:
@@ -105,14 +110,15 @@ proj = ccrs.PlateCarree()
 # Add the subplots
 ax1 = fig.add_subplot(grid[0])  # upper left cell of grid
 ax2 = fig.add_subplot(grid[1])  # upper right cell of grid
-ax3 = fig.add_subplot(grid[2], projection=proj) # lower left cell of grid
-ax4 = fig.add_subplot(grid[3], projection=proj) # lower right cell of grid
+ax3 = fig.add_subplot(grid[2], projection=proj)  # lower left cell of grid
+ax4 = fig.add_subplot(grid[3], projection=proj)  # lower right cell of grid
 
 # Draw coastlines on maps
 ax3.coastlines(linewidth=0.5)
 ax4.coastlines(linewidth=0.5)
 
-# Use geocat.viz.util convenience function to set titles without calling several matplotlib functions
+# Use geocat.viz.util convenience function to set titles without calling
+# several matplotlib functions
 gvutil.set_titles_and_labels(ax1,
                              maintitle='Time=0',
                              maintitlefontsize=10,
@@ -142,9 +148,15 @@ ax3.set_title('Time = 0', loc='right', y=1.04, fontsize=8)
 ax4.set_title(U_0.long_name, loc='left', y=1.04, fontsize=8)
 ax4.set_title('Time = 0', loc='right', y=1.04, fontsize=8)
 
-# Plot xy data
-ax1.plot(U_0['lat'], U_0.isel(lon=93).drop_vars('lon').data, c='black', linewidth=0.5)
-ax2.plot(U_1['lat'], U_1.isel(lon=93).drop_vars('lon').data, c='black', linewidth=0.5)
+# Plot xy data at a particular longitude
+ax1.plot(U_0['lat'],
+         U_0.isel(lon=93).drop_vars('lon').data,
+         c='black',
+         linewidth=0.5)
+ax2.plot(U_1['lat'],
+         U_1.isel(lon=93).drop_vars('lon').data,
+         c='black',
+         linewidth=0.5)
 
 # Choose colormap for contour plots
 cmap = gvcmaps.StepSeq25
@@ -162,7 +174,7 @@ contour3 = ax3.contourf(U_0['lon'],
 contour4 = ax4.contourf(U_1['lon'],
                         U_1['lat'],
                         U_1.data,
-                        cmap=cmap, 
+                        cmap=cmap,
                         levels=levels,
                         extend='both')
 
@@ -201,7 +213,7 @@ cbar4 = plt.colorbar(contour4,
                      aspect=13,
                      drawedges=True,
                      pad=0.1)
-# Format colorbar ticks and labels 
+# Format colorbar ticks and labels
 cbar3.ax.tick_params(labelsize=8)
 cbar4.ax.tick_params(labelsize=8)
 
