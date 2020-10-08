@@ -1,6 +1,6 @@
 """
 NCL_overlay_1.py
-===============
+================
 This script illustrates the following concepts:
    - Overlaying line contours on filled contours
    - Explicitly setting contour levels

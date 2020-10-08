@@ -1,6 +1,6 @@
 """
-NCL_lcnative_1_lg.py
-================
+NCL_lcnative_1.py
+=================
 This script illustrates the following concepts:
     - Drawing contours over a map using a native lat,lon grid
     - Drawing filled contours over a Lambert Conformal map
