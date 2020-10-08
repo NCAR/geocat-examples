@@ -21,7 +21,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import cartopy.crs as ccrs
-from wrf import (getvar, to_np, latlon_coords, get_cartopy)
+from wrf import (getvar, to_np, latlon_coords)
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -30,7 +30,6 @@ from geocat.viz import util as gvutil
 # Read in the data
 
 wrfin = Dataset(gdf.get("netcdf_files/wrfout_d01_2003-07-15_00_00_00"), decode_times=True)
-
 q2 = getvar(wrfin, "Q2")
 
 ###############################################################################
@@ -39,13 +38,11 @@ q2 = getvar(wrfin, "Q2")
 # Get the latitude and longitude coordinate. This is usually needed for plotting.
 lats, lons = latlon_coords(q2)
 
-# The `get_cartopy` wrf function will automatically find and use the 
-# intended map projection for this dataset 
-cart_proj = get_cartopy(q2)
+# Generate figure (set its size (width, height) in inches)
 fig = plt.figure(figsize=(10,10))
-ax = plt.axes(projection=ccrs.PlateCarree())
 
-# Add features to the map
+# Generate axes using Cartopy
+ax = plt.axes(projection=ccrs.PlateCarree())
 
 # Add filled contours
 plt.contourf(to_np(lons),
@@ -83,7 +80,6 @@ gl = ax.gridlines(crs=ccrs.PlateCarree(),
 # Manipulate latitude and longitude gridline numbers and spacing
 gl.top_labels = False
 gl.right_labels = False
-
 gl.xlocator = mticker.FixedLocator(np.arange(-105, -80, 5))
 gl.ylocator = mticker.FixedLocator(np.arange(18,35,2))
 gl.xlabel_style = {"rotation": 0, "size": 10}
