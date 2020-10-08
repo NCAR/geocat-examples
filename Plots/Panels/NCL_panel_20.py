@@ -59,7 +59,10 @@ def format_linegraph_axes(ax):
                                                   '30N', '60N', '90N'])
 
     # Use geocat.viz.util convenience function to add minor and major ticks
-    gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=5)
+    gvutil.add_major_minor_ticks(ax,
+                                 x_minor_per_major=3,
+                                 y_minor_per_major=5,
+                                 labelsize=12)
 
 
 def format_contour_axes(ax):
@@ -121,12 +124,12 @@ ax4.coastlines(linewidth=0.5)
 # several matplotlib functions
 gvutil.set_titles_and_labels(ax1,
                              maintitle='Time=0',
-                             maintitlefontsize=10,
+                             maintitlefontsize=14,
                              ylabel=U_0.long_name,
-                             labelfontsize=10)
+                             labelfontsize=14)
 gvutil.set_titles_and_labels(ax2,
                              maintitle='Time=1',
-                             maintitlefontsize=10)
+                             maintitlefontsize=14)
 
 # Draw tick labels on the right side of the top right plot
 ax2.yaxis.tick_right()
