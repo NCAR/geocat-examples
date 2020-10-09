@@ -227,6 +227,8 @@ def plotPR(region, axis, xlim, puertoRico, waterBody):
 def plotRegion(region, axis, xlim, puertoRico, waterBody):
 
     # Plot each shape within a region (ex. mainland Alaska and all of it's surrounding Alaskan islands)
+    patches = []
+    water_patches = []
     for i in range(len(region.shape.parts)):
 
         i_start = region.shape.parts[i]
@@ -238,7 +240,7 @@ def plotRegion(region, axis, xlim, puertoRico, waterBody):
         # Create new empty lists to hold lat coordinates, lon coordinates, and filled polygons, or "patches"
         x = []
         y = []
-        patches = []
+
 
         # Get every coordinate within every shape (as long as it is within the x coordinate limits)
         for i in region.shape.points[i_start:i_end]:
@@ -267,25 +269,28 @@ def plotRegion(region, axis, xlim, puertoRico, waterBody):
             # Set characteristics and measurements of each filled polygon "patch"
             patches.append(
                 Polygon(np.vstack((x, y)).T, True, color=color, linewidth=0.1))
-            pc = PatchCollection(patches,
-                                 match_original=True,
-                                 edgecolor='k',
-                                 linewidths=0.1,
-                                 zorder=2)
-            # Plot filled region on axis
-            axis.add_collection(pc)
+
         # If the region being plotted is a body of water with no population
         else:
             # Set characteristics and measurements of each filled polygon "patch"
-            patches.append(
+            water_patches.append(
                 Polygon(np.vstack((x, y)).T, True, color='white', linewidth=.7))
-            pc = PatchCollection(patches,
-                                 match_original=True,
-                                 edgecolor='white',
-                                 linewidth=.8,
-                                 zorder=3)
-            # Plot filled region on axis
-            axis.add_collection(pc)
+
+    pc = PatchCollection(patches,
+                         match_original=True,
+                         edgecolor='k',
+                         linewidths=0.1,
+                         zorder=2)
+    # Plot filled region on axis
+    axis.add_collection(pc)
+
+    wpc = PatchCollection(water_patches,
+                         match_original=True,
+                         edgecolor='white',
+                         linewidth=.8,
+                         zorder=3)
+    # Plot filled region on axis
+    axis.add_collection(wpc)
 
 
 ###############################################################################
@@ -333,10 +338,10 @@ for shape in us.shapeRecords():
         plotRegion(shape, ax1, [None, None], puertoRico=False, waterBody=False)
         del shape
     
-# Plot every shape in the puerto rico shapefile
-for shape in pr.shapeRecords():
-    plotPR(shape, axin3, [None, None], puertoRico=True, waterBody=False)
-    del shape
+# # Plot every shape in the puerto rico shapefile
+# for shape in pr.shapeRecords():
+#     plotPR(shape, axin3, [None, None], puertoRico=True, waterBody=False)
+#     del shape
     
 # Plot every body of water shape in the detailed US shapefile
 # for shape in usdetailed.shapeRecords():
