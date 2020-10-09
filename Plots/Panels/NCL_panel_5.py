@@ -68,7 +68,7 @@ def plot_labelled_filled_contours(data, ax=None, label=None):
     handles["contour"] = data.plot.contour(
         ax=ax,
         levels=levels,
-        colors="k",  # note plurals in this and following kwargs
+        colors="black",  # note plurals in this and following kwargs
         linestyles="-",
         linewidths=0.5,
         add_labels=False,  # again turn off automatic labels

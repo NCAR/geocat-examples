@@ -1,6 +1,6 @@
 """
-NCL_proj_3_lg.py
-================
+NCL_proj_3.py
+=============
 
 This script illustrates the following concepts:
    - Drawing filled contours over an orthographic map

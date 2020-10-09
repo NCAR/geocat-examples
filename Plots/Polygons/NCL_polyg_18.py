@@ -1,6 +1,6 @@
 """
 NCL_polyg_18.py
-==============
+===============
 This script illustrates the following concepts:
    - Adding lines, markers, and polygons to a map
    - Drawing lines, markers, polygons, and text in inset axes

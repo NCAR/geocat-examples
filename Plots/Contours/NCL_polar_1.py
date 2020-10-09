@@ -1,6 +1,6 @@
 """
-NCL_polar_1_lg.py
-================
+NCL_polar_1.py
+==============
 This script illustrates the following concepts:
     - Drawing black-and-white contours over a polar stereographic map
     - Drawing the northern hemisphere of a polar stereographic map
@@ -50,7 +50,7 @@ gvutil.set_map_boundary(ax, [-180, 180], [0, 40], south_pad=1)
 gl = ax.gridlines(ccrs.PlateCarree(),
                   draw_labels=False,
                   linestyle="--",
-                  color='k')
+                  color='black')
 
 # Manipulate latitude and longitude gridline numbers and spacing
 gl.ylocator = mticker.FixedLocator(np.arange(0, 90, 15))
@@ -99,7 +99,7 @@ p = wrap_U.plot.contour(ax=ax,
                         transform=ccrs.PlateCarree(),
                         levels=np.arange(-12, 44, 4),
                         linewidths=0.5,
-                        cmap='k',
+                        cmap='black',
                         add_labels=False)
 
 ax.clabel(p, np.arange(-8, 17, 8), fmt='%d', inline=1, fontsize=14)

@@ -1,6 +1,6 @@
 """
 NCL_scatter_6.py
-===============
+================
 This script illustrates the following concepts:
    - Drawing a scatter plot with markers of different colors and sizes
    - Drawing outlined and filled markers on a polar map plot

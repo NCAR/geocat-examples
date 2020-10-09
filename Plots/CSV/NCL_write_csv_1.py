@@ -3,8 +3,10 @@ NCL_write_csv_1.py
 ===================
 This script illustrates the following concepts:
    - Using python tools 'csv' and 'pandas' to write integers to a CSV file
+
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/write_csv_1.ncl
+
 Expected format for output csv files is:
     
     34,67,56

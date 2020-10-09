@@ -58,7 +58,7 @@ kwargs = dict(
     transform=projection,  # ds projection
     add_colorbar=False,  # don't add individual colorbars for each plot call
     add_labels=False,  # turn off xarray's automatic Lat, lon labels
-    colors="k",  # note plurals in this and following kwargs
+    colors="black",  # note plurals in this and following kwargs
     linestyles="-",
     linewidths=0.5)
 
