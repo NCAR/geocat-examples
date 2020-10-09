@@ -152,78 +152,6 @@ def removeTicks(axis):
 ###############################################################################
 # Define helper function to plot and color each state
 
-
-def plotPR(region, axis, xlim, puertoRico, waterBody):
-    # Plot each shape within a region (ex. mainland Alaska and all of it's surrounding Alaskan islands)
-    for i in range(len(region.shape.parts)):
-
-        i_start = region.shape.parts[i]
-        if i == len(region.shape.parts) - 1:
-            i_end = len(region.shape.points)
-        else:
-            i_end = region.shape.parts[i + 1]
-
-        # Create new empty lists to hold lat coordinates, lon coordinates, and filled polygons, or "patches"
-        x = []
-        y = []
-        patches = []
-
-        # Get every coordinate within every shape (as long as it is within the x coordinate limits)
-        for i in region.shape.points[i_start:i_end]:
-            if xlim[0] is not None and i[0] < xlim[0]:
-                continue
-            if xlim[1] is not None and i[0] > xlim[1]:
-                continue
-            else:
-                x.append(i[0])
-                y.append(i[1])
-
-        # Plot outline of each region
-        axis.plot(x, y, color='black', linewidth=0.1, zorder=1)
-
-        # Fill each state with color:
-        # Determine the key of each region to get the value from the population dictionary
-
-        # Fill each state with color:
-        # Determine the key of each region to get the value from the population dictionary
-        if puertoRico is True:
-            abbrevstate = 'PR'
-            pop = population_dict[abbrevstate]
-            color = findDivColor(colorbounds, pop)
-            # Set characteristics and measurements of each filled polygon "patch"
-            patches.append(
-                Polygon(np.vstack((x, y)).T, True, color=color, linewidth=0.1))
-            pc = PatchCollection(patches,
-                                 match_original=True,
-                                 edgecolor='k',
-                                 linewidths=0.1,
-                                 zorder=2)
-            # Plot filled region on axis
-            axis.add_collection(pc)
-            del pop
-            del color
-            # print("Creating garbage...")
-            # for i in range(len(findDivColor(colorbounds, pop))): 
-            #     findDivColor(colorbounds, pop)
-            #     print("Collecting...")
-            #     n = gc.collect()
-            #     print("Number of unreachable objects collected by GC:", n)
-            #     print("Uncollectable garbage:", gc.garbage)
-
-        # If the region being plotted is a body of water with no population
-        else:
-            # Set characteristics and measurements of each filled polygon "patch"
-            patches.append(
-                Polygon(np.vstack((x, y)).T, True, color='white', linewidth=.7))
-            pc = PatchCollection(patches,
-                                 match_original=True,
-                                 edgecolor='white',
-                                 linewidth=.8,
-                                 zorder=3)
-            # Plot filled region on axis
-            axis.add_collection(pc)
-
-
 def plotRegion(region, axis, xlim, puertoRico, waterBody):
 
     # Plot each shape within a region (ex. mainland Alaska and all of it's surrounding Alaskan islands)
@@ -257,10 +185,12 @@ def plotRegion(region, axis, xlim, puertoRico, waterBody):
 
         # Fill each state with color:
         # Determine the key of each region to get the value from the population dictionary
-
-        if puertoRico is False and waterBody is False:
-            abbrevname = shape.record[-1].split(".")
-            abbrevstate = abbrevname[1]
+        if waterBody is False:
+            if puertoRico is False:
+                abbrevname = shape.record[-1].split(".")
+                abbrevstate = abbrevname[1]
+            else:
+                abbrevstate = 'PR'
 
         # If the region being plotted is a state with a population
         if waterBody is False:
@@ -336,18 +266,15 @@ for shape in us.shapeRecords():
                    waterBody=False)
     else:
         plotRegion(shape, ax1, [None, None], puertoRico=False, waterBody=False)
-        del shape
-    
-# # Plot every shape in the puerto rico shapefile
-# for shape in pr.shapeRecords():
-#     plotPR(shape, axin3, [None, None], puertoRico=True, waterBody=False)
-#     del shape
-    
-# Plot every body of water shape in the detailed US shapefile
-# for shape in usdetailed.shapeRecords():
 
-#     if shape.record[9] == 'Water body':
-#         plotRegion(shape, ax1, [None, None], puertoRico=False, waterBody=True)
+# # Plot every shape in the puerto rico shapefile
+for shape in pr.shapeRecords():
+    plotRegion(shape, axin3, [None, None], puertoRico=True, waterBody=False)
+
+# Plot every body of water shape in the detailed US shapefile
+for shape in usdetailed.shapeRecords():
+    if shape.record[9] == 'Water body':
+        plotRegion(shape, ax1, [None, None], puertoRico=False, waterBody=True)
 
 # Set title using helper function from geocat-viz
 title = r"$\bf{Population}$" + " " + r"$\bf{in}$" + " " + r"$\bf{Millions}$" + " " + r"$\bf{(2014)}$"
