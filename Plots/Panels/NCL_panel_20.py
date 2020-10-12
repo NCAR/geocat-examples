@@ -96,7 +96,6 @@ def format_contour_axes(ax):
                                  maintitle='300mb',
                                  maintitlefontsize=8)
 
-
 ###############################################################################
 # Plot:
 fig = plt.figure(figsize=(12, 10))
