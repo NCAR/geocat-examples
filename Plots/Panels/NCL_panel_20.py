@@ -17,6 +17,7 @@ import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+import matplotlib.colors as colors
 import numpy as np
 import xarray as xr
 
@@ -161,7 +162,8 @@ ax2.plot(U_1['lat'],
          linewidth=0.5)
 
 # Choose colormap for contour plots
-cmap = gvcmaps.StepSeq25
+divnorm = colors.DivergingNorm(vmin=-15, vcenter=0, vmax=40)
+cmap = gvcmaps.BlueRed
 
 # Specify levels for contours
 levels = np.arange(-10, 36, 5)
@@ -171,12 +173,14 @@ contour3 = ax3.contourf(U_0['lon'],
                         U_0['lat'],
                         U_0.data,
                         cmap=cmap,
+                        norm=divnorm,
                         levels=levels,
                         extend='both')
 contour4 = ax4.contourf(U_1['lon'],
                         U_1['lat'],
                         U_1.data,
                         cmap=cmap,
+                        norm=divnorm,
                         levels=levels,
                         extend='both')
 
