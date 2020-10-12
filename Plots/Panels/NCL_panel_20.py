@@ -40,7 +40,6 @@ U_1 = gvutil.xr_add_cyclic_longitudes(time_1.U, "lon")
 ###############################################################################
 # Create helper functions:
 
-
 def format_linegraph_axes(ax):
     """
     Format the axes limits, tick marks, and tick labels for the line graphs
