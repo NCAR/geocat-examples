@@ -154,7 +154,7 @@ format_contour_axes(ax4)
 ax3.set_title(U_0.long_name, loc='left', y=1.04, fontsize=8)
 ax3.set_title('Time = 0', loc='right', y=1.04, fontsize=8)
 ax4.set_title(U_0.long_name, loc='left', y=1.04, fontsize=8)
-ax4.set_title('Time = 0', loc='right', y=1.04, fontsize=8)
+ax4.set_title('Time = 1', loc='right', y=1.04, fontsize=8)
 
 # Plot xy data at a particular longitude
 ax1.plot(U_0['lat'],
