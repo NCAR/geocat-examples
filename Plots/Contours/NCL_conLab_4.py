@@ -4,7 +4,7 @@ NCL_conLab_4.py
 This script illustrates the following concepts:
    - Drawing color-filled contours over a cylindrical equidistant map
    - Setting the background fill color for contour labels to white
-   - Forcing labels to appear on every other contour line
+   - Manually select where contour labels will be drawn
    - Changing the contour level spacing
    - Zooming in on a particular area on a cylindrical equidistant map
    - Creating left and right titles
@@ -109,8 +109,14 @@ cbar = plt.colorbar(colors,
                     pad=0.075)
 cbar.ax.tick_params(labelsize=14)  # Make the labels larger
 
-# Adding contour line labels, use `levels` to specify which levels to label
-ax.clabel(lines, levels=np.arange(-8, 28, 8), fontsize=12, fmt='%d', inline=True)
+# Specify coordinates for contour labels in (longitude, latitude) format
+manual = [(25, 28), (30, -17),
+          (40, -21), (40, -5),
+          (42, -13), (10, 50),
+          (62, -15), (65, -2)]
+
+# Draw contour labels and pass in coordinates using `manual` argument
+ax.clabel(lines, fontsize=12, fmt='%d', inline=True, manual=manual)
 
 # Set label backgrounds white
 [
