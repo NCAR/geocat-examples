@@ -167,7 +167,7 @@ ax2.plot(U_1['lat'],
          linewidth=0.5)
 
 # Choose colormap for contour plots
-divnorm = colors.DivergingNorm(vmin=-15, vcenter=0, vmax=40)
+divnorm = colors.TwoSlopeNorm(vmin=-15, vcenter=0, vmax=40)
 cmap = gvcmaps.BlueRed
 
 # Specify levels for contours
