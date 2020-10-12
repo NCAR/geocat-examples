@@ -64,7 +64,6 @@ def format_linegraph_axes(ax):
                                  y_minor_per_major=5,
                                  labelsize=12)
 
-
 def format_contour_axes(ax):
     """
     Format the axes limits, tick marks, and tick labels for the contour plots
