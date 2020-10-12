@@ -6,7 +6,7 @@ This script illustrates the following concepts:
 
 See following URLs to see the reproduced NCL plot & script:
    - Original NCL script: http://www.ncl.ucar.edu/Applications/Scripts/panel_20.ncl
-    - Original NCL plot: http://www.ncl.ucar.edu/Applications/Images/panel_20_lg.png
+   - Original NCL plot: http://www.ncl.ucar.edu/Applications/Images/panel_20_lg.png
 
 """
 
@@ -42,6 +42,7 @@ U_1 = gvutil.xr_add_cyclic_longitudes(time_1.U, "lon")
 ###############################################################################
 # Create helper functions:
 
+
 def format_linegraph_axes(ax):
     """
     Format the axes limits, tick marks, and tick labels for the line graphs
@@ -64,6 +65,7 @@ def format_linegraph_axes(ax):
                                  x_minor_per_major=3,
                                  y_minor_per_major=5,
                                  labelsize=12)
+
 
 def format_contour_axes(ax):
     """
@@ -96,11 +98,14 @@ def format_contour_axes(ax):
                                  maintitle='300mb',
                                  maintitlefontsize=8)
 
+
 ###############################################################################
 # Plot:
 
 fig = plt.figure(figsize=(12, 10))
 
+# Create grid with two rows and two columns
+# Use `height_ratios` to adjust the relative heights of the rows
 grid = gridspec.GridSpec(nrows=2,
                          ncols=2,
                          height_ratios=[0.55, 0.45],
@@ -219,6 +224,7 @@ cbar4 = plt.colorbar(contour4,
                      aspect=13,
                      drawedges=True,
                      pad=0.1)
+
 # Format colorbar ticks and labels
 cbar3.ax.tick_params(labelsize=8)
 cbar4.ax.tick_params(labelsize=8)
