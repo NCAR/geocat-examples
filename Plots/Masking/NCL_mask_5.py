@@ -71,7 +71,13 @@ def Plot(row, col, pos, title):
     ax.add_feature(cfeature.LAND, color="green")
     ax.add_feature(cfeature.LAKES, color="plum")
     ax.add_feature(cfeature.OCEAN, color="blue")
-
+    
+    '''
+    Cartopy does not currently have a feature that separates island land from 
+    main land. There is also no feature to add ice shelf data to a projection.
+    This addition would require another data set to specifiy area encompassed
+    by an ice shelf in a region.
+    '''
     # Create label names and define colors for the legend
     land = mpatches.Rectangle((0, 0), 1, 1, facecolor="green")
     lakes = mpatches.Rectangle((0, 0), 1, 1, facecolor="plum")
