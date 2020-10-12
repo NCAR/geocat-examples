@@ -98,6 +98,7 @@ def format_contour_axes(ax):
 
 ###############################################################################
 # Plot:
+
 fig = plt.figure(figsize=(12, 10))
 
 grid = gridspec.GridSpec(nrows=2,
