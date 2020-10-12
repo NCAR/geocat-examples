@@ -5,7 +5,7 @@ This script illustrates the following concepts:
    - Drawing four different-sized plots on the same page using gridspec
 
 See following URLs to see the reproduced NCL plot & script:
-    - Original NCL script: http://www.ncl.ucar.edu/Applications/Scripts/panel_20.ncl
+   - Original NCL script: http://www.ncl.ucar.edu/Applications/Scripts/panel_20.ncl
     - Original NCL plot: http://www.ncl.ucar.edu/Applications/Images/panel_20_lg.png
 
 """
