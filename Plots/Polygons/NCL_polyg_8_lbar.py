@@ -1,6 +1,6 @@
 """
 NCL_polyg_8_lbar.py
-==============
+===================
 This script illustrates the following concepts:
    - Drawing a scatter plot on a map
    - Changing the marker color and size in a map plot
