@@ -1,6 +1,6 @@
 """
 CB_Temperature.py
-=================
+================
 
 This script illustrates multiple color schemes for color maps which will allow for those
 impacted by color blindness to see visualizations. Using rainbow color schemes is also
@@ -54,9 +54,8 @@ from geocat.viz import util as gvutil
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"),
-                     decode_times=False)
-# print(ds)
+ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"), decode_times=False)
+
 # Extract a slice of the data
 t = ds.T.isel(time=0, z_t=0).sel(lat_t=slice(-60, 30), lon_t=slice(30, 120))
 
@@ -67,7 +66,6 @@ fig = plt.figure(figsize=(12, 12))
 
 
 def Plot(color, row, col, pos, title):
-
     # Generate axes, using Cartopy, drawing coastlines, and adding features
     projection = ccrs.PlateCarree()
     ax1 = plt.subplot(row, col, pos, projection=projection)
@@ -78,30 +76,35 @@ def Plot(color, row, col, pos, title):
     newcmp = color
 
     # Contourf-plot data
-    t.plot.contourf(ax=ax1,
-                    transform=projection,
-                    levels=40,
-                    vmin=0,
-                    vmax=32,
-                    cmap=newcmp,
-                    cbar_kwargs={
-                        "orientation": "vertical",
-                        "extendrect": True,
-                        "ticks": np.arange(0, 32, 2),
-                        "label": "",
-                        "shrink": 0.8
-                    })
-
+    temp = t.plot.contourf(
+        ax=ax1,
+        transform=projection,
+        levels=40,
+        vmin=0,
+        vmax=32,
+        cmap=newcmp,
+        add_colorbar=False)
+    
+    # Add color bar
+    cbar_ticks = np.arange(0, 32, 2)
+    cbar = plt.colorbar(temp, orientation='vertical', shrink=0.8, pad=0.05, extendrect=True)
+    cbar.ax.tick_params(labelsize=10)
+    cbar.set_ticks(cbar_ticks)
+    
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
     # Set axes limits, and tick values
-    gvutil.set_axes_limits_and_ticks(ax1, xlim=(30, 120), ylim=(-60, 30))
+    gvutil.set_axes_limits_and_ticks(
+        ax1,
+        xlim=(30, 120),
+        ylim=(-60, 30))
 
     # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-    gvutil.set_titles_and_labels(ax1,
-                                 maintitle=title,
-                                 maintitlefontsize=14,
-                                 xlabel="",
-                                 ylabel="")
+    gvutil.set_titles_and_labels(
+        ax1,
+        maintitle=title,
+        maintitlefontsize=14,
+        xlabel="",
+        ylabel="")
 
 
 # Plot first color map
@@ -115,5 +118,6 @@ Plot("viridis", 2, 2, 3, "Figure 3: \n Viridis Color Projection")
 
 # Plot fourth color map
 Plot("magma", 2, 2, 4, "Figure 4: \n Magma Color Projection")
+
 
 fig.suptitle("Projections of Temperature", x=.5, y=.95, fontsize=18)

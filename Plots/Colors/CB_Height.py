@@ -64,68 +64,67 @@ t = gvutil.xr_add_cyclic_longitudes(v, "lon")
 
 fig = plt.figure(figsize=(12, 12))
 
-
-def Plot(color, row, col, pos, title):
-
-    # Generate axes, using Cartopy, drawing coastlines, and adding features
+def Plot(color,row, col, pos, title):   
+# Generate axes, using Cartopy, drawing coastlines, and adding features
     projection = ccrs.PlateCarree()
     ax1 = plt.subplot(row, col, pos, projection=projection)
     ax1.coastlines(linewidths=0.5)
     ax1.add_feature(cfeature.LAND, facecolor="lightgray")
-
+    
     # Import an NCL colormap
-    newcmp = color  #gvcmaps.BlAqGrYeOrRe
-
+    newcmp = color #gvcmaps.BlAqGrYeOrRe
+    
     # Contourf-plot data
-    t.plot.contourf(ax=ax1,
-                    transform=projection,
-                    levels=40,
-                    vmin=100,
-                    vmax=1600,
-                    cmap=newcmp,
-                    cbar_kwargs={
-                        "orientation": "vertical",
-                        "ticks": np.arange(100, 1600, 100),
-                        "label": "",
-                        "shrink": 0.8
-                    })
+    hgt = t.plot.contourf(
+        ax=ax1,
+        transform=projection,
+        levels=40,
+        vmin=100,
+        vmax=1600,
+        cmap=newcmp,
+        add_colorbar=False)
 
+    # Add color bar
+    cbar_ticks = np.arange(100, 1600, 100)
+    cbar = plt.colorbar(hgt, orientation='vertical', shrink=0.8, pad=0.05, extendrect=True)
+    cbar.ax.tick_params(labelsize=10)
+    cbar.set_ticks(cbar_ticks)
+    
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
     # Set axes limits, and tick values
-    gvutil.set_axes_limits_and_ticks(ax1,
-                                     xlim=(0, 90),
-                                     ylim=(0, 90),
-                                     xticks=np.linspace(-180, 180, 13),
-                                     yticks=np.linspace(-90, 90, 7))
-
+    gvutil.set_axes_limits_and_ticks(
+    ax1,
+    xlim=(0, 90),
+    ylim=(0, 90),
+    xticks=np.linspace(-180, 180, 13),
+    yticks=np.linspace(-90, 90, 7))
+    
     # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax1)
-
+    
     # Use geocat.viz.util convenience function to add minor and major tick lines
     gvutil.add_major_minor_ticks(ax1, labelsize=12)
-
+    
     # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-    gvutil.set_titles_and_labels(ax1,
-                                 maintitle=title,
-                                 maintitlefontsize=16,
-                                 righttitlefontsize=14,
-                                 xlabel="",
-                                 ylabel="")
-
+    gvutil.set_titles_and_labels(
+        ax1,
+        maintitle=title,
+        maintitlefontsize=16,
+        righttitlefontsize=14,
+        xlabel="",
+        ylabel="")
 
 #Plot first color map
-Plot(gvcmaps.BlAqGrYeOrRe, 2, 2, 1, "Rainbow Color Projection")
+Plot(gvcmaps.BlAqGrYeOrRe, 2,2,1,"Figure 1: \n Rainbow Color Projection")
 
 #plot second color map
-Plot('magma', 2, 2, 2, "Magma Color Projection")
+Plot('magma', 2,2,2,"Figure 2: \n Magma Color Projection")
 
 #plot third color map
-Plot('coolwarm', 2, 2, 3, "Coolwarm Color Projection")
+Plot('coolwarm', 2,2,3, "Figure 3: \n Coolwarm Color Projection")
 
 #Plot fourth color map
-Plot('Reds', 2, 2, 4, "Reds Color Projection")
+Plot('Reds', 2,2,4, "Figure 4: \n Reds Color Projection")
 
-fig.suptitle("Projections of Planetary Boundary Layer Height",
-             x=.5,
-             y=.93,
-             fontsize=18)
+fig.suptitle("Projections of \n Planetary Boundary Layer Height", x=.5, y=.96, fontsize=18)
+
