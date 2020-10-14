@@ -94,13 +94,19 @@ cf = sst.plot.contourf('lon',
                        levels=levels,
                        cmap='BlAqGrYeOrReVi200',
                        zorder=0,
-                       xlabel='',
                        add_labels=False,
-                       cbar_kwargs={
-                           'shrink': 0.75,
-                           'ticks': np.linspace(24, 28.8, 17),
-                           'drawedges': True
-                       })
+                       add_colorbar=False)
+
+# Add color bar
+cbar_ticks = np.arange(24, 29.1, .3)
+cbar = plt.colorbar(cf, 
+                    orientation='vertical', 
+                    drawedges=True, 
+                    shrink=0.75, 
+                    pad=0.05)
+
+cbar.ax.tick_params(labelsize=10)
+cbar.set_ticks(cbar_ticks)
 
 # Draw the key for the quiver plot as a rectangle patch
 rect = plt.Rectangle((92.9, 22.6),
