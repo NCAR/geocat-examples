@@ -22,12 +22,10 @@ import numpy as np
 import matplotlib.ticker as mticker
 
 import geocat.datafiles as gdf
-
 from geocat.viz import util as gvutil
 
 ###############################################################################
 # Define a helper function for plotting lat/lon ticks on an orthographic plane
-
 
 def plotOrthoTicks(coords, loc):
 
@@ -120,16 +118,11 @@ heatmap = t.plot.contourf(ax=ax,
                           add_colorbar=False,
                           zorder=1)
 
-# Create colorbar
-cbar = plt.colorbar(heatmap,
-                    orientation='horizontal',
-                    extendfrac=[0, .1],
-                    extend='max',
-                    extendrect=True,
-                    pad=0.05,
-                    shrink=.75,
-                    aspect=14,
-                    ticks=np.arange(-1.5, 31.5, 3))
+# Add color bar
+cbar_ticks = np.arange(-1.5, 31.5, 3)
+cbar = plt.colorbar(heatmap, orientation='horizontal', shrink=0.75, pad=0.05, extendrect=True)
+cbar.ax.tick_params(labelsize=10)
+cbar.set_ticks(cbar_ticks)
 
 # Get rid of black outline on colorbar
 cbar.outline.set_visible(False)
