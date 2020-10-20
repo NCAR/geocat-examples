@@ -119,16 +119,16 @@ def Plot(color,row, col, pos, title):
         ylabel="")
 
 #Plot first color map
-Plot(gvcmaps.BlAqGrYeOrRe, 2,2,1,"Figure 1: \n Rainbow Color Projection")
+Plot(gvcmaps.BlAqGrYeOrRe, 2, 2, 1, "Figure 1: \n Rainbow Color Projection")
 
 #plot second color map
-Plot('coolwarm', 2,2,2, "Figure 2: \n Coolwarm Color Projection")
+Plot('coolwarm', 2, 2, 2, "Figure 2: \n Coolwarm Color Projection")
 
 #plot third color map
-Plot('viridis', 2,2,3,"Figure 3: \n Viridis Color Projection")
+Plot('viridis', 2, 2, 3, "Figure 3: \n Viridis Color Projection")
 
 #Plot fourth color map
-Plot('Blues_r', 2,2,4, "Figure 4: \n Blues_r Color Projection")
+Plot('Blues_r', 2, 2, 4, "Figure 4: \n Blues_r Color Projection")
 
 fig.suptitle("Projections of Rain Fall Total", x=.5, y=.93, fontsize=18)
 
