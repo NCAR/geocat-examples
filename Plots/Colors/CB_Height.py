@@ -72,7 +72,7 @@ def Plot(color,row, col, pos, title):
     ax1.add_feature(cfeature.LAND, facecolor="lightgray")
     
     # Import an NCL colormap
-    newcmp = color #gvcmaps.BlAqGrYeOrRe
+    newcmp = color
     
     # Contourf-plot data
     hgt = t.plot.contourf(
