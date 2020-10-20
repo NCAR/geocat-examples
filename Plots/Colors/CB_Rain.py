@@ -1,6 +1,6 @@
 """
 CB_Rain.py
-================
+===========
 
 This script illustrates multiple color schemes for color maps which will allow for those
 impacted by color blindness to see visualizations. Using rainbow color schemes is also
@@ -86,10 +86,14 @@ def Plot(color,row, col, pos, title):
 
     # Add color bar
     cbar_ticks = np.arange(0, 240, 20)
-    cbar = plt.colorbar(pre, orientation='vertical', shrink=0.8, pad=0.05, extendrect=True)
+    cbar = plt.colorbar(pre, 
+                        orientation='vertical', 
+                        shrink=0.8, pad=0.05, 
+                        extendrect=True,
+                        ticks=cbar_ticks)
+        
     cbar.ax.tick_params(labelsize=10)
-    cbar.set_ticks(cbar_ticks)
-    
+ 
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
     # Set axes limits, and tick values
     gvutil.set_axes_limits_and_ticks(
