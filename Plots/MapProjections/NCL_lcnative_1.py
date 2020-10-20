@@ -1,6 +1,6 @@
 """
 NCL_lcnative_1.py
-================
+=================
 This script illustrates the following concepts:
     - Drawing contours over a map using a native lat,lon grid
     - Drawing filled contours over a Lambert Conformal map
@@ -98,9 +98,13 @@ def Plot(row, col, pos, proj, title):
                            add_colorbar=False)
     
     cbar_ticks = np.arange(0, 240, 20)
-    cbar = plt.colorbar(prec, orientation='horizontal', pad=0.075, shrink=0.8)
+    cbar = plt.colorbar(prec, 
+                        orientation='horizontal', 
+                        pad=0.075, 
+                        shrink=0.8,
+                        ticks=cbar_ticks)
+    
     cbar.ax.tick_params(labelsize=10)
-    cbar.set_ticks(cbar_ticks)
     
     # Set plot titles
     plt.title(title, loc='center', y=1.17, size=15)

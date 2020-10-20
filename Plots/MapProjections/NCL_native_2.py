@@ -1,6 +1,6 @@
 """
 NCL_native_2.py
-================
+===============
 
 This script illustrates the following concepts:
    - Drawing filled contours over a mercator map
@@ -60,9 +60,12 @@ pt = t.plot.contourf(ax=ax,
                      add_colorbar=False)
 
 cbar_ticks = np.arange(0, 71, 5)
-cbar = plt.colorbar(pt, orientation='vertical', extendrect=True)
+cbar = plt.colorbar(pt, 
+                    orientation='vertical', 
+                    extendrect=True,
+                    ticks=cbar_ticks)
+
 cbar.ax.tick_params(labelsize=10)
-cbar.set_ticks(cbar_ticks)
 
 # Draw gridlines
 gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
