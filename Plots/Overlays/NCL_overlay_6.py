@@ -1,6 +1,6 @@
 """
 NCL_overlay_6.py
-===============
+================
 This script illustrates the following concepts:
    - Overlaying filled contours, streamlines, and vectors over the same map
    - Adding various map elements to a figure
@@ -14,6 +14,7 @@ This script illustrates the following concepts:
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/overlay_6.ncl
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/overlay_6_lg.png
+
 Differences between NCL example and this one:
     In the NCL version of this plot the vectors for the winds are nearly
     uniform in length. Given the reference vector in that figure, the wind
@@ -27,6 +28,7 @@ Differences between NCL example and this one:
     which is why the reference vector in this Python example is longer than the
     NCL example and why the lengths vary more between the minimum and maximum
     wind speeds.
+
 """
 
 ###############################################################################
@@ -68,15 +70,13 @@ p = p / 100
 t = (t - 273.15) * 9 / 5 + 32
 
 ###############################################################################
-# Create plot
-
+# Create plot:
 fig = plt.figure(figsize=(8, 7))
 proj = ccrs.LambertAzimuthalEqualArea(central_longitude=-100,
                                       central_latitude=40)
 
 # Set axis projection
 ax = plt.axes([0, 0.2, 0.8, 0.7], projection=proj)
-
 # Create inset axes for color bars
 cax1 = inset_axes(ax,
                   width='5%',
@@ -97,9 +97,9 @@ cax2 = inset_axes(ax,
 # Set extent to include roughly the United States
 ax.set_extent((-128, -58, 18, 65), crs=ccrs.PlateCarree())
 
-
+#
 # Add map features
-
+#
 # Using the zorder keyword, we can specify the order of the layering. Lower
 # numbers are plotted before higher ones. For example, the coastlines have
 # zorder=2 while the filled contours have zorder=1. This will draw the
@@ -119,8 +119,9 @@ ax.add_feature(cfeature.LAKES,
                zorder=2)
 ax.add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=2)
 
-
+#
 # Plot pressure level contour
+#
 p_cmap = gvcmaps.StepSeq25
 pressure = p.plot.contourf(ax=ax,
                            transform=ccrs.PlateCarree(),
@@ -130,7 +131,6 @@ pressure = p.plot.contourf(ax=ax,
                            add_labels=False,
                            zorder=1)
 plt.colorbar(pressure, cax=cax1, ticks=np.arange(980, 1045, 5))
-
 # Format color bar label
 cax1.yaxis.set_label_text(label='\n'.join('Sea Level Pressure'),
                           fontsize=14,
@@ -138,11 +138,12 @@ cax1.yaxis.set_label_text(label='\n'.join('Sea Level Pressure'),
 cax1.yaxis.set_label_coords(-0.5, 0.9)
 cax1.tick_params(size=0)
 
-###############################################################################
+#
 # Overlay streamlines
-
+#
 with np.errstate(
-        invalid='ignore'):
+        invalid='ignore'
+):  # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
     streams = ax.streamplot(u500.lon,
                             u500.lat,
                             u500.data,
@@ -153,10 +154,8 @@ with np.errstate(
                             linewidth=0.5,
                             density=2,
                             zorder=5)
-
 # Divide streamlines into segments
 seg = streams.lines.get_segments()
-
 # Determine how many arrows on each streamline, the placement, and angles of the arrows
 period = 7
 arrow_x = np.array([seg[i][0, 0] for i in range(0, len(seg), period)])
@@ -165,7 +164,6 @@ arrow_dx = np.array(
     [seg[i][1, 0] - seg[i][0, 0] for i in range(0, len(seg), period)])
 arrow_dy = np.array(
     [seg[i][1, 1] - seg[i][0, 1] for i in range(0, len(seg), period)])
-
 # Add arrows to streamlines
 q = ax.quiver(arrow_x,
               arrow_y,
@@ -181,9 +179,9 @@ q = ax.quiver(arrow_x,
               headaxislength=2,
               zorder=5)
 
-###############################################################################
+#
 # Overlay wind vectors
-
+#
 # First thin the data so the vector grid is less cluttered
 lon_size = u['lon'].size
 lat_size = u['lat'].size
@@ -201,7 +199,8 @@ norm = mcolors.BoundaryNorm(bounds, wind_cmap.N)  # Assigns colors to values
 
 # Draw wind vectors
 with np.errstate(
-        invalid='ignore'):  
+        invalid='ignore'
+):  # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
     Q = ax.quiver(x,
                   y,
                   u,
@@ -210,15 +209,13 @@ with np.errstate(
                   transform=ccrs.PlateCarree(),
                   headwidth=5,
                   cmap=wind_cmap,
-                  # norm=norm,
+                  norm=norm,
                   zorder=4)
-# Add color bar
 plt.colorbar(Q,
              cax=cax2,
              ticks=np.arange(-20, 110, 10),
-             # norm=norm,
+             norm=norm,
              orientation='horizontal')
-
 # Format color bar label
 cax2.xaxis.set_label_text(label='Surface Temperature', fontsize=14)
 cax2.xaxis.set_label_position('top')

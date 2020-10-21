@@ -51,19 +51,17 @@ gl = ax.gridlines(crs=ccrs.PlateCarree(), linewidth=1, color='black', alpha=0.5)
 newcmp = gvcmaps.gui_default
 
 # Contourf-plot data (for filled contours)
-temp = wrap_t.plot.contourf(ax=ax,
+wrap_t.plot.contourf(ax=ax,
                      transform=ccrs.PlateCarree(),
                      levels=11,
                      cmap=newcmp,
-                     add_colorbar=False)
-
-# Add color bar
-cbar_ticks = np.arange(220, 310, 10)
-cbar = plt.colorbar(temp, orientation='horizontal', shrink=0.8, pad=0.05, extendrect=True)
-cbar.ax.tick_params(labelsize=10)
-cbar.set_ticks(cbar_ticks)
-
-# Contour-plot data (for contour outlines)
+                     cbar_kwargs={
+                         "orientation": "horizontal",
+                         "ticks": np.linspace(220, 300, 9),
+                         "label": '',
+                         "shrink": 0.9
+                     })
+# Contour-plot data (for borderlines)
 wrap_t.plot.contour(ax=ax,
                     transform=ccrs.PlateCarree(),
                     levels=11,
