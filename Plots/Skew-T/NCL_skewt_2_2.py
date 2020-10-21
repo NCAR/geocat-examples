@@ -1,6 +1,6 @@
 """
-NCL_skewt_1.py
-==============
+NCL_skewt_2_2.py
+================
 This script illustrates the following concepts:
    - Drawing a default Skew-T background
    - Customizing the background of a Skew-T plot
@@ -11,18 +11,32 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png and https://www.ncl.ucar.edu/Applications/Images/skewt_1_2_lg.png and https://www.ncl.ucar.edu/Applications/Images/skewt_1_3_lg.png
 """
 
-###############################################################################
+##############################################################################
 # Import packages:
 import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
 import numpy as np
+import pandas as pd
 from metpy.plots import SkewT
 from metpy.units import units
+import metpy.calc as mpcalc
 
 import geocat.viz.util as gvutil
+import geocat.datafiles as gdf
 
 ##############################################################################
-# Plot::
+# Read in data:
+
+# Open a netCDF data file using xarray default engine and load the data into xarrays
+ds = pd.read_csv(gdf.get('ascii_files/sounding.testdata'), delimiter='\\s+', header=None)
+
+# Extract the data
+p = ds[1].values*units.hPa   # Pressure [mb/hPa]
+tc = ds[5].values*units.degC  # Temperature [C]
+tdc = ds[9].values*units.degC  # Dew pt temp  [C]
+
+##############################################################################
+# Plot:
 
 # Note that MetPy forces the x axis scale to be in Celsius and the y axis
 # scale to be in hectoPascals. Once data is plotted, then the axes labels are
@@ -33,6 +47,12 @@ fig = plt.figure(figsize=(9, 9))
 # a default skew of 30 degrees
 skew = SkewT(fig, rotation=45)
 ax = skew.ax
+
+# Plot temperature and dew point
+skew.plot(p, tc, color='black')
+skew.plot(p, tdc, color='blue')
+
+# Draw 
 
 # Shade every other section between isotherms
 x1 = np.linspace(-100, 40, 8)  # The starting x values for the shaded regions
