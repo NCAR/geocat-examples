@@ -1,6 +1,6 @@
 """
 NCL_proj_1.py
-===============
+==============
 This script illustrates the following concepts:
    - Drawing filled contours over a Mollweide map
    - Setting the spacing for latitude/longitude grid lines
@@ -51,16 +51,23 @@ gl = ax.gridlines(crs=ccrs.PlateCarree(), linewidth=1, color='black', alpha=0.5)
 newcmp = gvcmaps.gui_default
 
 # Contourf-plot data (for filled contours)
-wrap_t.plot.contourf(ax=ax,
-                     transform=ccrs.PlateCarree(),
-                     levels=11,
-                     cmap=newcmp,
-                     cbar_kwargs={
-                         "orientation": "horizontal",
-                         "ticks": np.linspace(220, 300, 9),
-                         "label": '',
-                         "shrink": 0.9
-                     })
+temp = wrap_t.plot.contourf(ax=ax,
+                            transform=ccrs.PlateCarree(),
+                            levels=11,
+                            cmap=newcmp,
+                            add_colorbar=False)
+
+# Add color bar
+cbar_ticks = np.arange(220, 310, 10)
+cbar = plt.colorbar(temp, 
+                    orientation='horizontal', 
+                    shrink=0.8, 
+                    pad=0.05, 
+                    extendrect=True,
+                    ticks=cbar_ticks)
+
+cbar.ax.tick_params(labelsize=10)
+
 # Contour-plot data (for borderlines)
 wrap_t.plot.contour(ax=ax,
                     transform=ccrs.PlateCarree(),

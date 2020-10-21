@@ -37,7 +37,6 @@ import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-import matplotlib.colors as mcolors
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
@@ -131,6 +130,7 @@ pressure = p.plot.contourf(ax=ax,
                            add_labels=False,
                            zorder=1)
 plt.colorbar(pressure, cax=cax1, ticks=np.arange(980, 1045, 5))
+
 # Format color bar label
 cax1.yaxis.set_label_text(label='\n'.join('Sea Level Pressure'),
                           fontsize=14,
@@ -154,6 +154,7 @@ with np.errstate(
                             linewidth=0.5,
                             density=2,
                             zorder=5)
+
 # Divide streamlines into segments
 seg = streams.lines.get_segments()
 # Determine how many arrows on each streamline, the placement, and angles of the arrows
@@ -195,7 +196,6 @@ t = t.data[0:lat_size:2, 0:lon_size:2]
 # Import and modify color map for vectors
 wind_cmap = gvcmaps.amwg_blueyellowred
 bounds = np.arange(-30, 120, 10)  # Sets where boundarys on color map will be
-norm = mcolors.BoundaryNorm(bounds, wind_cmap.N)  # Assigns colors to values
 
 # Draw wind vectors
 with np.errstate(
@@ -209,13 +209,13 @@ with np.errstate(
                   transform=ccrs.PlateCarree(),
                   headwidth=5,
                   cmap=wind_cmap,
-                  norm=norm,
                   zorder=4)
+# Add color bar
 plt.colorbar(Q,
              cax=cax2,
              ticks=np.arange(-20, 110, 10),
-             norm=norm,
              orientation='horizontal')
+
 # Format color bar label
 cax2.xaxis.set_label_text(label='Surface Temperature', fontsize=14)
 cax2.xaxis.set_label_position('top')
