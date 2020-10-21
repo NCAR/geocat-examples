@@ -120,16 +120,16 @@ heatmap = t.plot.contourf(ax=ax,
                           add_colorbar=False,
                           zorder=1)
 
-# Create colorbar
-cbar = plt.colorbar(heatmap,
-                    orientation='horizontal',
-                    extendfrac=[0, .1],
-                    extend='max',
+# Add color bar
+cbar_ticks = np.arange(-1.5, 31.5, 3)
+cbar = plt.colorbar(heatmap, 
+                    orientation='horizontal', 
+                    shrink=0.75, 
+                    pad=0.05, 
                     extendrect=True,
-                    pad=0.05,
-                    shrink=.75,
-                    aspect=14,
-                    ticks=np.arange(-1.5, 31.5, 3))
+                    ticks=cbar_ticks)
+
+cbar.ax.tick_params(labelsize=10)
 
 # Get rid of black outline on colorbar
 cbar.outline.set_visible(False)
