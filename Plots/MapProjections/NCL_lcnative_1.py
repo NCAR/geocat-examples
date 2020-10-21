@@ -35,7 +35,8 @@ import geocat.datafiles as gdf
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/pre.8912.mon.nc"), decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/pre.8912.mon.nc"),
+                     decode_times=False)
 
 # Extract a slice of the data
 t = ds.pre.isel(time=0)
@@ -44,6 +45,7 @@ t = ds.pre.isel(time=0)
 # Plot:
 
 plt.figure(figsize=(14, 14))
+
 
 def Plot(row, col, pos, proj, title):
     '''
@@ -59,23 +61,25 @@ def Plot(row, col, pos, proj, title):
             which projection to visualize
         title (:class: 'str'): 
             center title of respective visualization
-    '''    
+    '''
     # Generate axes using Cartopy and draw coastlines
     ax = plt.subplot(row, col, pos, projection=proj)
     ax.set_extent((28, 57, 20, 47), crs=ccrs.PlateCarree())
     ax.coastlines(linewidth=0.5)
-    
+
     # Use ax "gridlines" function to draw lat/lon markers on projections
-    gl = ax.gridlines(draw_labels=True, dms=False, x_inline=False, y_inline=False)
+    gl = ax.gridlines(draw_labels=True,
+                      dms=False,
+                      x_inline=False,
+                      y_inline=False)
     gl.top_labels = True
     gl.right_labels = True
     gl.xlines = False
     gl.ylines = False
-    gl.xlocator = mticker.FixedLocator([30,35,40,45,50,55])
-    gl.ylocator = mticker.FixedLocator([20,25,30,35,40,45])
-    gl.xlabel_style = {'rotation':0}
-    gl.ylabel_style = {'rotation':0}
-    
+    gl.xlocator = mticker.FixedLocator([30, 35, 40, 45, 50, 55])
+    gl.ylocator = mticker.FixedLocator([20, 25, 30, 35, 40, 45])
+    gl.xlabel_style = {'rotation': 0}
+    gl.ylabel_style = {'rotation': 0}
     '''
     When using certain types of projections in Cartopy, you may find that there
     is not a direct 1-to-1 projection similarity. When looking at the three Lambert
@@ -89,32 +93,30 @@ def Plot(row, col, pos, proj, title):
     have this feature. The GeoCAT Team is actively adding to the list of convenience functions
     supported and hopes to add this functionality one day.
     '''
-    
+
     # Plot data and create colorbar
-    prec = t.plot.contourf(ax=ax, 
-                           cmap="Blues_r", 
-                           transform=ccrs.PlateCarree(), 
-                           levels = 14, 
-                           add_colorbar=False)
-    
-    cbar_ticks = np.arange(0, 240, 20)
-    cbar = plt.colorbar(prec, 
-                        orientation='horizontal', 
-                        pad=0.075, 
-                        shrink=0.8,
-                        ticks=cbar_ticks)
-    
-    cbar.ax.tick_params(labelsize=10)
-    
-    # Set plot titles
+    t.plot.contourf(ax=ax,
+                    cmap="Blues_r",
+                    transform=ccrs.PlateCarree(),
+                    levels=14,
+                    cbar_kwargs={
+                        "orientation": "horizontal",
+                        "ticks": np.arange(0, 240, 20),
+                        "label": '',
+                        "shrink": 0.9
+                    })
+
     plt.title(title, loc='center', y=1.17, size=15)
-    plt.title(t.units, loc='right', y=1.08,  size=14)
+    plt.title(t.units, loc='right', y=1.08, size=14)
     plt.title("precipitation", loc='left', y=1.08, size=14)
 
-Plot(2,2,1, ccrs.LambertConformal(central_longitude=45, standard_parallels=(36,55), 
-                                  globe=ccrs.Globe()), "Lambert Conformal")
-Plot(2,2,2,ccrs.LambertCylindrical(central_longitude=45),"Lambert Cylindrical")
-Plot(2,2,3,ccrs.LambertAzimuthalEqualArea(central_longitude=45),"Lambert Azimuthal")
 
-
-
+Plot(
+    2, 2, 1,
+    ccrs.LambertConformal(central_longitude=45,
+                          standard_parallels=(36, 55),
+                          globe=ccrs.Globe()), "Lambert Conformal")
+Plot(2, 2, 2, ccrs.LambertCylindrical(central_longitude=45),
+     "Lambert Cylindrical")
+Plot(2, 2, 3, ccrs.LambertAzimuthalEqualArea(central_longitude=45),
+     "Lambert Azimuthal")

@@ -1,6 +1,6 @@
 """
 NCL_native_2.py
-===============
+================
 
 This script illustrates the following concepts:
    - Drawing filled contours over a mercator map
@@ -32,7 +32,8 @@ import geocat.datafiles as gdf
 
 # Open a netCDF data file using xarray default engine and
 # load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/1994_256_FSD.nc"), decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/1994_256_FSD.nc"),
+                     decode_times=False)
 t = ds.FSD.isel(time=0)
 
 ###############################################################################
@@ -50,31 +51,29 @@ ax.add_feature(cfeature.LAND, facecolor="lightgray")
 # to 144
 ax.set_extent([128, 144, 34, 52], ccrs.PlateCarree())
 
-# Plot data and create colorbar
+# Contourf-plot data (for filled contours)
 pt = t.plot.contourf(ax=ax,
                      transform=ccrs.PlateCarree(),
                      vmin=0,
                      vmax=70,
                      levels=15,
                      cmap="inferno",
-                     add_colorbar=False)
-
-cbar_ticks = np.arange(0, 71, 5)
-cbar = plt.colorbar(pt, 
-                    orientation='vertical', 
-                    extendrect=True,
-                    ticks=cbar_ticks)
-
-cbar.ax.tick_params(labelsize=10)
+                     cbar_kwargs={
+                         "extendrect": True,
+                         "orientation": "vertical",
+                         "ticks": np.arange(0, 71, 5),
+                         "label": ""
+                     })
 
 # Draw gridlines
-gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
-     dms=False,
-     x_inline=False,
-     y_inline=False,
-     linewidth=1,
-     color="k",
-     alpha=0.25)
+gl = ax.gridlines(crs=ccrs.PlateCarree(),
+                  draw_labels=True,
+                  dms=False,
+                  x_inline=False,
+                  y_inline=False,
+                  linewidth=1,
+                  color="black",
+                  alpha=0.25)
 
 # Manipulate latitude and longitude gridline numbers and spacing
 gl.top_labels = False
@@ -84,9 +83,11 @@ gl.ylocator = mticker.FixedLocator([36, 38, 40, 42, 44, 46, 48, 50])
 gl.xlabel_style = {"rotation": 0, "size": 15}
 gl.ylabel_style = {"rotation": 0, "size": 15}
 
-# Set plot titles
-plt.title("Native Mercator Projection", loc="center", 
-          y=1.05, size=15, fontweight="bold")
+plt.title("Native Mercator Projection",
+          loc="center",
+          y=1.05,
+          size=15,
+          fontweight="bold")
 plt.title(t.units, loc="right", y=1.0, size=14)
 plt.title("free surface deviation", loc="left", y=1.0, size=14)
 
