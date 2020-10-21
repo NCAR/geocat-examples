@@ -32,7 +32,7 @@ ds = pd.read_csv(gdf.get('ascii_files/sounding.testdata'), delimiter='\\s+', hea
 
 # Extract the data
 p = ds[1].values*units.hPa   # Pressure [mb/hPa]
-tc = ds[5].values*units.degC  # Temperature [C]
+tc = (ds[5].values + 2)*units.degC  # Temperature [C]
 tdc = ds[9].values*units.degC  # Dew pt temp  [C]
 
 ##############################################################################
@@ -52,7 +52,9 @@ ax = skew.ax
 skew.plot(p, tc, color='black')
 skew.plot(p, tdc, color='blue')
 
-# Draw 
+# Draw parcel path
+parcel_prof = mpcalc.parcel_profile(p, tc[0], tdc[0]).to('degC')
+skew.plot(p, parcel_prof, color='red', linestyle='--')
 
 # Shade every other section between isotherms
 x1 = np.linspace(-100, 40, 8)  # The starting x values for the shaded regions
