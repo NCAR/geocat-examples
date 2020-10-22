@@ -46,7 +46,7 @@ u, v = mpcalc.wind_components(wspd, wdir)   # Calculate wind components
 # Note that MetPy forces the x axis scale to be in Celsius and the y axis
 # scale to be in hectoPascals. Once data is plotted, then the axes labels are
 # automatically added
-fig = plt.figure(figsize=(9, 9))
+fig = plt.figure(figsize=(12, 12))
 
 # The rotation keyword changes how skewed the temperature lines are. MetPy has
 # a default skew of 30 degrees
@@ -88,11 +88,11 @@ skew.plot_moist_adiabats(t0=t0,
 w = np.array([0.001, 0.002, 0.003, 0.005, 0.008, 0.012, 0.020]).reshape(-1, 1)
 
 # Choose the range of pressures that the mixing ratio lines are drawn over
-p = units.hPa * np.linspace(1000, 400, 7)
+p_levs = units.hPa * np.linspace(1000, 400, 7)
 
 # Plot mixing ratio lines
 skew.plot_mixing_lines(w=w,
-                       p=p,
+                       p=p_levs,
                        linestyle='dashed',
                        colors='lime',
                        linewidths=1)
