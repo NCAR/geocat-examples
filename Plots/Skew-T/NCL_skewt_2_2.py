@@ -35,6 +35,11 @@ p = ds[1].values*units.hPa   # Pressure [mb/hPa]
 tc = (ds[5].values + 2)*units.degC  # Temperature [C]
 tdc = ds[9].values*units.degC  # Dew pt temp  [C]
 
+# Create dummy wind data
+wspd = np.linspace(0, 150, len(p))*units.knots    # Wind speed   [knots or m/s]
+wdir = np.linspace(0, 360, len(p))*units.degrees    # Meteorological wind dir
+u, v = mpcalc.wind_components(wspd, wdir)   # Calculate wind components 
+
 ##############################################################################
 # Plot:
 
@@ -99,27 +104,7 @@ gvutil.set_axes_limits_and_ticks(
     yticks=[1000, 850, 700, 500, 400, 300, 250, 200, 150, 100])
 
 # Use geocat.viz utility functions to add a main title
-gvutil.set_titles_and_labels(ax=ax, maintitle="NCL Style Plot")
-
-# Plot empty wind barbs with dummy data
-u = np.zeros(22)
-v = u
-p = np.linspace(1010, 110, 22)
-skew.plot_barbs(p=p,
-                u=u,
-                v=v,
-                xloc=1.05,
-                fill_empty=True,
-                sizes=dict(emptybarb=0.075, width=0.1, height=0.2))
-
-# Draw line underneath wind barbs
-line = mlines.Line2D([1.05, 1.05], [0, 1],
-                     color='gray',
-                     linewidth=0.5,
-                     transform=ax.transAxes,
-                     clip_on=False,
-                     zorder=1)
-ax.add_line(line)
+gvutil.set_titles_and_labels(ax=ax, maintitle="Raob; [Wind Reports]")
 
 # Change the style of the gridlines
 plt.grid(True,
