@@ -21,11 +21,9 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import cartopy.crs as ccrs
 from cartopy.feature import NaturalEarthFeature
-import cartopy.feature as cfeature
 
 from wrf import (getvar, to_np, latlon_coords, get_cartopy)
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
 
 ###############################################################################
 # Read in the data
@@ -65,8 +63,6 @@ states = NaturalEarthFeature(category="cultural",
                              scale="50m",
                              facecolor="none",
                              name="admin_1_states_provinces_shp")
-
-# ax.add_feature(cfeature.LAKES, edgecolor='lightgray', facecolor='gold')
 
 ax.add_feature(states, linewidth=0.5, edgecolor="black")
 ax.coastlines('50m', linewidth=0.8)
