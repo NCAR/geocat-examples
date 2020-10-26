@@ -8,7 +8,7 @@ This script illustrates the following concepts:
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/skewt_2.ncl
-    - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png and https://www.ncl.ucar.edu/Applications/Images/skewt_1_2_lg.png and https://www.ncl.ucar.edu/Applications/Images/skewt_1_3_lg.png
+    - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png
 """
 
 ##############################################################################
