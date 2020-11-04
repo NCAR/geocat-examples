@@ -3,7 +3,7 @@ channels:
   - conda-forge
   - ncar
 dependencies:
-  - python=3
+  - python=3.7
   - geocat-comp
   - geocat-datafiles
   - geocat-viz=2020.7.30.1
