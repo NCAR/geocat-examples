@@ -4,9 +4,9 @@ channels:
   - ncar
 dependencies:
   - python=3
-  - geocat-comp=0.20
-  - geocat-ncomp=0.20
-  - libncomp=0.20
+  - geocat-comp=0.2
+  - geocat-ncomp=0.2
+  - libncomp=0.2
   - geocat-datafiles
   - geocat-viz=2020.7.30.1
   - netcdf4
