@@ -261,7 +261,7 @@ def make_contour_plot(ax, dataset):
                    transform=ccrs.PlateCarree())
 
     # Label the contours
-    ax.clabel(p, fontsize=8, fmt="%0.2f", colors="k")
+    ax.clabel(p, fontsize=8, fmt="%0.2f", colors="black")
 
     # Add coastlines
     ax.coastlines(linewidth=0.5)
@@ -336,7 +336,7 @@ def make_bar_plot(ax, dataset):
     values = list(dataset.values)
     colors = ['blue' if val < 0 else 'red' for val in values]
 
-    ax.bar(years, values, color=colors, width=1.0, edgecolor='k', linewidth=0.5)
+    ax.bar(years, values, color=colors, width=1.0, edgecolor='black', linewidth=0.5)
     ax.set_ylabel('Pa')
 
     # Use geocat.viz.util convenience function to add minor and major tick lines

@@ -1,6 +1,6 @@
 """
 CB_Temperature.py
-================
+=================
 
 This script illustrates multiple color schemes for color maps which will allow for those
 impacted by color blindness to see visualizations. Using rainbow color schemes is also
