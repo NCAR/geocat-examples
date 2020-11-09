@@ -41,6 +41,7 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import matplotlib.colors as mcolors
+
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 
