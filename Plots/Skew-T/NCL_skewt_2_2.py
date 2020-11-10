@@ -124,7 +124,12 @@ gvutil.set_axes_limits_and_ticks(
     yticks=[1000, 850, 700, 500, 400, 300, 250, 200, 150, 100])
 
 # Use geocat.viz utility functions to add a main title
-gvutil.set_titles_and_labels(ax=ax, maintitle="Raob; [Wind Reports]")
+gvutil.set_titles_and_labels(ax=ax,
+                             maintitle="Raob; [Wind Reports]",
+                             maintitlefontsize=22,
+                             xlabel='Temperature (C)',
+                             ylabel='P (hPa)',
+                             labelfontsize=14)
 
 # Change the style of the gridlines
 plt.grid(True,
