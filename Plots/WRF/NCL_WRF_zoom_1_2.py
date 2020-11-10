@@ -121,7 +121,7 @@ gl.ylines = False
 # Add titles to the plot
 plt.title("2m Dewpoint Temperature (C)", loc='left', y=1.02, size=12)
 plt.title("Zoomed in plot", loc='center', y=1.1, size=14)
-plt.title("OUTPUT FROM WRF V3.3.1 MODEL \nWE=481; SN=547; Levels=32; D=2km ; Phys Opt=2; PBL Opt=1; Cu Opt=0",
+plt.title("OUTPUT FROM WRF V3.3.1 MODEL \nWE=481; SN=547; Levels=32; Dis=2km ; Phys Opt=2; PBL Opt=1; Cu Opt=0",
           loc='left', y=-.35, size=12)
 
 
