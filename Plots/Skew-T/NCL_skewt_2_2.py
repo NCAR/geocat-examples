@@ -60,13 +60,26 @@ skew.plot(p, tdc, color='blue')
 # Draw parcel path
 parcel_prof = mpcalc.parcel_profile(p, tc[0], tdc[0]).to('degC')
 skew.plot(p, parcel_prof, color='red', linestyle='--')
+u = np.where(p>=100*units.hPa, u, np.nan)
+v = np.where(p>=100*units.hPa, v, np.nan)
+p = np.where(p>=100*units.hPa, p, np.nan)
 
 # Add wind barbs
-skew.plot_barbs(p=p,
-                u=u,
-                v=v,
+skew.plot_barbs(p=p[::2],
+                u=u[::2],
+                v=v[::2],
+                xloc=1.05,
                 fill_empty=True,
                 sizes=dict(emptybarb=0.075, width=0.1, height=0.2))
+
+# Draw line underneath wind barbs
+line = mlines.Line2D([1.05, 1.05], [0, 1],
+                     color='gray',
+                     linewidth=0.5,
+                     transform=ax.transAxes,
+                     clip_on=False,
+                     zorder=1)
+ax.add_line(line)
 
 # Shade every other section between isotherms
 x1 = np.linspace(-100, 40, 8)  # The starting x values for the shaded regions
