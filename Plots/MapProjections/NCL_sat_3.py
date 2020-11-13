@@ -124,7 +124,8 @@ heatmap = t.plot.contourf(ax=ax,
 cbar_ticks = np.arange(-1.5, 31.5, 3)
 cbar = plt.colorbar(heatmap, 
                     orientation='horizontal', 
-                    shrink=0.75, 
+                    shrink=0.8, 
+                    aspect=14,
                     pad=0.05, 
                     extendrect=True,
                     ticks=cbar_ticks)
