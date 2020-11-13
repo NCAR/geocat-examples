@@ -16,12 +16,9 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages
 
-
 from netCDF4 import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
-
-
 import xarray as xr
 
 from wrf import (to_np, getvar, CoordPair, vertcross, latlon_coords)
@@ -61,12 +58,10 @@ qv_cross = vertcross(qv,
                      wrfin=wrfin,
                      start_point=start_point, 
                      end_point=end_point,
-                     
                      latlon=True, 
                      meta=True)
 
-# Close wrfin so that you are not constantly trying to open an already open file
-# If wrfin is not closed, it will cause an error locally
+# Close 'wrfin' to prevent PermissionError if code is run more than once locally
 wrfin.close()
 ###############################################################################
 # Plot the data
