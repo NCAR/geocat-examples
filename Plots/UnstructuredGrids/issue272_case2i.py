@@ -13,11 +13,39 @@ This script illustrates the following concepts:
 ###############################################################################
 # Import packages:
 
+from PIL import Image
 import numpy as np
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 from matplotlib.tri import Triangulation
+from scipy.spatial import Delaunay
+import sys
+
+# HoloViz packages:
+import holoviews as hv, datashader as ds
+import holoviews.operation.datashader as hds 
+import geoviews.feature as gf # only needed for coastlines
+hv.extension("matplotlib")
+plt.switch_backend('agg')
+
+###############################################################################
+# Define timer
+
 import time
+class Timer:
+    """Context manager for measuring execution times"""
+    def __init__( self, label=""): self.label = label
+    def __enter__(self):self.t0 = time.time() ; return self
+    def __exit__( self, exc_type, exc_value, exc_tb):
+        t1 = time.time()
+        print(self.label, "takes:", t1 - self.t0, "seconds")
+
+
+###############################################################################
+# suppress warnings triggered by cartopy 0.18
+import warnings
+import matplotlib.cbook
+warnings.filterwarnings("ignore",category=matplotlib.cbook.mplDeprecation)
 
 
 ###############################################################################
@@ -30,8 +58,13 @@ import time
 # but did not seem to succeed it (No further analysis or profiling done though).
 # However, below 10 km resolution case succeeds, taking 145 seconds for triangulation
 # and 99 seconds for rendering.
-lon_res = 0.1     # Roughly 10 km around equator
-lat_res = 0.1
+
+factor = 200 # Use factor=1 for roughly 10 km around equator; factor=200 for quick test
+if len(sys.argv)>1:
+   factor = float(sys.argv[1])
+
+lat_res = 0.1*factor
+lon_res = 0.1*factor
 
 # Lon-lat min, max
 lon_min = 0
@@ -44,7 +77,7 @@ lat_max = 90
 # Generate a synthetic rectangular mesh:
 
 # Generate lon-lat value vectors first
-lons = np.arange(lon_min, lon_max, lon_res)
+lons = np.arange(lon_min, lon_max, lon_res) # jbednar: these don't actually include lon_max or lat_max; use np.linspace()?
 lats = np.arange(lat_min, lat_max, lat_res)
 
 
@@ -69,43 +102,58 @@ x, y, _ = projection.transform_points(ccrs.PlateCarree(), x, y).T
 ###############################################################################
 # Triangulate cube-sphere mesh:
 
-# Profile execution time of triangulation, set start time
-t0 = time.time()
-
 # Triangulate the grid nodes using matplotlib.tri.Triangulation(). Because no explicit node
 # connectivity information is provided in this data set we use Delaunay triangulation to
 # synthesize a mesh that can be plotted by MPL
-triangles = Triangulation(x, y)
+with Timer("MPL Triangulation"):
+    triangles = Triangulation(x, y)
 
-# Profile execution time of triangulation, set end time and print duration
-t1 = time.time()
-print("Triangulation takes: ", t1 - t0, "seconds")
-
+with Timer("SciPy Triangulation"):
+    points = np.stack([x,y,var]).T
+    tri = Delaunay(points[:,0:2])
 
 ###############################################################################
-# Render:
+# Render with Datashader+HoloViews+Matplotlib:
+filepath = '/tmp/output_ds.png'
 
-plt.figure(figsize=(12, 7.2))
+# First rendering forces JIT compilation so is always slower
+with Timer("Datashader-based rendering 1"):
+    nodes = hv.Points(points, vdims='z')
+    trimesh = hv.TriMesh((tri.simplices, nodes)).opts(filled=True, edge_color='z')
+    img = hds.rasterize(trimesh, aggregator=ds.mean('z'), interpolation=None, dynamic=False)
+    out = (img.opts(cmap="coolwarm", fig_inches=10) * gf.coastline(projection=projection)).opts(fig_size=330)
+    hv.save(out, filepath, fmt='png', dpi=144)
 
-# Generate axes using Cartopy projection
-ax = plt.axes(projection=projection)
+# Second rendering should be what characterizes interactive use
+with Timer("Datashader-based rendering 2"):
+    nodes = hv.Points(points, vdims='z')
+    trimesh = hv.TriMesh((tri.simplices, nodes)).opts(filled=True, edge_color='z')
+    img = hds.rasterize(trimesh, aggregator=ds.mean('z'), interpolation=None, dynamic=False)
+    out = (img.opts(cmap="coolwarm", fig_inches=10) * gf.coastline(projection=projection)).opts(fig_size=330)
+    hv.save(out, filepath, fmt='png', dpi=144)
 
-# Use global map and draw coastlines
-ax.set_global()
-ax.coastlines(linewidth=1.0, resolution="110m")
-ax.set_aspect('equal')
+###############################################################################
+# Render with Matplotlib:
+filepath = '/tmp/output_mpl.png'
 
-# Profile execution time of rendering, set start time
-t0 = time.time()
+with Timer("Matplotlib-based rendering"):
+    plt.figure(figsize=(12, 7.2))
+    
+    # Generate axes using Cartopy projection
+    ax = plt.axes(projection=projection)
+    
+    # Use global map and draw coastlines
+    ax.set_global()
+    ax.coastlines(linewidth=1.0, resolution="110m")
+    ax.set_aspect('equal')
+    
+    # Render the triangles using matplotlib.pyplot.tripcolor().
+    ax.tripcolor(triangles,var,cmap='coolwarm' )
+    
+    # Set a title and export the plot
+    ax.set_title('Triangulated mesh plotted without explicit mesh connectivity')
+    plt.savefig(filepath, dpi=144)
 
-# Render the triangles using matplotlib.pyplot.tripcolor().
-ax.tripcolor(triangles,var,cmap='coolwarm' )
 
-# Profile execution time of rendering, set end time and print duration
-t1 = time.time()
-print("Rendering of the triangles takes: ", t1 - t0, "seconds")
 
-# Set a title and show the plot
-ax.set_title('Triangulated mesh plotted without explicit mesh connectivity')
-plt.show()
 
