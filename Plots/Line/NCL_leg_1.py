@@ -17,10 +17,12 @@ See following URLs to see the reproduced NCL plot & script:
 # Import packages:
 import numpy as np
 import xarray as xr
-import matplotlib.pyplot as plt
+import holoviews as hv
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
+
+hv.extension("matplotlib")
 
 ###############################################################################
 # Read in data:
@@ -34,29 +36,13 @@ vz = ds.V.isel(time=0).mean(dim=['lon'])
 ###############################################################################
 # Plot:
 
-# Generate figure (set its size (width, height) in inches) and axes
-plt.figure(figsize=(5, 5))
-ax = plt.gca()
+# basic version (works with Matplotlib or Bokeh plotting)
+basic = hv.Curve(vz, label="V") * hv.Curve(uz, label="U")
+hv.save(basic, "/tmp/basic.png", fmt='png')
 
-# Plot data and add a legend
-plt.plot(vz.lat, vz.values, '--', dashes=[6.5, 3.7], c='gray', label='V')
-plt.plot(uz.lat, uz.values, c='gray', label='U')
-plt.legend(loc='upper left', frameon=False, prop={'weight': 'bold'})
-
-# Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=5,
-                             labelsize=12)
-
-# Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
-# Set axes limits, tick values, and tick labels to show latitude & longitude (i.e. North (N) - South (S))
-gvutil.set_axes_limits_and_ticks(
-    ax,
-    xlim=(-90, 90),
-    ylim=(-10, 40),
-    xticks=np.linspace(-90, 90, 7),
-    xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'])
-
-# Show the plot
-plt.show()
+# customized Matplotlib plot
+ticks = list(zip(np.linspace(-90, 90, 7), ['90S', '60S', '30S', '0', '30N', '60N', '90N']))
+vc = hv.Curve(vz, label="V").opts(color="gray", linestyle='--') 
+uc = hv.Curve(uz, label="U").opts(color="gray")
+custom = (vc * uc).opts(xticks=ticks, show_legend=True, legend_opts=dict(loc="upper left"), fig_inches=5)
+hv.save(custom, "/tmp/custom.png", fmt='png')
