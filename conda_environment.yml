@@ -1,7 +1,8 @@
 name: geocat-examples
 channels:
-  - conda-forge
+  - pyviz
   - ncar
+  - conda-forge
 dependencies:
   - python=3
   - geocat-comp
@@ -22,3 +23,6 @@ dependencies:
   - geographiclib
   - wrf-python
   - metpy
+  - datashader
+  - hvplot
+  - geoviews
