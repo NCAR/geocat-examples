@@ -32,6 +32,18 @@ ds = xr.open_dataset(gdf.get("netcdf_files/sst8292a.nc"))
 
 dates = [198212, 199008, 198705, 198411]
 
+data1 = ds.sel(time=11).SSTA
+data1 = gvutil.xr_add_cyclic_longitudes(data1, 'lon')
+
+data2 = ds.sel(time=103).SSTA
+data2 = gvutil.xr_add_cyclic_longitudes(data2, 'lon')
+
+data3 = ds.sel(time=64).SSTA
+data3 = gvutil.xr_add_cyclic_longitudes(data3, 'lon')
+
+data4 = ds.sel(time=34).SSTA
+data4 = gvutil.xr_add_cyclic_longitudes(data4, 'lon')
+
 ##############################################################################
 # Helper function to create and format subplots
 
@@ -58,8 +70,7 @@ def add_axes(fig, grid_space):
     # Make sure that tick marks are only on the left and bottom sides of figure
     ax.tick_params('both', which='both', top=False, right=False)
 
-    ax.coastlines(linewidths=0.5)
-    ax.add_feature(cfeature.LAND, facecolor='lightgray')
+    ax.add_feature(cfeature.LAND, facecolor='lightgray', edgecolor='black', linewidths=0.5,  zorder=2)
     return ax
 
 ##############################################################################
@@ -75,6 +86,17 @@ ax1 = add_axes(fig, grid[0, 0])
 ax2 = add_axes(fig, grid[0, 1])
 ax3 = add_axes(fig, grid[1, 0])
 ax4 = add_axes(fig, grid[1, 1])
+
+contourf_kw = dict(transform=ccrs.PlateCarree(),
+                  levels=22,
+                  cmap=gvcmaps.BlueRed,
+                  add_colorbar=False,
+                  add_labels=False,
+                  zorder=1)
+
+contour1 = data1.plot.contourf(ax=ax1, **contourf_kw)
+contour2 = data2.plot.contourf(ax=ax2, **contourf_kw)
+contour3 = data3.plot.contourf(ax=ax3, **contourf_kw)
+contour4 = data4.plot.contourf(ax=ax4, **contourf_kw)
+
 plt.show()
-
-
