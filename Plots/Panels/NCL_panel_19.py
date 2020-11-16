@@ -88,15 +88,22 @@ ax3 = add_axes(fig, grid[1, 0])
 ax4 = add_axes(fig, grid[1, 1])
 
 contourf_kw = dict(transform=ccrs.PlateCarree(),
-                  levels=22,
+                  levels=21,
                   cmap=gvcmaps.BlueRed,
                   add_colorbar=False,
                   add_labels=False,
+                  vmin=-5,
+                  vmax=5,
+                  extend='both',
                   zorder=1)
 
 contour1 = data1.plot.contourf(ax=ax1, **contourf_kw)
 contour2 = data2.plot.contourf(ax=ax2, **contourf_kw)
 contour3 = data3.plot.contourf(ax=ax3, **contourf_kw)
 contour4 = data4.plot.contourf(ax=ax4, **contourf_kw)
+
+fig.colorbar(contour4, ax=[ax1, ax2, ax3, ax4], ticks=np.linspace(-5, 5, 11),
+             drawedges=True, orientation='horizontal', shrink=0.5, pad=0.075,
+             extendfrac='auto', extendrect=True)
 
 plt.show()
