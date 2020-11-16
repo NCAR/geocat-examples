@@ -22,7 +22,6 @@ import matplotlib.ticker as mticker
 import cartopy.crs as ccrs
 from cartopy.feature import NaturalEarthFeature
 
-
 from wrf import (getvar, to_np, latlon_coords, get_cartopy)
 import geocat.datafiles as gdf
 
@@ -30,8 +29,17 @@ import geocat.datafiles as gdf
 # Read in the data
 
 wrfin = Dataset(gdf.get("netcdf_files/wrfout_d03_2012-04-22_23_00_00_subset.nc"))
-print(getattr(wrfin, 'TITLE'))
 td2 = getvar(wrfin, "td2")
+
+# Set attributes for creating plot titles later
+we = getattr(wrfin, 'WEST-EAST_GRID_DIMENSION')
+sn = getattr(wrfin, 'SOUTH-NORTH_GRID_DIMENSION')
+lvl = getattr(wrfin, 'BOTTOM-TOP_GRID_DIMENSION')
+dis = getattr(wrfin, 'DY')/1000 # Divide by 1000 to go from m to km
+phys = getattr(wrfin,'MP_PHYSICS')
+pbl = getattr(wrfin, 'BL_PBL_PHYSICS')
+cu = getattr(wrfin, 'CU_PHYSICS')
+str_format = "WE={}; SN={}; Levels={}; Dis={}km; Phys Opt={}; PBL Opt={}; Cu Opt={}"
 
 ###############################################################################
 # Create a subset of the data for zoomed in projection
@@ -122,10 +130,11 @@ gl.ylines = False
 # Add titles to the plot
 plt.title("2m Dewpoint Temperature (C)", loc='left', y=1.02, size=12)
 plt.title("Zoomed in plot", loc='center', y=1.1, size=14)
-plt.title(getattr(wrfin, 'TITLE'), #\nWE=481; SN=547; Levels=32; Dis=2km ; Phys Opt=2; PBL Opt=1; Cu Opt=0,
-          loc='left', x=-.035, y=-.3, size=12)
 
-plt.title("WE=481; SN=547; Levels=32; Dis=2km ; Phys Opt=2; PBL Opt=1; Cu Opt=0",
+# Add lower text using attributes from the dataset
+plt.title(getattr(wrfin, 'TITLE'), 
+          loc='left', x=-.045, y=-.3, size=12)
+plt.title(str_format.format(we, sn, lvl, dis, phys, pbl, cu),
           loc='center', y=-.35, size=12)
 
 
