@@ -39,7 +39,9 @@ dis = getattr(wrfin, 'DY')/1000 # Divide by 1000 to go from m to km
 phys = getattr(wrfin,'MP_PHYSICS')
 pbl = getattr(wrfin, 'BL_PBL_PHYSICS')
 cu = getattr(wrfin, 'CU_PHYSICS')
+s_date = getattr(wrfin, 'START_DATE') 
 str_format = "WE={}; SN={}; Levels={}; Dis={}km; Phys Opt={}; PBL Opt={}; Cu Opt={}"
+sd_frmt = "Init: {}"
 
 ###############################################################################
 # Create a subset of the data for zoomed in projection
@@ -128,14 +130,15 @@ gl.xlines = False
 gl.ylines = False
 
 # Add titles to the plot
-plt.title("2m Dewpoint Temperature (C)", loc='left', y=1.02, size=12)
-plt.title("Zoomed in plot", loc='center', y=1.1, size=14)
+plt.title("Zoomed in plot", loc='center', x=.13, y=1.1, size=15)
+plt.title("2m Dewpoint Temperature (C)", loc='left', y=1.02, size=10)
+plt.title(sd_frmt.format(s_date), loc='right', y=1.1, size=10)
 
 # Add lower text using attributes from the dataset
-plt.title(getattr(wrfin, 'TITLE'), 
-          loc='left', x=-.045, y=-.3, size=12)
-plt.title(str_format.format(we, sn, lvl, dis, phys, pbl, cu),
-          loc='center', y=-.35, size=12)
+fig.text(0.25, 0.1, getattr(wrfin, 'TITLE'), size=12)
+fig.text(0.252, 0.08, 
+         str_format.format(we, sn, lvl, dis, phys, pbl, cu),
+         size=12)
 
 
 plt.show()
