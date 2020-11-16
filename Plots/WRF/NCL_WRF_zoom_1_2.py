@@ -22,6 +22,7 @@ import matplotlib.ticker as mticker
 import cartopy.crs as ccrs
 from cartopy.feature import NaturalEarthFeature
 
+
 from wrf import (getvar, to_np, latlon_coords, get_cartopy)
 import geocat.datafiles as gdf
 
@@ -29,7 +30,7 @@ import geocat.datafiles as gdf
 # Read in the data
 
 wrfin = Dataset(gdf.get("netcdf_files/wrfout_d03_2012-04-22_23_00_00_subset.nc"))
-
+print(getattr(wrfin, 'TITLE'))
 td2 = getvar(wrfin, "td2")
 
 ###############################################################################
@@ -121,8 +122,11 @@ gl.ylines = False
 # Add titles to the plot
 plt.title("2m Dewpoint Temperature (C)", loc='left', y=1.02, size=12)
 plt.title("Zoomed in plot", loc='center', y=1.1, size=14)
-plt.title("OUTPUT FROM WRF V3.3.1 MODEL \nWE=481; SN=547; Levels=32; Dis=2km ; Phys Opt=2; PBL Opt=1; Cu Opt=0",
-          loc='left', y=-.35, size=12)
+plt.title(getattr(wrfin, 'TITLE'), #\nWE=481; SN=547; Levels=32; Dis=2km ; Phys Opt=2; PBL Opt=1; Cu Opt=0,
+          loc='left', x=-.035, y=-.3, size=12)
+
+plt.title("WE=481; SN=547; Levels=32; Dis=2km ; Phys Opt=2; PBL Opt=1; Cu Opt=0",
+          loc='center', y=-.35, size=12)
 
 
 plt.show()
