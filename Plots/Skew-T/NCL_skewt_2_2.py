@@ -9,6 +9,13 @@ This script illustrates the following concepts:
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/skewt_2.ncl
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png
+
+Note:
+    Currently functions to calculate CAPE, precipitable water, the showalter
+    index, the pressure of the LCL, and the temperature of the LCL do not
+    exist in ``geocat-comp``. An `issue <https://github.com/NCAR/geocat-comp/issues/89>`_
+    has been opened on the ``geocat-comp`` GitHub. The subtitle with those
+    values will be added at a later date once that issue has been closed.
 """
 
 ##############################################################################
