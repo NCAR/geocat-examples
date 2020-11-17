@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Create conda environment
-      uses: goanpeca/setup-miniconda@v2
+      uses: goanpeca/setup-miniconda@v1
       with:
          activate-environment: geocat-examples
          environment-file: conda_environment.yml
