@@ -2,8 +2,8 @@
 NCL_panel_19.py
 ===============
 This script illustrates the following concepts:
-   - Paneling four subplots in a two by two grid using `gridspec`
-   - Adjusting the positioning of the subplots using `hpace` and `wspace`
+   - Paneling four subplots in a two by two grid using ``gridspec``
+   - Adjusting the positioning of the subplots using ``hpace`` and ``wspace``
    - Using a blue-white-red color map
 
 See following URLs to see the reproduced NCL plot & script:
@@ -87,6 +87,7 @@ ax2 = add_axes(fig, grid[0, 1])
 ax3 = add_axes(fig, grid[1, 0])
 ax4 = add_axes(fig, grid[1, 1])
 
+# Create a dictionary with contour attributes
 contourf_kw = dict(transform=ccrs.PlateCarree(),
                   levels=21,
                   cmap=gvcmaps.BlueRed,
@@ -102,6 +103,7 @@ contour2 = data2.plot.contourf(ax=ax2, **contourf_kw)
 contour3 = data3.plot.contourf(ax=ax3, **contourf_kw)
 contour4 = data4.plot.contourf(ax=ax4, **contourf_kw)
 
+# Add colorbar for all four plots
 fig.colorbar(contour4, ax=[ax1, ax2, ax3, ax4], ticks=np.linspace(-5, 5, 11),
              drawedges=True, orientation='horizontal', shrink=0.5, pad=0.075,
              extendfrac='auto', extendrect=True)
