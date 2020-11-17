@@ -2,7 +2,6 @@
 NCL_skewt_2_2.py
 ================
 This script illustrates the following concepts:
-   - Drawing a default Skew-T background
    - Customizing the background of a Skew-T plot
    - Plotting temperature, dewpoint, and wind data on a Skew-T plot
 
@@ -45,7 +44,7 @@ tdc = ds[9].values*units.degC  # Dew pt temp  [C]
 # Create dummy wind data
 wspd = np.linspace(0, 150, len(p))*units.knots    # Wind speed   [knots or m/s]
 wdir = np.linspace(0, 360, len(p))*units.degrees    # Meteorological wind dir
-u, v = mpcalc.wind_components(wspd, wdir)   # Calculate wind components 
+u, v = mpcalc.wind_components(wspd, wdir)   # Calculate wind components
 
 ##############################################################################
 # Plot:
