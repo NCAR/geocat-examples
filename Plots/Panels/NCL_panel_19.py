@@ -99,7 +99,7 @@ def add_axes(fig, grid_space, date):
 ##############################################################################
 # Plot with default spacing:
 
-fig = plt.figure(figsize=(10,8))
+fig = plt.figure(figsize=(10, 10))
 
 # Create gridspec to hold four subplots
 grid = fig.add_gridspec(ncols=2, nrows=2)
@@ -130,5 +130,9 @@ contour4 = data4.plot.contourf(ax=ax4, **contourf_kw)
 fig.colorbar(contour4, ax=[ax1, ax2, ax3, ax4], ticks=np.linspace(-5, 5, 11),
              drawedges=True, orientation='horizontal', shrink=0.5, pad=0.075,
              extendfrac='auto', extendrect=True)
-print(convert_date(dates[0]))
+
+# Add figure title
+fig.suptitle("Default spacing between plots", fontsize=18, y=0.9)
+
 plt.show()
+
