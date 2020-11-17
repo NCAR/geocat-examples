@@ -45,9 +45,18 @@ data4 = ds.sel(time=34).SSTA
 data4 = gvutil.xr_add_cyclic_longitudes(data4, 'lon')
 
 ##############################################################################
+# Helper function to convert date to something that is human readable
+
+def convert_date(date):
+    months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+              'August', 'September', 'October', 'November', 'December']
+    year = str(date)[:4]
+    month = months[int(str(date)[4:]) - 1]
+    return month + " " + year
+##############################################################################
 # Helper function to create and format subplots
 
-def add_axes(fig, grid_space):
+def add_axes(fig, grid_space, date):
     ax = fig.add_subplot(grid_space, projection=ccrs.PlateCarree(central_longitude=-160))
     ax.set_extent([100, 300, -60, 60], crs=ccrs.PlateCarree())
 
@@ -67,10 +76,24 @@ def add_axes(fig, grid_space):
     # Use geocat.viz.util convenience function to add minor and major tick lines
     gvutil.add_major_minor_ticks(ax, labelsize=8)
 
-    # Make sure that tick marks are only on the left and bottom sides of figure
+    # Make sure that tick marks are only on the left and bottom sides of subplot
     ax.tick_params('both', which='both', top=False, right=False)
+    
+    # Add land to the subplot
+    ax.add_feature(cfeature.LAND,
+                   facecolor='lightgray',
+                   edgecolor='black',
+                   linewidths=0.5,
+                   zorder=2)
 
-    ax.add_feature(cfeature.LAND, facecolor='lightgray', edgecolor='black', linewidths=0.5,  zorder=2)
+    # Set subplot titles
+    gvutil.set_titles_and_labels(ax,
+                                 lefttitle='degC',
+                                 lefttitlefontsize=10,
+                                 righttitle='$(W m s^{-2})$',
+                                 righttitlefontsize=10)
+    ax.set_title(convert_date(date), fontsize=10, y=1.04)
+
     return ax
 
 ##############################################################################
@@ -82,10 +105,10 @@ fig = plt.figure(figsize=(10,8))
 grid = fig.add_gridspec(ncols=2, nrows=2)
 
 # Add the axes
-ax1 = add_axes(fig, grid[0, 0])
-ax2 = add_axes(fig, grid[0, 1])
-ax3 = add_axes(fig, grid[1, 0])
-ax4 = add_axes(fig, grid[1, 1])
+ax1 = add_axes(fig, grid[0, 0], dates[0])
+ax2 = add_axes(fig, grid[0, 1], dates[1])
+ax3 = add_axes(fig, grid[1, 0], dates[2])
+ax4 = add_axes(fig, grid[1, 1], dates[3])
 
 # Create a dictionary with contour attributes
 contourf_kw = dict(transform=ccrs.PlateCarree(),
@@ -107,5 +130,5 @@ contour4 = data4.plot.contourf(ax=ax4, **contourf_kw)
 fig.colorbar(contour4, ax=[ax1, ax2, ax3, ax4], ticks=np.linspace(-5, 5, 11),
              drawedges=True, orientation='horizontal', shrink=0.5, pad=0.075,
              extendfrac='auto', extendrect=True)
-
+print(convert_date(dates[0]))
 plt.show()
