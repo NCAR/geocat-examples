@@ -1,4 +1,3 @@
-
 """
 NCL_WRF_interp_3.py
 ===================
@@ -21,6 +20,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import xarray as xr
 
+from matplotlib.ticker import (AutoLocator, MultipleLocator, FormatStrFormatter,
+                               AutoMinorLocator)
+
 from wrf import (to_np, getvar, CoordPair, vertcross, latlon_coords)
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -31,7 +33,8 @@ from geocat.viz import util as gvutil
 # Specify the necessary variables needed from the data set in order to use 'z' and 'QVAPOR'
 toinclude = ['PH', 'P', 'HGT', 'PHB', 'QVAPOR'] 
 # Read in necessary datasets
-ds = xr.open_mfdataset([gdf.get('netcdf_files/wrfout_d03_2012-04-22_23_00_00_Z.nc'), gdf.get('netcdf_files/wrfout_d03_2012-04-22_23_00_00_QV.nc')])
+ds = xr.open_mfdataset([gdf.get('netcdf_files/wrfout_d03_2012-04-22_23_00_00_Z.nc'),
+                        gdf.get('netcdf_files/wrfout_d03_2012-04-22_23_00_00_QV.nc')])
 
 # specify a unique output file name to use to read in combined dataset later
 file3 = 'wrfout_d03_2012-04-22_23.nc'
@@ -63,6 +66,7 @@ qv_cross = vertcross(qv,
 
 # Close 'wrfin' to prevent PermissionError if code is run more than once locally
 wrfin.close()
+
 ###############################################################################
 # Plot the data
 
@@ -76,7 +80,6 @@ qv_contours = ax.contourf(to_np(qv_cross),
                           vmax=0.004,
                           zorder=4)
 
-
 plt.colorbar(qv_contours, 
               ax=ax, 
               ticks=np.arange(0.00025, 0.004, .00025))
@@ -89,20 +92,11 @@ x_labels = [pair.latlon_str(fmt="{:.2f}\N{DEGREE SIGN}N, \n {:.2f}\N{DEGREE SIGN
 ax.set_xticks(x_ticks[::20])
 ax.set_xticklabels(x_labels[::20], rotation=45, fontsize=8)
 
-# Set the y-ticks to be height. (option 1)
+# Set the y-ticks to be height.
 vert_vals = to_np(qv_cross.coords["vertical"])
 v_ticks = np.arange(vert_vals.shape[0])
-# ax.set_yticks(v_ticks[::20])
-# ax.set_yticklabels(vert_vals[::20], fontsize=8)
-
-# Option 2
-gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=(0, np.nanmax(vert_vals)),
-                                 yticks=np.linspace(0, 18000, 7))
-
-# Option 3
-# ax.set_yticks(np.arange(0,19000,3000))
-# ax.set_yticklabels(np.arange(0,20000,3000), fontsize=8)
+ax.set_yticks(v_ticks[::16])
+ax.set_yticklabels(np.arange(0,20000,3000), fontsize=8)
 
 # Set the plot titles 
 plt.title("Cross section from (38,-118) to (40,-115)", fontsize=16, y=1.07)
@@ -110,5 +104,3 @@ plt.title('Water vapor mixing ration', loc='left')
 plt.title('kg kg-1', loc='right')
 
 plt.show()
-
-
