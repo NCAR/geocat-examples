@@ -20,12 +20,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import xarray as xr
 
-from matplotlib.ticker import (AutoLocator, MultipleLocator, FormatStrFormatter,
-                               AutoMinorLocator)
-
 from wrf import (to_np, getvar, CoordPair, vertcross, latlon_coords)
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
 
 ###############################################################################
 # Read in the data
