@@ -19,6 +19,7 @@ from netCDF4 import Dataset
 import numpy as np
 import matplotlib.pyplot as plt
 import xarray as xr
+import os
 
 from wrf import (to_np, getvar, CoordPair, vertcross, latlon_coords)
 import geocat.datafiles as gdf
@@ -61,6 +62,8 @@ qv_cross = vertcross(qv,
 
 # Close 'wrfin' to prevent PermissionError if code is run more than once locally
 wrfin.close()
+# Remove created wrfout file from local directory 
+os.remove('wrfout_d03_2012-04-22_23.nc')
 
 ###############################################################################
 # Plot the data
@@ -105,3 +108,4 @@ plt.title('Water vapor mixing ratio', loc='left', y=1.02)
 plt.title('kg kg-1', loc='right', y=1.02)
 
 plt.show()
+       
