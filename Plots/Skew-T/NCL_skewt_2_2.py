@@ -129,6 +129,15 @@ gvutil.set_axes_limits_and_ticks(
     xlim=[-32, 38],
     yticks=[1000, 850, 700, 500, 400, 300, 250, 200, 150, 100])
 
+# Use geocat.viz utility function to change the look of ticks and ticklabels
+gvutil.add_major_minor_ticks(ax=ax,
+                             x_minor_per_major=1,
+                             y_minor_per_major=1,
+                             labelsize=14)
+# The utility function draws tickmarks all around the plot. We only need ticks
+# on the left and bottom edges
+ax.tick_params('both', which='both', top=False, right=False)
+
 # Use geocat.viz utility functions to add a main title
 gvutil.set_titles_and_labels(ax=ax,
                              maintitle="Raob; [Wind Reports]",
