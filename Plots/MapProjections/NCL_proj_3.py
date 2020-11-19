@@ -47,17 +47,23 @@ ax.set_extent([0, -180, 0, 90], ccrs.PlateCarree())
 ax.set_global()
 ax.coastlines(linewidths=0.5)
 
-# Contourf-plot data (for filled contours)
-wrap_t.plot.contourf(ax=ax,
-                     transform=ccrs.PlateCarree(),
-                     levels=11,
-                     cmap='coolwarm',
-                     cbar_kwargs={
-                         "orientation": "horizontal",
-                         "ticks": np.linspace(210, 310, 11),
-                         "label": '',
-                         "shrink": 0.9
-                     })
+# Plot data and add a colorbar
+temp = wrap_t.plot.contourf(
+    ax=ax,
+    transform=ccrs.PlateCarree(),
+    levels=11,
+    cmap='coolwarm',
+    add_colorbar=False)
+
+cbar_ticks = np.arange(210, 311, 10)
+cbar = plt.colorbar(temp, 
+                    orientation='horizontal', 
+                    shrink=0.75, 
+                    pad=0.05, 
+                    extendrect=True,
+                    ticks=cbar_ticks)
+
+cbar.ax.tick_params(labelsize=10)
 
 # Use geocat.viz.util convenience function to add titles to left and right
 # of the plot axis.
