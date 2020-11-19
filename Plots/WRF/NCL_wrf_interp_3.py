@@ -98,7 +98,7 @@ ax.set_xticklabels(x_labels[::20], rotation=45, fontsize=8)
 
 # Set the plot titles 
 plt.title("Cross section from (38,-118) to (40,-115)", fontsize=16, y=1.07)
-plt.title('Water vapor mixing ration', loc='left')
-plt.title('kg kg-1', loc='right')
+plt.title('Water vapor mixing ratio', loc='left', y=1.02)
+plt.title('kg kg-1', loc='right', y=1.02)
 
 plt.show()
