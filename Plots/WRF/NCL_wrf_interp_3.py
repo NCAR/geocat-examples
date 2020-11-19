@@ -89,15 +89,18 @@ plt.colorbar(qv_contours,
              ticks=np.arange(0.00025, 0.004, .00025))
 
 # Add minor ticks to the yaxis
-gvutil.add_major_minor_ticks(ax=ax, x_minor_per_major=1, y_minor_per_major=3)
+gvutil.add_major_minor_ticks(ax=ax, 
+                             x_minor_per_major=1, 
+                             y_minor_per_major=3, 
+                             labelsize=14)
 
 # Format the xtick labels
 x_labels = [pair.latlon_str(fmt="{:.2f}\N{DEGREE SIGN}N, \n {:.2f}\N{DEGREE SIGN}E")
             for pair in to_np(coord_pairs)]
-ax.set_xticklabels(x_labels[::20], rotation=45, fontsize=8)
+ax.set_xticklabels(x_labels[::20], rotation=45, fontsize=12)
 
 # Set the plot titles 
-plt.title("Cross section from (38,-118) to (40,-115)", fontsize=16, y=1.07)
+plt.title("Cross section from (38,-118) to (40,-115)", fontsize=18, y=1.07)
 plt.title('Water vapor mixing ratio', loc='left', y=1.02)
 plt.title('kg kg-1', loc='right', y=1.02)
 
