@@ -22,6 +22,7 @@ import xarray as xr
 
 from wrf import (to_np, getvar, CoordPair, vertcross, latlon_coords)
 import geocat.datafiles as gdf
+import geocat.viz.util as gvutil
 
 ###############################################################################
 # Read in the data
@@ -41,7 +42,6 @@ wrfin = Dataset(('wrfout_d03_2012-04-22_23.nc'))
 
 z = getvar(wrfin, "z")
 qv = getvar(wrfin, "QVAPOR")
-
 # Pull lat/lon coords from QVAPOR data using wrf-python tools
 lats, lons = latlon_coords(qv)
 
@@ -57,8 +57,7 @@ qv_cross = vertcross(qv,
                      wrfin=wrfin,
                      start_point=start_point, 
                      end_point=end_point,
-                     latlon=True, 
-                     meta=True)
+                     latlon=True)
 
 # Close 'wrfin' to prevent PermissionError if code is run more than once locally
 wrfin.close()
@@ -69,30 +68,33 @@ wrfin.close()
 fig = plt.figure(figsize=(10,8))
 ax = plt.axes()
 
-qv_contours = ax.contourf(to_np(qv_cross), 
-                          levels=17, 
-                          cmap="magma",
-                          vmin=0,
-                          vmax=0.004,
-                          zorder=4)
-
-plt.colorbar(qv_contours, 
-              ax=ax, 
-              ticks=np.arange(0.00025, 0.004, .00025))
-
 # Set the x-ticks to use latitude and longitude labels.
 coord_pairs = to_np(qv_cross.coords["xy_loc"])
 x_ticks = np.arange(coord_pairs.shape[0])
+
+# Plot filled contours
+qv_contours = qv_cross.plot.contourf(ax=ax,
+                                     levels=17,
+                                     cmap='magma',
+                                     vmin=0,
+                                     vmax=0.004,
+                                     zorder=4,
+                                     add_labels=False,
+                                     add_colorbar=False,
+                                     yticks=np.arange(0, 20000, 3000),
+                                     xticks=x_ticks[::20])
+# Add colorbar
+plt.colorbar(qv_contours, 
+             ax=ax, 
+             ticks=np.arange(0.00025, 0.004, .00025))
+
+# Add minor ticks to the yaxis
+gvutil.add_major_minor_ticks(ax=ax, x_minor_per_major=1, y_minor_per_major=3)
+
+# Format the xtick labels
 x_labels = [pair.latlon_str(fmt="{:.2f}\N{DEGREE SIGN}N, \n {:.2f}\N{DEGREE SIGN}E")
             for pair in to_np(coord_pairs)]
-ax.set_xticks(x_ticks[::20])
 ax.set_xticklabels(x_labels[::20], rotation=45, fontsize=8)
-
-# Set the y-ticks to be height.
-vert_vals = to_np(qv_cross.coords["vertical"])
-v_ticks = np.arange(vert_vals.shape[0])
-ax.set_yticks(v_ticks[::16])
-ax.set_yticklabels(np.arange(0,20000,3000), fontsize=8)
 
 # Set the plot titles 
 plt.title("Cross section from (38,-118) to (40,-115)", fontsize=16, y=1.07)
