@@ -56,7 +56,7 @@ from geocat.viz import util as gvutil
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"),
                      decode_times=False)
-# print(ds)
+
 # Extract a slice of the data
 t = ds.T.isel(time=0, z_t=0).sel(lat_t=slice(-60, 30), lon_t=slice(30, 120))
 
@@ -64,7 +64,6 @@ t = ds.T.isel(time=0, z_t=0).sel(lat_t=slice(-60, 30), lon_t=slice(30, 120))
 # Plot:
 
 fig = plt.figure(figsize=(12, 12))
-
 
 def Plot(color, row, col, pos, title):
 
@@ -78,19 +77,23 @@ def Plot(color, row, col, pos, title):
     newcmp = color
 
     # Contourf-plot data
-    t.plot.contourf(ax=ax1,
-                    transform=projection,
-                    levels=40,
-                    vmin=0,
-                    vmax=32,
-                    cmap=newcmp,
-                    cbar_kwargs={
-                        "orientation": "vertical",
-                        "extendrect": True,
-                        "ticks": np.arange(0, 32, 2),
-                        "label": "",
-                        "shrink": 0.8
-                    })
+    temp = t.plot.contourf(ax=ax1,
+                           transform=projection,
+                           levels=40,
+                           vmin=0,
+                           vmax=32,
+                           cmap=newcmp,
+                           add_colorbar=False)
+    
+    # Add color bar
+    cbar_ticks = np.arange(0, 32, 2)
+    cbar = plt.colorbar(temp, 
+                        orientation='vertical', 
+                        shrink=0.8, pad=0.05, 
+                        extendrect=True,
+                        ticks=cbar_ticks)
+    
+    cbar.ax.tick_params(labelsize=10)
 
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
     # Set axes limits, and tick values
@@ -102,7 +105,6 @@ def Plot(color, row, col, pos, title):
                                  maintitlefontsize=14,
                                  xlabel="",
                                  ylabel="")
-
 
 # Plot first color map
 Plot(gvcmaps.BlAqGrYeOrRe, 2, 2, 1, "Figure 1: \n Rainbow Color Projection")
