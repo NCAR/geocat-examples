@@ -4,7 +4,7 @@ NCL_panel_19.py
 This script illustrates the following concepts:
    - Paneling four subplots in a two by two grid using ``gridspec``
    - Adjusting the positioning of the subplots using ``hpace`` and ``wspace``
-   - Using a blue-white-red color map
+   - Using a blue-red color map
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/dev_1.ncl
@@ -45,7 +45,7 @@ data4 = ds.sel(time=34).SSTA
 data4 = gvutil.xr_add_cyclic_longitudes(data4, 'lon')
 
 ##############################################################################
-# Helper function to convert date to something that is human readable
+# Helper function to convert date from YYYYMM to the month name and the year
 
 def convert_date(date):
     months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
@@ -53,6 +53,7 @@ def convert_date(date):
     year = str(date)[:4]
     month = months[int(str(date)[4:]) - 1]
     return month + " " + year
+
 ##############################################################################
 # Helper function to create and format subplots
 
@@ -121,6 +122,7 @@ contourf_kw = dict(transform=ccrs.PlateCarree(),
                   extend='both',
                   zorder=1)
 
+# Plot the filled contours
 contour1 = data1.plot.contourf(ax=ax1, **contourf_kw)
 contour2 = data2.plot.contourf(ax=ax2, **contourf_kw)
 contour3 = data3.plot.contourf(ax=ax3, **contourf_kw)
