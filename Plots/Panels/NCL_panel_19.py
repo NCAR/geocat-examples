@@ -138,3 +138,88 @@ fig.suptitle("Default spacing between plots", fontsize=18, y=0.9)
 
 plt.show()
 
+##############################################################################
+# Plot with reduced spacing between the left and right subplots 
+
+fig = plt.figure(figsize=(10, 10))
+
+# Create gridspec to hold four subplots, use `wspace` to specify the amount
+# of spacing between columns of subplots
+grid = fig.add_gridspec(ncols=2, nrows=2, wspace=0.125)
+
+# Add the axes
+ax1 = add_axes(fig, grid[0, 0], dates[0])
+ax2 = add_axes(fig, grid[0, 1], dates[1])
+ax3 = add_axes(fig, grid[1, 0], dates[2])
+ax4 = add_axes(fig, grid[1, 1], dates[3])
+
+# Create a dictionary with contour attributes
+contourf_kw = dict(transform=ccrs.PlateCarree(),
+                  levels=21,
+                  cmap=gvcmaps.BlueRed,
+                  add_colorbar=False,
+                  add_labels=False,
+                  vmin=-5,
+                  vmax=5,
+                  extend='both',
+                  zorder=1)
+
+# Plot the filled contours
+contour1 = data1.plot.contourf(ax=ax1, **contourf_kw)
+contour2 = data2.plot.contourf(ax=ax2, **contourf_kw)
+contour3 = data3.plot.contourf(ax=ax3, **contourf_kw)
+contour4 = data4.plot.contourf(ax=ax4, **contourf_kw)
+
+# Add colorbar for all four plots
+fig.colorbar(contour4, ax=[ax1, ax2, ax3, ax4], ticks=np.linspace(-5, 5, 11),
+             drawedges=True, orientation='horizontal', shrink=0.5, pad=0.075,
+             extendfrac='auto', extendrect=True)
+
+# Add figure title
+fig.suptitle("Reduced spacing between left and right plots", fontsize=18, y=0.9)
+
+plt.show()
+
+##############################################################################
+# Plot with reduced spacing between the top and bottom subplots 
+
+fig = plt.figure(figsize=(10, 10))
+
+# Create gridspec to hold four subplots, use `hspace` to specify the amount
+# of spacing between rows of subplots
+grid = fig.add_gridspec(ncols=2, nrows=2, wspace=0.125, hspace=-0.15)
+
+# Add the axes
+ax1 = add_axes(fig, grid[0, 0], dates[0])
+ax2 = add_axes(fig, grid[0, 1], dates[1])
+ax3 = add_axes(fig, grid[1, 0], dates[2])
+ax4 = add_axes(fig, grid[1, 1], dates[3])
+
+# Create a dictionary with contour attributes
+contourf_kw = dict(transform=ccrs.PlateCarree(),
+                  levels=21,
+                  cmap=gvcmaps.BlueRed,
+                  add_colorbar=False,
+                  add_labels=False,
+                  vmin=-5,
+                  vmax=5,
+                  extend='both',
+                  zorder=1)
+
+# Plot the filled contours
+contour1 = data1.plot.contourf(ax=ax1, **contourf_kw)
+contour2 = data2.plot.contourf(ax=ax2, **contourf_kw)
+contour3 = data3.plot.contourf(ax=ax3, **contourf_kw)
+contour4 = data4.plot.contourf(ax=ax4, **contourf_kw)
+
+# Add colorbar for all four plots
+fig.colorbar(contour4, ax=[ax1, ax2, ax3, ax4], ticks=np.linspace(-5, 5, 11),
+             drawedges=True, orientation='horizontal', shrink=0.5, pad=0.075,
+             extendfrac='auto', extendrect=True)
+
+# Add figure title, the height of the title may need to be changed when
+# reducing the spacing between rows of subplots
+fig.suptitle("Reduced spacing between top and bottom plots", fontsize=18, y=0.9)
+
+plt.show()
+
