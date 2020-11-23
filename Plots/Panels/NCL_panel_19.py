@@ -25,26 +25,6 @@ from geocat.viz import cmaps as gvcmaps
 import geocat.viz.util as gvutil
 
 ##############################################################################
-# Read in data:
-
-# Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/sst8292a.nc"))
-
-dates = [198212, 199008, 198705, 198411]
-
-data1 = ds.sel(time=11).SSTA
-data1 = gvutil.xr_add_cyclic_longitudes(data1, 'lon')
-
-data2 = ds.sel(time=103).SSTA
-data2 = gvutil.xr_add_cyclic_longitudes(data2, 'lon')
-
-data3 = ds.sel(time=64).SSTA
-data3 = gvutil.xr_add_cyclic_longitudes(data3, 'lon')
-
-data4 = ds.sel(time=34).SSTA
-data4 = gvutil.xr_add_cyclic_longitudes(data4, 'lon')
-
-##############################################################################
 # Helper function to convert date from YYYYMM to the month name and the year
 
 def convert_date(date):
@@ -96,6 +76,26 @@ def add_axes(fig, grid_space, date):
     ax.set_title(convert_date(date), fontsize=10, y=1.04)
 
     return ax
+
+##############################################################################
+# Read in data:
+
+# Open a netCDF data file using xarray default engine and load the data into xarrays
+ds = xr.open_dataset(gdf.get("netcdf_files/sst8292a.nc"))
+
+dates = [198212, 199008, 198705, 198411]
+
+data1 = ds.sel(time=11).SSTA
+data1 = gvutil.xr_add_cyclic_longitudes(data1, 'lon')
+
+data2 = ds.sel(time=103).SSTA
+data2 = gvutil.xr_add_cyclic_longitudes(data2, 'lon')
+
+data3 = ds.sel(time=64).SSTA
+data3 = gvutil.xr_add_cyclic_longitudes(data3, 'lon')
+
+data4 = ds.sel(time=34).SSTA
+data4 = gvutil.xr_add_cyclic_longitudes(data4, 'lon')
 
 ##############################################################################
 # Plot with default spacing:
