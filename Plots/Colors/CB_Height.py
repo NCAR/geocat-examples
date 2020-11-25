@@ -1,6 +1,6 @@
 """
 CB_Height.py
-================
+=============
 
 This script illustrates multiple color schemes for color maps which will allow for those
 impacted by color blindness to see visualizations. Using rainbow color schemes is also
@@ -74,21 +74,26 @@ def Plot(color, row, col, pos, title):
     ax1.add_feature(cfeature.LAND, facecolor="lightgray")
 
     # Import an NCL colormap
-    newcmp = color  #gvcmaps.BlAqGrYeOrRe
-
+    newcmp = color
+    
     # Contourf-plot data
-    t.plot.contourf(ax=ax1,
-                    transform=projection,
-                    levels=40,
-                    vmin=100,
-                    vmax=1600,
-                    cmap=newcmp,
-                    cbar_kwargs={
-                        "orientation": "vertical",
-                        "ticks": np.arange(100, 1600, 100),
-                        "label": "",
-                        "shrink": 0.8
-                    })
+    hgt = t.plot.contourf(ax=ax1,
+                          transform=projection,
+                          levels=40,
+                          vmin=100,
+                          vmax=1600,
+                          cmap=newcmp,
+                          add_colorbar=False)
+
+    # Add color bar
+    cbar_ticks = np.arange(100, 1600, 100)
+    cbar = plt.colorbar(hgt, 
+                        orientation='vertical', 
+                        shrink=0.8, pad=0.05, 
+                        extendrect=True,
+                        ticks=cbar_ticks)
+    
+    cbar.ax.tick_params(labelsize=10)
 
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
     # Set axes limits, and tick values
