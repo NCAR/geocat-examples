@@ -8,10 +8,9 @@ This script illustrates the following concepts:
    - Filling the areas of an XY curve above and below a reference line
    - Drawing a Y reference line in an XY plot
    - Turning off the map lat/lon grid lines
-   - Changing the size of a PNG image
 See following URLs to see the reproduced NCL plot & script:
-    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/panel_9.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_9_lg.png
+   - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/panel_9.ncl
+   - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_9_lg.png
 """
 
 ##############################################################################
@@ -31,8 +30,18 @@ from geocat.viz import cmaps
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-#ds = xr.open_dataset(gdf.get("netcdf_files/nao.obs.nc"),
-#                     decode_times=False) 
+ds = xr.open_dataset(gdf.get("netcdf_files/AtmJan360_xy_4.nc"),
+                     decode_times=False) 
+# Extract temperature data at first timestep and lowest level
+temp = ds.T.isel(time=0, drop=True)
+temp = temp.isel(lev=17, drop=True)
+
+# Fix the artifact of not-shown-data around -0 and 360 degree longitudes
+temp = gvutil.xr_add_cyclic_longitudes(temp, 'lon')
+
+# Extract zonal mean data for 46N for the first level
+temp_mean = ds.T.isel(lev=17, lat=48, drop=True)
+temp_mean = temp_mean.mean(dim='lon')
 
 ###############################################################################
 # Plot
@@ -51,15 +60,22 @@ grid = gridspec.GridSpec(nrows=2,
 proj = ccrs.NorthPolarStereo()
 
 # Add polar plot to figure
-ax1 = fig.add_subplot(grid[0], projection=proj)
-ax1.coastlines()
-gvutil.set_map_boundary(ax1, [-180, 180], [0, 30])
+ax1 = plt.subplot(grid[0], projection=proj)
+ax1.coastlines(linewidths=0.5)
+gvutil.set_map_boundary(ax1, [-180, 180], [30, 90], south_pad=1)
 
 # Add XY plot to figure
-ax2 = fig.add_subplot(grid[1])
+ax2 = plt.subplot(grid[1])
 gvutil.set_axes_limits_and_ticks(ax=ax2,
                                  xlim=(1920, 2015),
                                  ylim=(-4.0, 3.0))
 gvutil.add_major_minor_ticks(ax=ax2,
                              x_minor_per_major=4,
                              y_minor_per_major=5)
+
+# Plot temperature contours on map
+temp.plot.contourf(ax=ax1,
+                   transform=ccrs.PlateCarree(),
+                   levels=19)
+
+plt.show()
