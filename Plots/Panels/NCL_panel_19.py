@@ -3,7 +3,7 @@ NCL_panel_19.py
 ===============
 This script illustrates the following concepts:
    - Paneling four subplots in a two by two grid using ``gridspec``
-   - Adjusting the positioning of the subplots using ``hpace`` and ``wspace``
+   - Adjusting the positioning of the subplots using ``hspace`` and ``wspace``
    - Using a blue-red color map
 
 See following URLs to see the reproduced NCL plot & script:
@@ -79,6 +79,7 @@ def add_axes(fig, grid_space, date):
 
 ##############################################################################
 # Helper function to create figure with specific gridspec
+
 def create_fig(grid, fig, title):
     # Add the axes
     ax1 = add_axes(fig, grid[0, 0], dates[0])
