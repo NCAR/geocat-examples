@@ -3,7 +3,7 @@ NCL_panel_19.py
 ===============
 This script illustrates the following concepts:
    - Paneling four subplots in a two by two grid using ``gridspec``
-   - Adjusting the positioning of the subplots using ``hpace`` and ``wspace``
+   - Adjusting the positioning of the subplots using ``hspace`` and ``wspace``
    - Using a blue-red color map
 
 See following URLs to see the reproduced NCL plot & script:
@@ -222,4 +222,3 @@ fig.colorbar(contour4, ax=[ax1, ax2, ax3, ax4], ticks=np.linspace(-5, 5, 11),
 fig.suptitle("Reduced spacing between top and bottom plots", fontsize=18, y=0.9)
 
 plt.show()
-
