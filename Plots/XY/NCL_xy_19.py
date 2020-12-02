@@ -32,7 +32,7 @@ t = (t - 273.15) * 9/5 * 32
 
 ################################################################################
 # Plot:
-fig, ax1 = plt.subplots(figsize=(10,10))
+fig, ax1 = plt.subplots(figsize=(11,10))
 
 gvutil.add_major_minor_ticks(ax1,
                              y_minor_per_major=5,
@@ -57,7 +57,7 @@ ax2.plot(lon, u, linewidth=0.5, c='green')
 
 
 ax3 = ax1.twinx()
-ax3.spines['right'].set_position(('axes', 1.1))
+ax3.spines['right'].set_position(('axes', 1.15))
 gvutil.add_major_minor_ticks(ax3,
                              x_minor_per_major=5, 
                              y_minor_per_major=4,
@@ -73,5 +73,5 @@ ax3.tick_params('both',
                 top=False,
                 left=False)
 ax3.plot(lon, v, linewidth=0.5, c='blue')
-
+plt.tight_layout()
 plt.show()
