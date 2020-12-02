@@ -67,8 +67,8 @@ gvutil.set_map_boundary(ax1, [-180, 180], [30, 90], south_pad=1)
 # Add XY plot to figure
 ax2 = plt.subplot(grid[1])
 gvutil.set_axes_limits_and_ticks(ax=ax2,
-                                 xlim=(1920, 2015),
-                                 ylim=(-4.0, 3.0))
+                                 xlim=(ds.time[0], ds.time[-1]),
+                                 ylim=(264, 268))
 gvutil.add_major_minor_ticks(ax=ax2,
                              x_minor_per_major=4,
                              y_minor_per_major=5)
@@ -77,5 +77,8 @@ gvutil.add_major_minor_ticks(ax=ax2,
 temp.plot.contourf(ax=ax1,
                    transform=ccrs.PlateCarree(),
                    levels=19)
+
+# Add mean temperature over time data to XY plot
+ax2.plot(temp_mean.time, temp_mean.T)
 
 plt.show()
