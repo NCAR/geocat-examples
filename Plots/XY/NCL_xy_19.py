@@ -32,7 +32,7 @@ t = (t - 273.15) * 9/5 * 32
 
 ################################################################################
 # Plot:
-fig, ax1 = plt.subplots(figsize=(8, 7))
+fig, ax1 = plt.subplots(figsize=(9, 8))
 ax2 = ax1.twinx()
 ax3 = ax1.twinx()
 
@@ -76,10 +76,31 @@ ax3.tick_params('both',
                 bottom=False,
                 top=False,
                 left=False)
+
+# Use geocat-viz.util convenience function to set y axes labels
+gvutil.set_titles_and_labels(ax1, ylabel='t')
+gvutil.set_titles_and_labels(ax2, ylabel='u')
+gvutil.set_titles_and_labels(ax3, ylabel='v')
+
 # Plot the data
-ax1.plot(lon, t, linewidth=0.5, c='black')
-ax2.plot(lon, u, linewidth=0.5, c='black')
-ax3.plot(lon, v, linewidth=0.5, c='black')
+# axes.plot() returns a list of Line2D object. The line objects can be used as
+# the `handles` for the legend. Since we only want the line objects, a comma is
+# added after t_plot to extract the first item of the list returned by 
+# axes.plot()
+t_plot, = ax1.plot(lon, t, linewidth=0.5, c='r', label='t')
+u_plot, = ax2.plot(lon, u, linewidth=0.5, c='g', label='u')
+v_plot, = ax3.plot(lon, v, linewidth=0.5, c='b', label='v')
+
+# Add a legend using the Line2D objects from before as the handles
+plt.legend(loc='lower right',
+           fancybox=False,
+           edgecolor='black',
+           borderaxespad=0,
+           borderpad=1,
+           handlelength=4,
+           handletextpad=0,
+           fontsize=14,
+           handles=[v_plot, u_plot, t_plot])
 
 plt.tight_layout()
 plt.show()
