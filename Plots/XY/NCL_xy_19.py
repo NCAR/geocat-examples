@@ -32,46 +32,54 @@ t = (t - 273.15) * 9/5 * 32
 
 ################################################################################
 # Plot:
-fig, ax1 = plt.subplots(figsize=(11,10))
+fig, ax1 = plt.subplots(figsize=(8, 7))
+ax2 = ax1.twinx()
+ax3 = ax1.twinx()
 
+# Offset the 3rd axes
+ax3.spines['right'].set_position(('axes', 1.15))
+
+# Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax1,
                              y_minor_per_major=5,
                              labelsize=14)
-gvutil.set_axes_limits_and_ticks(ax1,
-                                 ylim=(-3500, -2900))
-ax1.plot(lon, t, linewidth=0.5, c='red')
-
-
-ax2 = ax1.twinx()
 gvutil.add_major_minor_ticks(ax2,
                              y_minor_per_major=5,
                              labelsize=14)
-gvutil.set_axes_limits_and_ticks(ax2,
-                                 ylim=(10, 60))
-ax2.tick_params('both',
-                which='both',
-                bottom=False,
-                top=False,
-                left=False)
-ax2.plot(lon, u, linewidth=0.5, c='green')
-
-
-ax3 = ax1.twinx()
-ax3.spines['right'].set_position(('axes', 1.15))
 gvutil.add_major_minor_ticks(ax3,
                              x_minor_per_major=5, 
                              y_minor_per_major=4,
                              labelsize=14)
+
+# Use geocat.viz.util convenience function to set axes tick values
+gvutil.set_axes_limits_and_ticks(ax1,
+                                 ylim=(-3500, -2900))
+gvutil.set_axes_limits_and_ticks(ax2,
+                                 ylim=(10, 60))
 gvutil.set_axes_limits_and_ticks(ax3,
                                  xlim=(0, 360),
                                  ylim=(-16, 12),
                                  xticks=[0, 100, 200, 300],
                                  yticks=np.arange(-16, 13, 4))
+
+# Adjust which sides of the plot the tick marks are drawn for each axes
+ax1.tick_params('both',
+                which='both',
+                right=False)
+ax2.tick_params('both',
+                which='both',
+                bottom=False,
+                top=False,
+                left=False)
 ax3.tick_params('both',
                 which='both',
                 bottom=False,
                 top=False,
                 left=False)
-ax3.plot(lon, v, linewidth=0.5, c='blue')
+# Plot the data
+ax1.plot(lon, t, linewidth=0.5, c='black')
+ax2.plot(lon, u, linewidth=0.5, c='black')
+ax3.plot(lon, v, linewidth=0.5, c='black')
+
 plt.tight_layout()
 plt.show()
