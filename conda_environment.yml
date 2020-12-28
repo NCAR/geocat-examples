@@ -23,4 +23,4 @@ dependencies:
   - make
   - geographiclib
   - wrf-python
-  - metpy=0.12.2
+  - metpy

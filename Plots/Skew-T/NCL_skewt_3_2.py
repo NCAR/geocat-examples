@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
 import pandas as pd
 import metpy.calc as mpcalc
-from metpy.plots import  SkewT
+from metpy.plots import SkewT
 from metpy.units import units
 
 import geocat.datafiles as gdf
@@ -29,20 +29,20 @@ from geocat.viz import util as gvutil
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = pd.read_csv(gdf.get('ascii_files/sounding_ATS.csv'),  header=None)
+ds = pd.read_csv(gdf.get('ascii_files/sounding_ATS.csv'), header=None)
 
 # Extract the data
-p = ds[0].values*units.hPa   # Pressure [mb/hPa]
-tc = ds[1].values*units.degC  # Temperature [C]
-tdc = ds[2].values*units.degC  # Dew pt temp  [C]
-wspd = ds[5].values*units.knots    # Wind speed   [knots or m/s]
-wdir = ds[6].values*units.degrees    # Meteorological wind dir
-u, v = mpcalc.wind_components(wspd, wdir)   # Calculate wind components 
+p = ds[0].values * units.hPa  # Pressure [mb/hPa]
+tc = ds[1].values * units.degC  # Temperature [C]
+tdc = ds[2].values * units.degC  # Dew pt temp  [C]
+wspd = ds[5].values * units.knots  # Wind speed   [knots or m/s]
+wdir = ds[6].values * units.degrees  # Meteorological wind dir
+u, v = mpcalc.wind_components(wspd, wdir)  # Calculate wind components
 
 ###############################################################################
 # Plot
 
-fig = plt.figure(figsize=(12,12))
+fig = plt.figure(figsize=(12, 12))
 # Adding the "rotation" kwarg will over-ride the default MetPy rotation of 
 # 30 degrees for the 45 degree default found in NCL Skew-T plots
 skew = SkewT(fig, rotation=45)
@@ -64,7 +64,9 @@ for i in range(0, 8):
 skew.plot(p, tc, 'black')
 skew.plot(p, tdc, 'blue')
 # Plot only every third windbarb
-skew.plot_barbs(p[::3], u[::3], v[::3],
+skew.plot_barbs(pressure=p[::3],
+                u=u[::3],
+                v=v[::3],
                 xloc=1.05,
                 fill_empty=True,
                 sizes=dict(emptybarb=0.075, width=0.1, height=0.2))
@@ -83,9 +85,9 @@ ax.add_line(line)
 # Choose starting temperatures in Kelvin for the dry adiabats
 t0 = units.K * np.arange(243.15, 473.15, 10)
 skew.plot_dry_adiabats(t0=t0,
-                         linestyles='solid',
-                         colors='gray',
-                         linewidth=1.5)
+                       linestyles='solid',
+                       colors='gray',
+                       linewidth=1.5)
 
 # Choose temperatures for moist adiabats
 t0 = units.K * np.arange(281.15, 306.15, 4)
@@ -96,7 +98,7 @@ w = np.array([0.001, 0.002, 0.003, 0.005, 0.008, 0.012, 0.020]).reshape(-1, 1)
 
 # Choose the range of pressures that the mixing ratio lines are drawn over
 p_levs = units.hPa * np.linspace(1000, 400, 7)
-skew.plot_mixing_lines(w=w, p=p_levs, colors='lime')
+skew.plot_mixing_lines(mixing_ratio=w, pressure=p_levs, colors='lime')
 
 skew.ax.set_ylim(1000, 100)
 
