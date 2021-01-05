@@ -118,7 +118,7 @@ cont3labels = ax1.clabel(contour3,
                          fmt='%d',
                          inline=True,
                          fontsize=7,
-                         colors='k')
+                         colors='black')
 
 # Set contour label backgrounds white
 [
@@ -179,7 +179,7 @@ barbs = axin.barbs(taus,
                    np.linspace(1000, 400, 8),
                    ugrid,
                    vgrid,
-                   color='k',
+                   color='black',
                    lw=0.1,
                    length=5)
 
@@ -200,7 +200,7 @@ axin2 = fig.add_subplot(spec[2, 0])
 # Plot bar chart
 
 # Plot bars depicting the rain03 variable
-axin1.bar(taus, rain03, width=3, color='limegreen', edgecolor='k', linewidth=.2)
+axin1.bar(taus, rain03, width=3, color='limegreen', edgecolor='black', linewidth=.2)
 
 # Use the geocat.viz function to set the y axis label
 gvutil.set_titles_and_labels(axin1, ylabel='3hr rain total', labelfontsize=12)
