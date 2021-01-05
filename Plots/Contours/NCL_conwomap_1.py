@@ -47,7 +47,7 @@ p = u.plot.contour(ax=ax,
                    colors="black")
 
 #label contours
-ax.clabel(p, np.arange(0, 9, 2), colors='k', fmt="%.0f")
+ax.clabel(p, np.arange(0, 9, 2), colors='black', fmt="%.0f")
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
 gvutil.set_axes_limits_and_ticks(ax,
@@ -100,7 +100,7 @@ p = u.plot.contour(ax=ax,
                    linewidths=2.3)
 
 #label contours
-ax.clabel(p, np.arange(0, 9, 2), colors='k', fmt="%.0f")
+ax.clabel(p, np.arange(0, 9, 2), colors='black', fmt="%.0f")
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
 gvutil.set_axes_limits_and_ticks(ax,
