@@ -72,10 +72,10 @@ x = np.arange(0, len(xlist))
 plt.step(x, x, color='black', zorder=7)
 
 # Plot contour data
-cp = ax.contour(xdata, ydata, zdata, colors='k', linewidths=1.0)
+cp = ax.contour(xdata, ydata, zdata, colors='black', linewidths=1.0)
 
 # Label contours
-ax.clabel(cp, inline=True, fontsize=10, colors='k', fmt="%.0f")
+ax.clabel(cp, inline=True, fontsize=10, colors='black', fmt="%.0f")
 
 # Ignore second half of the graph
 y1 = np.full(shape=len(xlist), fill_value=0, dtype=np.int)
