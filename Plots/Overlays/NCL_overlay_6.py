@@ -1,6 +1,6 @@
 """
 NCL_overlay_6.py
-===============
+================
 This script illustrates the following concepts:
    - Overlaying filled contours, streamlines, and vectors over the same map
    - Adding various map elements to a figure
@@ -37,10 +37,10 @@ import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-import matplotlib.colors as mcolors
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+import matplotlib.colors as mcolors
 
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
@@ -65,9 +65,9 @@ v500 = v500f.v.isel(timestep=0).drop('timestep')
 time = vf.timestep
 
 # Convert Pa to hPa
-p = p/100
+p = p / 100
 # Convert K to F
-t = (t - 273.15) * 9/5 + 32
+t = (t - 273.15) * 9 / 5 + 32
 
 ###############################################################################
 # Create plot:
@@ -78,12 +78,18 @@ proj = ccrs.LambertAzimuthalEqualArea(central_longitude=-100,
 # Set axis projection
 ax = plt.axes([0, 0.2, 0.8, 0.7], projection=proj)
 # Create inset axes for color bars
-cax1 = inset_axes(ax, width='5%', height='100%', loc='lower right',
+cax1 = inset_axes(ax,
+                  width='5%',
+                  height='100%',
+                  loc='lower right',
                   bbox_to_anchor=(0.125, 0, 1, 1),
                   bbox_transform=ax.transAxes,
                   borderpad=0)
 
-cax2 = inset_axes(ax, width='100%', height='7%', loc='lower left',
+cax2 = inset_axes(ax,
+                  width='100%',
+                  height='7%',
+                  loc='lower left',
                   bbox_to_anchor=(0, -0.15, 1, 1),
                   bbox_transform=ax.transAxes,
                   borderpad=0)
@@ -101,22 +107,34 @@ ax.set_extent((-128, -58, 18, 65), crs=ccrs.PlateCarree())
 transparent = (0, 0, 0, 0)  # RGBA value for a transparent color for lakes
 ax.add_feature(cfeature.OCEAN, color='lightskyblue', zorder=0)
 ax.add_feature(cfeature.LAND, color='silver', zorder=0)
-ax.add_feature(cfeature.LAKES, linewidth=0.5, edgecolor=transparent,
-               facecolor='white', zorder=0)
-ax.add_feature(cfeature.LAKES, linewidth=0.5, edgecolor='black',
-               facecolor=transparent, zorder=2)       
+ax.add_feature(cfeature.LAKES,
+               linewidth=0.5,
+               edgecolor=transparent,
+               facecolor='white',
+               zorder=0)
+ax.add_feature(cfeature.LAKES,
+               linewidth=0.5,
+               edgecolor='black',
+               facecolor=transparent,
+               zorder=2)
 ax.add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=2)
 
 #
 # Plot pressure level contour
 #
 p_cmap = gvcmaps.StepSeq25
-pressure = p.plot.contourf(ax=ax, transform=ccrs.PlateCarree(), cmap=p_cmap,
-                           levels=np.arange(975, 1050, 5), add_colorbar=False,
-                           add_labels=False, zorder=1)
+pressure = p.plot.contourf(ax=ax,
+                           transform=ccrs.PlateCarree(),
+                           cmap=p_cmap,
+                           levels=np.arange(975, 1050, 5),
+                           add_colorbar=False,
+                           add_labels=False,
+                           zorder=1)
 plt.colorbar(pressure, cax=cax1, ticks=np.arange(980, 1045, 5))
+
 # Format color bar label
-cax1.yaxis.set_label_text(label='\n'.join('Sea Level Pressure'), fontsize=14,
+cax1.yaxis.set_label_text(label='\n'.join('Sea Level Pressure'),
+                          fontsize=14,
                           rotation=0)
 cax1.yaxis.set_label_coords(-0.5, 0.9)
 cax1.tick_params(size=0)
@@ -124,22 +142,44 @@ cax1.tick_params(size=0)
 #
 # Overlay streamlines
 #
-with np.errstate(invalid='ignore'):     # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
-    streams = ax.streamplot(u500.lon, u500.lat, u500.data, v500.data,
-                  transform=ccrs.PlateCarree(), color='black', arrowstyle='-',
-                  linewidth=0.5, density=2, zorder=5)
+with np.errstate(
+        invalid='ignore'
+):  # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
+    streams = ax.streamplot(u500.lon,
+                            u500.lat,
+                            u500.data,
+                            v500.data,
+                            transform=ccrs.PlateCarree(),
+                            color='black',
+                            arrowstyle='-',
+                            linewidth=0.5,
+                            density=2,
+                            zorder=5)
+
 # Divide streamlines into segments
 seg = streams.lines.get_segments()
 # Determine how many arrows on each streamline, the placement, and angles of the arrows
 period = 7
 arrow_x = np.array([seg[i][0, 0] for i in range(0, len(seg), period)])
 arrow_y = np.array([seg[i][0, 1] for i in range(0, len(seg), period)])
-arrow_dx = np.array([seg[i][1, 0] - seg[i][0, 0] for i in range(0, len(seg), period)])
-arrow_dy = np.array([seg[i][1, 1] - seg[i][0, 1] for i in range(0, len(seg), period)])
+arrow_dx = np.array(
+    [seg[i][1, 0] - seg[i][0, 0] for i in range(0, len(seg), period)])
+arrow_dy = np.array(
+    [seg[i][1, 1] - seg[i][0, 1] for i in range(0, len(seg), period)])
 # Add arrows to streamlines
-q = ax.quiver(arrow_x, arrow_y, arrow_dx, arrow_dy, color='black', angles='xy',
-              scale=1, units='y', minshaft=3, headwidth=4, headlength=2,
-              headaxislength=2, zorder=5)
+q = ax.quiver(arrow_x,
+              arrow_y,
+              arrow_dx,
+              arrow_dy,
+              color='black',
+              angles='xy',
+              scale=1,
+              units='y',
+              minshaft=3,
+              headwidth=4,
+              headlength=2,
+              headaxislength=2,
+              zorder=5)
 
 #
 # Overlay wind vectors
@@ -158,26 +198,45 @@ t = t.data[0:lat_size:2, 0:lon_size:2]
 wind_cmap = gvcmaps.amwg_blueyellowred
 bounds = np.arange(-30, 120, 10)  # Sets where boundarys on color map will be
 norm = mcolors.BoundaryNorm(bounds, wind_cmap.N)  # Assigns colors to values
-
 # Draw wind vectors
-with np.errstate(invalid='ignore'):     # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
-    Q = ax.quiver(x, y, u, v, t, transform=ccrs.PlateCarree(),
-                  headwidth=5, cmap=wind_cmap, norm=norm, zorder=4)
-plt.colorbar(Q, cax=cax2, ticks=np.arange(-20, 110, 10), norm=norm,
+with np.errstate(
+        invalid='ignore'
+):  # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
+    Q = ax.quiver(x,
+                  y,
+                  u,
+                  v,
+                  t,
+                  transform=ccrs.PlateCarree(),
+                  norm=norm,
+                  headwidth=5,
+                  cmap=wind_cmap,
+                  zorder=4)
+   
+# Add color bar
+plt.colorbar(Q,
+             cax=cax2,
+             ticks=np.arange(-20, 110, 10),
              orientation='horizontal')
+
 # Format color bar label
 cax2.xaxis.set_label_text(label='Surface Temperature', fontsize=14)
 cax2.xaxis.set_label_position('top')
-cax2.tick_params(size=0) 
+cax2.tick_params(size=0)
 
 # Add quiverkey and white patch behind it
-ax.add_patch(mpatches.Rectangle(xy=[0.85, 0], width=0.15, height=0.0925,
-             facecolor='white', transform=ax.transAxes, zorder=3))
+ax.add_patch(
+    mpatches.Rectangle(xy=[0.85, 0],
+                       width=0.15,
+                       height=0.0925,
+                       facecolor='white',
+                       transform=ax.transAxes,
+                       zorder=3))
 ax.quiverkey(Q, 0.925, 0.025, 20, label='20', zorder=4)
-
 
 # Add title
 ax.set_title('January 1996 Snow Storm\n1996 01 05 00:00 + 0',
-             fontweight='bold', fontsize=16)
+             fontweight='bold',
+             fontsize=16)
 
 plt.show()

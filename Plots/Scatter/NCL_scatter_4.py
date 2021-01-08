@@ -28,9 +28,10 @@ from geocat.viz import util as gvutil
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"), decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"),
+                     decode_times=False)
 # Extract variable
-ts = ds.TS.sel(lat = 60, lon = 180, method = 'nearest')
+ts = ds.TS.sel(lat=60, lon=180, method='nearest')
 
 ################################################################################
 # Preprocess data:
@@ -47,24 +48,30 @@ regline_vals = [m * x + b for x in ts.time]
 # Plot:
 
 # Generate figure (set its size (width, height) in inches) and axes
-plt.figure(figsize=(6.2,6))
+plt.figure(figsize=(6.2, 6))
 ax = plt.gca()
 
 # Scatter-plot the data
-plt.scatter(ts_rolled.time, ts_rolled.values, c='r', s=3)
+plt.scatter(ts_rolled.time, ts_rolled.values, c='red', s=3)
 
 # Plot a regression line
-plt.plot(ts.time, regline_vals, 'k')
+plt.plot(ts.time, regline_vals, 'black')
 
 # specify X and Y axis limits
 plt.xlim([6000, 9500])
 plt.ylim([268.0, 271.5])
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=5, labelsize=12)
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=5,
+                             y_minor_per_major=5,
+                             labelsize=12)
 
 # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-gvutil.set_titles_and_labels(ax, maintitle="Output from regline", xlabel="simulation time", ylabel="Surface temperature")
+gvutil.set_titles_and_labels(ax,
+                             maintitle="Output from regline",
+                             xlabel="simulation time",
+                             ylabel="Surface temperature")
 
 # Show the plot
 plt.tight_layout()

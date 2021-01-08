@@ -26,7 +26,7 @@ from geocat.viz import util as gvutil
 np.random.seed(200)
 data = np.random.lognormal(size=(40, 3), mean=1, sigma=.7)
 for a in range(len(data)):
-    data[a] = [x-4 for x in data[a]]
+    data[a] = [x - 4 for x in data[a]]
 
 ###############################################################################
 # Helper function to set edge color of boxes
@@ -41,8 +41,10 @@ def setBoxColor(boxplot, colors):
 
     # Set the color of the whiskers and caps of the boxes
     for element in ['whiskers', 'caps']:
-        for box, color in zip(zip(boxplot[element][::2], boxplot[element][1::2]), colors):
+        for box, color in zip(
+                zip(boxplot[element][::2], boxplot[element][1::2]), colors):
             plt.setp(box, color=color)
+
 
 ###############################################################################
 # Helper function to remove axis "spines" on the top and right sides
@@ -61,8 +63,10 @@ def removeSpines(ax):
 fig, ax = plt.subplots(figsize=(6, 6))
 
 # Plot each boxplot, set tick labels, and determine box widths
-boxplots = ax.boxplot(data, labels=['Control', '-2Xna', '2Xna'],
-                      widths=[0.4, 0.4, 0.4], showfliers=False)
+boxplots = ax.boxplot(data,
+                      labels=['Control', '-2Xna', '2Xna'],
+                      widths=[0.4, 0.4, 0.4],
+                      showfliers=False)
 
 # Set whisker style to dashed
 plt.setp(boxplots['whiskers'], linestyle='--')
@@ -71,11 +75,14 @@ plt.setp(boxplots['whiskers'], linestyle='--')
 setBoxColor(boxplots, ['blue', 'red', 'green'])
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax, ylim=(-6.0, 9.0),
+gvutil.set_axes_limits_and_ticks(ax,
+                                 ylim=(-6.0, 9.0),
                                  yticks=[-3.0, 0.0, 3.0, 6.0])
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, y_minor_per_major=3, x_minor_per_major=1,
+gvutil.add_major_minor_ticks(ax,
+                             y_minor_per_major=3,
+                             x_minor_per_major=1,
                              labelsize=14)
 
 # Use geocat.viz.util convenience function to add title to the plot axis.
@@ -100,8 +107,13 @@ ax2.set_xlim(0, 6)
 ax2.set_ylim(-6, 9)
 
 # Turn both major and minor ticks in overlayed axis off
-ax2.tick_params(which='both', top=False, bottom=False, left=False, right=False,
-                labelleft=False, labelbottom=False)
+ax2.tick_params(which='both',
+                top=False,
+                bottom=False,
+                left=False,
+                right=False,
+                labelleft=False,
+                labelbottom=False)
 
 # Get rid of right and top axis spines
 removeSpines(ax2)

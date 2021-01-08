@@ -30,7 +30,6 @@ import cartopy.crs as ccrs
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
-
 ###############################################################################
 # Read in data:
 
@@ -64,9 +63,11 @@ ax1.coastlines(linewidths=0.5, alpha=-1)
 ax1.set_aspect(2)
 
 # Create a color map with a combination of matplotlib colors and hex values
-colors = ListedColormap(np.array(['white', 'white', 'white', 'white', 'white',
-                                  'mintcream', "#DAF6D3", "#B2FAB9", "#B2FAB9",
-                                  'springgreen', 'lime', "#54A63F"]))
+colors = ListedColormap(
+    np.array([
+        'white', 'white', 'white', 'white', 'white', 'mintcream', "#DAF6D3",
+        "#B2FAB9", "#B2FAB9", 'springgreen', 'lime', "#54A63F"
+    ]))
 contour_levels = [-20, -10, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 normalized_levels = BoundaryNorm(boundaries=contour_levels, ncolors=12)
 
@@ -117,23 +118,25 @@ cont3labels = ax1.clabel(contour3,
                          fmt='%d',
                          inline=True,
                          fontsize=7,
-                         colors='k')
+                         colors='black')
 
 # Set contour label backgrounds white
-[txt.set_bbox(dict(facecolor='white',
-                   edgecolor='none',
-                   pad=.5)) for txt in contour2.labelTexts]
-[txt.set_bbox(dict(facecolor='white',
-                   edgecolor='none',
-                   pad=.5)) for txt in contour3.labelTexts]
+[
+    txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=.5))
+    for txt in contour2.labelTexts
+]
+[
+    txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=.5))
+    for txt in contour3.labelTexts
+]
 
 # Determine the labels for each tick on the x and y axes
 yticklabels = np.array(levels, dtype=np.int)
-xticklabels = ['12z', '15z', '18z', '21z', 'Apr29',
-               '03z', '06z', '09z', '12z', '15z', '18z',
-               '21z', 'Apr30', '03z', '06z', '09z',
-               '12z', '15z', '18z', '21z', 'May01', '03z',
-               '06z', '09z', '12z']
+xticklabels = [
+    '12z', '15z', '18z', '21z', 'Apr29', '03z', '06z', '09z', '12z', '15z',
+    '18z', '21z', 'Apr30', '03z', '06z', '09z', '12z', '15z', '18z', '21z',
+    'May01', '03z', '06z', '09z', '12z'
+]
 
 # Make an axis to overlay on top of the contour plot
 axin = fig.add_subplot(spec[0, 0])
@@ -176,7 +179,7 @@ barbs = axin.barbs(taus,
                    np.linspace(1000, 400, 8),
                    ugrid,
                    vgrid,
-                   color='k',
+                   color='black',
                    lw=0.1,
                    length=5)
 
@@ -197,24 +200,17 @@ axin2 = fig.add_subplot(spec[2, 0])
 # Plot bar chart
 
 # Plot bars depicting the rain03 variable
-axin1.bar(taus,
-          rain03,
-          width=3,
-          color='limegreen',
-          edgecolor='k',
-          linewidth=.2)
+axin1.bar(taus, rain03, width=3, color='limegreen', edgecolor='black', linewidth=.2)
 
 # Use the geocat.viz function to set the y axis label
-gvutil.set_titles_and_labels(axin1,
-                             ylabel='3hr rain total',
-                             labelfontsize=12)
+gvutil.set_titles_and_labels(axin1, ylabel='3hr rain total', labelfontsize=12)
 
 # Determine the labels for each tick on the x and y axes
 yticklabels = ['0.0', '0.10', '0.20', '0.30', '0.40', '0.50']
-xticklabels = ['12z', '', '18z', '', 'Apr29', '',
-               '06z', '', '12z', '', '18z', '',
-               'Apr30', '', '06z', '', '12z', '',
-               '18z', '', 'May01', '', '06z', '', '12z']
+xticklabels = [
+    '12z', '', '18z', '', 'Apr29', '', '06z', '', '12z', '', '18z', '', 'Apr30',
+    '', '06z', '', '12z', '', '18z', '', 'May01', '', '06z', '', '12z'
+]
 
 # Use the geocat.viz function to set axes limits and ticks
 gvutil.set_axes_limits_and_ticks(axin1,
@@ -226,9 +222,7 @@ gvutil.set_axes_limits_and_ticks(axin1,
                                  yticklabels=yticklabels)
 
 # Use the geocat.viz function to add minor ticks
-gvutil.add_major_minor_ticks(axin1,
-                             y_minor_per_major=5,
-                             labelsize="small")
+gvutil.add_major_minor_ticks(axin1, y_minor_per_major=5, labelsize="small")
 
 # Make ticks only show up on bottom, right, and left of inset axis
 axin1.tick_params(bottom=True, left=True, right=True, top=False)
@@ -240,16 +234,14 @@ axin1.tick_params(which='minor', top=False, bottom=False)
 axin2.plot(taus, tempht, color='red')
 
 # Use the geocat.viz function to set the y axis label
-gvutil.set_titles_and_labels(axin2,
-                             ylabel='Temp at 2m',
-                             labelfontsize=12)
+gvutil.set_titles_and_labels(axin2, ylabel='Temp at 2m', labelfontsize=12)
 
 # Determine the labels for each tick on the x and y axes
 yticklabels = ['59.0', '60.0', '61.0', '62.0', '63.0', '64.0']
-xticklabels = ['12z', '', '18z', '', 'Apr29', '',
-               '06z', '', '12z', '', '18z', '',
-               'Apr30', '', '06z', '', '12z', '',
-               '18z', '', 'May01', '', '06z', '', '12z']
+xticklabels = [
+    '12z', '', '18z', '', 'Apr29', '', '06z', '', '12z', '', '18z', '', 'Apr30',
+    '', '06z', '', '12z', '', '18z', '', 'May01', '', '06z', '', '12z'
+]
 
 # Use the geocat.viz function to set inset axes limits and ticks
 gvutil.set_axes_limits_and_ticks(axin2,
@@ -261,9 +253,7 @@ gvutil.set_axes_limits_and_ticks(axin2,
                                  yticklabels=yticklabels)
 
 # Use the geocat.viz function to add minor ticks
-gvutil.add_major_minor_ticks(axin2,
-                             y_minor_per_major=5,
-                             labelsize="small")
+gvutil.add_major_minor_ticks(axin2, y_minor_per_major=5, labelsize="small")
 
 # Make ticks only show up on bottom, right, and left of inset axis
 axin2.tick_params(bottom=True, left=True, right=True, top=False)

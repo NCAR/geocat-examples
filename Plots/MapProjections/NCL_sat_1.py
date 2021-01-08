@@ -36,7 +36,7 @@ pressure = ds.slp[24, :, :]
 pressure = pressure.astype('float64')
 
 # Convert Pa to hPa data
-pressure = pressure*0.01
+pressure = pressure * 0.01
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 wrap_pressure = gvutil.xr_add_cyclic_longitudes(pressure, "lon")
@@ -57,8 +57,10 @@ ax.add_feature(cfeature.LAND, facecolor='lightgray')
 ax.add_feature(cfeature.COASTLINE, linewidth=.5)
 ax.add_feature(cfeature.OCEAN, facecolor='lightcyan')
 ax.add_feature(cfeature.BORDERS, linewidth=.5)
-ax.add_feature(cfeature.LAKES, facecolor='lightcyan',
-               edgecolor='k', linewidth=.5)
+ax.add_feature(cfeature.LAKES,
+               facecolor='lightcyan',
+               edgecolor='black',
+               linewidth=.5)
 
 # Make array of the contour levels that will be plotted
 contours = np.arange(948, 1072, 4)
@@ -90,13 +92,14 @@ regularCLabels = [(176.4, 34.63), (-150.46, 42.44), (-142.16, 28.5),
 lowCLabels = gvutil.findLocalExtrema(pressure, eType='Low', highVal=1040, lowVal=975)
 
 # Plot Clabels
-
 gvutil.plotCLabels(ax, p, ccrs.Geodetic(), proj, clabel_locations=regularCLabels)
 gvutil.plotELabels(pressure, ccrs.Geodetic(), proj, clabel_locations=lowCLabels)
 
+
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax,
-                             maintitle=r"$\bf{SLP}$"+" "+r"$\bf{1963,}$"+" "+r"$\bf{January}$"+" "+r"$\bf{24th}$",
+                             maintitle=r"$\bf{SLP}$" + " " + r"$\bf{1963,}$" +
+                             " " + r"$\bf{January}$" + " " + r"$\bf{24th}$",
                              maintitlefontsize=20,
                              lefttitle="mean Daily Sea Level Pressure",
                              lefttitlefontsize=16,
@@ -107,8 +110,12 @@ gvutil.set_titles_and_labels(ax,
 props = dict(facecolor='white', edgecolor='black', alpha=0.5)
 
 # Place text box
-ax.text(0.40, -0.1, 'CONTOUR FROM 948 TO 1064 BY 4',
-        transform=ax.transAxes, fontsize=16, bbox=props)
+ax.text(0.40,
+        -0.1,
+        'CONTOUR FROM 948 TO 1064 BY 4',
+        transform=ax.transAxes,
+        fontsize=16,
+        bbox=props)
 
 # Make layout tight
 plt.tight_layout()

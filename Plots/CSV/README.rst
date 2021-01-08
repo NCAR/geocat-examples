@@ -1,6 +1,6 @@
 .. _CSV_examples:
 
-.. _Write-CSV-examples-index:
+.. _CSV-examples-index:
 
-Write CSV Files
-===============
+Write CSV
+=========

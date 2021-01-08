@@ -39,13 +39,12 @@ pressure = ds.slp[21, :, :]
 pressure = pressure.astype('float32')
 
 # Convert Pa to hPa data
-pressure = pressure*0.01
+pressure = pressure * 0.01
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 wrap_pressure = gvutil.xr_add_cyclic_longitudes(pressure, "lon")
 
 ###############################################################################
-
 # Create plot
 
 # Set figure size
@@ -61,8 +60,7 @@ ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1)
 ax.add_feature(cfeature.COASTLINE, linewidth=.3, zorder=2)
 ax.add_feature(cfeature.OCEAN, facecolor='white')
 ax.add_feature(cfeature.BORDERS, linewidth=.3)
-ax.add_feature(cfeature.LAKES, facecolor='white',
-               edgecolor='k', linewidth=.3)
+ax.add_feature(cfeature.LAKES, facecolor='white', edgecolor='black', linewidth=.3)
 
 # Create color map
 colorvalues = [1020, 1036, 1500]
@@ -74,7 +72,8 @@ p = wrap_pressure.plot.contourf(ax=ax,
                                 zorder=2,
                                 transform=ccrs.PlateCarree(),
                                 levels=30,
-                                cmap=cmap, norm=norm,
+                                cmap=cmap,
+                                norm=norm,
                                 add_labels=False,
                                 add_colorbar=False)
 
@@ -92,7 +91,12 @@ highClevels = gvutil.findLocalExtrema(pressure, highVal=1042, eType='High')
 
 # Label regular contours with automatic matplotlib labeling
 # Specify the levels to label every other contour level
-ax.clabel(p, levels=np.arange(956, 1064, 8), inline=True, fontsize=12, colors='k', fmt="%.0f")
+ax.clabel(p,
+          levels=np.arange(956, 1064, 8),
+          inline=True,
+          fontsize=12,
+          colors='black',
+          fmt="%.0f")
 
 # Label low and high contours
 gvutil.plotELabels(wrap_pressure, ccrs.Geodetic(), proj, clabel_locations=lowClevels, label='L')
@@ -100,7 +104,8 @@ gvutil.plotELabels(wrap_pressure, ccrs.Geodetic(), proj, clabel_locations=highCl
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax,
-                             maintitle=r"$\bf{SLP}$"+" "+r"$\bf{1963,}$"+" "+r"$\bf{January}$"+" "+r"$\bf{24th}$",
+                             maintitle=r"$\bf{SLP}$" + " " + r"$\bf{1963,}$" +
+                             " " + r"$\bf{January}$" + " " + r"$\bf{24th}$",
                              maintitlefontsize=20,
                              lefttitle="mean Daily Sea Level Pressure",
                              lefttitlefontsize=16,
@@ -111,8 +116,12 @@ gvutil.set_titles_and_labels(ax,
 props = dict(facecolor='white', edgecolor='black', alpha=0.5)
 
 # Place text box
-ax.text(0.40, -0.1, 'CONTOUR FROM 948 TO 1064 BY 4',
-        transform=ax.transAxes, fontsize=16, bbox=props)
+ax.text(0.40,
+        -0.1,
+        'CONTOUR FROM 948 TO 1064 BY 4',
+        transform=ax.transAxes,
+        fontsize=16,
+        bbox=props)
 
 # Add gridlines to axis
 gl = ax.gridlines(color='gray', linestyle='--')

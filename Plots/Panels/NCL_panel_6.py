@@ -32,113 +32,11 @@ import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
 
 ###############################################################################
-
-
-# Define a helper function to draw the map boundary
-def set_map_boundary(ax, lon_range, lat_range, north_pad=0, south_pad=0, east_pad=0, west_pad=0, res=1):
-    """
-    Utility function to set the boundary of ax to a path that surrounds a
-    given region specified by latitude and longitude coordinates. This
-    boundary is drawn in the projection coordinates and therefore follows
-    any curves created by the projection. As of now, this only works
-    consistently for the Lambert Conformal Projection and North/South
-    Polar Stereographic Projections.
-    Note: Due to the behavior of cartopy's set_extent() function, the curved
-    edges of the boundary may be flattened and cut off. To solve this, use the
-    kwargs north_pad, south_pad, east_pad, and west_pad. These will modify the
-    coordinates passed to set_extent(). For the Lambert Conformal and Polar
-    Stereographic projections, typically only north_pad and south_pad are
-    needed. If attempting to use this function for other projections
-    (i.e. Othographic) east_pad and west_pad may be needed.
-    Args:
-        ax (:class:`matplotlib.axes`):
-            The axes to which the boundary will be applied.
-
-        lon_range (:class:`tuple` or :class:`list`):
-            The two-tuple containing the start and end of the desired range of
-            longitudes. The first entry must be smaller than the second entry,
-            except when the region crosses the antimeridian. Both entries must
-            be between [-180 , 180]. If lon_range is from -180 to 180, then a
-            full circle centered on the pole with a radius from the pole to the
-            lowest latitude given by lat_range will be set as the boundary.
-
-        lat_range (:class:`tuple` or :class:`list`):
-            The two-tuple containing the start and end of the desired range of
-            latitudes. The first entry must be smaller than the second entry.
-            Both entries must be between [-90 , 90].
-
-        north_pad (:class:`int`):
-            A constant to be added to the second entry in lat_range. Use this
-            if the northern edge of the plot is cut off. Defaults to 0.
-
-        south_pad (:class:`int`);
-            A constant to be subtracted from the first entry in lat_range. Use
-            this if the southern edge of the plot is cut off. Defaults to 0.
-
-        east_pad (:class:`int`):
-            A constant to be added to the second entry in lon_range. Use this
-            if the eastern edge of the plot is cut off. Defaults to 0.
-
-        west_pad (:class:`int`):
-            A constant to be subtracted from the first entry in lon_range. Use
-            this if the western edge of the plot is cut off. Defaults to 0.
-        res (:class:`int`):
-            The size of the incrementation for vertices in degrees. Default is
-            a vertex every one degree of longitude. A higher number results in
-            a lower resolution boundary.
-    """
-    import cartopy.crs as ccrs
-    import matplotlib.path as mpath
-
-    if (lon_range[0] >= lon_range[1]):
-        if not (lon_range[0] > 0 and lon_range[1] < 0):
-            raise ValueError("The first longitude value must be strictly less \
-                              than the second longitude value unless the \
-                              region crosses over the antimeridian")
-
-    if (lat_range[0] >= lat_range[1]):
-        raise ValueError("The first latitude value must be strictly less than \
-                          the second latitude value")
-
-    if (lon_range[0] > 180 or lon_range[0] < -180 or lon_range[1] > 180 or lon_range[1] < -180):
-        raise ValueError("The longitudes must be within the range [-180, 180] inclusive")
-
-    if (lat_range[0] > 90 or lat_range[0] < -90 or lat_range[1] > 90 or lat_range[1] < -90):
-        raise ValueError("The latitudes must be within the range [-90, 90] inclusive")
-
-    # Make a boundary path in PlateCarree projection beginning in the south
-    # west and continuing anticlockwise creating a point every `res` degree
-    if (lon_range[0] >= 0 and lon_range[1] <= 0):  # Case when range crosses antimeridian
-        vertices = [(lon, lat_range[0]) for lon in range(lon_range[0], 180 + 1, res)] + \
-                   [(lon, lat_range[0]) for lon in range(-180, lon_range[1] + 1, res)] + \
-                   [(lon_range[1], lat) for lat in range(lat_range[0], lat_range[1] + 1, res)] + \
-                   [(lon, lat_range[1]) for lon in range(lon_range[1], -180 - 1, -res)] + \
-                   [(lon, lat_range[1]) for lon in range(180, lon_range[0] - 1, -res)] + \
-                   [(lon_range[0], lat) for lat in range(lat_range[1], lat_range[0] - 1, -res)]
-        path = mpath.Path(vertices)
-    elif ((lon_range[0] == 180 or lon_range[0] == -180) and (lon_range[1] == 180 or lon_range[1] == -180)):
-        verts = [(lon, lat_range[0]) for lon in range(0, 360 + 1, res)]
-        path = mpath.Path(verts)
-    else:
-        vertices = [(lon, lat_range[0]) for lon in range(lon_range[0], lon_range[1] + 1, res)] + \
-                   [(lon_range[1], lat) for lat in range(lat_range[0], lat_range[1] + 1, res)] + \
-                   [(lon, lat_range[1]) for lon in range(lon_range[1], lon_range[0] - 1, -res)] + \
-                   [(lon_range[0], lat) for lat in range(lat_range[1], lat_range[0] - 1, -res)]
-        path = mpath.Path(vertices)
-
-    proj_to_data = ccrs.PlateCarree()._as_mpl_transform(ax) - ax.transData
-    ax.set_boundary(proj_to_data.transform_path(path))
-
-    ax.set_extent([lon_range[0] - west_pad, lon_range[1] + east_pad,
-                  lat_range[0] - south_pad, lat_range[1] + north_pad],
-                  crs=ccrs.PlateCarree())
-
-
-###############################################################################
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"), decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"),
+                     decode_times=False)
 
 data0 = ds.T.isel(time=0, drop=True).isel(z_t=0, drop=True)
 data1 = ds.T.isel(time=0, drop=True).isel(z_t=5, drop=True)
@@ -155,7 +53,9 @@ data = [[data0, data1], [data2, data3]]
 ###############################################################################
 # Plot without extra whitespace:
 projection = ccrs.NorthPolarStereo()
-fig, axs = plt.subplots(2, 2, figsize=(8, 8),
+fig, axs = plt.subplots(2,
+                        2,
+                        figsize=(8, 8),
                         subplot_kw=dict(projection=projection))
 
 # Format axes and inset axes for color bars
@@ -165,13 +65,18 @@ for row in range(0, 2):
         # Add map features
         axs[row][col].add_feature(cfeature.LAND, facecolor='silver', zorder=2)
         axs[row][col].add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=3)
-        axs[row][col].add_feature(cfeature.LAKES, linewidth=0.5,
-                                  edgecolor='black', facecolor='None',
+        axs[row][col].add_feature(cfeature.LAKES,
+                                  linewidth=0.5,
+                                  edgecolor='black',
+                                  facecolor='None',
                                   zorder=4)
 
         # Add gridlines
-        gl = axs[row][col].gridlines(ccrs.PlateCarree(), draw_labels=False,
-                                     color='gray', linestyle="--", zorder=5)
+        gl = axs[row][col].gridlines(ccrs.PlateCarree(),
+                                     draw_labels=False,
+                                     color='gray',
+                                     linestyle="--",
+                                     zorder=5)
         gl.xlocator = mticker.FixedLocator(np.linspace(-180, 150, 12))
 
         # Add latitude and longitude labels
@@ -179,29 +84,43 @@ for row in range(0, 2):
         # Array specifying 8S, this makes an offset from the circle boundary
         # which lies at the equator
         y = np.full_like(x, -8)
-        labels = ['0', '30E', '60E', '90E', '120E', '150E', '180',
-                  '150W', '120W', '90W', '60W', '30W']
+        labels = [
+            '0', '30E', '60E', '90E', '120E', '150E', '180', '150W', '120W',
+            '90W', '60W', '30W'
+        ]
         for x, y, label in zip(x, y, labels):
             if label == '180':
-                axs[row][col].text(x, y, label, fontsize=7,
+                axs[row][col].text(x,
+                                   y,
+                                   label,
+                                   fontsize=7,
                                    horizontalalignment='center',
                                    verticalalignment='top',
                                    transform=ccrs.Geodetic())
             elif label == '0':
-                axs[row][col].text(x, y, label, fontsize=7,
+                axs[row][col].text(x,
+                                   y,
+                                   label,
+                                   fontsize=7,
                                    horizontalalignment='center',
                                    verticalalignment='bottom',
                                    transform=ccrs.Geodetic())
             else:
-                axs[row][col].text(x, y, label, fontsize=7,
+                axs[row][col].text(x,
+                                   y,
+                                   label,
+                                   fontsize=7,
                                    horizontalalignment='center',
                                    verticalalignment='center',
                                    transform=ccrs.Geodetic())
 
         # Set boundary of plot to be circular
-        set_map_boundary(axs[row][col], (-180, 180), (0, 90))
+        gvutil.set_map_boundary(axs[row][col], (-180, 180), (0, 90),
+                                south_pad=1)
         # Create inset axes for color bars
-        cax[row][col] = inset_axes(axs[row][col], width='5%', height='100%',
+        cax[row][col] = inset_axes(axs[row][col],
+                                   width='5%',
+                                   height='100%',
                                    loc='lower right',
                                    bbox_to_anchor=(0.175, 0, 1, 1),
                                    bbox_transform=axs[row][col].transAxes,
@@ -275,10 +194,14 @@ for row in range(0, 2):
 # Format titles for each subplot
 for row in range(0, 2):
     for col in range(0, 2):
-        axs[row][col].set_title(data[row][col].long_name, loc='left',
-                                fontsize=7, pad=20)
-        axs[row][col].set_title(data[row][col].units, loc='right',
-                                fontsize=7, pad=20)
+        axs[row][col].set_title(data[row][col].long_name,
+                                loc='left',
+                                fontsize=7,
+                                pad=20)
+        axs[row][col].set_title(data[row][col].units,
+                                loc='right',
+                                fontsize=7,
+                                pad=20)
 
 plt.show()
 
@@ -291,7 +214,10 @@ plt.show()
 # for more information on how to manipulate the gridlayout.
 
 projection = ccrs.NorthPolarStereo()
-fig, axs = plt.subplots(2, 2, figsize=(8, 8), gridspec_kw=(dict(wspace=0.5)),
+fig, axs = plt.subplots(2,
+                        2,
+                        figsize=(8, 8),
+                        gridspec_kw=(dict(wspace=0.5)),
                         subplot_kw=dict(projection=projection))
 #
 # Everything beyond this is the same code for the example without extra white space
@@ -304,13 +230,18 @@ for row in range(0, 2):
         # Add map features
         axs[row][col].add_feature(cfeature.LAND, facecolor='silver', zorder=2)
         axs[row][col].add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=3)
-        axs[row][col].add_feature(cfeature.LAKES, linewidth=0.5,
-                                  edgecolor='black', facecolor='None',
+        axs[row][col].add_feature(cfeature.LAKES,
+                                  linewidth=0.5,
+                                  edgecolor='black',
+                                  facecolor='None',
                                   zorder=4)
 
         # Add gridlines
-        gl = axs[row][col].gridlines(ccrs.PlateCarree(), draw_labels=False,
-                                     color='gray', linestyle="--", zorder=5)
+        gl = axs[row][col].gridlines(ccrs.PlateCarree(),
+                                     draw_labels=False,
+                                     color='gray',
+                                     linestyle="--",
+                                     zorder=5)
         gl.xlocator = mticker.FixedLocator(np.linspace(-180, 150, 12))
 
         # Add latitude and longitude labels
@@ -318,29 +249,43 @@ for row in range(0, 2):
         # Array specifying 8S, this makes an offset from the circle boundary
         # which lies at the equator
         y = np.full_like(x, -8)
-        labels = ['0', '30E', '60E', '90E', '120E', '150E', '180',
-                  '150W', '120W', '90W', '60W', '30W']
+        labels = [
+            '0', '30E', '60E', '90E', '120E', '150E', '180', '150W', '120W',
+            '90W', '60W', '30W'
+        ]
         for x, y, label in zip(x, y, labels):
             if label == '180':
-                axs[row][col].text(x, y, label, fontsize=7,
+                axs[row][col].text(x,
+                                   y,
+                                   label,
+                                   fontsize=7,
                                    horizontalalignment='center',
                                    verticalalignment='top',
                                    transform=ccrs.Geodetic())
             elif label == '0':
-                axs[row][col].text(x, y, label, fontsize=7,
+                axs[row][col].text(x,
+                                   y,
+                                   label,
+                                   fontsize=7,
                                    horizontalalignment='center',
                                    verticalalignment='bottom',
                                    transform=ccrs.Geodetic())
             else:
-                axs[row][col].text(x, y, label, fontsize=7,
+                axs[row][col].text(x,
+                                   y,
+                                   label,
+                                   fontsize=7,
                                    horizontalalignment='center',
                                    verticalalignment='center',
                                    transform=ccrs.Geodetic())
 
         # Set boundary of plot to be circular
-        set_map_boundary(axs[row][col], (-180, 180), (0, 90))
+        gvutil.set_map_boundary(axs[row][col], (-180, 180), (0, 90),
+                                south_pad=1)
         # Create inset axes for color bars
-        cax[row][col] = inset_axes(axs[row][col], width='5%', height='100%',
+        cax[row][col] = inset_axes(axs[row][col],
+                                   width='5%',
+                                   height='100%',
                                    loc='lower right',
                                    bbox_to_anchor=(0.175, 0, 1, 1),
                                    bbox_transform=axs[row][col].transAxes,
@@ -414,9 +359,13 @@ for row in range(0, 2):
 # Format titles for each subplot
 for row in range(0, 2):
     for col in range(0, 2):
-        axs[row][col].set_title(data[row][col].long_name, loc='left',
-                                fontsize=7, pad=20)
-        axs[row][col].set_title(data[row][col].units, loc='right',
-                                fontsize=7, pad=20)
+        axs[row][col].set_title(data[row][col].long_name,
+                                loc='left',
+                                fontsize=7,
+                                pad=20)
+        axs[row][col].set_title(data[row][col].units,
+                                loc='right',
+                                fontsize=7,
+                                pad=20)
 
 plt.show()

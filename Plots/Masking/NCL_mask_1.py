@@ -27,7 +27,8 @@ from geocat.viz import util as gvutil
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)    # Disable time decoding due to missing necessary metadata
+ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False
+                    )  # Disable time decoding due to missing necessary metadata
 # Extract a slice of the data
 ds = ds.isel(time=0).drop("time")
 
@@ -52,15 +53,29 @@ ax = plt.axes(projection=projection)
 ax.coastlines(linewidth=0.5, resolution="110m")
 
 # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
-newcmp = gvutil.truncate_colormap(gvcmaps.BlAqGrYeOrRe, minval=0.1, maxval=1.0, n=22)
+newcmp = gvutil.truncate_colormap(gvcmaps.BlAqGrYeOrRe,
+                                  minval=0.1,
+                                  maxval=1.0,
+                                  n=22)
 
 # Contourf-plot ocean-only data (for filled contours)
-filled = ocean_only.plot.contourf(ax=ax, cmap=newcmp, levels=np.arange(260, 305, 2),
-                                  xticks=np.arange(-180, 181, 30), yticks=np.arange(-90, 91, 30),
-                                  transform=ccrs.PlateCarree(),  add_colorbar=False,  add_labels=False, vmin=260, vmax=304)
+filled = ocean_only.plot.contourf(ax=ax,
+                                  cmap=newcmp,
+                                  levels=np.arange(260, 305, 2),
+                                  xticks=np.arange(-180, 181, 30),
+                                  yticks=np.arange(-90, 91, 30),
+                                  transform=ccrs.PlateCarree(),
+                                  add_colorbar=False,
+                                  add_labels=False,
+                                  vmin=260,
+                                  vmax=304)
 
 # Add horizontal colorbar
-cbar = plt.colorbar(filled, ax=ax, orientation="horizontal", aspect=30, drawedges=True)
+cbar = plt.colorbar(filled,
+                    ax=ax,
+                    orientation="horizontal",
+                    aspect=30,
+                    drawedges=True)
 cbar.set_ticks(np.arange(262, 304, 4))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
@@ -70,9 +85,12 @@ gvutil.add_major_minor_ticks(ax)
 gvutil.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
-gvutil.set_titles_and_labels(ax, maintitle="Ocean Only",
-                             lefttitle=ocean_only.attrs['long_name'], lefttitlefontsize=14,
-                             righttitle=ocean_only.attrs['units'], righttitlefontsize=14)
+gvutil.set_titles_and_labels(ax,
+                             maintitle="Ocean Only",
+                             lefttitle=ocean_only.attrs['long_name'],
+                             lefttitlefontsize=14,
+                             righttitle=ocean_only.attrs['units'],
+                             righttitlefontsize=14)
 
 # Show the plot
 plt.show()
@@ -88,15 +106,29 @@ ax = plt.axes(projection=projection)
 ax.coastlines(linewidth=0.5, resolution="110m")
 
 # Import an NCL colormap
-newcmp = gvutil.truncate_colormap(gvcmaps.BlAqGrYeOrRe, minval=0.1, maxval=1.0, n=32)
+newcmp = gvutil.truncate_colormap(gvcmaps.BlAqGrYeOrRe,
+                                  minval=0.1,
+                                  maxval=1.0,
+                                  n=32)
 
 # Contourf-plot land-only data (for filled contours)
-filled = land_only.plot.contourf(ax=ax, cmap=newcmp, levels=np.arange(215, 316, 4),
-                                  xticks=np.arange(-180, 181, 30), yticks=np.arange(-90, 91, 30),
-                                  transform=ccrs.PlateCarree(),  add_colorbar=False,  add_labels=False, vmin=215, vmax=315)
+filled = land_only.plot.contourf(ax=ax,
+                                 cmap=newcmp,
+                                 levels=np.arange(215, 316, 4),
+                                 xticks=np.arange(-180, 181, 30),
+                                 yticks=np.arange(-90, 91, 30),
+                                 transform=ccrs.PlateCarree(),
+                                 add_colorbar=False,
+                                 add_labels=False,
+                                 vmin=215,
+                                 vmax=315)
 
 # Add horizontal colorbar
-cbar = plt.colorbar(filled, ax=ax, orientation="horizontal", aspect=30, drawedges=True)
+cbar = plt.colorbar(filled,
+                    ax=ax,
+                    orientation="horizontal",
+                    aspect=30,
+                    drawedges=True)
 cbar.set_ticks(np.arange(219, 304, 12))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
@@ -106,9 +138,12 @@ gvutil.add_major_minor_ticks(ax)
 gvutil.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
-gvutil.set_titles_and_labels(ax, maintitle="Land Only",
-                             lefttitle=land_only.attrs['long_name'], lefttitlefontsize=14,
-                             righttitle=land_only.attrs['units'], righttitlefontsize=14)
+gvutil.set_titles_and_labels(ax,
+                             maintitle="Land Only",
+                             lefttitle=land_only.attrs['long_name'],
+                             lefttitlefontsize=14,
+                             righttitle=land_only.attrs['units'],
+                             righttitlefontsize=14)
 
 # Show the plot
 plt.show()

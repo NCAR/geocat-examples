@@ -77,14 +77,18 @@ print_debug(ds.slp.attrs)
 
 # To facilitate data subsetting
 
-print_debug(f'\n\nBefore flip, longitude range is [{ds["lon"].min().data}, {ds["lon"].max().data}].')
+print_debug(
+    f'\n\nBefore flip, longitude range is [{ds["lon"].min().data}, {ds["lon"].max().data}].'
+)
 
 ds["lon"] = ((ds["lon"] + 180) % 360) - 180
 
 # Sort longitudes, so that subset operations end up being simpler.
 ds = ds.sortby("lon")
 
-print_debug(f'\n\nAfter flip, longitude range is [{ds["lon"].min().data}, {ds["lon"].max().data}].')
+print_debug(
+    f'\n\nAfter flip, longitude range is [{ds["lon"].min().data}, {ds["lon"].max().data}].'
+)
 
 ###############################################################################
 # Place latitudes in increasing order:
@@ -106,9 +110,9 @@ ds = ds.sel(time=slice(startDate, endDate))
 print_debug('\n\nds:\n\n')
 print_debug(ds)
 
-
 ###############################################################################
 # Utility function:
+
 
 # Define a utility function for computing seasonal means (to mimmic NCL's month_to_season())
 def month_to_season(xMon, season):
@@ -123,13 +127,25 @@ def month_to_season(xMon, season):
     """
     startDate = xMon.time[0]
     endDate = xMon.time[-1]
-    seasons_pd = {'DJF': ('QS-DEC', 1), 'JFM': ('QS-JAN', 2), 'FMA': ('QS-FEB', 3), 'MAM': ('QS-MAR', 4),
-                  'AMJ': ('QS-APR', 5), 'MJJ': ('QS-MAY', 6), 'JJA': ('QS-JUN', 7), 'JAS': ('QS-JUL', 8),
-                  'ASO': ('QS-AUG', 9), 'SON': ('QS-SEP', 10), 'OND': ('QS-OCT', 11), 'NDJ': ('QS-NOV', 12)}
+    seasons_pd = {
+        'DJF': ('QS-DEC', 1),
+        'JFM': ('QS-JAN', 2),
+        'FMA': ('QS-FEB', 3),
+        'MAM': ('QS-MAR', 4),
+        'AMJ': ('QS-APR', 5),
+        'MJJ': ('QS-MAY', 6),
+        'JJA': ('QS-JUN', 7),
+        'JAS': ('QS-JUL', 8),
+        'ASO': ('QS-AUG', 9),
+        'SON': ('QS-SEP', 10),
+        'OND': ('QS-OCT', 11),
+        'NDJ': ('QS-NOV', 12)
+    }
     try:
         (season_pd, season_sel) = seasons_pd[season]
     except KeyError:
-        raise ValueError("contributed: month_to_season: bad season: SEASON = " + season)
+        raise ValueError("contributed: month_to_season: bad season: SEASON = " +
+                         season)
 
     # Compute the three-month means, moving time labels ahead to the middle month.
     month_offset = 'MS'
@@ -206,16 +222,16 @@ print_debug(eof_ts)
 nLon = xw.sizes["lon"]
 
 # Bump the upper value of the slice, so that latitude values equal to latN are included.
-clat_subset = clat.sel(lat=slice(latS, latN+0.01))
+clat_subset = clat.sel(lat=slice(latS, latN + 0.01))
 weightTotal = clat_subset.sum() * nLon
 eof_ts = eof_ts / weightTotal
 
 print_debug('\n\neof_ts normalized:\n\n')
 print_debug(eof_ts)
 
-
 ###############################################################################
 # Utility function:
+
 
 # Define a utility function for creating a contour plot.
 def make_contour_plot(ax, dataset):
@@ -230,20 +246,36 @@ def make_contour_plot(ax, dataset):
     v = np.linspace(-0.08, 0.08, 9, endpoint=True)
 
     # The function contourf() produces fill colors, and contour() calculates contour label locations.
-    cplot = ax.contourf(lon, lat, values, levels=v, cmap=cmap, extend="both", transform=ccrs.PlateCarree())
-    p = ax.contour(lon, lat, values, levels=v, linewidths=0.0, transform=ccrs.PlateCarree())
+    cplot = ax.contourf(lon,
+                        lat,
+                        values,
+                        levels=v,
+                        cmap=cmap,
+                        extend="both",
+                        transform=ccrs.PlateCarree())
+    p = ax.contour(lon,
+                   lat,
+                   values,
+                   levels=v,
+                   linewidths=0.0,
+                   transform=ccrs.PlateCarree())
 
     # Label the contours
-    ax.clabel(p, fontsize=8, fmt="%0.2f", colors="k")
+    ax.clabel(p, fontsize=8, fmt="%0.2f", colors="black")
 
     # Add coastlines
     ax.coastlines(linewidth=0.5)
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4, labelsize=10)
+    gvutil.add_major_minor_ticks(ax,
+                                 x_minor_per_major=3,
+                                 y_minor_per_major=4,
+                                 labelsize=10)
 
     # Use geocat.viz.util convenience function to set axes tick values
-    gvutil.set_axes_limits_and_ticks(ax, xticks=[-60, -30, 0, 30], yticks=[40, 60, 80])
+    gvutil.set_axes_limits_and_ticks(ax,
+                                     xticks=[-60, -30, 0, 30],
+                                     yticks=[40, 60, 80])
 
     # Use geocat.viz.util convenience function to make plots look like NCL plots, using latitude & longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax)
@@ -255,7 +287,10 @@ def make_contour_plot(ax, dataset):
 # Plot (1): Draw a contour plot for each EOF
 
 # Generate figure and axes using Cartopy projection  and set figure size (width, height) in inches
-fig, axs = plt.subplots(neof, 1, subplot_kw={"projection": ccrs.PlateCarree()}, figsize=(6, 10.6))
+fig, axs = plt.subplots(neof,
+                        1,
+                        subplot_kw={"projection": ccrs.PlateCarree()},
+                        figsize=(6, 10.6))
 
 # Add multiple axes to the figure as contour and contourf plots
 for i in range(neof):
@@ -266,14 +301,22 @@ for i in range(neof):
 
     # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
     pct = eof.pcvar[i]
-    gvutil.set_titles_and_labels(axs[i], lefttitle=f'EOF {i + 1}', lefttitlefontsize=10,
-                                 righttitle=f'{pct:.1f}%', righttitlefontsize=10)
+    gvutil.set_titles_and_labels(axs[i],
+                                 lefttitle=f'EOF {i + 1}',
+                                 lefttitlefontsize=10,
+                                 righttitle=f'{pct:.1f}%',
+                                 righttitlefontsize=10)
 
 # Adjust subplot spacings and locations
 plt.subplots_adjust(bottom=0.07, top=0.95, hspace=0.15)
 
 # Add horizontal colorbar
-cbar = plt.colorbar(cplot, ax=axs, orientation='horizontal', shrink=0.9, pad=0.05, fraction=.02)
+cbar = plt.colorbar(cplot,
+                    ax=axs,
+                    orientation='horizontal',
+                    shrink=0.9,
+                    pad=0.05,
+                    fraction=.02)
 cbar.ax.tick_params(labelsize=8)
 
 # Set a common title
@@ -282,25 +325,30 @@ axs[0].set_title(f'SLP: DJF: {yearStart}-{yearEnd}', fontsize=14, y=1.12)
 # Show the plot
 plt.show()
 
-
 ###############################################################################
 # Utility function:
 
 # Define a utility function for creating a bar plot.
+
 
 def make_bar_plot(ax, dataset):
     years = list(dataset.time.dt.year)
     values = list(dataset.values)
     colors = ['blue' if val < 0 else 'red' for val in values]
 
-    ax.bar(years, values, color=colors, width=1.0, edgecolor='k', linewidth=0.5)
+    ax.bar(years, values, color=colors, width=1.0, edgecolor='black', linewidth=0.5)
     ax.set_ylabel('Pa')
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5, labelsize=8)
+    gvutil.add_major_minor_ticks(ax,
+                                 x_minor_per_major=4,
+                                 y_minor_per_major=5,
+                                 labelsize=8)
 
     # Use geocat.viz.util convenience function to set axes tick values
-    gvutil.set_axes_limits_and_ticks(ax, xticks=np.linspace(1980, 2000, 6), xlim=[1978.5, 2003.5])
+    gvutil.set_axes_limits_and_ticks(ax,
+                                     xticks=np.linspace(1980, 2000, 6),
+                                     xlim=[1978.5, 2003.5])
 
     return ax
 
@@ -317,8 +365,11 @@ for i in range(neof):
 
     axs[i] = make_bar_plot(axs[i], eof_single)
     pct = eof.pcvar[i]
-    gvutil.set_titles_and_labels(axs[i], lefttitle=f'EOF {i + 1}', lefttitlefontsize=10,
-                                 righttitle=f'{pct:.1f}%', righttitlefontsize=10)
+    gvutil.set_titles_and_labels(axs[i],
+                                 lefttitle=f'EOF {i + 1}',
+                                 lefttitlefontsize=10,
+                                 righttitle=f'{pct:.1f}%',
+                                 righttitlefontsize=10)
 
 # Set a common title
 axs[0].set_title(f'SLP: DJF: {yearStart}-{yearEnd}', fontsize=14, y=1.12)
