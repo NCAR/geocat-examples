@@ -43,6 +43,7 @@ u, v = mpcalc.wind_components(wspd, wdir)  # Calculate wind components
 # Plot
 
 fig = plt.figure(figsize=(12, 12))
+
 # Adding the "rotation" kwarg will over-ride the default MetPy rotation of
 # 30 degrees for the 45 degree default found in NCL Skew-T plots
 skew = SkewT(fig, rotation=45)
