@@ -37,14 +37,14 @@ import geocat.datafiles as gdf
 ds = pd.read_csv(gdf.get('ascii_files/sounding.testdata'), delimiter='\\s+', header=None)
 
 # Extract the data
-p = ds[1].values*units.hPa   # Pressure [mb/hPa]
-tc = (ds[5].values + 2)*units.degC  # Temperature [C]
-tdc = ds[9].values*units.degC  # Dew pt temp  [C]
+p = ds[1].values * units.hPa  # Pressure [mb/hPa]
+tc = (ds[5].values + 2) * units.degC  # Temperature [C]
+tdc = ds[9].values * units.degC  # Dew pt temp  [C]
 
 # Create dummy wind data
-wspd = np.linspace(0, 150, len(p))*units.knots    # Wind speed   [knots or m/s]
-wdir = np.linspace(0, 360, len(p))*units.degrees    # Meteorological wind dir
-u, v = mpcalc.wind_components(wspd, wdir)   # Calculate wind components
+wspd = np.linspace(0, 150, len(p)) * units.knots  # Wind speed   [knots or m/s]
+wdir = np.linspace(0, 360, len(p)) * units.degrees  # Meteorological wind dir
+u, v = mpcalc.wind_components(wspd, wdir)  # Calculate wind components
 
 ##############################################################################
 # Plot:
@@ -66,12 +66,12 @@ skew.plot(p, tdc, color='blue')
 # Draw parcel path
 parcel_prof = mpcalc.parcel_profile(p, tc[0], tdc[0]).to('degC')
 skew.plot(p, parcel_prof, color='red', linestyle='--')
-u = np.where(p>=100*units.hPa, u, np.nan)
-v = np.where(p>=100*units.hPa, v, np.nan)
-p = np.where(p>=100*units.hPa, p, np.nan)
+u = np.where(p >= 100 * units.hPa, u, np.nan)
+v = np.where(p >= 100 * units.hPa, v, np.nan)
+p = np.where(p >= 100 * units.hPa, p, np.nan)
 
 # Add wind barbs
-skew.plot_barbs(p=p[::2],
+skew.plot_barbs(p[::2],
                 u=u[::2],
                 v=v[::2],
                 xloc=1.05,
@@ -117,8 +117,8 @@ w = np.array([0.001, 0.002, 0.003, 0.005, 0.008, 0.012, 0.020]).reshape(-1, 1)
 p_levs = units.hPa * np.linspace(1000, 400, 7)
 
 # Plot mixing ratio lines
-skew.plot_mixing_lines(w=w,
-                       p=p_levs,
+skew.plot_mixing_lines(mixing_ratio=w,
+                       pressure=p_levs,
                        linestyle='dashed',
                        colors='lime',
                        linewidths=1)
