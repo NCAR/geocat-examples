@@ -80,8 +80,8 @@ w = np.array([0.001, 0.002, 0.003, 0.005, 0.008, 0.012, 0.020]).reshape(-1, 1)
 p = units.hPa * np.linspace(1000, 400, 7)
 
 # Plot mixing ratio lines
-skew.plot_mixing_lines(w=w,
-                       p=p,
+skew.plot_mixing_lines(mixing_ratio=w,
+                       pressure=p,
                        linestyle='dashed',
                        colors='lime',
                        linewidths=1)
@@ -99,7 +99,7 @@ gvutil.set_titles_and_labels(ax=ax, maintitle="NCL Style Plot")
 u = np.zeros(22)
 v = u
 p = np.linspace(1010, 110, 22)
-skew.plot_barbs(p=p,
+skew.plot_barbs(pressure=p,
                 u=u,
                 v=v,
                 xloc=1.05,
