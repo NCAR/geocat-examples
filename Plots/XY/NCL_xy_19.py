@@ -30,7 +30,7 @@ lon = lon * 360/128
 t = (t - 273.15) * 9/5 * 32
 
 ################################################################################
-# Helper function to formate the axes
+# Helper function to format the axes
 def make_axes(plot_size):
     fig, ax1 = plt.subplots(figsize=plot_size)
     ax2 = ax1.twinx()
