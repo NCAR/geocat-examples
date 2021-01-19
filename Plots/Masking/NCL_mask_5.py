@@ -25,7 +25,6 @@ import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
 import cartopy.feature as cfeature
 import matplotlib.patches as mpatches
 
@@ -46,7 +45,6 @@ wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
 # Plot:
 
 fig = plt.figure(figsize=(10, 15))
-gs = gridspec.GridSpec(nrows=2, ncols=1, height_ratios=[1,1], width_ratios=[1])
 
 # Plot first plot
 # Generate axes using Cartopy, draw coastlines, and add other map features
