@@ -18,13 +18,14 @@ See following URLs to see the reproduced NCL plot & script:
                          
 """
 
-# ###############################################################################
+###############################################################################
 # Import packages:
 
 import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
 import cartopy.feature as cfeature
 import matplotlib.patches as mpatches
 
@@ -42,108 +43,78 @@ t = ds.TS.isel(time=0)
 wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
 
 ###############################################################################
-#Plot:
+# Plot:
 
 fig = plt.figure(figsize=(10, 15))
+gs = gridspec.GridSpec(nrows=2, ncols=1, height_ratios=[1,1], width_ratios=[1])
 
-def Plot(row, col, pos, title):
-    """
-    Helper function to create two similar plots where subplot position
-    and title can all be customized on the same style
-    map projection.
+# Plot first plot
+# Generate axes using Cartopy, draw coastlines, and add other map features
+ax = plt.subplot(2, 1, 1, projection=ccrs.PlateCarree())
+ax.coastlines(linewidths=0.5)
+ax.add_feature(cfeature.LAND, color="green")
+ax.add_feature(cfeature.LAKES, color="plum")
+ax.add_feature(cfeature.OCEAN, color="blue")
 
-    Args:
+'''
+Cartopy does not currently have a feature that separates island land from 
+main land. There is also no feature to add ice shelf data to a projection.
+This addition would require another data set to specifiy area encompassed
+by an ice shelf in a region.
+'''
+# Create label names and define colors for the legend
+land = mpatches.Rectangle((0, 0), 1, 1, facecolor="green")
+lakes = mpatches.Rectangle((0, 0), 1, 1, facecolor="plum")
+ocean = mpatches.Rectangle((0, 0), 1, 1, facecolor="blue")
 
-        row (:class: 'int'):
-            number of rows necessary for subplotting of visualizations
-        col (:class: 'int'):
-            number of columns necessary for subplotting
-        pos (:class: 'int'):
-            position of visualization in m x n subplot
-        title (:class: 'str'):
-            title of graph in format "Title"
-     """
+labels = ['Land ', 'Lakes', 'Ocean']
 
-    # Generate axes, using Cartopy, drawing coastlines, and adding features
-    projection = ccrs.PlateCarree()
-    ax = plt.subplot(row, col, pos, projection=projection)
-    ax.coastlines(linewidths=0.5)
-    ax.add_feature(cfeature.LAND, color="green")
-    ax.add_feature(cfeature.LAKES, color="plum")
-    ax.add_feature(cfeature.OCEAN, color="blue")
-    
-    '''
-    Cartopy does not currently have a feature that separates island land from 
-    main land. There is also no feature to add ice shelf data to a projection.
-    This addition would require another data set to specifiy area encompassed
-    by an ice shelf in a region.
-    '''
-    # Create label names and define colors for the legend
-    land = mpatches.Rectangle((0, 0), 1, 1, facecolor="green")
-    lakes = mpatches.Rectangle((0, 0), 1, 1, facecolor="plum")
-    ocean = mpatches.Rectangle((0, 0), 1, 1, facecolor="blue")
+# Add a legend to plot
+plt.legend([land, lakes, ocean], labels,
+           loc='lower center', bbox_to_anchor=(0.5, -0.2), ncol=3)
 
-    labels = ['Land ', 'Lakes', 'Ocean']
+# Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
+gvutil.set_titles_and_labels(ax,
+                             maintitle="land sea mask using 'atmos.nc'",
+                             maintitlefontsize=14)
 
-    plt.legend([land, lakes, ocean], labels,
-               loc='lower center', bbox_to_anchor=(0.5, -0.2), ncol=3)
+# Plot second plot
+ax1 = plt.subplot(2, 1, 2, projection=ccrs.PlateCarree())
+ax1.set_extent([-180, 180, -90, 90], ccrs.PlateCarree())
+ax1.coastlines(linewidths=0.5)
 
-    # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-    gvutil.set_titles_and_labels(
-        ax,
-        maintitle=title,
-        maintitlefontsize=14)
+plt.suptitle("dummy TS field (ocean-masked)", x=0.5, y=0.5, fontsize=14)
 
-# #Plot first color map
-Plot(2, 1, 1, "land sea mask using 'atmos.nc'")
+# Contourf-plot data
+contour = wrap_t.plot.contourf(ax=ax1, 
+                               transform=ccrs.PlateCarree(),
+                               vmin = 235, 
+                               vmax = 315, 
+                               levels = 18, 
+                               cmap = 'magma', 
+                               add_colorbar=False)
 
+# Add colorbar to bottom of plot
+cbar = plt.colorbar(contour, 
+                    ax=ax1, 
+                    orientation='horizontal', 
+                    shrink=0.75,
+                    pad=0.11, 
+                    extendrect=True,
+                    extendfrac='auto', 
+                    use_gridspec=False,
+                    ticks = np.arange(240, 315, 5))
 
-def Plot2(row, col, pos, title):
-    """
-    Helper function to create two similar plots where subplot position
-    and title can all be customized on the same style
-    map projection.
+cbar.ax.tick_params(labelsize=10)
 
-    Args:
+# Mask ocean data by changing adding ocean feature and changing its zorder
+ax1.add_feature(cfeature.OCEAN, zorder=10, edgecolor='k')
 
-        row (:class: 'int'):
-            number of rows necessary for subplotting of visualizations
-        col (:class: 'int'):
-            number of columns necessary for subplotting
-        pos (:class: 'int'):
-            position of visualization in m x n subplot
-        title (:class: 'str'):
-            title of graph in format "Title"
-     """
-
-    ax1 = plt.subplot(row, col, pos, projection=ccrs.PlateCarree())
-    ax1.set_extent([-180, 180, -90, 90], ccrs.PlateCarree())
-    ax1.coastlines(linewidths=0.5)
-
-    plt.suptitle(title, x=0.5, y=.5, fontsize=14)
-
-    # Import an NCL colormap
-    newcmp = 'magma'
-
-    # Contourf-plot data
-    contour = wrap_t.plot.contourf(ax=ax1, transform=ccrs.PlateCarree(),
-                    vmin = 235, vmax = 315, levels = 18, cmap = newcmp, add_colorbar=False)
-
-    cbar = plt.colorbar(contour, ax=ax1, orientation='horizontal', shrink=0.75,
-                    pad=0.11, extendrect=True, extendfrac='auto',
-                    ticks = np.arange(240,315,5))
-    cbar.ax.tick_params(labelsize=10)
-
-    ax1.add_feature(cfeature.OCEAN, zorder=10, edgecolor='k')
-
-    # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-    gvutil.set_titles_and_labels(
-        ax1,
-        maintitle="",
-        maintitlefontsize=14,
-        righttitle="degK",
-        righttitlefontsize=14,
-        lefttitle="temperature",
-        lefttitlefontsize=14)
-
-Plot2(2, 1, 2, "dummy TS field (ocean-masked)")
+# Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
+gvutil.set_titles_and_labels(ax1,
+                             maintitle="",
+                             maintitlefontsize=14,
+                             righttitle="degK",
+                             righttitlefontsize=14,
+                             lefttitle="temperature",
+                             lefttitlefontsize=14)
