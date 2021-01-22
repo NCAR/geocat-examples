@@ -19,7 +19,7 @@ import numpy as np
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
-################################################################################
+###############################################################################
 # Read in data:
 
 # Use numpy loadtext function to unpack data from ascii file
@@ -29,8 +29,9 @@ lon, u, v, t = np.loadtxt(gdf.get("ascii_files/xy.asc"), unpack=True)
 lon = lon * 360/128
 t = (t - 273.15) * 9/5 * 32
 
-################################################################################
+###############################################################################
 # Helper function to format the axes
+
 def make_axes(plot_size):
     fig, ax1 = plt.subplots(figsize=plot_size)
     ax2 = ax1.twinx()
@@ -47,7 +48,7 @@ def make_axes(plot_size):
                                  y_minor_per_major=5,
                                  labelsize=14)
     gvutil.add_major_minor_ticks(ax3,
-                                 x_minor_per_major=5, 
+                                 x_minor_per_major=5,
                                  y_minor_per_major=4,
                                  labelsize=14)
 
@@ -78,7 +79,8 @@ def make_axes(plot_size):
                     left=False)
     return ax1, ax2, ax3
 
-##############################################################################
+
+###############################################################################
 # Plot the basic figure:
 ax1, ax2, ax3 = make_axes((8, 7))
 
@@ -90,7 +92,7 @@ ax3.plot(lon, v, linewidth=0.5, c='black')
 plt.tight_layout()
 plt.show()
 
-##############################################################################
+###############################################################################
 # Plot the figure with colored lines and add axes labels
 ax1, ax2, ax3 = make_axes((9, 7))
 
@@ -107,7 +109,7 @@ ax3.plot(lon, v, linewidth=0.5, c='b')
 plt.tight_layout()
 plt.show()
 
-##############################################################################
+###############################################################################
 # Plot the figure with colored lines, axes labels, and a legend
 ax1, ax2, ax3 = make_axes((9, 7))
 
@@ -119,7 +121,7 @@ gvutil.set_titles_and_labels(ax3, ylabel='v')
 # Plot the data
 # axes.plot() returns a list of Line2D object. The line objects can be used as
 # the `handles` for the legend. Since we only want the line objects, a comma is
-# added after t_plot to extract the first item of the list returned by 
+# added after t_plot to extract the first item of the list returned by
 # axes.plot()
 t_plot, = ax1.plot(lon, t, linewidth=0.5, c='r', label='t')
 u_plot, = ax2.plot(lon, u, linewidth=0.5, c='g', label='u')
