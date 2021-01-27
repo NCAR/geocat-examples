@@ -61,8 +61,8 @@ pt = t.plot.contourf(ax=ax,
                      add_colorbar=False)
 
 cbar_ticks = np.arange(0, 71, 5)
-cbar = plt.colorbar(pt, 
-                    orientation='vertical', 
+cbar = plt.colorbar(pt,
+                    orientation='vertical',
                     extendrect=True,
                     ticks=cbar_ticks)
 

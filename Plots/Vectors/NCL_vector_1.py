@@ -99,10 +99,10 @@ cf = sst.plot.contourf('lon',
 
 # Add color bar
 cbar_ticks = np.arange(24, 29.1, .3)
-cbar = plt.colorbar(cf, 
-                    orientation='vertical', 
-                    drawedges=True, 
-                    shrink=0.75, 
+cbar = plt.colorbar(cf,
+                    orientation='vertical',
+                    drawedges=True,
+                    shrink=0.75,
                     pad=0.05,
                     ticks=cbar_ticks)
 

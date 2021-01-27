@@ -212,7 +212,7 @@ with np.errstate(
                   headwidth=5,
                   cmap=wind_cmap,
                   zorder=4)
-   
+
 # Add color bar
 plt.colorbar(Q,
              cax=cax2,

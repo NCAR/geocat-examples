@@ -48,18 +48,17 @@ ax.set_global()
 ax.coastlines(linewidths=0.5)
 
 # Plot data and add a colorbar
-temp = wrap_t.plot.contourf(
-    ax=ax,
-    transform=ccrs.PlateCarree(),
-    levels=11,
-    cmap='coolwarm',
-    add_colorbar=False)
+temp = wrap_t.plot.contourf(ax=ax,
+                            transform=ccrs.PlateCarree(),
+                            levels=11,
+                            cmap='coolwarm',
+                            add_colorbar=False)
 
 cbar_ticks = np.arange(210, 311, 10)
-cbar = plt.colorbar(temp, 
-                    orientation='horizontal', 
-                    shrink=0.75, 
-                    pad=0.05, 
+cbar = plt.colorbar(temp,
+                    orientation='horizontal',
+                    shrink=0.75,
+                    pad=0.05,
                     extendrect=True,
                     ticks=cbar_ticks)
 

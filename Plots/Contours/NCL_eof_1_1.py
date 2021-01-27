@@ -336,7 +336,12 @@ def make_bar_plot(ax, dataset):
     values = list(dataset.values)
     colors = ['blue' if val < 0 else 'red' for val in values]
 
-    ax.bar(years, values, color=colors, width=1.0, edgecolor='black', linewidth=0.5)
+    ax.bar(years,
+           values,
+           color=colors,
+           width=1.0,
+           edgecolor='black',
+           linewidth=0.5)
     ax.set_ylabel('Pa')
 
     # Use geocat.viz.util convenience function to add minor and major tick lines

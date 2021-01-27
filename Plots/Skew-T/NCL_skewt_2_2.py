@@ -34,7 +34,9 @@ import geocat.datafiles as gdf
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = pd.read_csv(gdf.get('ascii_files/sounding.testdata'), delimiter='\\s+', header=None)
+ds = pd.read_csv(gdf.get('ascii_files/sounding.testdata'),
+                 delimiter='\\s+',
+                 header=None)
 
 # Extract the data
 p = ds[1].values * units.hPa  # Pressure [mb/hPa]

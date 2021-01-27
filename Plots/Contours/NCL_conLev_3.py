@@ -52,12 +52,22 @@ newcmp = 'plasma'
 
 # Contourf-plot data (for filled contours)
 num_lev = 16  # Number of levels
-temp = T.plot.contourf(ax=ax, vmin=244, vmax=308, levels=np.linspace(244, 308, num_lev + 1),
-                       cmap=newcmp, add_colorbar=False, add_labels=False)
+temp = T.plot.contourf(ax=ax,
+                       vmin=244,
+                       vmax=308,
+                       levels=np.linspace(244, 308, num_lev + 1),
+                       cmap=newcmp,
+                       add_colorbar=False,
+                       add_labels=False)
 
 # Contour-plot data (for line contours)
-T.plot.contour(ax=ax, vmin=244, vmax=308, levels=np.linspace(244, 308, num_lev + 1),
-               colors='black', linewidths=0.5, add_labels=False)
+T.plot.contour(ax=ax,
+               vmin=244,
+               vmax=308,
+               levels=np.linspace(244, 308, num_lev + 1),
+               colors='black',
+               linewidths=0.5,
+               add_labels=False)
 
 # Add horizontal colorbar
 cbar_ticks = np.arange(248, 308, 4)
@@ -66,7 +76,9 @@ cbar.ax.tick_params(labelsize=11)
 cbar.set_ticks(cbar_ticks)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax, xlim=(-140, -50), ylim=(20, 60),
+gvutil.set_axes_limits_and_ticks(ax,
+                                 xlim=(-140, -50),
+                                 ylim=(20, 60),
                                  xticks=[-135, -90],
                                  yticks=np.arange(20, 70, 10))
 
@@ -78,39 +90,56 @@ ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=5,
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=3,
+                             y_minor_per_major=5,
                              labelsize=12)
 
 # Remove ticks on right side
 ax.tick_params(which='both', right=False)
 
 # Use geocat.viz.util convenience function to add title
-gvutil.set_titles_and_labels(ax, maintitle="Explanation of Python contour levels")
+gvutil.set_titles_and_labels(ax,
+                             maintitle="Explanation of Python contour levels")
 
 # Create labels by colorbar
 size = 8
 y = 1 / num_lev / 2  # Offset from x axis in axes coordinates
-ax.text(0.949, y, 'T < 248', fontsize=size, horizontalalignment='center',
-        verticalalignment='center', transform=ax.transAxes,
+ax.text(0.949,
+        y,
+        'T < 248',
+        fontsize=size,
+        horizontalalignment='center',
+        verticalalignment='center',
+        transform=ax.transAxes,
         bbox=dict(boxstyle='square, pad=0.25',
                   facecolor='papayawhip',
                   edgecolor='papayawhip'))
 text = '{} <= T < {}'
 for i in range(0, 14):
     y = y + 1 / num_lev  # Vertical spacing between the labels
-    ax.text(0.904, y, text.format(cbar_ticks[i], cbar_ticks[i + 1]),
-            fontsize=size, horizontalalignment='center',
-            verticalalignment='center', transform=ax.transAxes,
+    ax.text(0.904,
+            y,
+            text.format(cbar_ticks[i], cbar_ticks[i + 1]),
+            fontsize=size,
+            horizontalalignment='center',
+            verticalalignment='center',
+            transform=ax.transAxes,
             bbox=dict(boxstyle='square, pad=0.25',
                       facecolor='papayawhip',
                       edgecolor='papayawhip'))
 
 y = y + 1 / num_lev  # Increment height once more for top label
-ax.text(0.94, y, 'T >= 304', fontsize=size, horizontalalignment='center',
-        verticalalignment='center', transform=ax.transAxes,
+ax.text(0.94,
+        y,
+        'T >= 304',
+        fontsize=size,
+        horizontalalignment='center',
+        verticalalignment='center',
+        transform=ax.transAxes,
         bbox=dict(boxstyle='square, pad=0.25',
                   facecolor='papayawhip',
-                  edgecolor='papayawhip'))    
+                  edgecolor='papayawhip'))
 
 # Show the plot
 plt.show()
