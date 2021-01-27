@@ -62,7 +62,9 @@ proj = ccrs.PlateCarree()
 
 # Generate figure (set its size (width, height) in inches)
 fig = plt.figure(figsize=(8, 8))
-grid = fig.add_gridspec(ncols=2, nrows=2, width_ratios=[0.85, 0.15],
+grid = fig.add_gridspec(ncols=2,
+                        nrows=2,
+                        width_ratios=[0.85, 0.15],
                         wspace=0.08)
 
 # Create axis for original data plot
@@ -82,7 +84,9 @@ ax4 = fig.add_subplot(grid[1, 1], aspect=10)
 # Format ticks and ticklabels for the map axes
 for ax in [ax1, ax3]:
     # Use the geocat.viz function to set axes limits and ticks
-    gvutil.set_axes_limits_and_ticks(ax, xlim=[-180, 180], ylim=[-90, 90],
+    gvutil.set_axes_limits_and_ticks(ax,
+                                     xlim=[-180, 180],
+                                     ylim=[-90, 90],
                                      xticks=np.arange(-180, 181, 30),
                                      yticks=np.arange(-90, 91, 30))
 
@@ -98,32 +102,41 @@ for ax in [ax1, ax3]:
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use the geocat.viz function to set axes limits and ticks for zonal average plot
-gvutil.set_axes_limits_and_ticks(ax2, xlim=[0, 375], ylim=[-90, 90],
-                                 xticks=[0, 200], yticks=[])
+gvutil.set_axes_limits_and_ticks(ax2,
+                                 xlim=[0, 375],
+                                 ylim=[-90, 90],
+                                 xticks=[0, 200],
+                                 yticks=[])
 
 # Use the geocat.viz function to add minor ticks to zonal average plot
 gvutil.add_major_minor_ticks(ax2, x_minor_per_major=2)
 
-
 # Plot original data contour lines
-contour = TS.plot.contour(ax=ax1, transform=proj, vmin=235, vmax=305,
-                          levels=np.arange(235, 305, 5), colors='black',
-                          linewidths=0.25, add_labels=False)
+contour = TS.plot.contour(ax=ax1,
+                          transform=proj,
+                          vmin=235,
+                          vmax=305,
+                          levels=np.arange(235, 305, 5),
+                          colors='black',
+                          linewidths=0.25,
+                          add_labels=False)
 
 # Label contours lines
-ax1.clabel(contour, np.arange(240, 301, 10), fmt='%d', inline=True,
-           fontsize=10)
+ax1.clabel(contour, np.arange(240, 301, 10), fmt='%d', inline=True, fontsize=10)
 
 # Set label backgrounds white
 for txt in contour.labelTexts:
     txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=0))
 
 # Add lower text box
-ax1.text(0.995, 0.03, "CONTOUR FROM 235 TO 305 BY 5",
+ax1.text(0.995,
+         0.03,
+         "CONTOUR FROM 235 TO 305 BY 5",
          horizontalalignment='right',
          transform=ax1.transAxes,
          fontsize=8,
-         bbox=dict(boxstyle='square, pad=0.25', facecolor='white',
+         bbox=dict(boxstyle='square, pad=0.25',
+                   facecolor='white',
                    edgecolor='black'),
          zorder=5)
 
@@ -144,11 +157,20 @@ cmap = gvcmaps.BlWhRe
 cmap = gvutil.truncate_colormap(cmap, minval=0.22, maxval=0.74, n=15)
 
 # Plot deviations from zonal mean
-deviations = ax3.contourf(TS['lon'], TS['lat'], dev,
-                          levels=np.linspace(-40, 35, 16), cmap=cmap,
-                          vmin=-40, vmax=35)
-ax3.contour(TS['lon'], TS['lat'], dev, levels=np.linspace(-40, 35, 16),
-            colors='black', linewidths=0.25, linestyles='solid')
+deviations = ax3.contourf(TS['lon'],
+                          TS['lat'],
+                          dev,
+                          levels=np.linspace(-40, 35, 16),
+                          cmap=cmap,
+                          vmin=-40,
+                          vmax=35)
+ax3.contour(TS['lon'],
+            TS['lat'],
+            dev,
+            levels=np.linspace(-40, 35, 16),
+            colors='black',
+            linewidths=0.25,
+            linestyles='solid')
 
 # Add titles to bottom plot
 ax3.set_title('Deviation from zonal ave', fontsize=size, y=y)
@@ -156,7 +178,10 @@ ax3.set_title(TS.long_name, fontsize=size, loc='left', y=y)
 ax3.set_title(TS.units, fontsize=size, loc='right', y=y)
 
 # Add colorbar
-plt.colorbar(deviations, cax=ax4, shrink=0.9, ticks=np.linspace(-35, 30, 14),
+plt.colorbar(deviations,
+             cax=ax4,
+             shrink=0.9,
+             ticks=np.linspace(-35, 30, 14),
              drawedges=True)
 
 plt.show()

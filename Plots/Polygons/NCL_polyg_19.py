@@ -72,6 +72,7 @@ norm = colors.BoundaryNorm(colorbounds, colormap.N)
 ###############################################################################
 # Define helper function to get the populations of each state
 
+
 def getStatePopulations(state_population_file):
 
     population_dict = {}
@@ -84,8 +85,10 @@ def getStatePopulations(state_population_file):
             population_dict[name] = pop
     return population_dict
 
+
 ###############################################################################
 # Define helper function to get the color of each state based on its population
+
 
 def findDivColor(colorbounds, pdata):
 
@@ -99,23 +102,27 @@ def findDivColor(colorbounds, pdata):
             # Index is 'x-1' because colorbounds is one item longer than colormap
             return colormap.colors[x - 1]
 
+
 ###############################################################################
 # Define helper function to remove ticks from axes
+
 
 def removeTicks(axis):
 
     axis.get_xaxis().set_visible(False)
     axis.get_yaxis().set_visible(False)
 
+
 ###############################################################################
 # Define helper function to plot and color each state
+
 
 def plotRegion(region, axis, xlim, puertoRico, waterBody):
 
     # Create empty lists for filled polygons or" patches" and "water_patches"
     patches = []
     water_patches = []
-    
+
     # Plot each shape within a region (ex. mainland Alaska and all of it's surrounding Alaskan islands)
     for i in range(len(region.shape.parts)):
 
@@ -174,12 +181,13 @@ def plotRegion(region, axis, xlim, puertoRico, waterBody):
     axis.add_collection(pc)
 
     wpc = PatchCollection(water_patches,
-                         match_original=True,
-                         edgecolor='white',
-                         linewidth=.8,
-                         zorder=3)
+                          match_original=True,
+                          edgecolor='white',
+                          linewidth=.8,
+                          zorder=3)
     # Plot filled region on axis
     axis.add_collection(wpc)
+
 
 ###############################################################################
 # Plot:

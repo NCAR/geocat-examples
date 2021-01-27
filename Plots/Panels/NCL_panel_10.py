@@ -42,7 +42,8 @@ chi = ds.CHI
 chi = chi / scale
 
 # Calculate zonal mean
-with warnings.catch_warnings():  # This is not needed but is supressing a warning thrown by numpy checking for NaN values
+with warnings.catch_warnings(
+):  # This is not needed but is supressing a warning thrown by numpy checking for NaN values
     warnings.simplefilter("ignore")
     mean = chi.mean(dim='lon')
 
@@ -135,9 +136,7 @@ gvutil.add_major_minor_ticks(ax2,
 ax2.tick_params('y', which='both', left=False)
 
 # Use geocat.viz.util convenience function to add titles
-gvutil.set_titles_and_labels(ax2,
-                             maintitle="Zonal Ave",
-                             maintitlefontsize=12)
+gvutil.set_titles_and_labels(ax2, maintitle="Zonal Ave", maintitlefontsize=12)
 
 # Plot zonal average
 ax2.plot(mean, times, linewidth=0.5, color='black')
@@ -233,7 +232,8 @@ def make_subplot(fig, gridspec, xlim):
 fig = plt.figure(figsize=(10, 10))
 
 # Create a three by two grid to hold the four plots and the colorbar
-outer_grid = gridspec.GridSpec(3, 2,
+outer_grid = gridspec.GridSpec(3,
+                               2,
                                figure=fig,
                                hspace=0.35,
                                height_ratios=[0.475, 0.475, 0.05])
@@ -243,10 +243,8 @@ inner_grids = np.empty(4, dtype=gridspec.GridSpec)
 
 # Create the gridspecs for each of the four plots
 for i in range(0, 4):
-    inner_grids[i] = gridspec.GridSpecFromSubplotSpec(1, 2,
-                                                      subplot_spec=outer_grid[i],
-                                                      wspace=0,
-                                                      width_ratios=[0.75, 0.25])
+    inner_grids[i] = gridspec.GridSpecFromSubplotSpec(
+        1, 2, subplot_spec=outer_grid[i], wspace=0, width_ratios=[0.75, 0.25])
 make_subplot(fig, inner_grids[0], [0, 90])
 make_subplot(fig, inner_grids[1], [90, 180])
 make_subplot(fig, inner_grids[2], [180, 270])

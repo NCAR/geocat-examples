@@ -325,7 +325,10 @@ ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1)
 ax.add_feature(cfeature.COASTLINE, linewidth=.3, zorder=2)
 ax.add_feature(cfeature.OCEAN, facecolor='white')
 ax.add_feature(cfeature.BORDERS, linewidth=.3)
-ax.add_feature(cfeature.LAKES, facecolor='white', edgecolor='black', linewidth=.3)
+ax.add_feature(cfeature.LAKES,
+               facecolor='white',
+               edgecolor='black',
+               linewidth=.3)
 
 # Create color map
 colorvalues = [1020, 1036, 1500]

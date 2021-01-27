@@ -75,7 +75,7 @@ def Plot(color, row, col, pos, title):
 
     # Import an NCL colormap
     newcmp = color
-    
+
     # Contourf-plot data
     hgt = t.plot.contourf(ax=ax1,
                           transform=projection,
@@ -87,12 +87,13 @@ def Plot(color, row, col, pos, title):
 
     # Add color bar
     cbar_ticks = np.arange(100, 1600, 100)
-    cbar = plt.colorbar(hgt, 
-                        orientation='vertical', 
-                        shrink=0.8, pad=0.05, 
+    cbar = plt.colorbar(hgt,
+                        orientation='vertical',
+                        shrink=0.8,
+                        pad=0.05,
                         extendrect=True,
                         ticks=cbar_ticks)
-    
+
     cbar.ax.tick_params(labelsize=10)
 
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions

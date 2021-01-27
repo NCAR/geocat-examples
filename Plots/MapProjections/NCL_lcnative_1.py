@@ -95,19 +95,19 @@ def Plot(row, col, pos, proj, title):
     '''
 
     # Plot data and create colorbar
-    prec = t.plot.contourf(ax=ax, 
-                           cmap="Blues_r", 
-                           transform=ccrs.PlateCarree(), 
-                           levels = 14, 
+    prec = t.plot.contourf(ax=ax,
+                           cmap="Blues_r",
+                           transform=ccrs.PlateCarree(),
+                           levels=14,
                            add_colorbar=False)
-    
+
     cbar_ticks = np.arange(0, 240, 20)
-    cbar = plt.colorbar(prec, 
-                        orientation='horizontal', 
-                        pad=0.075, 
+    cbar = plt.colorbar(prec,
+                        orientation='horizontal',
+                        pad=0.075,
                         shrink=0.8,
                         ticks=cbar_ticks)
-    
+
     cbar.ax.tick_params(labelsize=10)
     plt.title(title, loc='center', y=1.17, size=15)
     plt.title(t.units, loc='right', y=1.08, size=14)

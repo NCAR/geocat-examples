@@ -27,7 +27,8 @@ import geocat.viz.util as gvutil
 
 # Open a netCDF data file using xarray default engine and load the data into
 # xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"), decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"),
+                     decode_times=False)
 
 # Ensure longitudes range from 0 to 360 degrees
 t = gvutil.xr_add_cyclic_longitudes(ds.T, "lon_t")
@@ -42,17 +43,15 @@ t_6 = t.isel(z_t=5)
 # Plot:
 fig = plt.figure(figsize=(8, 12))
 
-grid = gridspec.GridSpec(nrows=3,
-                         ncols=1,
-                         figure=fig)
+grid = gridspec.GridSpec(nrows=3, ncols=1, figure=fig)
 
 # Choose the map projection
 proj = ccrs.PlateCarree()
 
 # Add the subplots
-ax1 = fig.add_subplot(grid[0], projection=proj) # upper cell of grid
-ax2 = fig.add_subplot(grid[1], projection=proj) # middle cell of grid
-ax3 = fig.add_subplot(grid[2], projection=proj) # lower cell of grid
+ax1 = fig.add_subplot(grid[0], projection=proj)  # upper cell of grid
+ax2 = fig.add_subplot(grid[1], projection=proj)  # middle cell of grid
+ax3 = fig.add_subplot(grid[2], projection=proj)  # lower cell of grid
 
 for (ax, title) in [(ax1, 'level 0'), (ax2, 'level 1'), (ax3, 'level 6')]:
     # Use geocat.viz.util convenience function to set axes tick values
@@ -61,11 +60,11 @@ for (ax, title) in [(ax1, 'level 0'), (ax2, 'level 1'), (ax3, 'level 6')]:
                                      ylim=(-90, 90),
                                      xticks=np.linspace(-180, 180, 13),
                                      yticks=np.linspace(-90, 90, 7))
-    
+
     # Use geocat.viz.util convenience function to make plots look like NCL
     # plots by using latitude, longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax)
-    
+
     # Remove the degree symbol from tick labels
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
@@ -95,7 +94,7 @@ C = ax1.contourf(t_1['lon_t'],
                  levels=np.arange(0, 30, 2),
                  cmap=cmap,
                  extend='both')
-ax2.contourf(t_2['lon_t'], 
+ax2.contourf(t_2['lon_t'],
              t_2['lat_t'],
              t_2.data,
              levels=np.arange(0, 30, 2),
