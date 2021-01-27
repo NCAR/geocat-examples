@@ -5,8 +5,8 @@ on:
       - main
 jobs:
   build-examples:
-    if: !contains(github.event.head_commit.message, 'trigger_yapf')
-    name: Build documentation pages
+    if: "!contains(github.event.head_commit.message, 'trigger_yapf')"
+    name: build_examples
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -22,6 +22,6 @@ jobs:
           activate-environment: geocat-examples
           environment-file: conda_environment.yml
           python-version: 3.8
-      - name: Build sphinx docs
+      - name: make_html
         run: |
           make html
