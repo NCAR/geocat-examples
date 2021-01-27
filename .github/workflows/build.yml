@@ -12,18 +12,16 @@ jobs:
       run:
         shell: bash -l {0}
     steps:
-    - name: checkout
-      uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.A_KOOTZ_GEOCAT_EXAMPLES_TOKEN }}
-    - name: conda_env
-      uses: conda-incubator/setup-miniconda@v2
-      with:
-        activate-environment: geocat-examples
-        environment-file: conda_environment.yml
-        python-version: 3.8
-    - name: Build sphinx docs
-      run: |
-        conda info
-        conda list
-        make html
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.A_KOOTZ_GEOCAT_EXAMPLES_TOKEN }}
+      - name: conda_env
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: geocat-examples
+          environment-file: conda_environment.yml
+          python-version: 3.8
+      - name: Build sphinx docs
+        run: |
+          make html
