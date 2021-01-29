@@ -32,7 +32,7 @@ from geocat.viz import util as gvutil
 import geocat.datafiles as gdf
 
 ###############################################################################
-#Read in Data
+# Read in Data
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
@@ -84,24 +84,24 @@ ax1.coastlines(linewidths=0.5)
 plt.suptitle("dummy TS field (ocean-masked)", x=0.5, y=0.5, fontsize=14)
 
 # Contourf-plot data
-contour = wrap_t.plot.contourf(ax=ax1, 
+contour = wrap_t.plot.contourf(ax=ax1,
                                transform=ccrs.PlateCarree(),
-                               vmin = 235, 
-                               vmax = 315, 
-                               levels = 18, 
-                               cmap = 'magma', 
+                               vmin=235,
+                               vmax=315,
+                               levels=18,
+                               cmap='magma',
                                add_colorbar=False)
 
 # Add colorbar to bottom of plot
-cbar = plt.colorbar(contour, 
-                    ax=ax1, 
-                    orientation='horizontal', 
+cbar = plt.colorbar(contour,
+                    ax=ax1,
+                    orientation='horizontal',
                     shrink=0.75,
-                    pad=0.11, 
+                    pad=0.11,
                     extendrect=True,
-                    extendfrac='auto', 
+                    extendfrac='auto',
                     use_gridspec=False,
-                    ticks = np.arange(240, 315, 5))
+                    ticks=np.arange(240, 315, 5))
 
 cbar.ax.tick_params(labelsize=10)
 
@@ -116,3 +116,5 @@ gvutil.set_titles_and_labels(ax1,
                              righttitlefontsize=14,
                              lefttitle="temperature",
                              lefttitlefontsize=14)
+
+plt.show()
