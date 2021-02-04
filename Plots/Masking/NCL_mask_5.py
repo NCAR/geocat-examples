@@ -8,7 +8,7 @@ This script illustrates the following concepts:
     - Explicitly setting the fill colors for contours
     - Drawing contours over land only
     - Using draw order resources to mask areas in a plot
-    - Adding a label bar
+    - Adding a color bar
     - Following best practices when choosing a colormap.
       More information on colormap best practices can be found `here <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py>`_.
     
