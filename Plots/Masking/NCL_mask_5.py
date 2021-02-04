@@ -5,7 +5,6 @@ This script illustrates the following concepts:
     - Using cartopy.feature options to display map information
     - Paneling two plots on a page with 'subplots' command
     - Drawing contours
-    - Explicitly setting the fill colors for contours
     - Drawing contours over land only
     - Using draw order resources to mask areas in a plot
     - Adding a color bar
