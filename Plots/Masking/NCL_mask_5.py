@@ -108,7 +108,8 @@ cbar.ax.tick_params(labelsize=10)
 # Mask ocean data by changing adding ocean feature and changing its zorder
 ax1.add_feature(cfeature.OCEAN, zorder=10, edgecolor='k')
 
-# Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
+# Use geocat.viz.util convenience function to set titles and labels without
+# calling several matplotlib functions
 gvutil.set_titles_and_labels(ax1,
                              maintitle="",
                              maintitlefontsize=14,
