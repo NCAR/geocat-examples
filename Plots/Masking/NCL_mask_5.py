@@ -71,7 +71,8 @@ labels = ['Land ', 'Lakes', 'Ocean']
 plt.legend([land, lakes, ocean], labels,
            loc='lower center', bbox_to_anchor=(0.5, -0.2), ncol=3)
 
-# Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
+# Use geocat.viz.util convenience function to set titles and labels without
+# calling several matplotlib functions
 gvutil.set_titles_and_labels(ax,
                              maintitle="land sea mask using 'atmos.nc'",
                              maintitlefontsize=14)
