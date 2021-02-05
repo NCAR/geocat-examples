@@ -19,6 +19,7 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+import matplotlib.colors as colors
 import numpy as np
 import xarray as xr
 
@@ -67,12 +68,19 @@ gvutil.set_axes_limits_and_ticks(ax=ax2,
 gvutil.add_major_minor_ticks(ax=ax2,
                              x_minor_per_major=4,
                              y_minor_per_major=5)
-# Plot contours on map
+
+# Create list of colors based on Blue-White-Red colormap
 cmap = gvcmaps.BlWhRe  # select colormap
+index = [100, 90, 75, 71, 68, 65, 62, 60, 57, 55, 50, 50, 48, 46, 43, 41, 38, 35]
+color_list = [cmap[i].colors for i in index]
+
+# Plot contour data
 deppat.plot.contourf(ax=ax1,
                      transform=ccrs.PlateCarree(),
-                     cmap=cmap,
-                     levels=19)
+                     vmin=-5.5,
+                     vmax=3.5,
+                     levels=19,
+                     colors=color_list)
 
 # Add mean temperature over time data to XY plot
 ax2.plot(xyarr.time, xyarr, linewidth=1, color='black')
