@@ -24,24 +24,19 @@ import xarray as xr
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
-from geocat.viz import cmaps
+from geocat.viz import cmaps as gvcmaps
 
 ###############################################################################
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/AtmJan360_xy_4.nc"),
+ds = xr.open_dataset(gdf.get("netcdf_files/nao.obs.nc"),
                      decode_times=False) 
-# Extract temperature data at first timestep and lowest level
-temp = ds.T.isel(time=0, drop=True)
-temp = temp.isel(lev=17, drop=True)
+deppat = ds.nao_djf
+xyarr = ds.nao_pc_djf
 
 # Fix the artifact of not-shown-data around -0 and 360 degree longitudes
-temp = gvutil.xr_add_cyclic_longitudes(temp, 'lon')
-
-# Extract zonal mean data for 46N for the first level
-temp_mean = ds.T.isel(lev=17, lat=48, drop=True)
-temp_mean = temp_mean.mean(dim='lon')
+deppat = gvutil.xr_add_cyclic_longitudes(deppat, 'lon')
 
 ###############################################################################
 # Plot
@@ -68,17 +63,18 @@ gvutil.set_map_boundary(ax1, [-180, 180], [30, 90], south_pad=1)
 ax2 = plt.subplot(grid[1])
 gvutil.set_axes_limits_and_ticks(ax=ax2,
                                  xlim=(ds.time[0], ds.time[-1]),
-                                 ylim=(264, 268))
+                                 ylim=(-4, 3))
 gvutil.add_major_minor_ticks(ax=ax2,
                              x_minor_per_major=4,
                              y_minor_per_major=5)
-
-# Plot temperature contours on map
-temp.plot.contourf(ax=ax1,
-                   transform=ccrs.PlateCarree(),
-                   levels=19)
+# Plot contours on map
+cmap = gvcmaps.BlWhRe  # select colormap
+deppat.plot.contourf(ax=ax1,
+                     transform=ccrs.PlateCarree(),
+                     cmap=cmap,
+                     levels=19)
 
 # Add mean temperature over time data to XY plot
-ax2.plot(temp_mean.time, temp_mean.T)
+ax2.plot(xyarr.time, xyarr, linewidth=1, color='black')
 
 plt.show()
