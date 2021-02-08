@@ -71,16 +71,27 @@ gvutil.add_major_minor_ticks(ax=ax2,
 
 # Create list of colors based on Blue-White-Red colormap
 cmap = gvcmaps.BlWhRe  # select colormap
+# Extract colors from cmap using their indices
 index = [100, 90, 75, 71, 68, 65, 62, 60, 57, 55, 50, 50, 48, 46, 43, 41, 38, 35]
 color_list = [cmap[i].colors for i in index]
 
-# Plot contour data
+# Plot contour data (when using list of colors, use `color` key word vs `cmap`)
 deppat.plot.contourf(ax=ax1,
                      transform=ccrs.PlateCarree(),
                      vmin=-5.5,
                      vmax=3.5,
                      levels=19,
                      colors=color_list)
+
+# Plot contour lines
+deppat.plot.contour(ax=ax1,
+                    transform=ccrs.PlateCarree(),
+                    vmin=-5.5,
+                    vmax=3.5,
+                    levels=19,
+                    colors='black',
+                    linewidths=0.5,
+                    linestyles='solid')
 
 # Add mean temperature over time data to XY plot
 ax2.plot(xyarr.time, xyarr, linewidth=1, color='black')
