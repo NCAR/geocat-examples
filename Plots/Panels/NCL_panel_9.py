@@ -76,12 +76,16 @@ index = [100, 90, 75, 71, 68, 65, 62, 60, 57, 55, 50, 50, 48, 46, 43, 41, 38, 35
 color_list = [cmap[i].colors for i in index]
 
 # Plot contour data (when using list of colors, use `color` key word vs `cmap`)
-deppat.plot.contourf(ax=ax1,
-                     transform=ccrs.PlateCarree(),
-                     vmin=-5.5,
-                     vmax=3.5,
-                     levels=19,
-                     colors=color_list)
+contour_fill = deppat.plot.contourf(ax=ax1,
+                                    transform=ccrs.PlateCarree(),
+                                    vmin=-5.5,
+                                    vmax=3.5,
+                                    levels=19,
+                                    colors=color_list,
+                                    add_colorbar=False)
+
+# Create colorbar
+plt.colorbar(contour_fill, ax=ax1, ticks=np.arange(-5, 3.5, 0.5), drawedges=True)
 
 # Plot contour lines
 deppat.plot.contour(ax=ax1,
@@ -95,5 +99,9 @@ deppat.plot.contour(ax=ax1,
 
 # Add mean temperature over time data to XY plot
 ax2.plot(xyarr.time, xyarr, linewidth=1, color='black')
+
+# Add figure title
+fig.suptitle("North Atlantic Oscillation (DJF)", fontsize=16,
+             fontweight='bold', y=0.95)
 
 plt.show()
