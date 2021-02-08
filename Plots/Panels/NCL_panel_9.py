@@ -13,13 +13,11 @@ See following URLs to see the reproduced NCL plot & script:
    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_9_lg.png
 """
 
-##############################################################################
+###############################################################################
 # Import packages:
 import cartopy.crs as ccrs
-import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
-import matplotlib.colors as colors
 import numpy as np
 import xarray as xr
 
@@ -32,17 +30,12 @@ from geocat.viz import cmaps as gvcmaps
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/nao.obs.nc"),
-                     decode_times=False) 
+                     decode_times=False)
 deppat = ds.nao_djf
 xyarr = ds.nao_pc_djf
 
 # Fix the artifact of not-shown-data around -0 and 360 degree longitudes
 deppat = gvutil.xr_add_cyclic_longitudes(deppat, 'lon')
-
-###############################################################################
-# Helper function to calculate moving average
-def moving_avg(x, window):
-    return np.convolve(x, np.ones(window), 'valid') / window
 
 ###############################################################################
 # Plot
@@ -52,7 +45,7 @@ fig = plt.figure(figsize=(10, 12))
 
 # Create grid with two rows and one column
 # Use `height_ratios` to adjust the relative height of the rows
-grid = gridspec.GridSpec(nrows=2, 
+grid = gridspec.GridSpec(nrows=2,
                          ncols=1,
                          height_ratios=[0.75, 0.25],
                          figure=fig)
@@ -76,11 +69,13 @@ gvutil.add_major_minor_ticks(ax=ax2,
 
 # Create list of colors based on Blue-White-Red colormap
 cmap = gvcmaps.BlWhRe  # select colormap
+
 # Extract colors from cmap using their indices
-index = [100, 90, 75, 71, 68, 65, 62, 60, 57, 55, 50, 50, 48, 46, 43, 41, 38, 35]
+index = [100, 90, 75, 71, 68, 65, 62, 60, 57,
+         55, 50, 50, 48, 46, 43, 41, 38, 35]
 color_list = [cmap[i].colors for i in index]
 
-# Plot contour data (when using list of colors, use `color` key word vs `cmap`)
+# Plot contour data (use `color` keyword vs `cmap` for lists of colors)
 contour_fill = deppat.plot.contourf(ax=ax1,
                                     transform=ccrs.PlateCarree(),
                                     vmin=-5.5,
@@ -90,7 +85,8 @@ contour_fill = deppat.plot.contourf(ax=ax1,
                                     add_colorbar=False)
 
 # Create colorbar
-plt.colorbar(contour_fill, ax=ax1, ticks=np.arange(-5, 3.5, 0.5), drawedges=True)
+plt.colorbar(contour_fill, ax=ax1, ticks=np.arange(-5, 3.5, 0.5),
+             drawedges=True)
 
 # Plot contour lines
 deppat.plot.contour(ax=ax1,
@@ -102,7 +98,6 @@ deppat.plot.contour(ax=ax1,
                     linewidths=0.5,
                     linestyles='solid')
 
-
 # Add mean temperature over time data to XY plot
 line = ax2.plot(xyarr.time, xyarr, linewidth=0.5, color='black')
 
@@ -112,12 +107,11 @@ x_interp = np.linspace(x[0], x[-1], 400)
 y_interp = np.interp(x_interp, x, y)
 
 # Fill above and below the zero line
-ax2.fill_between(x_interp, y_interp, where=y_interp>0, color='red')
-ax2.fill_between(x_interp, y_interp, where=y_interp<0, color='blue')
+ax2.fill_between(x_interp, y_interp, where=y_interp > 0, color='red')
+ax2.fill_between(x_interp, y_interp, where=y_interp < 0, color='blue')
 
 # Add zero reference line
 ax2.axhline(y=0, color='black', linewidth=0.25)
-
 
 # Add figure title
 fig.suptitle("North Atlantic Oscillation (DJF)", fontsize=16,
