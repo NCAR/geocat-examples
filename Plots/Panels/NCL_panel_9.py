@@ -40,6 +40,11 @@ xyarr = ds.nao_pc_djf
 deppat = gvutil.xr_add_cyclic_longitudes(deppat, 'lon')
 
 ###############################################################################
+# Helper function to calculate moving average
+def moving_avg(x, window):
+    return np.convolve(x, np.ones(window), 'valid') / window
+
+###############################################################################
 # Plot
 
 # Format axes
@@ -97,8 +102,22 @@ deppat.plot.contour(ax=ax1,
                     linewidths=0.5,
                     linestyles='solid')
 
+
 # Add mean temperature over time data to XY plot
-ax2.plot(xyarr.time, xyarr, linewidth=1, color='black')
+line = ax2.plot(xyarr.time, xyarr, linewidth=0.5, color='black')
+
+# Retreive data points and interpolate to make the fillcolor more complete
+x, y = line[0].get_data()
+x_interp = np.linspace(x[0], x[-1], 400)
+y_interp = np.interp(x_interp, x, y)
+
+# Fill above and below the zero line
+ax2.fill_between(x_interp, y_interp, where=y_interp>0, color='red')
+ax2.fill_between(x_interp, y_interp, where=y_interp<0, color='blue')
+
+# Add zero reference line
+ax2.axhline(y=0, color='black', linewidth=0.25)
+
 
 # Add figure title
 fig.suptitle("North Atlantic Oscillation (DJF)", fontsize=16,
