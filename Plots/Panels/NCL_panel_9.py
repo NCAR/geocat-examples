@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import numpy as np
 import xarray as xr
+import pandas as pd
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
@@ -125,6 +126,10 @@ ax2.fill_between(x_interp, y_interp, where=y_interp < 0, color='blue')
 
 # Add zero reference line
 ax2.axhline(y=0, color='black', linewidth=0.25)
+
+# Calculate and plot rolling average
+roll_avg = xyarr.rolling(time=7, center=True).mean()
+ax2.plot(xyarr.time, roll_avg, color='black')
 
 # Add figure title
 fig.suptitle("North Atlantic Oscillation (DJF)", fontsize=16,
