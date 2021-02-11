@@ -56,16 +56,26 @@ proj = ccrs.NorthPolarStereo()
 # Add polar plot to figure
 ax1 = plt.subplot(grid[0], projection=proj)
 ax1.coastlines(linewidths=0.5)
+
+# Use a geocat.viz.util functiong to make the plot boundary follow the 30N
+# latitude line
 gvutil.set_map_boundary(ax1, [-180, 180], [30, 90], south_pad=1)
 
 # Add XY plot to figure
 ax2 = plt.subplot(grid[1])
+
+# Use geocat.viz.util convenience function to set axes tick values
 gvutil.set_axes_limits_and_ticks(ax=ax2,
                                  xlim=(ds.time[0], ds.time[-1]),
-                                 ylim=(-4, 3))
+                                 ylim=(-4, 3),
+                                 yticks=np.arange(-4, 4, 1),
+                                 yticklabels=np.arange(-4.0, 4.0, 1.0))
+
+# Use geocat.viz.util convenience function to add minor and major ticks
 gvutil.add_major_minor_ticks(ax=ax2,
                              x_minor_per_major=4,
-                             y_minor_per_major=5)
+                             y_minor_per_major=5,
+                             labelsize=12)
 
 # Create list of colors based on Blue-White-Red colormap
 cmap = gvcmaps.BlWhRe  # select colormap
@@ -85,8 +95,11 @@ contour_fill = deppat.plot.contourf(ax=ax1,
                                     add_colorbar=False)
 
 # Create colorbar
-plt.colorbar(contour_fill, ax=ax1, ticks=np.arange(-5, 3.5, 0.5),
-             drawedges=True)
+plt.colorbar(contour_fill,
+             ax=ax1,
+             ticks=np.arange(-5, 3.5, 0.5),
+             drawedges=True,
+             format='%g')
 
 # Plot contour lines
 deppat.plot.contour(ax=ax1,
