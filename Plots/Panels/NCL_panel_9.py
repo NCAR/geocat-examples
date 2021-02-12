@@ -56,9 +56,9 @@ proj = ccrs.NorthPolarStereo()
 
 # Add polar plot to figure
 ax1 = plt.subplot(grid[0], projection=proj)
-ax1.coastlines(linewidths=0.5)
+ax1.coastlines(linewidths=0.25)
 
-# Use a geocat.viz.util functiong to make the plot boundary follow the 30N
+# Use a geocat.viz.util function to make the plot boundary follow the 30N
 # latitude line
 gvutil.set_map_boundary(ax1, [-180, 180], [30, 90], south_pad=1)
 
@@ -82,8 +82,8 @@ gvutil.add_major_minor_ticks(ax=ax2,
 cmap = gvcmaps.BlWhRe  # select colormap
 
 # Extract colors from cmap using their indices
-index = [100, 90, 75, 71, 68, 65, 62, 60, 57,
-         55, 50, 50, 48, 46, 43, 41, 38, 35]
+index = [98, 88, 73, 69, 66, 63, 60, 58, 55,
+         53, 50, 50, 47, 45, 42, 40, 37, 34]
 color_list = [cmap[i].colors for i in index]
 
 # Plot contour data (use `color` keyword vs `cmap` for lists of colors)
@@ -109,7 +109,7 @@ deppat.plot.contour(ax=ax1,
                     vmax=3.5,
                     levels=19,
                     colors='black',
-                    linewidths=0.5,
+                    linewidths=0.25,
                     linestyles='solid')
 
 # Add mean temperature over time data to XY plot
