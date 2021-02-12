@@ -7,7 +7,7 @@ This script illustrates the following concepts:
    - Using indexed color to set contour fill colors
    - Filling the areas of an XY curve above and below a reference line
    - Drawing a Y reference line in an XY plot
-   - Turning off the map lat/lon grid lines
+   - Calculating a weighted rolling average
 See following URLs to see the reproduced NCL plot & script:
    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/panel_9.ncl
    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_9_lg.png
@@ -20,7 +20,6 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import numpy as np
 import xarray as xr
-import pandas as pd
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
@@ -100,7 +99,7 @@ plt.colorbar(contour_fill,
              ax=ax1,
              ticks=np.arange(-5, 3.5, 0.5),
              drawedges=True,
-             format='%g')
+             format='%g')  # remove trailing zeros from labels
 
 # Plot contour lines
 deppat.plot.contour(ax=ax1,
@@ -117,7 +116,8 @@ line = ax2.plot(xyarr.time, xyarr, linewidth=0.25, color='black')
 
 # Retreive data points and interpolate to make the fillcolor more complete
 x, y = line[0].get_data()
-x_interp = np.linspace(x[0], x[-1], 400)
+num_pts = 400  # number of points to interpolate
+x_interp = np.linspace(x[0], x[-1], num_pts)
 y_interp = np.interp(x_interp, x, y)
 
 # Fill above and below the zero line
@@ -127,9 +127,14 @@ ax2.fill_between(x_interp, y_interp, where=y_interp < 0, color='blue')
 # Add zero reference line
 ax2.axhline(y=0, color='black', linewidth=0.5)
 
-# Calculate and plot rolling average
-weight = xr.DataArray([1/24,3/24,5/24,6/24,5/24,3/24,1/24], dims=['window'])
+# Array with weights for rolling average
+weight = xr.DataArray([1/24, 3/24, 5/24, 6/24, 5/24, 3/24, 1/24],
+                      dims=['window'])
+
+# Calculating the dot product of rolling average and weights
 roll_avg = xyarr.rolling(time=7, center=True).construct('window').dot(weight)
+
+# Plot rolling average
 ax2.plot(xyarr.time, roll_avg, color='black', linewidth=1)
 
 # Add figure title
