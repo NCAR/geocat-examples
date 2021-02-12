@@ -1,6 +1,6 @@
 """
 NCL_animate_1.py
-===============
+================
 This script illustrates the following concepts:
    - Creating animations
 
@@ -91,5 +91,4 @@ frames[0].save('png_to_gif.gif', format='GIF',
 # im = Image.open('Python_Animation_frame_0000.png', 'r')
 im =  Image.open('png_to_gif.gif')
 display(im)
-
 
