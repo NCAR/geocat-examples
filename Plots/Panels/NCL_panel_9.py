@@ -113,7 +113,7 @@ deppat.plot.contour(ax=ax1,
                     linestyles='solid')
 
 # Add mean temperature over time data to XY plot
-line = ax2.plot(xyarr.time, xyarr, linewidth=0.5, color='black')
+line = ax2.plot(xyarr.time, xyarr, linewidth=0.25, color='black')
 
 # Retreive data points and interpolate to make the fillcolor more complete
 x, y = line[0].get_data()
@@ -125,11 +125,12 @@ ax2.fill_between(x_interp, y_interp, where=y_interp > 0, color='red')
 ax2.fill_between(x_interp, y_interp, where=y_interp < 0, color='blue')
 
 # Add zero reference line
-ax2.axhline(y=0, color='black', linewidth=0.25)
+ax2.axhline(y=0, color='black', linewidth=0.5)
 
 # Calculate and plot rolling average
-roll_avg = xyarr.rolling(time=7, center=True).mean()
-ax2.plot(xyarr.time, roll_avg, color='black')
+weight = xr.DataArray([1/24,3/24,5/24,6/24,5/24,3/24,1/24], dims=['window'])
+roll_avg = xyarr.rolling(time=7, center=True).construct('window').dot(weight)
+ax2.plot(xyarr.time, roll_avg, color='black', linewidth=1)
 
 # Add figure title
 fig.suptitle("North Atlantic Oscillation (DJF)", fontsize=16,
