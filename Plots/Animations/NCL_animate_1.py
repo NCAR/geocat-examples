@@ -21,7 +21,7 @@ import cartopy.feature as cfeature
 from matplotlib import pyplot as plt
 import numpy as np
 import xarray as xr
-from PIL import Image, ImageDraw
+from PIL import Image
 
 import glob
 from IPython.display import display
@@ -91,4 +91,3 @@ frames[0].save('png_to_gif.gif', format='GIF',
 # im = Image.open('Python_Animation_frame_0000.png', 'r')
 im =  Image.open('png_to_gif.gif')
 display(im)
-
