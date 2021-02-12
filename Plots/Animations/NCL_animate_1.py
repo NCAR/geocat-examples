@@ -9,10 +9,8 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/animate_1_1_lg.png
 
 Please note:
-    This code will create a .gif file locally. In order to view the gif, you 
-    will need to right click on the .gif file in your local directory, then 
-    select 'open with' then select a web browser. This has been tested using 
-    Google Chrome, Safari, and Firefox. 
+    This code will create and save a .gif file locally. The .gif file will be
+    located in the same directory used as your working directory. 
 """
 ###############################################################################
 # Import packages:
