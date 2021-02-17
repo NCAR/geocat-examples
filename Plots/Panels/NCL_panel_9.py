@@ -116,9 +116,6 @@ line = ax2.plot(xyarr.time, xyarr, linewidth=0.25, color='black')
 
 # Retrieve data points
 x, y = line[0].get_data()
-num_pts = 400  # number of points to interpolate
-x_interp = np.linspace(x[0], x[-1], num_pts)
-y_interp = np.interp(x_interp, x, y)
 
 # Fill above and below the zero line
 ax2.fill_between(x, y, where=y > 0, color='red', interpolate=True)
