@@ -4,11 +4,9 @@ NCL_skewt_2_2.py
 This script illustrates the following concepts:
    - Customizing the background of a Skew-T plot
    - Plotting temperature, dewpoint, and wind data on a Skew-T plot
-
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/skewt_2.ncl
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png
-
 Note:
     Currently functions to calculate CAPE, precipitable water, the showalter
     index, the pressure of the LCL, and the temperature of the LCL do not
