@@ -121,8 +121,8 @@ x_interp = np.linspace(x[0], x[-1], num_pts)
 y_interp = np.interp(x_interp, x, y)
 
 # Fill above and below the zero line
-ax2.fill_between(x_interp, y_interp, where=y_interp > 0, color='red')
-ax2.fill_between(x_interp, y_interp, where=y_interp < 0, color='blue')
+ax2.fill_between(x, y, where=y > 0, color='red', interpolate=True)
+ax2.fill_between(x, y, where=y < 0, color='blue', interpolate=True)
 
 # Add zero reference line
 ax2.axhline(y=0, color='black', linewidth=0.5)
