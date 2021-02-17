@@ -114,7 +114,7 @@ deppat.plot.contour(ax=ax1,
 # Add mean temperature over time data to XY plot
 line = ax2.plot(xyarr.time, xyarr, linewidth=0.25, color='black')
 
-# Retreive data points and interpolate to make the fillcolor more complete
+# Retrieve data points
 x, y = line[0].get_data()
 num_pts = 400  # number of points to interpolate
 x_interp = np.linspace(x[0], x[-1], num_pts)
