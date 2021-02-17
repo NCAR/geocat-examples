@@ -26,6 +26,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 
 from geocat.viz import util as gvutil
+from geocat.viz import cmaps as gvcmaps
 import geocat.datafiles as gdf
 
 ###############################################################################
@@ -73,9 +74,23 @@ gl.ylocator = mticker.FixedLocator(np.arange(43, 50))
 gl.xlabel_style = {"rotation": 0, "size": 14}
 gl.ylabel_style = {"rotation": 0, "size": 14}
 
+# Create colormap with white on either end
+cmap = gvcmaps.WhViBlGrYeOrReWh
+
 # Plot contour data, use the transform keyword to speficy that the data is
 # stored as rectangular lon,lat coordinates
-ax.contourf(lon, lat, topo, transform=ccrs.PlateCarree())
+contour = ax.contourf(lon, lat, topo,
+                      transform=ccrs.PlateCarree(),
+                      levels=np.arange(0,3001,300),
+                      extend='neither',
+                      cmap='viridis')
+
+# Create colorbar
+plt.colorbar(contour,
+             ax=ax,
+             ticks=np.arange(0,3001,300),
+             orientation='horizontal',
+             pad=0.05)
 
 # Use geocat.viz.util function to easily set left and right titles
 gvutil.set_titles_and_labels(ax,
