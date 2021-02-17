@@ -24,6 +24,7 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
+
 from geocat.viz import util as gvutil
 import geocat.datafiles as gdf
 
@@ -38,8 +39,10 @@ topo = np.fromfile(gdf.get("binary_files/topo.bin"), dtype=np.dtype('>f'))
 topo = np.reshape(topo, (nlat,nlon))
 
 # Read in binary latitude/longitude file using big endian float data type (>f)
-lat = np.fromfile(gdf.get("binary_files/latlon.bin"), dtype=np.dtype('>f'))
-lon = np.fromfile(gdf.get("binary_files/latlon.bin"), dtype=np.dtype('>f'), offset=1)
+latlon = np.fromfile(gdf.get("binary_files/latlon.bin"), dtype=np.dtype('>f'))
+latlon = np.reshape(latlon, (2,nlat,nlon))
+lat = latlon[0]
+lon = latlon[1]
 
 ###############################################################################
 # Plot:
@@ -47,13 +50,12 @@ lon = np.fromfile(gdf.get("binary_files/latlon.bin"), dtype=np.dtype('>f'), offs
 # Generate figure (set its size (width, height) in inches)
 fig = plt.figure(figsize=(10, 10))
 
-# Generate axes using Cartopy and draw coastlines
+# Create cartopy axes and add coastlines
 ax = plt.axes(projection=ccrs.NorthPolarStereo(central_longitude=10))
-
 ax.coastlines(linewidths=0.5)
 
 # Set extent to include latitudes from 42 to 49.5 and longitudes from 4 to 16 
-ax.set_extent([4, 16, 42, 49.5], ccrs.PlateCarree())
+ax.set_extent([4.25, 15.25, 42.25, 49.25], ccrs.PlateCarree())
 
 # Draw gridlines
 gl = ax.gridlines(crs=ccrs.PlateCarree(),
@@ -71,11 +73,18 @@ gl.ylocator = mticker.FixedLocator(np.arange(43, 50))
 gl.xlabel_style = {"rotation": 0, "size": 14}
 gl.ylabel_style = {"rotation": 0, "size": 14}
 
+# Plot contour data, use the transform keyword to speficy that the data is
+# stored as rectangular lon,lat coordinates
+ax.contourf(lon, lat, topo, transform=ccrs.PlateCarree())
+
+# Use geocat.viz.util function to easily set left and right titles
 gvutil.set_titles_and_labels(ax,
                              lefttitle="topography",
                              lefttitlefontsize=14,
                              righttitle="m",
                              righttitlefontsize=14)
+
+# Add a main title above the left and right titles
 plt.title("Native Sterographic Example",
           loc="center",
           y=1.1,
@@ -84,5 +93,4 @@ plt.title("Native Sterographic Example",
 
 # Show the plot
 plt.show()
-
 
