@@ -74,23 +74,32 @@ gl.ylocator = mticker.FixedLocator(np.arange(43, 50))
 gl.xlabel_style = {"rotation": 0, "size": 14}
 gl.ylabel_style = {"rotation": 0, "size": 14}
 
-# Create colormap with white on either end
-cmap = gvcmaps.WhViBlGrYeOrReWh
+# Create colormap by choosing colors from existing colormap 
+cmap = gvcmaps.cmocean_speed
+index = [0, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0]
+color_list = [cmap[i].colors for i in index]
+
+# make the starting color and end color white
+color_list[0] = [1, 1, 1] # [red, green, blue]
+color_list[-1] = [1, 1, 1]
+
 
 # Plot contour data, use the transform keyword to speficy that the data is
 # stored as rectangular lon,lat coordinates
 contour = ax.contourf(lon, lat, topo,
                       transform=ccrs.PlateCarree(),
-                      levels=np.arange(0,3001,300),
+                      levels=np.arange(-300,3301,300),
                       extend='neither',
-                      cmap='viridis')
+                      colors=color_list)
 
 # Create colorbar
 plt.colorbar(contour,
              ax=ax,
              ticks=np.arange(0,3001,300),
              orientation='horizontal',
-             pad=0.05)
+             aspect=15,
+             pad=0.05,
+             shrink=0.8)
 
 # Use geocat.viz.util function to easily set left and right titles
 gvutil.set_titles_and_labels(ax,
@@ -105,6 +114,9 @@ plt.title("Native Sterographic Example",
           y=1.1,
           size=18,
           fontweight="bold")
+
+# Remove whitespace around plot
+plt.tight_layout()
 
 # Show the plot
 plt.show()
