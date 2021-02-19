@@ -1,0 +1,26 @@
+name: Nightly Main Build
+on:
+  schedule:
+    - cron: '1 1 * * *' # runs at 1:01am every day.
+jobs:
+  build-examples:
+    if: '!contains(github.event.head_commit.message, "trigger_yapf")'
+    name: build_examples
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.A_KOOTZ_GEOCAT_EXAMPLES_TOKEN }}
+      - name: conda_env
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: geocat-examples
+          environment-file: conda_environment.yml
+          python-version: 3.8
+      - name: make_html
+        run: |
+          make html
