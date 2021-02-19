@@ -4,11 +4,11 @@ NCL_native_1.py
 
 This script illustrates the following concepts:
    - Drawing filled contours over a stereographic map
-   - Overlaying contours on a map without having latitude and longitude coordinates
+   - Reading in data from binary files
    - Setting the view of a stereographic map
    - Turning on map tickmark labels with degree symbols
-   - Selecting a different color map
-   - Zooming in on a particular area on a stereographic map
+   - Choosing colors from a pre-existing colormap
+   - Making the ends of the colormap white
    - Using best practices when choosing plot color scheme to accomodate visual impairments
 
 See following URLs to see the reproduced NCL plot & script:
@@ -19,9 +19,7 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 import numpy as np
-import xarray as xr
 import cartopy.crs as ccrs
-import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 
@@ -37,11 +35,11 @@ nlon = 343
 # Read in binary topography file using big endian float data type (>f)
 topo = np.fromfile(gdf.get("binary_files/topo.bin"), dtype=np.dtype('>f'))
 # Reshape topography array into 2-D array
-topo = np.reshape(topo, (nlat,nlon))
+topo = np.reshape(topo, (nlat, nlon))
 
 # Read in binary latitude/longitude file using big endian float data type (>f)
 latlon = np.fromfile(gdf.get("binary_files/latlon.bin"), dtype=np.dtype('>f'))
-latlon = np.reshape(latlon, (2,nlat,nlon))
+latlon = np.reshape(latlon, (2, nlat, nlon))
 lat = latlon[0]
 lon = latlon[1]
 
@@ -55,7 +53,8 @@ fig = plt.figure(figsize=(10, 10))
 ax = plt.axes(projection=ccrs.NorthPolarStereo(central_longitude=10))
 ax.coastlines(linewidths=0.5)
 
-# Set extent to include latitudes from 42 to 49.5 and longitudes from 4 to 16 
+# Set extent to show particular area of the map ranging from 4.25E to 15.25E
+# and 42.25N to 49.25N
 ax.set_extent([4.25, 15.25, 42.25, 49.25], ccrs.PlateCarree())
 
 # Draw gridlines
@@ -74,13 +73,17 @@ gl.ylocator = mticker.FixedLocator(np.arange(43, 50))
 gl.xlabel_style = {"rotation": 0, "size": 14}
 gl.ylabel_style = {"rotation": 0, "size": 14}
 
-# Create colormap by choosing colors from existing colormap 
+# Create colormap by choosing colors from existing colormap
+# The brightness of the colors in cmocean_speed increase linearly. This
+# makes the colormap easier to interpret for those with vision imparements
 cmap = gvcmaps.cmocean_speed
+
+# Specify the indices of the desired colors
 index = [0, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0]
 color_list = [cmap[i].colors for i in index]
 
 # make the starting color and end color white
-color_list[0] = [1, 1, 1] # [red, green, blue]
+color_list[0] = [1, 1, 1]  # [red, green, blue] values range from 0 to 1
 color_list[-1] = [1, 1, 1]
 
 
@@ -88,17 +91,17 @@ color_list[-1] = [1, 1, 1]
 # stored as rectangular lon,lat coordinates
 contour = ax.contourf(lon, lat, topo,
                       transform=ccrs.PlateCarree(),
-                      levels=np.arange(-300,3301,300),
+                      levels=np.arange(-300, 3301, 300),
                       extend='neither',
                       colors=color_list)
 
 # Create colorbar
 plt.colorbar(contour,
              ax=ax,
-             ticks=np.arange(0,3001,300),
+             ticks=np.arange(0, 3001, 300),
              orientation='horizontal',
-             aspect=15,
-             pad=0.05,
+             aspect=12,
+             pad=0.1,
              shrink=0.8)
 
 # Use geocat.viz.util function to easily set left and right titles
@@ -120,4 +123,3 @@ plt.tight_layout()
 
 # Show the plot
 plt.show()
-
