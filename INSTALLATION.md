@@ -20,14 +20,16 @@ From the root directory of the cloned geocat-examples repository, run the follow
     conda activate geocat-examples
 ```
 
- contains the dependencies for the required software packages, 
-such as ; therefore, there is no need for 
+Note that the Conda package manager automatically installs all the `required`
+dependencies of GeoCAT-examples listed under `conda_environment.yml` file (such as `geocat-comp`, 
+`geocat-datafiles`, `cartopy`, `matplotlib`, `netcdf4`, etc.); therefore, there is no need for 
 explicitly installing those packages.
 
-Also, note that the Conda package manager automatically installs all `required`
-dependencies listed under `conda_environment.yml` file, meaning it is not necessary 
-to explicitly install Python, Matplotlib, Cartopy, Scikit-learn, Jupyter, etc. when 
-creating an environment.
+If you somewhat need to make use of other software packages with GeoCAT-examples, you may wish 
+to install them into your `geocat-examples` environment at anytime with a command as in the
+following example (assuming your `geocat-examples` environment is already activated):
+
+    conda install -c bokeh bokeh
 
 If you are interested in learning more about how Conda environments work, please visit 
 the [managing environments](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) 
