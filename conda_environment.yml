@@ -4,20 +4,23 @@ channels:
   - ncar
 dependencies:
   - python=3
-  - geocat-comp
+  - geocat-comp=0.2
+  - geocat-ncomp=0.2
+  - libncomp=0.2
   - geocat-datafiles
   - geocat-viz=2020.7.30.1
-  - cartopy
-  - geographiclib
-  - jupyter
-  - make
-  - matplotlib=3.3.0
-  - metpy
-  - mock
   - netcdf4
+  - cartopy
+  - scikit-learn
+  - mock
   - pillow
   - scikit-learn
   - sphinx
+  - matplotlib=3.3.0
   - sphinx-gallery
   - sphinx_rtd_theme
+  - jupyter
+  - make
+  - geographiclib
   - wrf-python
+  - metpy
