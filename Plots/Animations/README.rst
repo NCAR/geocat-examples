@@ -3,4 +3,4 @@
 .. _animation-examples-index:
 
 Animate
-===============
+=======
