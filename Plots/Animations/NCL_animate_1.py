@@ -42,9 +42,6 @@ fig = plt.figure(figsize=(10, 8))
 # Generate axes using Cartopy and draw coastlines
 ax = plt.axes(projection=ccrs.PlateCarree(central_longitude=150))
 ax.coastlines(linewidths=0.5)
-
-# Set extent to include latitudes from 34 to 52 and longitudes from 128
-# to 144
 ax.set_extent([-180, 180, -90, 90], ccrs.PlateCarree())
 
 # Use geocat.viz.util convenience function to set axes limits & tick values
