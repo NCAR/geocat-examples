@@ -31,6 +31,8 @@ extensions = [
     'sphinx_gallery.gen_gallery',
 ]
 
+image_scrapers = ('matplotlib',)
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
@@ -38,6 +40,13 @@ templates_path = ['_templates']
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '**/README.rst']
+
+# Set plotly renderer to capture _repr_html_ for sphinx-gallery
+try:
+    import plotly.io as pio
+    pio.renderers.default = 'sphinx_gallery'
+except ImportError:
+    pass
 
 # -- suppress warnings -------------------------------------------------------
 import warnings
@@ -82,6 +91,7 @@ sphinx_gallery_conf = {
     'gallery_dirs': ['gallery'
                     ],  # path to where to save gallery generated output
     'within_subsection_order': ExampleTitleSortKey,
+    'matplotlib_animations': True,
 }
 
 html_theme_options = {
