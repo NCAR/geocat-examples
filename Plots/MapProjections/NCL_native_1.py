@@ -75,7 +75,7 @@ gl.ylabel_style = {"rotation": 0, "size": 14}
 
 # Create colormap by choosing colors from existing colormap
 # The brightness of the colors in cmocean_speed increase linearly. This
-# makes the colormap easier to interpret for those with vision imparements
+# makes the colormap easier to interpret for those with vision impairments
 cmap = gvcmaps.cmocean_speed
 
 # Specify the indices of the desired colors
@@ -87,7 +87,7 @@ color_list[0] = [1, 1, 1]  # [red, green, blue] values range from 0 to 1
 color_list[-1] = [1, 1, 1]
 
 
-# Plot contour data, use the transform keyword to speficy that the data is
+# Plot contour data, use the transform keyword to specify that the data is
 # stored as rectangular lon,lat coordinates
 contour = ax.contourf(lon, lat, topo,
                       transform=ccrs.PlateCarree(),
