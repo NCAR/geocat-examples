@@ -12,6 +12,7 @@ Welcome to GeoCAT-examples's documentation!
 
    ./gallery/index.rst
    ./install.rst
+   ./support.rst
 
 
 Indices and tables
