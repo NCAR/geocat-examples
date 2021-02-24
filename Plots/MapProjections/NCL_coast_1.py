@@ -1,6 +1,6 @@
 """
 NCL_coast_1.py
-===================
+===============
 This script illustrates the following concepts:
    Concepts illustrated:
     - Drawing color-filled contours over a cylindrical equidistant map
@@ -11,10 +11,7 @@ This script illustrates the following concepts:
       More information on colormap best practices can be found `here <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py>`_.
     
 See following URLs to see the reproduced NCL plot & script:
-    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/coast_1.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/coast_1_1_lg.png
-                         https://www.ncl.ucar.edu/Applications/Images/coast_1_2_lg.png
-                         https://www.ncl.ucar.edu/Applications/Images/coast_1_3_lg.png
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/coast_1.ncl https://www.ncl.ucar.edu/Applications/Images/coast_1_2_lg.png https://www.ncl.ucar.edu/Applications/Images/coast_1_3_lg.png
 """
 
 ###############################################################################
@@ -28,13 +25,13 @@ from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
-
 ###############################################################################
+# Read in data:
 
-ds = xr.open_dataset("tpom000.partial.nc")#(gdf.get("netcdf_files/tpom000.nc"))
+# Open the netCDF data file using xarray
+ds = xr.open_dataset(gdf.get("netcdf_files/tpom000.partial.nc"))
 
 # Extract a slice of the data
 t = ds.t
@@ -42,7 +39,7 @@ t = ds.t
 ###############################################################################
 #Plot:
 
-def Plot(color, row, col, pos, res, title):
+def Plot(res, title):
     
     fig = plt.figure(figsize=(10, 10))
     
@@ -52,9 +49,6 @@ def Plot(color, row, col, pos, res, title):
     ax1 = plt.axes(projection=projection)
     ax1.coastlines(resolution=res, linewidths=0.5)
     ax1.add_feature(cfeature.LAND, facecolor="wheat")
-
-    # Import an NCL colormap
-    newcmp = color
 
     # Contourf-plot data
     temp = t.plot.contourf(ax=ax1,
@@ -93,6 +87,7 @@ def Plot(color, row, col, pos, res, title):
     # Remove degree symbol from tick label
     ax1.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax1.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
+    
     # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
     gvutil.set_titles_and_labels(ax1,
                                  righttitle="Deg C",
@@ -101,11 +96,14 @@ def Plot(color, row, col, pos, res, title):
                                  lefttitlefontsize=15,
                                  xlabel="",
                                  ylabel="")
+    
     plt.suptitle("Strait of Gibraltar", x=.5, y=.67, fontsize=18)
-    plt.title(title, x=.5, y=1.05, fontsize=15)
+    plt.title(title, x=.5, y=1.07, fontsize=15)
+    plt.tight_layout()
+    plt.show()
     
 #Plot maps
-Plot(gvcmaps.BlAqGrYeOrRe, 3, 1, 1, '110m', "Low Res Coastline")
-Plot(gvcmaps.BlAqGrYeOrRe, 3, 1, 2, '50m', "Medium Res Coastline")
-Plot(gvcmaps.BlAqGrYeOrRe, 3, 1, 3, '10m', "High Res (default) Coastline")
+Plot('110m', "Low Res Coastline")
+Plot('50m', "Medium Res Coastline")
+Plot('10m', "High Res (default) Coastline")
 
