@@ -4,14 +4,15 @@ NCL_coast_1.py
 This script illustrates the following concepts:
    Concepts illustrated:
     - Drawing color-filled contours over a cylindrical equidistant map
-    - Drawing three different resolutions for map outlines
+    - Specifying and drawing three different resolutions for map outlines
     - Zooming in on a particular area on the map
     - Moving title and colorbar locations
     - Following best practices when choosing a colormap.
       More information on colormap best practices can be found `here <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py>`_.
     
 See following URLs to see the reproduced NCL plot & script:
-    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/coast_1.ncl https://www.ncl.ucar.edu/Applications/Images/coast_1_2_lg.png https://www.ncl.ucar.edu/Applications/Images/coast_1_3_lg.png
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/coast_1.ncl 
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/coast_1_1_lg.png https://www.ncl.ucar.edu/Applications/Images/coast_1_2_lg.png https://www.ncl.ucar.edu/Applications/Images/coast_1_3_lg.png
 """
 
 ###############################################################################
@@ -41,15 +42,16 @@ t = ds.t
 
 def Plot(res, title):
     
-    fig = plt.figure(figsize=(10, 10))
+    fig = plt.figure(figsize=(8, 6))
     
     # Generate axes, using Cartopy, drawing coastlines, and adding features
     fig.tight_layout(pad=3)
     projection = ccrs.PlateCarree()
     ax1 = plt.axes(projection=projection)
     ax1.coastlines(resolution=res, linewidths=0.5)
-    ax1.add_feature(cfeature.LAND, facecolor="wheat")
-
+    ax1.add_feature(cfeature.NaturalEarthFeature('physical', 'Coastline', res),
+                    facecolor="wheat")
+    
     # Contourf-plot data
     temp = t.plot.contourf(ax=ax1,
                           transform=projection,
@@ -64,14 +66,13 @@ def Plot(res, title):
     cbar = plt.colorbar(temp, 
                         orientation='horizontal', 
                         shrink=0.8, 
-                        pad=0.05, 
+                        pad=0.073, 
                         extendrect=True,
                         ticks=cbar_ticks)
         
     cbar.ax.tick_params(labelsize=10)
     
-    # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
-    # Set axes limits, and tick values
+    # Use geocat.viz.util convenience function to set axes limit and tick values
     gvutil.set_axes_limits_and_ticks(ax1,
                                      xlim=(-8, -3),
                                      ylim=(35, 37),
@@ -81,14 +82,14 @@ def Plot(res, title):
      # Use geocat.viz.util convenience function to add major tick lines
     gvutil.add_major_minor_ticks(ax1, y_minor_per_major=1, labelsize=12)
     
-    # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
+    # Use geocat.viz.util convenience function to add lat and lon tick labels
     gvutil.add_lat_lon_ticklabels(ax1)
     
     # Remove degree symbol from tick label
     ax1.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax1.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
     
-    # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
+    # Use geocat.viz.util convenience function to set titles and labels 
     gvutil.set_titles_and_labels(ax1,
                                  righttitle="Deg C",
                                  righttitlefontsize=15,
@@ -97,7 +98,7 @@ def Plot(res, title):
                                  xlabel="",
                                  ylabel="")
     
-    plt.suptitle("Strait of Gibraltar", x=.5, y=.67, fontsize=18)
+    plt.suptitle("Strait of Gibraltar", x=.5, y=.83, fontsize=18)
     plt.title(title, x=.5, y=1.07, fontsize=15)
     plt.tight_layout()
     plt.show()
@@ -105,5 +106,5 @@ def Plot(res, title):
 #Plot maps
 Plot('110m', "Low Res Coastline")
 Plot('50m', "Medium Res Coastline")
-Plot('10m', "High Res (default) Coastline")
+Plot('10m', "High Res Coastline (default)")
 
