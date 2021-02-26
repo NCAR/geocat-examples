@@ -88,4 +88,69 @@ axes[0][1].yaxis.set_minor_formatter(NullFormatter())
 # Turn on vertical gridlines
 axes[0][1].grid(True, which='major', axis='x', color='black')
 
+
+# Create plot with log x-axis and half-axis background
+axes[1][0].set_xscale('log')
+axes[1][0].plot(x, y)
+
+# Use geocat.viz.util convenience function to set titles and labels
+gvutil.set_titles_and_labels(axes[1][0],
+                             maintitle="Half-Axis Background",
+                             xlabel="Logarithmic",
+                             ylabel="Linear")
+
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(axes[1][0],
+                             x_minor_per_major=2,
+                             y_minor_per_major=2,
+                             labelsize=10)
+
+# Use geocat.viz.util convenience function to set axes limits and tick labels
+gvutil.set_axes_limits_and_ticks(axes[1][0],
+                                 xlim=(10, 1000),
+                                 ylim=(100, 1000),
+                                 yticks=range(100, 1001, 100))
+
+# Remove labels for minor ticks on log scale
+axes[1][0].xaxis.set_minor_formatter(NullFormatter())
+
+# Hide the top and right side borders
+axes[1][0].spines['right'].set_visible(False)
+axes[1][0].spines['top'].set_visible(False)
+
+# Hide the top and right side tick marks
+axes[1][0].yaxis.set_ticks_position('left')
+axes[1][0].xaxis.set_ticks_position('bottom')
+
+
+# Create plot with log axes and no background
+axes[1][1].set_xscale('log')
+axes[1][1].set_yscale('log')
+axes[1][1].plot(x, y)
+
+# Use geocat.viz.util convenience function to set titles and labels
+gvutil.set_titles_and_labels(axes[1][1],
+                             maintitle="No Background",
+                             xlabel="Logarithmic",
+                             ylabel="Logarithmic")
+
+# Use geocat.viz.util convenience function to set axes limits and tick labels
+gvutil.set_axes_limits_and_ticks(axes[1][1],
+                                 xlim=(31.628, 1000),
+                                 ylim=(100, 1000))
+
+# Remove the boarder
+axes[1][1].set_frame_on(False)
+
+# Remove all tick marks and their labels
+axes[1][1].tick_params(which='both',
+                       top=False,
+                       bottom=False,
+                       left=False,
+                       right=False,
+                       labeltop=False,
+                       labelbottom=False,
+                       labelleft=False,
+                       labelright=False)
+
 plt.show()
