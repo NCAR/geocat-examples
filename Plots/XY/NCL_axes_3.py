@@ -39,7 +39,7 @@ fig, axes = plt.subplots(nrows=2,
                          gridspec_kw=dict(wspace=0.5, hspace=0.5))
 
 ##### Create plot with linear axes and full perimeter #####
-axes[0][0].plot(x, y)
+axes[0][0].plot(x, y, color='orange')
 
 # Use geocat.viz.util convenience function to set titles and labels
 gvutil.set_titles_and_labels(axes[0][0],
@@ -63,7 +63,7 @@ gvutil.set_axes_limits_and_ticks(axes[0][0],
 
 ##### Create plot with log y-axis and gridlines #####
 axes[0][1].set_yscale('log')
-axes[0][1].plot(x, y)
+axes[0][1].plot(x, y, color='limegreen')
 
 # Use geocat.viz.util convenience function to set titles and labels
 gvutil.set_titles_and_labels(axes[0][1],
@@ -92,7 +92,7 @@ axes[0][1].grid(True, which='major', axis='x', color='black')
 
 ##### Create plot with log x-axis and half-axis background #####
 axes[1][0].set_xscale('log')
-axes[1][0].plot(x, y)
+axes[1][0].plot(x, y, color='blueviolet')
 
 # Use geocat.viz.util convenience function to set titles and labels
 gvutil.set_titles_and_labels(axes[1][0],
@@ -127,7 +127,7 @@ axes[1][0].xaxis.set_ticks_position('bottom')
 ##### Create plot with log axes and no background #####
 axes[1][1].set_xscale('log')
 axes[1][1].set_yscale('log')
-axes[1][1].plot(x, y)
+axes[1][1].plot(x, y, color='firebrick')
 
 # Use geocat.viz.util convenience function to set titles and labels
 gvutil.set_titles_and_labels(axes[1][1],
