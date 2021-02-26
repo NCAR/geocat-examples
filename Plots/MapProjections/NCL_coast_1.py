@@ -107,4 +107,3 @@ def Plot(res, title):
 Plot('110m', "Low Res Coastline")
 Plot('50m', "Medium Res Coastline")
 Plot('10m', "High Res Coastline (default)")
-
