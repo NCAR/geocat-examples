@@ -49,7 +49,7 @@ def Plot(res, title):
     projection = ccrs.PlateCarree()
     ax1 = plt.axes(projection=projection)
     ax1.coastlines(resolution=res, linewidths=0.5)
-    ax1.add_feature(cfeature.NaturalEarthFeature('physical', 'Coastline', res),
+    ax1.add_feature(cfeature.LAND.with_scale(res),
                     facecolor="wheat")
     
     # Contourf-plot data
