@@ -2,13 +2,12 @@
 NCL_coast_1.py
 ===============
 This script illustrates the following concepts:
-   Concepts illustrated:
-    - Drawing color-filled contours over a cylindrical equidistant map
-    - Specifying and drawing three different resolutions for map outlines
-    - Zooming in on a particular area on the map
-    - Moving title and colorbar locations
-    - Following best practices when choosing a colormap.
-      More information on colormap best practices can be found `here <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py>`_.
+   - Drawing color-filled contours over a cylindrical equidistant map
+   - Specifying and drawing three different resolutions for map outlines
+   - Zooming in on a particular area on the map
+   - Moving title and colorbar locations
+   - Following best practices when choosing a colormap.
+     More information on colormap best practices can be found `here <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py>`_.
     
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/coast_1.ncl 
