@@ -140,7 +140,7 @@ gvutil.set_axes_limits_and_ticks(axes[1][1],
                                  xlim=(31.628, 1000),
                                  ylim=(100, 1000))
 
-# Remove the boarder
+# Remove the border
 axes[1][1].set_frame_on(False)
 
 # Remove all tick marks and their labels
