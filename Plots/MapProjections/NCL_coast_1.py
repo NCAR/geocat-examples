@@ -8,9 +8,9 @@ This script illustrates the following concepts:
    - Moving title and colorbar locations
    - Following best practices when choosing a colormap.
      More information on colormap best practices can be found `here <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py>`_.
-    
+
 See following URLs to see the reproduced NCL plot & script:
-    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/coast_1.ncl 
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/coast_1.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/coast_1_1_lg.png https://www.ncl.ucar.edu/Applications/Images/coast_1_2_lg.png https://www.ncl.ucar.edu/Applications/Images/coast_1_3_lg.png
 """
 
@@ -37,7 +37,7 @@ ds = xr.open_dataset(gdf.get("netcdf_files/tpom000.partial.nc"))
 t = ds.t
 
 ###############################################################################
-#Plot:
+# Plot:
 
 
 def Plot(res, title):
@@ -103,7 +103,7 @@ def Plot(res, title):
     plt.show()
 
 
-#Plot maps
+# Plot maps
 Plot('110m', "Low Res Coastline")
 Plot('50m', "Medium Res Coastline")
 Plot('10m', "High Res Coastline (default)")
