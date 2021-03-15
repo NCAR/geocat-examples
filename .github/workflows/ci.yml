@@ -5,8 +5,8 @@ on:
   pull_request:
   workflow_dispatch:
   schedule:
-    - branches: main
-    - cron: '0 0 * * *' # Daily “At 00:00”
+  - branches: main
+  - cron: '0 0 * * *' # Daily “At 00:00”
 
 jobs:
   build-and-run:
