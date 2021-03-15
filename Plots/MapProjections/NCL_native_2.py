@@ -51,19 +51,20 @@ ax.add_feature(cfeature.LAND, facecolor="lightgray")
 # to 144
 ax.set_extent([128, 144, 34, 52], ccrs.PlateCarree())
 
-# Contourf-plot data (for filled contours)
+# Plot data and create colorbar
 pt = t.plot.contourf(ax=ax,
                      transform=ccrs.PlateCarree(),
                      vmin=0,
                      vmax=70,
                      levels=15,
                      cmap="inferno",
-                     cbar_kwargs={
-                         "extendrect": True,
-                         "orientation": "vertical",
-                         "ticks": np.arange(0, 71, 5),
-                         "label": ""
-                     })
+                     add_colorbar=False)
+
+cbar_ticks = np.arange(0, 71, 5)
+cbar = plt.colorbar(pt, 
+                    orientation='vertical', 
+                    extendrect=True,
+                    ticks=cbar_ticks)
 
 # Draw gridlines
 gl = ax.gridlines(crs=ccrs.PlateCarree(),
@@ -72,7 +73,7 @@ gl = ax.gridlines(crs=ccrs.PlateCarree(),
                   x_inline=False,
                   y_inline=False,
                   linewidth=1,
-                  color="k",
+                  color="black",
                   alpha=0.25)
 
 # Manipulate latitude and longitude gridline numbers and spacing
