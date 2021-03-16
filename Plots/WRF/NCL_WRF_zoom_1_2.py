@@ -1,6 +1,6 @@
 """
 NCL_WRF_zoom_1_2.py
-==================
+===================
 This script illustrates the following concepts:
     - Plotting WRF data on native grid
     - Subsetting data to 'zoom in' on an area
