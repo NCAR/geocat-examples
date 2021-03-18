@@ -45,16 +45,63 @@ ax = plt.axes()
 plt.yscale('log')
 ax.yaxis.set_major_formatter(ScalarFormatter())
 ax.yaxis.set_minor_formatter(NullFormatter())
-gvutil.set_axes_limits_and_ticks(ax, ylim=(200, 1000), yticks=[1000,700,500,300], xticks=np.arange(-60,90,30), xticklabels=['60S','30S','0','30N','60N'])
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=0, labelsize=14)
 
-# Specify colormap and make colorbar
+# Use geocat.viz.util convenience function to set axes parameters 
+gvutil.set_axes_limits_and_ticks(ax,
+                                 ylim=(200, 1000),
+                                 yticks=[1000,700,500,300],
+                                 xticks=np.arange(-60,90,30),
+                                 xticklabels=['60S','30S','0','30N','60N'])
+
+# Us geocat.viz.util convenience function to add minor and major ticks
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=3,
+                             y_minor_per_major=0,
+                             labelsize=14)
+
+# Specify colormap
 newcmap = gvcmaps.ncl_default
-p = ds.plot.contourf(ax=ax, levels=13, vmin=-8, vmax=40, cmap=newcmap, add_colorbar=False, add_labels=False)
-ds.plot.contour(ax=ax, levels=13, vmin=-8, vmax=40, colors='k', linewidths=0.5, linestyle='solid', add_colorbar=False, add_labels=False)
-cbar = plt.colorbar(p, ax=ax, drawedges=True, extendrect=True, extendfrac='auto', ticks=np.arange(-8,44,4), orientation='horizontal', pad=0.075, aspect=10)
-cbar.ax.tick_params(labelsize=14)
-# Add titles and labels
-gvutil.set_titles_and_labels(ax, maintitle="Logarithmic axis", maintitlefontsize=16, lefttitle="Zonal Wind", lefttitlefontsize=14)
 
+# Plot filed contours
+p = ds.plot.contourf(ax=ax,
+                     levels=13,
+                     vmin=-8,
+                     vmax=40,
+                     cmap=newcmap,
+                     add_colorbar=False,
+                     add_labels=False)
+
+# Plot contour lines
+ds.plot.contour(ax=ax,
+                levels=13,
+                vmin=-8,
+                vmax=40,
+                colors='black',
+                linewidths=0.5,
+                linestyles='solid',
+                add_labels=False)
+
+# Create colorbar
+cbar = plt.colorbar(p,
+                    ax=ax,
+                    drawedges=True,
+                    extendrect=True,
+                    extendfrac='auto',
+                    ticks=np.arange(-8,44,4),
+                    orientation='horizontal',
+                    pad=0.075,
+                    aspect=10)
+
+# Set colorbar tick label size
+cbar.ax.tick_params(labelsize=14)
+
+
+# Use geocat.vix convenience function to set titles and labels
+gvutil.set_titles_and_labels(ax,
+                             maintitle="Logarithmic axis",
+                             maintitlefontsize=16,
+                             lefttitle="Zonal Wind",
+                             lefttitlefontsize=14)
+
+# Show plot
 plt.show()
