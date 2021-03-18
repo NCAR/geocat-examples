@@ -7,7 +7,7 @@ Gallery
 =======
 
 This gallery contains visualization examples from many plotting categories
-for geosciences data.
+of geosciences data.
 
 For visualization, mainly `matplotlib` and `cartopy` are used. In addition,
 `geocat-datafiles <https://github.com/NCAR/geocat-datafiles>`_ is used as a
