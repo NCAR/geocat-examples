@@ -19,8 +19,13 @@ import warnings
 # -- Project information -----------------------------------------------------
 
 project = 'GeoCAT-examples'
-copyright = '2019, GeoCAT'
-author = 'GeoCAT'
+
+import datetime
+
+current_year = datetime.datetime.now().year
+copyright = u'{}, University Corporation for Atmospheric Research'.format(
+    current_year)
+author = u'GeoCAT'
 
 # -- General configuration ---------------------------------------------------
 
