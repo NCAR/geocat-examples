@@ -19,8 +19,13 @@ import warnings
 # -- Project information -----------------------------------------------------
 
 project = 'GeoCAT-examples'
-copyright = '2019, GeoCAT'
-author = 'GeoCAT'
+
+import datetime
+
+current_year = datetime.datetime.now().year
+copyright = u'{}, University Corporation for Atmospheric Research'.format(
+    current_year)
+author = u'GeoCAT'
 
 # -- General configuration ---------------------------------------------------
 
@@ -86,9 +91,9 @@ master_doc = 'index'
 # Configure sphinx-gallery plugin
 from sphinx_gallery.sorting import ExampleTitleSortKey
 sphinx_gallery_conf = {
-    'examples_dirs': ['Plots',],  # path to your example scripts
+    'examples_dirs': ['Plots', 'GeoCAT-comp-examples'],  # path to your example scripts
     'filename_pattern': '^((?!sgskip).)*$',
-    'gallery_dirs': ['gallery'
+    'gallery_dirs': ['gallery', 'gallery-geocat-comp'
                     ],  # path to where to save gallery generated output
     'within_subsection_order': ExampleTitleSortKey,
     'matplotlib_animations': True,
