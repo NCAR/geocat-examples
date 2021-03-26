@@ -5,52 +5,49 @@ This script illustrates the following concepts:
     - Drawing polylines and markers using great circle paths
     - Using geographiclib to calculate a great circle path
     - Attaching polylines and markers to a map plot
-    
+
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/polyg_14.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/polyg_14_1_lg.png https://www.ncl.ucar.edu/Applications/Images/polyg_14_2_lg.png
-                         
+
 """
 
 ###############################################################################
 
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+import matplotlib.pyplot as plt
 # Import packages:
 import numpy as np
-import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-import cartopy.feature as cfeature
-from geographiclib.geodesic import Geodesic
-from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
-
+from cartopy.mpl.gridliner import LatitudeFormatter, LongitudeFormatter
 from geocat.viz import util as gvutil
+from geographiclib.geodesic import Geodesic
 
 ###############################################################################
 # Plot
 
 
 def Plot(color, ext, xext, yext, npts, title, subt, style, pt):
-    """
-    Helper function to create two similar plots where color, extent, title, 
-    line style, and marker style can all be customized on the same style
-    map projection.
-    
+    """Helper function to create two similar plots where color, extent, title,
+    line style, and marker style can all be customized on the same style map
+    projection.
+
     Args:
-        
-        color (:class: 'str'): 
+
+        color (:class: 'str'):
             color for line on map in format 'color'
         ext (:class: 'list'):
             extent of the projection view in format [minlon, maxlon, minlat, maxlat]
-        xext (:class: 'list'): 
+        xext (:class: 'list'):
             start and stop points for curve in format [startlon, stoplon]
-        yext (:class: 'list'): 
+        yext (:class: 'list'):
             start and stop points for curve in format [startlat, stoplat]
-        title (:class: 'str'): 
+        title (:class: 'str'):
             title of graph in format "Title"
-        style (:class: 'str'): 
+        style (:class: 'str'):
             line style in format 'style'
-        pt (:class: 'str'): 
+        pt (:class: 'str'):
             marker type in format 'type'
-    
     """
     plt.figure(figsize=(8, 8))
     ax = plt.axes(projection=ccrs.PlateCarree())

@@ -17,10 +17,9 @@ See following URLs to see the reproduces NCL plot & script:
 # Import packages:
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+import geocat.viz.util as gvutil
 import matplotlib.pyplot as plt
 import numpy as np
-
-import geocat.viz.util as gvutil
 
 ##############################################################################
 # Plot:

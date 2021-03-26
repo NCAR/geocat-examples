@@ -18,12 +18,11 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/scatter_5_lg.png
 """
 
+import matplotlib.pyplot as plt
 ##############################################################################
 # Import packages:
 import numpy as np
-import matplotlib.pyplot as plt
 from cycler import cycler
-
 from geocat.viz import util as gvutil
 
 ##############################################################################
@@ -58,7 +57,7 @@ for x in range(0, numBins):
     bins = np.where(data > partitions[x], data, np.nan)
     with np.errstate(
             invalid='ignore'
-    ):  # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
+    ):    # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
         bins = np.where(bins < partitions[x + 1], bins, np.nan)
     indices = np.where(bins != np.nan, indices, np.nan)
     plt.plot(indices,
@@ -75,11 +74,11 @@ legend = ax.legend(bbox_to_anchor=(-0.075, -0.2),
                    columnspacing=0.5,
                    frameon=False)
 for txt in legend.get_texts():
-    txt.set_ha("center")  # horizontal alignment of text item
-    txt.set_va("center")  # vertical alignment of text item
+    txt.set_ha("center")    # horizontal alignment of text item
+    txt.set_va("center")    # vertical alignment of text item
     # Move label text so it is centered under the marker
-    txt.set_x(-25)  # x-position
-    txt.set_y(-20)  # y-position
+    txt.set_x(-25)    # x-position
+    txt.set_y(-20)    # y-position
 
 # Use geocat.viz.util convenience function to set axes parameters
 gvutil.set_axes_limits_and_ticks(ax,

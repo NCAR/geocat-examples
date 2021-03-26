@@ -4,4 +4,3 @@
 
 Map Projections
 ===============
-

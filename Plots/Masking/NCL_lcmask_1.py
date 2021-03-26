@@ -16,12 +16,11 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 import cartopy.crs as ccrs
+import geocat.datafiles as gdf
 import matplotlib.path as mpath
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
-
-import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
@@ -65,7 +64,7 @@ cbar = plt.colorbar(wind,
                     ticks=np.arange(-48, 48, 8),
                     pad=0.1,
                     aspect=12)
-cbar.ax.tick_params(length=0)  # remove tick marks but leave in labels
+cbar.ax.tick_params(length=0)    # remove tick marks but leave in labels
 
 # Use geocat.viz.util convenience function to add left and right titles
 gvutil.set_titles_and_labels(ax,
@@ -113,7 +112,7 @@ cbar = plt.colorbar(wind,
                     ticks=np.arange(-40, 44, 4),
                     pad=0.1,
                     aspect=18)
-cbar.ax.tick_params(length=0)  # remove tick marks but leave in labels
+cbar.ax.tick_params(length=0)    # remove tick marks but leave in labels
 
 # Use geocat.viz.util convenience function to add left and right titles
 gvutil.set_titles_and_labels(ax,

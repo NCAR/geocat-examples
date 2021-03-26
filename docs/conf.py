@@ -13,6 +13,7 @@
 import importlib
 import os
 import warnings
+
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
@@ -76,6 +77,7 @@ warnings.filterwarnings("ignore",
 # a list of builtin themes.
 #
 import sphinx_rtd_theme
+
 html_theme = 'sphinx_rtd_theme'
 html_style = None
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
@@ -90,11 +92,13 @@ master_doc = 'index'
 
 # Configure sphinx-gallery plugin
 from sphinx_gallery.sorting import ExampleTitleSortKey
+
 sphinx_gallery_conf = {
-    'examples_dirs': ['../Plots', '../GeoCAT-comp-examples'],  # path to your example scripts
+    'examples_dirs': ['../Plots', '../GeoCAT-comp-examples'
+                     ],    # path to your example scripts
     'filename_pattern': '^((?!sgskip).)*$',
     'gallery_dirs': ['gallery', 'gallery-geocat-comp'
-                    ],  # path to where to save gallery generated output
+                    ],    # path to where to save gallery generated output
     'within_subsection_order': ExampleTitleSortKey,
     'matplotlib_animations': True,
 }
@@ -103,10 +107,12 @@ html_theme_options = {
     'navigation_depth': 2,
 }
 
+import logging
+
 # the following lines suppress INFO messages when files are downloaded using geocat.datafiles
 import geocat.datafiles
-import logging
 import pooch
+
 logger = pooch.get_logger()
 logger.setLevel(logging.WARNING)
 geocat.datafiles.get("registry.txt")

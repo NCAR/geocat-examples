@@ -23,7 +23,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Create conda environment
-      env: 
+      env:
         ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       uses: goanpeca/setup-miniconda@v1
       with:

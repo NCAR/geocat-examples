@@ -21,15 +21,14 @@ Note:
 # Import packages:
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
-import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
-import matplotlib.contour as mcontour
-from mpl_toolkits.axes_grid1.inset_locator import inset_axes
-import numpy as np
-import xarray as xr
-
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
+import matplotlib.contour as mcontour
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
+import numpy as np
+import xarray as xr
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 ###############################################################################
 # Read in data:

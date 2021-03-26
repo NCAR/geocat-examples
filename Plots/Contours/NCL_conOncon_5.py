@@ -13,17 +13,16 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/conOncon_5_lg.png
 """
 
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+import geocat.datafiles as gdf
+import matplotlib.path as mpath
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 ###############################################################################
 # Import packages:
 import numpy as np
 import xarray as xr
-import cartopy.feature as cfeature
-import cartopy.crs as ccrs
-import matplotlib.path as mpath
-import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
-
-import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
 ###############################################################################
@@ -70,7 +69,7 @@ etick = ['0'] + [
 wtick = [r'%dW' % tick for tick in ticks if (tick != 0) & (tick != 180)]
 labels = etick + wtick
 xticks = np.arange(0, 360, 30)
-yticks = np.full_like(xticks, -5)  # Latitude where the labels will be drawn
+yticks = np.full_like(xticks, -5)    # Latitude where the labels will be drawn
 for xtick, ytick, label in zip(xticks, yticks, labels):
     if label == '180':
         ax.text(xtick,

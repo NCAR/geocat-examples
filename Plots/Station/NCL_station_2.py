@@ -12,16 +12,15 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/station_2.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/station_2_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/station_2_2_lg.png
 """
+import cartopy
+import cartopy.crs as ccrs
+import matplotlib as mpl
 ###################################################
 # Import packages:
 # ----------------
 import numpy as np
-import matplotlib as mpl
-from matplotlib import pyplot as plt
-import cartopy
-import cartopy.crs as ccrs
-
 from geocat.viz import util as gvutil
+from matplotlib import pyplot as plt
 
 ###################################################
 # Generate random data:
@@ -54,7 +53,7 @@ colors = [
     'purple', 'darkblue', 'blue', 'lightblue', 'yellow', 'orange', 'red', 'pink'
 ]
 
-nbins = len(colors)  # One bin for each color
+nbins = len(colors)    # One bin for each color
 
 # Define colormap for plotting based on these colors
 cmap = mpl.colors.ListedColormap(colors)

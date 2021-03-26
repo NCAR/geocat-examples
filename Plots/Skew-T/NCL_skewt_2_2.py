@@ -15,34 +15,36 @@ Note:
     values will be added at a later date once that issue has been closed.
 """
 
+import geocat.datafiles as gdf
+import geocat.viz.util as gvutil
+import matplotlib.lines as mlines
 ##############################################################################
 # Import packages:
 import matplotlib.pyplot as plt
-import matplotlib.lines as mlines
+import metpy.calc as mpcalc
 import numpy as np
 import pandas as pd
 from metpy.plots import SkewT
 from metpy.units import units
-import metpy.calc as mpcalc
-
-import geocat.viz.util as gvutil
-import geocat.datafiles as gdf
 
 ##############################################################################
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = pd.read_csv(gdf.get('ascii_files/sounding.testdata'), delimiter='\\s+', header=None)
+ds = pd.read_csv(gdf.get('ascii_files/sounding.testdata'),
+                 delimiter='\\s+',
+                 header=None)
 
 # Extract the data
-p = ds[1].values * units.hPa  # Pressure [mb/hPa]
-tc = (ds[5].values + 2) * units.degC  # Temperature [C]
-tdc = ds[9].values * units.degC  # Dew pt temp  [C]
+p = ds[1].values * units.hPa    # Pressure [mb/hPa]
+tc = (ds[5].values + 2) * units.degC    # Temperature [C]
+tdc = ds[9].values * units.degC    # Dew pt temp  [C]
 
 # Create dummy wind data
-wspd = np.linspace(0, 150, len(p)) * units.knots  # Wind speed   [knots or m/s]
-wdir = np.linspace(0, 360, len(p)) * units.degrees  # Meteorological wind dir
-u, v = mpcalc.wind_components(wspd, wdir)  # Calculate wind components
+wspd = np.linspace(0, 150,
+                   len(p)) * units.knots    # Wind speed   [knots or m/s]
+wdir = np.linspace(0, 360, len(p)) * units.degrees    # Meteorological wind dir
+u, v = mpcalc.wind_components(wspd, wdir)    # Calculate wind components
 
 ##############################################################################
 # Plot:
@@ -86,9 +88,9 @@ line = mlines.Line2D([1.05, 1.05], [0, 1],
 ax.add_line(line)
 
 # Shade every other section between isotherms
-x1 = np.linspace(-100, 40, 8)  # The starting x values for the shaded regions
-x2 = np.linspace(-90, 50, 8)  # The ending x values for the shaded regions
-y = [1050, 100]  # The range of y values that the shades regions should cover
+x1 = np.linspace(-100, 40, 8)    # The starting x values for the shaded regions
+x2 = np.linspace(-90, 50, 8)    # The ending x values for the shaded regions
+y = [1050, 100]    # The range of y values that the shades regions should cover
 for i in range(0, 8):
     skew.shade_area(y=y,
                     x1=x1[i],

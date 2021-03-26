@@ -12,16 +12,15 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_1_lg.png
 """
 
+import cartopy
+import cartopy.crs as ccrs
+import geocat.datafiles as gdf
+import geocat.viz.util as gvutil
+import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
 import numpy as np
 import xarray as xr
-import cartopy
-import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-
-import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
 
 ###############################################################################
 # Read in data:
@@ -58,13 +57,13 @@ levels = np.arange(-48, 48, 4)
 
 # Using a dictionary makes it easy to reuse the same keyword arguments twice for the contours
 kwargs = dict(
-    levels=levels,  # contour levels specified outside this function
-    xticks=np.arange(-180, 181, 30),  # nice x ticks
-    yticks=np.arange(-90, 91, 30),  # nice y ticks
-    transform=projection,  # ds projection
-    add_colorbar=False,  # don't add individual colorbars for each plot call
-    add_labels=False,  # turn off xarray's automatic Lat, lon labels
-    colors="black",  # note plurals in this and following kwargs
+    levels=levels,    # contour levels specified outside this function
+    xticks=np.arange(-180, 181, 30),    # nice x ticks
+    yticks=np.arange(-90, 91, 30),    # nice y ticks
+    transform=projection,    # ds projection
+    add_colorbar=False,    # don't add individual colorbars for each plot call
+    add_labels=False,    # turn off xarray's automatic Lat, lon labels
+    colors="black",    # note plurals in this and following kwargs
     linestyles="-",
     linewidths=0.5,
 )

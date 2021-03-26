@@ -19,14 +19,13 @@ Note:
 ###############################################################################
 # Import packages:
 
-import numpy as np
-import matplotlib.pyplot as plt
-import xarray as xr
 import cartopy.crs as ccrs
-
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
 import geocat.viz.util as gvutil
+import matplotlib.pyplot as plt
+import numpy as np
+import xarray as xr
+from geocat.viz import cmaps as gvcmaps
 
 ###############################################################################
 # Read in data:
@@ -66,10 +65,10 @@ levels = np.arange(-16, 48, 4)
 # Define dictionary for kwargs
 kwargs = dict(
     levels=levels,
-    xticks=np.arange(-180, 181, 30),  # nice x ticks
-    yticks=np.arange(-90, 91, 30),  # nice y ticks
-    add_colorbar=False,  # allow for colorbar specification later
-    transform=ccrs.PlateCarree(),  # ds projection
+    xticks=np.arange(-180, 181, 30),    # nice x ticks
+    yticks=np.arange(-90, 91, 30),    # nice y ticks
+    add_colorbar=False,    # allow for colorbar specification later
+    transform=ccrs.PlateCarree(),    # ds projection
 )
 
 # Contouf-plot U data (for filled contours)

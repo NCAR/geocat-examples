@@ -10,25 +10,24 @@ This script illustrates the following concepts:
     - Adding a color bar
     - Following best practices when choosing a colormap.
       More information on colormap best practices can be found `here <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py>`_.
-    
+
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/mask_5.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/mask_5_lg.png
-                         
+
 """
 
 ###############################################################################
 # Import packages:
 
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+import geocat.datafiles as gdf
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
-import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-import cartopy.feature as cfeature
-import matplotlib.patches as mpatches
-
 from geocat.viz import util as gvutil
-import geocat.datafiles as gdf
 
 ###############################################################################
 # Read in Data
@@ -53,12 +52,11 @@ ax.add_feature(cfeature.LAND, color="green")
 ax.add_feature(cfeature.LAKES, color="plum")
 ax.add_feature(cfeature.OCEAN, color="blue")
 
-'''
-Cartopy does not currently have a feature that separates island land from 
-main land. There is also no feature to add ice shelf data to a projection.
-This addition would require another data set to specifiy area encompassed
-by an ice shelf in a region.
-'''
+# Cartopy does not currently have a feature that separates island land from
+# main land. There is also no feature to add ice shelf data to a projection.
+# This addition would require another data set to specifiy area encompassed
+# by an ice shelf in a region.
+
 # Create label names and define colors for the legend
 land = mpatches.Rectangle((0, 0), 1, 1, facecolor="green")
 lakes = mpatches.Rectangle((0, 0), 1, 1, facecolor="plum")
@@ -67,8 +65,11 @@ ocean = mpatches.Rectangle((0, 0), 1, 1, facecolor="blue")
 labels = ['Land ', 'Lakes', 'Ocean']
 
 # Add a legend to plot
-plt.legend([land, lakes, ocean], labels,
-           loc='lower center', bbox_to_anchor=(0.5, -0.2), ncol=3)
+plt.legend([land, lakes, ocean],
+           labels,
+           loc='lower center',
+           bbox_to_anchor=(0.5, -0.2),
+           ncol=3)
 
 # Use geocat.viz.util convenience function to set titles and labels without
 # calling several matplotlib functions

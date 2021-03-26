@@ -15,13 +15,12 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 import cartopy.crs as ccrs
+import geocat.datafiles as gdf
+import geocat.viz.util as gvutil
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
-
-import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
-import geocat.viz.util as gvutil
 
 ###############################################################################
 # Read in data:
@@ -37,11 +36,10 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 
 
 def plot_labelled_filled_contours(data, ax=None):
-    """
-    A utility function for convenience that plots labelled, filled contours with black contours
-    marking each level.It will return a dictionary containing three objects corresponding to the
-    filled contours, the black contours, and the contour labels.
-    """
+    """A utility function for convenience that plots labelled, filled contours
+    with black contours marking each level.It will return a dictionary
+    containing three objects corresponding to the filled contours, the black
+    contours, and the contour labels."""
 
     # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
     newcmp = gvutil.truncate_colormap(gvcmaps.gui_default,
@@ -50,14 +48,14 @@ def plot_labelled_filled_contours(data, ax=None):
 
     handles = dict()
     handles["filled"] = data.plot.contourf(
-        ax=ax,  # this is the axes we want to plot to
-        cmap=newcmp,  # our special colormap
-        levels=levels,  # contour levels specified outside this function
-        xticks=np.arange(-180, 181, 30),  # nice x ticks
-        yticks=np.arange(-90, 91, 30),  # nice y ticks
-        transform=projection,  # data projection
-        add_colorbar=False,  # don't add individual colorbars for each plot call
-        add_labels=False,  # turn off xarray's automatic Lat, lon labels
+        ax=ax,    # this is the axes we want to plot to
+        cmap=newcmp,    # our special colormap
+        levels=levels,    # contour levels specified outside this function
+        xticks=np.arange(-180, 181, 30),    # nice x ticks
+        yticks=np.arange(-90, 91, 30),    # nice y ticks
+        transform=projection,    # data projection
+        add_colorbar=False,    # don't add individual colorbars for each plot call
+        add_labels=False,    # turn off xarray's automatic Lat, lon labels
     )
 
     # matplotlib's contourf doesn't let you specify the "edgecolors" (MATLAB terminology)
@@ -65,17 +63,17 @@ def plot_labelled_filled_contours(data, ax=None):
     handles["contour"] = data.plot.contour(
         ax=ax,
         levels=levels,
-        colors="black",  # note plurals in this and following kwargs
+        colors="black",    # note plurals in this and following kwargs
         linestyles="-",
         linewidths=0.5,
-        add_labels=False,  # again turn off automatic labels
+        add_labels=False,    # again turn off automatic labels
     )
 
     # Label the contours
     ax.clabel(
         handles["contour"],
         fontsize=8,
-        fmt="%.0f",  # Turn off decimal points
+        fmt="%.0f",    # Turn off decimal points
     )
 
     # Add coastlines

@@ -5,7 +5,7 @@ This script illustrates the following concepts:
     - Drawing Skew-T plots
     - Thinning the wind barbs in a Skew-T plot
     - Customizing the background of a Skew_T plot
-    
+
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/skewt_3.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/skewt_3_2_lg.png
@@ -14,16 +14,15 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 
-import numpy as np
-import matplotlib.pyplot as plt
+import geocat.datafiles as gdf
 import matplotlib.lines as mlines
-import pandas as pd
+import matplotlib.pyplot as plt
 import metpy.calc as mpcalc
+import numpy as np
+import pandas as pd
+from geocat.viz import util as gvutil
 from metpy.plots import SkewT
 from metpy.units import units
-
-import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
 
 ###############################################################################
 # Read in data:
@@ -32,12 +31,12 @@ from geocat.viz import util as gvutil
 ds = pd.read_csv(gdf.get('ascii_files/sounding_ATS.csv'), header=None)
 
 # Extract the data
-p = ds[0].values * units.hPa  # Pressure [mb/hPa]
-tc = ds[1].values * units.degC  # Temperature [C]
-tdc = ds[2].values * units.degC  # Dew pt temp  [C]
-wspd = ds[5].values * units.knots  # Wind speed   [knots or m/s]
-wdir = ds[6].values * units.degrees  # Meteorological wind dir
-u, v = mpcalc.wind_components(wspd, wdir)  # Calculate wind components
+p = ds[0].values * units.hPa    # Pressure [mb/hPa]
+tc = ds[1].values * units.degC    # Temperature [C]
+tdc = ds[2].values * units.degC    # Dew pt temp  [C]
+wspd = ds[5].values * units.knots    # Wind speed   [knots or m/s]
+wdir = ds[6].values * units.degrees    # Meteorological wind dir
+u, v = mpcalc.wind_components(wspd, wdir)    # Calculate wind components
 
 ###############################################################################
 # Plot
@@ -50,9 +49,9 @@ skew = SkewT(fig, rotation=45)
 ax = skew.ax
 
 # Shade every other section between isotherms
-x1 = np.linspace(-100, 40, 8)  # The starting x values for the shaded regions
-x2 = np.linspace(-90, 50, 8)  # The ending x values for the shaded regions
-y = [1050, 100]  # The range of y values that the shaded regions should cover
+x1 = np.linspace(-100, 40, 8)    # The starting x values for the shaded regions
+x2 = np.linspace(-90, 50, 8)    # The ending x values for the shaded regions
+y = [1050, 100]    # The range of y values that the shaded regions should cover
 
 for i in range(0, 8):
     skew.shade_area(y=y,
@@ -85,14 +84,14 @@ ax.add_line(line)
 # Add relevant special lines
 # Choose starting temperatures in Kelvin for the dry adiabats
 t0 = units.K * np.arange(243.15, 473.15, 10)
-skew.plot_dry_adiabats(t0=t0,
-                       linestyles='solid',
-                       colors='gray',
-                       linewidth=1.5)
+skew.plot_dry_adiabats(t0=t0, linestyles='solid', colors='gray', linewidth=1.5)
 
 # Choose temperatures for moist adiabats
 t0 = units.K * np.arange(281.15, 306.15, 4)
-msa = skew.plot_moist_adiabats(t0=t0, linestyles='solid', colors='lime', linewidths=1.5)
+msa = skew.plot_moist_adiabats(t0=t0,
+                               linestyles='solid',
+                               colors='lime',
+                               linewidths=1.5)
 
 # Choose mixing ratios
 w = np.array([0.001, 0.002, 0.003, 0.005, 0.008, 0.012, 0.020]).reshape(-1, 1)

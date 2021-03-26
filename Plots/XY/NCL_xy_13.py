@@ -9,15 +9,14 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/xy_13_lg.png
 """
 
+import geocat.datafiles as gdf
+import matplotlib.pyplot as plt
 ##############################################################################
 # Import packages:
 import numpy as np
 import xarray as xr
-import matplotlib.pyplot as plt
-from matplotlib import collections as mc
-
-import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
+from matplotlib import collections as mc
 
 ##############################################################################
 # Read in data:
@@ -34,7 +33,7 @@ V = ds.isel(time=0, lon=30, drop=True).V
 # error for your dataset
 err_above = V.data + 1.5
 err_below = V.data - 1
-x = range(0, 64)  # the x values used to plot the data and error bars
+x = range(0, 64)    # the x values used to plot the data and error bars
 
 # Make a tuple to represent the bottom and top points of the error bar
 err_below = tuple(zip(x, err_below))

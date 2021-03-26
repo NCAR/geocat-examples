@@ -12,17 +12,15 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/sat_3_lg.png
 """
 
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+import geocat.datafiles as gdf
 ###############################################################################
 # Import packages:
 import matplotlib.pyplot as plt
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-import xarray as xr
-import numpy as np
 import matplotlib.ticker as mticker
-
-import geocat.datafiles as gdf
-
+import numpy as np
+import xarray as xr
 from geocat.viz import util as gvutil
 
 ###############################################################################
@@ -123,11 +121,11 @@ heatmap = t.plot.contourf(ax=ax,
 # Add color bar
 cbar_ticks = np.arange(-1.5, 31.5, 3)
 cbar = plt.colorbar(heatmap,
-                    orientation='horizontal', 
-                    extendfrac=[0,.1],
-                    shrink=0.8, 
+                    orientation='horizontal',
+                    extendfrac=[0, .1],
+                    shrink=0.8,
                     aspect=14,
-                    pad=0.05, 
+                    pad=0.05,
                     extendrect=True,
                     ticks=cbar_ticks)
 

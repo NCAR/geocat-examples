@@ -17,14 +17,13 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/conLev_4_lg.png
 """
 
+import cartopy.crs as ccrs
+import geocat.datafiles as gdf
+import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
 import numpy as np
 import xarray as xr
-import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-
-import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
@@ -61,7 +60,7 @@ ax.coastlines(linewidth=0.5, resolution="110m")
 # Import an NCL colormap
 newcmp = gvcmaps.BlRe
 newcmp.colors[len(newcmp.colors) //
-              2] = [1, 1, 1]  # Set middle value to white to match NCL
+              2] = [1, 1, 1]    # Set middle value to white to match NCL
 
 # Contourf-plot data (for filled contours)
 p = newx.plot.contourf(

@@ -11,12 +11,11 @@ See following URLs to see the reproduced NCL plot & script:
 
 """
 
+import geocat.datafiles as gdf
 ###############################################################################
 # Import packages:
 import matplotlib.pyplot as plt
 import numpy as np
-
-import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
 ###############################################################################
@@ -26,11 +25,12 @@ from geocat.viz import util as gvutil
 lon, u, v, t = np.loadtxt(gdf.get("ascii_files/xy.asc"), unpack=True)
 
 # Do some unit conversions
-lon = lon * 360/128
-t = (t - 273.15) * 9/5 * 32
+lon = lon * 360 / 128
+t = (t - 273.15) * 9 / 5 * 32
 
 ###############################################################################
 # Helper function to format the axes
+
 
 def make_axes(plot_size):
     fig, ax1 = plt.subplots(figsize=plot_size)
@@ -41,22 +41,16 @@ def make_axes(plot_size):
     ax3.spines['right'].set_position(('axes', 1.15))
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax1,
-                                 y_minor_per_major=5,
-                                 labelsize=14)
-    gvutil.add_major_minor_ticks(ax2,
-                                 y_minor_per_major=5,
-                                 labelsize=14)
+    gvutil.add_major_minor_ticks(ax1, y_minor_per_major=5, labelsize=14)
+    gvutil.add_major_minor_ticks(ax2, y_minor_per_major=5, labelsize=14)
     gvutil.add_major_minor_ticks(ax3,
                                  x_minor_per_major=5,
                                  y_minor_per_major=4,
                                  labelsize=14)
 
     # Use geocat.viz.util convenience function to set axes tick values
-    gvutil.set_axes_limits_and_ticks(ax1,
-                                     ylim=(-3500, -2900))
-    gvutil.set_axes_limits_and_ticks(ax2,
-                                     ylim=(10, 60))
+    gvutil.set_axes_limits_and_ticks(ax1, ylim=(-3500, -2900))
+    gvutil.set_axes_limits_and_ticks(ax2, ylim=(10, 60))
     gvutil.set_axes_limits_and_ticks(ax3,
                                      xlim=(0, 360),
                                      ylim=(-16, 12),
@@ -64,19 +58,9 @@ def make_axes(plot_size):
                                      yticks=np.arange(-16, 13, 4))
 
     # Adjust which sides of the plot the tick marks are drawn for each axes
-    ax1.tick_params('both',
-                    which='both',
-                    right=False)
-    ax2.tick_params('both',
-                    which='both',
-                    bottom=False,
-                    top=False,
-                    left=False)
-    ax3.tick_params('both',
-                    which='both',
-                    bottom=False,
-                    top=False,
-                    left=False)
+    ax1.tick_params('both', which='both', right=False)
+    ax2.tick_params('both', which='both', bottom=False, top=False, left=False)
+    ax3.tick_params('both', which='both', bottom=False, top=False, left=False)
     return ax1, ax2, ax3
 
 

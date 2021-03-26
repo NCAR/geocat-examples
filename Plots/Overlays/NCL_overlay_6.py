@@ -10,7 +10,7 @@ This script illustrates the following concepts:
    - Assigning a colormap to contour and quiver plots
    - Add arrows to streamlines
    - Using zorder to specify the order in which elements will be drawn
-   
+
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/overlay_6.ncl
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/overlay_6_lg.png
@@ -31,19 +31,18 @@ Differences between NCL example and this one:
 
 """
 
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+import geocat.datafiles as gdf
+import matplotlib.colors as mcolors
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
 import numpy as np
 import xarray as xr
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-from mpl_toolkits.axes_grid1.inset_locator import inset_axes
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-import matplotlib.colors as mcolors
-
-import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 ###############################################################################
 # Read in data:
@@ -104,7 +103,7 @@ ax.set_extent((-128, -58, 18, 65), crs=ccrs.PlateCarree())
 # numbers are plotted before higher ones. For example, the coastlines have
 # zorder=2 while the filled contours have zorder=1. This will draw the
 # coastlines on top of the filled contours.
-transparent = (0, 0, 0, 0)  # RGBA value for a transparent color for lakes
+transparent = (0, 0, 0, 0)    # RGBA value for a transparent color for lakes
 ax.add_feature(cfeature.OCEAN, color='lightskyblue', zorder=0)
 ax.add_feature(cfeature.LAND, color='silver', zorder=0)
 ax.add_feature(cfeature.LAKES,
@@ -144,7 +143,7 @@ cax1.tick_params(size=0)
 #
 with np.errstate(
         invalid='ignore'
-):  # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
+):    # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
     streams = ax.streamplot(u500.lon,
                             u500.lat,
                             u500.data,
@@ -196,12 +195,12 @@ t = t.data[0:lat_size:2, 0:lon_size:2]
 
 # Import and modify color map for vectors
 wind_cmap = gvcmaps.amwg_blueyellowred
-bounds = np.arange(-30, 120, 10)  # Sets where boundarys on color map will be
-norm = mcolors.BoundaryNorm(bounds, wind_cmap.N)  # Assigns colors to values
+bounds = np.arange(-30, 120, 10)    # Sets where boundarys on color map will be
+norm = mcolors.BoundaryNorm(bounds, wind_cmap.N)    # Assigns colors to values
 # Draw wind vectors
 with np.errstate(
         invalid='ignore'
-):  # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
+):    # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
     Q = ax.quiver(x,
                   y,
                   u,
@@ -212,7 +211,7 @@ with np.errstate(
                   headwidth=5,
                   cmap=wind_cmap,
                   zorder=4)
-   
+
 # Add color bar
 plt.colorbar(Q,
              cax=cax2,

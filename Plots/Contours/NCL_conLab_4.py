@@ -15,16 +15,15 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/conLab_4_lg.png
 """
 
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+import geocat.datafiles as gdf
+import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
 import numpy as np
 import xarray as xr
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
-import matplotlib.pyplot as plt
-
-import geocat.datafiles as gdf
+from cartopy.mpl.gridliner import LatitudeFormatter, LongitudeFormatter
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
@@ -107,12 +106,10 @@ cbar = plt.colorbar(colors,
                     aspect=12,
                     shrink=0.8,
                     pad=0.075)
-cbar.ax.tick_params(labelsize=14)  # Make the labels larger
+cbar.ax.tick_params(labelsize=14)    # Make the labels larger
 
 # Specify coordinates for contour labels in (longitude, latitude) format
-manual = [(25, 28), (30, -17),
-          (40, -21), (40, -5),
-          (42, -13), (10, 50),
+manual = [(25, 28), (30, -17), (40, -21), (40, -5), (42, -13), (10, 50),
           (62, -15), (65, -2)]
 
 # Draw contour labels and pass in coordinates using `manual` argument

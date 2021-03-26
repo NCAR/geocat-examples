@@ -15,15 +15,15 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: http://www.ncl.ucar.edu/Applications/Images/panel_35_lg.png
 """
 
+import math
+
+import geocat.viz.util as gvutil
 ###############################################################################
 # Import packages:
 import matplotlib.pyplot as plt
 import numpy as np
-
 from geocat.viz import cmaps as gvcmaps
-import geocat.viz.util as gvutil
 
-import math
 ################################################################
 # Definition of generate_2d_array and helper functions from https://github.com/NCAR/pyngl/blob/develop/src/ngl/__init__.py
 
@@ -58,31 +58,31 @@ def _dfran():
 
 def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0, \
                       highs_at=None, lows_at=None):
+    """Generates smooth 2D arrays primarily for use in examples.
+
+    array = generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0,
+                              highs_at=None, lows_at=None)
+    dims -- a list (or array) containing the dimensions of the
+            two-dimensional array to be returned.
+    num_low, num_high -- Integers representing the approximate minimum
+                         and maximum number of highs and lows that the
+                         output array will have. They must be in the
+                         range 1 to 25. If not, then they will be set to
+                         either 1 or 25.
+    minv, maxv -- The exact minimum and maximum values that the output array
+                  will have.
+    iseed -- an optional argument specifying a seed for the random number
+             generator.  If iseed is outside the range 0 to 99, it will
+             be set to 0.
+    lows_at -- an optional argument that is a list of coordinate
+               pairs specifying where the lows will occur.  If this
+               argument appears, then its length must equal num_low and
+               the coordinates must be in the ranges specified in dims.
+    highs_at -- an optional argument that is a list of coordinate
+                pairs specifying where the highs will occur.  If this
+                argument appears, then its length must equal num_high and
+                the coordinates must be in the ranges specified in dims.
     """
-Generates smooth 2D arrays primarily for use in examples.
-array = generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0,
-                          highs_at=None, lows_at=None)
-dims -- a list (or array) containing the dimensions of the
-        two-dimensional array to be returned.
-num_low, num_high -- Integers representing the approximate minimum 
-                     and maximum number of highs and lows that the 
-                     output array will have. They must be in the 
-                     range 1 to 25. If not, then they will be set to 
-                     either 1 or 25.
-minv, maxv -- The exact minimum and maximum values that the output array 
-              will have.
-iseed -- an optional argument specifying a seed for the random number
-         generator.  If iseed is outside the range 0 to 99, it will
-         be set to 0.
-lows_at -- an optional argument that is a list of coordinate  
-           pairs specifying where the lows will occur.  If this
-           argument appears, then its length must equal num_low and
-           the coordinates must be in the ranges specified in dims.
-highs_at -- an optional argument that is a list of coordinate  
-            pairs specifying where the highs will occur.  If this
-            argument appears, then its length must equal num_high and
-            the coordinates must be in the ranges specified in dims.
-  """
 
     #  Globals for random numbers.
 
@@ -157,26 +157,32 @@ highs_at -- an optional argument that is a list of coordinate
 
     for k in range(num_low):
         if not lows_at is None:
-            tmp_array[0,
-                      k] = float(lows_at[k][1])  # lows at specified locations.
+            tmp_array[0, k] = float(
+                lows_at[k][1])    # lows at specified locations.
             tmp_array[1, k] = float(lows_at[k][0])
             tmp_array[2, k] = -1.
         else:
-            tmp_array[0, k] = 1. + (float(nx) -
-                                    1.) * _dfran()  # lows at random locations.
-            tmp_array[1, k] = 1. + (float(ny) -
-                                    1.) * _dfran()  # lows at random locations.
+            tmp_array[0,
+                      k] = 1. + (float(nx) -
+                                 1.) * _dfran()    # lows at random locations.
+            tmp_array[1,
+                      k] = 1. + (float(ny) -
+                                 1.) * _dfran()    # lows at random locations.
             tmp_array[2, k] = -1.
     for k in range(num_low, num_low + num_high):
         if not highs_at is None:
-            tmp_array[0, k] = float(highs_at[k - num_low][1])  # highs locations
-            tmp_array[1, k] = float(highs_at[k - num_low][0])  # highs locations
+            tmp_array[0,
+                      k] = float(highs_at[k - num_low][1])    # highs locations
+            tmp_array[1,
+                      k] = float(highs_at[k - num_low][0])    # highs locations
             tmp_array[2, k] = 1.
         else:
-            tmp_array[0, k] = 1. + (float(nx) -
-                                    1.) * _dfran()  # highs at random locations.
-            tmp_array[1, k] = 1. + (float(ny) -
-                                    1.) * _dfran()  # highs at random locations.
+            tmp_array[0,
+                      k] = 1. + (float(nx) -
+                                 1.) * _dfran()    # highs at random locations.
+            tmp_array[1,
+                      k] = 1. + (float(ny) -
+                                 1.) * _dfran()    # highs at random locations.
             tmp_array[2, k] = 1.
 
     dmin = 1.e+36

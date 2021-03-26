@@ -26,19 +26,17 @@ Dependencies:
 ###############################################################################
 # Import packages:
 
+import cartopy.crs as ccrs
+import geocat.datafiles as gdf
+import geocat.viz.util as gvutil
+import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
-import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-from matplotlib import cm
-from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
 from cartopy.mpl.geoaxes import GeoAxes
-from mpl_toolkits.axes_grid1 import AxesGrid
-
-import geocat.datafiles as gdf
+from cartopy.mpl.ticker import LatitudeFormatter, LongitudeFormatter
 from geocat.comp import linint2
-import geocat.viz.util as gvutil
-
+from matplotlib import cm
+from mpl_toolkits.axes_grid1 import AxesGrid
 
 ###############################################################################
 # Read in data:
@@ -49,7 +47,6 @@ ds = xr.open_dataset(gdf.get('netcdf_files/sst.nc'))
 sst = ds.TEMP[0, 0, :, :].chunk()
 lat = ds.LAT[:]
 lon = ds.LON[:]
-
 
 ###############################################################################
 # GeoCAT-comp function call:
@@ -79,7 +76,7 @@ axgr = AxesGrid(fig,
                 cbar_mode='single',
                 cbar_pad=0.5,
                 cbar_size='3%',
-                label_mode='')  # note the empty label_mode
+                label_mode='')    # note the empty label_mode
 
 # Create a dictionary for common plotting options for both subplots
 plot_options = dict(transform=projection,
@@ -98,10 +95,7 @@ for i, ax in enumerate(axgr):
     # Plot contours for both the subplots
     if (i == 0):
         sst.plot.contourf(ax=ax, **plot_options)
-        ax.set_title('Original Grid',
-                     fontsize=14,
-                     fontweight='bold',
-                     y=1.04)
+        ax.set_title('Original Grid', fontsize=14, fontweight='bold', y=1.04)
     else:
         p = newsst.plot.contourf(ax=ax, **plot_options)
         ax.set_title('Regrid (to coarse) - linint2',
@@ -125,7 +119,6 @@ for i, ax in enumerate(axgr):
     # Use geocat.viz.util convenience function to make plots look like NCL
     # plots by using latitude, longitude tick labels
     gvutil.add_lat_lon_ticklabels(ax, zero_direction_label=False)
-
 
 # Add color bar and label details (title, size, etc.)
 cax = axgr.cbar_axes[0]
