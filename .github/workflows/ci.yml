@@ -23,6 +23,7 @@ jobs:
          environment-file: conda_environment.yml
     - name: Build sphinx docs
       shell: bash -l {0}
+      working-directory: ./docs
       run: |
         conda info
         conda list

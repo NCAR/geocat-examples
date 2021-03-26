@@ -91,7 +91,7 @@ master_doc = 'index'
 # Configure sphinx-gallery plugin
 from sphinx_gallery.sorting import ExampleTitleSortKey
 sphinx_gallery_conf = {
-    'examples_dirs': ['Plots', 'GeoCAT-comp-examples'],  # path to your example scripts
+    'examples_dirs': ['../Plots', '../GeoCAT-comp-examples'],  # path to your example scripts
     'filename_pattern': '^((?!sgskip).)*$',
     'gallery_dirs': ['gallery', 'gallery-geocat-comp'
                     ],  # path to where to save gallery generated output
