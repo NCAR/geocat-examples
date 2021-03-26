@@ -44,7 +44,7 @@ from mpl_toolkits.axes_grid1 import AxesGrid
 # Open a netCDF data file using xarray default engine and load the data
 # into xarray.DataArrays
 ds = xr.open_dataset(gdf.get('netcdf_files/sst.nc'))
-sst = ds.TEMP[0, 0, :, :].chunk()
+sst = ds.TEMP[0, 0, :, :]
 lat = ds.LAT[:]
 lon = ds.LON[:]
 
