@@ -1,6 +1,7 @@
-![Build documentation pages](https://github.com/NCAR/GeoCAT-examples/workflows/Build%20documentation%20pages/badge.svg)
-[![Documentation Status](https://readthedocs.org/projects/geocat-examples/badge/?version=latest)](https://geocat-examples.readthedocs.io/en/latest/?badge=latest)
-
+| CI           | [![GitHub Workflow Status][github-ci-badge]][github-ci-link] |
+| :----------- | :----------------------------------------------------------: |
+| **Docs**     |       [![Documentation Status][rtd-badge]][rtd-link]         |
+| **License**  |           [![License][license-badge]][repo-link]             |
 
 # GeoCAT-examples
 
@@ -42,3 +43,11 @@ in the function's doc string and/or requires visualization for improved demonstr
 # Installation instructions
 
 Please see our documentation for [installation instructions](https://github.com/NCAR/geocat-examples/INSTALLATION.md).
+
+
+[github-ci-badge]: https://img.shields.io/github/workflow/status/NCAR/geocat-examples/CI?label=CI&logo=github&style=for-the-badge
+[github-ci-link]: https://github.com/NCAR/geocat-comp/actions?query=workflow%3ACI
+[rtd-badge]: https://img.shields.io/readthedocs/geocat-examples/latest.svg?style=for-the-badge
+[rtd-link]: https://geocat-comp.readthedocs.io/en/latest/?badge=latest
+[license-badge]: https://img.shields.io/github/license/NCAR/geocat-examples?style=for-the-badge
+[repo-link]: https://github.com/NCAR/geocat-examples
