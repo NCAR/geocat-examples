@@ -1,5 +1,6 @@
 /_build/
 /gallery/
+/gallery-geocat-comp/
 *.ncl
 .vscode/
 .idea/

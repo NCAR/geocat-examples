@@ -1,13 +1,16 @@
-.. _examples-index:
+.. _comp-examples-index:
 
-.. _gallery:
+.. _gallery-geocat-comp:
 
-=======
-Gallery
-=======
+====================
+GeoCAT-comp Examples
+====================
 
-This gallery contains visualization examples from many plotting categories
-of geosciences data.
+This gallery contains usage examples for the GeoCAT-comp functions.
+These examples are represented as Python scripts and their
+corresponding Jupyter notebooks, which may or may not contain
+visualizations (i.e. Matplotlib plots), depending on the function
+characteristics.
 
 For visualization, mainly `matplotlib` and `cartopy` are used. In addition,
 `geocat-datafiles <https://github.com/NCAR/geocat-datafiles>`_ is used as a
