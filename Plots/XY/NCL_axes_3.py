@@ -13,21 +13,20 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/axes_3_lg.png
 """
 
+import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.ticker import NullFormatter
-
 from geocat.viz import util as gvutil
+from matplotlib.ticker import NullFormatter
 
 ###############################################################################
 # Create dummy data for XY plots
 
 npts = 500
 
-x = 500 + 0.9 * np.arange(0, npts) * np.cos(np.pi/100 * np.arange(0, npts))
-y = 500 + 0.9 * np.arange(0, npts) * np.sin(np.pi/100 * np.arange(0, npts))
+x = 500 + 0.9 * np.arange(0, npts) * np.cos(np.pi / 100 * np.arange(0, npts))
+y = 500 + 0.9 * np.arange(0, npts) * np.sin(np.pi / 100 * np.arange(0, npts))
 
 ###############################################################################
 # Plot:
@@ -60,7 +59,6 @@ gvutil.set_axes_limits_and_ticks(axes[0][0],
                                  xticks=range(0, 901, 100),
                                  yticks=range(100, 1001, 100))
 
-
 # Subplot(0, 1): Create plot with log y-axis and gridlines
 axes[0][1].set_yscale('log')
 axes[0][1].plot(x, y, color='limegreen')
@@ -88,7 +86,6 @@ axes[0][1].yaxis.set_minor_formatter(NullFormatter())
 
 # Turn on vertical gridlines
 axes[0][1].grid(True, which='major', axis='x', color='black')
-
 
 # Subplot(1, 0): Create plot with log x-axis and half-axis background
 axes[1][0].set_xscale('log')
@@ -122,7 +119,6 @@ axes[1][0].spines['top'].set_visible(False)
 # Hide the top and right side tick marks
 axes[1][0].yaxis.set_ticks_position('left')
 axes[1][0].xaxis.set_ticks_position('bottom')
-
 
 # Subplot(1, 1) Create plot with log axes and no background
 axes[1][1].set_xscale('log')
