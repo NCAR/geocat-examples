@@ -49,8 +49,8 @@ following contribution guidelines:
      but prepended with "NCL_". For example: `new_script_1.ncl` becomes `NCL_new_script_1.py`.
 
 5. When you complete an example script, please try building the 
-[Sphinx](https://www.sphinx-doc.org/en/master/) -generated documentation (i.e. html files) 
-from this repo by running the following commands from the root directory:
+[Sphinx](https://www.sphinx-doc.org/en/master/)-generated documentation (i.e. html files) 
+from this repo by running the following commands from within the `/docs` directory:
 
    ```bash 
    make html
