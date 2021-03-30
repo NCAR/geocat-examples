@@ -76,7 +76,7 @@ axgr = AxesGrid(fig,
                 cbar_mode='single',
                 cbar_pad=0.5,
                 cbar_size='3%',
-                label_mode='')    # note the empty label_mode
+                label_mode='')  # note the empty label_mode
 
 # Create a dictionary for common plotting options for both subplots
 plot_options = dict(transform=projection,

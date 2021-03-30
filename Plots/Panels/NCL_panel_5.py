@@ -53,12 +53,12 @@ def plot_labelled_filled_contours(data, ax=None, label=None):
 
     handles = dict()
     handles["filled"] = data.plot.contourf(
-        ax=ax,    # this is the axes we want to plot to
-        cmap=newcmp,    # our special colormap
-        levels=levels,    # contour levels specified outside this function
-        transform=projection,    # data projection
-        add_colorbar=False,    # don't add individual colorbars for each plot call
-        add_labels=False,    # turn off xarray's automatic Lat, lon labels
+        ax=ax,  # this is the axes we want to plot to
+        cmap=newcmp,  # our special colormap
+        levels=levels,  # contour levels specified outside this function
+        transform=projection,  # data projection
+        add_colorbar=False,  # don't add individual colorbars for each plot call
+        add_labels=False,  # turn off xarray's automatic Lat, lon labels
     )
 
     # matplotlib's contourf doesn't let you specify the "edgecolors" (MATLAB terminology)
@@ -66,17 +66,17 @@ def plot_labelled_filled_contours(data, ax=None, label=None):
     handles["contour"] = data.plot.contour(
         ax=ax,
         levels=levels,
-        colors="black",    # note plurals in this and following kwargs
+        colors="black",  # note plurals in this and following kwargs
         linestyles="-",
         linewidths=0.5,
-        add_labels=False,    # again turn off automatic labels
+        add_labels=False,  # again turn off automatic labels
     )
 
     # Label the contours
     ax.clabel(
         handles["contour"],
         fontsize=8,
-        fmt="%.0f",    # Turn off decimal points
+        fmt="%.0f",  # Turn off decimal points
     )
 
     # Add coastlines and make them semitransparent for plot legibility

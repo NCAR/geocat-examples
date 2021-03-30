@@ -103,7 +103,7 @@ ax.set_extent((-128, -58, 18, 65), crs=ccrs.PlateCarree())
 # numbers are plotted before higher ones. For example, the coastlines have
 # zorder=2 while the filled contours have zorder=1. This will draw the
 # coastlines on top of the filled contours.
-transparent = (0, 0, 0, 0)    # RGBA value for a transparent color for lakes
+transparent = (0, 0, 0, 0)  # RGBA value for a transparent color for lakes
 ax.add_feature(cfeature.OCEAN, color='lightskyblue', zorder=0)
 ax.add_feature(cfeature.LAND, color='silver', zorder=0)
 ax.add_feature(cfeature.LAKES,
@@ -143,7 +143,7 @@ cax1.tick_params(size=0)
 #
 with np.errstate(
         invalid='ignore'
-):    # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
+):  # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
     streams = ax.streamplot(u500.lon,
                             u500.lat,
                             u500.data,
@@ -195,12 +195,12 @@ t = t.data[0:lat_size:2, 0:lon_size:2]
 
 # Import and modify color map for vectors
 wind_cmap = gvcmaps.amwg_blueyellowred
-bounds = np.arange(-30, 120, 10)    # Sets where boundarys on color map will be
-norm = mcolors.BoundaryNorm(bounds, wind_cmap.N)    # Assigns colors to values
+bounds = np.arange(-30, 120, 10)  # Sets where boundarys on color map will be
+norm = mcolors.BoundaryNorm(bounds, wind_cmap.N)  # Assigns colors to values
 # Draw wind vectors
 with np.errstate(
         invalid='ignore'
-):    # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
+):  # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
     Q = ax.quiver(x,
                   y,
                   u,

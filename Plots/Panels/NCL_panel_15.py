@@ -49,9 +49,9 @@ grid = gridspec.GridSpec(nrows=3, ncols=1, figure=fig)
 proj = ccrs.PlateCarree()
 
 # Add the subplots
-ax1 = fig.add_subplot(grid[0], projection=proj)    # upper cell of grid
-ax2 = fig.add_subplot(grid[1], projection=proj)    # middle cell of grid
-ax3 = fig.add_subplot(grid[2], projection=proj)    # lower cell of grid
+ax1 = fig.add_subplot(grid[0], projection=proj)  # upper cell of grid
+ax2 = fig.add_subplot(grid[1], projection=proj)  # middle cell of grid
+ax3 = fig.add_subplot(grid[2], projection=proj)  # lower cell of grid
 
 for (ax, title) in [(ax1, 'level 0'), (ax2, 'level 1'), (ax3, 'level 6')]:
     # Use geocat.viz.util convenience function to set axes tick values

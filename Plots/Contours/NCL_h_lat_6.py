@@ -110,7 +110,7 @@ axRHS = ax.twinx()
 gvutil.set_axes_limits_and_ticks(axRHS,
                                  ylim=(0, 32),
                                  yticks=np.arange(4, 32, 4))
-axRHS.tick_params(labelsize=12)    # manually set tick label size
+axRHS.tick_params(labelsize=12)  # manually set tick label size
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
 gvutil.set_titles_and_labels(axRHS, ylabel='Height (km)', labelfontsize=16)

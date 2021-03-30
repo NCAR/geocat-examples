@@ -66,13 +66,13 @@ def make_base_plot():
 
     # Using a dictionary prevents repeating the same keyword arguments twice for the contours.
     kwargs = dict(
-        levels=levels,    # contour levels specified outside this function
-        xticks=[-120, -90, -60, -30, 0],    # nice x ticks
-        yticks=[-20, 0, 20, 40],    # nice y ticks
-        transform=ccrs.PlateCarree(),    # ds projection
-        add_colorbar=False,    # don't add individual colorbars for each plot call
-        add_labels=False,    # turn off xarray's automatic Lat, lon labels
-        colors="gray",    # note plurals in this and following kwargs
+        levels=levels,  # contour levels specified outside this function
+        xticks=[-120, -90, -60, -30, 0],  # nice x ticks
+        yticks=[-20, 0, 20, 40],  # nice y ticks
+        transform=ccrs.PlateCarree(),  # ds projection
+        add_colorbar=False,  # don't add individual colorbars for each plot call
+        add_labels=False,  # turn off xarray's automatic Lat, lon labels
+        colors="gray",  # note plurals in this and following kwargs
         linestyles="-",
         linewidths=0.5,
     )
@@ -96,18 +96,16 @@ def make_base_plot():
         (-39, -11),
         (-28, 11),
         (-16, -1),
-        (-8, -9),    # Python allows trailing list separators.
+        (-8, -9),  # Python allows trailing list separators.
     ]
     ax.clabel(
         hdl,
-        np.arange(-8, 24,
-                  8),    # Only label these contour levels: [-8, 0, 8, 16]
+        np.arange(-8, 24, 8),  # Only label these contour levels: [-8, 0, 8, 16]
         fontsize="small",
         colors="black",
-        fmt="%.0f",    # Turn off decimal points
-        manual=label_locations,    # Manual label locations
-        inline=False
-    )    # Don't remove the contour line where labels are located.
+        fmt="%.0f",  # Turn off decimal points
+        manual=label_locations,  # Manual label locations
+        inline=False)  # Don't remove the contour line where labels are located.
 
     # Create a rectangle patch, to color the border of the rectangle a different color.
     # Specify the rectangle as a corner point with width and height, to help place border text more easily.
@@ -122,9 +120,9 @@ def make_base_plot():
         width,
         height,
         fill=False,
-        zorder=3,    # Plot on top of the purple box border.
+        zorder=3,  # Plot on top of the purple box border.
         edgecolor='red',
-        alpha=0.5)    # Lower color intensity.
+        alpha=0.5)  # Lower color intensity.
     ax.add_patch(p)
 
     # Draw text labels around the box.
@@ -231,11 +229,11 @@ def draw_hatch_polygon(xvals, yvals, hatchcolor, hatchpattern):
         yvals,
         edgecolor=hatchcolor,
         zorder=
-        -1,    # Place underneath contour map (larger zorder is closer to viewer).
+        -1,  # Place underneath contour map (larger zorder is closer to viewer).
         fill=False,
         linewidth=0.5,
         hatch=hatchpattern,
-        alpha=0.3    # Reduce color intensity
+        alpha=0.3  # Reduce color intensity
     )
 
     # Hatch color and polygon edge color are tied together, so we have to draw a white polygon edge
@@ -245,9 +243,9 @@ def draw_hatch_polygon(xvals, yvals, hatchcolor, hatchpattern):
         yvals,
         edgecolor='white',
         zorder=
-        0,    # Place on top of other polygon (larger zorder is closer to viewer).
+        0,  # Place on top of other polygon (larger zorder is closer to viewer).
         fill=False,
-        linewidth=1    # Slightly larger linewidth removes ghost edges.
+        linewidth=1  # Slightly larger linewidth removes ghost edges.
     )
 
 
@@ -269,13 +267,12 @@ y_points = [30.0, 30.0, 0.0, 0.0, 30.0]
 ax.fill(
     x_points,
     y_points,
-    edgecolor='purple',    # Box hatch pattern is purple.
-    zorder=2,    # Place on top of map (larger zorder is closer to viewer).
+    edgecolor='purple',  # Box hatch pattern is purple.
+    zorder=2,  # Place on top of map (larger zorder is closer to viewer).
     fill=False,
-    hatch=
-    '...',    # Adding more or fewer dots to '...' will change hatch density.
-    linewidth=0.5,    # Make each dot smaller
-    alpha=0.2    # Make hatch semi-transparent using alpha level in range [0, 1].
+    hatch='...',  # Adding more or fewer dots to '...' will change hatch density.
+    linewidth=0.5,  # Make each dot smaller
+    alpha=0.2  # Make hatch semi-transparent using alpha level in range [0, 1].
 )
 
 # Draw some triangles with various hatch pattern densities.

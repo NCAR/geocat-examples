@@ -33,8 +33,8 @@ months = [
 ###############################################################################
 # Plot:
 fig, axs = plt.subplots(2, 2, figsize=(12, 8), gridspec_kw=dict(wspace=0.25))
-x = np.arange(len(months))    # where to draw x ticks
-width = 0.2    # width of each bar within the groups
+x = np.arange(len(months))  # where to draw x ticks
+width = 0.2  # width of each bar within the groups
 
 # Create the subplots using a loop
 panel = 0

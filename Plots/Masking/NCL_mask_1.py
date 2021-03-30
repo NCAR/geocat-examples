@@ -26,9 +26,8 @@ from geocat.viz import util as gvutil
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(
-    gdf.get("netcdf_files/atmos.nc"), decode_times=False
-)    # Disable time decoding due to missing necessary metadata
+ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False
+                    )  # Disable time decoding due to missing necessary metadata
 # Extract a slice of the data
 ds = ds.isel(time=0).drop("time")
 

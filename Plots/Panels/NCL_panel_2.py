@@ -55,12 +55,12 @@ continents = cartopy.feature.NaturalEarthFeature(name="coastline",
 
 # Using a dictionary makes it easy to reuse the same keyword arguments twice for the contours
 kwargs = dict(
-    xticks=np.arange(-180, 181, 30),    # nice x ticks
-    yticks=np.arange(-90, 91, 30),    # nice y ticks
-    transform=projection,    # ds projection
-    add_colorbar=False,    # don't add individual colorbars for each plot call
-    add_labels=False,    # turn off xarray's automatic Lat, lon labels
-    colors="black",    # note plurals in this and following kwargs
+    xticks=np.arange(-180, 181, 30),  # nice x ticks
+    yticks=np.arange(-90, 91, 30),  # nice y ticks
+    transform=projection,  # ds projection
+    add_colorbar=False,  # don't add individual colorbars for each plot call
+    add_labels=False,  # turn off xarray's automatic Lat, lon labels
+    colors="black",  # note plurals in this and following kwargs
     linestyles="-",
     linewidths=0.5)
 

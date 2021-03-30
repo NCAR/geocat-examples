@@ -106,7 +106,7 @@ cbar = plt.colorbar(colors,
                     aspect=12,
                     shrink=0.8,
                     pad=0.075)
-cbar.ax.tick_params(labelsize=14)    # Make the labels larger
+cbar.ax.tick_params(labelsize=14)  # Make the labels larger
 
 # Specify coordinates for contour labels in (longitude, latitude) format
 manual = [(25, 28), (30, -17), (40, -21), (40, -5), (42, -13), (10, 50),

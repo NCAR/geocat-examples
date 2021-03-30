@@ -53,7 +53,7 @@ colors = [
     'purple', 'darkblue', 'blue', 'lightblue', 'yellow', 'orange', 'red', 'pink'
 ]
 
-nbins = len(colors)    # One bin for each color
+nbins = len(colors)  # One bin for each color
 
 # Define colormap for plotting based on these colors
 cmap = mpl.colors.ListedColormap(colors)

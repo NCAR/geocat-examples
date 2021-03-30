@@ -49,9 +49,9 @@ skew = SkewT(fig, rotation=45)
 ax = skew.ax
 
 # Shade every other section between isotherms
-x1 = np.linspace(-100, 40, 8)    # The starting x values for the shaded regions
-x2 = np.linspace(-90, 50, 8)    # The ending x values for the shaded regions
-y = [1050, 100]    # The range of y values that the shades regions should cover
+x1 = np.linspace(-100, 40, 8)  # The starting x values for the shaded regions
+x2 = np.linspace(-90, 50, 8)  # The ending x values for the shaded regions
+y = [1050, 100]  # The range of y values that the shades regions should cover
 for i in range(0, 8):
     skew.shade_area(y=y,
                     x1=x1[i],

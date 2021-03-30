@@ -45,7 +45,7 @@ kmt = ds.KMT[:]
 tlat = ds.TLAT[:].values.astype(np.double)
 
 # Read important parameters from input data
-nyaux = lat_aux_grid.shape[0]    # 395
+nyaux = lat_aux_grid.shape[0]  # 395
 km = np.max(kmt.values).astype(np.int)
 ny = tarea.shape[0]
 nx = tarea.shape[1]

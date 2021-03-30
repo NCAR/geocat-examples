@@ -50,7 +50,7 @@ ax = plt.axes()
 newcmp = 'plasma'
 
 # Contourf-plot data (for filled contours)
-num_lev = 16    # Number of levels
+num_lev = 16  # Number of levels
 temp = T.plot.contourf(ax=ax,
                        vmin=244,
                        vmax=308,
@@ -103,7 +103,7 @@ gvutil.set_titles_and_labels(ax,
 
 # Create labels by colorbar
 size = 8
-y = 1 / num_lev / 2    # Offset from x axis in axes coordinates
+y = 1 / num_lev / 2  # Offset from x axis in axes coordinates
 ax.text(0.949,
         y,
         'T < 248',
@@ -116,7 +116,7 @@ ax.text(0.949,
                   edgecolor='papayawhip'))
 text = '{} <= T < {}'
 for i in range(0, 14):
-    y = y + 1 / num_lev    # Vertical spacing between the labels
+    y = y + 1 / num_lev  # Vertical spacing between the labels
     ax.text(0.904,
             y,
             text.format(cbar_ticks[i], cbar_ticks[i + 1]),
@@ -128,7 +128,7 @@ for i in range(0, 14):
                       facecolor='papayawhip',
                       edgecolor='papayawhip'))
 
-y = y + 1 / num_lev    # Increment height once more for top label
+y = y + 1 / num_lev  # Increment height once more for top label
 ax.text(0.94,
         y,
         'T >= 304',

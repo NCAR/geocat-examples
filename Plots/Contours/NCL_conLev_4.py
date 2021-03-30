@@ -60,7 +60,7 @@ ax.coastlines(linewidth=0.5, resolution="110m")
 # Import an NCL colormap
 newcmp = gvcmaps.BlRe
 newcmp.colors[len(newcmp.colors) //
-              2] = [1, 1, 1]    # Set middle value to white to match NCL
+              2] = [1, 1, 1]  # Set middle value to white to match NCL
 
 # Contourf-plot data (for filled contours)
 p = newx.plot.contourf(

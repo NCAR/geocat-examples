@@ -95,10 +95,10 @@ from sphinx_gallery.sorting import ExampleTitleSortKey
 
 sphinx_gallery_conf = {
     'examples_dirs': ['../Plots', '../GeoCAT-comp-examples'
-                     ],    # path to your example scripts
+                     ],  # path to your example scripts
     'filename_pattern': '^((?!sgskip).)*$',
     'gallery_dirs': ['gallery', 'gallery-geocat-comp'
-                    ],    # path to where to save gallery generated output
+                    ],  # path to where to save gallery generated output
     'within_subsection_order': ExampleTitleSortKey,
     'matplotlib_animations': True,
 }

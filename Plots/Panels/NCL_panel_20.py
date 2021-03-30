@@ -112,10 +112,10 @@ grid = gridspec.GridSpec(nrows=2,
 proj = ccrs.PlateCarree()
 
 # Add the subplots
-ax1 = fig.add_subplot(grid[0])    # upper left cell of grid
-ax2 = fig.add_subplot(grid[1])    # upper right cell of grid
-ax3 = fig.add_subplot(grid[2], projection=proj)    # lower left cell of grid
-ax4 = fig.add_subplot(grid[3], projection=proj)    # lower right cell of grid
+ax1 = fig.add_subplot(grid[0])  # upper left cell of grid
+ax2 = fig.add_subplot(grid[1])  # upper right cell of grid
+ax3 = fig.add_subplot(grid[2], projection=proj)  # lower left cell of grid
+ax4 = fig.add_subplot(grid[3], projection=proj)  # lower right cell of grid
 
 # Draw coastlines on maps
 ax3.coastlines(linewidth=0.5)

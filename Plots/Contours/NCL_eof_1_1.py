@@ -49,7 +49,7 @@ lonR = 40.
 yearStart = 1979
 yearEnd = 2003
 
-neof = 3    # number of EOFs
+neof = 3  # number of EOFs
 
 ###############################################################################
 # Read in data:

@@ -43,7 +43,7 @@ chi = chi / scale
 
 # Calculate zonal mean
 with warnings.catch_warnings(
-):    # This is not needed but is supressing a warning thrown by numpy checking for NaN values
+):  # This is not needed but is supressing a warning thrown by numpy checking for NaN values
     warnings.simplefilter("ignore")
     mean = chi.mean(dim='lon')
 

@@ -157,32 +157,26 @@ def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0, \
 
     for k in range(num_low):
         if not lows_at is None:
-            tmp_array[0, k] = float(
-                lows_at[k][1])    # lows at specified locations.
+            tmp_array[0,
+                      k] = float(lows_at[k][1])  # lows at specified locations.
             tmp_array[1, k] = float(lows_at[k][0])
             tmp_array[2, k] = -1.
         else:
-            tmp_array[0,
-                      k] = 1. + (float(nx) -
-                                 1.) * _dfran()    # lows at random locations.
-            tmp_array[1,
-                      k] = 1. + (float(ny) -
-                                 1.) * _dfran()    # lows at random locations.
+            tmp_array[0, k] = 1. + (float(nx) -
+                                    1.) * _dfran()  # lows at random locations.
+            tmp_array[1, k] = 1. + (float(ny) -
+                                    1.) * _dfran()  # lows at random locations.
             tmp_array[2, k] = -1.
     for k in range(num_low, num_low + num_high):
         if not highs_at is None:
-            tmp_array[0,
-                      k] = float(highs_at[k - num_low][1])    # highs locations
-            tmp_array[1,
-                      k] = float(highs_at[k - num_low][0])    # highs locations
+            tmp_array[0, k] = float(highs_at[k - num_low][1])  # highs locations
+            tmp_array[1, k] = float(highs_at[k - num_low][0])  # highs locations
             tmp_array[2, k] = 1.
         else:
-            tmp_array[0,
-                      k] = 1. + (float(nx) -
-                                 1.) * _dfran()    # highs at random locations.
-            tmp_array[1,
-                      k] = 1. + (float(ny) -
-                                 1.) * _dfran()    # highs at random locations.
+            tmp_array[0, k] = 1. + (float(nx) -
+                                    1.) * _dfran()  # highs at random locations.
+            tmp_array[1, k] = 1. + (float(ny) -
+                                    1.) * _dfran()  # highs at random locations.
             tmp_array[2, k] = 1.
 
     dmin = 1.e+36

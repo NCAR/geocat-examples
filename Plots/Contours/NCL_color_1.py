@@ -65,10 +65,10 @@ levels = np.arange(-16, 48, 4)
 # Define dictionary for kwargs
 kwargs = dict(
     levels=levels,
-    xticks=np.arange(-180, 181, 30),    # nice x ticks
-    yticks=np.arange(-90, 91, 30),    # nice y ticks
-    add_colorbar=False,    # allow for colorbar specification later
-    transform=ccrs.PlateCarree(),    # ds projection
+    xticks=np.arange(-180, 181, 30),  # nice x ticks
+    yticks=np.arange(-90, 91, 30),  # nice y ticks
+    add_colorbar=False,  # allow for colorbar specification later
+    transform=ccrs.PlateCarree(),  # ds projection
 )
 
 # Contouf-plot U data (for filled contours)

@@ -31,12 +31,12 @@ from metpy.units import units
 ds = pd.read_csv(gdf.get('ascii_files/sounding_ATS.csv'), header=None)
 
 # Extract the data
-p = ds[0].values * units.hPa    # Pressure [mb/hPa]
-tc = ds[1].values * units.degC    # Temperature [C]
-tdc = ds[2].values * units.degC    # Dew pt temp  [C]
-wspd = ds[5].values * units.knots    # Wind speed   [knots or m/s]
-wdir = ds[6].values * units.degrees    # Meteorological wind dir
-u, v = mpcalc.wind_components(wspd, wdir)    # Calculate wind components
+p = ds[0].values * units.hPa  # Pressure [mb/hPa]
+tc = ds[1].values * units.degC  # Temperature [C]
+tdc = ds[2].values * units.degC  # Dew pt temp  [C]
+wspd = ds[5].values * units.knots  # Wind speed   [knots or m/s]
+wdir = ds[6].values * units.degrees  # Meteorological wind dir
+u, v = mpcalc.wind_components(wspd, wdir)  # Calculate wind components
 
 ###############################################################################
 # Plot
@@ -49,9 +49,9 @@ skew = SkewT(fig, rotation=45)
 ax = skew.ax
 
 # Shade every other section between isotherms
-x1 = np.linspace(-100, 40, 8)    # The starting x values for the shaded regions
-x2 = np.linspace(-90, 50, 8)    # The ending x values for the shaded regions
-y = [1050, 100]    # The range of y values that the shaded regions should cover
+x1 = np.linspace(-100, 40, 8)  # The starting x values for the shaded regions
+x2 = np.linspace(-90, 50, 8)  # The ending x values for the shaded regions
+y = [1050, 100]  # The range of y values that the shaded regions should cover
 
 for i in range(0, 8):
     skew.shade_area(y=y,

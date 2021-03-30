@@ -69,7 +69,7 @@ etick = ['0'] + [
 wtick = [r'%dW' % tick for tick in ticks if (tick != 0) & (tick != 180)]
 labels = etick + wtick
 xticks = np.arange(0, 360, 30)
-yticks = np.full_like(xticks, -5)    # Latitude where the labels will be drawn
+yticks = np.full_like(xticks, -5)  # Latitude where the labels will be drawn
 for xtick, ytick, label in zip(xticks, yticks, labels):
     if label == '180':
         ax.text(xtick,

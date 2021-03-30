@@ -82,7 +82,7 @@ index = [0, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0]
 color_list = [cmap[i].colors for i in index]
 
 # make the starting color and end color white
-color_list[0] = [1, 1, 1]    # [red, green, blue] values range from 0 to 1
+color_list[0] = [1, 1, 1]  # [red, green, blue] values range from 0 to 1
 color_list[-1] = [1, 1, 1]
 
 # Plot contour data, use the transform keyword to specify that the data is

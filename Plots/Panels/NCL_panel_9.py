@@ -76,7 +76,7 @@ gvutil.add_major_minor_ticks(ax=ax2,
                              labelsize=12)
 
 # Create list of colors based on Blue-White-Red colormap
-cmap = gvcmaps.BlWhRe    # select colormap
+cmap = gvcmaps.BlWhRe  # select colormap
 
 # Extract colors from cmap using their indices
 index = [98, 88, 73, 69, 66, 63, 60, 58, 55, 53, 50, 50, 47, 45, 42, 40, 37, 34]
@@ -96,7 +96,7 @@ plt.colorbar(contour_fill,
              ax=ax1,
              ticks=np.arange(-5, 3.5, 0.5),
              drawedges=True,
-             format='%g')    # remove trailing zeros from labels
+             format='%g')  # remove trailing zeros from labels
 
 # Plot contour lines
 deppat.plot.contour(ax=ax1,
