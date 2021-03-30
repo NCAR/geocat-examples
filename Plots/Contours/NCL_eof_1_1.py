@@ -26,19 +26,16 @@ Note (1):
 
 """
 
+import cartopy.crs as ccrs
+import geocat.datafiles as gdf
+import geocat.viz.util as gvutil
+import matplotlib.pyplot as plt
+import numpy as np
 ###############################################################################
 # Import packages:
 import xarray as xr
-import numpy as np
-
-import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
-from geocat.viz import cmaps as gvcmaps
 from geocat.comp import eofunc_eofs, eofunc_pcs, month_to_season
-
-import matplotlib.pyplot as plt
-
-import cartopy.crs as ccrs
+from geocat.viz import cmaps as gvcmaps
 
 ###############################################################################
 # User defined parameters and a convenience function:
@@ -53,7 +50,6 @@ yearStart = 1979
 yearEnd = 2003
 
 neof = 3  # number of EOFs
-
 
 ###############################################################################
 # Read in data:
@@ -121,7 +117,7 @@ xw = wSLP.sel(lat=slice(latS, latN), lon=slice(lonL, lonR))
 
 # Transpose data to have 'time' in the first dimension
 # as `eofunc` functions expects so for xarray inputs for now
-xw_slp = xw["slp"].transpose('time','lat','lon')
+xw_slp = xw["slp"].transpose('time', 'lat', 'lon')
 
 eofs = eofunc_eofs(xw_slp, neofs=neof, meta=True)
 
@@ -254,7 +250,12 @@ def make_bar_plot(ax, dataset):
     values = list(dataset.values)
     colors = ['blue' if val < 0 else 'red' for val in values]
 
-    ax.bar(years, values, color=colors, width=1.0, edgecolor='black', linewidth=0.5)
+    ax.bar(years,
+           values,
+           color=colors,
+           width=1.0,
+           edgecolor='black',
+           linewidth=0.5)
     ax.set_ylabel('Pa')
 
     # Use geocat.viz.util convenience function to add minor and major tick lines

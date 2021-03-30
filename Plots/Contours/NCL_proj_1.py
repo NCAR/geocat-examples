@@ -13,14 +13,13 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/proj_1_lg.png
 """
 
+import cartopy.crs as ccrs
+import geocat.datafiles as gdf
+import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
 import numpy as np
 import xarray as xr
-import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-
-import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
@@ -59,10 +58,10 @@ temp = wrap_t.plot.contourf(ax=ax,
 
 # Add color bar
 cbar_ticks = np.arange(220, 310, 10)
-cbar = plt.colorbar(temp, 
-                    orientation='horizontal', 
-                    shrink=0.8, 
-                    pad=0.05, 
+cbar = plt.colorbar(temp,
+                    orientation='horizontal',
+                    shrink=0.8,
+                    pad=0.05,
                     extendrect=True,
                     ticks=cbar_ticks)
 

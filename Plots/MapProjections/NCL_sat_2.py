@@ -1,4 +1,3 @@
-
 """
 NCL_sat_2.py
 ===============
@@ -12,18 +11,17 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/sat_2_lg.png
 """
 
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+import geocat.datafiles as gdf
+import geocat.viz.util as gvutil
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
+import numpy as np
 ###############################################################################
 # Import packages:
 import xarray as xr
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-import numpy as np
-import matplotlib.pyplot as plt
 from matplotlib import colors
-import matplotlib.ticker as mticker
-
-import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
 
 ###############################################################################
 # Read in data:
@@ -60,7 +58,10 @@ ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1)
 ax.add_feature(cfeature.COASTLINE, linewidth=.3, zorder=2)
 ax.add_feature(cfeature.OCEAN, facecolor='white')
 ax.add_feature(cfeature.BORDERS, linewidth=.3)
-ax.add_feature(cfeature.LAKES, facecolor='white', edgecolor='black', linewidth=.3)
+ax.add_feature(cfeature.LAKES,
+               facecolor='white',
+               edgecolor='black',
+               linewidth=.3)
 
 # Create color map
 colorvalues = [1020, 1036, 1500]
@@ -99,8 +100,16 @@ ax.clabel(p,
           fmt="%.0f")
 
 # Label low and high contours
-gvutil.plotELabels(wrap_pressure, ccrs.Geodetic(), proj, clabel_locations=lowClevels, label='L')
-gvutil.plotELabels(wrap_pressure, ccrs.Geodetic(), proj, clabel_locations=highClevels, label='H')
+gvutil.plotELabels(wrap_pressure,
+                   ccrs.Geodetic(),
+                   proj,
+                   clabel_locations=lowClevels,
+                   label='L')
+gvutil.plotELabels(wrap_pressure,
+                   ccrs.Geodetic(),
+                   proj,
+                   clabel_locations=highClevels,
+                   label='H')
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax,

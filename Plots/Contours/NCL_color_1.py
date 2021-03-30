@@ -19,14 +19,13 @@ Note:
 ###############################################################################
 # Import packages:
 
-import numpy as np
-import matplotlib.pyplot as plt
-import xarray as xr
 import cartopy.crs as ccrs
-
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
 import geocat.viz.util as gvutil
+import matplotlib.pyplot as plt
+import numpy as np
+import xarray as xr
+from geocat.viz import cmaps as gvcmaps
 
 ###############################################################################
 # Read in data:

@@ -11,13 +11,13 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/proj_3.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/proj_3_lg.png
 """
+import cartopy.crs as ccrs
+import geocat.datafiles as gdf
+import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
 import numpy as np
 import xarray as xr
-import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
 ###############################################################################
@@ -48,18 +48,17 @@ ax.set_global()
 ax.coastlines(linewidths=0.5)
 
 # Plot data and add a colorbar
-temp = wrap_t.plot.contourf(
-    ax=ax,
-    transform=ccrs.PlateCarree(),
-    levels=11,
-    cmap='coolwarm',
-    add_colorbar=False)
+temp = wrap_t.plot.contourf(ax=ax,
+                            transform=ccrs.PlateCarree(),
+                            levels=11,
+                            cmap='coolwarm',
+                            add_colorbar=False)
 
 cbar_ticks = np.arange(210, 311, 10)
-cbar = plt.colorbar(temp, 
-                    orientation='horizontal', 
-                    shrink=0.75, 
-                    pad=0.05, 
+cbar = plt.colorbar(temp,
+                    orientation='horizontal',
+                    shrink=0.75,
+                    pad=0.05,
                     extendrect=True,
                     ticks=cbar_ticks)
 

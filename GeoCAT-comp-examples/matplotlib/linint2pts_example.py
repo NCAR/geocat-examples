@@ -26,16 +26,15 @@ Dependencies:
 ###############################################################################
 # Import packages:
 
-from geocat.comp import linint2pts
+import cartopy.crs as ccrs
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
-
+import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
-import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-from matplotlib import cm
 from cartopy.mpl.geoaxes import GeoAxes
+from geocat.comp import linint2pts
+from matplotlib import cm
 from mpl_toolkits.axes_grid1 import AxesGrid
 
 ###############################################################################
@@ -48,7 +47,6 @@ ds = xr.open_dataset(gdf.get('netcdf_files/sst.nc'))
 sst = ds.TEMP[0, 0, :, :].chunk()
 lat = ds.LAT[:]
 lon = ds.LON[:]
-
 
 ###############################################################################
 # GeoCAT-comp function call:

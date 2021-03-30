@@ -23,12 +23,10 @@ Dependencies:
 ###############################################################################
 # Import packages:
 
+import geocat.datafiles as gdf
 import numpy as np
 import xarray as xr
-
-import geocat.datafiles as gdf
 from geocat.comp import moc_globe_atl
-
 
 ###############################################################################
 # Read in data:
@@ -52,7 +50,6 @@ km = np.max(kmt.values).astype(np.int)
 ny = tarea.shape[0]
 nx = tarea.shape[1]
 
-
 ###############################################################################
 # Generate the data needed for function call:
 
@@ -75,18 +72,17 @@ a_wvel = np.where(ocean, w_e[0, :, :, :] * tarea3d, 0.0)
 a_bolus = np.where(ocean, w_i[0, :, :, :] * tarea3d, 0.0)
 a_submeso = np.where(ocean, w_sm[0, :, :, :] * tarea3d, 0.0)
 
-
 ###############################################################################
 # GeoCAT-comp function call:
 
 # Invoke `moc_globe_atl` from `geocat-comp`
 result = moc_globe_atl(lat_aux_grid,
-                                   a_wvel,
-                                   a_bolus,
-                                   a_submeso,
-                                   tlat,
-                                   rmlak,
-                                   msg=None,
-                                   meta=False)
+                       a_wvel,
+                       a_bolus,
+                       a_submeso,
+                       tlat,
+                       rmlak,
+                       msg=None,
+                       meta=False)
 
 print("moc_globe_atl successfully generated output.")

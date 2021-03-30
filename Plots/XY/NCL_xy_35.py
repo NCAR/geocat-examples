@@ -18,10 +18,9 @@ See following URLs to see the reproduced NCL plot & script:
 # Import packages:
 
 import numpy as np
-from matplotlib import pyplot as plt
-from matplotlib import colors
-
 from geocat.viz import util as gvutil
+from matplotlib import colors
+from matplotlib import pyplot as plt
 
 ###############################################################################
 # Create data:

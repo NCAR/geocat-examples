@@ -15,16 +15,15 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/polyg_8_lbar_lg.png
 """
 
-###############################################################################
-# Import packages:
-import numpy as np
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
-from matplotlib import colors, cm
-
-from geocat.viz import util as gvutil
+###############################################################################
+# Import packages:
+import numpy as np
 from geocat.viz import cmaps as gvcmap
+from geocat.viz import util as gvutil
+from matplotlib import cm, colors
 
 ###############################################################################
 # Generate dummy data

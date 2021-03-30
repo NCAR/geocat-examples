@@ -17,15 +17,14 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 import cartopy.crs as ccrs
-from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
+import geocat.datafiles as gdf
+import geocat.viz.util as gvutil
 import matplotlib.pyplot as plt
-from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import numpy as np
 import xarray as xr
-
-import geocat.datafiles as gdf
+from cartopy.mpl.gridliner import LatitudeFormatter, LongitudeFormatter
 from geocat.viz import cmaps as gvcmaps
-import geocat.viz.util as gvutil
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 ###############################################################################
 # Read in data:
@@ -42,11 +41,10 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 
 
 def plot_labelled_filled_contours(data, ax=None, label=None):
-    """
-    A utility function for convenience that plots labelled, filled contours with black contours
-    marking each level.It will return a dictionary containing three objects corresponding to the
-    filled contours, the black contours, and the contour labels.
-    """
+    """A utility function for convenience that plots labelled, filled contours
+    with black contours marking each level.It will return a dictionary
+    containing three objects corresponding to the filled contours, the black
+    contours, and the contour labels."""
 
     # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
     newcmp = gvutil.truncate_colormap(gvcmaps.gui_default,

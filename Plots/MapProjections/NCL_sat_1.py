@@ -11,16 +11,15 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/sat_1_lg.png
 """
 
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+import geocat.datafiles as gdf
+import geocat.viz.util as gvutil
+import matplotlib.pyplot as plt
+import numpy as np
 ###############################################################################
 # Import packages:
 import xarray as xr
-import matplotlib.pyplot as plt
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-import numpy as np
-
-import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
 
 ###############################################################################
 # Read in data:
@@ -89,12 +88,18 @@ regularCLabels = [(176.4, 34.63), (-150.46, 42.44), (-142.16, 28.5),
 
 # low pressure contour levels- these will be plotted
 # as a subscript to an 'L' symbol.
-lowCLabels = gvutil.findLocalExtrema(pressure, eType='Low', highVal=1040, lowVal=975)
+lowCLabels = gvutil.findLocalExtrema(pressure,
+                                     eType='Low',
+                                     highVal=1040,
+                                     lowVal=975)
 
 # Plot Clabels
-gvutil.plotCLabels(ax, p, ccrs.Geodetic(), proj, clabel_locations=regularCLabels)
+gvutil.plotCLabels(ax,
+                   p,
+                   ccrs.Geodetic(),
+                   proj,
+                   clabel_locations=regularCLabels)
 gvutil.plotELabels(pressure, ccrs.Geodetic(), proj, clabel_locations=lowCLabels)
-
 
 # Use gvutil function to set title and subtitles
 gvutil.set_titles_and_labels(ax,

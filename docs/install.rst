@@ -14,7 +14,7 @@ not be perfectly compatible with the builds of GeoCAT software we provide).
 Once you have conda installed, you can create a new ``geocat-examples`` conda
 environment with either of the following methods:
 
-* Download the file :download:`conda_environment.yml` and then run::
+* Download the file :download:`conda_environment.yml <../conda_environment.yml>` and then run::
 
     conda env create -f conda_environment.yml -n geocat-examples
 

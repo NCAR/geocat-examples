@@ -1,5 +1,4 @@
-name: Build documentation pages
-
+name: CI
 on:
   push:
   pull_request:
@@ -9,20 +8,30 @@ on:
 
 jobs:
   build-and-run:
-    name: Build documentation pages
-    runs-on: ubuntu-latest
+    name: Build Sphinx Docs (${{ matrix.python-version }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ "ubuntu-latest", "macos-latest"]
+        python-version: [ "3.6", "3.9" ]
 
     steps:
     - uses: actions/checkout@v2
     - name: Create conda environment
-      env: 
+      env:
         ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       uses: goanpeca/setup-miniconda@v1
       with:
          activate-environment: geocat-examples
          environment-file: conda_environment.yml
-    - name: Build sphinx docs
+    - name: Make html
       shell: bash -l {0}
+      working-directory: ./docs
       run: |
         conda info
         conda list

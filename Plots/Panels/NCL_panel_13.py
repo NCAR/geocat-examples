@@ -8,7 +8,7 @@ This script illustrates the following concepts:
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: http://www.ncl.ucar.edu/Applications/Scripts/panel_13.ncl
     - Original NCL plot: http://www.ncl.ucar.edu/Applications/Images/panel_13_lg.png
-    
+
 Note:
     Due to differences in how NCL and Python scale glyphs in vector fields, the
     smallest vectors in the Python version are much harder to read than in the
@@ -19,16 +19,15 @@ Note:
 ###############################################################################
 # Import packages:
 import cartopy.crs as ccrs
-from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
-import matplotlib.pyplot as plt
-from matplotlib.ticker import FormatStrFormatter
+import geocat.datafiles as gdf
+import geocat.viz.util as gvutil
 import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
-
-import geocat.datafiles as gdf
+from cartopy.mpl.gridliner import LatitudeFormatter, LongitudeFormatter
 from geocat.viz import cmaps as gvcmaps
-import geocat.viz.util as gvutil
+from matplotlib.ticker import FormatStrFormatter
 
 ###############################################################################
 # Read in data:

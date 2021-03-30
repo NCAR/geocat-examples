@@ -18,13 +18,12 @@ Please note:
 # Import packages:
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
-from matplotlib import pyplot as plt
-import numpy as np
-import xarray as xr
-import matplotlib.animation as animation
-
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
+import matplotlib.animation as animation
+import numpy as np
+import xarray as xr
+from matplotlib import pyplot as plt
 
 ###############################################################################
 # Read in data:
@@ -58,19 +57,19 @@ gvutil.add_major_minor_ticks(ax, labelsize=10)
 gvutil.add_lat_lon_ticklabels(ax)
 
 # create initial plot that establishes a colorbar
-tas[0, :, :].plot.contourf(
-    ax=ax,
-    transform=ccrs.PlateCarree(),
-    vmin=195,
-    vmax=328,
-    levels=53,
-    cmap="inferno",
-    cbar_kwargs={
-        "extendrect": True,
-        "orientation": "horizontal",
-        "ticks": np.arange(195, 332, 9),
-        "label": "", "shrink": 0.90}
-)
+tas[0, :, :].plot.contourf(ax=ax,
+                           transform=ccrs.PlateCarree(),
+                           vmin=195,
+                           vmax=328,
+                           levels=53,
+                           cmap="inferno",
+                           cbar_kwargs={
+                               "extendrect": True,
+                               "orientation": "horizontal",
+                               "ticks": np.arange(195, 332, 9),
+                               "label": "",
+                               "shrink": 0.90
+                           })
 
 
 # animate function for matplotlib FuncAnimation
@@ -85,11 +84,12 @@ def animate(i):
         add_colorbar=False,
     )
 
-    gvutil.set_titles_and_labels(ax,
-                                 maintitle="January Global Surface Temperature (K) - Day  " + str(
-                                     tas.coords['time'].values[i])[:13],
-                                 xlabel="",
-                                 ylabel="")
+    gvutil.set_titles_and_labels(
+        ax,
+        maintitle="January Global Surface Temperature (K) - Day  " +
+        str(tas.coords['time'].values[i])[:13],
+        xlabel="",
+        ylabel="")
 
 
 # runs the animation initiated with the frame from init and progressed with the animate function
