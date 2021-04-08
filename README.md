@@ -2,6 +2,7 @@
 | :----------- | :----------------------------------------------------------: |
 | **Docs**     |       [![Documentation Status][rtd-badge]][rtd-link]         |
 | **License**  |           [![License][license-badge]][repo-link]             |
+| **Citing**   |               [![DOI][doi-badge]][doi-link]                  |
 
 # GeoCAT-examples
 
@@ -44,10 +45,30 @@ in the function's doc string and/or requires visualization for improved demonstr
 
 Please see our documentation for [installation instructions](https://github.com/NCAR/geocat-examples/INSTALLATION.md).
 
+# Citing GeoCAT-examples
+
+Cite GeoCAT-examples using the following text:
+
+<> Visualization & Analysis Systems Technologies. (Year).
+Geoscience Community Analysis Toolkit (GeoCAT-examples) [Software].
+Boulder, CO: UCAR/NCAR - Computational and Informational System Lab. doi:10.5065/A8PP-4358.
+
+Update the year as appropriate. For example:
+
+<> Visualization & Analysis Systems Technologies. (2021).
+Geoscience Community Analysis Toolkit (GeoCAT-examples) [Software].
+Boulder, CO: UCAR/NCAR - Computational and Informational System Lab. doi:10.5065/A8PP-4358.
+
+For further information, please refer to [GeoCAT homepage](https://geocat.ucar.edu/pages/citation.html)
+
+
+
 
 [github-ci-badge]: https://img.shields.io/github/workflow/status/NCAR/geocat-examples/CI?label=CI&logo=github&style=for-the-badge
 [github-ci-link]: https://github.com/NCAR/geocat-comp/actions?query=workflow%3ACI
 [rtd-badge]: https://img.shields.io/readthedocs/geocat-examples/latest.svg?style=for-the-badge
 [rtd-link]: https://geocat-comp.readthedocs.io/en/latest/?badge=latest
 [license-badge]: https://img.shields.io/github/license/NCAR/geocat-examples?style=for-the-badge
+[doi-badge]: https://img.shields.io/badge/DOI-10.5065/a8pp-4358
+[doi-link]: https://doi.org/10.5065/a8pp-4358
 [repo-link]: https://github.com/NCAR/geocat-examples
