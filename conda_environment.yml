@@ -16,6 +16,7 @@ dependencies:
   - mock
   - netcdf4
   - pillow
+  - pip
   - scikit-learn
   - sphinx
   - sphinx-gallery
