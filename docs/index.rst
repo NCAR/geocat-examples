@@ -18,7 +18,7 @@ tab).
 For visualization, mainly `matplotlib` and `cartopy` are used. In addition,
 `geocat-datafiles <https://github.com/NCAR/geocat-datafiles>`_ is used as a
 dataset storage and `geocat-viz <https://github.com/NCAR/geocat-viz>`_ is used for
-a higher level implementation for low level `matplotlib` functionalitie.
+a higher level implementation for low level `matplotlib` functionality.
 `Xarray` and `numpy` are used for data processing.
 
 Click on any image to see the full image and source code as well as to
