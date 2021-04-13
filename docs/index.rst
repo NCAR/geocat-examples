@@ -28,10 +28,11 @@ download Python script and/or Jupyter notebook.
    :maxdepth: 2
    :caption: Contents:
 
-   ./gallery/index.rst
-   ./gallery-geocat-comp/index.rst
-   ./install.rst
-   ./support.rst
+   ./gallery/index
+   ./gallery-geocat-comp/index
+   ./install
+   ./citation
+   ./support
 
 
 Indices and tables
