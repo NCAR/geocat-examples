@@ -43,7 +43,7 @@ ax = plt.axes(projection=ccrs.PlateCarree(central_longitude=150))
 ax.coastlines(linewidths=0.5)
 ax.set_extent([-180, 180, -90, 90], ccrs.PlateCarree())
 
-# Use geocat.viz.util convenience function to set axes limits & tick values
+# Use geocat.viz.util convenience function to set axis limits & tick values
 gvutil.set_axes_limits_and_ticks(ax,
                                  xlim=(-180, 180),
                                  ylim=(-90, 90),
@@ -53,7 +53,7 @@ gvutil.set_axes_limits_and_ticks(ax,
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, labelsize=10)
 
-# Use geocat.viz.util convenience function to make latitude, longitude tick labels
+# Use geocat.viz.util convenience function to make latitude and longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
 
 # create initial plot that establishes a colorbar
@@ -92,8 +92,8 @@ def animate(i):
         ylabel="")
 
 
-# runs the animation initiated with the frame from init and progressed with the animate function
+# Iterates over the animation initiated with the frame int and progressed with the animate function
 anim = animation.FuncAnimation(fig, animate, frames=30, interval=200)
 
 # Uncomment this line to save the created animation
-anim.save('animate_1.gif', writer='pillow', fps=5)
+# anim.save('animate_1.gif', writer='pillow', fps=5)
