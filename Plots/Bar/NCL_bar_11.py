@@ -3,7 +3,7 @@ NCL_bar_11.py
 ===============
 This script illustrates the following concepts:
    - Drawing filled bars using solid colors
-   - Setting the minimum/maximum value of the X and Y axis in a bar plot
+   - Setting the minimum/maximum values of the X and Y axes in a bar plot
    - Paneling bar plots
    - Drawing a custom legend
    - Generating random data using numpy
@@ -12,10 +12,12 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/bar_11.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/bar_11_lg.png
 """
-
-import geocat.viz.util as gvutil
 ###############################################################################
-# Import packages:
+# Import GeoCAT packages:
+import geocat.viz.util as gvutil
+
+###############################################################################
+# Import scientific Python packages:
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -40,7 +42,7 @@ width = 0.2  # width of each bar within the groups
 panel = 0
 for row in range(0, 2):
     for col in range(0, 2):
-        # Use geocat.viz.util convenience function to set axes parameters
+        # Use geocat.viz.util convenience function to set axis parameters
         gvutil.set_axes_limits_and_ticks(axs[row][col],
                                          ylim=(0.4, 1.2),
                                          xticks=x,
@@ -90,7 +92,7 @@ for row in range(0, 2):
                           label='fourth')
         panel += 1
 
-# Add legend with `figlegend()` to position it relative to figure instead of subplots
+# Add legend with `fig.legend()` to position it relative to figure instead of subplots
 handles, labels = axs[0][0].get_legend_handles_labels()
 fig.legend(handles,
            labels,
@@ -100,4 +102,5 @@ fig.legend(handles,
            columnspacing=5,
            frameon=False)
 
+# Show finished plot and subplots
 plt.show()
