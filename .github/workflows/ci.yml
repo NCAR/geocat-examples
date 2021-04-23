@@ -1,0 +1,38 @@
+name: CI
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+  - cron: '0 0 * * *' # Daily “At 00:00”
+
+jobs:
+  build-and-run:
+    name: Build Sphinx Docs (${{ matrix.python-version }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ "ubuntu-latest", "macos-latest"]
+        python-version: [ "3.6", "3.9" ]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Create conda environment
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+      uses: goanpeca/setup-miniconda@v1
+      with:
+         activate-environment: geocat-examples
+         environment-file: conda_environment.yml
+    - name: Make html
+      shell: bash -l {0}
+      working-directory: ./docs
+      run: |
+        conda info
+        conda list
+        make html

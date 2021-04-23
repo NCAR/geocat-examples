@@ -13,16 +13,16 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/vector_3_lg.png
 """
 
+from datetime import datetime
+
+import cartopy
+import cartopy.crs as ccrs
+import geocat.datafiles as gdf
 ###############################################################################
 # Import packages:
 import xarray as xr
-from matplotlib import pyplot as plt
-import cartopy
-import cartopy.crs as ccrs
-from datetime import datetime
-
-import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
+from matplotlib import pyplot as plt
 
 ###############################################################################
 # Read in data:

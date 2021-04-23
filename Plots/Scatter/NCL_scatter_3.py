@@ -5,24 +5,23 @@ This script illustrates the following concepts:
     - Drawing a scatter plot over a map
     - Choosing marker color, size, and style
     - Drawing markers on a map indicating the locations of station data
-   
+
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/scatter_3.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/scatter_3_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/scatter_3_2_lg.png
-                         
+
 """
 
 ###############################################################################
 # Import packages:
 
-import xarray as xr
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
-from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
-import matplotlib.pyplot as plt
-
-from geocat.viz import util as gvutil
 import geocat.datafiles as gdf
+import matplotlib.pyplot as plt
+import xarray as xr
+from cartopy.mpl.gridliner import LatitudeFormatter, LongitudeFormatter
+from geocat.viz import util as gvutil
 
 ###############################################################################
 # Open a netCDF data file using xarray default engine and load the data into xarrays
@@ -37,16 +36,15 @@ lon = ds.lon.isel()
 
 
 def Plots(xlim, ylim, xtic, ytic, xminor, yminor, size, color):
-    '''
-    Creates plot using user specified variables.
-    
+    """Creates plot using user specified variables.
+
     Parameters
     ----------
     xext : 'tuple'
-        Inclusive extent of projection in format (xstart, xend) with values between -180 
+        Inclusive extent of projection in format (xstart, xend) with values between -180
         and 180.
     yext : 'tuple'
-        Inclusive extent of projection in format (ystart, yend) with values between -90 
+        Inclusive extent of projection in format (ystart, yend) with values between -90
         and 90.
     xtic : 'int'
         Step number of major x tick label instances in format of number between each tick.
@@ -62,8 +60,7 @@ def Plots(xlim, ylim, xtic, ytic, xminor, yminor, size, color):
         Size of marker being used in format of font size number.
     color : 'str'
         Matplotlib color of marker being used in format 'color'.
-
-    '''
+    """
 
     # Generate figure (set its size (width, height) in inches) and axes using Cartopy projection
     plt.figure(figsize=(12, 12))

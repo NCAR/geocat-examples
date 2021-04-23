@@ -22,16 +22,15 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 
-import xarray as xr
 import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-import matplotlib.colors as colors
-import matplotlib.cm as cm
-from geocat.viz import util as gvutil
-
-import geocat.datafiles as gdf
 import cartopy.io.shapereader as shpreader
+import geocat.datafiles as gdf
+import matplotlib.cm as cm
+import matplotlib.colors as colors
+import matplotlib.pyplot as plt
 import shapely.geometry as sgeom
+import xarray as xr
+from geocat.viz import util as gvutil
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 ###############################################################################

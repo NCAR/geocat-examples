@@ -16,21 +16,19 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
-import numpy as np
-import xarray as xr
-
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
+import matplotlib.gridspec as gridspec
+import matplotlib.pyplot as plt
+import numpy as np
+import xarray as xr
 from geocat.viz import cmaps as gvcmaps
 
 ###############################################################################
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/nao.obs.nc"),
-                     decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/nao.obs.nc"), decode_times=False)
 deppat = ds.nao_djf
 xyarr = ds.nao_pc_djf
 
@@ -81,8 +79,7 @@ gvutil.add_major_minor_ticks(ax=ax2,
 cmap = gvcmaps.BlWhRe  # select colormap
 
 # Extract colors from cmap using their indices
-index = [98, 88, 73, 69, 66, 63, 60, 58, 55,
-         53, 50, 50, 47, 45, 42, 40, 37, 34]
+index = [98, 88, 73, 69, 66, 63, 60, 58, 55, 53, 50, 50, 47, 45, 42, 40, 37, 34]
 color_list = [cmap[i].colors for i in index]
 
 # Plot contour data (use `color` keyword vs `cmap` for lists of colors)
@@ -125,7 +122,7 @@ ax2.fill_between(x, y, where=y < 0, color='blue', interpolate=True)
 ax2.axhline(y=0, color='black', linewidth=0.5)
 
 # Array with weights for rolling average
-weight = xr.DataArray([1/24, 3/24, 5/24, 6/24, 5/24, 3/24, 1/24],
+weight = xr.DataArray([1 / 24, 3 / 24, 5 / 24, 6 / 24, 5 / 24, 3 / 24, 1 / 24],
                       dims=['window'])
 
 # Calculating the dot product of rolling average and weights
@@ -135,7 +132,9 @@ roll_avg = xyarr.rolling(time=7, center=True).construct('window').dot(weight)
 ax2.plot(xyarr.time, roll_avg, color='black', linewidth=1)
 
 # Add figure title
-fig.suptitle("North Atlantic Oscillation (DJF)", fontsize=16,
-             fontweight='bold', y=0.95)
+fig.suptitle("North Atlantic Oscillation (DJF)",
+             fontsize=16,
+             fontweight='bold',
+             y=0.95)
 
 plt.show()

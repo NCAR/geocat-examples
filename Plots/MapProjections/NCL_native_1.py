@@ -16,16 +16,15 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/native_1_lg.png
 """
 
+import cartopy.crs as ccrs
+import geocat.datafiles as gdf
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 ###############################################################################
 # Import packages:
 import numpy as np
-import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
-
-from geocat.viz import util as gvutil
 from geocat.viz import cmaps as gvcmaps
-import geocat.datafiles as gdf
+from geocat.viz import util as gvutil
 
 ###############################################################################
 # Read in data:
@@ -86,10 +85,11 @@ color_list = [cmap[i].colors for i in index]
 color_list[0] = [1, 1, 1]  # [red, green, blue] values range from 0 to 1
 color_list[-1] = [1, 1, 1]
 
-
 # Plot contour data, use the transform keyword to specify that the data is
 # stored as rectangular lon,lat coordinates
-contour = ax.contourf(lon, lat, topo,
+contour = ax.contourf(lon,
+                      lat,
+                      topo,
                       transform=ccrs.PlateCarree(),
                       levels=np.arange(-300, 3301, 300),
                       extend='neither',

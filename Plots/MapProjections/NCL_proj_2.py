@@ -9,21 +9,21 @@ This script illustrates the following concepts:
    - Making the plot larger using viewport resources
    - Turning off map fill
    - Spanning part of a color map for contour fill
-   - Using 'inferno' color scheme instead of 'rainbow' to follow best practices for visualizations 
+   - Using 'inferno' color scheme instead of 'rainbow' to follow best practices for visualizations
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/proj_2.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/proj_2_lg.png
 """
 
+import cartopy.crs as ccrs
+import geocat.datafiles as gdf
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 ###############################################################################
 # Import packages:
 import numpy as np
 import xarray as xr
-import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
-import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
 ###############################################################################

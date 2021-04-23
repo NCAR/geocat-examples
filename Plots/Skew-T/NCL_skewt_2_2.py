@@ -15,24 +15,25 @@ Note:
     values will be added at a later date once that issue has been closed.
 """
 
+import geocat.datafiles as gdf
+import geocat.viz.util as gvutil
+import matplotlib.lines as mlines
 ##############################################################################
 # Import packages:
 import matplotlib.pyplot as plt
-import matplotlib.lines as mlines
+import metpy.calc as mpcalc
 import numpy as np
 import pandas as pd
 from metpy.plots import SkewT
 from metpy.units import units
-import metpy.calc as mpcalc
-
-import geocat.viz.util as gvutil
-import geocat.datafiles as gdf
 
 ##############################################################################
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = pd.read_csv(gdf.get('ascii_files/sounding.testdata'), delimiter='\\s+', header=None)
+ds = pd.read_csv(gdf.get('ascii_files/sounding.testdata'),
+                 delimiter='\\s+',
+                 header=None)
 
 # Extract the data
 p = ds[1].values * units.hPa  # Pressure [mb/hPa]

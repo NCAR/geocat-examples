@@ -14,11 +14,10 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/bar_7_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/bar_7_2_lg.png
 """
 
+import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
 import numpy as np
-import matplotlib.pyplot as plt
-
 from geocat.viz import util as gvutil
 
 ###############################################################################

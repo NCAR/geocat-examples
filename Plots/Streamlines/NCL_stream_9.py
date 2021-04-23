@@ -15,16 +15,15 @@ See following URLs to see the reproduced NCL plot & script:
 ################################################################################
 # Import packages:
 
-import numpy as np
-import xarray as xr
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+import geocat.datafiles as gdf
 import matplotlib.cm as cm
-import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import matplotlib.colors as mcolors
-
-import geocat.datafiles as gdf
+import matplotlib.pyplot as plt
+import numpy as np
+import xarray as xr
 from geocat.viz import util as gvutil
 
 ################################################################################

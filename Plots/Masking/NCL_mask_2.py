@@ -23,12 +23,11 @@ Using zorder:
 # Import packages:
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
-from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
+import geocat.datafiles as gdf
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
-
-import geocat.datafiles as gdf
+from cartopy.mpl.gridliner import LatitudeFormatter, LongitudeFormatter
 from geocat.viz import util as gvutil
 
 ##############################################################################
