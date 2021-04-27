@@ -7,7 +7,7 @@ This script illustrates the following concepts:
    - Drawing filled bars up or down based on a Y reference value
    - Setting the minimum/maximum value of the Y axis in a bar plot
    - Using named colors to indicate a fill color
-   - Creating array of dates to use as x-axis tick labels
+   - Creating an array of dates to use as X-axis tick labels
    - Creating a main title
 
 See following URLs to see the reproduced NCL plot & script:
@@ -15,10 +15,10 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/bar_2_lg.png
 """
 
-import geocat.datafiles as gdf
-import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
+import geocat.datafiles as gdf
+import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
 from geocat.viz import util as gvutil
@@ -33,7 +33,7 @@ date = ds.date
 num_months = np.shape(date)[0]
 
 # Dates in the file are represented by year and month (YYYYMM)
-# representing them fractionally will make ploting the data easier
+# Representing them fractionally will make plotting the data easier
 # This produces the same results as NCL's yyyymm_to_yyyyfrac() function
 date_frac = np.empty_like(date)
 for n in np.arange(0, num_months, 1):
@@ -42,7 +42,7 @@ for n in np.arange(0, num_months, 1):
     date_frac[n] = yyyy + (mon - 1) / 12
 
 ###############################################################################
-# Plot
+# Plot:
 
 # Generate figure (set its size (width, height) in inches) and axes
 plt.figure(figsize=(12, 6))
@@ -64,7 +64,7 @@ gvutil.add_major_minor_ticks(ax,
                              y_minor_per_major=5,
                              labelsize=20)
 
-# Use geocat.viz.util convenience function to set axes parameters
+# Use geocat.viz.util convenience function to set axis parameters
 gvutil.set_axes_limits_and_ticks(ax,
                                  ylim=(-3, 3),
                                  yticks=np.linspace(-3, 3, 7),
@@ -79,4 +79,5 @@ gvutil.set_titles_and_labels(ax,
                              maintitlefontsize=28,
                              labelfontsize=20)
 
+# Show plot
 plt.show()
