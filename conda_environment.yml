@@ -7,7 +7,7 @@ dependencies:
   - geocat-comp
   - geocat-datafiles
   - geocat-viz=2020.7.30.1
-  - cartopy=0.18.0
+  - cartopy
   - geographiclib
   - jupyter
   - make
