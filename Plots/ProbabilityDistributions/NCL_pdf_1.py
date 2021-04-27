@@ -15,11 +15,10 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 
-import numpy as np
 import matplotlib.pyplot as plt
-from scipy import stats
-
+import numpy as np
 from geocat.viz import util as gvutil
+from scipy import stats
 
 ###############################################################################
 # Generate univariate probability distributions:
@@ -27,26 +26,25 @@ from geocat.viz import util as gvutil
 # Normal distribution
 mu = 0
 sigma = 50
-normalpdf = stats.norm.rvs(mu, sigma, size=(64,128))
-normalhist, normalbins = np.histogram(normalpdf, bins=np.linspace(-200, 200, 25))
-normalhist = normalhist/(64*128)*100
-normalbincenters = 0.5*(normalbins[1:] + normalbins[:-1])
-
+normalpdf = stats.norm.rvs(mu, sigma, size=(64, 128))
+normalhist, normalbins = np.histogram(normalpdf,
+                                      bins=np.linspace(-200, 200, 25))
+normalhist = normalhist / (64 * 128) * 100
+normalbincenters = 0.5 * (normalbins[1:] + normalbins[:-1])
 
 # Chi-squared distribution
 df = 2
 chipdf = stats.chi2.rvs(df, size=1000)
 chihist, chibins = np.histogram(chipdf, bins=25)
-chihist = chihist/1000*100
-chibincenters =0.5*(chibins[1:] + chibins[:-1])
+chihist = chihist / 1000 * 100
+chibincenters = 0.5 * (chibins[1:] + chibins[:-1])
 
 # Gamma distribution
 a = 2
 gammapdf = stats.gamma.rvs(a, size=(50, 100))
 gammahist, gammabins = np.histogram(gammapdf, bins=25)
-gammahist = gammahist/((50*100))*100
-gammabincenters =0.5*(gammabins[1:] + gammabins[:-1])
-
+gammahist = gammahist / ((50 * 100)) * 100
+gammabincenters = 0.5 * (gammabins[1:] + gammabins[:-1])
 
 ###############################################################################
 # Plot:
@@ -54,13 +52,13 @@ gammabincenters =0.5*(gammabins[1:] + gammabins[:-1])
 # Set up figure using a subplot grid to create top centered plot
 # Having a 4x2 subplot grid and having each plot span 2 columns allows for the top
 # plot to span middle two columns
-fig = plt.figure(figsize=(8,8))
-gs = plt.GridSpec(2,4,figure=fig, hspace=0.3, wspace=0.8)
+fig = plt.figure(figsize=(8, 8))
+gs = plt.GridSpec(2, 4, figure=fig, hspace=0.3, wspace=0.8)
 
 # Arrange plots, each spanning two columns
-ax1 = plt.subplot(gs[0,1:3])
-ax2 = plt.subplot(gs[1,0:2])
-ax3 = plt.subplot(gs[1,2:4])
+ax1 = plt.subplot(gs[0, 1:3])
+ax2 = plt.subplot(gs[1, 0:2])
+ax3 = plt.subplot(gs[1, 2:4])
 
 # Plot normal distribution
 ax1.plot(normalbincenters, normalhist, color='k', linewidth=0.5)
@@ -70,7 +68,6 @@ ax2.plot(chibincenters, chihist, color='k', linewidth=0.5)
 
 # Plot gamma distribution
 ax3.plot(gammabincenters, gammahist, color='k', linewidth=0.5)
-
 
 # Set top level title for plot
 plt.suptitle("Univariate PDFs of Three Variables", fontsize=15)
@@ -96,33 +93,24 @@ gvutil.set_titles_and_labels(ax3,
                              ylabel='PDF (%)',
                              labelfontsize=10)
 
+# Use geocat.viz.util convenience function to set axes parameters
+# Set axes limits, and tick values on x-axes.
+gvutil.set_axes_limits_and_ticks(ax1,
+                                 xlim=(-200, 200),
+                                 ylim=(0, 14),
+                                 yticks=np.arange(0, 15, 2))
 
 # Use geocat.viz.util convenience function to set axes parameters
 # Set axes limits, and tick values on x-axes.
-gvutil.set_axes_limits_and_ticks(
-    ax1,
-    xlim=(-200, 200),
-    ylim=(0, 14),
-    yticks=np.arange(0,15,2))
-
-
-# Use geocat.viz.util convenience function to set axes parameters
-# Set axes limits, and tick values on x-axes.
-gvutil.set_axes_limits_and_ticks(
-    ax2,
-    xlim=(0, 18),
-    ylim=(0, 28),
-    xticks=np.arange(0,19,3),
-    yticks=np.arange(0,29,4))
-
+gvutil.set_axes_limits_and_ticks(ax2,
+                                 xlim=(0, 18),
+                                 ylim=(0, 28),
+                                 xticks=np.arange(0, 19, 3),
+                                 yticks=np.arange(0, 29, 4))
 
 # Use geocat.viz.util convenience function to set axes parameters
 # Set axes limits, and tick values on x-axes.
-gvutil.set_axes_limits_and_ticks(
-    ax3,
-    ylim=(0, 18),
-    yticks=np.arange(0,19,3))
-
+gvutil.set_axes_limits_and_ticks(ax3, ylim=(0, 18), yticks=np.arange(0, 19, 3))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax1,
