@@ -14,9 +14,9 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/bar_7_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/bar_7_2_lg.png
 """
 
-import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
+import matplotlib.pyplot as plt
 import numpy as np
 from geocat.viz import util as gvutil
 
@@ -43,7 +43,7 @@ color_list = [
 title = 'Estimated Cancer Deaths for 2002'
 title_fontsize = 16
 
-# Axis Settings
+# Axis settings
 plot_y_max = 180_000
 
 ###############################################################################
@@ -61,7 +61,7 @@ plt.title(title, fontsize=title_fontsize, y=1.04)
 for k, label in enumerate(labels):
     plt.text(x[k], data[k] + 2000, label, rotation=45)
 
-# Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
+# Use geocat.viz.util convenience function to set axis limits & tick values without calling several matplotlib functions
 gvutil.set_axes_limits_and_ticks(ax,
                                  ylim=(0, plot_y_max),
                                  xticks=[],
@@ -73,7 +73,7 @@ gvutil.add_major_minor_ticks(ax,
                              y_minor_per_major=3,
                              labelsize=12)
 
-# Draw plot on the screen.
+# Show the plot
 plt.show()
 
 ###############################################################################
@@ -93,7 +93,7 @@ labels_reversed = labels[::-1]
 # Add the legend
 plt.legend(bars_reversed, labels_reversed)
 
-# Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
+# Use geocat.viz.util convenience function to set axis limits & tick values without calling several matplotlib functions
 gvutil.set_axes_limits_and_ticks(ax,
                                  ylim=(0, plot_y_max),
                                  xticks=[],
