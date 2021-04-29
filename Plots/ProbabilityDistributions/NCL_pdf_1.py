@@ -102,7 +102,6 @@ gvutil.set_axes_limits_and_ticks(ax1,
                                  ylim=(0, 14),
                                  yticks=np.arange(0, 15, 2))
 
-
 # Use matplotlib.ticker to ensure ticks count by 5 (base), but not specify an
 # upper limit to allow for variability in x axis upper limit
 ax2.xaxis.set_major_locator(ticker.MultipleLocator(base=5))
