@@ -6,6 +6,7 @@ This script illustrates the following concepts:
    - Generating univariate probability distributions
    - Generating PDFs of each sample distribution
    - Paneling two plots horizontally on a page
+   - Modifying tick placement with matplotlib.ticker
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/pdf_1.ncl
@@ -16,6 +17,7 @@ See following URLs to see the reproduced NCL plot & script:
 # Import packages:
 
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import numpy as np
 from geocat.viz import util as gvutil
 from scipy import stats
@@ -43,7 +45,7 @@ chibincenters = 0.5 * (chibins[1:] + chibins[:-1])
 a = 2
 gammapdf = stats.gamma.rvs(a, size=(50, 100))
 gammahist, gammabins = np.histogram(gammapdf, bins=25)
-gammahist = gammahist / ((50 * 100)) * 100
+gammahist = gammahist / (50 * 100) * 100
 gammabincenters = 0.5 * (gammabins[1:] + gammabins[:-1])
 
 ###############################################################################
@@ -100,17 +102,28 @@ gvutil.set_axes_limits_and_ticks(ax1,
                                  ylim=(0, 14),
                                  yticks=np.arange(0, 15, 2))
 
-# Use geocat.viz.util convenience function to set axes parameters
-# Set axes limits, and tick values on x-axes.
-gvutil.set_axes_limits_and_ticks(ax2,
-                                 xlim=(0, 18),
-                                 ylim=(0, 28),
-                                 xticks=np.arange(0, 19, 3),
-                                 yticks=np.arange(0, 29, 4))
 
-# Use geocat.viz.util convenience function to set axes parameters
-# Set axes limits, and tick values on x-axes.
-gvutil.set_axes_limits_and_ticks(ax3, ylim=(0, 18), yticks=np.arange(0, 19, 3))
+# Use matplotlib.ticker to ensure ticks count by 5 (base), but not specify an
+# upper limit to allow for variability in x axis upper limit
+ax2.xaxis.set_major_locator(ticker.MultipleLocator(base=5))
+
+# Use matplotlib.ticker to ensure ticks count by 4 (base), but not specify an
+# upper limit to allow for variability in y axis upper limit
+ax2.yaxis.set_major_locator(ticker.MultipleLocator(base=4))
+
+# Set lower limit only of y axis
+ax2.set_ylim(bottom=0)
+
+# Use matplotlib.ticker to ensure ticks count by 2.5 (base), but not specify an
+# upper limit to allow for variability in x axis upper limit
+ax3.xaxis.set_major_locator(ticker.MultipleLocator(base=2.5))
+
+# Use matplotlib.ticker to ensure ticks count by 3 (base), but not specify an
+# upper limit to allow for variability in y axis upper limit
+ax3.yaxis.set_major_locator(ticker.MultipleLocator(base=3))
+
+# Set lower limit only of y axis
+ax3.set_ylim(bottom=0)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax1,
