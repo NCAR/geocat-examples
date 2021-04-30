@@ -68,7 +68,7 @@ For further information, please refer to
 [github-ci-badge]: https://img.shields.io/github/workflow/status/NCAR/geocat-examples/CI?label=CI&logo=github&style=for-the-badge
 [github-ci-link]: https://github.com/NCAR/geocat-examples/actions?query=workflow%3ACI
 [rtd-badge]: https://img.shields.io/readthedocs/geocat-examples/latest.svg?style=for-the-badge
-[rtd-link]: https://geocat-comp.readthedocs.io/en/latest/?badge=latest
+[rtd-link]: https://geocat-examples.readthedocs.io/en/latest/?badge=latest
 [license-badge]: https://img.shields.io/github/license/NCAR/geocat-examples?style=for-the-badge
 [doi-badge]: https://img.shields.io/badge/DOI-10.5065%2Fa8pp--4358-brightgreen?style=for-the-badge
 [doi-link]: https://doi.org/10.5065/a8pp-4358
