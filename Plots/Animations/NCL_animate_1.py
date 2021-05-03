@@ -43,7 +43,7 @@ ax = plt.axes(projection=ccrs.PlateCarree(central_longitude=150))
 ax.coastlines(linewidths=0.5)
 ax.set_extent([-180, 180, -90, 90], ccrs.PlateCarree())
 
-# Use geocat.viz.util convenience function to set axis limits & tick values
+# Use geocat.viz.util convenience function to set the axes limits & tick values
 gvutil.set_axes_limits_and_ticks(ax,
                                  xlim=(-180, 180),
                                  ylim=(-90, 90),
@@ -91,8 +91,7 @@ def animate(i):
         xlabel="",
         ylabel="")
 
-
-# Iterates over the animation initiated with the frame int and progressed with the animate function
+# Iterates over the initiated animation initiated when progressed with the animate function
 anim = animation.FuncAnimation(fig, animate, frames=30, interval=200)
 
 # Uncomment this line to save the created animation
