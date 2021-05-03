@@ -91,6 +91,7 @@ def animate(i):
         xlabel="",
         ylabel="")
 
+
 # Iterates over the initiated animation initiated when progressed with the animate function
 anim = animation.FuncAnimation(fig, animate, frames=30, interval=200)
 
