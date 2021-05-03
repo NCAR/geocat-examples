@@ -61,7 +61,7 @@ plt.title(title, fontsize=title_fontsize, y=1.04)
 for k, label in enumerate(labels):
     plt.text(x[k], data[k] + 2000, label, rotation=45)
 
-# Use geocat.viz.util convenience function to set axis limits & tick values without calling several matplotlib functions
+# Use geocat.viz.util convenience function to set the axes limits & tick values without calling several matplotlib functions
 gvutil.set_axes_limits_and_ticks(ax,
                                  ylim=(0, plot_y_max),
                                  xticks=[],
