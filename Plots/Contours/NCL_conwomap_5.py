@@ -24,15 +24,28 @@ from matplotlib.ticker import (ScalarFormatter, NullFormatter)
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
+from geocat.comp import interp_hybrid_to_pressure
 
 ###############################################################################
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
-ds = ds.U
-ds = ds.isel(time=0).drop('time')
-ds = ds.isel(lon=0).drop('lon')
+u = ds.U[0, :, :, :]
+hyam = ds.hyam
+hybm = ds.hybm
+ps = ds.PS
+p0 = 1000 * 100 # 1000 mb in Pascals
+new_levels = np.array([1000, 950, 800, 700, 600, 500, 400, 300, 200])  # in millibars
+new_levels = new_levels * 100  # convert to Pascals
+u_int = interp_hybrid_to_pressure(u,
+                                  ps[0, :, :],
+                                  hyam,
+                                  hybm,
+                                  p0=p0,
+                                  new_levels=new_levels,
+                                  method='log')
+uzon = u_int.mean(dim='lon')
 
 ###############################################################################
 # Plot:
@@ -48,8 +61,9 @@ ax.yaxis.set_minor_formatter(NullFormatter())
 
 # Use geocat.viz.util convenience function to set axes parameters 
 gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=(200, 1000),
-                                 yticks=[1000,700,500,300],
+                                 ylim=(20000, 100000),
+                                 yticks=[100000,70000,50000,30000],
+                                 yticklabels=['1000', '700', '500', '300'],
                                  xticks=np.arange(-60,90,30),
                                  xticklabels=['60S','30S','0','30N','60N'])
 
@@ -57,13 +71,13 @@ gvutil.set_axes_limits_and_ticks(ax,
 gvutil.add_major_minor_ticks(ax,
                              x_minor_per_major=3,
                              y_minor_per_major=0,
-                             labelsize=14)
+                             labelsize=16)
 
 # Specify colormap
 newcmap = gvcmaps.ncl_default
 
 # Plot filed contours
-p = ds.plot.contourf(ax=ax,
+p = uzon.plot.contourf(ax=ax,
                      levels=13,
                      vmin=-8,
                      vmax=40,
@@ -72,7 +86,7 @@ p = ds.plot.contourf(ax=ax,
                      add_labels=False)
 
 # Plot contour lines
-ds.plot.contour(ax=ax,
+uzon.plot.contour(ax=ax,
                 levels=13,
                 vmin=-8,
                 vmax=40,
@@ -90,7 +104,7 @@ cbar = plt.colorbar(p,
                     ticks=np.arange(-8,44,4),
                     orientation='horizontal',
                     pad=0.075,
-                    aspect=10)
+                    aspect=11)
 
 # Set colorbar tick label size
 cbar.ax.tick_params(labelsize=14)
@@ -99,9 +113,9 @@ cbar.ax.tick_params(labelsize=14)
 # Use geocat.vix convenience function to set titles and labels
 gvutil.set_titles_and_labels(ax,
                              maintitle="Logarithmic axis",
-                             maintitlefontsize=16,
+                             maintitlefontsize=18,
                              lefttitle="Zonal Wind",
-                             lefttitlefontsize=14)
+                             lefttitlefontsize=16)
 
 # Show plot
 plt.show()
