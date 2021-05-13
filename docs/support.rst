@@ -11,4 +11,3 @@ you can submit an issue to the
 This should be used strictly for crashes and bugs.  For general usage
 questions, please submit an issue to the
 `GeoCAT project GitHub repository <https://github.com/NCAR/geocat>`_.
-

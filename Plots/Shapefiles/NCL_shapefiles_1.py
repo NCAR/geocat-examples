@@ -16,7 +16,7 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/shapefiles_1_lg.png
 
 Note:
-    At the time of making this example, there isn't a good way to draw tick 
+    At the time of making this example, there isn't a good way to draw tick
     marks along with the latitude and longitude labels. We have chosen to draw
     gridlines to show exactly where the labels are pointing. The gridlines can
     be removed by calling ``gl.xlines = False`` and ``gl.ylines = False``
@@ -24,19 +24,18 @@ Note:
 
 """
 
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+import geocat.datafiles as gdf
+import matplotlib.cm as cm
+import matplotlib.colors as colors
+import matplotlib.patches as mpatches
 ###############################################################################
 # Import packages:
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-import matplotlib.colors as colors
-import matplotlib.cm as cm
 import matplotlib.ticker as mticker
-import shapefile as shp
 import numpy as np
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-
-import geocat.datafiles as gdf
+import shapefile as shp
 from geocat.viz import util as gvutil
 
 ###############################################################################

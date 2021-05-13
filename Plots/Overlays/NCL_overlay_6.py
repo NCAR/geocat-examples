@@ -10,7 +10,7 @@ This script illustrates the following concepts:
    - Assigning a colormap to contour and quiver plots
    - Add arrows to streamlines
    - Using zorder to specify the order in which elements will be drawn
-   
+
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/overlay_6.ncl
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/overlay_6_lg.png
@@ -31,19 +31,18 @@ Differences between NCL example and this one:
 
 """
 
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+import geocat.datafiles as gdf
+import matplotlib.colors as mcolors
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
 import numpy as np
 import xarray as xr
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-from mpl_toolkits.axes_grid1.inset_locator import inset_axes
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-import matplotlib.colors as mcolors
-
-import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 ###############################################################################
 # Read in data:
@@ -212,7 +211,7 @@ with np.errstate(
                   headwidth=5,
                   cmap=wind_cmap,
                   zorder=4)
-   
+
 # Add color bar
 plt.colorbar(Q,
              cax=cax2,

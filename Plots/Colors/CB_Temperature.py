@@ -4,8 +4,8 @@ CB_Temperature.py
 
 This script illustrates multiple color schemes for color maps which will allow for those
 impacted by color blindness to see visualizations. Using rainbow color schemes is also
-a poor choice in color scheme for images that may be transferred to a black and white 
-scale for printing. This code addresses a handful of options to use in place of rainbow 
+a poor choice in color scheme for images that may be transferred to a black and white
+scale for printing. This code addresses a handful of options to use in place of rainbow
 color schemes for use in the matplotlib.pyplot library.
 
 More information on this subject can be found here:
@@ -18,19 +18,19 @@ More color schemes can be found here:
 See following URL to see the reproduced plot & script from the GeoCAT examples gallery:
     - https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_ce_3_1_lg.html#sphx-glr-gallery-contours-ncl-ce-3-1-lg-py
 
-Figure 1. 
+Figure 1.
    - The rainbow color scheme is problematic due to the lack of a natural perceived ordering of colors,
-     perceptual changes in the colors (ex: yellow and green blend together easily), and is sensitive to 
+     perceptual changes in the colors (ex: yellow and green blend together easily), and is sensitive to
      deficiencies in vision
 
-Figure 2. 
-   - The coolwarm diverging scheme should be used when both high and low values are interesting. 
-     However, be careful using this scheme if the projection will be printed to black and white. 
+Figure 2.
+   - The coolwarm diverging scheme should be used when both high and low values are interesting.
+     However, be careful using this scheme if the projection will be printed to black and white.
 
-Figure 3. 
-  - This is an example of a less distinct contrasting color gradient. This choice in color scheme would 
-    be a good choice for printing in black and white but may create some challenges for individuals who 
-    experience blue-green colorblindness. 
+Figure 3.
+  - This is an example of a less distinct contrasting color gradient. This choice in color scheme would
+    be a good choice for printing in black and white but may create some challenges for individuals who
+    experience blue-green colorblindness.
 
 Figure 4.
  - This plot shows how drastically contrasting colors can be incredibly useful for plotting this type of data.
@@ -40,13 +40,12 @@ Figure 4.
 ###############################################################################
 # Import packages:
 
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+import geocat.datafiles as gdf
+import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
-import cartopy.feature as cfeature
-import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-
-import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
@@ -64,6 +63,7 @@ t = ds.T.isel(time=0, z_t=0).sel(lat_t=slice(-60, 30), lon_t=slice(30, 120))
 # Plot:
 
 fig = plt.figure(figsize=(12, 12))
+
 
 def Plot(color, row, col, pos, title):
 
@@ -84,15 +84,16 @@ def Plot(color, row, col, pos, title):
                            vmax=32,
                            cmap=newcmp,
                            add_colorbar=False)
-    
+
     # Add color bar
     cbar_ticks = np.arange(0, 32, 2)
-    cbar = plt.colorbar(temp, 
-                        orientation='vertical', 
-                        shrink=0.8, pad=0.05, 
+    cbar = plt.colorbar(temp,
+                        orientation='vertical',
+                        shrink=0.8,
+                        pad=0.05,
                         extendrect=True,
                         ticks=cbar_ticks)
-    
+
     cbar.ax.tick_params(labelsize=10)
 
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
@@ -105,6 +106,7 @@ def Plot(color, row, col, pos, title):
                                  maintitlefontsize=14,
                                  xlabel="",
                                  ylabel="")
+
 
 # Plot first color map
 Plot(gvcmaps.BlAqGrYeOrRe, 2, 2, 1, "Figure 1: \n Rainbow Color Projection")

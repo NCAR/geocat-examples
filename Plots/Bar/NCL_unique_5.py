@@ -11,12 +11,12 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/unique_5_lg.png
 """
 
+import random
+
+import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
 import numpy as np
-import matplotlib.pyplot as plt
-import random
-
 from geocat.viz import util as gvutil
 
 ###############################################################################

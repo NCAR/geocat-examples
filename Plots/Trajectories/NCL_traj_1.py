@@ -11,15 +11,15 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/traj_1_lg.png
 """
 
-###############################################################################
-# Import packages:
-import xarray as xr
-import geocat.datafiles as gdf
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+import geocat.datafiles as gdf
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import numpy as np
+###############################################################################
+# Import packages:
+import xarray as xr
 from geocat.viz import util as gvutil
 
 ###############################################################################

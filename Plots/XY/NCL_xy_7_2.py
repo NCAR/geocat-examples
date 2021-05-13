@@ -15,13 +15,12 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/xy_7_2_lg.png
 """
 
+import geocat.datafiles as gdf
 ###############################################################################
 # Import packages:
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
-
-import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
 ################################################################################

@@ -5,7 +5,7 @@ This script illustrates the following concepts:
     - Drawing Skew-T plots
     - Thinning the wind barbs in a Skew-T plot
     - Customizing the background of a Skew_T plot
-    
+
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/skewt_3.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/skewt_3_2_lg.png
@@ -14,16 +14,15 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 
-import numpy as np
-import matplotlib.pyplot as plt
+import geocat.datafiles as gdf
 import matplotlib.lines as mlines
-import pandas as pd
+import matplotlib.pyplot as plt
 import metpy.calc as mpcalc
+import numpy as np
+import pandas as pd
+from geocat.viz import util as gvutil
 from metpy.plots import SkewT
 from metpy.units import units
-
-import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
 
 ###############################################################################
 # Read in data:
@@ -85,14 +84,14 @@ ax.add_line(line)
 # Add relevant special lines
 # Choose starting temperatures in Kelvin for the dry adiabats
 t0 = units.K * np.arange(243.15, 473.15, 10)
-skew.plot_dry_adiabats(t0=t0,
-                       linestyles='solid',
-                       colors='gray',
-                       linewidth=1.5)
+skew.plot_dry_adiabats(t0=t0, linestyles='solid', colors='gray', linewidth=1.5)
 
 # Choose temperatures for moist adiabats
 t0 = units.K * np.arange(281.15, 306.15, 4)
-msa = skew.plot_moist_adiabats(t0=t0, linestyles='solid', colors='lime', linewidths=1.5)
+msa = skew.plot_moist_adiabats(t0=t0,
+                               linestyles='solid',
+                               colors='lime',
+                               linewidths=1.5)
 
 # Choose mixing ratios
 w = np.array([0.001, 0.002, 0.003, 0.005, 0.008, 0.012, 0.020]).reshape(-1, 1)

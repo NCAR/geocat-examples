@@ -13,17 +13,16 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/conOncon_5_lg.png
 """
 
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+import geocat.datafiles as gdf
+import matplotlib.path as mpath
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 ###############################################################################
 # Import packages:
 import numpy as np
 import xarray as xr
-import cartopy.feature as cfeature
-import cartopy.crs as ccrs
-import matplotlib.path as mpath
-import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
-
-import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
 ###############################################################################

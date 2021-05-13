@@ -2,7 +2,7 @@
 NCL_h_lat_6.py
 =================
 This script illustrates the following concepts:
-   - Drawing filled contours of zonal wind 
+   - Drawing filled contours of zonal wind
    - Changing the background color for contour labels
    - Drawing pressure and height scales
    - Using a Blue-White-Red colormap
@@ -12,16 +12,15 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/h_lat_6_lg.png
 """
 
+import geocat.datafiles as gdf
+import matplotlib.pyplot as plt
 ################################################################################
 # Import packages:
 import numpy as np
 import xarray as xr
-import matplotlib.pyplot as plt
-from matplotlib.ticker import ScalarFormatter
-
-import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
 from geocat.viz import cmaps as gvcmap
+from geocat.viz import util as gvutil
+from matplotlib.ticker import ScalarFormatter
 
 ###############################################################################
 # Read in data:

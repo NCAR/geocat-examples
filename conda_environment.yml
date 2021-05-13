@@ -16,8 +16,11 @@ dependencies:
   - mock
   - netcdf4
   - pillow
+  - pip
   - scikit-learn
   - sphinx
   - sphinx-gallery
   - sphinx_rtd_theme
   - wrf-python
+  - pip:
+      - pre-commit
