@@ -13,17 +13,16 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/conwomap_5_2_lg.png
 """
 
+import geocat.datafiles as gdf
+import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
 import numpy as np
 import xarray as xr
-import matplotlib.pyplot as plt
-from matplotlib.ticker import (ScalarFormatter, NullFormatter)
-
-import geocat.datafiles as gdf
+from geocat.comp import interp_hybrid_to_pressure
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
-from geocat.comp import interp_hybrid_to_pressure
+from matplotlib.ticker import NullFormatter, ScalarFormatter
 
 ###############################################################################
 # Read in data:
@@ -35,7 +34,8 @@ hyam = ds.hyam
 hybm = ds.hybm
 ps = ds.PS
 p0 = 1000 * 100  # 1000 mb in Pascals
-new_levels = np.array([1000, 950, 800, 700, 600, 500, 400, 300, 200])  # in millibars
+new_levels = np.array([1000, 950, 800, 700, 600, 500, 400, 300,
+                       200])  # in millibars
 new_levels = new_levels * 100  # convert to Pascals
 u_int = interp_hybrid_to_pressure(u,
                                   ps[0, :, :],
@@ -107,7 +107,6 @@ cbar = plt.colorbar(p,
 
 # Set colorbar tick label size
 cbar.ax.tick_params(labelsize=14)
-
 
 # Use geocat.vix convenience function to set titles and labels
 gvutil.set_titles_and_labels(ax,
