@@ -74,7 +74,7 @@ ax = plt.axes(projection=cart_proj)
 states = NaturalEarthFeature(category="cultural",
                              scale="50m",
                              facecolor="none",
-                             name="admin_1_states_provinces_shp")
+                             name="admin_1_states_provinces")
 
 ax.add_feature(states, linewidth=0.5, edgecolor="black")
 ax.coastlines('50m', linewidth=0.8)
