@@ -21,14 +21,16 @@ Note:
     for more information on choosing colormaps.
 """
 
-import geocat.datafiles as gdf
-import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
+
 import numpy as np
+import matplotlib.pyplot as plt
 import xarray as xr
 from cartopy.mpl.gridliner import LatitudeFormatter, LongitudeFormatter
+
 from geocat.viz import util as gvutil
+import geocat.datafiles as gdf
 
 ###############################################################################
 # Read in data:

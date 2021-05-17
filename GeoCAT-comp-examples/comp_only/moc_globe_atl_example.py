@@ -23,9 +23,10 @@ Dependencies:
 ###############################################################################
 # Import packages:
 
-import geocat.datafiles as gdf
 import numpy as np
 import xarray as xr
+
+import geocat.datafiles as gdf
 from geocat.comp import moc_globe_atl
 
 ###############################################################################

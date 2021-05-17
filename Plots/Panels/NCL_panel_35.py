@@ -15,14 +15,16 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: http://www.ncl.ucar.edu/Applications/Images/panel_35_lg.png
 """
 
-import math
-
-import geocat.viz.util as gvutil
 ###############################################################################
 # Import packages:
+
 import matplotlib.pyplot as plt
 import numpy as np
+
 from geocat.viz import cmaps as gvcmaps
+import geocat.viz.util as gvutil
+
+import math
 
 ################################################################
 # Definition of generate_2d_array and helper functions from https://github.com/NCAR/pyngl/blob/develop/src/ngl/__init__.py

@@ -26,16 +26,20 @@ Note (1):
 
 """
 
-import cartopy.crs as ccrs
-import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
-import matplotlib.pyplot as plt
-import numpy as np
 ###############################################################################
 # Import packages:
+
 import xarray as xr
-from geocat.comp import eofunc_eofs, eofunc_pcs, month_to_season
+import numpy as np
+
+import geocat.datafiles as gdf
+import geocat.viz.util as gvutil
 from geocat.viz import cmaps as gvcmaps
+from geocat.comp import eofunc_eofs, eofunc_pcs, month_to_season
+
+import matplotlib.pyplot as plt
+
+import cartopy.crs as ccrs
 
 ###############################################################################
 # User defined parameters and a convenience function:

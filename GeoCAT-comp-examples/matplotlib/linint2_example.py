@@ -27,16 +27,16 @@ Dependencies:
 # Import packages:
 
 import cartopy.crs as ccrs
-import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
 from cartopy.mpl.geoaxes import GeoAxes
-from cartopy.mpl.ticker import LatitudeFormatter, LongitudeFormatter
-from geocat.comp import linint2
 from matplotlib import cm
 from mpl_toolkits.axes_grid1 import AxesGrid
+
+import geocat.datafiles as gdf
+import geocat.viz.util as gvutil
+from geocat.comp import linint2
 
 ###############################################################################
 # Read in data:

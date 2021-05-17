@@ -14,10 +14,11 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/scatter_6_lg.png
 """
 
-import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
+
 import numpy as np
+import matplotlib.pyplot as plt
 
 ###############################################################################
 # Create dummy data:

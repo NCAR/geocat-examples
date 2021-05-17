@@ -12,11 +12,13 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/regress_1_lg.png
 """
 
-import geocat.datafiles as gdf
-import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages
+
 import numpy as np
+import matplotlib.pyplot as plt
+
+import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
 ###############################################################################

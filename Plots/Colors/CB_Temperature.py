@@ -37,15 +37,17 @@ Figure 4.
    This color scheme will work well for color blind impacted individuals and is black and white print friendly.
 
 """
+
 ###############################################################################
 # Import packages:
 
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
-import geocat.datafiles as gdf
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
+
+import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 

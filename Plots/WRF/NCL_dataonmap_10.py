@@ -16,14 +16,15 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages
 
-import cartopy.crs as ccrs
-import geocat.datafiles as gdf
+from netCDF4 import Dataset
+import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
-import numpy as np
+import cartopy.crs as ccrs
+from wrf import (getvar, to_np, latlon_coords)
+
+import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
-from netCDF4 import Dataset
-from wrf import getvar, latlon_coords, to_np
 
 ###############################################################################
 # Read in the data

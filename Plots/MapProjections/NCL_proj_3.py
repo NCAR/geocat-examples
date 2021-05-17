@@ -11,13 +11,15 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/proj_3.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/proj_3_lg.png
 """
-import cartopy.crs as ccrs
-import geocat.datafiles as gdf
-import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
+
 import numpy as np
 import xarray as xr
+import cartopy.crs as ccrs
+import matplotlib.pyplot as plt
+
+import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
 ###############################################################################

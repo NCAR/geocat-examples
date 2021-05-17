@@ -15,15 +15,15 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages
 
+from netCDF4 import Dataset
+import numpy as np
+import matplotlib.pyplot as plt
+import xarray as xr
 import os
 
+from wrf import (to_np, getvar, CoordPair, vertcross, latlon_coords)
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
-import matplotlib.pyplot as plt
-import numpy as np
-import xarray as xr
-from netCDF4 import Dataset
-from wrf import CoordPair, getvar, latlon_coords, to_np, vertcross
 
 ###############################################################################
 # Read in the data

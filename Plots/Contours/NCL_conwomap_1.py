@@ -11,12 +11,13 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/conwomap_1_2_lg.png
 """
 
-import geocat.datafiles as gdf
-import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
 import numpy as np
 import xarray as xr
+import matplotlib.pyplot as plt
+
+import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
@@ -98,7 +99,7 @@ p = u.plot.contour(ax=ax,
                    add_labels=False,
                    linewidths=2.3)
 
-#label contours
+# label contours
 ax.clabel(p, np.arange(0, 9, 2), colors='black', fmt="%.0f")
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions

@@ -13,12 +13,14 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/axes_3_lg.png
 """
 
-import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
+
 import numpy as np
-from geocat.viz import util as gvutil
+import matplotlib.pyplot as plt
 from matplotlib.ticker import NullFormatter
+
+from geocat.viz import util as gvutil
 
 ###############################################################################
 # Create dummy data for XY plots

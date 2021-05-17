@@ -15,13 +15,14 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 
+import xarray as xr
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
-import geocat.datafiles as gdf
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
-import xarray as xr
-from cartopy.mpl.gridliner import LatitudeFormatter, LongitudeFormatter
+
 from geocat.viz import util as gvutil
+import geocat.datafiles as gdf
 
 ###############################################################################
 # Open a netCDF data file using xarray default engine and load the data into xarrays

@@ -18,16 +18,18 @@ Note:
 
 ###############################################################################
 # Import packages:
+
 import cartopy.crs as ccrs
-import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
-import matplotlib.patches as mpatches
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FormatStrFormatter
+import matplotlib.patches as mpatches
 import numpy as np
 import xarray as xr
-from cartopy.mpl.gridliner import LatitudeFormatter, LongitudeFormatter
+
+import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
-from matplotlib.ticker import FormatStrFormatter
+import geocat.viz.util as gvutil
 
 ###############################################################################
 # Read in data:

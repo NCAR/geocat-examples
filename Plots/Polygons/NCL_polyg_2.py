@@ -22,15 +22,16 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 
-import cartopy.crs as ccrs
-import cartopy.io.shapereader as shpreader
-import geocat.datafiles as gdf
-import matplotlib.cm as cm
-import matplotlib.colors as colors
-import matplotlib.pyplot as plt
-import shapely.geometry as sgeom
 import xarray as xr
+import cartopy.crs as ccrs
+import matplotlib.pyplot as plt
+import matplotlib.colors as colors
+import matplotlib.cm as cm
 from geocat.viz import util as gvutil
+
+import geocat.datafiles as gdf
+import cartopy.io.shapereader as shpreader
+import shapely.geometry as sgeom
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 ###############################################################################
@@ -85,7 +86,7 @@ ax = plt.axes([.05, -.05, .9, 1],
 ax.set_extent([-119, -74, 18, 50], ccrs.Geodetic())
 
 # Set shape name of map (which depicts the United States)
-shapename = 'admin_1_states_provinces_lakes'
+shapename = 'admin_1_states_provinces_lakes_shp'
 states_shp = shpreader.natural_earth(resolution='110m',
                                      category='cultural',
                                      name=shapename)

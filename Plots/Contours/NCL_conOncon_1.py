@@ -13,14 +13,16 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/conOncon_1_lg.png
 """
 
-import geocat.datafiles as gdf
-import matplotlib.pyplot as plt
 ################################################################################
 # Import packages:
+
 import numpy as np
 import xarray as xr
-from geocat.viz import util as gvutil
+import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
+
+import geocat.datafiles as gdf
+from geocat.viz import util as gvutil
 
 ###############################################################################
 # Read in data:
