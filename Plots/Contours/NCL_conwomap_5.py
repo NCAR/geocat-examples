@@ -6,7 +6,7 @@ This script illustrates the following concepts:
    - Making an axis logarithmic in a contour plot
    - Changing the labels and tickmarks on a contour plot
    - Creating a main title
-   - Attaching coordinate arrays to a variable
+   - Using the geocat-comp method interp_hybrid_to_pressure
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/conwomap_5.ncl
@@ -22,21 +22,27 @@ import xarray as xr
 from geocat.comp import interp_hybrid_to_pressure
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
-from matplotlib.ticker import NullFormatter, ScalarFormatter
+from matplotlib.ticker import ScalarFormatter
 
 ###############################################################################
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
-u = ds.U[0, :, :, :]
-hyam = ds.hyam
-hybm = ds.hybm
-ps = ds.PS
-p0 = 1000 * 100  # 1000 mb in Pascals
+
+# Extract the data needed
+u = ds.U[0, :, :, :]  # U component of wind
+hyam = ds.hyam  # hybrid A coefficient
+hybm = ds.hybm  # hybrid B coefficient
+ps = ds.PS  # surface pressures in Pascals
+p0 = 100000  # surface reference pressure in Pascals
+
+# Specify output pressure levels
 new_levels = np.array([1000, 950, 800, 700, 600, 500, 400, 300,
                        200])  # in millibars
 new_levels = new_levels * 100  # convert to Pascals
+
+# Interpolate pressure coordinates form hybrid sigma coord
 u_int = interp_hybrid_to_pressure(u,
                                   ps[0, :, :],
                                   hyam,
@@ -44,6 +50,8 @@ u_int = interp_hybrid_to_pressure(u,
                                   p0=p0,
                                   new_levels=new_levels,
                                   method='log')
+
+# Calculate zonal mean of u component of wind
 uzon = u_int.mean(dim='lon')
 
 ###############################################################################
@@ -53,10 +61,9 @@ uzon = u_int.mean(dim='lon')
 plt.figure(figsize=(7, 10))
 ax = plt.axes()
 
-# Format axes
+# Format log axis
 plt.yscale('log')
 ax.yaxis.set_major_formatter(ScalarFormatter())
-ax.yaxis.set_minor_formatter(NullFormatter())
 
 # Use geocat.viz.util convenience function to set axes parameters
 gvutil.set_axes_limits_and_ticks(ax,
