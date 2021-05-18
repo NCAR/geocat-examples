@@ -13,12 +13,13 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 import cartopy
 import cartopy.crs as ccrs
-import matplotlib.patches as mpatches
-import matplotlib.pyplot as plt
-import numpy as np
 from cartopy.mpl.ticker import LatitudeFormatter, LongitudeFormatter
+import numpy as np
+
 from geocat.viz import util as gvutil
 
 ###############################################################################

@@ -17,6 +17,7 @@ See following URLs to see the reproduced NCL plot & script:
 
 import matplotlib.pyplot as plt
 import numpy as np
+
 from geocat.viz import util as gvutil
 
 ###############################################################################

@@ -35,21 +35,23 @@ This example demonstrates approach (b).
 See NCL_overlay_11a.py for demonstration of approach (a).
 """
 
-import geocat.datafiles as gdf
-import numpy as np
 ###############################################################################
 # Import packages:
-# --------------------------
+
 import xarray as xr
-from cartopy.crs import PlateCarree
-from cartopy.feature import LAKES, LAND, OCEAN, ShapelyFeature
-from cartopy.io.shapereader import Reader as ShapeReader
-from cartopy.io.shapereader import natural_earth
-from cartopy.mpl.patch import geos_to_path
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import numpy as np
+
 from matplotlib import pyplot as plt
 from matplotlib.patches import PathPatch
+
+from cartopy.feature import ShapelyFeature, OCEAN, LAKES, LAND
+from cartopy.crs import PlateCarree
+from cartopy.mpl.patch import geos_to_path
+from cartopy.io.shapereader import Reader as ShapeReader, natural_earth
+
+import geocat.datafiles as gdf
+from geocat.viz import cmaps as gvcmaps
+from geocat.viz import util as gvutil
 
 ###############################################################################
 # Read in data:

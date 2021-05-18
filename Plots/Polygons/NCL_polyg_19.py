@@ -16,17 +16,18 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 
-import geocat.datafiles as gdf
-import matplotlib.cm as cm
-import matplotlib.colors as colors
-import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
-import numpy as np
-import shapefile as shp
-from geocat.viz import util as gvutil
+import matplotlib.gridspec as gridspec
 from matplotlib.collections import PatchCollection
 from matplotlib.patches import Polygon
+import matplotlib.colors as colors
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+import matplotlib.cm as cm
+import shapefile as shp
+import numpy as np
+
+import geocat.datafiles as gdf
+from geocat.viz import util as gvutil
 
 ###############################################################################
 # Read in data:

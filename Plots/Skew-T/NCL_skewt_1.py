@@ -9,14 +9,16 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/skewt_1_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/skewt_1_2_lg.png and https://www.ncl.ucar.edu/Applications/Images/skewt_1_3_lg.png
 """
 
-import geocat.viz.util as gvutil
-import matplotlib.lines as mlines
 ###############################################################################
 # Import packages:
+
 import matplotlib.pyplot as plt
+import matplotlib.lines as mlines
 import numpy as np
 from metpy.plots import SkewT
 from metpy.units import units
+
+import geocat.viz.util as gvutil
 
 ###############################################################################
 # Plot Skew-T with MetPy Defaults:

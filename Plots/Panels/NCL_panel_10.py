@@ -13,19 +13,20 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_10_lg.png and https://www.ncl.ucar.edu/Applications/Images/panel_attach_10_lg.png
 """
 
+###############################################################################
+# Import packages:
+
+import numpy as np
+import xarray as xr
+import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+import matplotlib.gridspec as gridspec
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import warnings
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
-import matplotlib.gridspec as gridspec
-import matplotlib.pyplot as plt
-###############################################################################
-# Import packages:
-import numpy as np
-import xarray as xr
-from cartopy.mpl.gridliner import LatitudeFormatter, LongitudeFormatter
 from geocat.viz import cmaps as gvcmaps
-from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 ###############################################################################
 # Read in data:

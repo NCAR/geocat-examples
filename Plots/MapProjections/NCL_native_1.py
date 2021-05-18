@@ -16,15 +16,17 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/native_1_lg.png
 """
 
-import cartopy.crs as ccrs
-import geocat.datafiles as gdf
-import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
 ###############################################################################
 # Import packages:
+
 import numpy as np
-from geocat.viz import cmaps as gvcmaps
+import cartopy.crs as ccrs
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
+
 from geocat.viz import util as gvutil
+from geocat.viz import cmaps as gvcmaps
+import geocat.datafiles as gdf
 
 ###############################################################################
 # Read in data:

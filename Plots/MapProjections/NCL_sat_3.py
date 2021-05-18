@@ -12,15 +12,17 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/sat_3_lg.png
 """
 
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-import geocat.datafiles as gdf
 ###############################################################################
 # Import packages:
 import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
-import numpy as np
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
 import xarray as xr
+import numpy as np
+import matplotlib.ticker as mticker
+
+import geocat.datafiles as gdf
+
 from geocat.viz import util as gvutil
 
 ###############################################################################

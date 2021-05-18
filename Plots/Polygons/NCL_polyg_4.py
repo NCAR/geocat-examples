@@ -18,15 +18,16 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/polyg_4_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/polyg_4_2_lg.png
 """
 
-import cartopy
-import cartopy.crs as ccrs
-import geocat.datafiles as gdf
-import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
-# ----------------
+
 import numpy as np
 import xarray as xr
+import cartopy
+import cartopy.crs as ccrs
+import matplotlib.pyplot as plt
+
+import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
 ###############################################################################
