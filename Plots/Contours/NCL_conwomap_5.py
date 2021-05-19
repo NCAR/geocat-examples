@@ -6,7 +6,7 @@ This script illustrates the following concepts:
    - Making an axis logarithmic in a contour plot
    - Changing the labels and tickmarks on a contour plot
    - Creating a main title
-   - Using the geocat-comp method interp_hybrid_to_pressure
+   - Using the geocat-comp method `interp_hybrid_to_pressure <https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.interp_hybrid_to_pressure.html#geocat.comp.interp_hybrid_to_pressure>`_
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/conwomap_5.ncl
