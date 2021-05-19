@@ -13,11 +13,13 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/bar_11_lg.png
 """
 
-import geocat.viz.util as gvutil
 ###############################################################################
 # Import packages:
+
 import matplotlib.pyplot as plt
 import numpy as np
+
+import geocat.viz.util as gvutil
 
 ###############################################################################
 # Generate dummy data:

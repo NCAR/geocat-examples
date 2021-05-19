@@ -20,11 +20,12 @@ Note:
 # Import packages:
 
 import cartopy.crs as ccrs
-import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
+
+import geocat.viz.util as gvutil
+import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 
 ###############################################################################

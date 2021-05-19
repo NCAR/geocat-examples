@@ -24,18 +24,20 @@ Note:
 
 """
 
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-import geocat.datafiles as gdf
-import matplotlib.cm as cm
-import matplotlib.colors as colors
-import matplotlib.patches as mpatches
 ###############################################################################
 # Import packages:
+
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+import matplotlib.colors as colors
+import matplotlib.cm as cm
 import matplotlib.ticker as mticker
-import numpy as np
 import shapefile as shp
+import numpy as np
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+
+import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
 ###############################################################################

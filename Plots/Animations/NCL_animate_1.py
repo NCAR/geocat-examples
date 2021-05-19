@@ -14,16 +14,16 @@ Please note:
     as this script.
 """
 ###############################################################################
-
 # Import packages:
+
 import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
 import matplotlib.animation as animation
 import numpy as np
 import xarray as xr
 from matplotlib import pyplot as plt
+
+import geocat.datafiles as gdf
+import geocat.viz.util as gvutil
 
 ###############################################################################
 # Read in data:

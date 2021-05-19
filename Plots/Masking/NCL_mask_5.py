@@ -20,14 +20,15 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-import geocat.datafiles as gdf
-import matplotlib.patches as mpatches
-import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
+import cartopy.crs as ccrs
+import matplotlib.pyplot as plt
+import cartopy.feature as cfeature
+import matplotlib.patches as mpatches
+
 from geocat.viz import util as gvutil
+import geocat.datafiles as gdf
 
 ###############################################################################
 # Read in Data
@@ -54,7 +55,7 @@ ax.add_feature(cfeature.OCEAN, color="blue")
 
 # Cartopy does not currently have a feature that separates island land from
 # main land. There is also no feature to add ice shelf data to a projection.
-# This addition would require another data set to specifiy area encompassed
+# This addition would require another data set to specify area encompassed
 # by an ice shelf in a region.
 
 # Create label names and define colors for the legend

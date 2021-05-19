@@ -19,8 +19,9 @@ See following URLs to see the reproduced NCL plot & script:
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import numpy as np
-from geocat.viz import util as gvutil
 from scipy import stats
+
+from geocat.viz import util as gvutil
 
 ###############################################################################
 # Generate univariate probability distributions:

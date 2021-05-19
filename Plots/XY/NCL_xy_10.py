@@ -10,14 +10,15 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/xy_10_lg.png
 """
 
+###############################################################################
+# Import packages:
+
+import numpy as np
+import xarray as xr
+import matplotlib.pyplot as plt
 import math
 
 import geocat.datafiles as gdf
-import matplotlib.pyplot as plt
-###############################################################################
-# Import packages:
-import numpy as np
-import xarray as xr
 from geocat.viz import util as gvutil
 
 ###############################################################################

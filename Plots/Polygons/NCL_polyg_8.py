@@ -15,13 +15,15 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/polyg_8_lg.png
 """
 
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
+
 import numpy as np
-from cartopy.mpl.gridliner import LatitudeFormatter, LongitudeFormatter
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
+import matplotlib.pyplot as plt
+
 from geocat.viz import util as gvutil
 
 ###############################################################################

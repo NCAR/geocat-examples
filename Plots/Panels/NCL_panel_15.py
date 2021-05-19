@@ -13,14 +13,16 @@ See following URLs to see the reproduced NCL plot & script:
 
 ##############################################################################
 # Import packages:
+
 import cartopy.crs as ccrs
-import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
-import matplotlib.gridspec as gridspec
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
 import numpy as np
 import xarray as xr
-from cartopy.mpl.gridliner import LatitudeFormatter, LongitudeFormatter
+
+import geocat.datafiles as gdf
+import geocat.viz.util as gvutil
 
 ##############################################################################
 # Read in data:

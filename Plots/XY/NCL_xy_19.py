@@ -11,11 +11,13 @@ See following URLs to see the reproduced NCL plot & script:
 
 """
 
-import geocat.datafiles as gdf
 ###############################################################################
 # Import packages:
+
 import matplotlib.pyplot as plt
 import numpy as np
+
+import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
 ###############################################################################

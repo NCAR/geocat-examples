@@ -15,10 +15,11 @@ See following URLs to see the reproduced NCL plot & script:
 ##############################################################################
 # Import packages:
 
-import geocat.datafiles as gdf
-import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
+import matplotlib.pyplot as plt
+
+import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 

@@ -14,15 +14,16 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 
-import geocat.datafiles as gdf
-import matplotlib.lines as mlines
-import matplotlib.pyplot as plt
-import metpy.calc as mpcalc
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.lines as mlines
 import pandas as pd
-from geocat.viz import util as gvutil
+import metpy.calc as mpcalc
 from metpy.plots import SkewT
 from metpy.units import units
+
+import geocat.datafiles as gdf
+from geocat.viz import util as gvutil
 
 ###############################################################################
 # Read in data:

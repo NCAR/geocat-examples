@@ -23,12 +23,13 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 
-import cartopy.crs as ccrs
-import geocat.datafiles as gdf
-import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
 import numpy as np
 import xarray as xr
+import cartopy.crs as ccrs
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
+
+import geocat.datafiles as gdf
 
 ###############################################################################
 # Read in data:

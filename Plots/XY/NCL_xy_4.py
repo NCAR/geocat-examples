@@ -21,15 +21,16 @@ Ways of specifying marks:
       `Path <https://matplotlib.org/3.2.1/api/path_api.html#matplotlib.path.Path>`_ instance can be used to draw your own marker
 """
 
+###############################################################################
+# Import packages:
+
+import numpy as np
+import xarray as xr
+import matplotlib.pyplot as plt
+import matplotlib.path as mpath
 import math
 
 import geocat.datafiles as gdf
-import matplotlib.path as mpath
-import matplotlib.pyplot as plt
-###############################################################################
-# Import packages:
-import numpy as np
-import xarray as xr
 from geocat.viz import util as gvutil
 
 ###############################################################################

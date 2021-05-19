@@ -19,15 +19,17 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/meteo_1_lg.png
 """
 
-import cartopy.crs as ccrs
-import geocat.datafiles as gdf
-import numpy as np
 ###############################################################################
-# Import necessary packages
+# Import packages
+
 import xarray as xr
-from geocat.viz import util as gvutil
+import numpy as np
 from matplotlib import pyplot as plt
-from matplotlib.colors import BoundaryNorm, ListedColormap
+from matplotlib.colors import ListedColormap, BoundaryNorm
+import cartopy.crs as ccrs
+
+import geocat.datafiles as gdf
+from geocat.viz import util as gvutil
 
 ###############################################################################
 # Read in data:

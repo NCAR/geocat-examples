@@ -14,14 +14,16 @@ See following URLs to see the reproduced NCL plot & script:
 
 ###############################################################################
 
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-import matplotlib.pyplot as plt
 # Import packages:
+
 import numpy as np
-from cartopy.mpl.gridliner import LatitudeFormatter, LongitudeFormatter
-from geocat.viz import util as gvutil
+import cartopy.crs as ccrs
+import matplotlib.pyplot as plt
+import cartopy.feature as cfeature
 from geographiclib.geodesic import Geodesic
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
+
+from geocat.viz import util as gvutil
 
 ###############################################################################
 # Plot
