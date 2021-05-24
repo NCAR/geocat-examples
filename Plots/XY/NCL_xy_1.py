@@ -1,7 +1,7 @@
 """
 NCL_xy_1.py
 ===========
-This script illustrates teh following concepts:
+This script illustrates the following concepts:
     - Drawing a black and white XY plot
 
 See following URLs to see the reproduced NCL plot & script:
