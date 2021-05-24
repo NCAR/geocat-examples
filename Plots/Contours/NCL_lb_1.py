@@ -1,7 +1,7 @@
 '''
 NCL_lb_1.py
 ===========
-This script illustrates teh following concepts:
+This script illustrates the following concepts:
     - Making a horizontal colorbar
     - Changing the colorbar labels
     - Setting color maps using the new standard
