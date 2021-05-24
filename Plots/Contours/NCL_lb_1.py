@@ -1,4 +1,4 @@
-'''
+"""
 NCL_lb_1.py
 ===========
 This script illustrates the following concepts:
@@ -9,7 +9,7 @@ This script illustrates the following concepts:
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/lb_1.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/lb_1_lg.png
-'''
+"""
 
 ###############################################################################
 # Import packages
