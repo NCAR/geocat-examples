@@ -66,7 +66,6 @@ cbar = fig.colorbar(a,
                     shrink=0.8,
                     orientation="horizontal",
                     pad=0.11)
-#cbar.ax.set_yticklabels(clabels)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
 gvutil.set_axes_limits_and_ticks(ax,
