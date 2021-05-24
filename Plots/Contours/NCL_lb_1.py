@@ -56,10 +56,6 @@ a = wrap_v.plot.contourf(levels=14,
 wrap_v.plot.contour(levels=14, linewidths=0.5, cmap='black', add_labels=False)
 
 # Add vertical colorbar
-clabels = [
-    "-70", "-50", "-30", "-10", "10", "30", "50", "70", "90", "110", "130",
-    "150"
-]
 cbar = fig.colorbar(a,
                     label='',
                     ticks=np.arange(-24, 28, 4),
