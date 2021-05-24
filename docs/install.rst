@@ -14,8 +14,10 @@ environment and then building file of which is provided in this repo as follows:
 
 From the root directory of the cloned geocat-examples repository, run the following commands:
 
-    conda env create -f conda_environment.yml -n geocat-examples
-    conda activate geocat-examples
+.. code-block:: bash
+
+   $ conda env create -f conda_environment.yml -n geocat-examples
+   $ conda activate geocat-examples
 
 Note that the Conda package manager automatically installs all the required
 dependencies of GeoCAT-examples listed under ``conda_environment.yml`` file (such as ``geocat-comp``,
@@ -26,7 +28,9 @@ If you need to make use of other software packages with GeoCAT-examples, you may
 to install them into your ``geocat-examples`` environment at anytime with a command as in the
 following example (assuming your ``geocat-examples`` environment is already activated):
 
-    conda install -c bokeh bokeh
+.. code-block:: bash
+
+   $ conda install -c bokeh bokeh
 
 If you are interested in learning more about how Conda environments work, please visit
 the `managing environments <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html>`_
