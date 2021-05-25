@@ -48,19 +48,23 @@ ax.coastlines(linewidths=0.5)
 newcmp = gvcmaps.wgne15
 
 # Contourf-plot data (for filled contours)
-a = wrap_v.plot.contourf(levels=14,
+a = wrap_v.plot.contourf(levels=np.arange(-20, 28, 4),
                          cmap=newcmp,
                          add_colorbar=False,
                          add_labels=False)
 # Contour-plot data (for borderlines)
-wrap_v.plot.contour(levels=14, linewidths=0.5, cmap='black', add_labels=False)
+wrap_v.plot.contour(levels=np.arange(-20, 28, 4),
+                    linewidths=0.5,
+                    cmap='black',
+                    add_labels=False)
 
 # Add vertical colorbar
 cbar = fig.colorbar(a,
                     label='',
-                    ticks=np.arange(-24, 28, 4),
+                    ticks=np.arange(-20, 28, 4),
                     shrink=0.8,
                     orientation="horizontal",
+                    extendrect=True,
                     pad=0.11)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
