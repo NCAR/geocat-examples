@@ -1,29 +1,37 @@
 Installation
 ============
 
+This installation guide includes only the GeoCAT-examples installation instructions.
+Please refer to `GeoCAT Contributor's Guide <https://geocat.ucar.edu/pages/contributing.html>`_ for installation of
+the whole GeoCAT project.
+
 Create a GeoCAT-examples Conda environment
 ------------------------------------------
-In order to run any of the example scripts on this website, you will need to
-install the necessary Python packages. The simplest way to install these
-packages is by using `conda <https://docs.conda.io/projects/conda/en/latest/>`_.
-We generally recommend using Miniconda rather than Anaconda because it only
-includes the bare minimum amount of software needed to create new conda
-environments, while Anaconda includes many Python packages by default (which may
-not be perfectly compatible with the builds of GeoCAT software we provide).
+GeoCAT-examples is not distributed as a conda package; thus, there is no conda installation for it.
 
-Once you have conda installed, you can create a new ``geocat-examples`` conda
-environment with either of the following methods:
+The easiest way to access GeoCAT-examples is by cloning the repo and then using a `Conda <http://conda.pydata.org/docs/>`_
+environment and then building file of which is provided in this repo as follows:
 
-* Download the file :download:`conda_environment.yml <../conda_environment.yml>` and then run::
+From the root directory of the cloned geocat-examples repository, run the following commands:
 
-    conda env create -f conda_environment.yml -n geocat-examples
+.. code-block:: bash
 
-or alternatively:
+   $ conda env create -f conda_environment.yml -n geocat-examples
+   $ conda activate geocat-examples
 
-* Run the command::
+Note that the Conda package manager automatically installs all the required
+dependencies of GeoCAT-examples listed under ``conda_environment.yml`` file (such as ``geocat-comp``,
+``geocat-datafiles``, ``cartopy``, ``matplotlib``, ``netcdf4``, etc.); therefore, there is no need to
+explicitly install those packages.
 
-   conda create -c conda-forge -c ncar -n geocat-examples python=3 geocat-comp geocat-datafiles geocat-viz=2020.2.18.1 netcdf4 matplotlib cartopy jupyter
+If you need to make use of other software packages with GeoCAT-examples, you may wish
+to install them into your ``geocat-examples`` environment at anytime with a command as in the
+following example (assuming your ``geocat-examples`` environment is already activated):
 
-In either case, you can "activate" your newly created environment by running::
+.. code-block:: bash
 
-    conda activate geocat-examples
+   $ conda install -c bokeh bokeh
+
+If you are interested in learning more about how Conda environments work, please visit
+the `managing environments <https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html>`_
+page of the Conda documentation.
