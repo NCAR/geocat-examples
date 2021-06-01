@@ -54,7 +54,7 @@ def map_plot(scale, row, col, pos, long_min, long_max, lat_min, lat_max,
     ax.add_feature(cfeature.LAND.with_scale(scale),
                    edgecolor="#4141a0",
                    facecolor="none")
-    ax.add_feature(cfeature.LAKES.with_scale("110m"),
+    ax.add_feature(cfeature.LAKES.with_scale(scale),
                    edgecolor="#4141a0",
                    facecolor="none")
 
