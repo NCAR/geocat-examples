@@ -113,7 +113,6 @@ iw = dict(
 histograms = dict()
 h_edges = dict()
 for i, ns in enumerate(NS):
-    print(f"i = {i}, ns = {ns}")
     iw[ns] = generate_sample_indices(ns, method=True, rng=rng)
     histograms[ns], h_edges[ns] = np.histogram(
         iw[ns])  # keep histogram counts and bin edges.
@@ -123,4 +122,5 @@ for i, ns in enumerate(NS):
     aa[i].set_title(f"N = {ns}")
 
 plt.setp(ax[:, 0], ylabel="FREQUENCY")  # put labels on left side axes.
+plt.suptitle("Distribution: Uniform Random Indices w Replacement",)
 plt.show()
