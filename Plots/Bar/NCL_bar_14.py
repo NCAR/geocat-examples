@@ -42,7 +42,7 @@ ax = plt.axes()
 # Plot the bar chart, line chart, and a horizontal line with varying colors and linewidths
 plt.bar(months, y1, color="yellow", edgecolor="k", linewidth=.5)
 plt.plot(months, y2, color="b", linewidth=1)
-plt.plot([0, 13], [40, 40], color="b", linewidth=1)
+plt.hlines(40, 0, 13, color="b", linewidth=1)
 
 # Use geocat.viz.util convenience function to add titles and set their size
 gvutil.set_titles_and_labels(ax,
