@@ -114,7 +114,7 @@ def left_tick_labels(num_plots):
 
 
 # A helper function to make the right y axis labels
-def right_tick_labels(num_plots, year_list):
+def right_tick_labels(year_list):
     tick_list = []
     tick_list.append("")
     for year in year_list:
