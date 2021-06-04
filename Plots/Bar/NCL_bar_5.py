@@ -174,11 +174,11 @@ axRHS.tick_params(axis="y", size=14, labelsize=20)
 plt.show()
 
 ###############################################################################
-#Although the code above does recreate the NCL plot, it is tedious to replicate
-#it in Python. A different process to use is subplots, which, in the
-#specific example below, each have their own axes. This not only makes the graph
-#easier to read, but is much simpler to recreate. The subplot method is shown
-#below.
+# Although the code above does recreate the NCL plot, it is tedious to replicate
+# it in Python. A different process to use is subplots, which, in the
+# specific example below, each have their own axes. This not only makes the graph
+# easier to read, but is much simpler to recreate. The subplot method is shown
+# below.
 
 ###############################################################################
 # Plot utilizing the subplot method:
