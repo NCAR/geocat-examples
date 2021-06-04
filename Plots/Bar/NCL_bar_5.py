@@ -79,7 +79,7 @@ def bar_plot(ax_name, year):
     year_start = year - 1
     year_end = year + 3
 
-    # Find the indicies for each of the year limits
+    # Find the indices for each of the year limits
     year_istart = int(np.where(np.round(date_frac, 3) == year_start)[0])
     year_iend = int(np.where(np.round(date_frac, 3) == year_end)[0])
 
