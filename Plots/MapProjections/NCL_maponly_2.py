@@ -28,9 +28,6 @@ from geocat.viz import util as gvutil
 ###############################################################################
 # Plot:
 
-# Generate figure with (width, height) in inches
-fig = plt.figure(figsize=(12, 24))
-
 
 # Define a utility function that takes in the scale of the continent borders,
 # the number of rows and columns and position within the subplot, the latitude
@@ -41,7 +38,9 @@ def map_plot(scale, row, col, pos, long_min, long_max, lat_min, lat_max,
 
     # Define the projection and generate axes using Cartopy
     projection = ccrs.PlateCarree()
-    ax = fig.add_subplot(row, col, pos, projection=projection)
+    # Generate figure with (width, height) in inches
+    fig = plt.figure(figsize=(12, 8))
+    ax = plt.axes(projection=projection)
 
     # Add in country borders, continent borders, and lakes
     ax.add_feature(
@@ -77,6 +76,7 @@ def map_plot(scale, row, col, pos, long_min, long_max, lat_min, lat_max,
                                      yticks=np.linspace(lat_min, lat_max, 4),
                                      xticklabels=long_labels,
                                      yticklabels=lat_labels)
+    plt.show()
 
 
 # Latitude and longitude labels for the top subplot
