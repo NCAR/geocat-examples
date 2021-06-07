@@ -93,7 +93,7 @@ labels_reversed = labels[::-1]
 # Add the legend
 plt.legend(bars_reversed, labels_reversed)
 
-# Use geocat.viz.util convenience function to set axis limits & tick values without calling several matplotlib functions
+# Use geocat.viz.util convenience function to set the axes limits & tick values without calling several matplotlib functions
 gvutil.set_axes_limits_and_ticks(ax,
                                  ylim=(0, plot_y_max),
                                  xticks=[],

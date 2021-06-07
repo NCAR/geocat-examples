@@ -17,7 +17,6 @@ See following URLs to see the reproduced NCL plot & script:
 
 ###############################################################################
 # Import packages:
-
 import geocat.datafiles as gdf
 import matplotlib.pyplot as plt
 import numpy as np
@@ -65,7 +64,7 @@ gvutil.add_major_minor_ticks(ax,
                              y_minor_per_major=5,
                              labelsize=20)
 
-# Use geocat.viz.util convenience function to set axis parameters
+# Use geocat.viz.util convenience function to set the axes parameters
 gvutil.set_axes_limits_and_ticks(ax,
                                  ylim=(-3, 3),
                                  yticks=np.linspace(-3, 3, 7),

@@ -39,7 +39,7 @@ width = 0.2  # width of each bar within the groups
 panel = 0
 for row in range(0, 2):
     for col in range(0, 2):
-        # Use geocat.viz.util convenience function to set axis parameters
+        # Use geocat.viz.util convenience function to set the axes parameters
         gvutil.set_axes_limits_and_ticks(axs[row][col],
                                          ylim=(0.4, 1.2),
                                          xticks=x,
