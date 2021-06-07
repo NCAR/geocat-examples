@@ -1,6 +1,6 @@
 """
 NCL_maponly_2.py
-===========
+================
 This script illustrates the following concepts:
     - Outlining continents
     - Turning on map country boundaries
