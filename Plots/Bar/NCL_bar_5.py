@@ -137,7 +137,7 @@ gvutil.set_axes_limits_and_ticks(
     ax0,
     xlim=(-3, 3),
     xticks=np.linspace(-3, 3, 7),
-    xticklabels=["Jan₋₁", "Jul₋₁", "Jan₀", "Jan₀", "Jan₊₁", "Jul₊₁", "Jan₊₂"],
+    xticklabels=["Jan₋₁", "Jul₋₁", "Jan₀", "Jul₀", "Jan₊₁", "Jul₊₁", "Jan₊₂"],
     yticks=np.linspace(0, 46, 46),
     yticklabels=left_y_ticks)
 
