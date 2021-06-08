@@ -1,6 +1,6 @@
 """
-NCL_box_1.py
-===============
+NCL_box_2.py
+============
 
 This script illustrates the following concepts:
    - Drawing box plots
@@ -53,12 +53,13 @@ def setBoxColor(boxplot, colors):
 # Plot:
 
 # Create figure and axis
-w = 0.25
+w = 0.1
 fig, ax = plt.subplots(figsize=(6, 6))
 boxplots = ax.boxplot(data,
                       labels=['Control', '-2Xna', '2Xna'],
                       widths=[w, w, w],
-                      showfliers=False)
+                      showfliers=False,
+                      whis=1)
 
 # Set whiskers style to dashed
 plt.setp(boxplots['whiskers'], linestyle='--')
