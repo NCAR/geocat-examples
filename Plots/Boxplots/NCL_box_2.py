@@ -58,8 +58,7 @@ fig, ax = plt.subplots(figsize=(6, 6))
 boxplots = ax.boxplot(data,
                       labels=['Control', '-2Xna', '2Xna'],
                       widths=[w, w, w],
-                      showfliers=False,
-                      whis=1)
+                      showfliers=False)
 
 # Set whiskers style to dashed
 plt.setp(boxplots['whiskers'], linestyle='--')
