@@ -1,6 +1,6 @@
 """
 NCL_box_1.py
-===============
+============
 
 This script illustrates the following concepts:
    - Drawing box plots
