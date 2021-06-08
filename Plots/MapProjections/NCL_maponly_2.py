@@ -39,7 +39,7 @@ def map_plot(scale, row, col, pos, long_min, long_max, lat_min, lat_max,
     # Define the projection and generate axes using Cartopy
     projection = ccrs.PlateCarree()
     # Generate figure with (width, height) in inches
-    fig = plt.figure(figsize=(12, 8))
+    fig = plt.figure(figsize=(7, 7))
     ax = plt.axes(projection=projection)
 
     # Add in country borders, continent borders, and lakes
@@ -76,6 +76,8 @@ def map_plot(scale, row, col, pos, long_min, long_max, lat_min, lat_max,
                                      yticks=np.linspace(lat_min, lat_max, 4),
                                      xticklabels=long_labels,
                                      yticklabels=lat_labels)
+    # Show plot with minimal whitespace
+    plt.tight_layout()
     plt.show()
 
 
@@ -91,6 +93,3 @@ plt23_lat_labels = ["", "30N", "60N", "90N"]
 map_plot('110m', 3, 1, 1, 90, 160, -50, 30, plt1_long_labels, plt1_lat_labels)
 map_plot('110m', 3, 1, 2, 0, 70, 10, 90, plt23_long_labels, plt23_lat_labels)
 map_plot('10m', 3, 1, 3, 0, 70, 10, 90, plt23_long_labels, plt23_lat_labels)
-
-# Show the plot
-plt.show()
