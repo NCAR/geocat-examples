@@ -1,6 +1,6 @@
 """
 NCL_bar_5.py
-===========
+============
 This script illustrates the following concepts:
     - Drawing multiple sets of filled bar charts up or down based on Y reference values
     - Drawing bar charts
