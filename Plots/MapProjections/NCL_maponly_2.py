@@ -10,9 +10,7 @@ This script illustrates the following concepts:
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/maponly_2.ncl
-    - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/maponly_2_1_lg.png
-                          https://www.ncl.ucar.edu/Applications/Images/maponly_2_2_lg.png
-                          https://www.ncl.ucar.edu/Applications/Images/maponly_2_3_lg.png
+    - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/maponly_2_1_lg.png https://www.ncl.ucar.edu/Applications/Images/maponly_2_2_lg.png https://www.ncl.ucar.edu/Applications/Images/maponly_2_3_lg.png
 """
 
 ###############################################################################
@@ -29,12 +27,29 @@ from geocat.viz import util as gvutil
 # Plot:
 
 
-# Define a utility function that takes in the scale of the continent borders,
-# the number of rows and columns and position within the subplot, the latitude
-# and longitude range for the subplot, and the latitude and longitude axes labels
-# to produce a series of map-only subplots
-def map_plot(scale, row, col, pos, long_min, long_max, lat_min, lat_max,
-             long_labels, lat_labels):
+def map_plot(scale, long_min, long_max, lat_min, lat_max, long_labels,
+             lat_labels):
+    '''
+    Args:
+
+        scale : str
+            scale of continent borders and lakes
+        long_min : int
+            minimum longitude for plotting
+        long_max : int
+            maximum longitude for plotting
+        lat_min : int
+            minimum latitude for plotting
+        lat_max : int
+            maximum latitude for plotting
+        long_labels : list
+            list of tick labels for x axis
+        lat_labels : list
+            ist of tick labels for y axis
+
+    Plots a map-only figure with continent borders, country borderes, and lakes
+    at a certain longitude and latitude.
+    '''
 
     # Define the projection and generate axes using Cartopy
     projection = ccrs.PlateCarree()
@@ -90,6 +105,6 @@ plt23_long_labels = ["0", "30E", "60E", ""]
 plt23_lat_labels = ["", "30N", "60N", "90N"]
 
 # Plot all three subplots
-map_plot('110m', 3, 1, 1, 90, 160, -50, 30, plt1_long_labels, plt1_lat_labels)
-map_plot('110m', 3, 1, 2, 0, 70, 10, 90, plt23_long_labels, plt23_lat_labels)
-map_plot('10m', 3, 1, 3, 0, 70, 10, 90, plt23_long_labels, plt23_lat_labels)
+map_plot('110m', 90, 160, -50, 30, plt1_long_labels, plt1_lat_labels)
+map_plot('110m', 0, 70, 10, 90, plt23_long_labels, plt23_lat_labels)
+map_plot('10m', 0, 70, 10, 90, plt23_long_labels, plt23_lat_labels)
