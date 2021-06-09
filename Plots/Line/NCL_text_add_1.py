@@ -3,7 +3,7 @@ NCL_text_add_1.py
 ===============
 This script illustrates the following concepts:
    - Adding text to a plot using plot data coordinates
-   - Decreasing the font size of text
+   - Set the font size of text
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/text_add_1.ncl
@@ -40,7 +40,7 @@ ax = plt.gca()
 plt.plot(lon, uz.values, c='gray')
 
 # Add text with set parameters
-text_kwargs = dict(ha='center', va='center', fontsize=22, color='black')
+text_kwargs = dict(ha='center', va='center', fontsize=22.5, color='black')
 
 plt.text(10, 0.0, 'Text in Plot Coordinates', **text_kwargs)
 
@@ -60,7 +60,7 @@ gvutil.set_axes_limits_and_ticks(
     xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'])
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, maintitle='', ylabel='Zonal Wind')
+gvutil.set_titles_and_labels(ax, ylabel='Zonal Wind')
 
 # Show the plot
 plt.show()
