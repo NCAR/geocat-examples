@@ -55,7 +55,7 @@ plt.figure(figsize=(7, 6.5))
 ax = plt.gca()
 
 # Plot
-plt.plot(warm_yrs, y)
+plt.plot(warm_yrs, y, color='grey', linewidth=1)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax,
