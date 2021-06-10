@@ -1,6 +1,6 @@
 """
 NCL_bar_14.py
-===========
+=============
 This script illustrates the following concepts:
     - Drawing an XY curve on top of filled bars
     - Filling the bars in a bar plot with different colors
