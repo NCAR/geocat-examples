@@ -78,6 +78,6 @@ ax.tick_params(axis="x", size=12, labelsize=12)
 ax.tick_params(axis="y", size=12, labelsize=12)
 axRHS.tick_params(axis="y", size=12, labelsize=12)
 
-#Display plot
+# Display plot
 plt.tight_layout()
 plt.show()
