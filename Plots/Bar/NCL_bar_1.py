@@ -42,39 +42,50 @@ for n in np.arange(0, num_months, 1):
     date_frac[n] = yyyy + (mon - 1) / 12
 
 ###############################################################################
-# Plot
+# Plot 1 (Bar chart)
 
 # Generate figure (set its size (width, height) in inches) and axes
-fig = plt.figure(constrained_layout=True, figsize=(7, 7))
-axes = fig.subplots(nrows=3)
+plt.figure(1, figsize=(10, 5))
+ax = plt.gca()
 
 # Set baseline as the minimum of the array, excluding the invalid values
 baseline = np.nanmin(dsoik[::8])
 
 # Create barplot
-axes[0].bar(date_frac[::8],
-            dsoik[::8] - baseline,
-            align='center',
-            edgecolor='black',
-            color='white',
-            width=8 / 12,
-            linewidth=.5,
-            bottom=-1.75)
+ax.bar(date_frac[::8],
+       dsoik[::8] - baseline,
+       align='center',
+       edgecolor='grey',
+       color='white',
+       width=8 / 12,
+       linewidth=.5,
+       bottom=-1.75)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(axes[0],
+gvutil.add_major_minor_ticks(ax,
                              x_minor_per_major=4,
                              y_minor_per_major=5,
-                             labelsize=10)
+                             labelsize=20)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(axes[0],
+gvutil.set_axes_limits_and_ticks(ax,
                                  yticks=np.arange(-2.0, 2.0, 0.5),
                                  xlim=(date_frac[40], date_frac[-16]),
                                  xticks=np.linspace(1900, 1980, 5))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(axes[0], maintitle="Bar plot")
+gvutil.set_titles_and_labels(ax, maintitle="Bar plot", maintitlefontsize=30)
+
+# Draw plot on the screen
+plt.tight_layout()
+plt.show()
+
+###############################################################################
+# Plot 2 (Bar chart with outlines)
+
+# Generate figure (set its size (width, height) in inches) and axes
+plt.figure(2, figsize=(10, 5))
+ax = plt.gca()
 
 # Set offset
 offset = (date_frac[::8][1] - date_frac[::8][0]) / 2
@@ -91,50 +102,65 @@ for i in range(len(date_frac[::8])):
 xs.append(date_frac[::8][-1] + offset)
 ys.append(0)
 
-axes[1].plot(xs, ys, color="black", linewidth=0.5)
+ax.plot(xs, ys, color="black", linewidth=0.5)
 
 # Color the areas within the barplot to only show the outline
-axes[1].fill_between(xs, 0, ys, color='white')
+ax.fill_between(xs, 0, ys, color='white')
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(axes[1],
+gvutil.add_major_minor_ticks(ax,
                              x_minor_per_major=4,
                              y_minor_per_major=5,
-                             labelsize=10)
+                             labelsize=20)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(axes[1],
+gvutil.set_axes_limits_and_ticks(ax,
                                  yticks=np.arange(-2.0, 2.0, 0.5),
                                  xlim=(1880, 2000),
                                  xticks=np.linspace(1880, 2000, 7))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(axes[1], maintitle="Bar plot with outlines")
+gvutil.set_titles_and_labels(ax,
+                             maintitle="Bar plot with outlines",
+                             maintitlefontsize=30)
+
+# Draw plot on the screen
+plt.tight_layout()
+plt.show()
+
+###############################################################################
+# Plot 3 (Bar chart with a reference line)
+
+# Generate figure (set its size (width, height) in inches) and axes
+plt.figure(3, figsize=(10, 5))
+ax = plt.gca()
 
 # Create barplot
-axes[2].bar(date_frac[::8],
-            dsoik[::8],
-            align='edge',
-            edgecolor='black',
-            color='white',
-            width=8 / 12,
-            linewidth=.5)
+ax.bar(date_frac[::8],
+       dsoik[::8],
+       align='edge',
+       edgecolor='black',
+       color='white',
+       width=8 / 12,
+       linewidth=.5)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(axes[2],
+gvutil.add_major_minor_ticks(ax,
                              x_minor_per_major=4,
                              y_minor_per_major=5,
-                             labelsize=10)
+                             labelsize=20)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(axes[2],
+gvutil.set_axes_limits_and_ticks(ax,
                                  yticks=np.arange(-2.0, 2.0, 0.5),
                                  xlim=(date_frac[40], date_frac[-16]),
                                  xticks=np.linspace(1900, 1980, 5))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(axes[2],
-                             maintitle="Bar plot with a reference line")
+gvutil.set_titles_and_labels(ax,
+                             maintitle="Bar plot with a reference line",
+                             maintitlefontsize=30)
 
 # Show the plot
+plt.tight_layout()
 plt.show()
