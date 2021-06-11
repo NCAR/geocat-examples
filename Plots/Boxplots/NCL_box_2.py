@@ -1,5 +1,5 @@
 """
-NCL_box_1.py
+NCL_box_2.py
 ============
 
 This script illustrates the following concepts:
