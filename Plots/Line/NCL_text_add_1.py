@@ -37,7 +37,7 @@ plt.figure(figsize=(6.5, 6.5))
 ax = plt.gca()
 
 # Plot data
-plt.plot(lon, uz.values, c='gray', linewidth=1)
+plt.plot(lon, uz.values, c='gray', linewidth=.9)
 
 # Add text with set parameters
 text_kwargs = dict(ha='center', va='center', fontsize=22.5, color='black')
