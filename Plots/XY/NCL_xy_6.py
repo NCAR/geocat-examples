@@ -3,7 +3,6 @@ NCL_xy_6.py
 ===========
 This script illustrates the following concepts:
    - Changing the labels and tickmarks on the X axis in an XY plot
-
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/xy_6.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/xy_6_lg.png
@@ -71,7 +70,7 @@ gvutil.set_axes_limits_and_ticks(ax,
                                  yticks=np.arange(-1.2, .6, .4),
                                  xticks=np.array([
                                      1951, 1954, 1957, 1961, 1965, 1968.5, 1972,
-                                     1977, 1982, 1987, 1991
+                                     1977, 1982, 1986.5, 1991
                                  ]),
                                  xticklabels=[
                                      '1951', '', '1957', '', '1965', '', '1972',
