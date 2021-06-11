@@ -29,7 +29,6 @@ from geocat.viz import util as gvutil
 # Generate data:
 
 # Note that range() top value is not included in the returned array of values.
-
 x_data = np.arange(1950, 2006)
 nyears = x_data.size
 y_data = np.random.uniform(-4, 4, nyears)
