@@ -92,4 +92,5 @@ ax.yaxis.set_ticks_position('left')
 ax.xaxis.set_ticks_position('bottom')
 
 # Display Plot
+plt.tight_layout()
 plt.show()
