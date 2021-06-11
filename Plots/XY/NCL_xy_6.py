@@ -70,11 +70,17 @@ gvutil.set_axes_limits_and_ticks(ax,
                                  xlim=(1951, 1991),
                                  ylim=(-1.5, 0.6),
                                  yticks=np.arange(-1.2, .6, .4),
-                                 xticks=np.linspace(1951, 1991, 11),
+                                 xticks=np.array([
+                                     1951, 1954, 1957, 1961, 1965, 1968.5, 1972,
+                                     1977, 1982, 1987, 1991
+                                 ]),
                                  xticklabels=[
                                      '1951', '', '1957', '', '1965', '', '1972',
                                      '', '1982', '', '1991'
                                  ])
+
+# Turn off minor ticks on y axis
+ax.tick_params(axis='x', which='minor', bottom=False, top=False)
 
 # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
 gvutil.set_titles_and_labels(ax,
