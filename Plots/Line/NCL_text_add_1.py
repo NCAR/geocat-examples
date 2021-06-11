@@ -37,18 +37,17 @@ plt.figure(figsize=(6.5, 6.5))
 ax = plt.gca()
 
 # Plot data
-plt.plot(lon, uz.values, c='gray')
+plt.plot(lon, uz.values, c='gray', linewidth=1)
 
 # Add text with set parameters
 text_kwargs = dict(ha='center', va='center', fontsize=22.5, color='black')
-
 plt.text(10, 0.0, 'Text in Plot Coordinates', **text_kwargs)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax,
                              x_minor_per_major=3,
                              y_minor_per_major=5,
-                             labelsize=12)
+                             labelsize=15)
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, tick values, and tick labels to show latitude & longitude (i.e. North (N) - South (S))
@@ -60,7 +59,7 @@ gvutil.set_axes_limits_and_ticks(
     xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'])
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, ylabel='Zonal Wind')
+gvutil.set_titles_and_labels(ax, ylabel='Zonal Wind', labelfontsize=18)
 
 # Show the plot
 plt.tight_layout()
