@@ -39,25 +39,20 @@ print(
 )
 
 ###############################################################################
-# Plot:
+# Plot 1
 
-# Generate figure and set its size (width, height) in inches.
-plt.figure(1, figsize=(8, 6))
-
-# Make a subplot with major ticks that are multiples of 10.
-
-# Create a subplot grid with two rows and one column (stacked subplots), and
-# set the current plot context to the top subplot.
-ax1 = plt.subplot(2, 1, 1)
+# Generate figure (set its size (width, height) in inches) and axes
+plt.figure(1, figsize=(8, 3.5))
+ax = plt.gca()
 
 # Format the tick labels. Use integers for the major ticks.
 # For the minor ticks, use no labels; defaults to NullFormatter.
-ax1.xaxis.set_major_formatter(FormatStrFormatter('%d'))
-ax1.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+ax.xaxis.set_major_formatter(FormatStrFormatter('%d'))
+ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
 # Set the major tick spacing.
 major_tick_spacing = 10
-ax1.xaxis.set_major_locator(MultipleLocator(major_tick_spacing))
+ax.xaxis.set_major_locator(MultipleLocator(major_tick_spacing))
 
 # Draw ticks on all sides of the plot.
 plt.tick_params(which='both', top=True, right=True)
@@ -66,33 +61,43 @@ plt.tick_params(which='both', top=True, right=True)
 plt.tick_params(which='major', length=10.0, width=0.5)
 plt.tick_params(which='minor', length=5.0, width=0.25)
 
+# Set label size
+plt.xticks(fontsize=15)
+plt.yticks(fontsize=15)
+
 # Set the minor tick spacing for X and Y axes.
-ax1.xaxis.set_minor_locator(MultipleLocator(2))
-ax1.yaxis.set_minor_locator(MultipleLocator(0.5))
+ax.xaxis.set_minor_locator(MultipleLocator(2))
+ax.yaxis.set_minor_locator(MultipleLocator(0.5))
 
 # Plot data and set the X axis limits.
 plt.plot(x_data, y_data, color='grey', linewidth=0.5)
 
 # Usa geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits
-gvutil.set_axes_limits_and_ticks(ax1,
+gvutil.set_axes_limits_and_ticks(ax,
                                  xlim=(min(x_data) - 1, max(x_data) + 1),
                                  ylim=(-4.5, 4.5))
 
-# Make a subplot with forced tickmark label at the beginning of X axis
+# Draw plot on the screen
+plt.tight_layout()
+plt.show()
 
-# Set the current plot context to the bottom subplot.
-ax2 = plt.subplot(2, 1, 2)
+###############################################################################
+# Plot 2 (forced tickmark label at the beginning of X axis)
+
+# Generate figure (set its size (width, height) in inches) and axes
+plt.figure(2, figsize=(8, 3.5))
+ax = plt.gca()
 
 # Format the tick labels.
 # For the minor ticks, use no labels; defaults to NullFormatter.
-ax2.xaxis.set_major_formatter(FormatStrFormatter('%d'))
-ax2.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+ax.xaxis.set_major_formatter(FormatStrFormatter('%d'))
+ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
 # Set the major tick spacing.
 major_tick_spacing = 10
 xticks = [1949, 1959, 1969, 1979, 1989, 1999]
-ax2.xaxis.set_major_locator(FixedLocator(xticks))
+ax.xaxis.set_major_locator(FixedLocator(xticks))
 
 # Draw ticks on all sides of the plot.
 plt.tick_params(which='both', top=True, right=True)
@@ -101,18 +106,23 @@ plt.tick_params(which='both', top=True, right=True)
 plt.tick_params(which='major', length=10.0, width=0.5)
 plt.tick_params(which='minor', length=5.0, width=0.25)
 
+# Set label size
+plt.xticks(fontsize=15)
+plt.yticks(fontsize=15)
+
 # Set the minor tick spacing for X and Y axes.
-ax2.xaxis.set_minor_locator(AutoMinorLocator(4))
-ax2.yaxis.set_minor_locator(MultipleLocator(0.5))
+ax.xaxis.set_minor_locator(AutoMinorLocator(4))
+ax.yaxis.set_minor_locator(MultipleLocator(0.5))
 
 # Line-plot data
 plt.plot(x_data, y_data, color='grey', linewidth=0.5)
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values on x-axes.
-gvutil.set_axes_limits_and_ticks(ax2,
+gvutil.set_axes_limits_and_ticks(ax,
                                  xlim=(min(x_data) - 1, max(x_data) + 1),
                                  ylim=(-4.5, 4.5))
 
-# Show the plot
+# Draw plot on the screen
+plt.tight_layout()
 plt.show()
