@@ -63,4 +63,5 @@ gvutil.set_axes_limits_and_ticks(
 gvutil.set_titles_and_labels(ax, ylabel='Zonal Wind')
 
 # Show the plot
+plt.tight_layout()
 plt.show()
