@@ -62,8 +62,8 @@ plt.tick_params(which='major', length=10.0, width=0.5)
 plt.tick_params(which='minor', length=5.0, width=0.25)
 
 # Set label size
-plt.xticks(fontsize=15)
-plt.yticks(fontsize=15)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
 
 # Set the minor tick spacing for X and Y axes.
 ax.xaxis.set_minor_locator(MultipleLocator(2))
@@ -107,8 +107,8 @@ plt.tick_params(which='major', length=10.0, width=0.5)
 plt.tick_params(which='minor', length=5.0, width=0.25)
 
 # Set label size
-plt.xticks(fontsize=15)
-plt.yticks(fontsize=15)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
 
 # Set the minor tick spacing for X and Y axes.
 ax.xaxis.set_minor_locator(AutoMinorLocator(4))
