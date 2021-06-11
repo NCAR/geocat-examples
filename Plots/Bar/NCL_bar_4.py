@@ -80,4 +80,5 @@ gvutil.set_titles_and_labels(ax,
                              maintitlefontsize=28,
                              labelfontsize=20)
 
+plt.tight_layout()
 plt.show()
