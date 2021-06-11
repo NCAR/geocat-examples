@@ -1,6 +1,6 @@
 """
 NCL_text_add_1.py
-===============
+=================
 This script illustrates the following concepts:
    - Adding text to a plot using plot data coordinates
    - Set the font size of text
