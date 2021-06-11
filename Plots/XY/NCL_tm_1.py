@@ -1,6 +1,6 @@
 """
 NCL_tm_1.py
-===============
+===========
 Tickmark and Axis Manipulation example
 
 Note: This script is aimed at demonstrating the explicit handling of tick marks, their locations, labels, etc.;
