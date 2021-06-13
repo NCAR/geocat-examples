@@ -28,7 +28,6 @@ from geocat.viz import util as gvutil
 ds = xr.open_dataset(gdf.get("netcdf_files/soi.nc"))
 date = ds.date
 dsoik = ds.DSOI_KET
-#dsoid = ds.DSOI_DEC
 
 # Dates in the file are represented by year and month (YYYYMM)
 # representing them fractionally will make plotting the data easier
