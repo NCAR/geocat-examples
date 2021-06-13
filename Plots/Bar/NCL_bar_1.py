@@ -8,8 +8,7 @@ This script illustrates the following concepts:
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/bar_1.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/bar_1_1_lg.png, https://www.ncl.ucar.edu/Applications/Images/bar_1_2_lg.png
-                         and https://www.ncl.ucar.edu/Applications/Images/bar_1_3_lg.png
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/bar_1_1_lg.png, https://www.ncl.ucar.edu/Applications/Images/bar_1_2_lg.png and https://www.ncl.ucar.edu/Applications/Images/bar_1_3_lg.png
 """
 
 ###############################################################################
