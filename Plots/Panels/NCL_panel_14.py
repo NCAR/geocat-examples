@@ -31,6 +31,8 @@ import geocat.viz.util as gvutil
 # xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"),
                      decode_times=False)
+# Ensure longitudes range from 0 to 360 degrees
+T = gvutil.xr_add_cyclic_longitudes(ds.T, "lon_t")
 
 ##############################################################################
 # Plot:
@@ -47,12 +49,19 @@ ax2 = fig.add_subplot(grid[1])  # upper right cell of grid
 ax3 = fig.add_subplot(grid[2], projection=proj)  # lower left cell of grid
 ax4 = fig.add_subplot(grid[3], projection=proj)  # lower right cell of grid
 
+print(T.isel(time=0, lat_t=-30, lon_t=180))
+
 # Plot xy data at upper left and right plots
-ax1.plot(ds.T.isel(time=0, z_t=0).sel(lat_t=slice(30), lon_t=slice(180)),
-         ds.T.z_t,
-         c='black',
-         linewidth=0.5)
-ax2.plot(ds.T.isel(time=0, z_t=0).isel(lat_t=slice(-30), lon_t=slice(180)),
-         ds.T.z_t,
-         c='black',
-         linewidth=0.5)
+ax1.plot(
+    T.isel(time=0).sel(lat_t=slice(30), lon_t=slice(180)),
+    #T.z_t,
+    c='black',
+    linewidth=0.5)
+ax2.plot(
+    T.isel(time=0).isel(lat_t=slice(-30), lon_t=slice(180)),
+    #T.z_t,
+    c='black',
+    linewidth=0.5)
+
+# Show the plot
+plt.show()
