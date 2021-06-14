@@ -29,7 +29,7 @@ from geocat.viz import util as gvutil
 
 def map_plot(scale, long_min, long_max, lat_min, lat_max, long_labels,
              lat_labels):
-    """Plots a map-only figure with continent borders, country borderes, and
+    """Plots a map-only figure with continent borders, country borders, and
     lakes at a certain longitude and latitude.
 
     Parameters
