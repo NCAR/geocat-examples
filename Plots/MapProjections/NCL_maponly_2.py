@@ -29,27 +29,38 @@ from geocat.viz import util as gvutil
 
 def map_plot(scale, long_min, long_max, lat_min, lat_max, long_labels,
              lat_labels):
-    '''
-    Args:
+    """Plots a map-only figure with continent borders, country borderes, and
+    lakes at a certain longitude and latitude.
 
-        scale : str
-            scale of continent borders and lakes
-        long_min : int
-            minimum longitude for plotting
-        long_max : int
-            maximum longitude for plotting
-        lat_min : int
-            minimum latitude for plotting
-        lat_max : int
-            maximum latitude for plotting
-        long_labels : list
-            list of tick labels for x axis
-        lat_labels : list
-            ist of tick labels for y axis
+    Parameters
+    ----------
+    scale : :obj:'str':
+        scale of continent borders and lakes
 
-    Plots a map-only figure with continent borders, country borderes, and lakes
-    at a certain longitude and latitude.
-    '''
+    long_min : :obj:'int':
+        minimum longitude for plotting
+
+    long_max : :obj:'int':
+        maximum longitude for plotting
+
+    lat_min : :obj:'int':
+        minimum latitude for plotting
+
+    lat_max : :obj:'int':
+        maximum latitude for plotting
+
+    long_labels : :obj:'list':
+        list of tick labels for x axis
+
+    lat_labels : :obj:'list':
+        list of tick labels for y axis
+
+    Description
+    -----------
+        Plots a figure with longitude with range long_min to long_max and latitude with
+        range from lat_min to lat_max. The scale of the continent borders and
+        lakes depends on the scale variable. The latitude labels are set by lat_labels.
+    """
 
     # Define the projection and generate axes using Cartopy
     projection = ccrs.PlateCarree()
