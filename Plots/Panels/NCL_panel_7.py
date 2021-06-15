@@ -103,13 +103,13 @@ for axes in ax.flat:
                                  lefttitle="Zonal Wind",
                                  lefttitlefontsize=12,
                                  righttitle=U.units,
-                                 righttitlefontsize=12,
-                                 xlabel=None)
+                                 righttitlefontsize=12)
 
 # Panel 1: Contourf-plot U data (for shading)
 U.plot.contourf(ax=ax[0],
                 transform=projection,
                 levels=levels,
+                yticks=np.arange(-90, 91, 30),
                 cmap='none',
                 hatches=['//', '//', '', '', '', '', '', '', '', '..'],
                 add_colorbar=False,
@@ -120,6 +120,7 @@ U.plot.contourf(ax=ax[0],
 U.plot.contourf(ax=ax[1],
                 transform=projection,
                 levels=levels,
+                yticks=np.arange(-90, 91, 30),
                 cmap='none',
                 hatches=['//', '//', '', '', '', '', '', '', '', ''],
                 add_colorbar=False,
@@ -130,6 +131,7 @@ U.plot.contourf(ax=ax[1],
 U.plot.contourf(ax=ax[2],
                 transform=projection,
                 levels=levels,
+                yticks=np.arange(-90, 91, 30),
                 cmap='none',
                 hatches=['', '', '', '', '', '', '', '', '', '..'],
                 add_colorbar=False,
@@ -146,4 +148,5 @@ U.plot.contourf(ax=ax[2],
 [axes.xaxis.set_ticklabels([]) for axes in ax.flat]
 
 # Show the plot
+plt.savefig('hello.png')
 plt.show()
