@@ -84,7 +84,7 @@ fig.show()
 # Generate figure with 2 by 1 subplots and set its size (width, height) in inches
 fig, axs = plt.subplots(2, 1, dpi=100, figsize=(8, 4), constrained_layout=True)
 
-# Plot the real set of data utilizing NumPy's Fouriet Transform function using both
+# Plot the real set of data utilizing NumPy's Fourier Transform function using both
 # the original data and the fourier_filter applied to the second set of cutoffs
 axs[0].set_title('real')
 axs[0].plot(np.real(np.fft.fft(xr_data)[1:100]))
