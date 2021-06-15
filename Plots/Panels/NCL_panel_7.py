@@ -21,6 +21,7 @@ import cartopy
 from cartopy.mpl.gridliner import LatitudeFormatter
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
@@ -139,6 +140,9 @@ U.plot.contourf(ax=ax[2],
                 add_labels=False,
                 zorder=4)
 
+# Customizing linewidth and dotsize of shading patterns
+mpl.rcParams['hatch.linewidth'] = 0.5
+
 # Use geocat.viz.util convenience function to add minor and major tick lines
 [gvutil.add_major_minor_ticks(axes) for axes in ax.flat]
 
@@ -155,5 +159,4 @@ U.plot.contourf(ax=ax[2],
 ]
 
 # Show the plot
-plt.savefig('hello.png')
 plt.show()
