@@ -90,7 +90,7 @@ def map_plot(scale, long_min, long_max, lat_min, lat_max, long_labels,
     gvutil.add_major_minor_ticks(ax,
                                  x_minor_per_major=3,
                                  y_minor_per_major=3,
-                                 labelsize=10)
+                                 labelsize=15)
 
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
     # Set axes limits, tick values, and tick labels for both latitude and longitude
