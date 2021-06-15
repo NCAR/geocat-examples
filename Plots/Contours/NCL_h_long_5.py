@@ -29,7 +29,9 @@ from geocat.viz import cmaps as gvcmap
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/uvt.nc"), cache=False)
 
-U = ds.U.isel(time=0, lat=26)
+# Choose the specific data to use
+U = ds.U.isel(time=0)
+U = U.sel(lat=-16, method="nearest")
 
 ###############################################################################
 # Plot:
