@@ -1,6 +1,6 @@
 """
 NCL_panel_7.py
-===============
+==============
 This script illustrates the following concepts:
    - Paneling three plots vertically on a page
    - Removing tickmarks and labels from paneled plots so they can be drawn closer together
