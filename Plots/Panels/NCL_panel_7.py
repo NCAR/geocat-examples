@@ -1,10 +1,10 @@
 """
 NCL_panel_7.py
-===============
+==============
 This script illustrates the following concepts:
    - Paneling three plots vertically on a page
    - Removing tickmarks and labels from paneled plots so they can be drawn closer together
-   - Drawing shaded contours
+   - Drawing shaded contours with hatching
    - Moving the contour informational label into the plot
 
 See following URLs to see the reproduced NCL plot & script:
