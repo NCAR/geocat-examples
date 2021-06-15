@@ -2,7 +2,7 @@
 NCL_panel_11.py
 ===============
 This script illustrates the following concepts:
-    - Specifying how many and where to draw plots using gridspec
+    - Specifying how many and where to draw plots using mosaic_subplot
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/panel_11.ncl
@@ -36,13 +36,21 @@ chi = chi / scale
 # Plot:
 
 
-def Plot(ax_list):
-    """
-    Args:
-        ax_list : list
-            list of axes to be plotted
+def contour_plot(ax_list):
+    """Plots a series of contour subplots with position depending on ax_list.
 
-    Plots a series of contour subplots with position depending on ax_list.
+    Parameters
+    ----------
+    ax_list: :obj:'list':
+        A list of axes on which each of the subplots will be plotted
+
+    Description
+    -----------
+
+        Takes in a list of axes and plots a contour plot, where each
+        subplot progressively shifts its longitude range east. The function
+        also sets a label beneath the plot, titles and axes labels, and contour
+        labels.
     """
 
     # Set the starting longitude for the first subplot
@@ -59,7 +67,7 @@ def Plot(ax_list):
                           levels=np.arange(-10, 12, 2),
                           colors='black',
                           linestyles="-",
-                          linewidths=1)
+                          linewidths=.8)
 
         # # Label the contour levels -4, 0, and 4
         cl = axis.clabel(cs, fmt='%d', levels=[-4, 0, 4], fontsize=7)
@@ -103,7 +111,7 @@ def Plot(ax_list):
         # Use geocat.viz.util convenience function to add titles
         gvutil.set_titles_and_labels(axis,
                                      maintitle="Pacific Region",
-                                     maintitlefontsize=8,
+                                     maintitlefontsize=9,
                                      lefttitle="Velocity Potential",
                                      lefttitlefontsize=8,
                                      righttitle="m2/s",
@@ -133,48 +141,31 @@ def Plot(ax_list):
     plt.show()
 
 
-# Create first figure and use gridspec to define an adjustable subplot grid
-fig = plt.Figure()
-grid = fig.add_gridspec(nrows=4,
-                        ncols=6,
-                        figure=fig,
-                        wspace=1.2,
-                        hspace=.35,
-                        bottom=0.05,
-                        top=0.94)
+# Define first figure using subplot_mosaic, which allows for subplots to be
+# created with custom spacing and empty plots, which are represented by .
+fig = plt.figure(constrained_layout=True).subplot_mosaic("""
+    ..AA..
+    BBCCDD
+    .EEFF.
+    ..GG..
+    """)
 
-# Define the axes depending on their place in the grid using gridspec and add axes to a list
-ax1 = plt.subplot(grid[0, 2:4])
-ax2 = plt.subplot(grid[1, 0:2])
-ax3 = plt.subplot(grid[1, 2:4])
-ax4 = plt.subplot(grid[1, 4:6])
-ax5 = plt.subplot(grid[2, 1:3])
-ax6 = plt.subplot(grid[2, 3:5])
-ax7 = plt.subplot(grid[3, 2:4])
-ax_list = [ax1, ax2, ax3, ax4, ax5, ax6, ax7]
+# Create a list of axes
+k, fig_list = map(list, zip(*fig.items()))
 
 # Use helper function to plot figure
-Plot(ax_list)
+contour_plot(fig_list)
 
-# Create second figure and use gridspec to define an adjustable subplot grid
-fig_2 = plt.Figure()
-grid = fig_2.add_gridspec(nrows=4,
-                          ncols=3,
-                          figure=fig,
-                          wspace=.3,
-                          hspace=.35,
-                          bottom=0.05,
-                          top=0.94)
+# Define second figure using subplot_mosaic
+fig2 = plt.figure(constrained_layout=True).subplot_mosaic("""
+    A..
+    BCD
+    EF.
+    G..
+    """)
 
-# Define the axes depending on their place in the grid using gridspec and add axes to a list
-ax8 = plt.subplot(grid[0, 0])
-ax9 = plt.subplot(grid[1, 0])
-ax10 = plt.subplot(grid[1, 1])
-ax11 = plt.subplot(grid[1, 2])
-ax12 = plt.subplot(grid[2, 0])
-ax13 = plt.subplot(grid[2, 1])
-ax14 = plt.subplot(grid[3, 0])
-ax_list_2 = [ax8, ax9, ax10, ax11, ax12, ax13, ax14]
+# Create list of axes
+k, fig2_list = map(list, zip(*fig2.items()))
 
 # Use helper function to plot figure
-Plot(ax_list_2)
+contour_plot(fig2_list)
