@@ -18,6 +18,7 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import cartopy
+from cartopy.mpl.gridliner import LatitudeFormatter
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 
@@ -74,7 +75,7 @@ kwargs = dict(
     linewidths=0.5,
 )
 
-# Set contour labels, titles and text box for all panels
+# Set contour labels, titles, text box and ticks for all panels
 for axes in ax.flat:
     # Contour-plot U data (for borderlines)
     contour = U.plot.contour(
@@ -146,6 +147,12 @@ U.plot.contourf(ax=ax[2],
 
 # Remove ticklabels on X axis
 [axes.xaxis.set_ticklabels([]) for axes in ax.flat]
+
+# Removing degree symbol from tick labels to more closely resemble NCL example
+[
+    axes.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
+    for axes in ax.flat
+]
 
 # Show the plot
 plt.savefig('hello.png')
