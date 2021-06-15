@@ -90,7 +90,7 @@ axs[0].set_title('real')
 axs[0].plot(np.real(np.fft.fft(xr_data)[1:100]))
 axs[0].plot(np.real(np.fft.fft(no_tide)[1:100]))
 
-# Plot the imaginary set of data utilizing NumPy's Fouriet Transform function using both
+# Plot the imaginary set of data utilizing NumPy's Fourier Transform function using both
 # the original data and the fourier_filter applied to the second set of cutoffs
 axs[1].set_title('imag')
 axs[1].plot(np.imag(np.fft.fft(xr_data)[1:100]))
