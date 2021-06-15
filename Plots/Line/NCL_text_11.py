@@ -43,6 +43,9 @@ ax1 = ax.twinx()
 # Plot the specific slice of the data with the correct color and linewidth
 U.plot(x="lat", color="gray", linewidth=1.1)
 
+# Turn off automatic title
+plt.title("")
+
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax,
                              x_minor_per_major=3,
@@ -60,10 +63,7 @@ gvutil.set_axes_limits_and_ticks(
 gvutil.set_axes_limits_and_ticks(ax1, ylim=(-10, 40), yticklabels=[])
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax,
-                             maintitle="",
-                             xlabel="",
-                             ylabel="Left Y axis string")
+gvutil.set_titles_and_labels(ax, ylabel="Left Y axis string")
 
 # Set label on second y axis
 ax1.set_ylabel("Right Y axis string", labelpad=18, fontsize=16)
