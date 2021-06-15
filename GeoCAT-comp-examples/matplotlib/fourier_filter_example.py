@@ -1,6 +1,6 @@
 """
 fourier_filter_example.py
-===========
+=========================
 This script illustrates the following concepts:
     - Usage of geocat-comp's fourier_filter function
     - Usage of geocat-datafiles for accessing NetCDF files
