@@ -2,7 +2,7 @@
 NCL_text_11.py
 ==============
 This script illustrates the following concepts:
-    - Labelling both Y axes
+    - Labeling both Y axes
     - Chaning padding for axis labels
     - Setting line color and width
 
