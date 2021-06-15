@@ -102,7 +102,7 @@ fig.show()
 # Generate figure with 2 by 1 subplots and set its size (width, height) in inches
 fig, axs = plt.subplots(2, 1, dpi=100, figsize=(8, 4), constrained_layout=True)
 
-# Define start and end of data indicies
+# Define start and end of data indices
 start = 0
 end = -1
 
