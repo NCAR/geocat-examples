@@ -36,18 +36,19 @@ chi = chi / scale
 # Plot:
 
 
-def contour_plot(ax_list):
-    """Plots a series of contour subplots with position depending on ax_list.
+def contour_plot(fig):
+    """Plots a series of contour subplots with position depending on axes in
+    mosaic subplot.
 
     Parameters
     ----------
-    ax_list: :obj:'list':
-        A list of axes on which each of the subplots will be plotted
+    fig: :'figure':
+        A figure defined with mosaic_subplot.
 
     Description
     -----------
 
-        Takes in a list of axes and plots a contour plot, where each
+        Takes in a defined figure and plots a contour plot, where each
         subplot progressively shifts its longitude range east. The function
         also sets a label beneath the plot, titles and axes labels, and contour
         labels.
@@ -55,6 +56,12 @@ def contour_plot(ax_list):
 
     # Set the starting longitude for the first subplot
     l_boundary = 0
+
+    # Create empty list
+    ax_list = []
+
+    for letter in ["A", "B", "C", "D", "E", "F", "G"]:
+        ax_list.append(fig[letter])
 
     for axis in ax_list:
         # Set the range of each subplot's longitude
@@ -150,11 +157,8 @@ fig = plt.figure(constrained_layout=True).subplot_mosaic("""
     ..GG..
     """)
 
-# Create a list of axes
-k, fig_list = map(list, zip(*fig.items()))
-
 # Use helper function to plot figure
-contour_plot(fig_list)
+contour_plot(fig)
 
 # Define second figure using subplot_mosaic
 fig2 = plt.figure(constrained_layout=True).subplot_mosaic("""
@@ -164,8 +168,5 @@ fig2 = plt.figure(constrained_layout=True).subplot_mosaic("""
     G..
     """)
 
-# Create list of axes
-k, fig2_list = map(list, zip(*fig2.items()))
-
 # Use helper function to plot figure
-contour_plot(fig2_list)
+contour_plot(fig2)
