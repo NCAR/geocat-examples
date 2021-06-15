@@ -29,7 +29,7 @@ from geocat.viz import cmaps as gvcmap
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/uvt.nc"), cache=False)
 
-U = ds.U.isel(time=0, lat=-16)
+U = ds.U.isel(time=0, lat=26)
 
 ###############################################################################
 # Plot:
@@ -52,8 +52,8 @@ lines = U.plot.contour(ax=ax,
                        linestyles='solid',
                        add_labels=False)
 
-# Draw contour labels and set their backgrounds to be white
-ax.clabel(lines, fmt='%d', levels=levels)
+# Label contour lavels at -10, 0, and 10 and set their backgrounds to be white
+ax.clabel(lines, fmt='%d', levels=[-10, 0, 10])
 [
     txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=1))
     for txt in lines.labelTexts
@@ -72,14 +72,14 @@ plt.colorbar(colors,
              ticks=levels[1::2],
              drawedges=True,
              aspect=12,
-             shrink=0.7,
+             shrink=0.65,
              pad=0.1)
 
 # Use geocat.viz.util convenience function to set axes tick values
 # Set y-lim inorder for y-axis to have descending values
 gvutil.set_axes_limits_and_ticks(
     ax,
-    xticks=np.linspace(-180, 180, 7),
+    xticks=np.linspace(-180, 178, 7),
     xticklabels=['180', '120W', '60W', '0', '60E', "120E", ""],
     ylim=ax.get_ylim()[::-1],
     yticks=U["lev"])
@@ -97,6 +97,7 @@ gvutil.add_major_minor_ticks(ax=ax,
 # Use geocat.viz.util convenience function to add titles and the pressure label
 gvutil.set_titles_and_labels(ax,
                              maintitle="January 1988",
+                             maintitlefontsize=20,
                              lefttitle=U.long_name,
                              lefttitlefontsize=14,
                              righttitle=U.units,
