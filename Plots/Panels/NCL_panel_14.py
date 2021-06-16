@@ -37,11 +37,8 @@ T = gvutil.xr_add_cyclic_longitudes(ds.T, "lon_t")
 # Extract slices of data for each panel
 T1 = T.isel(time=0).sel(lat_t=30, lon_t=180, method="nearest")
 T2 = T.isel(time=0).sel(lat_t=-30, lon_t=180, method="nearest")
-T3 = ds.T.isel(time=0).sel(lon_t=slice(270))
-T4 = ds.T.isel(time=0, z_t=0).sel(lon_t=slice(200))
-
-print(T3)
-print(T4)
+T3 = T.isel(time=0, z_t=0).sel(lon_t=slice(270))
+T4 = T.isel(time=0, z_t=0).sel(lon_t=slice(200))
 
 ##############################################################################
 # Plot:
