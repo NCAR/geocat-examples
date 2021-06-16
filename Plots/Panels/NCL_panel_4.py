@@ -62,7 +62,7 @@ def plot_labelled_filled_contours(data, ax=None):
         add_labels=False,  # turn off xarray's automatic Lat, lon labels
     )
 
-    # matplotlib's contourf doesn't let you specify the "edgecolors" (MATLAB terminology)
+    # matplotlib's "contourf" doesn't let you specify "edgecolors",
     # instead we plot black contours on top of the filled contours
     handles["contour"] = data.plot.contour(
         ax=ax,
