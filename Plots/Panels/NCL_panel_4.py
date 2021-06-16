@@ -45,7 +45,7 @@ def plot_labelled_filled_contours(data, ax=None):
     """A utility function for plotting labelled, filled contours
     with black contour outlines marking each level. Returns a dictionary
     containing three objects corresponding to the filled contours, the black
-    contours, and the contour labels."""
+    contour outlines, and the contour labels."""
 
     # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
     newcmp = gvutil.truncate_colormap(gvcmaps.gui_default,
