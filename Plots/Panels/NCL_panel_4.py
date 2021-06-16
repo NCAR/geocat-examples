@@ -42,10 +42,31 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 
 
 def plot_labelled_filled_contours(data, ax=None):
-    """A utility function for plotting labelled, filled contours
-    with black contour outlines marking each level. Returns a dictionary
-    containing three objects corresponding to the filled contours, the black
-    contour outlines, and the contour labels."""
+    """A utility function for plotting labelled, filled contours with black
+    contour outlines marking each level.
+
+    Parameters
+    ----------
+
+    data : :class:`xarray.DataArray`:
+        A two-dimensional array with longitude and latitude as dimensions.
+
+    ax : :class:`cartopy.mpl.geoaxes.GeoAxesSubplot`:
+        An axes object from Matplotlib package with projection from Cartopy package.
+
+    Returns
+    -------
+
+    handles : :class:`dict`:
+        A dictionary containing three objects corresponding to the filled contours, the black
+        contour outlines, and the contour labels.
+
+    Description
+    -----------
+
+        Produce labeled and filled contour on the world map with tickmarks and
+        tick labels.
+    """
 
     # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
     newcmp = gvutil.truncate_colormap(gvcmaps.gui_default,
