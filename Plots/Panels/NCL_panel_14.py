@@ -37,8 +37,11 @@ T = gvutil.xr_add_cyclic_longitudes(ds.T, "lon_t")
 # Extract slices of data for each panel
 T1 = T.isel(time=0).sel(lat_t=30, lon_t=180, method="nearest")
 T2 = T.isel(time=0).sel(lat_t=-30, lon_t=180, method="nearest")
-T3 = ds.T.isel(time=0, z_t=0).sel(lon_t=slice(270))
+T3 = ds.T.isel(time=0).sel(lon_t=slice(270))
 T4 = ds.T.isel(time=0, z_t=0).sel(lon_t=slice(200))
+
+print(T3)
+print(T4)
 
 ##############################################################################
 # Plot:
@@ -84,26 +87,24 @@ gvutil.add_major_minor_ticks(ax2,
                              y_minor_per_major=5,
                              labelsize=12)
 
-# Use geocat.viz.util convenience function to set titles without calling
-# several matplotlib functions
-gvutil.set_titles_and_labels(ax1,
-                             maintitle=T.long_name,
-                             maintitlefontsize=14,
-                             ylabel=T.z_t.long_name,
-                             labelfontsize=14)
-gvutil.set_titles_and_labels(ax2, maintitle=T.long_name, maintitlefontsize=14)
-
 # Invert Y axis
 ax1.invert_yaxis()
-ax1.xaxis.set_label_position('top')
 ax1.xaxis.tick_top()
 ax2.invert_yaxis()
-ax2.xaxis.set_label_position('top')
 ax2.xaxis.tick_top()
 
 # Set ticks on all sides of the plots
 ax1.tick_params(which='both', top=True, right=True)
 ax2.tick_params(which='both', top=True, right=True)
+
+# Use geocat.viz.util convenience function to set titles without calling
+# several matplotlib functions
+gvutil.set_titles_and_labels(ax1, ylabel=T.z_t.long_name, labelfontsize=14)
+gvutil.set_titles_and_labels(ax2, maintitlefontsize=14)
+
+# Manually set set titles and their positions
+ax1.set_title(T.long_name, y=1.1, fontsize=14)
+ax2.set_title(T.long_name, y=1.1, fontsize=14)
 
 # Specify which contour levels to draw
 levels = np.arange(0, 30, 2)
@@ -113,6 +114,7 @@ newcmp = gvcmaps.BlAqGrYeOrRe
 
 # Panel 1: Contourf-plot data
 T3.plot.contourf(ax=ax3,
+                 transform=proj,
                  levels=levels,
                  cmap=newcmp,
                  vmin=0,
