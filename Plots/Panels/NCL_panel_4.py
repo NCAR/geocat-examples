@@ -42,7 +42,7 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 
 
 def plot_labelled_filled_contours(data, ax=None):
-    """A utility function for convenience that plots labelled, filled contours
+    """A utility function for plotting labelled, filled contours
     with black contours marking each level.It will return a dictionary
     containing three objects corresponding to the filled contours, the black
     contours, and the contour labels."""
