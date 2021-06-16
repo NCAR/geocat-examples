@@ -76,6 +76,7 @@ def plot_labelled_filled_contours(data, ax=None):
     # Label the contours
     ax.clabel(
         handles["contour"],
+        levels=np.arange(-10, 50, 10),
         fontsize=8,
         fmt="%.0f",  # Turn off decimal points
     )
