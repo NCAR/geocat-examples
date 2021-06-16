@@ -15,11 +15,11 @@ See following URLs to see the reproduced NCL plot & script:
 # Import packages:
 
 import cartopy.crs as ccrs
-from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
+from matplotlib.ticker import ScalarFormatter
+#import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
-import numpy as np
 import xarray as xr
+import numpy as np
 
 import geocat.datafiles as gdf
 from geocat.viz import cmaps as gvcmaps
@@ -37,23 +37,27 @@ T = gvutil.xr_add_cyclic_longitudes(ds.T, "lon_t")
 # Extract slices of data for each panel
 T1 = T.isel(time=0).sel(lat_t=30, lon_t=180, method="nearest")
 T2 = T.isel(time=0).sel(lat_t=-30, lon_t=180, method="nearest")
-T3 = T.isel(time=0, z_t=0).sel(lon_t=slice(270))
-T4 = T.isel(time=0, z_t=0).sel(lon_t=slice(200))
+T3 = T.isel(time=0).sel(lon_t=270, method="nearest")
+T4 = T.isel(time=0).sel(lon_t=200, method="nearest")
 
 ##############################################################################
 # Plot:
-fig = plt.figure(figsize=(10, 10))
+fig = plt.figure(figsize=(12, 14))
 
-grid = gridspec.GridSpec(nrows=2, ncols=2, hspace=0, figure=fig)
+#grid = gridspec.GridSpec(nrows=2, ncols=2, wspace=0.1, hspace=0.1, figure=fig)
 
 # Choose the map projection
 proj = ccrs.PlateCarree()
 
 # Add the subplots
-ax1 = fig.add_subplot(grid[0])  # upper left cell of grid
-ax2 = fig.add_subplot(grid[1])  # upper right cell of grid
-ax3 = fig.add_subplot(grid[2], projection=proj)  # lower left cell of grid
-ax4 = fig.add_subplot(grid[3], projection=proj)  # lower right cell of grid
+ax1 = plt.subplot(2, 2, 1)  # upper left cell of grid
+ax2 = plt.subplot(2, 2, 2)  # upper right cell of grid
+ax3 = plt.subplot(2, 2, 3)  # lower left cell of grid
+ax4 = plt.subplot(2, 2, 4)  # lower right cell of grid
+
+# Make sure subplots are square
+for axes in [ax1, ax2, ax3, ax4]:
+    axes.set_box_aspect(1)
 
 # Plot xy data at upper left and right plots
 ax1.plot(T1, T.z_t, c='black', linewidth=0.5)
@@ -91,42 +95,93 @@ ax2.invert_yaxis()
 ax2.xaxis.tick_top()
 
 # Set ticks on all sides of the plots
-ax1.tick_params(which='both', top=True, right=True)
-ax2.tick_params(which='both', top=True, right=True)
+ax1.tick_params(which='both', bottom=True, right=True)
+ax2.tick_params(which='both', bottom=True, right=True)
 
 # Use geocat.viz.util convenience function to set titles without calling
 # several matplotlib functions
-gvutil.set_titles_and_labels(ax1, ylabel=T.z_t.long_name, labelfontsize=14)
-gvutil.set_titles_and_labels(ax2, maintitlefontsize=14)
+gvutil.set_titles_and_labels(ax1, ylabel=T.z_t.long_name, labelfontsize=16)
 
 # Manually set set titles and their positions
-ax1.set_title(T.long_name, y=1.1, fontsize=14)
-ax2.set_title(T.long_name, y=1.1, fontsize=14)
+ax1.set_title(T.long_name, y=1.13, fontsize=16)
+ax2.set_title(T.long_name, y=1.13, fontsize=16)
 
 # Specify which contour levels to draw
-levels = np.arange(0, 30, 2)
+levels = np.arange(0, 28, 2)
 
 # Import an NCL colormap
 newcmp = gvcmaps.BlAqGrYeOrRe
 
-# Panel 1: Contourf-plot data
+# Panel 3: Contourf-plot data
 T3.plot.contourf(ax=ax3,
-                 transform=proj,
                  levels=levels,
                  cmap=newcmp,
-                 vmin=0,
-                 vmax=28,
                  yticks=np.arange(-90, 91, 30),
                  add_colorbar=False,
                  add_labels=False)
 
-# contour4 = ax4.contourf(U_1['lon'],
-#                         U_1['lat'],
-#                         U_1.data,
-#                         cmap=cmap,
-#                         norm=divnorm,
-#                         levels=levels,
-#                         extend='both')
+# Panel 4: Contourf-plot data
+colors = T4.plot.contourf(ax=ax4,
+                          levels=levels,
+                          cmap=newcmp,
+                          yticks=np.arange(-90, 91, 30),
+                          add_colorbar=False,
+                          add_labels=False)
+
+# Set y-axis to have log-scale
+# ax3.set_yscale('log')
+# ax4.set_yscale('log')
+
+# Change formatter or else tick values will be in exponential form
+ax3.yaxis.set_major_formatter(ScalarFormatter())
+ax4.yaxis.set_major_formatter(ScalarFormatter())
+
+# Use geocat.viz.util convenience function to set axes tick values
+gvutil.set_axes_limits_and_ticks(ax=ax3,
+                                 ylim=ax3.get_ylim()[::-1],
+                                 xlim=(-90, 90),
+                                 xticks=np.arange(-60, 91, 30),
+                                 yticks=np.arange(100000, 500000, 100000))
+
+#xticklabels=['60S', '30S', '0', '30N', "60N", "90N"]
+gvutil.set_axes_limits_and_ticks(ax=ax4,
+                                 ylim=ax4.get_ylim()[::-1],
+                                 xlim=(-90, 90),
+                                 xticks=np.arange(-60, 91, 30),
+                                 yticks=np.arange(100000, 500000, 100000))
+
+# Set ticks on all sides of the plots
+ax3.tick_params(which='both', top=True, right=True)
+ax4.tick_params(which='both', top=True, right=True)
+
+# Use geocat.viz.util convenience function to add minor and major ticks
+gvutil.add_major_minor_ticks(ax3,
+                             x_minor_per_major=4,
+                             y_minor_per_major=5,
+                             labelsize=12)
+gvutil.add_major_minor_ticks(ax4,
+                             x_minor_per_major=4,
+                             y_minor_per_major=5,
+                             labelsize=12)
+
+# Remove ticklabels on Y axis for panel 4
+ax4.yaxis.set_ticklabels([])
+
+# Use geocat.viz.util convenience function to set titles without calling
+# several matplotlib functions
+gvutil.set_titles_and_labels(ax3, ylabel=T.z_t.long_name, labelfontsize=16)
+
+# Add colorbar
+fig.colorbar(colors,
+             ax=[ax1, ax2, ax3, ax4],
+             orientation='horizontal',
+             drawedges=True,
+             extendrect=True,
+             aspect=20,
+             extendfrac='auto',
+             pad=0.07,
+             shrink=0.9,
+             ticks=levels)
 
 # Show the plot
 plt.show()
