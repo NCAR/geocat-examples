@@ -84,7 +84,7 @@ def plot_labelled_filled_contours(data, ax=None):
     )
 
     # matplotlib's "contourf" doesn't let you specify "edgecolors",
-    # instead we use matplotlib's "countour" to plot contour lines on top of the filled contours
+    # instead we use matplotlib's "contour" to plot contour lines on top of the filled contours
     handles["contour"] = data.plot.contour(
         ax=ax,
         levels=levels,
