@@ -83,7 +83,7 @@ ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=5,
+                             x_minor_per_major=4,
                              y_minor_per_major=4,
                              labelsize=16)
 
