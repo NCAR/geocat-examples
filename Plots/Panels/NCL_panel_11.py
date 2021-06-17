@@ -77,7 +77,7 @@ def contour_plot(fig):
                           linewidths=.8)
 
         # # Label the contour levels -4, 0, and 4
-        cl = axis.clabel(cs, fmt='%d', levels=[-4, 0, 4], fontsize=7)
+        axis.clabel(cs, fmt='%d', levels=[-4, 0, 4], fontsize=7)
 
         # Put a white background behind each contour label
         for txt in cs.labelTexts:
