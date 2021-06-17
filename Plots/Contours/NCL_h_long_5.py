@@ -54,7 +54,7 @@ lines = U.plot.contour(ax=ax,
                        linestyles='solid',
                        add_labels=False)
 
-# Label contour lavels at -10, 0, and 10 and set their backgrounds to be white
+# Label contour levels at -10, 0, and 10 and set their backgrounds to be white
 ax.clabel(lines, fmt='%d', levels=[-10, 0, 10])
 [
     txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=1))
