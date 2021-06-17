@@ -45,6 +45,9 @@ print(
 plt.figure(1, figsize=(8, 3.5))
 ax = plt.gca()
 
+# format ytick labels
+ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax,
                              x_minor_per_major=5,
@@ -75,15 +78,14 @@ ax = plt.gca()
 xticks = [1949, 1959, 1969, 1979, 1989, 1999]
 ax.xaxis.set_major_locator(FixedLocator(xticks))
 
+# format ytick labels
+ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax,
                              x_minor_per_major=5,
                              y_minor_per_major=4,
                              labelsize=16)
-
-# Set the minor tick spacing for X and Y axes.
-ax.xaxis.set_minor_locator(AutoMinorLocator(4))
-ax.yaxis.set_minor_locator(MultipleLocator(0.5))
 
 # Line-plot data
 plt.plot(x_data, y_data, color='grey', linewidth=0.5)
