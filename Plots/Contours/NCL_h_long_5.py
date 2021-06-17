@@ -9,7 +9,7 @@ This script illustrates the following concepts:
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/h_long_5.ncl
-    - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/h_long_5_lg.png
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/h_long_5_lg.png
 """
 ###############################################################################
 # Import packages
@@ -99,17 +99,21 @@ gvutil.add_major_minor_ticks(ax=ax,
 # Use geocat.viz.util convenience function to add titles and the pressure label
 gvutil.set_titles_and_labels(ax,
                              maintitle="January 1988",
-                             maintitlefontsize=20,
+                             maintitlefontsize=18,
                              lefttitle=U.long_name,
                              lefttitlefontsize=14,
                              righttitle=U.units,
                              righttitlefontsize=14,
                              ylabel=U.lev.long_name,
-                             labelfontsize=16)
+                             labelfontsize=18)
 
-# Create second y-axis to show geo-potential height.
-# Currently we're using arbitrary values for height as we haven't figured out
-# how to make this work properly yet
+###############################################################################
+# Create second y-axis to show geo-potential height. Currently we're using
+# arbitrary values for height as we haven't figured out how to make this work
+# properly yet.
+
+###############################################################################
+
 axRHS = ax.twinx()
 
 # Use geocat.viz.util convenience function to set axes tick values
@@ -119,7 +123,7 @@ gvutil.set_axes_limits_and_ticks(axRHS,
 axRHS.tick_params(labelsize=12)  # manually set tick label size
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
-gvutil.set_titles_and_labels(axRHS, ylabel='Height (km)', labelfontsize=16)
+axRHS.set_ylabel(ylabel='Height (km)', labelpad=10, fontsize=18)
 
 # Force the plot to be square by setting the aspect ratio to 1
 ax.set_box_aspect(1)
