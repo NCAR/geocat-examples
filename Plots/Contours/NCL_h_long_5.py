@@ -90,7 +90,7 @@ gvutil.set_axes_limits_and_ticks(
 ax.yaxis.set_major_formatter(ScalarFormatter())
 
 # Use geocat.viz.util convenience function to add major tick lines with no
-# minor ticks on lefthand side y axis and some minor ticks on the x axis
+# minor ticks on left hand side y axis and some minor ticks on the x axis
 gvutil.add_major_minor_ticks(ax=ax,
                              x_minor_per_major=2,
                              y_minor_per_major=1,
