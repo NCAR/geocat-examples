@@ -45,29 +45,11 @@ print(
 plt.figure(1, figsize=(8, 3.5))
 ax = plt.gca()
 
-# Format the tick labels. Use integers for the major ticks.
-# For the minor ticks, use no labels; defaults to NullFormatter.
-ax.xaxis.set_major_formatter(FormatStrFormatter('%d'))
-ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
-
-# Set the major tick spacing.
-major_tick_spacing = 10
-ax.xaxis.set_major_locator(MultipleLocator(major_tick_spacing))
-
-# Draw ticks on all sides of the plot.
-plt.tick_params(which='both', top=True, right=True)
-
-# Increase the length of the tick marks.
-plt.tick_params(which='major', length=10.0, width=0.5)
-plt.tick_params(which='minor', length=5.0, width=0.25)
-
-# Set label size
-plt.xticks(fontsize=14)
-plt.yticks(fontsize=14)
-
-# Set the minor tick spacing for X and Y axes.
-ax.xaxis.set_minor_locator(MultipleLocator(2))
-ax.yaxis.set_minor_locator(MultipleLocator(0.5))
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=5,
+                             y_minor_per_major=4,
+                             labelsize=16)
 
 # Plot data and set the X axis limits.
 plt.plot(x_data, y_data, color='grey', linewidth=0.5)
@@ -89,26 +71,15 @@ plt.show()
 plt.figure(2, figsize=(8, 3.5))
 ax = plt.gca()
 
-# Format the tick labels.
-# For the minor ticks, use no labels; defaults to NullFormatter.
-ax.xaxis.set_major_formatter(FormatStrFormatter('%d'))
-ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
-
-# Set the major tick spacing.
-major_tick_spacing = 10
+# Set xtick locations
 xticks = [1949, 1959, 1969, 1979, 1989, 1999]
 ax.xaxis.set_major_locator(FixedLocator(xticks))
 
-# Draw ticks on all sides of the plot.
-plt.tick_params(which='both', top=True, right=True)
-
-# Increase the length of the tick marks.
-plt.tick_params(which='major', length=10.0, width=0.5)
-plt.tick_params(which='minor', length=5.0, width=0.25)
-
-# Set label size
-plt.xticks(fontsize=14)
-plt.yticks(fontsize=14)
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=5,
+                             y_minor_per_major=4,
+                             labelsize=16)
 
 # Set the minor tick spacing for X and Y axes.
 ax.xaxis.set_minor_locator(AutoMinorLocator(4))
