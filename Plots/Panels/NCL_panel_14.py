@@ -14,9 +14,7 @@ See following URLs to see the reproduced NCL plot & script:
 ##############################################################################
 # Import packages:
 
-import cartopy.crs as ccrs
 from matplotlib.ticker import ScalarFormatter
-#import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
 import xarray as xr
 import numpy as np
@@ -42,12 +40,7 @@ T4 = T.isel(time=0).sel(lon_t=200, method="nearest")
 
 ##############################################################################
 # Plot:
-fig = plt.figure(figsize=(12, 14))
-
-#grid = gridspec.GridSpec(nrows=2, ncols=2, wspace=0.1, hspace=0.1, figure=fig)
-
-# Choose the map projection
-proj = ccrs.PlateCarree()
+fig = plt.figure(figsize=(10, 13))
 
 # Add the subplots
 ax1 = plt.subplot(2, 2, 1)  # upper left cell of grid
@@ -63,20 +56,9 @@ for axes in [ax1, ax2, ax3, ax4]:
 ax1.plot(T1, T.z_t, c='black', linewidth=0.5)
 ax2.plot(T2, T.z_t, c='black', linewidth=0.5)
 
-# Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax=ax1,
-                                 xlim=(0, 24),
-                                 ylim=(0, 500000),
-                                 xticks=np.arange(0, 28, 4),
-                                 yticks=np.arange(0, 600000, 100000))
-gvutil.set_axes_limits_and_ticks(ax=ax2,
-                                 xlim=(0, 21),
-                                 ylim=(0, 500000),
-                                 xticks=np.arange(0, 24, 3),
-                                 yticks=np.arange(0, 600000, 100000))
-
-# Remove ticklabels on Y axis for panel 2
-ax2.yaxis.set_ticklabels([])
+# # Display X axis ticklabels at the top
+ax1.xaxis.tick_top()
+ax2.xaxis.tick_top()
 
 # Use geocat.viz.util convenience function to add minor and major ticks
 gvutil.add_major_minor_ticks(ax1,
@@ -88,15 +70,20 @@ gvutil.add_major_minor_ticks(ax2,
                              y_minor_per_major=5,
                              labelsize=12)
 
-# Invert Y axis
-ax1.invert_yaxis()
-ax1.xaxis.tick_top()
-ax2.invert_yaxis()
-ax2.xaxis.tick_top()
+# Use geocat.viz.util convenience function to set axes tick values
+gvutil.set_axes_limits_and_ticks(ax=ax1,
+                                 xlim=(0, 24),
+                                 ylim=(500000, 0),
+                                 xticks=np.arange(0, 28, 4),
+                                 yticks=np.arange(0, 600000, 100000))
+gvutil.set_axes_limits_and_ticks(ax=ax2,
+                                 xlim=(0, 21),
+                                 ylim=(500000, 0),
+                                 xticks=np.arange(0, 24, 3),
+                                 yticks=np.arange(0, 600000, 100000))
 
-# Set ticks on all sides of the plots
-ax1.tick_params(which='both', bottom=True, right=True)
-ax2.tick_params(which='both', bottom=True, right=True)
+# Remove ticklabels on Y axis for panel 2 (ax2)
+ax2.yaxis.set_ticklabels([])
 
 # Use geocat.viz.util convenience function to set titles without calling
 # several matplotlib functions
@@ -106,7 +93,7 @@ gvutil.set_titles_and_labels(ax1, ylabel=T.z_t.long_name, labelfontsize=16)
 ax1.set_title(T.long_name, y=1.13, fontsize=16)
 ax2.set_title(T.long_name, y=1.13, fontsize=16)
 
-# Specify which contour levels to draw
+# Specify which contour levels to draw for panel 3 and panel 4
 levels = np.arange(0, 28, 2)
 
 # Import an NCL colormap
@@ -116,7 +103,6 @@ newcmp = gvcmaps.BlAqGrYeOrRe
 T3.plot.contourf(ax=ax3,
                  levels=levels,
                  cmap=newcmp,
-                 yticks=np.arange(-90, 91, 30),
                  add_colorbar=False,
                  add_labels=False)
 
@@ -124,35 +110,18 @@ T3.plot.contourf(ax=ax3,
 colors = T4.plot.contourf(ax=ax4,
                           levels=levels,
                           cmap=newcmp,
-                          yticks=np.arange(-90, 91, 30),
                           add_colorbar=False,
                           add_labels=False)
 
 # Set y-axis to have log-scale
-# ax3.set_yscale('log')
-# ax4.set_yscale('log')
+ax3.set_yscale('log')
+ax4.set_yscale('log')
+ax3.set_xscale('log')
+ax4.set_xscale('log')
 
 # Change formatter or else tick values will be in exponential form
-ax3.yaxis.set_major_formatter(ScalarFormatter())
-ax4.yaxis.set_major_formatter(ScalarFormatter())
-
-# Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax=ax3,
-                                 ylim=ax3.get_ylim()[::-1],
-                                 xlim=(-90, 90),
-                                 xticks=np.arange(-60, 91, 30),
-                                 yticks=np.arange(100000, 500000, 100000))
-
-#xticklabels=['60S', '30S', '0', '30N', "60N", "90N"]
-gvutil.set_axes_limits_and_ticks(ax=ax4,
-                                 ylim=ax4.get_ylim()[::-1],
-                                 xlim=(-90, 90),
-                                 xticks=np.arange(-60, 91, 30),
-                                 yticks=np.arange(100000, 500000, 100000))
-
-# Set ticks on all sides of the plots
-ax3.tick_params(which='both', top=True, right=True)
-ax4.tick_params(which='both', top=True, right=True)
+ax3.yaxis.set_major_formatter(ScalarFormatter(useMathText=False))
+ax4.yaxis.set_major_formatter(ScalarFormatter(useMathText=False))
 
 # Use geocat.viz.util convenience function to add minor and major ticks
 gvutil.add_major_minor_ticks(ax3,
@@ -163,6 +132,26 @@ gvutil.add_major_minor_ticks(ax4,
                              x_minor_per_major=4,
                              y_minor_per_major=5,
                              labelsize=12)
+
+# Use geocat.viz.util convenience function to set axes tick values
+gvutil.set_axes_limits_and_ticks(ax=ax3,
+                                 ylim=(500000, 10000),
+                                 xlim=(-90, 90),
+                                 xticks=np.arange(-60, 91, 30),
+                                 yticks=np.arange(400000, 99999, -100000))
+
+#xticklabels=['60S', '30S', '0', '30N', "60N", "90N"]
+gvutil.set_axes_limits_and_ticks(
+    ax=ax4,
+    ylim=(ax4.get_ylim()[::-1]),
+    xlim=(-90, 90),
+    xticks=np.arange(-60, 91, 30),
+    #yticks=np.arange(100000, 500000, 100000)
+)
+
+# Set ticks on all sides of the plots
+ax3.tick_params(which='both', top=True, right=True)
+ax4.tick_params(which='both', top=True, right=True)
 
 # Remove ticklabels on Y axis for panel 4
 ax4.yaxis.set_ticklabels([])
