@@ -149,7 +149,7 @@ def contour_plot(fig):
 
 
 # Define first figure using subplot_mosaic, which allows for subplots to be
-# created with custom spacing and empty plots, which are represented by .
+# created with custom spacing and empty plots, represented by '.' in function
 fig = plt.figure(constrained_layout=True).subplot_mosaic("""
     ..AA..
     BBCCDD
