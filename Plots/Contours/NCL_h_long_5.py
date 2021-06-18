@@ -107,13 +107,9 @@ gvutil.set_titles_and_labels(ax,
                              ylabel=U.lev.long_name,
                              labelfontsize=18)
 
-###############################################################################
 # Create second y-axis to show geo-potential height. Currently we're using
 # arbitrary values for height as we haven't figured out how to make this work
 # properly yet.
-
-###############################################################################
-
 axRHS = ax.twinx()
 
 # Use geocat.viz.util convenience function to set axes tick values
