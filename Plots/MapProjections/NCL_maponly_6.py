@@ -73,7 +73,7 @@ ax = plt.axes([.02, -.05, .98, .98],
 ax.set_extent([-118, -75, 20, 50], ccrs.PlateCarree())
 
 # Add inset axes (axes within pre-existing axes) to hold colorbar
-axins1 = ax.inset_axes([0.0, 0.12, 1, .05])
+axins1 = ax.inset_axes([0.0, 0.12, .975, .05])
 
 # Download the Natural Earth shapefile for state boundaries at 10m resolution and lakes at 110m
 state_shapefile = shapereader.natural_earth(
