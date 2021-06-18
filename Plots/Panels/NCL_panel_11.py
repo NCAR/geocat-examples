@@ -38,8 +38,8 @@ chi = chi / scale
 
 def contour_plot(fig):
     """Plots a series of contour subplots with position depending on axes in
-    mosaic subplot. Takes in a defined figure and plots a contour plot, where each
-    subplot progressively shifts its longitude range east. The function
+    mosaic subplot. Takes in a defined figure and plots a contour plot, where
+    each subplot progressively shifts its longitude range east. The function
     also sets a label beneath the plot, titles and axes labels, and contour
     labels.
 
