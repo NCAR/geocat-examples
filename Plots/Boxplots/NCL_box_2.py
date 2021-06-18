@@ -49,7 +49,6 @@ def setBoxColor(boxplot, colors):
 
 
 ###############################################################################
-
 # Plot:
 
 # Create figure and axis
