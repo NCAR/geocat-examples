@@ -84,8 +84,11 @@ lake_shapefile = shapereader.natural_earth(category="physical",
                                            resolution="110m",
                                            name="lakes")
 
-# List of lakes to exclude outside of US that would otherwise be visible within plot boundaries
-exclude_list = ["Great Slave Lake", "Great Bear Lake", "Lake Winnipeg"]
+# List of lakes to exclude that would otherwise be visible within plot boundaries
+exclude_list = [
+    "Great Slave Lake", "Great Bear Lake", "Lake Winnipeg", "Lake Huron",
+    "Lake Ontario", "Lake Michigan", "Lake Erie", "Lake Superior"
+]
 
 # Set colormap and its bounds
 colormap = plt.get_cmap('magma')
@@ -106,7 +109,8 @@ for state in shapereader.Reader(state_shapefile).records():
         ax.add_geometries([state.geometry],
                           ccrs.PlateCarree(),
                           facecolor=facecolor,
-                          edgecolor=edgecolor)
+                          edgecolor=edgecolor,
+                          linewidth=0.7)
 
 # Loop through lakes in lakes file and plot all except those in exclude_list
 for lake in shapereader.Reader(lake_shapefile).records():
@@ -114,7 +118,8 @@ for lake in shapereader.Reader(lake_shapefile).records():
         ax.add_geometries([lake.geometry],
                           crs=ccrs.PlateCarree(),
                           facecolor="white",
-                          edgecolor="black")
+                          edgecolor="black",
+                          linewidth=0.7)
 
 # Create colorbar based on mapped colormap norm
 fig.colorbar(mappable=mappable,
