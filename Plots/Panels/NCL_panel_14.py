@@ -197,5 +197,4 @@ fig.colorbar(colors,
              ticks=levels)
 
 # Show the plot
-plt.savefig('hello.png')
 plt.show()
