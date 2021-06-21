@@ -116,11 +116,11 @@ colors = T4.plot.contourf(ax=ax4,
 
 # Function x**(1/2) and its inverse
 def yforward(x):
-    return np.power(x, 1 / 2)
+    return np.power(x, 1 / 3)
 
 
 def yinverse(x):
-    return np.power(x, 2)
+    return np.power(x, 3 / 1)
 
 
 # Function Mercator transform and its inverse
@@ -197,4 +197,5 @@ fig.colorbar(colors,
              ticks=levels)
 
 # Show the plot
+plt.savefig('hello.png')
 plt.show()
