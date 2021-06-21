@@ -7,7 +7,7 @@ therefore, the use of geocat-viz convenience functions is minimized here to show
 throughout this script.
 
 This script illustrates the following concepts:
-   - Setting the mininum/maximum value of the Y axis in an XY plot
+   - Setting the minimum/maximum value of the Y axis in an XY plot
    - Changing the width and height of a plot
    - Forcing a tickmark label at beginning of X axis
 
@@ -21,7 +21,7 @@ See following URLs to see the reproduced NCL plot & script:
 
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.ticker import MultipleLocator, AutoMinorLocator, FixedLocator, FormatStrFormatter
+from matplotlib.ticker import FixedLocator, FormatStrFormatter
 
 from geocat.viz import util as gvutil
 
