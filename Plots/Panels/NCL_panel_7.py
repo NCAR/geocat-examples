@@ -107,7 +107,7 @@ for axes in ax.flat:
                                  righttitle=U.units,
                                  righttitlefontsize=12)
 
-# Panel 1: Contourf-plot U data (for shading)
+# Panel 1: Contourf-plot U data with '//' and '..' hatch styles
 U.plot.contourf(ax=ax[0],
                 transform=projection,
                 levels=levels,
