@@ -140,7 +140,7 @@ U.plot.contourf(ax=ax[2],
                 add_labels=False,
                 zorder=4)
 
-# Customizing linewidth and dotsize of shading patterns
+# Customizing line width and dot size of shading patterns
 mpl.rcParams['hatch.linewidth'] = 0.5
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
