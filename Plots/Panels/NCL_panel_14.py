@@ -14,7 +14,7 @@ See following URLs to see the reproduced NCL plot & script:
 ##############################################################################
 # Import packages:
 
-from matplotlib.ticker import ScalarFormatter
+from matplotlib.ticker import FixedLocator
 import matplotlib.pyplot as plt
 import xarray as xr
 import numpy as np
@@ -113,45 +113,69 @@ colors = T4.plot.contourf(ax=ax4,
                           add_colorbar=False,
                           add_labels=False)
 
-# Set y-axis to have log-scale
-ax3.set_yscale('log')
-ax4.set_yscale('log')
-ax3.set_xscale('log')
-ax4.set_xscale('log')
 
-# Change formatter or else tick values will be in exponential form
-ax3.yaxis.set_major_formatter(ScalarFormatter(useMathText=False))
-ax4.yaxis.set_major_formatter(ScalarFormatter(useMathText=False))
+# Function x**(1/2) and its inverse
+def yforward(x):
+    return np.power(x, 1 / 2)
 
-# Use geocat.viz.util convenience function to add minor and major ticks
-gvutil.add_major_minor_ticks(ax3,
-                             x_minor_per_major=4,
-                             y_minor_per_major=5,
-                             labelsize=12)
-gvutil.add_major_minor_ticks(ax4,
-                             x_minor_per_major=4,
-                             y_minor_per_major=5,
-                             labelsize=12)
 
-# Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax=ax3,
-                                 ylim=(500000, 10000),
-                                 xlim=(-90, 90),
-                                 xticks=np.arange(-60, 91, 30),
-                                 yticks=np.arange(400000, 99999, -100000))
+def yinverse(x):
+    return np.power(x, 2)
 
-#xticklabels=['60S', '30S', '0', '30N', "60N", "90N"]
-gvutil.set_axes_limits_and_ticks(
-    ax=ax4,
-    ylim=(ax4.get_ylim()[::-1]),
-    xlim=(-90, 90),
-    xticks=np.arange(-60, 91, 30),
-    #yticks=np.arange(100000, 500000, 100000)
-)
 
-# Set ticks on all sides of the plots
-ax3.tick_params(which='both', top=True, right=True)
-ax4.tick_params(which='both', top=True, right=True)
+# Function Mercator transform and its inverse
+def xforward(a):
+    a = np.deg2rad(a)
+    return np.rad2deg(np.arctan(np.sinh(a)))
+
+
+def xinverse(a):
+    a = np.deg2rad(a)
+    return np.rad2deg(np.log(np.abs(np.tan(a) + 1.0 / np.cos(a))))
+
+
+for axes in [ax3, ax4]:
+    # Set scales of X axis and Y axis
+    axes.set_yscale('function', functions=(yforward, yinverse))
+    axes.set_xscale('function', functions=(xforward, xinverse))
+
+    # Manually set major and minor ticks of Y axis
+    y_major = FixedLocator([100000, 200000, 300000, 400000])
+    y_minor = FixedLocator(np.arange(0, 500001, 20000))
+    axes.yaxis.set_major_locator(y_major)
+    axes.yaxis.set_minor_locator(y_minor)
+
+    # Manually set major and minor ticks of X axis
+    x_major = FixedLocator(np.arange(-60, 91, 30))
+    x_minor = FixedLocator(np.arange(-90, 91, 10))
+    axes.xaxis.set_major_locator(x_major)
+    axes.xaxis.set_minor_locator(x_minor)
+    axes.xaxis.set_ticklabels(['60S', '30S', '0', '30N', '60N', '90N'])
+
+    # Inverse Y axis
+    axes.set_ylim(axes.get_ylim()[::-1])
+
+    # Set ticks to match styles of the original NCL plot
+    axes.tick_params(
+        "both",
+        length=8,
+        width=0.9,
+        which="major",
+        bottom=True,
+        top=True,
+        left=True,
+        right=True,
+    )
+    axes.tick_params(
+        "both",
+        length=4,
+        width=0.4,
+        which="minor",
+        bottom=True,
+        top=True,
+        left=True,
+        right=True,
+    )
 
 # Remove ticklabels on Y axis for panel 4
 ax4.yaxis.set_ticklabels([])
