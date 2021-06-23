@@ -106,15 +106,16 @@ colors = T.plot.contourf(ax=ax,
 # Draw vector plot
 # (there is no matplotlib equivalent to "CurlyVector" yet)
 # Setting the scale parameter to adjust length of the arrows
-Q = ax.quiver(T['lat'],
-              T['plev'],
+Q = ax.quiver(T['plev'],
+              T['lat'],
               V.data,
               wscale.data,
               color='black',
               zorder=1,
               pivot="middle",
               width=0.001,
-              scale=450,
+              headwidth=5,
+              scale=400,
               angles='xy')
 
 # Draw legend for vector plot
