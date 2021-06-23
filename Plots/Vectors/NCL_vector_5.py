@@ -80,7 +80,7 @@ wscale = W * scale
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(10, 11))
+fig = plt.figure(figsize=(10, 11.5))
 
 # Generate axes using Cartopy and draw coastlines
 ax = plt.axes()
@@ -126,8 +126,8 @@ ax.add_patch(
                   edgecolor='black',
                   clip_on=False))
 qk = ax.quiverkey(Q,
-                  0.835,
-                  0.086,
+                  0.831,
+                  0.11,
                   30,
                   'Reference Vector',
                   labelpos='S',
@@ -136,7 +136,7 @@ qk = ax.quiverkey(Q,
                   fontproperties={'size': 13})
 
 # Add a colorbar
-cax = plt.axes((0.1, 0.0001, 0.8, 0.04))
+cax = plt.axes((0.11, 0.00005, 0.8, 0.06))
 plt.colorbar(colors,
              ax=ax,
              cax=cax,
@@ -144,7 +144,7 @@ plt.colorbar(colors,
              ticks=levels[:-2:2],
              extendrect=True,
              drawedges=True,
-             pad=1)
+             spacing='uniform')
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, labelsize=16)
@@ -161,9 +161,9 @@ gvutil.set_axes_limits_and_ticks(ax,
 # Use geocat.viz.util convenience function to add titles and the pressure label
 gvutil.set_titles_and_labels(ax,
                              maintitle="Pressure/Height Vector",
-                             maintitlefontsize=22,
+                             maintitlefontsize=24,
                              ylabel='Pressure (mb)',
-                             labelfontsize=20)
+                             labelfontsize=24)
 
 # Create second y-axis to show geo-potential height. Currently we're using
 # arbitrary values for height as we haven't figured out how to make this work
@@ -177,7 +177,7 @@ gvutil.set_axes_limits_and_ticks(axRHS, ylim=(0, 13), yticks=np.array([4, 8]))
 axRHS.tick_params(labelsize=16, length=8, width=0.9)
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
-axRHS.set_ylabel(ylabel='Height (km)', labelpad=10, fontsize=20)
+axRHS.set_ylabel(ylabel='Height (km)', labelpad=10, fontsize=24)
 
 # Force the plot to be square by setting the aspect ratio to 1
 ax.set_box_aspect(1)
