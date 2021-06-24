@@ -5,7 +5,9 @@ channels:
 dependencies:
   - python=3
   - geocat-comp
+  - cf_xarray>=0.3.1
   - geocat-datafiles
+  - eofs
   - geocat-viz=2020.7.30.1
   - cartopy
   - geographiclib
