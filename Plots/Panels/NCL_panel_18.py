@@ -47,7 +47,8 @@ diff = yr1 - yr0
 
 ###############################################################################
 # Print out a formatted message; note the starting 'f' for the string.
-print(f" min= { diff.min() }    max={ diff.max() }")
+
+print(f" min= { diff.min().data }    max={ diff.min().data }")
 
 ##############################################################################
 # Plot:
