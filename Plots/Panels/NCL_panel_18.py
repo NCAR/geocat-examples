@@ -3,8 +3,8 @@ NCL_panel_18.py
 ===============
 This script illustrates the following concepts:
    - Combining two sets of paneled plots on one page
-   - Maximizing plots after they've been created
-   - Assign a color palette to contours
+   - Assign color palettes to contours
+   - Selecting a different colormap to abide by best practices. See the `color examples <https://geocat-examples.readthedocs.io/en/latest/gallery/index.html#colors>`_ for more information.
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: http://www.ncl.ucar.edu/Applications/Scripts/panel_18.ncl
@@ -33,6 +33,22 @@ import geocat.viz.util as gvutil
 ds = xr.open_dataset(gdf.get("netcdf_files/TS.cam3.toga_ENS.1950-2000.nc"),
                      decode_times=False)
 
+# Fix the artifact of not-shown-data around 0 and 360-degree longitudes
+TS = gvutil.xr_add_cyclic_longitudes(ds.TS, "lon")
+
+# Extract variables from data
+yr0 = TS[12, :, :]
+yr1 = TS[600, :, :]
+yr0 = yr0 - 273.15  # convert to degree C
+yr1 = yr1 - 273.15  # convert to degree C
+
+# Calculate the difference
+diff = yr1 - yr0
+
+###############################################################################
+# Print out a formatted message; note the starting 'f' for the string.
+print(f" min= { diff.min() }    max={ diff.max() }")
+
 ##############################################################################
 # Plot:
 fig = plt.figure(figsize=(8, 12))
@@ -47,6 +63,7 @@ ax1 = fig.add_subplot(grid[0], projection=proj)  # upper cell of grid
 ax2 = fig.add_subplot(grid[1], projection=proj)  # middle cell of grid
 ax3 = fig.add_subplot(grid[2], projection=proj)  # lower cell of grid
 
+# Customize plots to match NCL standard format
 for (ax, title) in [(ax1, 'Jan. 1999'), (ax2, 'Jan. 1951'),
                     (ax3, 'Difference: Jan 1999 - Jan 1951')]:
     # Use geocat.viz.util convenience function to set axes tick values
@@ -72,54 +89,62 @@ for (ax, title) in [(ax1, 'Jan. 1999'), (ax2, 'Jan. 1951'),
 
     # Use geocat.viz.util convenience function to set titles
     gvutil.set_titles_and_labels(ax,
-                                 lefttitle=t_1.long_name,
-                                 righttitle=t_1.units,
+                                 lefttitle='TS',
+                                 righttitle='°C',
                                  lefttitlefontsize=10,
                                  righttitlefontsize=10)
     # Add center title
     ax.set_title(title, loc='center', y=1.04, fontsize=10)
 
 # Import NCL colormaps
-newcmp = gvcmaps.BlAqGrYeOrRe
+newcmp = 'magma'
 newcmp2 = gvcmaps.BlueWhiteOrangeRed
 
 # Plot data
-C = ax1.contourf(t_1['lon_t'],
-                 t_1['lat_t'],
-                 t_1.data,
-                 levels=np.arange(0, 30, 2),
+C = ax1.contourf(yr1['lon'],
+                 yr1['lat'],
+                 yr1.data,
+                 levels=np.arange(-3, 28, 1.5),
                  cmap=newcmp,
                  extend='both')
-ax2.contourf(t_2['lon_t'],
-             t_2['lat_t'],
-             t_2.data,
-             levels=np.arange(0, 30, 2),
+ax2.contourf(yr0['lon'],
+             yr0['lat'],
+             yr0.data,
+             levels=np.arange(-3, 28, 1.5),
              cmap=newcmp,
              extend='both')
-C_2 = ax3.contourf(t_6['lon_t'],
-                   t_6['lat_t'],
-                   t_6.data,
-                   levels=np.arange(0, 22, 2),
+C_2 = ax3.contourf(diff['lon'],
+                   diff['lat'],
+                   diff.data,
+                   levels=np.arange(-4.0, 5, 1.0),
                    cmap=newcmp2,
                    extend='both')
 
 # Add colorbars
 # By specifying two axes for `ax` the colorbar will span both of them
-plt.colorbar(C,
-             ax=[ax1, ax2],
-             ticks=range(0, 30, 2),
-             extendrect=True,
-             extendfrac='auto',
-             shrink=0.85,
-             aspect=13,
-             drawedges=True)
-plt.colorbar(C_2,
-             ax=ax3,
-             ticks=range(0, 22, 2),
-             extendrect=True,
-             extendfrac='auto',
-             shrink=0.85,
-             aspect=5.5,
-             drawedges=True)
+cab1 = plt.colorbar(C,
+                    ax=[ax1, ax2],
+                    ticks=np.arange(-3, 28, 1.5),
+                    extendrect=True,
+                    extendfrac='auto',
+                    shrink=0.85,
+                    aspect=13,
+                    drawedges=True)
+cab2 = plt.colorbar(C_2,
+                    ax=ax3,
+                    ticks=range(-4, 5, 1),
+                    extendrect=True,
+                    extendfrac='auto',
+                    shrink=0.85,
+                    aspect=5.5,
+                    drawedges=True,
+                    format='%.1f')
 
+# Right align colorbar tick labels
+for cab in [cab1, cab2]:
+    ticklabs = cab.ax.get_yticklabels()
+    cab.ax.set_yticklabels(ticklabs, ha='right')
+    cab.ax.yaxis.set_tick_params(pad=30)
+
+# Generate plot
 plt.show()
