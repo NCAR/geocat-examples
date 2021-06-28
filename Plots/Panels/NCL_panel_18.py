@@ -97,7 +97,7 @@ for (ax, title) in [(ax1, 'Jan. 1999'), (ax2, 'Jan. 1951'),
     # Add center title
     ax.set_title(title, loc='center', y=1.04, fontsize=10)
 
-# Import NCL colormaps
+# Import colormaps
 newcmp = 'magma'
 newcmp2 = gvcmaps.BlueWhiteOrangeRed
 
