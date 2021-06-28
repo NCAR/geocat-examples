@@ -5,10 +5,10 @@ NCL_vector_5.py
 
 This script illustrates the following concepts:
    - Drawing pressure/height vectors over filled contours
+   - Changing the length of vectors using the scale parameter of quiver function
    - Interpolate to user specified pressure levels
-   - Drawing curly vectors
-   - Thinning vectors using a minimum distance resource
    - Using the geocat-comp method `interp_hybrid_to_pressure <https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.interp_hybrid_to_pressure.html#geocat.comp.interp_hybrid_to_pressure>`_
+   - Using a different color scheme to follow best practices for visualizations
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/vector_5.ncl
@@ -106,8 +106,8 @@ colors = T.plot.contourf(ax=ax,
 # Draw vector plot
 # (there is no matplotlib equivalent to "CurlyVector" yet)
 # Setting the scale parameter to adjust length of the arrows
-Q = ax.quiver(T['plev'],
-              T['lat'],
+Q = ax.quiver(T['lat'],
+              T['plev'],
               V.data,
               wscale.data,
               color='black',
