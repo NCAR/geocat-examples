@@ -128,6 +128,7 @@ fig.colorbar(mappable=mappable,
              ticks=colorbounds[1:-1],
              spacing='uniform',
              orientation='horizontal',
+             drawedges=True,
              anchor=(0.1, 0.5))
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
