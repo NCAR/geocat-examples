@@ -45,7 +45,7 @@ fig = plt.figure(figsize=(10, 13), constrained_layout=True)
 spec = gridspec.GridSpec(ncols=2, nrows=2, figure=fig)
 
 # Add the subplots
-ax1 = plt.subplot(2, 2, 1)  # upper left cell of grid
+ax1 = fig.add_subplot(spec[0, 0])  # upper left cell of grid
 ax2 = plt.subplot(2, 2, 2)  # upper right cell of grid
 ax3 = plt.subplot(2, 2, 3)  # lower left cell of grid
 ax4 = plt.subplot(2, 2, 4)  # lower right cell of grid
