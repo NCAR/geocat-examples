@@ -52,10 +52,7 @@ ax = plt.axes()
 colors = ['red' if (value > 0) else 'blue' for value in dsoik[::8]]
 
 # Plot bar chart with defined width
-plt.bar(date_frac[::8],
-        dsoik[::8],
-        color=colors,
-        width=.25)
+plt.bar(date_frac[::8], dsoik[::8], color=colors, width=0.25)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax,
