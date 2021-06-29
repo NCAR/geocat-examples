@@ -15,6 +15,7 @@ See following URLs to see the reproduced NCL plot & script:
 # Import packages:
 
 from matplotlib.ticker import FixedLocator
+import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
 import xarray as xr
 import numpy as np
@@ -41,14 +42,14 @@ T4 = T.isel(time=0).sel(lon_t=200, method="nearest")
 ##############################################################################
 # Plot:
 
-fig = plt.figure(figsize=(10, 13), constrained_layout=True)
+fig = plt.figure(figsize=(10, 11), constrained_layout=True)
 spec = gridspec.GridSpec(ncols=2, nrows=2, figure=fig)
 
 # Add the subplots
 ax1 = fig.add_subplot(spec[0, 0])  # upper left cell of grid
-ax2 = plt.subplot(2, 2, 2)  # upper right cell of grid
-ax3 = plt.subplot(2, 2, 3)  # lower left cell of grid
-ax4 = plt.subplot(2, 2, 4)  # lower right cell of grid
+ax2 = fig.add_subplot(spec[0, 1])  # upper right cell of grid
+ax3 = fig.add_subplot(spec[1, 0])  # lower left cell of grid
+ax4 = fig.add_subplot(spec[1, 1])  # lower right cell of grid
 
 # Make sure subplots are square
 for axes in [ax1, ax2, ax3, ax4]:
@@ -66,11 +67,11 @@ ax2.xaxis.tick_top()
 gvutil.add_major_minor_ticks(ax1,
                              x_minor_per_major=4,
                              y_minor_per_major=5,
-                             labelsize=12)
+                             labelsize=14)
 gvutil.add_major_minor_ticks(ax2,
                              x_minor_per_major=4,
                              y_minor_per_major=5,
-                             labelsize=12)
+                             labelsize=14)
 
 # Use geocat.viz.util convenience function to set axes tick values
 gvutil.set_axes_limits_and_ticks(ax=ax1,
@@ -158,26 +159,24 @@ for axes in [ax3, ax4]:
     axes.set_ylim(axes.get_ylim()[::-1])
 
     # Set ticks to match styles of the original NCL plot
-    axes.tick_params(
-        "both",
-        length=8,
-        width=0.9,
-        which="major",
-        bottom=True,
-        top=True,
-        left=True,
-        right=True,
-    )
-    axes.tick_params(
-        "both",
-        length=4,
-        width=0.4,
-        which="minor",
-        bottom=True,
-        top=True,
-        left=True,
-        right=True,
-    )
+    axes.tick_params("both",
+                     length=8,
+                     width=0.9,
+                     which="major",
+                     bottom=True,
+                     top=True,
+                     left=True,
+                     right=True,
+                     labelsize=14)
+    axes.tick_params("both",
+                     length=4,
+                     width=0.4,
+                     which="minor",
+                     bottom=True,
+                     top=True,
+                     left=True,
+                     right=True,
+                     labelsize=14)
 
 # Remove ticklabels on Y axis for panel 4
 ax4.yaxis.set_ticklabels([])
@@ -187,16 +186,18 @@ ax4.yaxis.set_ticklabels([])
 gvutil.set_titles_and_labels(ax3, ylabel=T.z_t.long_name, labelfontsize=16)
 
 # Add colorbar
-fig.colorbar(colors,
-             ax=[ax1, ax2, ax3, ax4],
-             orientation='horizontal',
-             drawedges=True,
-             extendrect=True,
-             aspect=20,
-             extendfrac='auto',
-             pad=0.07,
-             shrink=0.9,
-             ticks=levels)
+cb = fig.colorbar(colors,
+                  ax=[ax1, ax2, ax3, ax4],
+                  orientation='horizontal',
+                  drawedges=True,
+                  extendrect=True,
+                  aspect=20,
+                  extendfrac='auto',
+                  pad=0.02,
+                  ticks=levels)
+
+# Set colorbar ticklabel fontsize and tick length
+cb.ax.tick_params(labelsize=14, length=0)
 
 # Show the plot
 plt.show()
