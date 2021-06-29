@@ -145,7 +145,7 @@ cab2 = plt.colorbar(C_2,
 for cab in [cab1, cab2]:
     ticklabs = cab.ax.get_yticklabels()
     cab.ax.set_yticklabels(ticklabs, ha='right')
-    cab.ax.yaxis.set_tick_params(pad=30)
+    cab.ax.yaxis.set_tick_params(pad=30, length=0)
 
 # Generate plot
 plt.show()
