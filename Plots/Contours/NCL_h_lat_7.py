@@ -192,7 +192,7 @@ gvutil.set_titles_and_labels(ax,
                              maintitlefontsize=24,
                              lefttitle='Moist Static Energy',
                              lefttitlefontsize=22,
-                             righttitle='KJ/kg',
+                             righttitle='kJ/kg',
                              righttitlefontsize=22,
                              ylabel='Pressure (mb)',
                              labelfontsize=24)
