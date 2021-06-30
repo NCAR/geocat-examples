@@ -60,11 +60,11 @@ ax.clabel(contour, levels, fontsize=12, fmt="%.0f")
 
 # Add lower text box
 ax.text(0.995,
-        -0.12,
+        -0.13,
         "CONTOUR FROM -12 TO 40 BY 4",
         horizontalalignment='right',
         transform=ax.transAxes,
-        fontsize=10,
+        fontsize=14,
         bbox=dict(boxstyle='square, pad=0.25',
                   facecolor='white',
                   edgecolor='black'))
