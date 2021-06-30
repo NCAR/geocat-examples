@@ -33,10 +33,10 @@ ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 # Extract variables
 T = ds.T  # temperature (K)
 V = ds.V  # meridional wind (m/s)
-Z = ds.Z3  # geopotl. height in m
-omega = ds.OMEGA  # vert. pres. vel.(mb/day)
+Z = ds.Z3  # geopotential height (m)
+omega = ds.OMEGA  # vertical pressure velocity (mb/day)
 lev = ds.lev  # pressure levels (millibars)
-q = ds.Q  # spec. humidity (g/kg)
+q = ds.Q  # specific humidity (g/kg)
 q = q / 1000  # change units to kg/kg
 lev = 100 * lev  # change units to Pa
 
