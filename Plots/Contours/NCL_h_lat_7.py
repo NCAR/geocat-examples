@@ -159,7 +159,7 @@ qk = ax.quiverkey(Q,
                   fontproperties={'size': 13})
 
 # Add a colorbar
-cax = plt.axes((0.15, 0, 0.75, 0.05))
+cax = plt.axes((0.15, 0.03, 0.75, 0.05))
 cab = fig.colorbar(colors,
                    ax=ax,
                    cax=cax,
