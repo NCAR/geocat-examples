@@ -1,20 +1,12 @@
 """
-NCL_ce_3_1.py
-=============
-
+NCL_ce_1.py
+===========
 This script illustrates the following concepts:
-   - Drawing color-filled contours over a cylindrical equi-distant map
-   - Selecting a different color map
-   - Changing the contour level spacing
-   - Turning off contour lines
-   - Comparing styles of map tickmarks labels
-   - Changing the stride of the colorbar labels
-   - Zooming in on a particular area on the map
-   - Turning off the addition of a longitude cyclic point
+   - Drawing black-and-white contours over a cylindrical equi-distant map
 
 See following URLs to see the reproduced NCL plot & script:
-    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/ce_3.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/ce_3_1_lg.png
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/ce_1.ncl
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/ce_1_lg.png
 """
 
 ###############################################################################
@@ -24,73 +16,80 @@ import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import cartopy.feature as cfeature
+from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
 from geocat.viz import util as gvutil
 
 ###############################################################################
 # Read in data:
 
-# Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get('netcdf_files/h_avg_Y0191_D000.00.nc'),
-                     decode_times=False)
-# Extract a slice of the data
-t = ds.T.isel(time=0, z_t=0).sel(lat_t=slice(-60, 30), lon_t=slice(30, 120))
+# Open a netCDF data file using xarray default engine and load the data into xarrays, choosing the 2nd timestamp
+ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 
 ###############################################################################
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(7, 7))
+fig = plt.figure(figsize=(12, 6))
 
-# Generate axes, using Cartopy, drawing coastlines, and adding features
+# Generate axes using Cartopy projection
 projection = ccrs.PlateCarree()
 ax = plt.axes(projection=projection)
-ax.coastlines(linewidths=0.5)
-ax.add_feature(cfeature.LAND, facecolor='lightgray')
 
-# Import an NCL colormap
-newcmp = gvcmaps.BlAqGrYeOrRe
+# Draw land
+ax.add_feature(cfeature.LAND, color='silver')
 
-# Contourf-plot data
-heatmap = t.plot.contourf(ax=ax,
-                          transform=projection,
-                          levels=40,
-                          vmin=0,
-                          vmax=32,
-                          cmap=newcmp,
-                          add_colorbar=False)
+# Define the contour levels
+levels = np.arange(-12, 41, 4)
 
-# Add colorbar
-cbar = plt.colorbar(heatmap, ticks=np.arange(0, 32, 2))
-cbar.ax.set_yticklabels([str(i) for i in np.arange(0, 32, 2)])
+# Draw contour lines
+contour = ds.U.plot.contour(
+    ax=ax,
+    levels=levels,
+    xticks=np.arange(-180, 181, 30),  # nice x ticks
+    yticks=np.arange(-90, 91, 30),  # nice y ticks
+    transform=projection,  # ds projection
+    add_labels=False,  # turn off xarray's automatic Lat, lon labels
+    colors="black",  # note plurals in this and following kwargs
+    linestyles="-",
+    linewidths=0.5)
 
-# Usa geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
-# Set axes limits, and tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(30, 120),
-                                 ylim=(-60, 30),
-                                 xticks=np.linspace(-180, 180, 13),
-                                 yticks=np.linspace(-90, 90, 7))
+# Label the contours and set axes title
+ax.clabel(contour, levels, fontsize=12, fmt="%.0f")
+
+# Add lower text box
+ax.text(0.995,
+        -0.12,
+        "CONTOUR FROM -12 TO 40 BY 4",
+        horizontalalignment='right',
+        transform=ax.transAxes,
+        fontsize=10,
+        bbox=dict(boxstyle='square, pad=0.25',
+                  facecolor='white',
+                  edgecolor='black'))
+
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax)
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
 
-# Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, labelsize=12)
+# Removing degree symbol from tick labels to resemble NCL example
+ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
+ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
-# Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-gvutil.set_titles_and_labels(
-    ax,
-    maintitle="30-degree major and 10-degree minor ticks",
-    maintitlefontsize=16,
-    lefttitle="Potential Temperature",
-    lefttitlefontsize=14,
-    righttitle="Celsius",
-    righttitlefontsize=14,
-    xlabel="",
-    ylabel="")
+# Use geocat.viz.util convenience function to add left and right title to the plot axes.
+gvutil.set_titles_and_labels(ax,
+                             lefttitle="Zonal Wind",
+                             lefttitlefontsize=16,
+                             righttitle=ds.U.units,
+                             righttitlefontsize=16)
 
-# Show the plot
-plt.show()
+# Set ticklabel fontsize
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+
+# Show plot
+plt.tight_layout()
+plt.show
