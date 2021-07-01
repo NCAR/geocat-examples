@@ -3,7 +3,7 @@ NCL_panel_14.py
 ===============
 This script illustrates the following concepts:
    - Combining two sets of paneled plots on one page
-   - Adding a common labelbar to paneled plots
+   - Adding a common color bar to paneled plots
    - Reversing the Y axis
 
 See following URLs to see the reproduced NCL plot & script:
