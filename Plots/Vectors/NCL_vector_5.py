@@ -8,7 +8,7 @@ This script illustrates the following concepts:
    - Changing the length of vectors using the scale parameter of quiver function
    - Interpolate to user specified pressure levels
    - Using the geocat-comp method `interp_hybrid_to_pressure <https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.interp_hybrid_to_pressure.html#geocat.comp.interp_hybrid_to_pressure>`_
-   - Using a different color scheme to follow best practices for visualizations
+   - Using a different color scheme to follow `best practices <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py` for visualizations
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/vector_5.ncl
@@ -120,15 +120,24 @@ Q = ax.quiver(T['lat'],
 
 # Draw legend for vector plot
 ax.add_patch(
-    plt.Rectangle((53, 935),
+    plt.Rectangle((53, 938),
                   35,
-                  50,
+                  55,
                   facecolor='white',
                   edgecolor='black',
                   clip_on=False))
 qk = ax.quiverkey(Q,
                   0.831,
-                  0.11,
+                  0.105,
+                  30,
+                  '3',
+                  labelpos='N',
+                  coordinates='figure',
+                  color='black',
+                  fontproperties={'size': 13})
+qk = ax.quiverkey(Q,
+                  0.831,
+                  0.105,
                   30,
                   'Reference Vector',
                   labelpos='S',
@@ -138,14 +147,17 @@ qk = ax.quiverkey(Q,
 
 # Add a colorbar
 cax = plt.axes((0.11, 0.00005, 0.8, 0.06))
-plt.colorbar(colors,
-             ax=ax,
-             cax=cax,
-             orientation='horizontal',
-             ticks=levels[:-2:2],
-             extendrect=True,
-             drawedges=True,
-             spacing='uniform')
+cab = plt.colorbar(colors,
+                   ax=ax,
+                   cax=cax,
+                   orientation='horizontal',
+                   ticks=levels[:-2:2],
+                   extendrect=True,
+                   drawedges=True,
+                   spacing='uniform')
+
+# Set colorbar ticklabel font size
+cab.ax.xaxis.set_tick_params(length=0, labelsize=16)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, labelsize=16)
