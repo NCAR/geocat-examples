@@ -126,24 +126,24 @@ ax.add_patch(
                   facecolor='white',
                   edgecolor='black',
                   clip_on=False))
-qk = ax.quiverkey(Q,
-                  0.831,
-                  0.105,
-                  30,
-                  '3',
-                  labelpos='N',
-                  coordinates='figure',
-                  color='black',
-                  fontproperties={'size': 13})
-qk = ax.quiverkey(Q,
-                  0.831,
-                  0.105,
-                  30,
-                  'Reference Vector',
-                  labelpos='S',
-                  coordinates='figure',
-                  color='black',
-                  fontproperties={'size': 13})
+ax.quiverkey(Q,
+             0.831,
+             0.105,
+             30,
+             '3',
+             labelpos='N',
+             coordinates='figure',
+             color='black',
+             fontproperties={'size': 13})
+ax.quiverkey(Q,
+             0.831,
+             0.105,
+             30,
+             'Reference Vector',
+             labelpos='S',
+             coordinates='figure',
+             color='black',
+             fontproperties={'size': 13})
 
 # Add a colorbar
 cax = plt.axes((0.11, 0.00005, 0.8, 0.06))
