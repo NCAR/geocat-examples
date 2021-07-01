@@ -59,7 +59,7 @@ for axes in [ax1, ax2, ax3, ax4]:
 ax1.plot(T1, T.z_t, c='black', linewidth=0.5)
 ax2.plot(T2, T.z_t, c='black', linewidth=0.5)
 
-# # Display X axis ticklabels at the top
+# Display X axis ticklabels at the top
 ax1.xaxis.tick_top()
 ax2.xaxis.tick_top()
 
