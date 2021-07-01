@@ -36,9 +36,9 @@ V = ds.V  # meridional wind (m/s)
 Z = ds.Z3  # geopotential height (m)
 omega = ds.OMEGA  # vertical pressure velocity (mb/day)
 lev = ds.lev  # pressure levels (millibars)
+lev = 100 * lev  # change units to Pa
 q = ds.Q  # specific humidity (g/kg)
 q = q / 1000  # change units to kg/kg
-lev = 100 * lev  # change units to Pa
 
 # Calculate moist static energy (h)
 g = 9.81
@@ -47,8 +47,6 @@ Cp = 1004.0
 
 h = Cp * T + g * Z + L * q
 h = h / 1000  # Convert to kJ/kg
-h.attrs['units'] = "kJ/kg"
-h.attrs['long_name'] = "Moist Static Energy"
 
 # Convert h and omega to pressure levels
 hyam = ds.hyam
@@ -111,14 +109,6 @@ hp.plot.contour(ax=ax,
                 linestyles='solid',
                 add_labels=False)
 
-# Plot contour lines
-hp.plot.contour(ax=ax,
-                colors='black',
-                levels=levels,
-                linewidths=0.5,
-                linestyles='solid',
-                add_labels=False)
-
 # Plot filled contours
 colors = hp.plot.contourf(ax=ax,
                           levels=levels,
@@ -134,11 +124,11 @@ Q = ax.quiver(hp['lat'],
               op.data,
               vp.data,
               color='black',
-              zorder=1,
               pivot="middle",
               width=0.001,
               headwidth=15,
-              scale=20)
+              scale=18,
+              zorder=1)
 
 # Draw legend for vector plot
 ax.add_patch(
@@ -199,9 +189,9 @@ gvutil.set_axes_limits_and_ticks(ax,
 gvutil.set_titles_and_labels(ax,
                              maintitle="Pressure/Height Vector Example",
                              maintitlefontsize=24,
-                             lefttitle='Moist Static Energy',
+                             lefttitle=hp.long_name,
                              lefttitlefontsize=22,
-                             righttitle='kJ/kg',
+                             righttitle=hp.units,
                              righttitlefontsize=22,
                              ylabel='Pressure (mb)',
                              labelfontsize=24)
