@@ -3,7 +3,7 @@ NCL_station_1.py
 ================
 This script illustrates the following concepts:
    - Using pandas package to read in ascii file
-   - Contouring one-dimensional X, Y, Z data
+   - Using tricontourf function from matplotlib package to contour one-dimensional X, Y, Z data
    - Reading an ASCII file with several columns of data
    - Drawing lat/lon locations as filled dots using gsn_coordinates
    - Controlling which contour lines get drawn
@@ -19,11 +19,10 @@ See following URLs to see the reproduced NCL plot & script:
 # Import packages:
 
 import numpy as np
-import matplotlib as mpl
-from matplotlib import pyplot as plt
 import pandas as pd
-import cartopy
 import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+from matplotlib import pyplot as plt
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -42,13 +41,87 @@ pwv_lon1d = ds.LON
 ###################################################
 # Plot
 
-#
-fig = plt.figure(figsize=(9, 9))
+# Generate figure (set its size (width, height) in inches)
+fig = plt.figure(figsize=(12, 12))
 
-#
-ax = plt.axes()
+# Generste axes
+ax = plt.axes(projection=ccrs.PlateCarree())
+
+# Specify contour levels
+levels = np.arange(16, 51, 1)
+
+# Specify colormap and reverse it
+cmap = 'magma'
+
+# Plot contour lines
+contour = ax.tricontour(pwv_lon1d,
+                        pwv_lat1d,
+                        pwv,
+                        levels=np.arange(25, 51, 5),
+                        colors='black',
+                        linewidths=0.6,
+                        zorder=4)
+
+# Label the contours and set axes title
+ax.clabel(contour, np.arange(25, 51, 5), fontsize=20, fmt="%.0f")
 
 # Plot filled contours
+color = ax.tricontourf(pwv_lon1d,
+                       pwv_lat1d,
+                       pwv,
+                       cmap=cmap,
+                       alpha=0.85,
+                       levels=levels,
+                       antialiased=True,
+                       zorder=3)
+
+# Now adding the colorbar
+cax = fig.add_axes([0.95, 0.12, 0.05, 0.75])
+
+# Add colorbar
+cab = plt.colorbar(color,
+                   cax=cax,
+                   ticks=levels[::2],
+                   drawedges=False,
+                   extendrect=True)
+
+# Set colorbar ticklabel font size
+cab.ax.yaxis.set_tick_params(length=0, labelsize=20)
+
+# Add coordinate markers on the plot
+ax.plot(pwv_lon1d, pwv_lat1d, marker='o', linewidth=0, color='black', zorder=4)
+
+# Add state boundaries other lake features
+ax.add_feature(cfeature.STATES, edgecolor='lightgrey', linestyle='--', zorder=2)
+ax.add_feature(cfeature.LAKES, facecolor='white', edgecolor='black', zorder=2)
+
+# Use geocat.viz.util convenience function to set axes tick values
+gvutil.set_axes_limits_and_ticks(ax,
+                                 ylim=(min(pwv_lat1d) - .5,
+                                       max(pwv_lat1d) + .5),
+                                 xlim=(min(pwv_lon1d) - .5,
+                                       max(pwv_lon1d) + .5),
+                                 yticks=np.array([34, 36, 38, 40]),
+                                 xticks=np.arange(-101, -93, 1))
+
+# Use geocat.viz.util convenience function to set latitude, longtitude tick labels
+gvutil.add_lat_lon_ticklabels(ax)
+
+# Use geocat.viz.util convenience function to add minor and major tick lines
+gvutil.add_major_minor_ticks(ax,
+                             x_minor_per_major=1,
+                             y_minor_per_major=1,
+                             labelsize=18)
+
+# Manually turn off ticks on top and right spines
+ax.tick_params(axis='x', top=False)
+ax.tick_params(axis='y', right=False)
+
+# Add title
+ax.set_title('GPS PWV(18Z)', fontweight='bold', fontsize=30, y=1.05)
+
+# Force the plot to be square by setting the aspect ratio to 1
+ax.set_box_aspect(1)
 
 # Show the plot
 plt.show()
