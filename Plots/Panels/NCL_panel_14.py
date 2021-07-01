@@ -42,7 +42,7 @@ T4 = T.isel(time=0).sel(lon_t=200, method="nearest")
 ##############################################################################
 # Plot:
 
-fig = plt.figure(figsize=(10, 11), constrained_layout=True)
+fig = plt.figure(figsize=(12, 12), constrained_layout=True)
 spec = gridspec.GridSpec(ncols=2, nrows=2, figure=fig)
 
 # Add the subplots
