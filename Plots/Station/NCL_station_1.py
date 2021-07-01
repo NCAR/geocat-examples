@@ -2,13 +2,12 @@
 NCL_station_1.py
 ================
 This script illustrates the following concepts:
-   - Using pandas package to read in ascii file
-   - Using tricontourf function from matplotlib package to contour one-dimensional X, Y, Z data
-   - Reading an ASCII file with several columns of data
-   - Drawing lat/lon locations as filled dots using gsn_coordinates
+   - Using pandas package to read in ascii file with several columns of data
+   - Using tricontour and tricontourf function from matplotlib package to contour one-dimensional X, Y, Z data
+   - Drawing lat/lon locations as filled dots
    - Controlling which contour lines get drawn
-   - Using opacity to emphasize or subdue overlain features
-   - Reversing a color map
+   - Using alpha parameter to emphasize or subdue overlain features
+   - Using a different color scheme to follow `best practices <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py` for visualizations
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/station_1.ncl
@@ -47,8 +46,9 @@ fig = plt.figure(figsize=(12, 12))
 # Generste axes
 ax = plt.axes(projection=ccrs.PlateCarree())
 
-# Specify contour levels
-levels = np.arange(16, 51, 1)
+# Specify contour and contourf levels
+clevels = np.arange(25, 51, 5)
+flevels = np.arange(16, 51, 1)
 
 # Specify colormap and reverse it
 cmap = 'magma'
@@ -57,13 +57,13 @@ cmap = 'magma'
 contour = ax.tricontour(pwv_lon1d,
                         pwv_lat1d,
                         pwv,
-                        levels=np.arange(25, 51, 5),
+                        levels=clevels,
                         colors='black',
                         linewidths=0.6,
                         zorder=4)
 
 # Label the contours and set axes title
-ax.clabel(contour, np.arange(25, 51, 5), fontsize=20, fmt="%.0f")
+ax.clabel(contour, clevels, fontsize=20, fmt="%.0f")
 
 # Plot filled contours
 color = ax.tricontourf(pwv_lon1d,
@@ -71,7 +71,7 @@ color = ax.tricontourf(pwv_lon1d,
                        pwv,
                        cmap=cmap,
                        alpha=0.85,
-                       levels=levels,
+                       levels=flevels,
                        antialiased=True,
                        zorder=3)
 
@@ -81,7 +81,7 @@ cax = fig.add_axes([0.95, 0.12, 0.05, 0.75])
 # Add colorbar
 cab = plt.colorbar(color,
                    cax=cax,
-                   ticks=levels[::2],
+                   ticks=flevels[::2],
                    drawedges=False,
                    extendrect=True)
 
