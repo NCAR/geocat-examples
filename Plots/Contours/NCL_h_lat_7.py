@@ -142,18 +142,27 @@ Q = ax.quiver(hp['lat'],
 
 # Draw legend for vector plot
 ax.add_patch(
-    plt.Rectangle((17.3, 947),
+    plt.Rectangle((17.3, 945),
                   12,
-                  49,
+                  52,
                   facecolor='white',
                   edgecolor='black',
                   clip_on=False))
 qk = ax.quiverkey(Q,
                   0.828,
-                  0.16,
+                  0.155,
                   2,
                   'Reference Vector',
                   labelpos='S',
+                  coordinates='figure',
+                  color='black',
+                  fontproperties={'size': 13})
+qk = ax.quiverkey(Q,
+                  0.828,
+                  0.155,
+                  2,
+                  '.04',
+                  labelpos='N',
                   coordinates='figure',
                   color='black',
                   fontproperties={'size': 13})
