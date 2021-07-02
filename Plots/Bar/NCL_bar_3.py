@@ -3,7 +3,6 @@ NCL_bar_3.py
 ============
 This script illustrates the following concepts:
     - Drawing bars instead of curves in an XY plot
-    - Changing the aspect ratio of a bar plot
     - Changing the width of the bars in a bar plot
     - Drawing filled bars up or down based on a Y reference value
     - Setting the minimum/maximum value of the Y axis in a bar plot
