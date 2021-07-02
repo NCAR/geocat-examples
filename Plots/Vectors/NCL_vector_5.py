@@ -4,8 +4,8 @@ NCL_vector_5.py
  A vector pressure/height plot
 
 This script illustrates the following concepts:
+   - Using streamplot to resemble curly vectors
    - Drawing pressure/height vectors over filled contours
-   - Changing the length of vectors using the scale parameter of quiver function
    - Interpolate to user specified pressure levels
    - Using the geocat-comp method `interp_hybrid_to_pressure <https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.interp_hybrid_to_pressure.html#geocat.comp.interp_hybrid_to_pressure>`_
    - Using a different color scheme to follow `best practices <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py` for visualizations
@@ -18,9 +18,10 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 
+import numpy as np
 import xarray as xr
 from matplotlib import pyplot as plt
-import numpy as np
+from scipy.interpolate import interp2d
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -103,20 +104,26 @@ colors = T.plot.contourf(ax=ax,
                          add_labels=False,
                          add_colorbar=False)
 
-# Draw vector plot
-# (there is no matplotlib equivalent to "CurlyVector" yet)
-# Setting the scale parameter to adjust length of the arrows
-Q = ax.quiver(T['lat'],
-              T['plev'],
-              V.data,
-              wscale.data,
-              color='black',
-              zorder=1,
-              pivot="middle",
-              width=0.001,
-              headwidth=5,
-              scale=400,
-              angles='xy')
+# Interpolate datasets for streamplot function
+# https://stackoverflow.com/questions/34711705/axis-error-in-matplotlib-pyplot-streamplot
+# regularly spaced grid spanning the domain of x and y
+xi = np.linspace(T['lat'].min(), T['lat'].max(), T['lat'].size)
+yi = np.linspace(T['plev'].min(), T['plev'].max(), T['plev'].size)
+
+# bicubic interpolation to fit parameter requirements for streamplot
+uCi = interp2d(T['lat'], T['plev'], V.data)(xi, yi)
+vCi = interp2d(T['lat'], T['plev'], wscale.data)(xi, yi)
+
+# Use streamplot to resemble curly vector
+ax.streamplot(xi,
+              yi,
+              uCi,
+              vCi,
+              linewidth=0.5,
+              density=2.0,
+              arrowsize=0.7,
+              arrowstyle='->',
+              color='black')
 
 # Draw legend for vector plot
 ax.add_patch(
@@ -126,24 +133,6 @@ ax.add_patch(
                   facecolor='white',
                   edgecolor='black',
                   clip_on=False))
-ax.quiverkey(Q,
-             0.831,
-             0.105,
-             30,
-             '3',
-             labelpos='N',
-             coordinates='figure',
-             color='black',
-             fontproperties={'size': 13})
-ax.quiverkey(Q,
-             0.831,
-             0.105,
-             30,
-             'Reference Vector',
-             labelpos='S',
-             coordinates='figure',
-             color='black',
-             fontproperties={'size': 13})
 
 # Add a colorbar
 cax = plt.axes((0.11, 0.00005, 0.8, 0.06))
@@ -199,6 +188,32 @@ axRHS.set_box_aspect(1)
 # Turn off minor ticks on Y axis on the left hand side
 ax.tick_params(axis='y', which='minor', left=False, right=False)
 
-# Show plot
 plt.tight_layout()
+
+# Add quiverkey
+# Set quiverkey after calling plt.tight_layout to prevent user warnings
+# Draw translucent vector plot as inputs for quiverkey
+Q = ax.quiver(T['lat'], T['plev'], V.data, wscale.data, alpha=0, scale=400)
+ax.quiverkey(Q,
+             0.831,
+             0.105,
+             30,
+             '3',
+             labelpos='N',
+             coordinates='figure',
+             color='black',
+             alpha=1,
+             fontproperties={'size': 13})
+ax.quiverkey(Q,
+             0.831,
+             0.105,
+             30,
+             'Reference Vector',
+             labelpos='S',
+             coordinates='figure',
+             color='black',
+             alpha=1,
+             fontproperties={'size': 13})
+
+# Show plot
 plt.show()
