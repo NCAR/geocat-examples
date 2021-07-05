@@ -92,7 +92,7 @@ vp = vp.isel(time=0).sel(lat=slice(-30, 30)).sel(lon=210, method='nearest')
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(10, 11.5))
+fig = plt.figure(figsize=(10, 12))
 
 # Generate axes
 ax = plt.axes()
@@ -140,7 +140,7 @@ ax.add_patch(
                   clip_on=False))
 qk = ax.quiverkey(Q,
                   0.828,
-                  0.155,
+                  0.177,
                   2,
                   'Reference Vector',
                   labelpos='S',
@@ -149,27 +149,13 @@ qk = ax.quiverkey(Q,
                   fontproperties={'size': 13})
 qk = ax.quiverkey(Q,
                   0.828,
-                  0.155,
+                  0.177,
                   2,
                   '.04',
                   labelpos='N',
                   coordinates='figure',
                   color='black',
                   fontproperties={'size': 13})
-
-# Add a colorbar
-cax = plt.axes((0.15, 0.03, 0.75, 0.05))
-cab = fig.colorbar(colors,
-                   ax=ax,
-                   cax=cax,
-                   orientation='horizontal',
-                   ticks=levels[::2],
-                   extendrect=True,
-                   drawedges=True,
-                   spacing='uniform')
-
-# Set colorbar ticklabel font size
-cab.ax.xaxis.set_tick_params(length=0, labelsize=18)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax,
@@ -217,6 +203,22 @@ axRHS.set_box_aspect(1)
 # Turn off minor ticks on Y axis on the left hand side
 ax.tick_params(axis='y', which='minor', left=False, right=False)
 
-# Show plot
+# Add a color bar after calling tight_layout function to prevent user warnings
 plt.tight_layout()
+
+cax = plt.axes((0.15, 0.03, 0.75, 0.06))
+cab = fig.colorbar(colors,
+                   ax=ax,
+                   cax=cax,
+                   orientation='horizontal',
+                   ticks=levels[::2],
+                   extendrect=True,
+                   drawedges=True,
+                   spacing='uniform')
+
+# Set colorbar ticklabel font size
+cab.ax.xaxis.set_tick_params(length=0, labelsize=18)
+
+# Show plot
+plt.savefig('hello.png')
 plt.show()
