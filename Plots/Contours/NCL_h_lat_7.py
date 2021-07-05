@@ -220,5 +220,4 @@ cab = fig.colorbar(colors,
 cab.ax.xaxis.set_tick_params(length=0, labelsize=18)
 
 # Show plot
-plt.savefig('hello.png')
 plt.show()
