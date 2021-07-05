@@ -106,41 +106,18 @@ colors = T.plot.contourf(ax=ax,
                          add_labels=False,
                          add_colorbar=False)
 
-# Interpolate datasets for streamplot function
+# Interpolate datasets for streamplot function from:
 # https://stackoverflow.com/questions/34711705/axis-error-in-matplotlib-pyplot-streamplot
-# regularly spaced grid spanning the domain of x and y
-xi = np.linspace(T['lat'].min(), T['lat'].max(), T['lat'].size)
-yi = np.linspace(T['plev'].min(), T['plev'].max(), T['plev'].size)
+with np.errstate(invalid='ignore'
+                ):  # Get rid of interpolation point out of data bounds warning
 
-# bicubic interpolation to fit parameter requirements for streamplot
-uCi = interp2d(T['lat'], T['plev'], V.data)(xi, yi)
-vCi = interp2d(T['lat'], T['plev'], wscale.data)(xi, yi)
+    # regularly spaced grid spanning the domain of x and y
+    xi = np.linspace(T['lat'].min(), T['lat'].max(), T['lat'].size)
+    yi = np.linspace(T['plev'].min(), T['plev'].max(), T['plev'].size)
 
-# X = T['lat'].data
-# Y = T['plev'].data
-# U = V.data
-# V = wscale.data
-
-# norm = np.sqrt(U**2 + V**2)
-# norm_flat = norm.flatten()
-
-# start_points = np.array([X.flatten(), Y.flatten()]).T
-
-# scale = .2/np.max(norm)
-
-# for i in range(start_points.shape[0]):
-#     plt.streamplot(X[i],
-#                    Y[i],
-#                    U[i],
-#                    V[i],
-#                    start_points=np.array([start_points[i,:]]),
-#                    minlength=.95*norm_flat[i]*scale,
-#                    maxlength=1.0*norm_flat[i]*scale,
-#                    integration_direction='backward',
-#                    density=10,
-#                    arrowsize=0.0)
-
-norm = np.sqrt(uCi**2 + vCi**2)
+    # bicubic interpolation to fit parameter requirements for streamplot
+    uCi = interp2d(T['lat'], T['plev'], V.data)(xi, yi)
+    vCi = interp2d(T['lat'], T['plev'], wscale.data)(xi, yi)
 
 # Use streamplot to resemble curly vector
 ax.streamplot(xi,
@@ -148,13 +125,11 @@ ax.streamplot(xi,
               uCi,
               vCi,
               linewidth=0.5,
-              density=10,
+              density=2.0,
               arrowsize=0.7,
               arrowstyle='->',
               color='black',
               integration_direction='backward')
-
-ax.quiver(xi, yi, uCi / norm, vCi / norm, scale=100, linewidth=0.1)
 
 # Draw legend for vector plot
 ax.add_patch(
