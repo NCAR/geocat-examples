@@ -53,7 +53,7 @@ hyam = ds.hyam
 hybm = ds.hybm
 P0mb = ds.P0 * 0.01
 ps = ds.PS
-ps = ps / 100  # Convert from pascal to milibar
+ps = ps / 100  # Convert from pascal to millibar
 lev_p = np.array([300, 400, 500, 600, 700, 800, 900, 1000])
 
 # interp_hybrid_to_pressure is the Python version of vinth2p in NCL script
@@ -88,6 +88,10 @@ hp = hp.isel(time=0).sel(lat=slice(-30, 30)).sel(lon=210, method='nearest')
 op = op.isel(time=0).sel(lat=slice(-30, 30)).sel(lon=210, method='nearest')
 vp = vp.isel(time=0).sel(lat=slice(-30, 30)).sel(lon=210, method='nearest')
 
+# Set vp equal to zero so that we plot only the vertical component
+# while retaining the coordinate information
+vp = xr.zeros_like(vp)
+
 ################################################################################
 # Plot:
 
@@ -119,38 +123,38 @@ colors = hp.plot.contourf(ax=ax,
 # Draw vector plot
 # (there is no matplotlib equivalent to "CurlyVector" yet)
 # Setting the scale parameter to adjust length of the arrows
-Q = ax.quiver(hp['lat'],
-              hp['plev'],
-              op.data,
-              vp.data,
+Q = ax.quiver(hp['lat'], # horizontal location
+              hp['plev'], # vertical location
+              vp.data, # horizontal component of the vectors
+              op.data, # vertical component of the vectors
               color='black',
               pivot="middle",
               width=0.001,
               headwidth=15,
-              scale=18,
               zorder=1)
 
 # Draw legend for vector plot
 ax.add_patch(
-    plt.Rectangle((17.3, 945),
-                  12,
-                  52,
+    plt.Rectangle((17.3, 944),  # location of the SW corner of box in the same units as the data
+                  12,  # the width of the box in the same units as the x axis
+                  55,  # the height of the box in the same units as the y axis
                   facecolor='white',
                   edgecolor='black',
                   clip_on=False))
+# Call quiver key twice to draw the text above and below the key arrow
 qk = ax.quiverkey(Q,
-                  0.828,
-                  0.177,
-                  2,
+                  0.828,  # x coordinate of the center of the arrow as a percent of the plot width
+                  0.18,  # y coordinate of the center of the arrow as a percent of the plot height
+                  0.04,  # the size of the arrow in the same units as the data
                   'Reference Vector',
                   labelpos='S',
                   coordinates='figure',
                   color='black',
                   fontproperties={'size': 13})
 qk = ax.quiverkey(Q,
-                  0.828,
-                  0.177,
-                  2,
+                  0.828,  # x coordinate of the center of the arrow as a percent of the plot width
+                  0.18,  # y coordinate of the center of the arrow as a percent of the plot height
+                  0.04,  # the size of the arrow in the same units as the data
                   '.04',
                   labelpos='N',
                   coordinates='figure',
