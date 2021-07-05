@@ -6,6 +6,7 @@ NCL_vector_5.py
 This script illustrates the following concepts:
    - Using streamplot to resemble curly vectors
    - Drawing pressure/height vectors over filled contours
+   - Using inset_axes() to create additional axes for color bars
    - Interpolate to user specified pressure levels
    - Using the geocat-comp method `interp_hybrid_to_pressure <https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.interp_hybrid_to_pressure.html#geocat.comp.interp_hybrid_to_pressure>`_
    - Using a different color scheme to follow `best practices <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py` for visualizations
@@ -22,6 +23,7 @@ import numpy as np
 import xarray as xr
 from matplotlib import pyplot as plt
 from scipy.interpolate import interp2d
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
@@ -81,7 +83,7 @@ wscale = W * scale
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(10, 11.5))
+fig = plt.figure(figsize=(10, 12))
 
 # Generate axes using Cartopy and draw coastlines
 ax = plt.axes()
@@ -114,39 +116,78 @@ yi = np.linspace(T['plev'].min(), T['plev'].max(), T['plev'].size)
 uCi = interp2d(T['lat'], T['plev'], V.data)(xi, yi)
 vCi = interp2d(T['lat'], T['plev'], wscale.data)(xi, yi)
 
+# X = T['lat'].data
+# Y = T['plev'].data
+# U = V.data
+# V = wscale.data
+
+# norm = np.sqrt(U**2 + V**2)
+# norm_flat = norm.flatten()
+
+# start_points = np.array([X.flatten(), Y.flatten()]).T
+
+# scale = .2/np.max(norm)
+
+# for i in range(start_points.shape[0]):
+#     plt.streamplot(X[i],
+#                    Y[i],
+#                    U[i],
+#                    V[i],
+#                    start_points=np.array([start_points[i,:]]),
+#                    minlength=.95*norm_flat[i]*scale,
+#                    maxlength=1.0*norm_flat[i]*scale,
+#                    integration_direction='backward',
+#                    density=10,
+#                    arrowsize=0.0)
+
+norm = np.sqrt(uCi**2 + vCi**2)
+
 # Use streamplot to resemble curly vector
 ax.streamplot(xi,
               yi,
               uCi,
               vCi,
               linewidth=0.5,
-              density=2.0,
+              density=10,
               arrowsize=0.7,
               arrowstyle='->',
-              color='black')
+              color='black',
+              integration_direction='backward')
+
+ax.quiver(xi, yi, uCi / norm, vCi / norm, scale=100, linewidth=0.1)
 
 # Draw legend for vector plot
 ax.add_patch(
-    plt.Rectangle((53, 938),
+    plt.Rectangle((53, 941),
                   35,
                   55,
                   facecolor='white',
                   edgecolor='black',
                   clip_on=False))
 
-# Add a colorbar
-cax = plt.axes((0.11, 0.00005, 0.8, 0.06))
-cab = plt.colorbar(colors,
-                   ax=ax,
-                   cax=cax,
-                   orientation='horizontal',
-                   ticks=levels[:-2:2],
-                   extendrect=True,
-                   drawedges=True,
-                   spacing='uniform')
-
-# Set colorbar ticklabel font size
-cab.ax.xaxis.set_tick_params(length=0, labelsize=16)
+# Add quiverkey
+# Draw translucent vector plot to be set as input for quiverkey
+Q = ax.quiver(T['lat'], T['plev'], V.data, wscale.data, alpha=0, scale=400)
+ax.quiverkey(Q,
+             0.831,
+             0.118,
+             30,
+             '3',
+             labelpos='N',
+             coordinates='figure',
+             color='black',
+             alpha=1,
+             fontproperties={'size': 13})
+ax.quiverkey(Q,
+             0.831,
+             0.118,
+             30,
+             'Reference Vector',
+             labelpos='S',
+             coordinates='figure',
+             color='black',
+             alpha=1,
+             fontproperties={'size': 13})
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, labelsize=16)
@@ -188,32 +229,29 @@ axRHS.set_box_aspect(1)
 # Turn off minor ticks on Y axis on the left hand side
 ax.tick_params(axis='y', which='minor', left=False, right=False)
 
+# Call tight_layout function before adding the color bar to prevent user warnings
 plt.tight_layout()
 
-# Add quiverkey
-# Set quiverkey after calling plt.tight_layout to prevent user warnings
-# Draw translucent vector plot as inputs for quiverkey
-Q = ax.quiver(T['lat'], T['plev'], V.data, wscale.data, alpha=0, scale=400)
-ax.quiverkey(Q,
-             0.831,
-             0.105,
-             30,
-             '3',
-             labelpos='N',
-             coordinates='figure',
-             color='black',
-             alpha=1,
-             fontproperties={'size': 13})
-ax.quiverkey(Q,
-             0.831,
-             0.105,
-             30,
-             'Reference Vector',
-             labelpos='S',
-             coordinates='figure',
-             color='black',
-             alpha=1,
-             fontproperties={'size': 13})
+# Create inset axes for color bars
+cax = inset_axes(ax,
+                 width='97%',
+                 height='8%',
+                 loc='lower left',
+                 bbox_to_anchor=(0.03, -0.24, 1, 1),
+                 bbox_transform=ax.transAxes,
+                 borderpad=0)
+
+# Add a colorbar
+cab = plt.colorbar(colors,
+                   cax=cax,
+                   orientation='horizontal',
+                   ticks=levels[:-2:2],
+                   extendrect=True,
+                   drawedges=True,
+                   spacing='uniform')
+
+# Set colorbar ticklabel font size
+cab.ax.xaxis.set_tick_params(length=0, labelsize=16)
 
 # Show plot
 plt.show()
