@@ -106,18 +106,21 @@ colors = T.plot.contourf(ax=ax,
                          add_labels=False,
                          add_colorbar=False)
 
-# Interpolate datasets for streamplot function from:
-# https://stackoverflow.com/questions/34711705/axis-error-in-matplotlib-pyplot-streamplot
-with np.errstate(invalid='ignore'
-                ):  # Get rid of interpolation point out of data bounds warning
+# We attempt to recreate curly vectors with Matplotlib's streamplot function.
+# streamplot requires the input parameter x, y to be evenly spaced strictly increasing arrays.
+# Therefore we interpolate the original dataset onto an manually set, evenly spaced grid.
+# There are probably more suitable interpolation routines than scipy's interp2d,
+# but we do not have a standardized procedure for interpolation for streamplot as of this point.
 
-    # regularly spaced grid spanning the domain of x and y
-    xi = np.linspace(T['lat'].min(), T['lat'].max(), T['lat'].size)
-    yi = np.linspace(T['plev'].min(), T['plev'].max(), T['plev'].size)
+# regularly spaced grid spanning the domain of x and y
+xi = np.linspace(T['lat'].min(), T['lat'].max(), T['lat'].size)
+yi = np.linspace(T['plev'].min(), T['plev'].max(), T['plev'].size)
 
-    # bicubic interpolation to fit parameter requirements for streamplot
-    uCi = interp2d(T['lat'], T['plev'], V.data)(xi, yi)
-    vCi = interp2d(T['lat'], T['plev'], wscale.data)(xi, yi)
+# interp2d function creates interpolator classes
+u_func = interp2d(T['lat'], T['plev'], V.data)
+v_func = interp2d(T['lat'], T['plev'], wscale.data)
+uCi = u_func(xi, yi)
+vCi = v_func(xi, yi)
 
 # Use streamplot to resemble curly vector
 ax.streamplot(xi,
@@ -130,6 +133,19 @@ ax.streamplot(xi,
               arrowstyle='->',
               color='black',
               integration_direction='backward')
+
+# Call the quiver function create vectors
+# Q = ax.quiver(T['lat'],
+#               T['plev'],
+#               V.data,
+#               wscale.data,
+#               color='black',
+#               zorder=1,
+#               pivot="middle",
+#               width=0.001,
+#               headwidth=5,
+#               scale=400,
+#               angles='xy')
 
 # Draw legend for vector plot
 ax.add_patch(
