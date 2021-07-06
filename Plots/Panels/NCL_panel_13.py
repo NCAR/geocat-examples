@@ -44,7 +44,7 @@ ds = ds.isel(time=1).drop_vars('time')
 U = gvutil.xr_add_cyclic_longitudes(ds.U, "lon")
 V = gvutil.xr_add_cyclic_longitudes(ds.V, "lon")
 
-# Thin data to only include every fourth values
+# Thin data to only include every fourth value
 U = U[::4, ::4]
 V = V[::4, ::4]
 
@@ -54,7 +54,7 @@ magnitude = np.sqrt(U.data**2 + V.data**2)
 ###############################################################################
 # Plot:
 
-# Create sublots and specify their projections
+# Create subplots and specify their projections
 projection = ccrs.PlateCarree()
 fig, axs = plt.subplots(2,
                         1,
