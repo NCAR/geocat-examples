@@ -92,4 +92,4 @@ plt.yticks(fontsize=14)
 
 # Show plot
 plt.tight_layout()
-plt.show
+plt.show()
