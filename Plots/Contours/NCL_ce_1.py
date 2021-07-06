@@ -56,7 +56,7 @@ contour = ds.U.plot.contour(
     linewidths=0.5)
 
 # Label the contours and set axes title
-ax.clabel(contour, levels, fontsize=12, fmt="%.0f")
+ax.clabel(contour, [-8, 0, 8, 16, 24, 32], fontsize=12, fmt="%.0f")
 
 # Add lower text box
 ax.text(0.995,
