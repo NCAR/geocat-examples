@@ -60,7 +60,7 @@ fig, axs = plt.subplots(2,
                         1,
                         figsize=(7, 10),
                         subplot_kw={"projection": projection})
-plt.tight_layout(pad=4, h_pad=-5)
+plt.tight_layout(pad=4, h_pad=7)
 
 # Add coastlines, the zorder keyword specifies the order in which the elements
 # are drawn where elements with lower zorder values are drawn first
