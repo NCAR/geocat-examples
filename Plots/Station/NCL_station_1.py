@@ -41,7 +41,7 @@ pwv_lon1d = ds.LON
 # Plot
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(12, 12))
+fig = plt.figure(figsize=(14.5, 12))
 
 # Generste axes
 ax = plt.axes(projection=ccrs.PlateCarree())
@@ -74,19 +74,6 @@ color = ax.tricontourf(pwv_lon1d,
                        levels=flevels,
                        antialiased=True,
                        zorder=3)
-
-# Now adding the colorbar
-cax = fig.add_axes([0.95, 0.12, 0.05, 0.75])
-
-# Add colorbar
-cab = plt.colorbar(color,
-                   cax=cax,
-                   ticks=flevels[::2],
-                   drawedges=False,
-                   extendrect=True)
-
-# Set colorbar ticklabel font size
-cab.ax.yaxis.set_tick_params(length=0, labelsize=20)
 
 # Add coordinate markers on the plot
 ax.plot(pwv_lon1d, pwv_lat1d, marker='o', linewidth=0, color='black', zorder=4)
@@ -123,5 +110,22 @@ ax.set_title('GPS PWV(18Z)', fontweight='bold', fontsize=30, y=1.05)
 # Force the plot to be square by setting the aspect ratio to 1
 ax.set_box_aspect(1)
 
+# Call tight_layout before adding colorbar to prevent user warning
+plt.tight_layout()
+
+# Set color bar axes
+cax = fig.add_axes([0.9, 0.065, 0.04, 0.83])
+
+# Add colorbar
+cab = plt.colorbar(color,
+                   cax=cax,
+                   ticks=flevels[::2],
+                   drawedges=False,
+                   extendrect=True)
+
+# Set colorbar ticklabel font size
+cab.ax.yaxis.set_tick_params(length=0, labelsize=20)
+
 # Show the plot
+plt.savefig('hello.png')
 plt.show()
