@@ -105,7 +105,7 @@ ax.tick_params(axis='x', top=False)
 ax.tick_params(axis='y', right=False)
 
 # Add title
-ax.set_title('GPS PWV(18Z)', fontweight='bold', fontsize=30, y=1.05)
+ax.set_title('GPS PWV(18Z)', fontweight='bold', fontsize=35, y=1.05)
 
 # Force the plot to be square by setting the aspect ratio to 1
 ax.set_box_aspect(1)
