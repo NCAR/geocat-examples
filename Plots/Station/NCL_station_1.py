@@ -41,7 +41,7 @@ pwv_lon1d = ds.LON
 # Plot
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(14.5, 12))
+fig = plt.figure(figsize=(12, 10))
 
 # Generste axes
 ax = plt.axes(projection=ccrs.PlateCarree())
