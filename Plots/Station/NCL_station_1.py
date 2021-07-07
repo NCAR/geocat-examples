@@ -79,7 +79,7 @@ color = ax.tricontourf(pwv_lon1d,
 ax.plot(pwv_lon1d, pwv_lat1d, marker='o', linewidth=0, color='black', zorder=4)
 
 # Add state boundaries other lake features
-ax.add_feature(cfeature.STATES, edgecolor='lightgrey', linestyle='--', zorder=2)
+ax.add_feature(cfeature.STATES, edgecolor='silver', linestyle=(0, (5, 10)), zorder=2)
 ax.add_feature(cfeature.LAKES, facecolor='white', edgecolor='black', zorder=2)
 
 # Use geocat.viz.util convenience function to set axes tick values
