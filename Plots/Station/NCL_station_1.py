@@ -63,7 +63,7 @@ contour = ax.tricontour(pwv_lon1d,
                         zorder=4)
 
 # Label the contours and set axes title
-ax.clabel(contour, clevels, fontsize=20, fmt="%.0f")
+ax.clabel(contour, clevels, fontsize=25, fmt="%.0f")
 
 # Plot filled contours
 color = ax.tricontourf(pwv_lon1d,
