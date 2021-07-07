@@ -5,6 +5,7 @@ This script illustrates the following concepts:
    - Combining two sets of paneled plots on one page
    - Adding a common color bar to paneled plots
    - Reversing the Y axis
+   - Setting custom scales for axes
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: http://www.ncl.ucar.edu/Applications/Scripts/panel_14.ncl
@@ -117,6 +118,7 @@ colors = T4.plot.contourf(ax=ax4,
                           add_labels=False)
 
 
+# Define functions for axis scales
 # Function x**(1/2) and its inverse
 def yforward(x):
     return np.power(x, 1 / 3)
