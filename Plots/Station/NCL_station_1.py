@@ -127,5 +127,4 @@ cab = plt.colorbar(color,
 cab.ax.yaxis.set_tick_params(length=0, labelsize=20)
 
 # Show the plot
-plt.savefig('hello.png')
 plt.show()
