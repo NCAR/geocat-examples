@@ -37,37 +37,33 @@ ts2 = ts[:, 23, 117]
 maxlag = 25
 
 # Calculate cross correlations
-ccr = np.correlate(ts1, ts2, mode='ful')
 x = np.arange(0, maxlag, 1)
 
+
 ###############################################################################
-# LeadLag function from https://www.researchgate.net/publication/255696651_PythonNCL_free_alternatives_for_Earth_Scientists
-
-
 def LeadLagCorr(A, B, nlags=25):
-    coefs = np.empty(nlags + 1)
-    cpt = 0
-    for p in range(-nlags // 2, nlags // 2, 1):
-        if p < 0:
-            Aint = A[:p]
-            Bint = B[-p:]
-        elif p == 0:
-            Aint = A
-            Bint = B
-        else:
-            Aint = A[p:]
-            Bint = B[:-p]
+    '''
+    Parameters
+    ----------
+    A : xarray.core.dataarray.DataArray
+        DESCRIPTION.
+    B : xarray.core.dataarray.DataArray
+        DESCRIPTION.
+    nlags : int, optional
+        DESCRIPTION. The default is 30.
 
-        n = len(Aint)
-        sA = np.std(Aint)
-        sB = np.std(Bint)
-        mA = np.mean(Aint)
-        mB = np.mean(Bint)
+    Returns
+    -------
+    coefs : xarray.core.dataarray.DataArray
+        DESCRIPTION.
 
-        r = np.sum((Aint - mA) * (Bint - mB)) / ((n - 1) * sA * sB)
-        coefs[cpt] = r
+    '''
+    coefs = np.empty(nlags)
 
-        cpt = cpt + 1
+    for i in range(nlags):
+        temp_A = np.roll(A, i)
+        r = np.corrcoef(temp_A, B)[0, 1]
+        coefs[i] = r
 
     return coefs
 
