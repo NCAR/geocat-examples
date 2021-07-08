@@ -111,5 +111,4 @@ ax.tick_params(which='minor', length=10)
 
 # Show plot
 plt.tight_layout()
-plt.savefig('lb5.png')
 plt.show()
