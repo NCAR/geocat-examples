@@ -2,15 +2,13 @@
 NCL_lb_5.py
 ===========
 This script illustrates the following concepts:
-   - Customizing a labelbar for a contour plot
-   - Turning off the perimeter around a labelbar
-   - Making the labelbar be horizontal
-   - Setting the fontsize of labelbar labels
-   - Changing the levels of the labelbar labels
-   - Changing the width and height of a labelbar
-   - Changing the width and height of a plot
+   - Customizing a colorbar for a contour plot
+   - Making the colorbar be horizontal
+   - Setting the fontsize of colorbar labels
+   - Changing the levels of the colorbar labels
+   - Changing the aspect ratio and size of a colorbar
+   - Changing the spaces (padding) between ticklabels and axes
    - Using a different color scheme to follow `best practices <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py`_ for visualizations
-
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/lb_5.ncl
@@ -50,9 +48,7 @@ levels = np.arange(0, 11, 1)
 # Plot contour lines
 lines = u.plot.contour(ax=ax, levels=levels, linewidths=0.5, add_labels=False)
 
-# Draw contour labels and use Matplotlib FancyBboxPatch object to set bounding boxes for the labels
-# Use clabel to set levels and fontsize of labelbar labels
-# Use FancyBboxPatch object by calling set_bbox to customize aspect ratio, background color and padding of label bounding boxes
+# Draw contour labels and set bounding boxes for the labels
 ax.clabel(lines, np.array([0]), colors='black', fmt="%.0f", fontsize=18)
 [
     txt.set_bbox(
@@ -69,16 +65,17 @@ colors = u.plot.contourf(ax=ax,
                          add_labels=False)
 
 # Add colorbar
-cbar = plt.colorbar(colors,
-                    ax=ax,
-                    orientation='horizontal',
-                    shrink=0.65,
-                    pad=0.13,
-                    extendrect=True,
-                    extendfrac='auto',
-                    aspect=11,
-                    drawedges=True,
-                    ticks=levels[:-1:2])
+cbar = plt.colorbar(
+    colors,
+    ax=ax,
+    orientation='horizontal',
+    shrink=0.65,  # fraction of the size of the colorbar
+    pad=0.13,  # faction of original axes between colorbar and new image axes
+    extendrect=True,  # set colorbar shape to be rectangular
+    extendfrac='auto',
+    aspect=11,  # aspect ratio
+    drawedges=True,
+    ticks=levels[:-1:2])  # set colorbar levels
 
 # Set colorbar label size
 cbar.ax.xaxis.set_tick_params(length=0, labelsize=24, pad=12)
