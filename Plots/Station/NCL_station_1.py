@@ -43,7 +43,7 @@ pwv_lon1d = ds.LON
 # Generate figure (set its size (width, height) in inches)
 fig = plt.figure(figsize=(12, 10))
 
-# Generste axes
+# Generate axes
 ax = plt.axes(projection=ccrs.PlateCarree())
 
 # Specify contour and contourf levels
