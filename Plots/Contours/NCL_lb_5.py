@@ -3,11 +3,10 @@ NCL_lb_5.py
 ===========
 This script illustrates the following concepts:
    - Customizing a labelbar for a contour plot
-   - Changing the orientation of the labelbar
    - Turning off the perimeter around a labelbar
    - Making the labelbar be horizontal
-   - Making the labelbar labels smaller
-   - Changing the stride of the labelbar labels
+   - Setting the fontsize of labelbar labels
+   - Changing the levels of the labelbar labels
    - Changing the width and height of a labelbar
    - Changing the width and height of a plot
 
@@ -47,22 +46,21 @@ ax = plt.axes(projection=ccrs.PlateCarree())
 levels = np.arange(0, 11, 1)
 
 # Plot contour lines
-lines = u.plot.contour(ax=ax,
-                       levels=levels,
-                       color='black',
-                       linewidths=0.5,
-                       add_labels=False)
+lines = u.plot.contour(ax=ax, levels=levels, linewidths=0.5, add_labels=False)
 
-# Draw contour labels and use Matplotlib FancyBboxPatch object to set bounding boxes
+# Draw contour labels and use Matplotlib FancyBboxPatch object to set bounding boxes for the labels
+# Use clabel to set labelbar label fontsize
+# Use FancyBboxPatch object by calling set_bbox to customize aspect ratio, background color and padding of label bounding boxes
 ax.clabel(lines, np.array([0]), colors='black', fmt="%.0f", fontsize=18)
 [
-    txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=3))
+    txt.set_bbox(
+        dict(mutation_aspect=0.8, facecolor='white', edgecolor='none', pad=2))
     for txt in lines.labelTexts
 ]
 
 # Plot filled contour
 colors = u.plot.contourf(ax=ax,
-                         cmap='magma_r',
+                         cmap='viridis_r',
                          levels=levels,
                          transform=ccrs.PlateCarree(),
                          add_colorbar=False,
@@ -72,8 +70,8 @@ colors = u.plot.contourf(ax=ax,
 cbar = plt.colorbar(colors,
                     ax=ax,
                     orientation='horizontal',
-                    shrink=0.8,
-                    pad=0.1,
+                    shrink=0.65,
+                    pad=0.13,
                     extendrect=True,
                     extendfrac='auto',
                     aspect=11,
@@ -81,7 +79,7 @@ cbar = plt.colorbar(colors,
                     ticks=levels[:-1:2])
 
 # Set colorbar label size
-cbar.ax.xaxis.set_tick_params(length=0, labelsize=22)
+cbar.ax.xaxis.set_tick_params(length=0, labelsize=24, pad=12)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
 gvutil.set_axes_limits_and_ticks(ax,
@@ -99,11 +97,15 @@ gvutil.set_titles_and_labels(ax,
                              maintitlefontsize=32)
 
 # Set both major and minor ticks to point inwards
-ax.tick_params(which='both', direction='in', pad=12)
+ax.tick_params(which='both', direction='in')
 
-ax.tick_params(axis='x', labelsize=22)
+# Set different tick font sizes and padding for X and Y axis
+ax.tick_params(axis='x', labelsize=24, pad=18)
+ax.tick_params(axis='y', labelsize=16, pad=12)
 
-ax.tick_params(axis='y', labelsize=16)
+# Set major and minor tick length
+ax.tick_params(which='major', length=16)
+ax.tick_params(which='minor', length=10)
 
 # Show plot
 plt.tight_layout()
