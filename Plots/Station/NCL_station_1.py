@@ -50,7 +50,7 @@ ax = plt.axes(projection=ccrs.PlateCarree())
 clevels = np.arange(25, 51, 5)
 flevels = np.arange(16, 51, 1)
 
-# Specify colormap and reverse it
+# Specify colormap
 cmap = 'magma'
 
 # Plot contour lines
