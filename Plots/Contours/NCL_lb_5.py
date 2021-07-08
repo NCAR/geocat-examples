@@ -9,6 +9,8 @@ This script illustrates the following concepts:
    - Changing the levels of the labelbar labels
    - Changing the width and height of a labelbar
    - Changing the width and height of a plot
+   - Using a different color scheme to follow `best practices <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py`_ for visualizations
+
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/lb_5.ncl
@@ -49,7 +51,7 @@ levels = np.arange(0, 11, 1)
 lines = u.plot.contour(ax=ax, levels=levels, linewidths=0.5, add_labels=False)
 
 # Draw contour labels and use Matplotlib FancyBboxPatch object to set bounding boxes for the labels
-# Use clabel to set labelbar label fontsize
+# Use clabel to set levels and fontsize of labelbar labels
 # Use FancyBboxPatch object by calling set_bbox to customize aspect ratio, background color and padding of label bounding boxes
 ax.clabel(lines, np.array([0]), colors='black', fmt="%.0f", fontsize=18)
 [
@@ -109,4 +111,5 @@ ax.tick_params(which='minor', length=10)
 
 # Show plot
 plt.tight_layout()
+plt.savefig('lb5.png')
 plt.show()
