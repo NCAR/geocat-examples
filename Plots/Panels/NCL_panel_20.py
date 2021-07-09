@@ -44,21 +44,20 @@ U_1 = gvutil.xr_add_cyclic_longitudes(time_1.U, "lon")
 
 
 def format_linegraph_axes(ax):
-    """
-    Format the axes limits, tick marks, and tick labels for the line graphs
+    """Format the axes limits, tick marks, and tick labels for the line graphs.
 
     Args:
         ax (:class: 'matplotlib.Axes'):
             The set of axes to be manipulated
     """
     # Use geocat.viz.util convenience function to set axes tick values
-    gvutil.set_axes_limits_and_ticks(ax=ax,
-                                     xlim=(-90, 90),
-                                     ylim=(-20, 50),
-                                     xticks=np.arange(-90, 91, 30),
-                                     yticks=np.arange(-20, 51, 10),
-                                     xticklabels=['90S', '60S', '30S', '0',
-                                                  '30N', '60N', '90N'])
+    gvutil.set_axes_limits_and_ticks(
+        ax=ax,
+        xlim=(-90, 90),
+        ylim=(-20, 50),
+        xticks=np.arange(-90, 91, 30),
+        yticks=np.arange(-20, 51, 10),
+        xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'])
 
     # Use geocat.viz.util convenience function to add minor and major ticks
     gvutil.add_major_minor_ticks(ax,
@@ -68,8 +67,8 @@ def format_linegraph_axes(ax):
 
 
 def format_contour_axes(ax):
-    """
-    Format the axes limits, tick marks, and tick labels for the contour plots
+    """Format the axes limits, tick marks, and tick labels for the contour
+    plots.
 
     Args:
         ax (:class: 'matplotlib.Axes'):
@@ -94,9 +93,7 @@ def format_contour_axes(ax):
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
     # Use geocat.viz.util convenience function to set titles and labels
-    gvutil.set_titles_and_labels(ax,
-                                 maintitle='300mb',
-                                 maintitlefontsize=8)
+    gvutil.set_titles_and_labels(ax, maintitle='300mb', maintitlefontsize=8)
 
 
 ###############################################################################
@@ -132,9 +129,7 @@ gvutil.set_titles_and_labels(ax1,
                              maintitlefontsize=14,
                              ylabel=U_0.long_name,
                              labelfontsize=14)
-gvutil.set_titles_and_labels(ax2,
-                             maintitle='Time=1',
-                             maintitlefontsize=14)
+gvutil.set_titles_and_labels(ax2, maintitle='Time=1', maintitlefontsize=14)
 
 # Draw tick labels on the right side of the top right plot
 ax2.yaxis.tick_right()

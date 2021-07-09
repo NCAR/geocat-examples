@@ -20,7 +20,8 @@ See following URLs to see the reproduced NCL plot & script:
 """
 
 ###############################################################################
-# Import necessary packages
+# Import packages
+
 import xarray as xr
 import numpy as np
 from matplotlib import pyplot as plt
@@ -200,7 +201,12 @@ axin2 = fig.add_subplot(spec[2, 0])
 # Plot bar chart
 
 # Plot bars depicting the rain03 variable
-axin1.bar(taus, rain03, width=3, color='limegreen', edgecolor='black', linewidth=.2)
+axin1.bar(taus,
+          rain03,
+          width=3,
+          color='limegreen',
+          edgecolor='black',
+          linewidth=.2)
 
 # Use the geocat.viz function to set the y axis label
 gvutil.set_titles_and_labels(axin1, ylabel='3hr rain total', labelfontsize=12)

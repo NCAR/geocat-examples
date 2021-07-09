@@ -7,13 +7,13 @@ This script illustrates the following concepts:
     - Zooming in on a particular area on a Lambert Conformal map
     - Subsetting a color map
     - Using all three Cartopy Lambert projections to find the best fit for visualization
-    - Implementing best practices for choosing contour color scheme. The original NCL 
+    - Implementing best practices for choosing contour color scheme. The original NCL
       version uses a rainbow color map which can create problems for individuals
-      impacted by color blindness and is not black and white printer friendly. 
+      impacted by color blindness and is not black and white printer friendly.
       To overcome this, we used the "Blues_r" color scheme from Matplotlib.
       More information on best practices can be found `here <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Rain.html#sphx-glr-gallery-colors-cb-rain-py>`_.
-     
-    
+
+
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/lcnative_1.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/lcnative_1_lg.png
@@ -50,16 +50,16 @@ plt.figure(figsize=(14, 14))
 def Plot(row, col, pos, proj, title):
     '''
     Args:
-        
-        row (:class: 'int'): 
+
+        row (:class: 'int'):
             number of rows necessary for subplotting of visualizations
-        col (:class: 'int'): 
-            number of columns necessary for subplotting 
-        pos (:class: 'int'): 
+        col (:class: 'int'):
+            number of columns necessary for subplotting
+        pos (:class: 'int'):
             position of visualization in m x n subplot
-        proj (:class: 'cartopy.crs'): 
+        proj (:class: 'cartopy.crs'):
             which projection to visualize
-        title (:class: 'str'): 
+        title (:class: 'str'):
             center title of respective visualization
     '''
     # Generate axes using Cartopy and draw coastlines
@@ -85,29 +85,29 @@ def Plot(row, col, pos, proj, title):
     is not a direct 1-to-1 projection similarity. When looking at the three Lambert
     projections offered, you will notice the closest match to the NCL projection
     is actually the Lambert Cylindrical projection. This is due to NCL having certain
-    "smoothing" and "flattening" options for the Lambert Conformal projection not seen 
+    "smoothing" and "flattening" options for the Lambert Conformal projection not seen
     in the Cartopy version. By using Lambert Cylindrical over Lambert Conformal in Python,
-    you will be able to create the "rectangular" style of coordinates not classically 
-    represented by a Lambert Conformal map. Additionally, Cartopy does not currently support 
-    adding tick marks to a projection like NCL, this is why these Python projections do not 
+    you will be able to create the "rectangular" style of coordinates not classically
+    represented by a Lambert Conformal map. Additionally, Cartopy does not currently support
+    adding tick marks to a projection like NCL, this is why these Python projections do not
     have this feature. The GeoCAT Team is actively adding to the list of convenience functions
     supported and hopes to add this functionality one day.
     '''
 
     # Plot data and create colorbar
-    prec = t.plot.contourf(ax=ax, 
-                           cmap="Blues_r", 
-                           transform=ccrs.PlateCarree(), 
-                           levels = 14, 
+    prec = t.plot.contourf(ax=ax,
+                           cmap="Blues_r",
+                           transform=ccrs.PlateCarree(),
+                           levels=14,
                            add_colorbar=False)
-    
+
     cbar_ticks = np.arange(0, 240, 20)
-    cbar = plt.colorbar(prec, 
-                        orientation='horizontal', 
-                        pad=0.075, 
+    cbar = plt.colorbar(prec,
+                        orientation='horizontal',
+                        pad=0.075,
                         shrink=0.8,
                         ticks=cbar_ticks)
-    
+
     cbar.ax.tick_params(labelsize=10)
     plt.title(title, loc='center', y=1.17, size=15)
     plt.title(t.units, loc='right', y=1.08, size=14)

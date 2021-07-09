@@ -4,11 +4,9 @@ NCL_skewt_2_2.py
 This script illustrates the following concepts:
    - Customizing the background of a Skew-T plot
    - Plotting temperature, dewpoint, and wind data on a Skew-T plot
-
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/skewt_2.ncl
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png
-
 Note:
     Currently functions to calculate CAPE, precipitable water, the showalter
     index, the pressure of the LCL, and the temperature of the LCL do not
@@ -19,6 +17,7 @@ Note:
 
 ##############################################################################
 # Import packages:
+
 import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
 import numpy as np
@@ -34,7 +33,9 @@ import geocat.datafiles as gdf
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = pd.read_csv(gdf.get('ascii_files/sounding.testdata'), delimiter='\\s+', header=None)
+ds = pd.read_csv(gdf.get('ascii_files/sounding.testdata'),
+                 delimiter='\\s+',
+                 header=None)
 
 # Extract the data
 p = ds[1].values * units.hPa  # Pressure [mb/hPa]

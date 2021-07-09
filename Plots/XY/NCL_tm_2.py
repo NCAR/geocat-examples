@@ -20,9 +20,9 @@ See following URLs to see the reproduced NCL plot & script:
 
 ###############################################################################
 # Import packages:
+
 import numpy as np
 import matplotlib.pyplot as plt
-
 from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 
 from geocat.viz import util as gvutil

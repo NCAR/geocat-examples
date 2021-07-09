@@ -14,6 +14,7 @@ See following URLs to see the reproduced NCL plot & script:
 
 ###############################################################################
 # Import packages:
+
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import numpy as np
@@ -37,11 +38,10 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 
 
 def plot_labelled_filled_contours(data, ax=None):
-    """
-    A utility function for convenience that plots labelled, filled contours with black contours
-    marking each level.It will return a dictionary containing three objects corresponding to the
-    filled contours, the black contours, and the contour labels.
-    """
+    """A utility function for convenience that plots labelled, filled contours
+    with black contours marking each level.It will return a dictionary
+    containing three objects corresponding to the filled contours, the black
+    contours, and the contour labels."""
 
     # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
     newcmp = gvutil.truncate_colormap(gvcmaps.gui_default,

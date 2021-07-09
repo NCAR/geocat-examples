@@ -15,11 +15,11 @@ See following URLs to see the reproduced NCL plot & script:
 
 ###############################################################################
 # Import packages:
+
 import numpy as np
 import xarray as xr
 import cartopy.feature as cfeature
 import cartopy.crs as ccrs
-import matplotlib.path as mpath
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 

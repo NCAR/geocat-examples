@@ -37,7 +37,7 @@ See NCL_overlay_11b.py for demonstration of approach (b).
 
 ###############################################################################
 # Import packages:
-# ----------------
+
 import xarray as xr
 import numpy as np
 

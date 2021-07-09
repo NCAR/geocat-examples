@@ -15,24 +15,27 @@ This script illustrates the following concepts:
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/eof_1.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/eof_1_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/eof_1_2_lg.png
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/eof_1_1_lg.png
+      and https://www.ncl.ucar.edu/Applications/Images/eof_1_2_lg.png
 
 Note (1):
-    So-called original NCL plot "eof_1_2_lg.png" given in the above URL is likely not identical to what the given NCL original script generates. When the given NCL script is run, it generates a plot with identical data to that is plotted by this Python script.
+    So-called original NCL plot "eof_1_2_lg.png" given in the above URL is likely
+    not identical to what the given NCL original script generates. When the given
+    NCL script is run, it generates a plot with identical data to that is plotted
+    by this Python script.
 
-Note (2):
-    This script includes many optional diagnostic print statements to provide information about data slicing. To activate such print statements, the parameter "debug" should be set to True.
 """
 
 ###############################################################################
 # Import packages:
+
 import xarray as xr
 import numpy as np
 
 import geocat.datafiles as gdf
 import geocat.viz.util as gvutil
 from geocat.viz import cmaps as gvcmaps
-from geocat.comp import eofunc, eofunc_ts
+from geocat.comp import eofunc_eofs, eofunc_pcs, month_to_season
 
 import matplotlib.pyplot as plt
 
@@ -52,43 +55,21 @@ yearEnd = 2003
 
 neof = 3  # number of EOFs
 
-# Set to True to activate diagnostic print statements throughout the code
-debug = False
-
-
-# Convenience function to run diagnostic print statements when "debug" is set to True.
-def print_debug(message):
-    if debug:
-        print(message)
-
-
 ###############################################################################
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get('netcdf_files/slp.mon.mean.nc'))
 
-# Print a content summary
-print_debug('\n\nds.slp.attrs:\n')
-print_debug(ds.slp.attrs)
-
 ###############################################################################
 # Flip and sort longitude coordinates:
 
 # To facilitate data subsetting
 
-print_debug(
-    f'\n\nBefore flip, longitude range is [{ds["lon"].min().data}, {ds["lon"].max().data}].'
-)
-
 ds["lon"] = ((ds["lon"] + 180) % 360) - 180
 
 # Sort longitudes, so that subset operations end up being simpler.
 ds = ds.sortby("lon")
-
-print_debug(
-    f'\n\nAfter flip, longitude range is [{ds["lon"].min().data}, {ds["lon"].max().data}].'
-)
 
 ###############################################################################
 # Place latitudes in increasing order:
@@ -97,65 +78,13 @@ print_debug(
 
 ds = ds.sortby("lat", ascending=True)
 
-print_debug('\n\nAfter sorting latitude values, ds["lat"] is:')
-print_debug(ds["lat"])
-
 ###############################################################################
 # Limit data to the specified years:
 
 startDate = f'{yearStart}-01-01'
-endDate = f'{yearEnd}-12-01'
+endDate = f'{yearEnd}-12-31'
 
 ds = ds.sel(time=slice(startDate, endDate))
-print_debug('\n\nds:\n\n')
-print_debug(ds)
-
-###############################################################################
-# Utility function:
-
-
-# Define a utility function for computing seasonal means (to mimmic NCL's month_to_season())
-def month_to_season(xMon, season):
-    """ This function takes an xarray dataset containing monthly data spanning years and
-        returns a dataset with one sample per year, for a specified three-month season.
-
-        Time stamps are centered on the season, e.g. seasons='DJF' returns January timestamps.
-
-        If a calculated season's timestamp falls outside the original range of monthly values, then the calculated mean
-        is dropped.  For example, if the monthly data's time range is [Jan-2000, Dec-2003] and the season is "DJF", the
-        seasonal mean computed from the single month of Dec-2003 is dropped.
-    """
-    startDate = xMon.time[0]
-    endDate = xMon.time[-1]
-    seasons_pd = {
-        'DJF': ('QS-DEC', 1),
-        'JFM': ('QS-JAN', 2),
-        'FMA': ('QS-FEB', 3),
-        'MAM': ('QS-MAR', 4),
-        'AMJ': ('QS-APR', 5),
-        'MJJ': ('QS-MAY', 6),
-        'JJA': ('QS-JUN', 7),
-        'JAS': ('QS-JUL', 8),
-        'ASO': ('QS-AUG', 9),
-        'SON': ('QS-SEP', 10),
-        'OND': ('QS-OCT', 11),
-        'NDJ': ('QS-NOV', 12)
-    }
-    try:
-        (season_pd, season_sel) = seasons_pd[season]
-    except KeyError:
-        raise ValueError("contributed: month_to_season: bad season: SEASON = " +
-                         season)
-
-    # Compute the three-month means, moving time labels ahead to the middle month.
-    month_offset = 'MS'
-    xSeasons = xMon.resample(time=season_pd, loffset=month_offset).mean()
-
-    # Filter just the desired season, and trim to the desired time range.
-    xSea = xSeasons.sel(time=xSeasons.time.dt.month == season_sel)
-    xSea = xSea.sel(time=slice(startDate, endDate))
-    return xSea
-
 
 ###############################################################################
 # Compute desired global seasonal mean using month_to_season()
@@ -163,23 +92,11 @@ def month_to_season(xMon, season):
 # Choose the winter season (December-January-February)
 season = "DJF"
 SLP = month_to_season(ds, season)
-print_debug('\n\nSLP:\n\n')
-print_debug(SLP)
-
-# Diagnostic plot: show slice of SLP
-sliceSLP = SLP.sel(lat=slice(latS, latN), lon=slice(lonL, lonR))
-
-print_debug('\n\nsliceSLP:\n')
-print_debug(sliceSLP)
 
 ###############################################################################
 # Create weights: sqrt(cos(lat))   [or sqrt(gw) ]
-
-deg2rad = np.pi / 180.
 clat = SLP['lat'].astype(np.float64)
-clat = np.sqrt(np.cos(deg2rad * clat))
-print_debug('\n\nclat:\n')
-print_debug(clat)
+clat = np.sqrt(np.cos(np.deg2rad(clat)))
 
 ###############################################################################
 # Multiply SLP by weights:
@@ -188,7 +105,7 @@ print_debug(clat)
 # This is called "broadcasting".
 
 wSLP = SLP
-wSLP['slp'] = clat * SLP['slp']
+wSLP['slp'] = SLP['slp'] * clat
 
 # For now, metadata for slp must be copied over explicitly; it is not preserved by binary operators like multiplication.
 wSLP['slp'].attrs = ds['slp'].attrs
@@ -199,21 +116,24 @@ wSLP['slp'].attrs['long_name'] = 'Wgt: ' + wSLP['slp'].attrs['long_name']
 
 xw = wSLP.sel(lat=slice(latS, latN), lon=slice(lonL, lonR))
 
-print_debug('\n\nxw:\n\n')
-print_debug(xw.slp)
-
 ###############################################################################
 # Compute the EOFs:
 
-eof = eofunc(xw["slp"], neof, time_dim=1, meta=True)
+# Transpose data to have 'time' in the first dimension
+# as `eofunc` functions expects so for xarray inputs for now
+xw_slp = xw["slp"].transpose('time', 'lat', 'lon')
 
-print_debug('\n\neof:\n\n')
-print_debug(eof)
+eofs = eofunc_eofs(xw_slp, neofs=neof, meta=True)
 
-eof_ts = eofunc_ts(xw["slp"], eof, time_dim=1, meta=True)
+pcs = eofunc_pcs(xw_slp, npcs=neof, meta=True)
 
-print_debug('\n\neof_ts:\n\n')
-print_debug(eof_ts)
+# Change the sign of the second EOF and its time-series for
+# consistent visualization purposes. See this explanation:
+# https://www.ncl.ucar.edu/Support/talk_archives/2009/2015.html
+# about that EOF signs are arbitrary and do not change the physical
+# interpretation.
+eofs[1, :, :] = eofs[1, :, :] * (-1)
+pcs[1, :] = pcs[1, :] * (-1)
 
 ###############################################################################
 # Normalize time series:
@@ -224,10 +144,7 @@ nLon = xw.sizes["lon"]
 # Bump the upper value of the slice, so that latitude values equal to latN are included.
 clat_subset = clat.sel(lat=slice(latS, latN + 0.01))
 weightTotal = clat_subset.sum() * nLon
-eof_ts = eof_ts / weightTotal
-
-print_debug('\n\neof_ts normalized:\n\n')
-print_debug(eof_ts)
+pcs = pcs / weightTotal
 
 ###############################################################################
 # Utility function:
@@ -253,6 +170,7 @@ def make_contour_plot(ax, dataset):
                         cmap=cmap,
                         extend="both",
                         transform=ccrs.PlateCarree())
+
     p = ax.contour(lon,
                    lat,
                    values,
@@ -294,13 +212,13 @@ fig, axs = plt.subplots(neof,
 
 # Add multiple axes to the figure as contour and contourf plots
 for i in range(neof):
-    eof_single = eof.sel(evn=i)
+    eof_single = eofs.sel(eof=i)
 
     # Create contour plot for the current axes
     cplot, axs[i] = make_contour_plot(axs[i], eof_single)
 
     # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-    pct = eof.pcvar[i]
+    pct = eofs.attrs['varianceFraction'].values[i] * 100
     gvutil.set_titles_and_labels(axs[i],
                                  lefttitle=f'EOF {i + 1}',
                                  lefttitlefontsize=10,
@@ -336,7 +254,12 @@ def make_bar_plot(ax, dataset):
     values = list(dataset.values)
     colors = ['blue' if val < 0 else 'red' for val in values]
 
-    ax.bar(years, values, color=colors, width=1.0, edgecolor='black', linewidth=0.5)
+    ax.bar(years,
+           values,
+           color=colors,
+           width=1.0,
+           edgecolor='black',
+           linewidth=0.5)
     ax.set_ylabel('Pa')
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
@@ -361,10 +284,10 @@ fig, axs = plt.subplots(neof, 1, constrained_layout=True, figsize=(6, 7.5))
 
 # Add multiple axes to the figure as bar-plots
 for i in range(neof):
-    eof_single = eof_ts.sel(neval=i)
+    eof_single = pcs.sel(pc=i)
 
     axs[i] = make_bar_plot(axs[i], eof_single)
-    pct = eof.pcvar[i]
+    pct = eofs.attrs['varianceFraction'].values[i] * 100
     gvutil.set_titles_and_labels(axs[i],
                                  lefttitle=f'EOF {i + 1}',
                                  lefttitlefontsize=10,

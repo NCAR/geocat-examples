@@ -99,7 +99,7 @@ p = u.plot.contour(ax=ax,
                    add_labels=False,
                    linewidths=2.3)
 
-#label contours
+# label contours
 ax.clabel(p, np.arange(0, 9, 2), colors='black', fmt="%.0f")
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions

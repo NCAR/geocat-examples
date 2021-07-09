@@ -13,6 +13,7 @@ See following URLs to see the reproduced NCL plot & script:
 
 ##############################################################################
 # Import packages:
+
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
@@ -27,18 +28,24 @@ import geocat.viz.util as gvutil
 ##############################################################################
 # Helper function to convert date from YYYYMM to the month name and the year
 
+
 def convert_date(date):
-    months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-              'August', 'September', 'October', 'November', 'December']
+    months = [
+        'January', 'February', 'March', 'April', 'May', 'June', 'July',
+        'August', 'September', 'October', 'November', 'December'
+    ]
     year = str(date)[:4]
     month = months[int(str(date)[4:]) - 1]
     return month + " " + year
 
+
 ##############################################################################
 # Helper function to create and format subplots
 
+
 def add_axes(fig, grid_space, date):
-    ax = fig.add_subplot(grid_space, projection=ccrs.PlateCarree(central_longitude=-160))
+    ax = fig.add_subplot(grid_space,
+                         projection=ccrs.PlateCarree(central_longitude=-160))
     ax.set_extent([100, 300, -60, 60], crs=ccrs.PlateCarree())
 
     # Usa geocat.viz.util convenience function to set axes parameters
@@ -59,7 +66,7 @@ def add_axes(fig, grid_space, date):
 
     # Make sure that tick marks are only on the left and bottom sides of subplot
     ax.tick_params('both', which='both', top=False, right=False)
-    
+
     # Add land to the subplot
     ax.add_feature(cfeature.LAND,
                    facecolor='lightgray',
@@ -77,8 +84,10 @@ def add_axes(fig, grid_space, date):
 
     return ax
 
+
 ##############################################################################
 # Helper function to create figure with specific gridspec
+
 
 def create_fig(grid, fig, title):
     # Add the axes
@@ -89,14 +98,14 @@ def create_fig(grid, fig, title):
 
     # Create a dictionary with contour attributes
     contourf_kw = dict(transform=ccrs.PlateCarree(),
-                      levels=21,
-                      cmap=gvcmaps.BlueRed,
-                      add_colorbar=False,
-                      add_labels=False,
-                      vmin=-5,
-                      vmax=5,
-                      extend='both',
-                      zorder=1)
+                       levels=21,
+                       cmap=gvcmaps.BlueRed,
+                       add_colorbar=False,
+                       add_labels=False,
+                       vmin=-5,
+                       vmax=5,
+                       extend='both',
+                       zorder=1)
 
     # Plot the filled contours
     contour1 = data1.plot.contourf(ax=ax1, **contourf_kw)
@@ -105,14 +114,21 @@ def create_fig(grid, fig, title):
     contour4 = data4.plot.contourf(ax=ax4, **contourf_kw)
 
     # Add colorbar for all four plots
-    fig.colorbar(contour4, ax=[ax1, ax2, ax3, ax4], ticks=np.linspace(-5, 5, 11),
-                 drawedges=True, orientation='horizontal', shrink=0.5, pad=0.075,
-                 extendfrac='auto', extendrect=True)
+    fig.colorbar(contour4,
+                 ax=[ax1, ax2, ax3, ax4],
+                 ticks=np.linspace(-5, 5, 11),
+                 drawedges=True,
+                 orientation='horizontal',
+                 shrink=0.5,
+                 pad=0.075,
+                 extendfrac='auto',
+                 extendrect=True)
 
     # Add figure title
     fig.suptitle(title, fontsize=18, y=0.9)
 
     plt.show()
+
 
 ##############################################################################
 # Read in data:
@@ -148,7 +164,7 @@ title = "Default spacing between plots"
 create_fig(grid, fig, title)
 
 ##############################################################################
-# Plot with reduced spacing between the left and right subplots 
+# Plot with reduced spacing between the left and right subplots
 
 fig = plt.figure(figsize=(10, 10))
 
@@ -161,7 +177,7 @@ title = "Reduced spacing between left and right plots"
 create_fig(grid, fig, title)
 
 ##############################################################################
-# Plot with reduced spacing between the top and bottom subplots 
+# Plot with reduced spacing between the top and bottom subplots
 
 fig = plt.figure(figsize=(10, 10))
 
@@ -172,4 +188,3 @@ grid = fig.add_gridspec(ncols=2, nrows=2, wspace=0.125, hspace=-0.15)
 title = "Reduced spacing between top and bottom plots"
 
 create_fig(grid, fig, title)
-

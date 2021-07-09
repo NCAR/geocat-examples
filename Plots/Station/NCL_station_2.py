@@ -12,9 +12,10 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/station_2.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/station_2_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/station_2_2_lg.png
 """
+
 ###################################################
 # Import packages:
-# ----------------
+
 import numpy as np
 import matplotlib as mpl
 from matplotlib import pyplot as plt

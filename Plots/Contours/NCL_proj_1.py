@@ -15,6 +15,7 @@ See following URLs to see the reproduced NCL plot & script:
 
 ###############################################################################
 # Import packages:
+
 import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
@@ -59,10 +60,10 @@ temp = wrap_t.plot.contourf(ax=ax,
 
 # Add color bar
 cbar_ticks = np.arange(220, 310, 10)
-cbar = plt.colorbar(temp, 
-                    orientation='horizontal', 
-                    shrink=0.8, 
-                    pad=0.05, 
+cbar = plt.colorbar(temp,
+                    orientation='horizontal',
+                    shrink=0.8,
+                    pad=0.05,
                     extendrect=True,
                     ticks=cbar_ticks)
 

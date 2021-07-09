@@ -5,7 +5,7 @@ This script illustrates the following concepts:
     - Drawing Skew-T plots
     - Thinning the wind barbs in a Skew-T plot
     - Customizing the background of a Skew_T plot
-    
+
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/skewt_3.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/skewt_3_2_lg.png
@@ -43,7 +43,8 @@ u, v = mpcalc.wind_components(wspd, wdir)  # Calculate wind components
 # Plot
 
 fig = plt.figure(figsize=(12, 12))
-# Adding the "rotation" kwarg will over-ride the default MetPy rotation of 
+
+# Adding the "rotation" kwarg will over-ride the default MetPy rotation of
 # 30 degrees for the 45 degree default found in NCL Skew-T plots
 skew = SkewT(fig, rotation=45)
 ax = skew.ax
@@ -84,14 +85,14 @@ ax.add_line(line)
 # Add relevant special lines
 # Choose starting temperatures in Kelvin for the dry adiabats
 t0 = units.K * np.arange(243.15, 473.15, 10)
-skew.plot_dry_adiabats(t0=t0,
-                       linestyles='solid',
-                       colors='gray',
-                       linewidth=1.5)
+skew.plot_dry_adiabats(t0=t0, linestyles='solid', colors='gray', linewidth=1.5)
 
 # Choose temperatures for moist adiabats
 t0 = units.K * np.arange(281.15, 306.15, 4)
-msa = skew.plot_moist_adiabats(t0=t0, linestyles='solid', colors='lime', linewidths=1.5)
+msa = skew.plot_moist_adiabats(t0=t0,
+                               linestyles='solid',
+                               colors='lime',
+                               linewidths=1.5)
 
 # Choose mixing ratios
 w = np.array([0.001, 0.002, 0.003, 0.005, 0.008, 0.012, 0.020]).reshape(-1, 1)

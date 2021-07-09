@@ -17,12 +17,13 @@ See following URLs to see the reproduced NCL plot & script:
 
 ###############################################################################
 # Import packages:
+
 import numpy as np
 import xarray as xr
-import matplotlib.pyplot as plt
 
-import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
+import geocat.datafiles as gdf
+import matplotlib.pyplot as plt
 
 ###############################################################################
 # Read in data:

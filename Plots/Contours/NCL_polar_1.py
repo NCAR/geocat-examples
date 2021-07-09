@@ -11,12 +11,12 @@ See following URLs to see the reproduced NCL plot & script:
 """
 ###############################################################################
 # Import packages:
+
 import numpy as np
 import xarray as xr
 import cartopy.feature as cfeature
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
-import matplotlib.path as mpath
 import matplotlib.ticker as mticker
 
 import geocat.datafiles as gdf
