@@ -125,7 +125,7 @@ colors = hp.plot.contourf(ax=ax,
 Q = ax.quiver(
     hp['lat'],  # horizontal location
     hp['plev'],  # vertical location
-    vp.data,  # horizontal component of the vectors
+    vp,  # horizontal component of the vectors
     op.data,  # vertical component of the vectors
     color='black',
     pivot="middle",
