@@ -31,7 +31,7 @@ tend = 2006
 t_size = (tend - tstart + 1) * 12
 
 # Create an array of years from tstart to tend in fractional format
-# This has the same effect as NCL function yyyymm_time() and yyyymm_to_yyyyfrac() functions
+# This has the same effect as NCL functions yyyymm_time() and yyyymm_to_yyyyfrac()
 date = np.empty(t_size)
 i = 0
 for year in range(tstart, tend + 1):
@@ -76,7 +76,7 @@ plt.tight_layout()
 plt.show()
 
 ###############################################################################
-# Plot 2: Display years in integer format
+# Plot 2: Display years in integer format (remove trailing zeros)
 
 # Generate figure (set its size (width, height) in inches) and axes
 plt.figure(2, figsize=(8, 4))
@@ -112,7 +112,7 @@ plt.tight_layout()
 plt.show()
 
 ###############################################################################
-# Plot 3
+# Plot 3: Display both months and years
 
 # Generate figure (set its size (width, height) in inches) and axes
 plt.figure(2, figsize=(8, 4))
