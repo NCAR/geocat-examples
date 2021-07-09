@@ -117,8 +117,8 @@ xi = np.linspace(T['lat'].min(), T['lat'].max(), T['lat'].size)
 yi = np.linspace(T['plev'].min(), T['plev'].max(), T['plev'].size)
 
 # interp2d function creates interpolator classes
-u_func = interp2d(T['lat'], T['plev'], V.data)
-v_func = interp2d(T['lat'], T['plev'], wscale.data)
+u_func = interp2d(T['lat'], T['plev'], V)
+v_func = interp2d(T['lat'], T['plev'], wscale)
 uCi = u_func(xi, yi)
 vCi = v_func(xi, yi)
 
@@ -158,7 +158,7 @@ ax.add_patch(
 
 # Add quiverkey
 # Draw translucent vector plot to be set as input for quiverkey
-Q = ax.quiver(T['lat'], T['plev'], V.data, wscale.data, alpha=0, scale=400)
+Q = ax.quiver(T['lat'], T['plev'], V, wscale, alpha=0, scale=400)
 ax.quiverkey(Q,
              0.831,
              0.118,
