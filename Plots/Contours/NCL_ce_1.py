@@ -3,8 +3,8 @@ NCL_ce_1.py
 ===========
 This script illustrates the following concepts:
    - Drawing black-and-white contours over a cylindrical equi-distant map
-   - Specifying contour labels 
-   
+   - Specifying contour labels
+
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/ce_1.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/ce_1_lg.png
