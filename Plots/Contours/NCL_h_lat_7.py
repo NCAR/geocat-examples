@@ -126,7 +126,7 @@ Q = ax.quiver(
     hp['lat'],  # horizontal location
     hp['plev'],  # vertical location
     vp,  # horizontal component of the vectors
-    op.data,  # vertical component of the vectors
+    op,  # vertical component of the vectors
     color='black',
     pivot="middle",
     width=0.001,
