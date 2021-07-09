@@ -50,9 +50,6 @@ ax = plt.axes(projection=ccrs.PlateCarree())
 clevels = np.arange(25, 51, 5)
 flevels = np.arange(16, 51, 1)
 
-# Specify colormap
-cmap = 'magma'
-
 # Plot contour lines
 contour = ax.tricontour(pwv_lon1d,
                         pwv_lat1d,
@@ -69,7 +66,7 @@ ax.clabel(contour, clevels, fontsize=25, fmt="%.0f")
 color = ax.tricontourf(pwv_lon1d,
                        pwv_lat1d,
                        pwv,
-                       cmap=cmap,
+                       cmap='magma',
                        alpha=0.85,
                        levels=flevels,
                        antialiased=True,
@@ -79,7 +76,10 @@ color = ax.tricontourf(pwv_lon1d,
 ax.plot(pwv_lon1d, pwv_lat1d, marker='o', linewidth=0, color='black', zorder=4)
 
 # Add state boundaries other lake features
-ax.add_feature(cfeature.STATES, edgecolor='gray', linestyle=(0, (5, 10)), zorder=2)
+ax.add_feature(cfeature.STATES,
+               edgecolor='gray',
+               linestyle=(0, (5, 10)),
+               zorder=2)
 ax.add_feature(cfeature.LAKES, facecolor='white', edgecolor='black', zorder=2)
 
 # Use geocat.viz.util convenience function to set axes tick values
