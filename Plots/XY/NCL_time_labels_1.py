@@ -61,7 +61,7 @@ gvutil.add_major_minor_ticks(ax,
                              y_minor_per_major=3,
                              labelsize=14)
 
-# Usa geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
+# Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits
 gvutil.set_axes_limits_and_ticks(ax,
                                  xlim=(tstart, tend + 1),
