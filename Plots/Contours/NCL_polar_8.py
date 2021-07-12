@@ -117,14 +117,15 @@ p = wrap_T.plot.contourf(ax=ax,
 
 # Draw vector plot
 # (there is no matplotlib equivalent to "CurlyVector" yet)
-Q = ax.quiver(wrap_T['lon'],
-              wrap_T['lat'],
-              wrap_U.data,
-              wrap_V.data,
-              zorder=4,
-              pivot="middle",
-              width=0.001,
-              transform=ccrs.PlateCarree())
+# Q = ax.quiver(wrap_T['lon'],
+#               wrap_T['lat'],
+#               wrap_U.data,
+#               wrap_V.data,
+#               zorder=4,
+#               pivot="middle",
+#               width=0.001,
+#               scale=1000,
+#               transform=ccrs.PlateCarree())
 
 # Add colorbar
 clb = plt.colorbar(p,
