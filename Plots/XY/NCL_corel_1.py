@@ -28,41 +28,50 @@ from geocat.viz import util as gvutil
 ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"),
                      decode_times=False)
 
-#extract time series from 3d data
+# Extract time series from 3d data
 ts = ds.TS
 ts1 = ts[:, 45, 64]
 ts2 = ts[:, 23, 117]
 
-# Set lag
+# Set maximum lag
 maxlag = 25
 
-# Calculate cross correlations
+# Generate lag values to define x axis
 x = np.arange(0, maxlag, 1)
 
-
 ###############################################################################
-def LeadLagCorr(A, B, nlags=25):
-    '''
+# Create Lead-lag correlation function. This is the equivalent of esccr function in NCL
+
+
+def LeadLagCorr(A, B, nlags=maxlag):
+    """Computes lead lag correlation to compare two series. An explanation can
+    be found on `this website.
+
+    <https://www.usna.edu/Users/oceano/pguth/md_help/html/time0alq.htm`_.
+
     Parameters
     ----------
-    A : xarray.core.dataarray.DataArray
-        DESCRIPTION.
-    B : xarray.core.dataarray.DataArray
-        DESCRIPTION.
+    A : array_like
+        An array containing multiple variables and observations.
+    B : array_like
+        An array containing multiple variables and observations.
     nlags : int, optional
-        DESCRIPTION. The default is 30.
+        The number of lag values. The default is 30.
 
     Returns
     -------
-    coefs : xarray.core.dataarray.DataArray
-        DESCRIPTION.
-
-    '''
+    coefs : array_like
+        An array of size nlags containing the correlation coefficient of each
+        lag at each corresponding index of the array.
+    """
     coefs = np.empty(nlags)
+    coefs[0] = np.corrcoef(A, B)[0, 1]
 
-    for i in range(nlags):
-        temp_A = np.roll(A, i)
-        r = np.corrcoef(temp_A, B)[0, 1]
+    for i in range(1, nlags):
+        temp_A = A[:-i]
+        temp_B = B[i:]
+
+        r = np.corrcoef(temp_A, temp_B)[0, 1]
         coefs[i] = r
 
     return coefs
@@ -77,7 +86,7 @@ ax = plt.axes()
 
 ccr = LeadLagCorr(ts1, ts2)
 
-ax.plot(ccr, color='black', linewidth=0.5)
+ax.plot(x, ccr, color='black', linewidth=0.5)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax,
@@ -87,11 +96,10 @@ gvutil.add_major_minor_ticks(ax,
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, tick values, and tick labels to show latitude & longitude (i.e. North (N) - South (S))
-# gvutil.set_axes_limits_and_ticks(
-#     ax,
-#     xlim=(0, 24),
-#     ylim=(-1.2, 1.2),
-#     xticks=x[::4])
+gvutil.set_axes_limits_and_ticks(ax,
+                                 xlim=(0, 24),
+                                 ylim=(-1.2, 1.2),
+                                 xticks=x[::4])
 
 # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
 gvutil.set_titles_and_labels(ax,
