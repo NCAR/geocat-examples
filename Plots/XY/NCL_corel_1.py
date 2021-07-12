@@ -44,10 +44,7 @@ x = np.arange(0, maxlag, 1)
 
 
 def LeadLagCorr(A, B, nlags=maxlag):
-    """Computes lead lag correlation to compare two series. An explanation can
-    be found on `this website.
-
-    <https://www.usna.edu/Users/oceano/pguth/md_help/html/time0alq.htm`_.
+    """Computes lead lag correlation to compare two series.
 
     Parameters
     ----------
@@ -81,12 +78,12 @@ def LeadLagCorr(A, B, nlags=maxlag):
 # Plot:
 
 # Create figure (setting figure size (width,height) in inches) and axes
-plt.figure(figsize=(7, 6.5))
+plt.figure(figsize=(6.5, 6.5))
 ax = plt.axes()
 
 ccr = LeadLagCorr(ts1, ts2)
 
-ax.plot(x, ccr, color='black', linewidth=0.5)
+ax.plot(x, ccr, color='gray', linewidth=0.5)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax,
@@ -106,8 +103,11 @@ gvutil.set_titles_and_labels(ax,
                              maintitle="37.7N 180E vs 23.72S 149W",
                              xlabel="LAG")
 
-# Set major and minor tick directions inward
-ax.tick_params(which='both', direction='in')
+# Set major and minor tick directions and padding
+ax.tick_params(which='both', direction='in', pad=9)
+
+# Set box_layout
+ax.set_box_aspect(1)
 
 # Show plot
 plt.tight_layout()
