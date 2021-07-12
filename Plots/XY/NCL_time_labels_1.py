@@ -104,7 +104,7 @@ gvutil.set_axes_limits_and_ticks(ax,
 # Set spacing between tick labels and axes
 ax.tick_params('both', pad=9)
 
-# Add maintitle
+# Add main title
 ax.set_title('time', fontsize=16, y=1.04)
 
 # Draw plot on the screen
