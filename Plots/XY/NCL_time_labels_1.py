@@ -6,7 +6,7 @@ This script illustrates the following concepts:
    - Setting the precision of tickmark labels
    - Generating dummy data using numpy's random.uniform
    - Removing trailing zeros from tickmark labels
-   - Setting the mininum/maximum value of the X axis in an XY plot
+   - Setting the minimum/maximum value of the X axis in an XY plot
    - Changing the width and height of a plot
 
 See following URLs to see the reproduced NCL plot & script:
