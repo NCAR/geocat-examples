@@ -43,96 +43,41 @@ for year in range(tstart, tend + 1):
 arr = np.random.uniform(-5., 10., t_size)
 
 ###############################################################################
-# Plot 1: Display years in fractional format
+# Plot:
 
-# Generate figure (set its size (width, height) in inches) and axes
-plt.figure(1, figsize=(8, 3.5))
-ax = plt.axes()
-
-# Plot data
-plt.plot(date, arr, color='gray', linewidth=0.5)
-
-# format ytick labels
-ax.xaxis.set_major_formatter(FormatStrFormatter('%.1f'))
-
-# Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=5,
-                             y_minor_per_major=3,
-                             labelsize=14)
-
-# Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
-# Set axes limits
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(tstart, tend + 1),
-                                 ylim=(-6, 12),
-                                 yticks=np.arange(-6, 13, 3))
-
-# Set spacing between tick labels and axes
-ax.tick_params('both', pad=9)
-
-# Draw plot on the screen
-plt.tight_layout()
-plt.show()
-
-###############################################################################
-# Plot 2: Display years in integer format (remove trailing zeros)
-
-# Generate figure (set its size (width, height) in inches) and axes
-plt.figure(2, figsize=(8, 4))
-ax = plt.axes()
+# Make three subplots
+fig, ax = plt.subplots(3, 1, figsize=(8, 10), constrained_layout=True)
 
 # Plot data
-plt.plot(date, arr, color='gray', linewidth=0.5)
+ax[0].plot(date, arr, color='gray', linewidth=0.5)
+ax[1].plot(date, arr, color='gray', linewidth=0.5)
+ax[2].plot(date[0:13], arr[0:13], color='gray', linewidth=0.5)
 
 # format ytick labels
-ax.xaxis.set_major_formatter(FormatStrFormatter('%d'))
+ax[0].xaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
-# Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=5,
-                             y_minor_per_major=3,
-                             labelsize=14)
+for axes in [ax[0], ax[1]]:
+    # Use geocat.viz.util convenience function to add minor and major tick lines
+    gvutil.add_major_minor_ticks(axes,
+                                 x_minor_per_major=5,
+                                 y_minor_per_major=3,
+                                 labelsize=14)
 
-# Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
-# Set axes limits
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(tstart, tend + 1),
-                                 ylim=(-6, 12),
-                                 yticks=np.arange(-6, 13, 3))
+    # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
+    # Set axes limits
+    gvutil.set_axes_limits_and_ticks(axes,
+                                     xlim=(tstart, tend + 1),
+                                     ylim=(-6, 12),
+                                     yticks=np.arange(-6, 13, 3))
 
-# Set spacing between tick labels and axes
-ax.tick_params('both', pad=9)
-
-# Add main title
-ax.set_title('time', fontsize=16, y=1.04)
-
-# Draw plot on the screen
-plt.tight_layout()
-plt.show()
-
-###############################################################################
-# Plot 3: Display both months and years
-
-# Generate figure (set its size (width, height) in inches) and axes
-plt.figure(2, figsize=(8, 4))
-ax = plt.axes()
-
-# Plot the first 13 timestamps of the data
-plt.plot(date[0:13], arr[0:13], color='gray', linewidth=0.5)
-
-# format ytick labels
-ax.xaxis.set_major_formatter(FormatStrFormatter('%d'))
-
-# Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
+# Add minor and major tick lines for plot 3
+gvutil.add_major_minor_ticks(ax[2],
                              x_minor_per_major=1,
                              y_minor_per_major=4,
                              labelsize=14)
 
-# Usa geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
-# Set axes limits
-gvutil.set_axes_limits_and_ticks(ax,
+# Set axes limits, ticks and tick labels for plot 3
+gvutil.set_axes_limits_and_ticks(ax[2],
                                  xlim=(date[0], date[12]),
                                  ylim=(-4, 10),
                                  xticks=date[0:13],
@@ -145,12 +90,12 @@ gvutil.set_axes_limits_and_ticks(ax,
                                  ],
                                  yticks=np.arange(-4, 11, 2))
 
-# Set spacing between tick labels and axes
-ax.tick_params('both', pad=9)
+# Add main title for plot 2 and 3
+ax[1].set_title('time', fontsize=16, y=1.04)
+ax[2].set_title('time', fontsize=16, y=1.04)
 
-# Add main title
-ax.set_title('time', fontsize=16, y=1.04)
+# Set spacing between tick labels and axes for all plots
+[axes.tick_params('both', pad=9) for axes in ax.flat]
 
 # Draw plot on the screen
-plt.tight_layout()
 plt.show()
