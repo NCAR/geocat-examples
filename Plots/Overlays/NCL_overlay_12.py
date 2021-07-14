@@ -13,7 +13,7 @@ This script illustrates the following concepts:
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/overlay_12.ncl
-    - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/overlay_12_lg.png
+    - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/overlay_12_1_lg.png
 
 """
 
@@ -24,7 +24,7 @@ from netCDF4 import Dataset
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 from geocat.viz import util as gvutil
-
+import cartopy.feature as cfeature
 from wrf import (getvar, to_np, latlon_coords, get_cartopy)
 
 import geocat.datafiles as gdf
@@ -51,12 +51,19 @@ dbz = getvar(wrfin, "dbz")[0, :, :]  # radar reflectivity in dBZ
 ###############################################################################
 # Create plot
 
-fig = plt.figure(figsize=(8, 8))
+fig = plt.figure(figsize=(12, 8))
 
 projection = get_cartopy(hgt)
 
 # Add axes for lambert conformal map
 ax = plt.axes(projection=projection)
+
+# Add state boundaries other lake features
+ax.add_feature(
+    cfeature.STATES,
+    edgecolor='black',
+    #linestyle=(0, (5, 10)),
+    zorder=4)
 
 # Set latitude and longitude extent of map
 #ax.set_extent([-119, -74, 18, 50], ccrs.Geodetic())
@@ -67,24 +74,31 @@ levels = np.array([1] + [i for i in range(201, 3002, 200)])
 # Add filled contours
 hgt.plot.contourf(ax=ax,
                   cmap=gvcmaps.OceanLakeLandSnow,
-                  zorder=4,
                   levels=levels,
                   transform=projection,
                   add_label=False,
                   add_colorbar=False)
 
-# # Set shape name of map (which depicts the United States)
+dbz.plot.contourf(ax=ax,
+                  cmap='magma',
+                  levels=levels,
+                  transform=projection,
+                  add_label=False,
+                  add_colorbar=False)
+
+# Set shape name of map (which depicts the United States)
 # shapename = 'admin_1_states_provinces_lakes'
 # states_shp = shpreader.natural_earth(resolution='110m',
-#                                      category='cultural',
-#                                      name=shapename)
+#                                       category='cultural',
+#                                       name=shapename)
 
-# # Add outlines of each state within the United States
+# # # Add outlines of each state within the United States
 # for state in shpreader.Reader(states_shp).geometries():
 #     ax.add_geometries([state],
 #                       ccrs.PlateCarree(),
 #                       facecolor='white',
-#                       edgecolor='black')
+#                       edgecolor='black',
+#                       zorder=2)
 
 # Set title and title fontsize of plot using gvutil function instead of matplotlib function call
 gvutil.set_titles_and_labels(
@@ -92,5 +106,7 @@ gvutil.set_titles_and_labels(
     maintitle="Reflectivity ({}) + at znu level = {:.3f}".format(
         dbz.attrs['units'], znu[1].data),
     maintitlefontsize=18)
+
+gvutil.add_lat_lon_ticklabels(ax)
 
 plt.show()
