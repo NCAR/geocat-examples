@@ -20,18 +20,18 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 import numpy as np
-from netCDF4 import Dataset
+import xarray as xr
+from wrf import getvar
 import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-from geocat.viz import util as gvutil
 import cartopy.feature as cfeature
-from wrf import (getvar, to_np, latlon_coords, get_cartopy)
-
-import geocat.datafiles as gdf
 import cartopy.io.shapereader as shpreader
-import shapely.geometry as sgeom
-from mpl_toolkits.axes_grid1.inset_locator import inset_axes
+from netCDF4 import Dataset
+import geocat.datafiles as gdf
 
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import matplotlib.colors as mcolors
+from geocat.viz import util as gvutil
 from geocat.viz import cmaps as gvcmaps
 
 ###############################################################################
@@ -40,6 +40,10 @@ from geocat.viz import cmaps as gvcmaps
 # Open climate division datafile and add to xarray
 wrfin = Dataset(gdf.get("netcdf_files/wrfout_d01_2003-07-15_00_00_00"),
                 decode_times=True)
+
+# Open climate division datafile and add to xarray
+ds = xr.open_dataset(gdf.get("netcdf_files/climdiv_prcp_1899-1999.nc"),
+                     decode_times=False)
 
 # Read variables
 hgt = getvar(wrfin, "HGT")  # terrain height in m
@@ -72,28 +76,14 @@ fig = plt.figure(figsize=(12, 8))
 # Get Cartopy projection
 projection = ccrs.PlateCarree()
 
-# Add axes with Cartopy projection
-ax = plt.axes(projection=projection)
+# Set axes [left, bottom, width, height] to ensure map takes up entire figure
+ax = plt.axes([.05, -.05, .9, 1], projection=projection)
 
-# Set latitude and longitude extent of map
+# Set latitude and longitude extent to zoom in on map
 ax.set_extent([lon.min().data,
                lon.max().data,
                lat.min().data,
                lat.max().data], projection)
-
-# Download the Natural Earth shapefile for country boundaries at 110m resolution
-# shapename = 'admin_1_states_provinces'
-# countries_shp = shpreader.natural_earth(resolution='10m',
-#                                         category='cultural',
-#                                         name=shapename)
-
-# # Add country borders
-# for state in shpreader.Reader(countries_shp).geometries():
-#     ax.add_geometries([state],
-#                       projection,
-#                       facecolor='none',
-#                       edgecolor='black',
-#                       zorder=5)
 
 # Add US states borders
 ax.add_feature(cfeature.NaturalEarthFeature(category='cultural',
@@ -104,43 +94,98 @@ ax.add_feature(cfeature.NaturalEarthFeature(category='cultural',
                                             linewidth=0.2),
                zorder=5)
 
+# Add US county borders
+reader = shpreader.Reader('countyl010g_shp_nt00964/countyl010g.shp')
+counties = list(reader.geometries())
+COUNTIES = cfeature.ShapelyFeature(counties, ccrs.PlateCarree())
+ax.add_feature(COUNTIES,
+               facecolor='none',
+               edgecolor='black',
+               linewidth=0.2,
+               zorder=5)
+
 # Set first contour levels
-levels = np.array([1] + [i for i in range(201, 3002, 200)])
+levels = np.array([0, 1] + [i for i in range(201, 3202, 200)])
 
-# Add filled contours
-clb = ax.contourf(lon,
-                  lat,
-                  hgt.data,
-                  cmap=gvcmaps.OceanLakeLandSnow,
-                  levels=levels,
-                  zorder=3)
+# Add first filled contour
+contour = ax.contourf(lon,
+                      lat,
+                      hgt.data,
+                      alpha=0.6,
+                      levels=levels,
+                      cmap=gvcmaps.OceanLakeLandSnow,
+                      zorder=3)
 
-fig.colorbar(clb, shrink=0.65, orientation='horizontal')
+# Add first color bar
+clb = fig.colorbar(contour,
+                   orientation='horizontal',
+                   shrink=0.7,
+                   pad=0.1,
+                   aspect=12,
+                   ticks=levels[1:-1],
+                   anchor=(0.4, 0.8),
+                   drawedges=True,
+                   label="Terrain Height (m)")
 
-# Set second contourf levels for
+# Manually set color bar tick length and pad
+clb.ax.xaxis.set_tick_params(length=0, pad=10)
+
+# Set second contourf levels
 levels = np.arange(-28, 41, 4)
 
-clb2 = ax.contourf(lon, lat, dbz.data, cmap='magma', levels=levels, zorder=4)
+# Add second filled contour
+contour2 = ax.contourf(lon,
+                       lat,
+                       dbz.data,
+                       cmap='magma',
+                       levels=levels,
+                       zorder=4)
 
-fig.colorbar(clb2)
+# Set colormap and its bounds for the second contour
+cmap = plt.get_cmap('magma')
+colorbounds = np.arange(-30, 43, 2)
+
+# Use colormap to create a norm and mappable for colorbar to be correctly plotted
+norm = mcolors.BoundaryNorm(colorbounds, cmap.N)
+mappable = cm.ScalarMappable(norm=norm, cmap=cmap)
+
+# Add second color bar
+clb2 = fig.colorbar(mappable,
+                    pad=0.03,
+                    aspect=10,
+                    shrink=0.97,
+                    ticks=levels,
+                    drawedges=True)
+
+# Manually set color bar tick length and pad
+clb2.ax.yaxis.set_tick_params(length=0, pad=18, labelsize=14)
+
+# Center align colorbar tick labels
+ticklabs = clb2.ax.get_yticklabels()
+clb2.ax.set_yticklabels(ticklabs, ha='center')
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.set_axes_limits_and_ticks(ax,
                                  xticks=np.arange(-105, -84, 5),
                                  yticks=np.arange(18, 35, 2))
 
+# Use gvutil function to format latitude and longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
 
+# Use gvutil function to add major and minor ticks
 gvutil.add_major_minor_ticks(ax,
                              y_minor_per_major=1,
                              x_minor_per_major=1,
-                             labelsize="medium")
+                             labelsize="xx-large")
 
-# Set title and title fontsize of plot using gvutil function instead of matplotlib function call
-gvutil.set_titles_and_labels(
-    ax,
-    maintitle="Reflectivity ({}) at znu level = {:.3f}".format(
-        dbz.attrs['units'], znu[1].data),
-    maintitlefontsize=18)
+# Set padding between tick labels and axes, and turn off ticks on top and right spines
+ax.tick_params(pad=14, top=False, right=False)
+
+# Set title and title fontsize
+ax.set_title("Reflectivity ({}) at znu level = {:.3f}".format(
+    dbz.attrs['units'], znu[1].data),
+             fontweight='bold',
+             fontsize=26,
+             y=1.05)
 
 plt.show()
