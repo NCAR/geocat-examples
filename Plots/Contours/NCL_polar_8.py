@@ -71,7 +71,7 @@ gl.xlocator = mticker.FixedLocator(np.arange(-180, 180, 30))
 # Manipulate longitude labels (0, 30 E, 60 E, ..., 30 W, etc.)
 ticks = np.arange(30, 151, 30)
 etick = ['0'] + [r'%dE' % tick for tick in ticks] + ['180']
-wtick = [r'%dW' % tick for tick in ticks]
+wtick = [r'%dW' % tick for tick in ticks[::-1]]
 labels = etick + wtick
 xticks = np.arange(0, 360, 30)  # Longitude of the labels
 yticks = np.full_like(xticks, 58)  # Latitude of the labels
@@ -81,7 +81,7 @@ for xtick, ytick, label in zip(xticks, yticks, labels):
         ax.text(xtick,
                 ytick,
                 label,
-                fontsize=14,
+                fontsize=13,
                 horizontalalignment='center',
                 verticalalignment='top',
                 transform=ccrs.Geodetic())
@@ -89,7 +89,7 @@ for xtick, ytick, label in zip(xticks, yticks, labels):
         ax.text(xtick,
                 ytick,
                 label,
-                fontsize=14,
+                fontsize=13,
                 horizontalalignment='center',
                 verticalalignment='bottom',
                 transform=ccrs.Geodetic())
@@ -97,7 +97,7 @@ for xtick, ytick, label in zip(xticks, yticks, labels):
         ax.text(xtick,
                 ytick,
                 label,
-                fontsize=14,
+                fontsize=13,
                 horizontalalignment='center',
                 verticalalignment='center',
                 transform=ccrs.Geodetic())
@@ -130,23 +130,23 @@ p = wrap_T.plot.contourf(ax=ax,
 # Add colorbar
 clb = plt.colorbar(p,
                    ax=ax,
-                   pad=0.08,
+                   pad=0.12,
                    shrink=0.85,
-                   aspect=12,
+                   aspect=9,
                    ticks=levels,
                    extendrect=True,
                    extendfrac='auto',
                    orientation='horizontal')
 
 # Set colorbar ticks
-clb.ax.xaxis.set_tick_params(length=0, labelsize=14, pad=9)
+clb.ax.xaxis.set_tick_params(length=0, labelsize=13, pad=9)
 
 # Use geocat.viz.util convenience function to add left and right titles
 gvutil.set_titles_and_labels(ax,
                              lefttitle="Surface temperature",
                              righttitle="K",
-                             lefttitlefontsize=22,
-                             righttitlefontsize=22)
+                             lefttitlefontsize=16,
+                             righttitlefontsize=16)
 
 # Show the plot
 plt.tight_layout()
