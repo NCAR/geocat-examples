@@ -20,7 +20,6 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 import numpy as np
-import xarray as xr
 from wrf import getvar
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
@@ -38,13 +37,9 @@ from geocat.viz import cmaps as gvcmaps
 ###############################################################################
 # Read in data
 
-# Open climate division datafile and add to xarray
+# Read in the dataset
 wrfin = Dataset(gdf.get("netcdf_files/wrfout_d01_2003-07-15_00_00_00"),
                 decode_times=True)
-
-# Open climate division datafile and add to xarray
-ds = xr.open_dataset(gdf.get("netcdf_files/climdiv_prcp_1899-1999.nc"),
-                     decode_times=False)
 
 # Read variables
 hgt = getvar(wrfin, "HGT")  # terrain height in m
@@ -144,8 +139,9 @@ clb = fig.colorbar(contour,
                    orientation='horizontal',
                    ticks=levels[1:-1],
                    drawedges=True)
-# Manually set color bar tick length and pad
+# Manually set color bar tick length and tick labels padding.
 clb.ax.xaxis.set_tick_params(length=0, pad=10)
+# Set color bar label and fontsize. labelpad controls the vertical location relative to the color bar.
 clb.set_label("Terrain Height (m)", fontsize=16, labelpad=-90)
 
 #
@@ -163,12 +159,12 @@ contour2 = ax.contourf(lon,
 # Set colormap and its bounds for the second contour
 cmap = plt.get_cmap('magma')
 colorbounds = np.arange(-30, 43, 2)
-# Use colormap to create a norm and mappable for colorbar to be correctly plotted
+# Use cmap to create a norm and mappable for colorbar to be correctly plotted
 norm = mcolors.BoundaryNorm(colorbounds, cmap.N)
 mappable = cm.ScalarMappable(norm=norm, cmap=cmap)
 # Add color bar
 clb2 = fig.colorbar(mappable, cax=cax2, ticks=levels, drawedges=True)
-# Manually set color bar tick length and pad
+# Manually set color bar tick length and tick labels padding.
 clb2.ax.yaxis.set_tick_params(length=0, pad=18, labelsize=14)
 # Center align colorbar tick labels
 ticklabs = clb2.ax.get_yticklabels()
