@@ -91,7 +91,7 @@ gvutil.set_axes_limits_and_ticks(ax,
                                  yticks=np.array([34, 36, 38, 40]),
                                  xticks=np.arange(-101, -93, 1))
 
-# Use geocat.viz.util convenience function to set latitude, longtitude tick labels
+# Use geocat.viz.util convenience function to set latitude, longitude tick labels
 gvutil.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
