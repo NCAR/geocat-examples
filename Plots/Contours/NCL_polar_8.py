@@ -46,13 +46,13 @@ wrap_T = gvutil.xr_add_cyclic_longitudes(T, "lon")
 # Plot:
 
 # Generate axes with Cartopy projections
-fig = plt.figure(figsize=(10, 12))
+fig = plt.figure(figsize=(8, 10))
 projection = ccrs.NorthPolarStereo()
 ax = plt.axes(projection=projection)
 
 # Use Cartopy to add land feature
 land_110m = cfeature.NaturalEarthFeature('physical', 'land', '110m')
-ax.add_feature(land_110m, facecolor='white', edgecolor='black')
+ax.add_feature(land_110m, facecolor='none', edgecolor='gray')
 
 # Set map boundary to include latitudes between 0 and 40 and longitudes
 # between -180 and 180 only
