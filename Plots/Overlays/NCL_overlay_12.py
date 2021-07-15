@@ -10,6 +10,7 @@ This script illustrates the following concepts:
    - Drawing counties in the United States
    - Using zorder to specify the order in which elements will be drawn
    - Using inset_axes() to create additional axes for color bars
+   - Using a different color scheme to follow `best practices <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py`_ for visualizations
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/overlay_12.ncl
