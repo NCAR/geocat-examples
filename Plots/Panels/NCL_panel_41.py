@@ -90,10 +90,10 @@ date = tsurf.time
 # Plot
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(12, 12))
+fig = plt.figure(figsize=(12, 11.2), constrained_layout=True)
 
 # Create gridspec to hold six subplots
-grid = fig.add_gridspec(ncols=2, nrows=3, wspace=0.03, hspace=0.23)
+grid = fig.add_gridspec(ncols=2, nrows=3)
 
 # Add the axes
 ax1 = add_axes(fig, grid[0, 0])
@@ -122,7 +122,7 @@ for i, axes in enumerate([ax1, ax2, ax3, ax4, ax5, ax6]):
                             levels=levels)
     # Add lower text box
     axes.text(0.98,
-              0.06,
+              0.05,
               convert_date(str(dataset.time.data)),
               horizontalalignment='right',
               transform=axes.transAxes,
@@ -139,15 +139,15 @@ fig.colorbar(contour,
              drawedges=True,
              orientation='horizontal',
              shrink=0.82,
-             pad=0.05,
+             pad=0.01,
              aspect=35,
              extendfrac='auto',
              extendrect=True)
 
 # Add figure title
-fig.suptitle("rectilinear_grid_2D.nc", fontsize=18, y=0.93)
-ax1.set_title("surface temperature", loc="left", y=1.05)
-ax2.set_title("K", loc="right", y=1.05)
+fig.suptitle("rectilinear_grid_2D.nc", fontsize=22, fontweight='bold')
+ax1.set_title("surface temperature", loc="left", fontsize=16)
+ax2.set_title("degK", loc="right", fontsize=15)
 
 # Show plot
 plt.show()
