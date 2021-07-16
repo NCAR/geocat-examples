@@ -7,10 +7,10 @@ This script illustrates the following concepts:
    - Drawing a custom color bar using matplotlib.cm.ScalarMappable
    - Using alpha argument to emphasize or subdue overlain features
    - Overlay multiple contours
-   - Drawing counties in the United States
+   - Using shapefile data to plot United States county borders
    - Using zorder to specify the order in which elements will be drawn
    - Using inset_axes() to create additional axes for color bars
-   - Using a different color scheme to follow `best practices <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py`_ for visualizations
+   - Using a different color scheme to follow `best practices <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py>`_ for visualizations
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/overlay_12.ncl
@@ -48,6 +48,15 @@ lat = getvar(wrfin, "XLAT")  # latitude, south is negative
 lon = getvar(wrfin, "XLONG")  # longitude, west is negative
 znu = getvar(wrfin, "ZNU")  # eta values
 dbz = getvar(wrfin, "dbz")[0, :, :]  # radar reflectivity in dBZ
+
+# Open all shapefiles and associated .dbf, .shp, and .prj files
+open(gdf.get("shape_files/countyl010g.dbf"), 'r')
+open(gdf.get("shape_files/countyl010g.shp"), 'r')
+open(gdf.get("shape_files/countyl010g.shx"), 'r')
+open(gdf.get("shape_files/countyl010g.prj"), 'r')
+
+# Open shapefiles
+shapefile = shpreader.Reader(gdf.get("shape_files/countyl010g.dbf"))
 
 ###############################################################################
 # Debug information
@@ -110,8 +119,7 @@ ax.add_feature(cfeature.NaturalEarthFeature(category='cultural',
                zorder=5)
 
 # Add US county borders
-reader = shpreader.Reader('countyl010g_shp_nt00964/countyl010g.shp')
-counties = list(reader.geometries())
+counties = list(shapefile.geometries())
 COUNTIES = cfeature.ShapelyFeature(counties, ccrs.PlateCarree())
 ax.add_feature(COUNTIES,
                facecolor='none',
