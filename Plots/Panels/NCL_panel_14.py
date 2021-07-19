@@ -43,8 +43,11 @@ T4 = T.isel(time=0).sel(lon_t=200, method="nearest")
 ##############################################################################
 # Plot:
 
-fig = plt.figure(figsize=(12, 12), constrained_layout=True)
+fig = plt.figure(figsize=(12, 12.5), constrained_layout=True)
 spec = gridspec.GridSpec(ncols=2, nrows=2, figure=fig)
+
+# Set spacing between subplots, h/wsapce specified as a fraction of the size of the subplot group
+fig.set_constrained_layout_pads(hspace=0.07, wspace=0.07)
 
 # Add the subplots
 ax1 = fig.add_subplot(spec[0, 0])  # upper left cell of grid
@@ -94,8 +97,8 @@ ax2.yaxis.set_ticklabels([])
 gvutil.set_titles_and_labels(ax1, ylabel=T.z_t.long_name, labelfontsize=16)
 
 # Manually set set titles and their positions
-ax1.set_title(T.long_name, y=1.13, fontsize=16)
-ax2.set_title(T.long_name, y=1.13, fontsize=16)
+ax1.set_title(T.long_name, y=1.1, fontsize=17)
+ax2.set_title(T.long_name, y=1.1, fontsize=17)
 
 # Specify which contour levels to draw for panel 3 and panel 4
 levels = np.arange(0, 28, 2)
@@ -193,7 +196,8 @@ cb = fig.colorbar(colors,
                   orientation='horizontal',
                   drawedges=True,
                   extendrect=True,
-                  aspect=20,
+                  aspect=30,
+                  shrink=0.9,
                   extendfrac='auto',
                   pad=0.02,
                   ticks=levels)
