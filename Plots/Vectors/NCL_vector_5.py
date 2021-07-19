@@ -149,9 +149,9 @@ ax.streamplot(xi,
 
 # Draw legend for vector plot
 ax.add_patch(
-    plt.Rectangle((53, 941),
-                  35,
-                  55,
+    plt.Rectangle((52, 960),
+                  37,
+                  56,
                   facecolor='white',
                   edgecolor='black',
                   clip_on=False))
@@ -161,7 +161,7 @@ ax.add_patch(
 Q = ax.quiver(T['lat'], T['plev'], V, wscale, alpha=0, scale=400)
 ax.quiverkey(Q,
              0.831,
-             0.118,
+             0.115,
              30,
              '3',
              labelpos='N',
@@ -171,7 +171,7 @@ ax.quiverkey(Q,
              fontproperties={'size': 13})
 ax.quiverkey(Q,
              0.831,
-             0.118,
+             0.115,
              30,
              'Reference Vector',
              labelpos='S',
@@ -195,9 +195,9 @@ gvutil.set_axes_limits_and_ticks(ax,
 # Use geocat.viz.util convenience function to add titles and the pressure label
 gvutil.set_titles_and_labels(ax,
                              maintitle="Pressure/Height Vector",
-                             maintitlefontsize=24,
+                             maintitlefontsize=28,
                              ylabel='Pressure (mb)',
-                             labelfontsize=24)
+                             labelfontsize=28)
 
 # Create second y-axis to show geo-potential height. Currently we're using
 # arbitrary values for height as we haven't figured out how to make this work
@@ -211,11 +211,15 @@ gvutil.set_axes_limits_and_ticks(axRHS, ylim=(0, 13), yticks=np.array([4, 8]))
 axRHS.tick_params(labelsize=16, length=8, width=0.9)
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
-axRHS.set_ylabel(ylabel='Height (km)', labelpad=10, fontsize=24)
+axRHS.set_ylabel(ylabel='Height (km)', labelpad=10, fontsize=28)
 
 # Force the plot to be square by setting the aspect ratio to 1
 ax.set_box_aspect(1)
 axRHS.set_box_aspect(1)
+
+# Set tick lengths
+ax.tick_params('both', which='major', length=12, pad=9)
+ax.tick_params('both', which='minor', length=8, pad=9)
 
 # Turn off minor ticks on Y axis on the left hand side
 ax.tick_params(axis='y', which='minor', left=False, right=False)
@@ -228,7 +232,7 @@ cax = inset_axes(ax,
                  width='97%',
                  height='8%',
                  loc='lower left',
-                 bbox_to_anchor=(0.03, -0.24, 1, 1),
+                 bbox_to_anchor=(0.03, -0.27, 1, 1),
                  bbox_transform=ax.transAxes,
                  borderpad=0)
 
@@ -237,6 +241,7 @@ cab = plt.colorbar(colors,
                    cax=cax,
                    orientation='horizontal',
                    ticks=levels[:-2:2],
+                   extendfrac='auto',
                    extendrect=True,
                    drawedges=True,
                    spacing='uniform')
