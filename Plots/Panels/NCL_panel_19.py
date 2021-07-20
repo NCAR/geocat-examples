@@ -7,8 +7,8 @@ This script illustrates the following concepts:
    - Using a blue-red color map
 
 See following URLs to see the reproduced NCL plot & script:
-    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/dev_1.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/dev_1_lg.png
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/panel_19.ncl
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_19_1_lg.png and https://www.ncl.ucar.edu/Applications/Images/panel_19_2_lg.png
 """
 
 ##############################################################################
