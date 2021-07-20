@@ -4,7 +4,7 @@ NCL_box_2.py
 
 This script illustrates the following concepts:
    - Drawing box plots
-   - Manipulating boxplot vizualizations
+   - Manipulating boxplot visualizations
    - Manipulating plot axes
 
 See following URLs to see the reproduced NCL plot & script:
@@ -72,7 +72,7 @@ ax.spines['top'].set_visible(False)
 
 # Use geocat.viz.util convenience function to set axes tick values
 gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=(-6.0, 9.0),
+                                 ylim=(-6.0, 8.5),
                                  yticks=[-3.0, 0.0, 3.0, 6.0])
 
 # Set y_axis format
