@@ -146,8 +146,8 @@ fig.colorbar(contour,
 
 # Add figure title
 fig.suptitle("rectilinear_grid_2D.nc", fontsize=22, fontweight='bold')
-ax1.set_title("surface temperature", loc="left", fontsize=16)
-ax2.set_title("degK", loc="right", fontsize=15)
+ax1.set_title("surface temperature", loc="left", fontsize=16, y=1.05)
+ax2.set_title("degK", loc="right", fontsize=15, y=1.05)
 
 # Show plot
 plt.show()
