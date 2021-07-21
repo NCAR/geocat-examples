@@ -109,14 +109,16 @@ ax.set_extent([lon.min().data,
 #
 # Add state and county borders
 #
+
 # Add US states borders
-ax.add_feature(cfeature.NaturalEarthFeature(category='cultural',
-                                            name='admin_1_states_provinces',
-                                            scale='10m',
-                                            facecolor='none',
-                                            edgecolor='black',
-                                            linewidth=0.2),
-               zorder=5)
+ax.add_feature(
+    cfeature.NaturalEarthFeature(category='cultural',
+                                 name='admin_1_states_provinces',
+                                 scale='10m',
+                                 facecolor='none',
+                                 edgecolor='black',
+                                 linewidth=0.2,
+                                 zorder=5))
 
 # Add US county borders
 counties = list(shapefile.geometries())
@@ -130,10 +132,13 @@ ax.add_feature(COUNTIES,
 #
 # Plot terrain height contour
 #
+
 # Import NCL color map
 cmap = gvcmaps.OceanLakeLandSnow
+
 # Set contour levels
 levels = np.array([0, 1] + [i for i in range(201, 3202, 200)])
+
 # Contourf hgt data
 contour = ax.contourf(lon,
                       lat,
@@ -148,16 +153,20 @@ clb = fig.colorbar(contour,
                    orientation='horizontal',
                    ticks=levels[1:-1],
                    drawedges=True)
+
 # Manually set color bar tick length and tick labels padding.
 clb.ax.xaxis.set_tick_params(length=0, pad=10)
+
 # Set color bar label and fontsize. labelpad controls the vertical location relative to the color bar.
 clb.set_label("Terrain Height (m)", fontsize=16, labelpad=-90)
 
 #
 # Plot reflectivity contour
 #
+
 # Set contour levels
 levels = np.arange(-28, 41, 4)
+
 # Contourf dbz data
 contour2 = ax.contourf(lon,
                        lat,
@@ -165,16 +174,21 @@ contour2 = ax.contourf(lon,
                        cmap='magma',
                        levels=levels,
                        zorder=4)
+
 # Set colormap and its bounds for the second contour
 cmap = plt.get_cmap('magma')
 colorbounds = np.arange(-30, 43, 2)
+
 # Use cmap to create a norm and mappable for colorbar to be correctly plotted
 norm = mcolors.BoundaryNorm(colorbounds, cmap.N)
 mappable = cm.ScalarMappable(norm=norm, cmap=cmap)
+
 # Add color bar
 clb2 = fig.colorbar(mappable, cax=cax2, ticks=levels, drawedges=True)
+
 # Manually set color bar tick length and tick labels padding.
 clb2.ax.yaxis.set_tick_params(length=0, pad=18, labelsize=14)
+
 # Center align colorbar tick labels
 ticklabs = clb2.ax.get_yticklabels()
 clb2.ax.set_yticklabels(ticklabs, ha='center')
