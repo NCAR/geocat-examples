@@ -77,7 +77,11 @@ wscaler = np.mean(W)
 vscaler = np.mean(V)
 scale = abs(vscaler / wscaler)
 
-wscale = W * scale
+# We need to flip the sign of wscale to make sure that the vertical component
+# of the streamplot is correct. We are currently unsure why this is needed yet since this
+# is not in the original NCL script. We will continue to research into implementing
+# curly vectors in Matplotlib
+wscale = W * scale * -1
 
 ###############################################################################
 # Plot:
@@ -160,8 +164,8 @@ ax.add_patch(
 # Draw translucent vector plot to be set as input for quiverkey
 Q = ax.quiver(T['lat'], T['plev'], V, wscale, alpha=0, scale=400)
 ax.quiverkey(Q,
-             0.831,
-             0.115,
+             0.828,
+             0.120,
              30,
              '3',
              labelpos='N',
@@ -170,8 +174,8 @@ ax.quiverkey(Q,
              alpha=1,
              fontproperties={'size': 13})
 ax.quiverkey(Q,
-             0.831,
-             0.115,
+             0.828,
+             0.120,
              30,
              'Reference Vector',
              labelpos='S',
