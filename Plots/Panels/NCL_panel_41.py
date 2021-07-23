@@ -5,6 +5,8 @@ This script illustrates the following concepts:
    - Paneling six plots on a page
    - Adding a common title to paneled plots using a custom method
    - Adding left, center, and right subtitles to a panel plot
+   - Using a different color scheme to follow `best practices <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py>`_ for visualizations
+
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/panel_41.ncl
@@ -18,11 +20,12 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import matplotlib.colors as mcolors
 import numpy as np
 import xarray as xr
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
 import geocat.viz.util as gvutil
 
 ##############################################################################
@@ -105,10 +108,10 @@ ax6 = add_axes(fig, grid[2, 1])
 
 # Set plot index list
 plot_idxs = [0, 6, 18, 24, 30, 36]
-# Set color map
-cmap = gvcmaps.WhiteYellowOrangeRed
 # Set contour levels
-levels = np.arange(249, 311, 1)
+levels = np.arange(220, 316, 1)
+# Set colormap
+cmap = plt.get_cmap('magma')
 
 for i, axes in enumerate([ax1, ax2, ax3, ax4, ax5, ax6]):
     dataset = tsurf[plot_idxs[i], :, :]
@@ -132,10 +135,16 @@ for i, axes in enumerate([ax1, ax2, ax3, ax4, ax5, ax6]):
                         edgecolor='gray'),
               zorder=5)
 
+# Set colorbounds for mappable
+colorbounds = np.arange(249, 311, 1)
+# Use cmap to create a norm and mappable for colorbar to be correctly plotted
+norm = mcolors.BoundaryNorm(colorbounds, cmap.N)
+mappable = cm.ScalarMappable(norm=norm, cmap=cmap)
+
 # Add colorbar for all four plots
-fig.colorbar(contour,
+fig.colorbar(mappable,
              ax=[ax1, ax2, ax3, ax4, ax5, ax6],
-             ticks=levels[3:-1:3],
+             ticks=colorbounds[3:-1:3],
              drawedges=True,
              orientation='horizontal',
              shrink=0.82,
