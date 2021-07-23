@@ -135,13 +135,13 @@ for i, axes in enumerate([ax1, ax2, ax3, ax4, ax5, ax6]):
                         edgecolor='gray'),
               zorder=5)
 
-# Set colorbounds for mappable
+# Set colorbounds of norm
 colorbounds = np.arange(249, 311, 1)
 # Use cmap to create a norm and mappable for colorbar to be correctly plotted
 norm = mcolors.BoundaryNorm(colorbounds, cmap.N)
 mappable = cm.ScalarMappable(norm=norm, cmap=cmap)
 
-# Add colorbar for all four plots
+# Add colorbar for all six plots
 fig.colorbar(mappable,
              ax=[ax1, ax2, ax3, ax4, ax5, ax6],
              ticks=colorbounds[3:-1:3],
