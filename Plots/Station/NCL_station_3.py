@@ -42,7 +42,7 @@ lon = ds.lon
 # Helper function to add plot elements to the axes
 
 
-def create_axes(remove_overlap=False):
+def create_axes(maintitle):
 
     # Generate figure (set its size (width, height) in inches)
     plt.figure(figsize=(12, 6.5))
@@ -85,10 +85,7 @@ def create_axes(remove_overlap=False):
     ax.tick_params(axis='y', right=False)
 
     # Add title
-    ax.set_title('Overlapping text strings',
-                 fontweight='bold',
-                 fontsize=18,
-                 y=1.03)
+    ax.set_title(maintitle, fontweight='bold', fontsize=18, y=1.03)
 
     return ax
 
@@ -96,7 +93,7 @@ def create_axes(remove_overlap=False):
 ##############################################################################
 # Plot with texts overlapping
 
-ax = create_axes()
+ax = create_axes('Overlapping text strings')
 
 # Add all station number texts
 for i in range(npts):
@@ -115,7 +112,7 @@ plt.show()
 ##############################################################################
 # Plot without texts overlapping
 
-ax = create_axes()
+ax = create_axes('Overlapping text strings removed')
 
 # Transpose the array of longitude and latitude for easier access of the location of each station point
 location = np.transpose(np.array([lon, lat]))
