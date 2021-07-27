@@ -31,70 +31,116 @@ ds = pd.read_csv(
     delimiter='\\s+',
     names=['index', 'station', 'year1', 'year2', 'number', 'lat', 'lon'])
 
-ncol = 6  # number of columns is 6
 npts = len(ds)  # get number of points
 
 # Extract variables
-no = ds.index + 1  # +1 because Pandas' RangeIndex start argument defaults to 0
+no = ds.index + 1  # +1 because Pandas' RangeIndex defaults start with 0
 lat = ds.lat
 lon = ds.lon
 
-###################################################
-# Plot
+##############################################################################
+# Helper function to add plot elements to the axes
 
-# Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(10, 12))
 
-# Generate axes
-ax = plt.axes(projection=ccrs.Mercator())
+def create_axes(remove_overlap=False):
 
-# Set extent to show particular area of the map
-ax.set_extent([25.5, 45.2, 35.5, 42.5], ccrs.PlateCarree())
+    # Generate figure (set its size (width, height) in inches)
+    plt.figure(figsize=(12, 6.5))
 
-# Add state boundaries other lake features
-ax.add_feature(cfeature.LAND, facecolor='none', edgecolor='gray', linewidth=1)
+    # Generate axes
+    ax = plt.axes(projection=ccrs.Mercator())
 
-# Add station numbers on the plot
-for i in range(len(lat)):
+    # Set extent to show particular area of the map
+    ax.set_extent([25.5, 45.2, 35.5, 42.5], ccrs.PlateCarree())
+
+    # Add state boundaries other lake features
+    ax.add_feature(cfeature.LAND, facecolor='none', edgecolor='gray')
+
+    # Draw gridlines
+    gl = ax.gridlines(crs=ccrs.PlateCarree(),
+                      draw_labels=True,
+                      dms=False,
+                      x_inline=False,
+                      y_inline=False,
+                      linewidth=1,
+                      color="black",
+                      alpha=0.25)
+
+    # Set frequency of gridlines in the x and y directions
+    gl.xlocator = mticker.FixedLocator(np.arange(26, 45, 2))
+    gl.ylocator = mticker.FixedLocator(np.arange(36, 43, 1))
+
+    # Turn off gridlines and top/right labels
+    gl.xlines = False
+    gl.ylines = False
+    gl.top_labels = False
+    gl.right_labels = False
+
+    # Set label sizes
+    gl.xlabel_style = {"rotation": 0, "size": 14}
+    gl.ylabel_style = {"rotation": 0, "size": 14}
+
+    # Manually turn off ticks on top and right spines
+    ax.tick_params(axis='x', top=False)
+    ax.tick_params(axis='y', right=False)
+
+    # Add title
+    ax.set_title('Overlapping text strings',
+                 fontweight='bold',
+                 fontsize=18,
+                 y=1.03)
+
+    return ax
+
+
+##############################################################################
+# Plot with texts overlapping
+
+ax = create_axes()
+
+# Add all station number texts
+for i in range(npts):
     ax.text(lon[i],
             lat[i],
             no[i],
             fontsize=8,
-            fontweight='bold',
             va='center',
             ha='center',
             transform=ccrs.PlateCarree())
 
-# Draw gridlines
-gl = ax.gridlines(crs=ccrs.PlateCarree(),
-                  draw_labels=True,
-                  dms=False,
-                  x_inline=False,
-                  y_inline=False,
-                  linewidth=1,
-                  color="black",
-                  alpha=0.25)
+# Show the plot
+plt.tight_layout()
+plt.show()
 
-# Set frequency of gridlines in the x and y directions
-gl.xlocator = mticker.FixedLocator(np.arange(26, 45, 2))
-gl.ylocator = mticker.FixedLocator(np.arange(36, 43, 1))
+##############################################################################
+# Plot without texts overlapping
 
-# Turn off gridlines and top/right labels
-gl.xlines = False
-gl.ylines = False
-gl.top_labels = False
-gl.right_labels = False
+ax = create_axes()
 
-# Set label sizes
-gl.xlabel_style = {"rotation": 0, "size": 14}
-gl.ylabel_style = {"rotation": 0, "size": 14}
+# Transpose the array of longitude and latitude for easier access of the location of each station point
+location = np.transpose(np.array([lon, lat]))
 
-# Manually turn off ticks on top and right spines
-ax.tick_params(axis='x', top=False)
-ax.tick_params(axis='y', right=False)
+# Create an array of booleans denoting if station would be removed
+remove = np.full(npts, False)
 
-# Add title
-ax.set_title('Overlapping text strings', fontweight='bold', fontsize=16, y=1.03)
+# Tag station to be removed using array `remove`
+# Loop through every pair of stations and calculate distances between them
+for i in range(npts):
+    for j in range(npts):
+        dist = np.sqrt(np.sum(np.square(location[j] - location[i])))
+        if dist <= 0.22 and i != j:
+            remove[i] = True
+
+# Add text if it is not tagged to be removed
+for i in range(npts):
+    if remove[i] == False:
+        ax.text(lon[i],
+                lat[i],
+                no[i],
+                fontsize=8,
+                va='center',
+                ha='center',
+                transform=ccrs.PlateCarree())
 
 # Show the plot
 plt.tight_layout()
