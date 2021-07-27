@@ -101,6 +101,7 @@ for i in range(npts):
             lat[i],
             no[i],
             fontsize=8,
+            fontweight='bold',
             va='center',
             ha='center',
             transform=ccrs.PlateCarree())
@@ -135,6 +136,7 @@ for i in range(npts):
                 lat[i],
                 no[i],
                 fontsize=8,
+                fontweight='bold',
                 va='center',
                 ha='center',
                 transform=ccrs.PlateCarree())
