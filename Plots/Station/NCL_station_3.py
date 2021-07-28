@@ -118,6 +118,10 @@ ax = create_axes('Overlapping text strings removed')
 # Transpose the array of longitude and latitude for easier access of the location of each station point
 location = np.transpose(np.array([lon, lat]))
 
+# Transform location from user data coodinate system into pixel coordinate system
+# Distance between two stations on screen can be more accurately calculated
+location = ax.transData.transform(location)
+
 # Create an array of booleans denoting if station would be removed
 remove = np.full(npts, False)
 
@@ -125,8 +129,11 @@ remove = np.full(npts, False)
 # Loop through every pair of stations and calculate distances between them
 for i in range(npts):
     for j in range(npts):
+        # Calculate euclidean distance with numpy functions
         dist = np.sqrt(np.sum(np.square(location[j] - location[i])))
-        if dist <= 0.22 and i != j:
+        if dist <= 8.44e-05 and i != j and remove[j] == False:
+            # Tag one of the stations to be removed if distance between them allows for overlap,
+            # they are two different stations, and if the other station will not be removed
             remove[i] = True
 
 # Add text if it is not tagged to be removed
