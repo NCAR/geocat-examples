@@ -93,22 +93,22 @@ def create_axes(maintitle):
 ##############################################################################
 # Plot with texts overlapping
 
-# fig, ax = create_axes('Overlapping text strings')
+fig, ax = create_axes('Overlapping text strings')
 
-# # Add all station number texts
-# for i in range(npts):
-#     ax.text(lon[i],
-#             lat[i],
-#             no[i],
-#             fontsize=8,
-#             fontweight='bold',
-#             va='center',
-#             ha='center',
-#             transform=ccrs.PlateCarree())
+# Add all station number texts
+for i in range(npts):
+    ax.text(lon[i],
+            lat[i],
+            no[i],
+            fontsize=8,
+            fontweight='bold',
+            va='center',
+            ha='center',
+            transform=ccrs.PlateCarree())
 
-# # Show the plot
-# plt.tight_layout()
-# plt.show()
+# Show the plot
+plt.tight_layout()
+plt.show()
 
 ##############################################################################
 # Plot without texts overlapping
