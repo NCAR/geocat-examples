@@ -45,7 +45,7 @@ lon = ds.lon
 def create_axes(maintitle):
 
     # Generate figure (set its size (width, height) in inches)
-    plt.figure(figsize=(12, 6.5))
+    fig = plt.figure(figsize=(12, 6.5))
 
     # Generate axes
     ax = plt.axes(projection=ccrs.Mercator())
@@ -87,33 +87,33 @@ def create_axes(maintitle):
     # Add title
     ax.set_title(maintitle, fontweight='bold', fontsize=18, y=1.03)
 
-    return ax
+    return fig, ax
 
 
 ##############################################################################
 # Plot with texts overlapping
 
-ax = create_axes('Overlapping text strings')
+# fig, ax = create_axes('Overlapping text strings')
 
-# Add all station number texts
-for i in range(npts):
-    ax.text(lon[i],
-            lat[i],
-            no[i],
-            fontsize=8,
-            fontweight='bold',
-            va='center',
-            ha='center',
-            transform=ccrs.PlateCarree())
+# # Add all station number texts
+# for i in range(npts):
+#     ax.text(lon[i],
+#             lat[i],
+#             no[i],
+#             fontsize=8,
+#             fontweight='bold',
+#             va='center',
+#             ha='center',
+#             transform=ccrs.PlateCarree())
 
-# Show the plot
-plt.tight_layout()
-plt.show()
+# # Show the plot
+# plt.tight_layout()
+# plt.show()
 
 ##############################################################################
 # Plot without texts overlapping
 
-ax = create_axes('Overlapping text strings removed')
+fig, ax = create_axes('Overlapping text strings removed')
 
 # Transpose the array of longitude and latitude for easier access of the location of each station point
 location = np.transpose(np.array([lon, lat]))
@@ -125,13 +125,17 @@ location = ax.transData.transform(location)
 # Create an array of booleans denoting if station would be removed
 remove = np.full(npts, False)
 
+# Currently minimum distance is calcualted through finding distance between two suitable stations
+# In the future we would like to find mindist by finding the width and height of texts in pixel coodinates
+mindist = np.sqrt(np.sum(np.square(location[123] - location[124])))
+
 # Tag station to be removed using array `remove`
 # Loop through every pair of stations and calculate distances between them
 for i in range(npts):
     for j in range(npts):
         # Calculate euclidean distance with numpy functions
         dist = np.sqrt(np.sum(np.square(location[j] - location[i])))
-        if dist <= 8.44e-05 and i != j and remove[j] == False:
+        if dist <= mindist and i != j and remove[j] == False:
             # Tag one of the stations to be removed if distance between them allows for overlap,
             # they are two different stations, and if the other station will not be removed
             remove[i] = True
