@@ -125,8 +125,8 @@ location = ax.transData.transform(location)
 # Create an array of booleans denoting if station would be removed
 remove = np.full(npts, False)
 
-# Currently minimum distance is calcualted through finding distance between two suitable stations
-# In the future we would like to find mindist by finding the width and height of texts in pixel coodinates
+# Currently minimum distance is calculated through finding distance between two suitable stations
+# In the future we would like to find mindist by finding the width and height of texts in pixel coordinates
 mindist = np.sqrt(np.sum(np.square(location[123] - location[124])))
 
 # Tag station to be removed using array `remove`
