@@ -135,7 +135,7 @@ for i in range(npts):
     for j in range(npts):
         # Calculate euclidean distance with numpy functions
         dist = np.sqrt(np.sum(np.square(location[j] - location[i])))
-        if dist <= mindist and i != j and remove[j] == False:
+        if dist <= mindist and i != j and not remove[j]:
             # Tag one of the stations to be removed if distance between them allows for overlap,
             # they are two different stations, and if the other station will not be removed
             remove[i] = True
