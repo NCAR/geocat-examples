@@ -142,7 +142,7 @@ for i in range(npts):
 
 # Add text if it is not tagged to be removed
 for i in range(npts):
-    if remove[i] == False:
+    if not remove[i]:
         ax.text(lon[i],
                 lat[i],
                 no[i],
