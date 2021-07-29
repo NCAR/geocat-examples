@@ -17,7 +17,7 @@ See following URLs to see the reproduced NCL plot & script:
 # Import packages:
 
 import numpy as np
-import cartopy.crs as ccrs
+import xarray as xr
 import matplotlib.pyplot as plt
 
 from geocat.viz import util as gvutil
@@ -205,7 +205,15 @@ def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0, \
 ###############################################################################
 # Generate dummy data
 
-data = generate_2d_array((100, 100), 10, 10, -19., 16., 0)
+nx = 100
+ny = 100
+
+data = generate_2d_array((nx, ny), 10, 10, -19., 16., 0)
+
+# Convert data into type xarray.DataArray
+data = xr.DataArray(data,
+                    dims=["lon", "lat"],
+                    coords=dict(lon=np.arange(ny), lat=np.arange(nx)))
 
 ###############################################################################
 # Plot:
