@@ -118,7 +118,7 @@ fig, ax = create_axes('Overlapping text strings removed')
 # Transpose the array of longitude and latitude for easier access of the location of each station point
 location = np.transpose(np.array([lon, lat]))
 
-# Transform location from user data coodinate system into pixel coordinate system
+# Transform location from user data coordinate system into pixel coordinate system
 # Distance between two stations on screen can be more accurately calculated
 location = ax.transData.transform(location)
 
