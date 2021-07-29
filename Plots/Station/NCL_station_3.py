@@ -23,7 +23,7 @@ import matplotlib.ticker as mticker
 import geocat.datafiles as gdf
 
 ###################################################
-# Generate data:
+# Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = pd.read_csv(
