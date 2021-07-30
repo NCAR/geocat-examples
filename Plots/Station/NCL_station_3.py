@@ -4,6 +4,7 @@ NCL_station_3.py
 This script illustrates the following concepts:
    - Drawing station numbers on a map, and removing ones that overlap
    - Attaching lots of text strings to a map
+   - Using Cartopy's GeoAxes.gridlines as a workaround to adding tick labels on Axes with Mercator (or another) map projection
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/station_3.ncl
