@@ -1,5 +1,5 @@
 """
-NCL_minmax_5.py
+NCL_minmax_3.py
 ===============
 This script illustrates the following concepts:
    - Calculating the local minima/maxima of your data
