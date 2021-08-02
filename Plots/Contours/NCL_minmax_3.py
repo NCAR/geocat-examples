@@ -1,6 +1,6 @@
 """
-NCL_lb_5.py
-===========
+NCL_minmax_5.py
+===============
 This script illustrates the following concepts:
    - Calculating the local minima/maxima of your data
    - Adding text strings at local minima/maxima locations
