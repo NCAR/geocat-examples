@@ -19,6 +19,7 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
+import cartopy.crs as ccrs
 
 from geocat.viz import util as gvutil
 from geocat.viz import cmaps as gvcmaps
@@ -203,6 +204,27 @@ def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0, \
 
 
 ###############################################################################
+# Helper function to add contour labels of local extrema with bounding boxes
+
+
+def plotLabels(coord_locations, label):
+    # Find contour value based on longitude and latitude coordinates
+    for coord in coord_locations:
+        cond = np.logical_and(lons == coord[0], lats == coord[1])
+        x, y = np.where(cond)
+        value = round(data.data[x[0]][y[0]], 1)
+
+        txt = ax.text(coord[0],
+                      coord[1],
+                      label + str(value),
+                      fontsize=14,
+                      horizontalalignment='center',
+                      verticalalignment='center')
+
+        txt.set_bbox(dict(facecolor='w', edgecolor='gray', pad=2))
+
+
+###############################################################################
 # Generate dummy data
 
 nx = 100
@@ -215,11 +237,14 @@ data = xr.DataArray(data,
                     dims=["lon", "lat"],
                     coords=dict(lon=np.arange(ny), lat=np.arange(nx)))
 
+# Return coordinate matrices from coordinate vectors
+lons, lats = np.meshgrid(np.array(data.lon), np.array(data.lat))
+
 ###############################################################################
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
-plt.figure(figsize=(8, 8))
+plt.figure(figsize=(9.5, 8))
 
 # Generate with Cartopy projection
 ax = plt.axes()
@@ -231,33 +256,44 @@ levels = np.arange(-20, 18.5, 2.5)
 cmap = gvcmaps.BlueYellowRed
 
 # Plot filled contour and contour lines
-colors = ax.contourf(data, cmap=cmap, levels=levels)
-lines = ax.contour(colors, linewidths=0.5, colors='black')
+contours = ax.contourf(data, cmap=cmap, levels=levels)
+lines = ax.contour(contours, linewidths=0.5, linestyles='solid', colors='black')
 
-#
+# Find local min/max extrema with GeoCAT-Viz findLocalExtrema
+lmin = gvutil.findLocalExtrema(data, eType='Low', highVal=12, lowVal=-10)
+lmax = gvutil.findLocalExtrema(data, eType='High', highVal=12, lowVal=-10)
+
+# Plot labels for local extrema
+plotLabels(lmin, 'L')
+plotLabels(lmax, 'H')
 
 # Add colorbar
-cbar = plt.colorbar(
-    colors,
-    ax=ax,
-    orientation='vertical',
-    shrink=0.7,  # fraction of the size of the colorbar
-    pad=0.06,  # fraction of original axes between colorbar and new image axes
-    extendrect=True,  # set colorbar shape to be rectangular
-    extendfrac='auto',
-    aspect=14,  # aspect ratio
-    drawedges=True,
-    ticks=levels[1:-1:])  # set colorbar levels
+cbar = plt.colorbar(contours,
+                    ax=ax,
+                    orientation='vertical',
+                    shrink=0.96,
+                    pad=0.06,
+                    extendrect=True,
+                    extendfrac='auto',
+                    aspect=15,
+                    drawedges=True,
+                    ticks=levels[1:-1:])  # set colorbar levels
+
+# Set every other tick labels to be integers
+ticklabs = cbar.ax.get_yticklabels()
+[
+    ticklabs[i].set_text(ticklabs[i].get_text()[:-2])
+    for i in range(1, len(ticklabs), 2)
+]
 
 # Center align colorbar tick labels
-ticklabs = cbar.ax.get_yticklabels()
 cbar.ax.set_yticklabels(ticklabs, ha='center')
-cbar.ax.yaxis.set_tick_params(pad=22, length=0, labelsize=16)
+cbar.ax.yaxis.set_tick_params(pad=26, length=0, labelsize=16)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
 gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(0, 100),
-                                 ylim=(0, 100),
+                                 xlim=(0, 99),
+                                 ylim=(0, 99),
                                  xticks=np.arange(0, 100, 20),
                                  yticks=np.arange(0, 100, 20))
 
@@ -271,7 +307,7 @@ gvutil.add_major_minor_ticks(ax,
 gvutil.set_titles_and_labels(
     ax,
     maintitle='Adding your own minima/maxima text strings',
-    maintitlefontsize=20)
+    maintitlefontsize=24)
 
 # Set different tick font sizes and padding for X and Y axis
 ax.tick_params(axis='both', pad=10)
