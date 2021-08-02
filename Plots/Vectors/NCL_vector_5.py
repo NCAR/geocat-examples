@@ -29,6 +29,8 @@ import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 from geocat.comp import interp_hybrid_to_pressure
 
+import warnings
+
 ###############################################################################
 # Read in data:
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
@@ -42,6 +44,9 @@ hyam = ds.hyam  # get a coefficiants
 hybm = ds.hybm  # get b coefficiants
 PS = ds.PS  # get pressure
 PS = PS / 100  # Convert from Pascal to mb
+
+# Suppress userwarnings from metpy package
+warnings.filterwarnings("ignore")
 
 # Read in variables from data interpolated to pressure levels
 # interp_hybrid_to_pressure is the Python version of vinth2p in NCL script
@@ -126,7 +131,7 @@ v_func = interp2d(T['lat'], T['plev'], wscale)
 uCi = u_func(xi, yi)
 vCi = v_func(xi, yi)
 
-# Use streamplot to resemble curly vector
+# Use streamplot to match curly vector
 ax.streamplot(xi,
               yi,
               uCi,
@@ -137,19 +142,6 @@ ax.streamplot(xi,
               arrowstyle='->',
               color='black',
               integration_direction='backward')
-
-# Call the quiver function create vectors
-# Q = ax.quiver(T['lat'],
-#               T['plev'],
-#               V.data,
-#               wscale.data,
-#               color='black',
-#               zorder=1,
-#               pivot="middle",
-#               width=0.001,
-#               headwidth=5,
-#               scale=400,
-#               angles='xy')
 
 # Draw legend for vector plot
 ax.add_patch(
