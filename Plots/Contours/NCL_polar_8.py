@@ -84,7 +84,7 @@ for xtick, ytick, label in zip(xticks, yticks, labels):
                 fontsize=13,
                 horizontalalignment='center',
                 verticalalignment='top',
-                transform=ccrs.Geodetic())
+                transform=ccrs.PlateCarree())
     elif label == '0':
         ax.text(xtick,
                 ytick,
@@ -92,7 +92,7 @@ for xtick, ytick, label in zip(xticks, yticks, labels):
                 fontsize=13,
                 horizontalalignment='center',
                 verticalalignment='bottom',
-                transform=ccrs.Geodetic())
+                transform=ccrs.PlateCarree())
     else:
         ax.text(xtick,
                 ytick,
@@ -100,7 +100,7 @@ for xtick, ytick, label in zip(xticks, yticks, labels):
                 fontsize=13,
                 horizontalalignment='center',
                 verticalalignment='center',
-                transform=ccrs.Geodetic())
+                transform=ccrs.PlateCarree())
 
 # Set contour levels
 levels = np.arange(249, 283, 3)
@@ -117,15 +117,16 @@ p = wrap_T.plot.contourf(ax=ax,
 
 # Draw vector plot
 # (there is no matplotlib equivalent to "CurlyVector" yet)
-# Q = ax.quiver(wrap_T['lon'],
-#               wrap_T['lat'],
-#               wrap_U.data,
-#               wrap_V.data,
-#               zorder=4,
-#               pivot="middle",
-#               width=0.001,
-#               scale=1000,
-#               transform=ccrs.PlateCarree())
+Q = ax.quiver(wrap_U['lon'],
+              wrap_U['lat'],
+              wrap_U.data,
+              wrap_V.data,
+              zorder=4,
+              pivot="middle",
+              width=0.001,
+              color='white',
+              transform=ccrs.PlateCarree(),
+              regrid_shape=20)
 
 # Add colorbar
 clb = plt.colorbar(p,
