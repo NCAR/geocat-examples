@@ -32,7 +32,8 @@ ds = pd.read_csv(
     delimiter='\\s+',
     names=['index', 'station', 'year1', 'year2', 'number', 'lat', 'lon'])
 
-npts = len(ds)  # get number of points
+# Get number of stations
+npts = len(ds)
 
 # Extract variables
 no = ds.index + 1  # +1 because Pandas' RangeIndex defaults start with 0
@@ -64,16 +65,14 @@ def create_axes(maintitle):
                       x_inline=False,
                       y_inline=False,
                       linewidth=1,
-                      color="black",
+                      color="gray",
                       alpha=0.25)
 
     # Set frequency of gridlines in the x and y directions
     gl.xlocator = mticker.FixedLocator(np.arange(26, 45, 2))
     gl.ylocator = mticker.FixedLocator(np.arange(36, 43, 1))
 
-    # Turn off gridlines and top/right labels
-    gl.xlines = False
-    gl.ylines = False
+    # Turn top/right labels
     gl.top_labels = False
     gl.right_labels = False
 
