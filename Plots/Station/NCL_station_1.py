@@ -29,7 +29,7 @@ from geocat.viz import util as gvutil
 ###################################################
 # Generate data:
 
-# Open a netCDF data file using xarray default engine and load the data into xarrays
+# Open a ascii data file using pandas' read_csv function
 ds = pd.read_csv(gdf.get('ascii_files/pw.dat'), delimiter='\\s+')
 
 # Extract columns

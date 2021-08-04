@@ -6,7 +6,7 @@ This script illustrates the following concepts:
     - Drawing the northern hemisphere of a polar stereographic map
 
 See following URLs to see the reproduced NCL plot & script:
-    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/polar_1_lg.ncl
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/polar_1.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/polar_1_lg.png
 """
 ###############################################################################
