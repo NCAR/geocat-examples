@@ -27,7 +27,6 @@ from geocat.viz import cmaps as gvcmaps
 # Definition of generate_2d_array and helper functions from https://github.com/NCAR/pyngl/blob/develop/src/ngl/__init__.py
 
 #  Globals for random number generator for generat_2d_array
-
 dfran_iseq = 0
 dfran_rseq = [.749, .973, .666, .804, .081, .483, .919, .903,   \
               .951, .960, .039, .269, .270, .756, .222, .478,   \
@@ -158,7 +157,6 @@ def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0, \
     midpt = 0.5 * (minv + maxv)
     out_array[:] = midpt
 
-    #
     for j in range(ny):
         for i in range(nx):
             for k in range(ncnt):
@@ -221,7 +219,7 @@ lons, lats = np.meshgrid(np.array(data.lon), np.array(data.lat))
 # Generate figure (set its size (width, height) in inches)
 plt.figure(figsize=(9.5, 8))
 
-# Generate with Cartopy projection
+# Generate axes
 ax = plt.axes()
 
 # Set contour levels
