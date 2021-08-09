@@ -19,12 +19,9 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
-import cartopy.crs as ccrs
 
 from geocat.viz import util as gvutil
 from geocat.viz import cmaps as gvcmaps
-
-import math
 
 ################################################################
 # Definition of generate_2d_array and helper functions from https://github.com/NCAR/pyngl/blob/develop/src/ngl/__init__.py
@@ -47,9 +44,8 @@ dfran_rseq = [.749, .973, .666, .804, .081, .483, .919, .903,   \
               .689, .354, .372, .429                            \
              ]
 
+
 #  Random number generator for generate_2d_array.
-
-
 def _dfran():
     global dfran_iseq
     global dfran_rseq
@@ -60,10 +56,9 @@ def _dfran():
 
 def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0, \
                       highs_at=None, lows_at=None):
-    """Generates smooth 2D arrays primarily for use in examples.
+    """Generates a "nice" 2D array of pseudo random data, especially for use in
+    2D graphics.
 
-    array = generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0,
-                              highs_at=None, lows_at=None)
     dims -- a list (or array) containing the dimensions of the
             two-dimensional array to be returned.
     num_low, num_high -- Integers representing the approximate minimum
@@ -86,48 +81,24 @@ def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0, \
                 the coordinates must be in the ranges specified in dims.
     """
 
-    #  Globals for random numbers.
-
+    # Globals for random numbers
     global dfran_iseq
     dfran_iseq = seed
 
-    #  Check arguments.
-
+    # Check arguments
     try:
         alen = len(dims)
     except:
-        print(
+        raise TypeError(
             "generate_2d_array: first argument must be a list, tuple, or array having two elements specifying the dimensions of the output array."
         )
-        return None
     if (alen != 2):
-        print(
+        raise TypeError(
             "generate_2d_array: first argument must have two elements specifying the dimensions of the output array."
         )
-        return None
-    if (int(dims[0]) <= 1 and int(dims[1]) <= 1):
-        print("generate_2d_array: array must have at least two elements.")
-        return None
-    if (num_low < 1):
-        print(
-            "generate_2d_array: number of lows must be at least 1 - defaulting to 1."
-        )
-        num_low = 1
-    if (num_low > 25):
-        print(
-            "generate_2d_array: number of lows must be at most 25 - defaulting to 25."
-        )
-        num_high = 25
-    if (num_high < 1):
-        print(
-            "generate_2d_array: number of highs must be at least 1 - defaulting to 1."
-        )
-        num_high = 1
-    if (num_high > 25):
-        print(
-            "generate_2d_array: number of highs must be at most 25 - defaulting to 25."
-        )
-        num_high = 25
+    if int(dims[0]) < 1 and int(dims[1]) <= 1:
+        raise ValueError(
+            "generate_2d_array: array must have at least two elements.")
     if (seed > 100 or seed < 0):
         print(
             "generate_2d_array: seed must be in the interval [0,100] - seed set to 0."
@@ -135,38 +106,39 @@ def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0, \
         seed = 0
     if not lows_at is None:
         if (len(lows_at) != num_low):
-            print(
+            raise TypeError(
                 "generate_2d_array: the list of positions for the lows must be the same size as num_low."
             )
     if not highs_at is None:
         if (len(highs_at) != num_high):
-            print(
+            raise TypeError(
                 "generate_2d_array: the list of positions for the highs must be the same size as num_high."
             )
 
-#  Dims are reversed in order to get the same results as the NCL function.
-
+    #  Dims are reversed in order to get the same results as the NCL function.
     nx = int(dims[1])
     ny = int(dims[0])
-    out_array = np.zeros([nx, ny], 'f')
-    tmp_array = np.zeros([3, 51], 'f')
+    out_array = np.zeros([nx, ny],
+                         'f')  # column-major (Fortran-style) order in memory
+    tmp_array = np.zeros([3, 25], 'f')
     fovm = 9. / float(nx)
     fovn = 9. / float(ny)
+    # Make sure that num_low and num_high are between 1 to 25 inclusive
     nlow = max(1, min(25, num_low))
     nhgh = max(1, min(25, num_high))
     ncnt = nlow + nhgh
 
+    # Fill up temporary array
     for k in range(num_low):
         if not lows_at is None:
-            tmp_array[0,
-                      k] = float(lows_at[k][1])  # lows at specified locations.
+            # lows at specified locations.
+            tmp_array[0, k] = float(lows_at[k][1])
             tmp_array[1, k] = float(lows_at[k][0])
             tmp_array[2, k] = -1.
         else:
-            tmp_array[0, k] = 1. + (float(nx) -
-                                    1.) * _dfran()  # lows at random locations.
-            tmp_array[1, k] = 1. + (float(ny) -
-                                    1.) * _dfran()  # lows at random locations.
+            # lows at random locations.
+            tmp_array[0, k] = 1. + (float(nx) - 1.) * _dfran()
+            tmp_array[1, k] = 1. + (float(ny) - 1.) * _dfran()
             tmp_array[2, k] = -1.
     for k in range(num_low, num_low + num_high):
         if not highs_at is None:
@@ -174,25 +146,28 @@ def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0, \
             tmp_array[1, k] = float(highs_at[k - num_low][0])  # highs locations
             tmp_array[2, k] = 1.
         else:
-            tmp_array[0, k] = 1. + (float(nx) -
-                                    1.) * _dfran()  # highs at random locations.
-            tmp_array[1, k] = 1. + (float(ny) -
-                                    1.) * _dfran()  # highs at random locations.
+            # highs at random locations.
+            tmp_array[0, k] = 1. + (float(nx) - 1.) * _dfran()
+            tmp_array[1, k] = 1. + (float(ny) - 1.) * _dfran()
             tmp_array[2, k] = 1.
 
-    dmin = 1.e+36
-    dmax = -1.e+36
+    # Initialize dmin and dmax to positive and negative inifity
+    dmin = np.inf
+    dmax = -np.inf
+    # Initilize all values in out_array to average of minv and maxv
     midpt = 0.5 * (minv + maxv)
+    out_array[:] = midpt
+
+    #
     for j in range(ny):
         for i in range(nx):
-            out_array[i, j] = midpt
             for k in range(ncnt):
                 tempi = fovm * (float(i + 1) - tmp_array[0, k])
                 tempj = fovn * (float(j + 1) - tmp_array[1, k])
-                temp = -(tempi * tempi + tempj * tempj)
+                temp = -(np.square(tempi) + np.square(tempj))
                 if (temp >= -20.):
-                    out_array[i,j] = out_array[i,j] +    \
-                       0.5*(maxv - minv)*tmp_array[2,k]*math.exp(temp)
+                    out_array[i,j] = out_array[i,j] + \
+                       0.5*(maxv - minv)*tmp_array[2,k]*np.exp(temp)
             dmin = min(dmin, out_array[i, j])
             dmax = max(dmax, out_array[i, j])
 
