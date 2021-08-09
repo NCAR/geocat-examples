@@ -184,7 +184,7 @@ def plotLabels(coord_locations, label):
     # Find contour value based on longitude and latitude coordinates
     for coord in coord_locations:
         # Note: second item of coord (lat) accesses the index for the row number,
-        # and first item of coord (lon) access the idex for the column number
+        # and first item of coord (lon) access the index for the column number
         value = round(data.data[coord[1], coord[0]], 1)
 
         txt = ax.text(coord[0],
