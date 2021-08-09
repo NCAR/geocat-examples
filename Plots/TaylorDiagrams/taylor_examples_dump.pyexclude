@@ -1,0 +1,173 @@
+###############################################################################
+# NCL taylor plots
+
+
+def taylor_6():
+    # https://www.ncl.ucar.edu/Applications/Images/taylor_6_3_lg.png
+
+    fig = plt.figure(figsize=(12, 12))
+    fig.subplots_adjust(wspace=0.3, hspace=0.3)
+
+    # Create a list of model names
+    namearr = ["SLP", "Tsfc", "Prc", "Prc 30S-30N", "LW", "SW", "U300", "Guess"]
+    nModel = len(namearr)
+
+    # Create a list of case names
+    casearr = ["Case A", "Case B", "Case C", "Case D", "Case E"]
+    nCase = len(casearr)
+
+    # Create lists of colors, labels, and main titles
+    colors = ["red", "blue", "green", "magenta", "orange"]
+    labels = ["Case A", "Case B", "Case C", "Case D", "Case E"]
+    maintitles = ["DJF", "JJA", "MAM", "SON"]
+
+    rect = 221
+
+    for i in range(4):
+        # Generate one plot for each season + annual
+        stddev = np.random.normal(1, 0.25, (nCase, nModel))
+        corrcoef = np.random.uniform(0.7, 1, (nCase, nModel))
+
+        # Create taylor diagram
+        da = TaylorDiagram(fig=fig, rect=rect + i, label='REF')
+
+        # Add models case by case
+        for j in range(stddev.shape[0] - 1, -1, -1):
+            da.add_sample(stddev[j],
+                          corrcoef[j],
+                          xytext=(-4, 5),
+                          fontsize=10,
+                          color=colors[j],
+                          label=labels[j],
+                          marker='o',
+                          markersize=5,
+                          linestyle='none')
+        # Add legend
+        da.add_legend(1.1, 1.05, fontsize=9)
+        # Set fontsize and pad
+        da.set_fontsizes_and_pad(11, 13, 2)
+        # Add title
+        da.add_title(maintitles[i], 14, 1.05)
+        # Add model names
+        da.add_model_name(namearr, x_loc=0.08, y_loc=0.4, fontsize=8)
+
+    return fig
+
+
+def taylor_3():
+    # https://www.ncl.ucar.edu/Applications/Images/taylor_3_lg.png
+
+    # Case A
+    CA_ratio = [1.230, 0.988, 1.092, 1.172, 1.064, 0.966, 1.079, 0.781]
+    CA_cc = [0.958, 0.973, 0.740, 0.743, 0.922, 0.982, 0.952, 0.433]
+
+    # Case B
+    CB_ratio = [1.129, 0.996, 1.016, 1.134, 1.023, 0.962, 1.048, 0.852]
+    CB_cc = [0.963, 0.975, 0.801, 0.814, 0.946, 0.984, 0.968, 0.647]
+
+    # Create figure and TaylorDiagram instance
+    fig = plt.figure(figsize=(8, 8))
+    dia = TaylorDiagram(fig=fig, label='REF')
+
+    # Add models to Taylor diagram
+    dia.add_sample(CB_ratio,
+                   CB_cc,
+                   color='blue',
+                   marker='o',
+                   linestyle='none',
+                   label='case B')
+
+    dia.add_sample(CA_ratio,
+                   CA_cc,
+                   color='red',
+                   marker='o',
+                   linestyle='none',
+                   label='case A')
+
+    # Create model name list
+    namearr = ['SLP', 'Tsfc', 'Prc', 'Prc 30S-30N', 'LW', 'SW', 'U300', 'Guess']
+
+    # Add model name
+    dia.add_model_name(namearr)
+
+    # Add figure legend
+    dia.add_legend()
+
+    return fig
+
+
+###############################################################################
+def taylor_2():
+    # https://www.ncl.ucar.edu/Applications/Images/taylor_2_lg.png
+
+    # p dataset
+    pstddev = [0.6, 0.5, 0.45, 0.75, 1.15]
+    pcorrcoef = [0.24, 0.75, 1, 0.93, 0.37]
+    # t dataset
+    tstddev = [0.75, 0.64, 0.4, 0.85, 1.15]
+    tcorrcoef = [0.24, 0.75, 0.47, 0.88, 0.73]
+
+    # Create figure and TaylorDiagram instance
+    fig = plt.figure(figsize=(8, 8))
+    dia = TaylorDiagram(fig=fig, label='REF')
+
+    dia.add_sample(pstddev,
+                   pcorrcoef,
+                   15, (-5, 10),
+                   color='red',
+                   marker='*',
+                   markerfacecolor='none',
+                   markersize=13,
+                   linestyle='none')
+
+    dia.add_sample(tstddev,
+                   tcorrcoef,
+                   15, (-5, 10),
+                   color='blue',
+                   marker='D',
+                   markerfacecolor='none',
+                   markersize=9,
+                   linestyle='none')
+
+    # Add RMS contours, and label them
+    dia.add_contours(levels=np.arange(0, 1.1, 0.25),
+                     colors='lightgrey',
+                     linewidths=0.5)
+
+    # Add y axis grid
+    dia.add_ygrid(np.array([0.5, 1.5]))
+
+    # Add x axis grid
+    dia.add_xgrid(np.array([0.6, 0.9]))
+
+    # Add figure title
+    fig.suptitle("Example", size=24)
+
+    return fig
+
+    # p dataset
+    # p_samp = [[0.60, 0.24, '1'], [0.50, 0.75, '2'], [0.45, 1.00, '3'],
+    #           [0.75, 0.93, '4'], [1.15, 0.37, '5']]
+    # # t dataset
+    # t_samp = [[0.75, 0.24, '1'], [0.64, 0.75, '2'], [0.40, 0.47, '3'],
+    #           [0.85, 0.88, '4'], [1.15, 0.73, '5']]
+
+    # Add models to Taylor diagram
+    # for i, (stddev, corrcoef, name) in enumerate(p_samp):
+    # dia.add_sample(stddev,
+    #                corrcoef,
+    #                marker='$\genfrac{}{}{0}{}{%d}{+}$' % (i + 1),
+    #                ms=25,
+    #                mfc='red',
+    #                mec='none',
+    #                label=name)
+
+    # Add second model data to Taylor diagram
+    # for m, (stddev, corrcoef, name) in enumerate(t_samp):
+    #     dia.add_sample(stddev,
+    #                    corrcoef,
+    #                    marker='$\genfrac{}{}{0}{}{%d}{*}$' % (m + 1),
+    #                    ms=25,
+    #                    mfc='blue',
+    #                    mec='none',
+    #                    label=name)
