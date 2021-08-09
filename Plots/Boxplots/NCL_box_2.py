@@ -32,7 +32,7 @@ for a in range(len(data)):
     data[a] = [x - 4 for x in data[a]]
 
 ###############################################################################
-# Helper function that will be released in GeoCAT-Viz
+# Helper function that will be released in GeoCAT-Viz. Delete this block after release.
 
 
 def set_tick_direction_spine_visibility(ax,
