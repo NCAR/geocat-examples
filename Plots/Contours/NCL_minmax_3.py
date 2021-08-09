@@ -229,6 +229,8 @@ contours = ax.contourf(data, cmap=cmap, levels=levels)
 lines = ax.contour(contours, linewidths=0.5, linestyles='solid', colors='black')
 
 # Find local min/max extrema with GeoCAT-Viz findLocalExtrema
+# Use below command instead after PR#46 in Viz is merged
+# lmin = gvutil.findLocalExtrema(data, eType='Low', highVal=12, lowVal=-10, eps=7)
 lmin = gvutil.findLocalExtrema(data, eType='Low', highVal=12, lowVal=-10)
 lmax = gvutil.findLocalExtrema(data, eType='High', highVal=12, lowVal=-10)
 
