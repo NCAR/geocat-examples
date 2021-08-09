@@ -26,7 +26,7 @@ from geocat.viz import cmaps as gvcmaps
 ################################################################
 # Definition of generate_2d_array and helper functions from https://github.com/NCAR/pyngl/blob/develop/src/ngl/__init__.py
 
-#  Globals for random number generator for generat_2d_array
+#  Globals for random number generator for generate_2d_array
 dfran_iseq = 0
 dfran_rseq = [.749, .973, .666, .804, .081, .483, .919, .903,   \
               .951, .960, .039, .269, .270, .756, .222, .478,   \
