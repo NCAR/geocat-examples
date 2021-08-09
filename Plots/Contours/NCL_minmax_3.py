@@ -183,7 +183,7 @@ def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0, \
 def plotLabels(coord_locations, label):
     # Find contour value based on longitude and latitude coordinates
     for coord in coord_locations:
-        # Note: second item of coord (lat) accesses the idex for the row number,
+        # Note: second item of coord (lat) accesses the index for the row number,
         # and first item of coord (lon) access the idex for the column number
         value = round(data.data[coord[1], coord[0]], 1)
 
