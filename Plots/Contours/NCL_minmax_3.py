@@ -183,9 +183,9 @@ def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0, \
 def plotLabels(coord_locations, label):
     # Find contour value based on longitude and latitude coordinates
     for coord in coord_locations:
-        cond = np.logical_and(lons == coord[0], lats == coord[1])
-        x, y = np.where(cond)
-        value = round(data.data[x[0]][y[0]], 1)
+        # Note: second item of coord (lat) accesses the idex for the row number,
+        # and first item of coord (lon) access the idex for the column number
+        value = round(data.data[coord[1], coord[0]], 1)
 
         txt = ax.text(coord[0],
                       coord[1],
@@ -193,7 +193,6 @@ def plotLabels(coord_locations, label):
                       fontsize=14,
                       horizontalalignment='center',
                       verticalalignment='center')
-
         txt.set_bbox(dict(facecolor='w', edgecolor='gray', pad=2))
 
 
@@ -207,11 +206,8 @@ data = generate_2d_array((nx, ny), 10, 10, -19., 16., 0)
 
 # Convert data into type xarray.DataArray
 data = xr.DataArray(data,
-                    dims=["lon", "lat"],
-                    coords=dict(lon=np.arange(ny), lat=np.arange(nx)))
-
-# Return coordinate matrices from coordinate vectors
-lons, lats = np.meshgrid(np.array(data.lon), np.array(data.lat))
+                    dims=["lat", "lon"],
+                    coords=dict(lat=np.arange(nx), lon=np.arange(ny)))
 
 ###############################################################################
 # Plot:
