@@ -32,16 +32,14 @@ def taylor_6():
         da = TaylorDiagram(fig=fig, rect=rect + i, label='REF')
 
         # Add models case by case
-        for j in range(1, stddev.shape[0]):
-            da.add_sample(stddev[j],
-                          corrcoef[j],
-                          xytext=(-4, 5),
-                          fontsize=10,
-                          color=colors[j],
-                          label=labels[j],
-                          marker='o',
-                          markersize=5,
-                          linestyle='none')
+        for j in range(stddev.shape[0]):
+            da.add_model_set(stddev[j],
+                             corrcoef[j],
+                             xytext=(-4, 5),
+                             fontsize=10,
+                             color=colors[j],
+                             label=labels[j],
+                             marker='o')
         # Add legend
         da.add_legend(1.1, 1.05, fontsize=9)
         # Set fontsize and pad
@@ -70,19 +68,17 @@ def taylor_3():
     dia = TaylorDiagram(fig=fig, label='REF')
 
     # Add models to Taylor diagram
-    dia.add_sample(CA_ratio,
-                   CA_cc,
-                   color='red',
-                   marker='o',
-                   linestyle='none',
-                   label='case A')
+    dia.add_model_set(CA_ratio,
+                      CA_cc,
+                      color='red',
+                      marker='o',
+                      label='case A')
 
-    dia.add_sample(CB_ratio,
-                   CB_cc,
-                   color='blue',
-                   marker='o',
-                   linestyle='none',
-                   label='case B')
+    dia.add_model_set(CB_ratio,
+                      CB_cc,
+                      color='blue',
+                      marker='o',
+                      label='case B')
 
     # Create model name list
     namearr = ['SLP', 'Tsfc', 'Prc', 'Prc 30S-30N', 'LW', 'SW', 'U300', 'Guess']
@@ -96,7 +92,6 @@ def taylor_3():
     return fig
 
 
-###############################################################################
 def taylor_2():
     # https://www.ncl.ucar.edu/Applications/Images/taylor_2_lg.png
 
@@ -111,23 +106,20 @@ def taylor_2():
     fig = plt.figure(figsize=(8, 8))
     dia = TaylorDiagram(fig=fig, label='REF')
 
-    dia.add_sample(pstddev,
-                   pcorrcoef,
-                   15, (-5, 10),
-                   color='red',
-                   marker='*',
-                   markerfacecolor='none',
-                   markersize=13,
-                   linestyle='none')
-
-    dia.add_sample(tstddev,
-                   tcorrcoef,
-                   15, (-5, 10),
-                   color='blue',
-                   marker='D',
-                   markerfacecolor='none',
-                   markersize=9,
-                   linestyle='none')
+    # Add model sets
+    dia.add_model_set(pstddev,
+                      pcorrcoef,
+                      15, (-5, 10), # model label fontsize and offset
+                      color='red',
+                      marker='*',
+                      facecolors='none',
+                      s=100)
+    dia.add_model_set(tstddev,
+                      tcorrcoef,
+                      15, (-5, 10),
+                      color='blue',
+                      marker='D',
+                      facecolors='none')
 
     # Add RMS contours, and label them
     dia.add_contours(levels=np.arange(0, 1.1, 0.25),
