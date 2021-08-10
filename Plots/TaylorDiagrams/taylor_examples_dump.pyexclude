@@ -32,7 +32,7 @@ def taylor_6():
         da = TaylorDiagram(fig=fig, rect=rect + i, label='REF')
 
         # Add models case by case
-        for j in range(stddev.shape[0] - 1, -1, -1):
+        for j in range(1, stddev.shape[0]):
             da.add_sample(stddev[j],
                           corrcoef[j],
                           xytext=(-4, 5),
@@ -70,19 +70,19 @@ def taylor_3():
     dia = TaylorDiagram(fig=fig, label='REF')
 
     # Add models to Taylor diagram
-    dia.add_sample(CB_ratio,
-                   CB_cc,
-                   color='blue',
-                   marker='o',
-                   linestyle='none',
-                   label='case B')
-
     dia.add_sample(CA_ratio,
                    CA_cc,
                    color='red',
                    marker='o',
                    linestyle='none',
                    label='case A')
+
+    dia.add_sample(CB_ratio,
+                   CB_cc,
+                   color='blue',
+                   marker='o',
+                   linestyle='none',
+                   label='case B')
 
     # Create model name list
     namearr = ['SLP', 'Tsfc', 'Prc', 'Prc 30S-30N', 'LW', 'SW', 'U300', 'Guess']
