@@ -33,6 +33,62 @@ ds = xr.open_dataset(gdf.get("netcdf_files/mxclim.nc"))
 U = ds.U[0, :, :]
 V = ds.V[0, :, :]
 
+###############################################################################
+# Potential viz convenience function
+
+
+def add_right_hand_axis(ax,
+                        label=None,
+                        ylim=None,
+                        yticks=None,
+                        ticklabelsize=12,
+                        labelpad=10,
+                        axislabelsize=16,
+                        y_minor_per_major=None):
+    """
+    Utility function that adds a right hand axis to the plot.
+    Args:
+        ax (:class:`matplotlib.axes._subplots.AxesSubplot` or :class:`cartopy.mpl.geoaxes.GeoAxesSubplot`):
+            Current axes to the current figure
+        label (:class:`str`):
+            Text to use for the right hand side label.
+        ylim (:class:`tuple`):
+            Should be given as a tuple of numeric values (left, right), where left and right are the left and right
+            y-axis limits in data coordinates. Passing None for any of them leaves the limit unchanged. See Matplotlib
+            documentation for further information.
+
+        yticks (:class:`list`):
+            List of y-axis tick locations. See Matplotlib documentation for further information.
+
+        ticklabelsize (:class:`int`):
+            Text font size of tick labels. A default value of 12 is used if nothing is set.
+
+        labelpad (:class:`float`):
+            Spacing in points from the axes bounding box. A default value of 10 is used if nothing is set.
+
+        axislabelsize (:class:`int`):
+            Text font size for y-axes. A default value of 16 is used if nothing is set.
+
+        y_minor_per_major (:class:`int`):
+            Number of minor ticks between adjacent major ticks on y-axis.
+    """
+    from geocat.viz import util as gvutil
+    import matplotlib.ticker as tic
+
+    axRHS = ax.twinx()
+    if label is not None:
+        axRHS.set_ylabel(ylabel=label,
+                         labelpad=labelpad,
+                         fontsize=axislabelsize)
+    gvutil.set_axes_limits_and_ticks(axRHS, ylim=ylim, yticks=yticks)
+    axRHS.tick_params(labelsize=ticklabelsize, length=8, width=0.9)
+    if y_minor_per_major is not None:
+        axRHS.yaxis.set_minor_locator(tic.AutoMinorLocator(n=y_minor_per_major))
+        axRHS.tick_params(length=4, width=0.4, which="minor")
+
+    return axRHS
+
+
 ################################################################################
 # Plot:
 
@@ -79,14 +135,15 @@ gvutil.set_titles_and_labels(ax,
 
 # Create second y-axis to show geo-potential height.
 # Currently we're using bogus values for height, cause we haven't figured out how to make this work.
-axRHS = ax.twinx()
 dummy = 10
 mn, mx = ax.get_ylim()
-axRHS.set_ylim(mn * dummy, mx * dummy)
-axRHS.set_ylim(axRHS.get_ylim()[::-1])
-axRHS.set_ylabel('Height (km)')
-axRHS.yaxis.label.set_size(20)
-axRHS.tick_params('both', length=20, width=2, which='major', labelsize=18)
+
+axRHS = add_right_hand_axis(ax,
+                            label="Height (km)",
+                            ylim=(mx * dummy, mn * dummy),
+                            ticklabelsize=18,
+                            axislabelsize=20)
+axRHS.tick_params('both', length=20, width=2, which='major')
 
 # Show the plot
 plt.tight_layout()
