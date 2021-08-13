@@ -38,6 +38,63 @@ ds = xr.open_dataset(gdf.get("netcdf_files/1994_256_FSD.nc"),
 t = ds.FSD.isel(time=0)
 
 ###############################################################################
+# Potential viz covenience function add_lat_lon_gridlines
+
+
+def add_lat_lon_gridlines(ax,
+                          projection=None,
+                          draw_labels=True,
+                          xlocator=np.arange(-180, 180, 15),
+                          ylocator=np.arange(-90, 90, 15),
+                          x_labelsize=12,
+                          y_labelsize=12,
+                          **kwargs):
+    """Utility function that adds latitude and longtitude gridlines to the
+    plot.
+
+    Args:
+
+        ax (:class:`cartopy.mpl.geoaxes.GeoAxes`):
+            Current axes to the current figure.
+
+        projection (:class:`cartopy.crs.CRS`):
+            Defines a Cartopy Coordinate Reference System. If not given,
+            defaults to ccrs.PlateCarree()
+
+        draw_labels (:class:`bool`):
+            Toggle whether to draw labels, default to True.
+
+        xlocator, ylocator (:class:`numpy.ndarray` or list):
+            Arrays of fixed locations of the gridlines in the x and y coordinate of the given CRS.
+            Default to np.arange(-180, 180, 15) and np.arange(-90, 90, 15).
+
+        dms (:class:`bool`):
+
+
+        *kwargs* control line properties and are passed through to `matplotlib.collections.Collection`.
+
+    Return:
+
+        gl (:class:`cartopy.mpl.gridliner.Gridliner`):
+    """
+    import matplotlib.ticker as mticker
+
+    # Draw gridlines
+    gl = ax.gridlines(crs=projection,
+                      draw_labels=draw_labels,
+                      x_inline=False,
+                      y_inline=False,
+                      **kwargs)
+
+    gl.xlocator = mticker.FixedLocator(xlocator)
+    gl.ylocator = mticker.FixedLocator(ylocator)
+    gl.xlabel_style = {"rotation": 0, "size": x_labelsize}
+    gl.ylabel_style = {"rotation": 0, "size": y_labelsize}
+
+    return gl
+
+
+###############################################################################
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
@@ -68,22 +125,16 @@ cbar = plt.colorbar(pt,
                     ticks=cbar_ticks)
 
 # Draw gridlines
-gl = ax.gridlines(crs=ccrs.PlateCarree(),
-                  draw_labels=True,
-                  dms=False,
-                  x_inline=False,
-                  y_inline=False,
-                  linewidth=1,
-                  color="black",
-                  alpha=0.25)
-
-# Manipulate latitude and longitude gridline numbers and spacing
+gl = add_lat_lon_gridlines(ax,
+                           xlocator=[130, 134, 138, 142],
+                           ylocator=[36, 38, 40, 42, 44, 46, 48, 50],
+                           x_labelsize=15,
+                           y_labelsize=15,
+                           linewidth=1,
+                           color='black',
+                           alpha=0.25)
 gl.top_labels = False
 gl.right_labels = False
-gl.xlocator = mticker.FixedLocator([130, 134, 138, 142])
-gl.ylocator = mticker.FixedLocator([36, 38, 40, 42, 44, 46, 48, 50])
-gl.xlabel_style = {"rotation": 0, "size": 15}
-gl.ylabel_style = {"rotation": 0, "size": 15}
 
 plt.title("Native Mercator Projection",
           loc="center",
