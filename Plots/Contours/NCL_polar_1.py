@@ -6,7 +6,7 @@ This script illustrates the following concepts:
     - Drawing the northern hemisphere of a polar stereographic map
 
 See following URLs to see the reproduced NCL plot & script:
-    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/polar_1_lg.ncl
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/polar_1.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/polar_1_lg.png
 """
 ###############################################################################
@@ -61,7 +61,7 @@ ticks = np.arange(0, 210, 30)
 etick = ['0'] + [
     r'%dE' % tick for tick in ticks if (tick != 0) & (tick != 180)
 ] + ['180']
-wtick = [r'%dW' % tick for tick in ticks if (tick != 0) & (tick != 180)]
+wtick = [r'%dW' % tick for tick in ticks[::-1] if (tick != 0) & (tick != 180)]
 labels = etick + wtick
 xticks = np.arange(0, 360, 30)
 yticks = np.full_like(xticks, -5)  # Latitude where the labels will be drawn
