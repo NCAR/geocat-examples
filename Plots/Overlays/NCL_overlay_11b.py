@@ -183,10 +183,11 @@ for path in geos_to_path(country_geos):
 #        at once, so we must loop through the "collections" in the contour
 #        plot and clip each one separately.)
 for col in cf.collections:
+    cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp)
     col.set_clip_path(patch)
 
-
 # Add horizontal colorbar
+cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp)
 cax = plt.axes((0.14, 0.08, 0.74, 0.02))
 cbar = plt.colorbar(cf,
                     ax=ax,
