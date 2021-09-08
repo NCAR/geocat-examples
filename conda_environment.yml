@@ -13,7 +13,7 @@ dependencies:
   - geographiclib
   - jupyter
   - make
-  - matplotlib
+  - matplotlib=3.3.0
   - metpy
   - mock
   - netcdf4
