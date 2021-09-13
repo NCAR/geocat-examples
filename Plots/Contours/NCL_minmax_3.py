@@ -107,7 +107,7 @@ def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0, \
         tmp_array[1, k] = 1. + (float(ny) - 1.) * _dfran()
         tmp_array[2, k] = 1.
 
-    # Initialize dmin and dmax to positive and negative inifity
+    # Initialize dmin and dmax to positive and negative infinity
     dmin = np.inf
     dmax = -np.inf
     # Initialize all values in out_array to average of minv and maxv
