@@ -110,7 +110,7 @@ def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0, \
     # Initialize dmin and dmax to positive and negative inifity
     dmin = np.inf
     dmax = -np.inf
-    # Initilize all values in out_array to average of minv and maxv
+    # Initialize all values in out_array to average of minv and maxv
     midpt = 0.5 * (minv + maxv)
     out_array[:] = midpt
 
