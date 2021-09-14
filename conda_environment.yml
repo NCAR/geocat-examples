@@ -26,3 +26,4 @@ dependencies:
   - wrf-python
   - pip:
       - pre-commit
+      - git+https://github.com/NCAR/geocat-viz@main
