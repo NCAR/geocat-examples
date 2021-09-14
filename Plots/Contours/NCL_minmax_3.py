@@ -51,7 +51,8 @@ def _dfran():
     dfran_iseq = dfran_iseq + 1
     return r
 
-def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0)
+
+def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0):
     """Generates a "nice" 2D array of pseudo random data, especially for use in
     2D graphics.
 
