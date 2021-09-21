@@ -147,7 +147,7 @@ newcmp = gvutil.truncate_colormap(gvcmaps.BkBlAqGrYeOrReViWh200,
 
 # Draw the temperature contour plot with the subselected colormap
 # (Place the zorder of the contour plot at the lowest level)
-cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp, zorder=3)
+cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp, zorder=1)
 
 # Draw horizontal color bar
 cax = plt.axes((0.14, 0.08, 0.74, 0.02))
