@@ -47,11 +47,13 @@ wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
 fig = plt.figure(figsize=(10, 10))
 
 # Generate axes using Cartopy and draw coastlines
-ax = plt.axes(projection=ccrs.Mercator(central_longitude=0,min_latitude=-87.8638))
+ax = plt.axes(
+    projection=ccrs.Mercator(central_longitude=0, min_latitude=-87.8638))
+
+# Add coastlines
 ax.coastlines(linewidths=0.5)
 
-# Set extent to include latitudes from -90 to 89 and longitudes from -180
-# to 180
+# Set extent of the projection
 ax.set_extent([0, 359, -84.5, 89], crs=ccrs.PlateCarree())
 
 # Draw gridlines
