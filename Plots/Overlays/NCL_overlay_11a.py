@@ -66,7 +66,7 @@ T = ds["T"]
 
 lat = ds["lat"]
 lon = ds["lon"]
-print(ds)
+
 ###############################################################################
 # Construct shape boundaries:
 # ---------------------------
@@ -147,7 +147,7 @@ newcmp = gvutil.truncate_colormap(gvcmaps.BkBlAqGrYeOrReViWh200,
 
 # Draw the temperature contour plot with the subselected colormap
 # (Place the zorder of the contour plot at the lowest level)
-cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp, zorder=0)
+cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp, zorder=1)
 
 # Draw horizontal color bar
 cax = plt.axes((0.14, 0.08, 0.74, 0.02))
@@ -163,11 +163,11 @@ cbar.ax.tick_params(labelsize=12)
 ax.add_feature(land_mask, zorder=2)
 
 # Add the OCEAN and LAKES features on top of the contour plot
-ax.add_feature(OCEAN.with_scale('50m'), edgecolor='black', lw=1, zorder=3)
-ax.add_feature(LAKES.with_scale('50m'), edgecolor='black', lw=1, zorder=3)
+ax.add_feature(OCEAN.with_scale('50m'), edgecolor='black', lw=1, zorder=2)
+ax.add_feature(LAKES.with_scale('50m'), edgecolor='black', lw=1, zorder=2)
 
 # Add the country and province features (which are transparent) on top
-ax.add_feature(countries, zorder=2)
+ax.add_feature(countries, zorder=3)
 ax.add_feature(provinces, zorder=3)
 
 # Draw the wind quiver plot on top of everything else
@@ -210,8 +210,7 @@ ax.text(105,
         ha='center',
         va='center',
         color='mediumorchid',
-        bbox=props,
-        zorder=5)
+        bbox=props)
 
 # Use geocat.viz.util convenience function to set axes tick values
 gvutil.set_axes_limits_and_ticks(ax,
