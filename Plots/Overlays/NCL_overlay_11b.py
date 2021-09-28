@@ -159,12 +159,14 @@ newcmp = gvutil.truncate_colormap(gvcmaps.BkBlAqGrYeOrReViWh200,
 #        As a result, we have to loop over *all closed paths* and construct a
 #        matplotlib patch object that we can use the clip the contour plot.)
 def clip_and_plot():
+    global cf
     for path in geos_to_path(country_geos):
         patch = PathPatch(path,
                           transform=ax.transData,
                           facecolor='none',
                           edgecolor='black',
                           lw=1.5)
+
         # print(geos_to_path(country_geos)[0])
         # Draw the patch on the plot
 
@@ -176,8 +178,7 @@ def clip_and_plot():
         #        another contour plot and clip that contour plot with the patch.  In
         #        other words, every island on this plot corresponds to its own
         #        contour plot!)
-        # geos = geos_to_path(country_geos)[0]
-        global cf
+
         cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp)
 
         # Clip each contour of the contour plot
@@ -185,10 +186,12 @@ def clip_and_plot():
         #        is no easy mechanism in matplotlib to clip the entire contour plot
         #        at once, so we must loop through the "collections" in the contour
         #        plot and clip each one separately.)
+
         for col in cf.collections:
             col.set_clip_path(patch)
 
     # Add horizontal colorbar
+
     cax = plt.axes((0.14, 0.08, 0.74, 0.02))
 
     cbar = plt.colorbar(cf,
