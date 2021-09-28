@@ -177,6 +177,7 @@ def clip_and_plot():
         #        other words, every island on this plot corresponds to its own
         #        contour plot!)
         # geos = geos_to_path(country_geos)[0]
+        global cf
         cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp)
 
         # Clip each contour of the contour plot
@@ -189,6 +190,7 @@ def clip_and_plot():
 
     # Add horizontal colorbar
     cax = plt.axes((0.14, 0.08, 0.74, 0.02))
+
     cbar = plt.colorbar(cf,
                         ax=ax,
                         cax=cax,
