@@ -190,18 +190,26 @@ def clip_and_plot():
         for col in cf.collections:
             col.set_clip_path(patch)
 
-    # Add horizontal colorbar
 
-    cax = plt.axes((0.14, 0.08, 0.74, 0.02))
+# Add horizontal colorbar
 
-    cbar = plt.colorbar(cf,
-                        ax=ax,
-                        cax=cax,
-                        ticks=clevs[1:-1],
-                        drawedges=True,
-                        orientation='horizontal')
-    cbar.ax.tick_params(labelsize=12)
+cax = plt.axes((0.14, 0.08, 0.74, 0.02))
 
+# cbar = plt.colorbar(cf,
+#                     ax=ax,
+#                     cax=cax,
+#                     ticks=clevs[1:-1],
+#                     drawedges=True,
+#                     orientation='horizontal')
+import matplotlib as mpl
+
+cbar = mpl.colorbar.ColorbarBase(cax,
+                                 cmap=newcmp,
+                                 values=np.arange(228, 272, 4),
+                                 ticks=np.arange(228, 272, 4),
+                                 drawedges=True,
+                                 orientation='horizontal')
+cbar.ax.tick_params(labelsize=12)
 
 clip_and_plot()
 # Draw the province borders
