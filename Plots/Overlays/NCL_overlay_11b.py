@@ -43,6 +43,7 @@ import numpy as np
 
 from matplotlib import pyplot as plt
 from matplotlib.patches import PathPatch
+import matplotlib as mpl
 
 from cartopy.feature import ShapelyFeature, OCEAN, LAKES, LAND
 from cartopy.crs import PlateCarree
@@ -65,7 +66,8 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uvt.nc")).sel(time=0, lev=500)
 U = ds["U"]
 V = ds["V"]
 T = ds["T"]
-
+print(ds.T)
+print(T)
 lat = ds["lat"]
 lon = ds["lon"]
 
@@ -151,67 +153,53 @@ newcmp = gvutil.truncate_colormap(gvcmaps.BkBlAqGrYeOrReViWh200,
                                   maxval=0.6,
                                   n=len(clevs))
 
-
 # Draw the contour plot, "clipped" to the country boundaries
 # (NOTE: There are multiple closed polygons representing the boundaries of the
 #        countries.  This is both because there are 2 country borders being used
 #        to clip the contour plot, but also because China consists of many islands.
 #        As a result, we have to loop over *all closed paths* and construct a
 #        matplotlib patch object that we can use the clip the contour plot.)
-def clip_and_plot():
-    global cf
-    for path in geos_to_path(country_geos):
-        patch = PathPatch(path,
-                          transform=ax.transData,
-                          facecolor='none',
-                          edgecolor='black',
-                          lw=1.5)
 
-        # print(geos_to_path(country_geos)[0])
-        # Draw the patch on the plot
+for path in geos_to_path(country_geos):
+    # Draw the patch on the plot
+    patch = PathPatch(path,
+                      transform=ax.transData,
+                      facecolor='none',
+                      edgecolor='black',
+                      lw=1.5)
 
-        # Draw the contour plot
-        # (NOTE: Because this line is in the loop over closed paths, the contour plot
-        #        is being drawn for each closed path.  This has to be done because
-        #        matplotlib cannot apply *multiple* closed paths at the same time to
-        #        to the same plot.  Hence, for each closed path, we need to generate
-        #        another contour plot and clip that contour plot with the patch.  In
-        #        other words, every island on this plot corresponds to its own
-        #        contour plot!)
+    # Draw the contour plot
+    # (NOTE: Because this line is in the loop over closed paths, the contour plot
+    #        is being drawn for each closed path.  This has to be done because
+    #        matplotlib cannot apply *multiple* closed paths at the same time to
+    #        to the same plot.  Hence, for each closed path, we need to generate
+    #        another contour plot and clip that contour plot with the patch.  In
+    #        other words, every island on this plot corresponds to its own
+    #        contour plot!)
 
-        cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp)
+    cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp, zorder=2)
 
-        # Clip each contour of the contour plot
-        # (NOTE: Each contour of the contour plot is actually its own "plot".  There
-        #        is no easy mechanism in matplotlib to clip the entire contour plot
-        #        at once, so we must loop through the "collections" in the contour
-        #        plot and clip each one separately.)
+    # Clip each contour of the contour plot
+    # (NOTE: Each contour of the contour plot is actually its own "plot".  There
+    #        is no easy mechanism in matplotlib to clip the entire contour plot
+    #        at once, so we must loop through the "collections" in the contour
+    #        plot and clip each one separately.)
 
-        for col in cf.collections:
-            col.set_clip_path(patch)
-
+    for col in cf.collections:
+        col.set_clip_path(patch)
 
 # Add horizontal colorbar
-
 cax = plt.axes((0.14, 0.08, 0.74, 0.02))
-
-# cbar = plt.colorbar(cf,
-#                     ax=ax,
-#                     cax=cax,
-#                     ticks=clevs[1:-1],
-#                     drawedges=True,
-#                     orientation='horizontal')
-import matplotlib as mpl
-
+norm = mpl.colors.Normalize(vmin=228, vmax=272)
 cbar = mpl.colorbar.ColorbarBase(cax,
                                  cmap=newcmp,
                                  values=np.arange(228, 272, 4),
-                                 ticks=np.arange(228, 272, 4),
+                                 norm=norm,
                                  drawedges=True,
                                  orientation='horizontal')
 cbar.ax.tick_params(labelsize=12)
+cbar.set_ticks(np.arange(232, 272, 4))
 
-clip_and_plot()
 # Draw the province borders
 ax.add_feature(provinces, zorder=3)
 
