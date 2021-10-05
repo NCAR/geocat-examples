@@ -66,8 +66,6 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uvt.nc")).sel(time=0, lev=500)
 U = ds["U"]
 V = ds["V"]
 T = ds["T"]
-print(ds.T)
-print(T)
 lat = ds["lat"]
 lon = ds["lon"]
 
@@ -166,7 +164,10 @@ for path in geos_to_path(country_geos):
                       transform=ax.transData,
                       facecolor='none',
                       edgecolor='black',
-                      lw=1.5)
+                      lw=1.5,
+                      zorder=2)
+    # Draw the patch on the plot
+    ax.add_patch(patch)
 
     # Draw the contour plot
     # (NOTE: Because this line is in the loop over closed paths, the contour plot
@@ -201,7 +202,7 @@ cbar.ax.tick_params(labelsize=12)
 cbar.set_ticks(np.arange(232, 272, 4))
 
 # Draw the province borders
-ax.add_feature(provinces, zorder=3)
+ax.add_feature(provinces, zorder=2)
 
 # Draw the quiver plot (and its key)
 Q = ax.quiver(lon,
