@@ -24,5 +24,6 @@ dependencies:
   - sphinx-gallery
   - sphinx_rtd_theme
   - wrf-python
+  - anaconda-client
   - pip:
       - pre-commit
