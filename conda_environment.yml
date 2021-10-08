@@ -9,7 +9,7 @@ dependencies:
   - geocat-datafiles
   - eofs
   - geocat-viz
-  - cartopy
+  - cartopy=0.19.0
   - geographiclib
   - jupyter
   - make
