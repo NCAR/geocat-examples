@@ -9,7 +9,7 @@ dependencies:
   - geocat-datafiles
   - eofs
   - geocat-viz
-  - cartopy=0.19.0
+  - cartopy
   - geographiclib
   - jupyter
   - make
@@ -24,6 +24,5 @@ dependencies:
   - sphinx-gallery
   - sphinx_rtd_theme
   - wrf-python
-  - anaconda-client
   - pip:
       - pre-commit

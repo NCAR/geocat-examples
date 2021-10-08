@@ -21,10 +21,6 @@ import warnings
 
 project = 'GeoCAT-examples'
 
-import conda.cli
-
-conda.cli.main('conda', 'list')
-
 import datetime
 
 current_year = datetime.datetime.now().year
