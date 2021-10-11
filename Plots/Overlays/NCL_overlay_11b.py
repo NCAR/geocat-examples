@@ -194,15 +194,6 @@ cbar = plt.colorbar(cf,
                     drawedges=True,
                     orientation='horizontal')
 cbar.ax.tick_params(labelsize=12)
-# norm = mpl.colors.Normalize(vmin=228, vmax=272)
-# cbar = mpl.colorbar.ColorbarBase(cax,
-#                                  cmap=newcmp,
-#                                  values=np.arange(228, 272, 4),
-#                                  norm=norm,
-#                                  drawedges=True,
-#                                  orientation='horizontal')
-# cbar.ax.tick_params(labelsize=12)
-# cbar.set_ticks(np.arange(232, 272, 4))
 
 # Draw the province borders
 ax.add_feature(provinces, zorder=2)
