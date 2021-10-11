@@ -157,15 +157,13 @@ newcmp = gvutil.truncate_colormap(gvcmaps.BkBlAqGrYeOrReViWh200,
 #        to clip the contour plot, but also because China consists of many islands.
 #        As a result, we have to loop over *all closed paths* and construct a
 #        matplotlib patch object that we can use the clip the contour plot.)
-
 for path in geos_to_path(country_geos):
-    # Draw the patch on the plot
     patch = PathPatch(path,
                       transform=ax.transData,
                       facecolor='none',
                       edgecolor='black',
-                      lw=1.5,
-                      zorder=2)
+                      lw=1.5)
+
     # Draw the patch on the plot
     ax.add_patch(patch)
 
@@ -177,29 +175,34 @@ for path in geos_to_path(country_geos):
     #        another contour plot and clip that contour plot with the patch.  In
     #        other words, every island on this plot corresponds to its own
     #        contour plot!)
-
-    cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp, zorder=2)
+    cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp)
 
     # Clip each contour of the contour plot
     # (NOTE: Each contour of the contour plot is actually its own "plot".  There
     #        is no easy mechanism in matplotlib to clip the entire contour plot
     #        at once, so we must loop through the "collections" in the contour
     #        plot and clip each one separately.)
-
     for col in cf.collections:
         col.set_clip_path(patch)
 
 # Add horizontal colorbar
 cax = plt.axes((0.14, 0.08, 0.74, 0.02))
-norm = mpl.colors.Normalize(vmin=228, vmax=272)
-cbar = mpl.colorbar.ColorbarBase(cax,
-                                 cmap=newcmp,
-                                 values=np.arange(228, 272, 4),
-                                 norm=norm,
-                                 drawedges=True,
-                                 orientation='horizontal')
+cbar = plt.colorbar(cf,
+                    ax=ax,
+                    cax=cax,
+                    ticks=clevs[1:-1],
+                    drawedges=True,
+                    orientation='horizontal')
 cbar.ax.tick_params(labelsize=12)
-cbar.set_ticks(np.arange(232, 272, 4))
+# norm = mpl.colors.Normalize(vmin=228, vmax=272)
+# cbar = mpl.colorbar.ColorbarBase(cax,
+#                                  cmap=newcmp,
+#                                  values=np.arange(228, 272, 4),
+#                                  norm=norm,
+#                                  drawedges=True,
+#                                  orientation='horizontal')
+# cbar.ax.tick_params(labelsize=12)
+# cbar.set_ticks(np.arange(232, 272, 4))
 
 # Draw the province borders
 ax.add_feature(provinces, zorder=2)
