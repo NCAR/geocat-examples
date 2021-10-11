@@ -8,12 +8,13 @@ dependencies:
   - cf_xarray>=0.3.1
   - geocat-datafiles
   - eofs
+  - fiona
   - geocat-viz
   - cartopy
   - geographiclib
   - jupyter
   - make
-  - matplotlib=3.3.0
+  - matplotlib
   - metpy
   - mock
   - netcdf4
