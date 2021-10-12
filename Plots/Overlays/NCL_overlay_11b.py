@@ -43,9 +43,8 @@ import numpy as np
 
 from matplotlib import pyplot as plt
 from matplotlib.patches import PathPatch
-import matplotlib as mpl
 
-from cartopy.feature import ShapelyFeature, OCEAN, LAKES, LAND
+from cartopy.feature import ShapelyFeature, OCEAN, LAKES
 from cartopy.crs import PlateCarree
 from cartopy.mpl.patch import geos_to_path
 from cartopy.io.shapereader import Reader as ShapeReader, natural_earth
@@ -66,6 +65,7 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uvt.nc")).sel(time=0, lev=500)
 U = ds["U"]
 V = ds["V"]
 T = ds["T"]
+
 lat = ds["lat"]
 lon = ds["lon"]
 
@@ -196,7 +196,7 @@ cbar = plt.colorbar(cf,
 cbar.ax.tick_params(labelsize=12)
 
 # Draw the province borders
-ax.add_feature(provinces, zorder=2)
+ax.add_feature(provinces)
 
 # Draw the quiver plot (and its key)
 Q = ax.quiver(lon,

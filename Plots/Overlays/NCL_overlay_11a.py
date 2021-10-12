@@ -43,7 +43,7 @@ import numpy as np
 
 from matplotlib import pyplot as plt
 
-from cartopy.feature import ShapelyFeature, OCEAN, LAKES, LAND
+from cartopy.feature import ShapelyFeature, OCEAN, LAKES
 from cartopy.crs import PlateCarree
 from cartopy.io.shapereader import Reader as ShapeReader, natural_earth
 
@@ -147,7 +147,7 @@ newcmp = gvutil.truncate_colormap(gvcmaps.BkBlAqGrYeOrReViWh200,
 
 # Draw the temperature contour plot with the subselected colormap
 # (Place the zorder of the contour plot at the lowest level)
-cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp, zorder=0)
+cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp, zorder=1)
 
 # Draw horizontal color bar
 cax = plt.axes((0.14, 0.08, 0.74, 0.02))
@@ -163,12 +163,12 @@ cbar.ax.tick_params(labelsize=12)
 ax.add_feature(land_mask, zorder=1)
 
 # Add the OCEAN and LAKES features on top of the contour plot
-ax.add_feature(OCEAN.with_scale('50m'), edgecolor='black', lw=1, zorder=1)
-ax.add_feature(LAKES.with_scale('50m'), edgecolor='black', lw=1, zorder=1)
+ax.add_feature(OCEAN.with_scale('50m'), edgecolor='black', lw=1, zorder=2)
+ax.add_feature(LAKES.with_scale('50m'), edgecolor='black', lw=1, zorder=2)
 
 # Add the country and province features (which are transparent) on top
-ax.add_feature(countries, zorder=2)
-ax.add_feature(provinces, zorder=2)
+ax.add_feature(countries, zorder=3)
+ax.add_feature(provinces, zorder=3)
 
 # Draw the wind quiver plot on top of everything else
 Q = ax.quiver(lon,
@@ -179,7 +179,7 @@ Q = ax.quiver(lon,
               width=.003,
               scale=600.,
               headwidth=3.75,
-              zorder=3)
+              zorder=4)
 
 # Draw the key for the quiver plot
 rect = plt.Rectangle((142, 52),
@@ -187,7 +187,7 @@ rect = plt.Rectangle((142, 52),
                      3,
                      facecolor='mediumorchid',
                      edgecolor=None,
-                     zorder=3)
+                     zorder=4)
 ax.add_patch(rect)
 ax.quiverkey(Q,
              0.9675,
