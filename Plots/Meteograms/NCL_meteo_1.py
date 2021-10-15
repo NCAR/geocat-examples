@@ -57,9 +57,6 @@ spec = fig.add_gridspec(ncols=1, nrows=3, height_ratios=[4, 1, 1], hspace=0.4)
 # Create axis for contour/wind barb plot
 ax1 = fig.add_subplot(spec[0, 0], projection=ccrs.PlateCarree())
 
-# Add coastlines to first axis
-ax1.coastlines(linewidths=0.5, alpha=-1)
-
 # Set aspect ratio of the first axis
 ax1.set_aspect(2)
 
