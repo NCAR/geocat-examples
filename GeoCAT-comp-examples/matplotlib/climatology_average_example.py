@@ -1,5 +1,5 @@
 """
-climatology_example.py
+climatology_average_example.py
 =========================
 This script illustrates the following concepts:
     - Usage of geocat-comp's climatology_average function
