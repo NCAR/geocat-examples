@@ -1,8 +1,8 @@
 """
-climatology_example.py
+calendar_average_example.py
 =========================
 This script illustrates the following concepts:
-    - Usage of geocat-comp's calendar_average functions
+    - Usage of geocat-comp's calendar_average function
     - Usage of geocat-datafiles for accessing NetCDF files
     - Creating a figure with stacked subplots
 
