@@ -4,6 +4,7 @@ climatology_example.py
 This script illustrates the following concepts:
     - Usage of geocat-comp's climatology_average and calendar_average functions
     - Usage of geocat-datafiles for accessing NetCDF files
+    - Creating a figure with stacked subplots
 
 See following GitHub repositories to see further information about the function and how to access
 data:
@@ -24,6 +25,7 @@ Dependencies:
 
 import cftime
 import matplotlib.pyplot as plt
+import numpy as np
 import xarray as xr
 
 from geocat.comp import climatology_average, calendar_average
@@ -33,7 +35,7 @@ from geocat.viz import util as gvutil
 ###############################################################################
 # Read in data:
 
-ds = xr.open_dataset('/Users/hcraker/Documents/atm.20C.hourly6-1990-1995-TS.nc')
+ds = xr.open_dataset(gdf.get('netcdf_files/atm.20C.hourly6-1990-1995-TS.nc'))
 ds = ds.isel(member_id=0)  # select one model from the ensemble
 
 temp = ds.TS
@@ -70,6 +72,22 @@ ax[2].plot(time_num_month, monthly.data)
 # calling several matplotlib functions
 gvutil.set_axes_limits_and_ticks(ax[0],
                                  xlim=(tstart, tend+1),
+                                 xticks=np.arange(tstart, tend+1, 365*24),
+                                 xticklabels=range(1990,1997),
                                  ylim=(297, 304))
+
+# Use geocat.viz.util convenience function to set titles and labels
+gvutil.set_titles_and_labels(ax[0],
+                             ylabel='Raw Data',
+                             lefttitle=temp.long_name,
+                             lefttitlefontsize=14,
+                             righttitle=temp.units,
+                             righttitlefontsize=14)
+gvutil.set_titles_and_labels(ax[1],
+                             ylabel='Daily Climatology')
+
+gvutil.set_titles_and_labels(ax[2],
+                             ylabel='Monthly Climatology',
+                             xlabel=temp.time.long_name)
 
 plt.show()
