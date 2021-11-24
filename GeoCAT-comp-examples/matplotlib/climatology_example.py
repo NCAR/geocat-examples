@@ -2,7 +2,7 @@
 climatology_example.py
 =========================
 This script illustrates the following concepts:
-    - Usage of geocat-comp's climatology_average and calendar_average functions
+    - Usage of geocat-comp's climatology_average function
     - Usage of geocat-datafiles for accessing NetCDF files
     - Creating a figure with stacked subplots
 
@@ -25,10 +25,9 @@ Dependencies:
 
 import cftime
 import matplotlib.pyplot as plt
-import numpy as np
 import xarray as xr
 
-from geocat.comp import climatology_average, calendar_average
+from geocat.comp import climatology_average
 import geocat.datafiles as gdf
 from geocat.viz import util as gvutil
 
@@ -72,8 +71,8 @@ ax[2].plot(time_num_month, monthly.data)
 # calling several matplotlib functions
 gvutil.set_axes_limits_and_ticks(ax[0],
                                  xlim=(tstart, tend+1),
-                                 xticks=np.arange(tstart, tend+1, 365*24),
-                                 xticklabels=range(1990,1997),
+                                 xticks=range(tstart, tend+1, 365*24),
+                                 xticklabels=range(1990, 1997),
                                  ylim=(297, 304))
 
 # Use geocat.viz.util convenience function to set titles and labels
