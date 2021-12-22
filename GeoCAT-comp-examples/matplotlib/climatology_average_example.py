@@ -1,8 +1,8 @@
 """
 climatology_average_example.py
-=========================
+==============================
 This script illustrates the following concepts:
-    - Usage of geocat-comp's climatology_average function
+    - Usage of geocat-comp's `climatology_average <https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.climatologies.climatology_average.html#geocat.comp.climatologies.climatology_average>`_ function
     - Usage of geocat-datafiles for accessing NetCDF files
     - Creating a figure with stacked subplots
 
@@ -14,7 +14,7 @@ data:
 Dependencies:
     - cftime
     - geocat.comp
-    - geocat.datafiles (Not necessary but for conveniently accessing the data file)
+    - geocat.datafiles (Not necessary for figure but for accessing the data file)
     - geocat.viz
     - matplotlib
     - xarray
@@ -40,7 +40,7 @@ ds = ds.isel(member_id=0)  # select one model from the ensemble
 temp = ds.TS
 
 ###############################################################################
-# Calculate climatologies using `climatology_average`
+# Calculate daily and monthly climate averages using `climatology_average`
 
 daily = climatology_average(temp, 'day')
 monthly = climatology_average(temp, 'month')
@@ -82,11 +82,15 @@ gvutil.set_titles_and_labels(ax[0],
                              lefttitlefontsize=14,
                              righttitle=temp.units,
                              righttitlefontsize=14)
+
 gvutil.set_titles_and_labels(ax[1],
                              ylabel='Daily Climatology')
 
 gvutil.set_titles_and_labels(ax[2],
                              ylabel='Monthly Climatology',
                              xlabel=temp.time.long_name)
+
+# Add title manually to control spacing
+fig.suptitle('Climatology Average of 6-hourly Data', fontsize=20)
 
 plt.show()
