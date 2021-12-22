@@ -40,7 +40,7 @@ ds = ds.isel(member_id=0)  # select one model from the ensemble
 temp = ds.TS # surface temperature data
 
 ###############################################################################
-# Calculate climatologies using `calendar_average`
+# Calculate daily, monthly, and seasonal averages using `calendar_average`
 
 daily = calendar_average(temp, 'day')
 monthly = calendar_average(temp, 'month')
@@ -95,5 +95,8 @@ gvutil.set_titles_and_labels(ax[2],
 gvutil.set_titles_and_labels(ax[3],
                              ylabel='Season Average',
                              xlabel=temp.time.long_name)
+
+# Add title manually to control spacing
+fig.suptitle('Calendar Average on 6-hourly Data', fontsize=20)
 
 plt.show()
