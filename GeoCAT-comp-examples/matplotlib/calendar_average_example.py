@@ -2,7 +2,7 @@
 calendar_average_example.py
 ===========================
 This script illustrates the following concepts:
-    - Usage of geocat-comp's calendar_average function
+    - Usage of geocat-comp's `calendar_average <https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.climatologies.calendar_average.html?highlight=CALENDER%20average>`_ function.
     - Usage of geocat-datafiles for accessing NetCDF files
     - Creating a figure with stacked subplots
 
