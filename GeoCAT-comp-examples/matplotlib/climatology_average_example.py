@@ -18,6 +18,23 @@ Dependencies:
     - geocat.viz
     - matplotlib
     - xarray
+
+Figure Description:
+The top subplot is raw surface temperature data from a model run with a
+temporal resolution of 6-hours.
+
+The middle subplot shows the output of the raw data being aggregated using the
+`climatology_average` function with the `freq` argument set to 'daily'. This
+function with that setting finds the average daily temperature for each day of
+the year. The output has adjusted datetimes instead of using integers to denote
+the day of the year for the time axis. The year for the outputted data is the
+floor of the median year of the inputted data, which is 1993 in this case.
+
+The bottom subplot shows the output of `climatology_average` with the `freq`
+argument set to 'monthly'. This works much the same as for the middle plot;
+however, the data is now grouped by month which yeilds a smoother curve. The
+time axis is adjusted in the same way, except now there are only 12 data points
+with one for each month.
 """
 
 ###############################################################################
