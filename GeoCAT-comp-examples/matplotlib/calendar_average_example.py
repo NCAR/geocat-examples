@@ -1,6 +1,6 @@
 """
 calendar_average_example.py
-=========================
+===========================
 This script illustrates the following concepts:
     - Usage of geocat-comp's calendar_average function
     - Usage of geocat-datafiles for accessing NetCDF files
@@ -14,7 +14,7 @@ data:
 Dependencies:
     - cftime
     - geocat.comp
-    - geocat.datafiles (Not necessary but for conveniently accessing the data file)
+    - geocat.datafiles (Not necessary for figure but used for accessing the data file)
     - geocat.viz
     - matplotlib
     - xarray
@@ -37,7 +37,7 @@ from geocat.viz import util as gvutil
 ds = xr.open_dataset(gdf.get('netcdf_files/atm.20C.hourly6-1990-1995-TS.nc'))
 ds = ds.isel(member_id=0)  # select one model from the ensemble
 
-temp = ds.TS
+temp = ds.TS # surface temperature data
 
 ###############################################################################
 # Calculate climatologies using `calendar_average`
