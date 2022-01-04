@@ -31,7 +31,7 @@ the day of the year for the time axis. The year for the outputted data is the
 floor of the median year of the inputted data, which is 1993 in this case.
 
 The bottom subplot shows the output of `climatology_average` with the `freq`
-argument set to 'monthly'. This works much the same as for the middle plot;
+argument set to `monthly`. This works much the same as for the middle plot;
 however, the data is now grouped by month which yeilds a smoother curve. The
 time axis is adjusted in the same way, except now there are only 12 data points
 with one for each month.
@@ -108,6 +108,6 @@ gvutil.set_titles_and_labels(ax[2],
                              xlabel=temp.time.long_name)
 
 # Add title manually to control spacing
-fig.suptitle('Climatology Average of 6-hourly Data', fontsize=20)
+fig.suptitle('Climatology Average on 6-hourly Data', fontsize=20)
 
 plt.show()
