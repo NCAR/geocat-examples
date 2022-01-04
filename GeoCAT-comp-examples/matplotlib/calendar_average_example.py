@@ -18,6 +18,23 @@ Dependencies:
     - geocat.viz
     - matplotlib
     - xarray
+
+Figure Description:
+The top subplot is raw surface temperature data from a model run with a
+temporal resolution of 6-hours.
+
+The second subplot shows the output of the raw data being aggregated using the
+`calendar_average` function with the `freq` argument set to 'daily'. This
+function averages all data points within each 24-hour period.
+
+The third subplot shows the output of `calendar_average` with the `freq`
+argument set to `monthly`. This works much the same as for the middle plot;
+however, the data is now grouped by month which yeilds a smoother curve.
+
+The bottom subplot shows the output of `calendar_average` with the `freq`
+argument set to `season`. This averages all data points in each meteorological
+season. Those seasons are each comprised of three month periods with the first
+consisting of December, January, and February for meteorological winter.
 """
 
 ###############################################################################
