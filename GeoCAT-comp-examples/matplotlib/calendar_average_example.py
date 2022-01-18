@@ -70,7 +70,7 @@ time_num_day = cftime.date2num(daily.time, 'hours since 1990-01-01 00:00:00')
 time_num_month = cftime.date2num(monthly.time, 'hours since 1990-01-01 00:00:00')
 time_num_season = cftime.date2num(season.time, 'hours since 1990-01-01 00:00:00')
 
-# Start and end time for axes limits
+# Start and end time for axes limits in units of hours since 1990-01-01 00:00:00
 tstart = time_num_raw[0]
 tend = time_num_raw[-1]
 
@@ -78,8 +78,12 @@ tend = time_num_raw[-1]
 # Plot:
 
 # Make three subplots with shared axes
-fig, ax = plt.subplots(4, 1, figsize=(8, 10),
-                       sharex=True, sharey=True, constrained_layout=True)
+fig, ax = plt.subplots(4,
+                       1,
+                       figsize=(8, 10),
+                       sharex=True,
+                       sharey=True,
+                       constrained_layout=True)
 
 # Plot data
 ax[0].plot(time_num_raw, temp.data)
@@ -90,8 +94,8 @@ ax[3].plot(time_num_season, season.data)
 # Use geocat.viz.util convenience function to set axes parameters without
 # calling several matplotlib functions
 gvutil.set_axes_limits_and_ticks(ax[0],
-                                 xlim=(tstart, tend+1),
-                                 xticks=range(tstart, tend+1, 365*24),
+                                 xlim=(tstart, tend + 1),
+                                 xticks=range(tstart, tend + 1, 365 * 24),
                                  xticklabels=range(1990, 1997),
                                  ylim=(297, 304))
 
@@ -103,11 +107,9 @@ gvutil.set_titles_and_labels(ax[0],
                              righttitle=temp.units,
                              righttitlefontsize=14)
 
-gvutil.set_titles_and_labels(ax[1],
-                             ylabel='Daily Average')
+gvutil.set_titles_and_labels(ax[1], ylabel='Daily Average')
 
-gvutil.set_titles_and_labels(ax[2],
-                             ylabel='Monthly Average')
+gvutil.set_titles_and_labels(ax[2], ylabel='Monthly Average')
 
 gvutil.set_titles_and_labels(ax[3],
                              ylabel='Season Average',
