@@ -150,7 +150,7 @@ gvutil.set_titles_and_labels(ax=ax,
 
 # Manually add suptitle and subtitle
 fig.suptitle('Raob; [Wind Reports]', fontsize=24, y=0.93)
-ax.set_title(subtitle, color='darkgoldenrod', fontweight='bold')
+ax.set_title(subtitle, color='darkgoldenrod')
 
 # Change the style of the gridlines
 plt.grid(True,
