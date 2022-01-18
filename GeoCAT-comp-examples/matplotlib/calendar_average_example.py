@@ -54,7 +54,7 @@ from geocat.viz import util as gvutil
 ds = xr.open_dataset(gdf.get('netcdf_files/atm.20C.hourly6-1990-1995-TS.nc'))
 ds = ds.isel(member_id=0)  # select one model from the ensemble
 
-temp = ds.TS # surface temperature data
+temp = ds.TS  # surface temperature data
 
 ###############################################################################
 # Calculate daily, monthly, and seasonal averages using `calendar_average`
@@ -67,8 +67,10 @@ season = calendar_average(temp, 'season')
 # This must be done in order to use the time for the x axis
 time_num_raw = cftime.date2num(temp.time, 'hours since 1990-01-01 00:00:00')
 time_num_day = cftime.date2num(daily.time, 'hours since 1990-01-01 00:00:00')
-time_num_month = cftime.date2num(monthly.time, 'hours since 1990-01-01 00:00:00')
-time_num_season = cftime.date2num(season.time, 'hours since 1990-01-01 00:00:00')
+time_num_month = cftime.date2num(monthly.time,
+                                 'hours since 1990-01-01 00:00:00')
+time_num_season = cftime.date2num(season.time,
+                                  'hours since 1990-01-01 00:00:00')
 
 # Start and end time for axes limits in units of hours since 1990-01-01 00:00:00
 tstart = time_num_raw[0]
