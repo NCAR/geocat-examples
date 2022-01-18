@@ -56,7 +56,7 @@ subtitle = gcskewt.get_skewt_vars(p, tc, tdc, pro)  # Create subtitle
 # Note that MetPy forces the x axis scale to be in Celsius and the y axis
 # scale to be in hectoPascals. Once data is plotted, then the axes labels are
 # automatically added
-fig = plt.figure(figsize=(12, 12))
+fig = plt.figure(figsize=(10, 12))
 
 # The rotation keyword changes how skewed the temperature lines are. MetPy has
 # a default skew of 30 degrees
@@ -142,7 +142,7 @@ gvutil.add_major_minor_ticks(ax=ax,
 # on the left and bottom edges
 ax.tick_params('both', which='both', top=False, right=False)
 
-# Use geocat.viz utility functions to add a main title
+# Use geocat.viz utility functions to add labels
 gvutil.set_titles_and_labels(ax=ax,
                              xlabel='Temperature (C)',
                              ylabel='P (hPa)',
