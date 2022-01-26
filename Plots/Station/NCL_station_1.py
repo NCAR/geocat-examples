@@ -7,7 +7,7 @@ This script illustrates the following concepts:
    - Drawing lat/lon locations as filled dots
    - Controlling which contour lines get drawn
    - Using alpha parameter to emphasize or subdue overlain features
-   - Using a different color scheme to follow `best practices <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py`_ for visualizations
+   - Using a different color scheme to follow `best practices <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py>`_ for visualizations
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/station_1.ncl
