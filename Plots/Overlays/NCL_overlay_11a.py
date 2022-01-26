@@ -43,7 +43,7 @@ import numpy as np
 
 from matplotlib import pyplot as plt
 
-from cartopy.feature import ShapelyFeature, OCEAN, LAKES, LAND
+from cartopy.feature import ShapelyFeature, OCEAN, LAKES
 from cartopy.crs import PlateCarree
 from cartopy.io.shapereader import Reader as ShapeReader, natural_earth
 

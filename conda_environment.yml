@@ -3,11 +3,12 @@ channels:
   - conda-forge
   - ncar
 dependencies:
-  - python=3
+  - python>=3.7
   - geocat-comp
   - cf_xarray>=0.3.1
   - geocat-datafiles
   - eofs
+  - fiona
   - geocat-viz
   - cartopy
   - geographiclib
