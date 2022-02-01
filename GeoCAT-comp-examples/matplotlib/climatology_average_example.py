@@ -12,12 +12,12 @@ data:
     - For atm.20C.hourly6-1990-1995.nc file: https://github.com/NCAR/geocat-datafiles/tree/main/netcdf_files
 
 Dependencies:
-    - cftime
     - geocat.comp
-    - geocat.datafiles (Not necessary for figure but for accessing the data file)
+    - geocat.datafiles (for accessing data file only)
     - geocat.viz
-    - matplotlib
-    - xarray
+    - cftime (installed with geocat.comp)
+    - matplotlib (installed with geocat.viz)
+    - xarray (installed with geocat.comp)
 
 Figure Description:
 The top subplot is raw surface temperature data from a model run with a
