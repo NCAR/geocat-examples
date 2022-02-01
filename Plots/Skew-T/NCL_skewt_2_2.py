@@ -4,7 +4,7 @@ NCL_skewt_2_2.py
 This script illustrates the following concepts:
    - Customizing the background of a Skew-T plot
    - Plotting temperature, dewpoint, and wind data on a Skew-T plot
-   - Using GeoCAT-comp function ` ``get_skewt_vars`` <https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.skewt_params.get_skewt_vars.html#geocat.comp.skewt_params.get_skewt_vars>`_ to calculate CAPE, Precipitable Water, Showalter Index, Pressure of the lifting condensation level, and Temperature at the lifting condensation level [C]
+   - Using GeoCAT-comp function `get_skewt_vars <https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.skewt_params.get_skewt_vars.html#geocat.comp.skewt_params.get_skewt_vars>`_ to calculate CAPE, Precipitable Water, Showalter Index, Pressure of the lifting condensation level, and Temperature at the lifting condensation level [C]
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/skewt_2.ncl
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png
@@ -148,7 +148,7 @@ gvutil.set_titles_and_labels(ax=ax,
                              ylabel='P (hPa)',
                              labelfontsize=14)
 
-# Manually add suptitle and subtitle
+# Manually add suptitle and subtitle for appropriate positioning
 fig.suptitle('Raob; [Wind Reports]', fontsize=24, y=0.92)
 ax.set_title(subtitle, color='darkgoldenrod')
 
