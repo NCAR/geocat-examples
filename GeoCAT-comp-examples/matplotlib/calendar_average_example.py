@@ -13,7 +13,7 @@ data:
 
 Dependencies:
     - geocat.comp
-    - geocat.datafiles (Not necessary for figure but used for accessing the data file)
+    - geocat.datafiles (for accessing data file only)
     - geocat.viz
     - cftime (installed with geocat.comp)
     - matplotlib (installed with geocat.viz)
