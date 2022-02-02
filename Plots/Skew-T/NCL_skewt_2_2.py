@@ -4,15 +4,10 @@ NCL_skewt_2_2.py
 This script illustrates the following concepts:
    - Customizing the background of a Skew-T plot
    - Plotting temperature, dewpoint, and wind data on a Skew-T plot
+   - Using GeoCAT-comp function `get_skewt_vars <https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.skewt_params.get_skewt_vars.html#geocat.comp.skewt_params.get_skewt_vars>`_ to calculate CAPE, Precipitable Water, Showalter Index, Pressure of the lifting condensation level, and Temperature at the lifting condensation level [C]
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/skewt_2.ncl
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png
-Note:
-    Currently functions to calculate CAPE, precipitable water, the showalter
-    index, the pressure of the LCL, and the temperature of the LCL do not
-    exist in ``geocat-comp``. An `issue <https://github.com/NCAR/geocat-comp/issues/89>`_
-    has been opened on the ``geocat-comp`` GitHub. The subtitle with those
-    values will be added at a later date once that issue has been closed.
 """
 
 ##############################################################################
@@ -28,6 +23,7 @@ import metpy.calc as mpcalc
 
 import geocat.viz.util as gvutil
 import geocat.datafiles as gdf
+import geocat.comp.skewt_params as gcskewt
 
 ##############################################################################
 # Read in data:
@@ -47,13 +43,20 @@ wspd = np.linspace(0, 150, len(p)) * units.knots  # Wind speed   [knots or m/s]
 wdir = np.linspace(0, 360, len(p)) * units.degrees  # Meteorological wind dir
 u, v = mpcalc.wind_components(wspd, wdir)  # Calculate wind components
 
+# Generate subtitle with Pressure of LCL, Temperature of LCL, Showalter Index,
+# Precipitable Water, and CAPE
+tc0 = tc[0]  # Temperature of surface parcel
+tdc0 = tdc[0]  # Dew point temperature of surface parcel
+pro = mpcalc.parcel_profile(p, tc0, tdc0)  # Temperature profile of parcel
+subtitle = gcskewt.get_skewt_vars(p, tc, tdc, pro)  # Create subtitle
+
 ##############################################################################
 # Plot:
 
 # Note that MetPy forces the x axis scale to be in Celsius and the y axis
 # scale to be in hectoPascals. Once data is plotted, then the axes labels are
 # automatically added
-fig = plt.figure(figsize=(12, 12))
+fig = plt.figure(figsize=(10, 12))
 
 # The rotation keyword changes how skewed the temperature lines are. MetPy has
 # a default skew of 30 degrees
@@ -139,13 +142,15 @@ gvutil.add_major_minor_ticks(ax=ax,
 # on the left and bottom edges
 ax.tick_params('both', which='both', top=False, right=False)
 
-# Use geocat.viz utility functions to add a main title
+# Use geocat.viz utility functions to add labels
 gvutil.set_titles_and_labels(ax=ax,
-                             maintitle="Raob; [Wind Reports]",
-                             maintitlefontsize=22,
                              xlabel='Temperature (C)',
                              ylabel='P (hPa)',
                              labelfontsize=14)
+
+# Manually add suptitle and subtitle for appropriate positioning
+fig.suptitle('Raob; [Wind Reports]', fontsize=24, y=0.92)
+ax.set_title(subtitle, color='darkgoldenrod')
 
 # Change the style of the gridlines
 plt.grid(True,
