@@ -17,5 +17,3 @@ example lists its own dependencies that should be installed as well.
 
 .. nbgallery::
    ./gallery-notebooks/Datashader/MPAS_Datashader_Trimesh
-
-
