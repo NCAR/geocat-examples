@@ -9,13 +9,6 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-import importlib
-import os
-import warnings
-
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
 
 # -- Project information -----------------------------------------------------
 
@@ -35,7 +28,15 @@ author = u'GeoCAT'
 # ones.
 extensions = [
     'sphinx_gallery.gen_gallery',
+    'nbsphinx',
+    'sphinx_gallery.load_style',
 ]
+
+# Define what extensions will parse which kind of source file
+source_suffix = {
+    '.md': 'sphinx_gallery',
+    '.rst': 'restructuredtext',
+}
 
 image_scrapers = ('matplotlib',)
 
@@ -79,6 +80,7 @@ warnings.filterwarnings("ignore",
 import sphinx_rtd_theme
 
 html_theme = 'sphinx_rtd_theme'
+html_logo = '_static/images/nsf.png'
 html_style = None
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
