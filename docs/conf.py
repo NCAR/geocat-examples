@@ -82,17 +82,10 @@ warnings.filterwarnings("ignore",
 import sphinx_rtd_theme
 
 html_theme = 'sphinx_rtd_theme'
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 html_static_path = ['_static']
 html_logo = '_static/images/nsf.png'
 html_style = None
-
-on_rtd = os.environ.get('READTHEDOCS') == 'True'
-if on_rtd:
-    html_theme = 'default'
-else:
-    import sphinx_rtd_theme
-    html_theme = 'sphinx_rtd_theme'
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 
 # Allow for changes to be made to the css in the theme_overrides file
