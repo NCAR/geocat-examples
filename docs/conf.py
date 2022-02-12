@@ -127,3 +127,10 @@ import pooch
 logger = pooch.get_logger()
 logger.setLevel(logging.WARNING)
 geocat.datafiles.get("registry.txt")
+
+nbsphinx_prolog = """
+Download notebook (Right click and save):
+https://github.com/NCAR/GeoCAT-examples/raw/main/docs/{{ env.doc2path(env.docname, base=None) }}
+
+----
+"""
