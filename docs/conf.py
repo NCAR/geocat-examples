@@ -120,7 +120,7 @@ def setup(app):
 from sphinx_gallery.sorting import ExampleTitleSortKey
 
 sphinx_gallery_conf = {
-    'examples_dirs': ['../Plots', '../GeoCAT-comp-examples'
+    'examples_dirs': ['../Gallery', '../GeoCAT-comp-examples'
                      ],  # path to your example scripts
     'filename_pattern': '^((?!sgskip).)*$',
     'gallery_dirs': ['gallery', 'gallery-geocat-comp'
