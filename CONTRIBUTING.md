@@ -9,7 +9,7 @@ following contribution guidelines:
 1. Please check the followings to ensure that the example you are about to work on has not been ported yet:
 
     - [GeoCAT-Examples Gallery](https://geocat-examples.readthedocs.io/en/latest/) or
-    the `Plots` as well as `GeoCAT-comp-examples` directories of this repo,
+    the `Gallery` as well as `GeoCAT-comp-examples` directories of this repo,
 
     - The list of [Issues](https://github.com/NCAR/GeoCAT-examples/issues) for this repo to see if any of
     the existing to-do items are something you might be interested in working on.
