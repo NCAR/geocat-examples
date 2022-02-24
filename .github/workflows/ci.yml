@@ -27,7 +27,7 @@ jobs:
         ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       uses: mamba-org/provision-with-micromamba@main
       with:
-         micromamba_version: "latest"
+         micromamba-version: "latest"
          environment-name: geocat-examples
          environment-file: conda_environment.yml
     - name: Make html
