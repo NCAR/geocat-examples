@@ -44,6 +44,27 @@ following example (assuming your :code:`geocat-examples` environment is already 
 
 or in the way that is suggested by each Jupyter notebook under (2).
 
+
+Updating the :code:`geocat-examples` environment
+------------------------------------------------
+It is important to keep your environment up to date so you get the latest bugfixes and changes.
+This can be done as follows:
+
+Make sure your Conda is up to date by running this command from the terminal::
+
+    conda update conda
+
+Activate the conda environment you want to update::
+
+    conda activate geocat-examples
+
+Update all packages in the environment::
+    conda update --all
+
+Note that this will update all packages to the most recent version that is compatible with the other packages in the
+environment. You may notice with :code:`conda list` that not every package in your environment is the latest version.
+This is generally okay.
+
 If you are interested in learning more about how Conda environments work, please visit
 the [managing environments](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
 page of the Conda documentation.
