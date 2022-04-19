@@ -3,10 +3,11 @@ Installation
 
 GeoCAT-examples is a collection of standalone visualization examples, and it is not distributed
 as a conda package; thus, there is no installation for it (via conda or other package management systems).
-The easiest way to access GeoCAT-examples scripts as a whole is by cloning the repo and then using a
-`Conda <http://conda.pydata.org/docs/>`_ environment.
+The easiest way to access GeoCAT-examples scripts as a whole is by cloning the repo and then configuring
+`Conda <http://conda.pydata.org/docs/>`_ environment to run them in.
 
-For information about installing the entire GeoCAT project, see our
+This guide includes only the instructions to run GeoCAT-examples scripts locally. For information about installing the
+entire GeoCAT project, see our
 `Contributor's Guide <(https://geocat.ucar.edu/pages/contributing.html#3-creating-a-development-environment)>`_.
 
 Creating a Conda environment
