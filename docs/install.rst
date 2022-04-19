@@ -59,6 +59,7 @@ Activate the conda environment you want to update::
     conda activate geocat-examples
 
 Update all packages in the environment::
+
     conda update --all
 
 Note that this will update all packages to the most recent version that is compatible with the other packages in the
