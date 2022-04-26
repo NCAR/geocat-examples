@@ -47,7 +47,7 @@ or in the way that is suggested by each Jupyter notebook under (2).
 
 
 Updating the ``geocat-examples`` environment
-------------------------------------------------
+--------------------------------------------
 It is important to keep your environment up to date so you get the latest bugfixes and changes.
 This can be done as follows:
 
