@@ -15,7 +15,7 @@ Creating a Conda environment
 
 The GeoCAT-examples repository has two different types of implementation for visualization examples:
 
-1.  Python scripts (:code:`.py`) under the "Gallery" and "GeoCAT-comp-examples" directories
+1.  Python scripts (``.py``) under the "Gallery" and "GeoCAT-comp-examples" directories
 2.  Jupyter notebooks under the "docs/gallery-notebooks" directory
 
 This repository provides a Conda environment file that can be used to create an evironment to build
@@ -32,21 +32,21 @@ the cloned geocat-examples directory, run the following commands::
     conda activate geocat-examples
 
 Note that the Conda package manager automatically installs all the `required`
-dependencies of GeoCAT-examples listed under :code:`conda_environment.yml` file (such as :code:`geocat-comp`,
-:code:`geocat-datafiles`, :code:`cartopy`, :code:`matplotlib`, :code:`netcdf4`, etc.); therefore, there is no need for
+dependencies of GeoCAT-examples listed under ``conda_environment.yml`` file (such as ``geocat-comp``,
+``geocat-datafiles``, ``cartopy``, ``matplotlib``, ``netcdf4``, etc.); therefore, there is no need for
 explicitly installing those packages.
 
 If you need to make use of other software packages with GeoCAT-examples or are interested in
 running the Jupyter notebooks under (2) mentioned above, you may need to install them into your
-:code:`geocat-examples` environment at anytime with a command as in the
-following example (assuming your :code:`geocat-examples` environment is already activated)::
+``geocat-examples`` environment at anytime with a command as in the
+following example (assuming your ``geocat-examples`` environment is already activated)::
 
     conda install -c bokeh bokeh
 
 or in the way that is suggested by each Jupyter notebook under (2).
 
 
-Updating the :code:`geocat-examples` environment
+Updating the ``geocat-examples`` environment
 ------------------------------------------------
 It is important to keep your environment up to date so you get the latest bugfixes and changes.
 This can be done as follows:
@@ -64,7 +64,7 @@ Update all packages in the environment::
     conda update --all
 
 Note that this will update all packages to the most recent version that is compatible with the other packages in the
-environment. You may notice with :code:`conda list` that not every package in your environment is the latest version.
+environment. You may notice with ``conda list`` that not every package in your environment is the latest version.
 This is generally okay.
 
 If you are interested in learning more about how Conda environments work, please visit
