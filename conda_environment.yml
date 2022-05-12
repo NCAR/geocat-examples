@@ -9,7 +9,7 @@ dependencies:
   - geocat-datafiles
   - eofs
   - fiona
-  - geocat-viz=2020.7.30.1
+  - geocat-viz
   - cartopy
   - geographiclib
   - jupyter
