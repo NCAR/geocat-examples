@@ -89,8 +89,8 @@ p = wrap_pressure.plot.contour(ax=ax,
 
 # low pressure contour levels- these will be plotted
 # as a subscript to an 'L' symbol.
-lowClevels = gv.findLocalExtrema(pressure, lowval=995, etype='Low')
-highClevels = gv.findLocalExtrema(pressure, highval=1042, etype='High')
+lowClevels = gv.findLocalExtrema(pressure, lowVal=995, eType='Low')
+highClevels = gv.findLocalExtrema(pressure, highVal=1042, eType='High')
 
 # Label regular contours with automatic matplotlib labeling
 # Specify the levels to label every other contour level
