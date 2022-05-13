@@ -16,6 +16,7 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 import matplotlib.pyplot as plt
+from matplotlib.ticker import ScalarFormatter
 import numpy as np
 import xarray as xr
 import cmaps
@@ -28,6 +29,7 @@ import geocat.datafiles as gdf
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
+
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 
 # Extract the data needed

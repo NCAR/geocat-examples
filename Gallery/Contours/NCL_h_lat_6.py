@@ -63,7 +63,7 @@ ax.clabel(lines, fmt='%d', levels=levels)
 # Plot filled contours
 colors = U.plot.contourf(ax=ax,
                          levels=levels,
-                         cmap=gvcmap.BlWhRe,
+                         cmap=cmaps.BlWhRe,
                          add_labels=False,
                          add_colorbar=False)
 # Add colorbar

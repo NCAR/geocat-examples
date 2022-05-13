@@ -42,15 +42,15 @@ r = random.uniform(low=-1.2, high=35, size=npts)
 ###############################################################################
 # Specify bins and sizes and create custom mappable based on NCV_jet colormap
 bins = [0, 5, 10, 15, 20, 23, 26]
-cmap = gvcmap.NCV_jet
+cmap = cmaps.NCV_jet
 
 # Create the boundaries for your data, this may be larger than bins to
-# accomodate colors for data outside of the smallest and largest bins
+# accommodate colors for data outside of the smallest and largest bins
 boundaries = [-1.2, 0, 5, 10, 15, 20, 23, 26, 35]
 norm = colors.BoundaryNorm(boundaries, cmap.N)
 mappable = cm.ScalarMappable(norm=norm, cmap=cmap)
 
-# Retreive the list of colors to use for the markers
+# Retrieve the list of colors to use for the markers
 marker_colors = mappable.to_rgba(boundaries)
 
 # Increasing sizes for the markers in each bin, by using numpy.geomspace the
