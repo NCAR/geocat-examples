@@ -96,26 +96,26 @@ ax[3].plot(time_num_season, season.data)
 # Use geocat.viz.util convenience function to set axes parameters without
 # calling several matplotlib functions
 gv.set_axes_limits_and_ticks(ax[0],
-                                 xlim=(tstart, tend + 1),
-                                 xticks=range(tstart, tend + 1, 365 * 24),
-                                 xticklabels=range(1990, 1997),
-                                 ylim=(297, 304))
+                             xlim=(tstart, tend + 1),
+                             xticks=range(tstart, tend + 1, 365 * 24),
+                             xticklabels=range(1990, 1997),
+                             ylim=(297, 304))
 
 # Use geocat.viz.util convenience function to set titles and labels
 gv.set_titles_and_labels(ax[0],
-                             ylabel='Raw Data (6-hourly)',
-                             lefttitle=temp.long_name,
-                             lefttitlefontsize=14,
-                             righttitle=temp.units,
-                             righttitlefontsize=14)
+                         ylabel='Raw Data (6-hourly)',
+                         lefttitle=temp.long_name,
+                         lefttitlefontsize=14,
+                         righttitle=temp.units,
+                         righttitlefontsize=14)
 
 gv.set_titles_and_labels(ax[1], ylabel='Daily Average')
 
 gv.set_titles_and_labels(ax[2], ylabel='Monthly Average')
 
 gv.set_titles_and_labels(ax[3],
-                             ylabel='Season Average',
-                             xlabel=temp.time.long_name)
+                         ylabel='Season Average',
+                         xlabel=temp.time.long_name)
 
 # Add title manually to control spacing
 fig.suptitle('Calendar Average on 6-hourly Data', fontsize=20)

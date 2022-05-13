@@ -113,8 +113,8 @@ for i, ax in enumerate(axgr):
     # Use geocat.viz.util convenience function to set axes limits & tick
     # values without calling several matplotlib functions
     gv.set_axes_limits_and_ticks(ax,
-                                     xticks=np.linspace(-180, 180, 13),
-                                     yticks=np.linspace(-60, 60, 5))
+                                 xticks=np.linspace(-180, 180, 13),
+                                 yticks=np.linspace(-60, 60, 5))
 
     # Use geocat.viz.util convenience function to make plots look like NCL
     # plots by using latitude, longitude tick labels
