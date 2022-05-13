@@ -19,16 +19,17 @@ import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays, choosing the 2nd timestamp
 ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
+
 
 ###############################################################################
 # Utility Function: Labelled Filled Contour Plot:
@@ -44,9 +45,9 @@ def plot_labelled_filled_contours(data, ax=None):
     contours, and the contour labels."""
 
     # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
-    newcmp = gvutil.truncate_colormap(gvcmaps.gui_default,
-                                      minval=0.03,
-                                      maxval=0.9)
+    newcmp = gv.truncate_colormap(cmaps.gui_default,
+                                  minval=0.03,
+                                  maxval=0.9)
 
     handles = dict()
     handles["filled"] = data.plot.contourf(
@@ -82,17 +83,17 @@ def plot_labelled_filled_contours(data, ax=None):
     ax.coastlines(linewidth=0.5)
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax)
+    gv.add_major_minor_ticks(ax)
 
-    # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax)
+    # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude ticks
+    gv.add_lat_lon_ticklabels(ax)
 
     # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
-    gvutil.set_titles_and_labels(ax,
-                                 lefttitle=data.attrs['long_name'],
-                                 lefttitlefontsize=10,
-                                 righttitle=data.attrs['units'],
-                                 righttitlefontsize=10)
+    gv.set_titles_and_labels(ax,
+                             lefttitle=data.attrs['long_name'],
+                             lefttitlefontsize=10,
+                             righttitle=data.attrs['units'],
+                             righttitlefontsize=10)
 
     return handles
 
