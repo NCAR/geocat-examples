@@ -20,10 +20,10 @@ import matplotlib.gridspec as gridspec
 import matplotlib.colors as colors
 import numpy as np
 import xarray as xr
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -36,8 +36,8 @@ time_0 = ds.isel(time=0).drop_vars('time')
 time_1 = ds.isel(time=1).drop_vars('time')
 
 # Ensure longitudes range from 0 to 360 degrees
-U_0 = gvutil.xr_add_cyclic_longitudes(time_0.U, "lon")
-U_1 = gvutil.xr_add_cyclic_longitudes(time_1.U, "lon")
+U_0 = gv.xr_add_cyclic_longitudes(time_0.U, "lon")
+U_1 = gv.xr_add_cyclic_longitudes(time_1.U, "lon")
 
 ###############################################################################
 # Create helper functions:
@@ -51,7 +51,7 @@ def format_linegraph_axes(ax):
             The set of axes to be manipulated
     """
     # Use geocat.viz.util convenience function to set axes tick values
-    gvutil.set_axes_limits_and_ticks(
+    gv.set_axes_limits_and_ticks(
         ax=ax,
         xlim=(-90, 90),
         ylim=(-20, 50),
@@ -60,10 +60,10 @@ def format_linegraph_axes(ax):
         xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'])
 
     # Use geocat.viz.util convenience function to add minor and major ticks
-    gvutil.add_major_minor_ticks(ax,
-                                 x_minor_per_major=3,
-                                 y_minor_per_major=5,
-                                 labelsize=12)
+    gv.add_major_minor_ticks(ax,
+                             x_minor_per_major=3,
+                             y_minor_per_major=5,
+                             labelsize=12)
 
 
 def format_contour_axes(ax):
@@ -75,25 +75,25 @@ def format_contour_axes(ax):
             The set of axes to be manipulated
     """
     # Use geocat.viz.util convenience function to set axes tick values
-    gvutil.set_axes_limits_and_ticks(ax=ax,
-                                     xlim=(-180, 180),
-                                     ylim=(-90, 90),
-                                     xticks=np.arange(-180, 181, 30),
-                                     yticks=np.arange(-90, 91, 30))
+    gv.set_axes_limits_and_ticks(ax=ax,
+                                 xlim=(-180, 180),
+                                 ylim=(-90, 90),
+                                 xticks=np.arange(-180, 181, 30),
+                                 yticks=np.arange(-90, 91, 30))
 
     # Use geocat.viz.util convenience function to add minor and major ticks
-    gvutil.add_major_minor_ticks(ax, labelsize=8)
+    gv.add_major_minor_ticks(ax, labelsize=8)
 
     # Use geocat.viz.util convenience function to make plots look like NCL
     # plots by using latitude, longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax)
+    gv.add_lat_lon_ticklabels(ax)
 
     # Remove the degree symbol from tick labels
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
     # Use geocat.viz.util convenience function to set titles and labels
-    gvutil.set_titles_and_labels(ax, maintitle='300mb', maintitlefontsize=8)
+    gv.set_titles_and_labels(ax, maintitle='300mb', maintitlefontsize=8)
 
 
 ###############################################################################
@@ -124,12 +124,12 @@ ax4.coastlines(linewidth=0.5)
 
 # Use geocat.viz.util convenience function to set titles without calling
 # several matplotlib functions
-gvutil.set_titles_and_labels(ax1,
-                             maintitle='Time=0',
-                             maintitlefontsize=14,
-                             ylabel=U_0.long_name,
-                             labelfontsize=14)
-gvutil.set_titles_and_labels(ax2, maintitle='Time=1', maintitlefontsize=14)
+gv.set_titles_and_labels(ax1,
+                         maintitle='Time=0',
+                         maintitlefontsize=14,
+                         ylabel=U_0.long_name,
+                         labelfontsize=14)
+gv.set_titles_and_labels(ax2, maintitle='Time=1', maintitlefontsize=14)
 
 # Draw tick labels on the right side of the top right plot
 ax2.yaxis.tick_right()
@@ -163,7 +163,7 @@ ax2.plot(U_1['lat'],
 
 # Choose colormap for contour plots
 divnorm = colors.TwoSlopeNorm(vmin=-15, vcenter=0, vmax=40)
-cmap = gvcmaps.BlueRed
+cmap = cmaps.BlueRed
 
 # Specify levels for contours
 levels = np.arange(-10, 36, 5)

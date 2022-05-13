@@ -25,8 +25,8 @@ import cartopy.feature as cfeature
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
-from geocat.viz import cmaps as gvcmaps
+import geocat.viz as gv
+import cmaps
 
 ###############################################################################
 # Read in data:
@@ -41,7 +41,7 @@ t = ds.T.isel(time=0).drop('time').isel(lev=10).drop('lev')
 ###############################################################################
 # Specify levels and color map for contour
 t_lev = np.arange(210, 275, 5)
-cmap = gvcmaps.BlueDarkRed18
+cmap = cmaps.BlueDarkRed18
 u_lev = np.arange(-5, 40, 5)
 
 ###############################################################################
@@ -104,31 +104,31 @@ ax.text(1,
                   edgecolor='black'))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax,
-                             maintitle=r"$\bf{T/U @500hPa}$",
-                             lefttitle=t.long_name,
-                             righttitle=t.units)
-# Add secondary title below the one placed by gvutil
+gv.set_titles_and_labels(ax,
+                         maintitle=r"$\bf{T/U @500hPa}$",
+                         lefttitle=t.long_name,
+                         righttitle=t.units)
+# Add secondary title below the one placed by gv
 ax.text(0, 1.01, u.long_name, transform=ax.transAxes)
 ax.text(0.97, 1.01, u.units, transform=ax.transAxes)
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by
 # using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Remove the degree symbol from tick labels
 ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=5,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=3,
+                         y_minor_per_major=5,
+                         labelsize=12)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xticks=np.arange(-120, -30, 30),
-                                 yticks=np.arange(20, 70, 10))
+gv.set_axes_limits_and_ticks(ax,
+                             xticks=np.arange(-120, -30, 30),
+                             yticks=np.arange(20, 70, 10))
 
 plt.show()

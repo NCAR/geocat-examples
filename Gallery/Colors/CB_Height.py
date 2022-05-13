@@ -44,8 +44,8 @@ import numpy as np
 import xarray as xr
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import cmaps
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -120,7 +120,7 @@ def Plot(color, row, col, pos, title):
 
 
 #Plot first color map
-Plot(gvcmaps.BlAqGrYeOrRe, 2, 2, 1, "Rainbow Color Projection")
+Plot(cmaps.BlAqGrYeOrRe, 2, 2, 1, "Rainbow Color Projection")
 
 #plot second color map
 Plot('magma', 2, 2, 2, "Magma Color Projection")

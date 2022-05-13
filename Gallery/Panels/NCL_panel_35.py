@@ -20,9 +20,9 @@ See following URLs to see the reproduced NCL plot & script:
 
 import matplotlib.pyplot as plt
 import numpy as np
+import cmaps
 
-from geocat.viz import cmaps as gvcmaps
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 import math
 
@@ -221,7 +221,7 @@ data2 = generate_2d_array((ny, nx), 10, 10, -28., 15., 1)
 data3 = generate_2d_array((ny, nx), 10, 10, -25., 18., 2)
 
 ###############################################################################
-# Create figure and axes using gvutil
+# Create figure and axes using gv
 fig, axs = plt.subplots(1,
                         3,
                         figsize=(12, 6),
@@ -230,39 +230,39 @@ fig, axs = plt.subplots(1,
                         gridspec_kw={'wspace': 0})
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(axs[0],
-                                 xticks=np.arange(0, 100, 20),
-                                 yticks=np.arange(0, 100, 20),
-                                 xticklabels=np.arange(0, 100, 20),
-                                 yticklabels=np.arange(0, 100, 20))
+gv.set_axes_limits_and_ticks(axs[0],
+                             xticks=np.arange(0, 100, 20),
+                             yticks=np.arange(0, 100, 20),
+                             xticklabels=np.arange(0, 100, 20),
+                             yticklabels=np.arange(0, 100, 20))
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(axs[0], x_minor_per_major=4, y_minor_per_major=4)
+gv.add_major_minor_ticks(axs[0], x_minor_per_major=4, y_minor_per_major=4)
 # Specify which edges of the subplot should have tick lines
 axs[0].tick_params(axis='both', which='both', left=True, right=False)
 # Force subplot to be square
 axs[0].set_aspect(aspect='equal')
 
 # Repeat for other subplots with a few changes
-gvutil.set_axes_limits_and_ticks(axs[1],
-                                 xticks=np.arange(0, 100, 20),
-                                 yticks=np.arange(0, 100, 20),
-                                 xticklabels=np.arange(0, 100, 20),
-                                 yticklabels=np.arange(0, 100, 20))
-gvutil.add_major_minor_ticks(axs[1], x_minor_per_major=4, y_minor_per_major=4)
+gv.set_axes_limits_and_ticks(axs[1],
+                             xticks=np.arange(0, 100, 20),
+                             yticks=np.arange(0, 100, 20),
+                             xticklabels=np.arange(0, 100, 20),
+                             yticklabels=np.arange(0, 100, 20))
+gv.add_major_minor_ticks(axs[1], x_minor_per_major=4, y_minor_per_major=4)
 axs[1].tick_params(axis='both', which='both', left=False, right=False)
 axs[1].set_aspect(aspect='equal')
 
-gvutil.set_axes_limits_and_ticks(axs[2],
-                                 xticks=np.arange(0, 100, 20),
-                                 yticks=np.arange(0, 100, 20),
-                                 xticklabels=np.arange(0, 100, 20),
-                                 yticklabels=np.arange(0, 100, 20))
-gvutil.add_major_minor_ticks(axs[2], x_minor_per_major=4, y_minor_per_major=4)
+gv.set_axes_limits_and_ticks(axs[2],
+                             xticks=np.arange(0, 100, 20),
+                             yticks=np.arange(0, 100, 20),
+                             xticklabels=np.arange(0, 100, 20),
+                             yticklabels=np.arange(0, 100, 20))
+gv.add_major_minor_ticks(axs[2], x_minor_per_major=4, y_minor_per_major=4)
 axs[2].tick_params(axis='both', which='both', left=False, right=True)
 axs[2].set_aspect(aspect='equal')
 
 # Plot data and create colorbar
-newcmap = gvcmaps.BlueYellowRed
+newcmap = cmaps.BlueYellowRed
 # levels=contour_levels ensures that each plot has the same scale
 contour_levels = np.arange(-32, 24, 4)
 

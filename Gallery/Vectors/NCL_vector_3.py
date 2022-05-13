@@ -23,7 +23,7 @@ import cartopy.crs as ccrs
 from datetime import datetime
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:

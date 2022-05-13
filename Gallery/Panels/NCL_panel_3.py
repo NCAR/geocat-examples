@@ -30,7 +30,6 @@ import geocat.viz as gv
 # Open a netCDF data file using xarray default engine and load the data into xarrays, choosing the 2nd timestamp
 ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 
-
 ###############################################################################
 # Utility Function: Labelled Filled Contour Plot:
 
@@ -45,9 +44,7 @@ def plot_labelled_filled_contours(data, ax=None):
     contours, and the contour labels."""
 
     # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
-    newcmp = gv.truncate_colormap(cmaps.gui_default,
-                                  minval=0.03,
-                                  maxval=0.9)
+    newcmp = gv.truncate_colormap(cmaps.gui_default, minval=0.03, maxval=0.9)
 
     handles = dict()
     handles["filled"] = data.plot.contourf(

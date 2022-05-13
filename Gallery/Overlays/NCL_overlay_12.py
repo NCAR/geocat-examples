@@ -32,8 +32,8 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib.colors as mcolors
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
-from geocat.viz import util as gvutil
-from geocat.viz import cmaps as gvcmaps
+import geocat.viz as gv
+import cmaps
 
 ###############################################################################
 # Read in data
@@ -134,7 +134,7 @@ ax.add_feature(COUNTIES,
 #
 
 # Import NCL color map
-cmap = gvcmaps.OceanLakeLandSnow
+cmap = cmaps.OceanLakeLandSnow
 
 # Set contour levels
 levels = np.array([0, 1] + [i for i in range(201, 3202, 200)])

@@ -21,7 +21,7 @@ import cartopy.feature as cfeature
 import numpy as np
 
 import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -40,7 +40,7 @@ pressure = pressure.astype('float64')
 pressure = pressure * 0.01
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-wrap_pressure = gvutil.xr_add_cyclic_longitudes(pressure, "lon")
+wrap_pressure = gv.xr_add_cyclic_longitudes(pressure, "lon")
 
 ###############################################################################
 # Create plot
@@ -90,28 +90,24 @@ regularCLabels = [(176.4, 34.63), (-150.46, 42.44), (-142.16, 28.5),
 
 # low pressure contour levels- these will be plotted
 # as a subscript to an 'L' symbol.
-lowCLabels = gvutil.findLocalExtrema(pressure,
-                                     eType='Low',
-                                     highVal=1040,
-                                     lowVal=975)
+lowCLabels = gv.findLocalExtrema(pressure,
+                                 eType='Low',
+                                 highVal=1040,
+                                 lowVal=975)
 
 # Plot Clabels
-gvutil.plotCLabels(ax,
-                   p,
-                   ccrs.Geodetic(),
-                   proj,
-                   clabel_locations=regularCLabels)
-gvutil.plotELabels(pressure, ccrs.Geodetic(), proj, clabel_locations=lowCLabels)
+gv.plotCLabels(ax, p, ccrs.Geodetic(), proj, clabel_locations=regularCLabels)
+gv.plotELabels(pressure, ccrs.Geodetic(), proj, clabel_locations=lowCLabels)
 
-# Use gvutil function to set title and subtitles
-gvutil.set_titles_and_labels(ax,
-                             maintitle=r"$\bf{SLP}$" + " " + r"$\bf{1963,}$" +
-                             " " + r"$\bf{January}$" + " " + r"$\bf{24th}$",
-                             maintitlefontsize=20,
-                             lefttitle="mean Daily Sea Level Pressure",
-                             lefttitlefontsize=16,
-                             righttitle="hPa",
-                             righttitlefontsize=16)
+# Use gv function to set title and subtitles
+gv.set_titles_and_labels(ax,
+                         maintitle=r"$\bf{SLP}$" + " " + r"$\bf{1963,}$" + " " +
+                         r"$\bf{January}$" + " " + r"$\bf{24th}$",
+                         maintitlefontsize=20,
+                         lefttitle="mean Daily Sea Level Pressure",
+                         lefttitlefontsize=16,
+                         righttitle="hPa",
+                         righttitlefontsize=16)
 
 # Set characteristics of text box
 props = dict(facecolor='white', edgecolor='black', alpha=0.5)

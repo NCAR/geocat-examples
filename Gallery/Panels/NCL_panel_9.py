@@ -21,10 +21,10 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import numpy as np
 import xarray as xr
+import cmaps
 
 import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
-from geocat.viz import cmaps as gvcmaps
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -35,7 +35,7 @@ deppat = ds.nao_djf
 xyarr = ds.nao_pc_djf
 
 # Fix the artifact of not-shown-data around -0 and 360 degree longitudes
-deppat = gvutil.xr_add_cyclic_longitudes(deppat, 'lon')
+deppat = gv.xr_add_cyclic_longitudes(deppat, 'lon')
 
 ###############################################################################
 # Plot
@@ -59,26 +59,26 @@ ax1.coastlines(linewidths=0.25)
 
 # Use a geocat.viz.util function to make the plot boundary follow the 30N
 # latitude line
-gvutil.set_map_boundary(ax1, [-180, 180], [30, 90], south_pad=1)
+gv.set_map_boundary(ax1, [-180, 180], [30, 90], south_pad=1)
 
 # Add XY plot to figure
 ax2 = plt.subplot(grid[1])
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax=ax2,
-                                 xlim=(ds.time[0], ds.time[-1]),
-                                 ylim=(-4, 3),
-                                 yticks=np.arange(-4, 4, 1),
-                                 yticklabels=np.arange(-4.0, 4.0, 1.0))
+gv.set_axes_limits_and_ticks(ax=ax2,
+                             xlim=(ds.time[0], ds.time[-1]),
+                             ylim=(-4, 3),
+                             yticks=np.arange(-4, 4, 1),
+                             yticklabels=np.arange(-4.0, 4.0, 1.0))
 
 # Use geocat.viz.util convenience function to add minor and major ticks
-gvutil.add_major_minor_ticks(ax=ax2,
-                             x_minor_per_major=4,
-                             y_minor_per_major=5,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax=ax2,
+                         x_minor_per_major=4,
+                         y_minor_per_major=5,
+                         labelsize=12)
 
 # Create list of colors based on Blue-White-Red colormap
-cmap = gvcmaps.BlWhRe  # select colormap
+cmap = cmaps.BlWhRe  # select colormap
 
 # Extract colors from cmap using their indices
 index = [98, 88, 73, 69, 66, 63, 60, 58, 55, 53, 50, 50, 47, 45, 42, 40, 37, 34]

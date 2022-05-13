@@ -19,7 +19,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -47,23 +47,23 @@ U.plot(x="lat", color="gray", linewidth=1.1)
 plt.title("")
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=5,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=3,
+                         y_minor_per_major=5,
+                         labelsize=12)
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, tick values, and tick labels to show latitude & longitude (i.e. North (N) - South (S))
-gvutil.set_axes_limits_and_ticks(
+gv.set_axes_limits_and_ticks(
     ax,
     xlim=(-90, 90),
     ylim=(-10, 40),
     xticks=np.linspace(-90, 90, 7),
     xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'])
-gvutil.set_axes_limits_and_ticks(ax1, ylim=(-10, 40), yticklabels=[])
+gv.set_axes_limits_and_ticks(ax1, ylim=(-10, 40), yticklabels=[])
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, ylabel="Left Y axis string")
+gv.set_titles_and_labels(ax, ylabel="Left Y axis string")
 
 # Set label on second y axis
 ax1.set_ylabel("Right Y axis string", labelpad=18, fontsize=16)

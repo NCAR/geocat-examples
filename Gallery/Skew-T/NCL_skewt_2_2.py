@@ -21,7 +21,7 @@ from metpy.plots import SkewT
 from metpy.units import units
 import metpy.calc as mpcalc
 
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 import geocat.datafiles as gdf
 import geocat.comp.skewt_params as gcskewt
 

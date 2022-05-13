@@ -21,7 +21,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 from geocat.comp import interp_hybrid_to_pressure
 
 ###############################################################################

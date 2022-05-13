@@ -19,7 +19,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -66,20 +66,20 @@ plt.xlim([6000, 9000])
 plt.ylim([266, 274])
 
 # Use geocat.viz utility functions to add a main title
-gvutil.set_titles_and_labels(ax=ax, maintitle="Regression 1")
+gv.set_titles_and_labels(ax=ax, maintitle="Regression 1")
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=5,
-                             y_minor_per_major=4,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=5,
+                         y_minor_per_major=4,
+                         labelsize=12)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(6000, 9000),
-                                 xticks=np.arange(6000, 9001, 500),
-                                 ylim=(266, 274),
-                                 yticks=np.arange(266, 275, 2))
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(6000, 9000),
+                             xticks=np.arange(6000, 9001, 500),
+                             ylim=(266, 274),
+                             yticks=np.arange(266, 275, 2))
 
 # Show plot
 plt.tight_layout()

@@ -24,7 +24,7 @@ import cartopy.feature as cfeature
 from matplotlib import pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###################################################
 # Generate data:

@@ -19,7 +19,7 @@ See following URLs to see the reproduced NCL plot & script:
 import matplotlib.pyplot as plt
 import numpy as np
 
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Generate dummy data:

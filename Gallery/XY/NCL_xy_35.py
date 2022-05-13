@@ -21,7 +21,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import colors
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Create data:

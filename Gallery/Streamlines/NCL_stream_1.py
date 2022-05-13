@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt
 import cartopy.feature as cfeature
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ################################################################################
 # Read in data:
@@ -60,29 +60,29 @@ ax.streamplot(U.lon.data,
               zorder=1)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, labelsize=16)
+gv.add_major_minor_ticks(ax, labelsize=16)
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to set axes tick values without calling two different matplotlib functions
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xticks=np.linspace(-180, 180, 13),
-                                 yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(ax,
+                             xticks=np.linspace(-180, 180, 13),
+                             yticks=np.linspace(-90, 90, 7))
 
 # Draw filled polygons for land
 ax.add_feature(cfeature.LAND, zorder=0, edgecolor='black', color='lightgray')
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Example of a streamline plot",
-                             maintitlefontsize=22,
-                             lefttitle=U.long_name,
-                             lefttitlefontsize=18,
-                             righttitle=U.units,
-                             righttitlefontsize=18,
-                             xlabel="",
-                             ylabel="")
+gv.set_titles_and_labels(ax,
+                         maintitle="Example of a streamline plot",
+                         maintitlefontsize=22,
+                         lefttitle=U.long_name,
+                         lefttitlefontsize=18,
+                         righttitle=U.units,
+                         righttitlefontsize=18,
+                         xlabel="",
+                         ylabel="")
 
 # Show the plot
 plt.tight_layout()

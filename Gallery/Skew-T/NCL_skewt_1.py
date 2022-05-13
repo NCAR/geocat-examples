@@ -18,7 +18,7 @@ import numpy as np
 from metpy.plots import SkewT
 from metpy.units import units
 
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Plot Skew-T with MetPy Defaults:

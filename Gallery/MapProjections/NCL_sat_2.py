@@ -23,7 +23,7 @@ from matplotlib import colors
 import matplotlib.ticker as mticker
 
 import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -42,7 +42,7 @@ pressure = pressure.astype('float32')
 pressure = pressure * 0.01
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-wrap_pressure = gvutil.xr_add_cyclic_longitudes(pressure, "lon")
+wrap_pressure = gv.xr_add_cyclic_longitudes(pressure, "lon")
 
 ###############################################################################
 # Create plot
@@ -89,8 +89,8 @@ p = wrap_pressure.plot.contour(ax=ax,
 
 # low pressure contour levels- these will be plotted
 # as a subscript to an 'L' symbol.
-lowClevels = gvutil.findLocalExtrema(pressure, lowVal=995, eType='Low')
-highClevels = gvutil.findLocalExtrema(pressure, highVal=1042, eType='High')
+lowClevels = gv.findLocalExtrema(pressure, lowVal=995, eType='Low')
+highClevels = gv.findLocalExtrema(pressure, highVal=1042, eType='High')
 
 # Label regular contours with automatic matplotlib labeling
 # Specify the levels to label every other contour level
@@ -102,26 +102,26 @@ ax.clabel(p,
           fmt="%.0f")
 
 # Label low and high contours
-gvutil.plotELabels(wrap_pressure,
-                   ccrs.Geodetic(),
-                   proj,
-                   clabel_locations=lowClevels,
-                   label='L')
-gvutil.plotELabels(wrap_pressure,
-                   ccrs.Geodetic(),
-                   proj,
-                   clabel_locations=highClevels,
-                   label='H')
+gv.plotELabels(wrap_pressure,
+               ccrs.Geodetic(),
+               proj,
+               clabel_locations=lowClevels,
+               label='L')
+gv.plotELabels(wrap_pressure,
+               ccrs.Geodetic(),
+               proj,
+               clabel_locations=highClevels,
+               label='H')
 
-# Use gvutil function to set title and subtitles
-gvutil.set_titles_and_labels(ax,
-                             maintitle=r"$\bf{SLP}$" + " " + r"$\bf{1963,}$" +
-                             " " + r"$\bf{January}$" + " " + r"$\bf{24th}$",
-                             maintitlefontsize=20,
-                             lefttitle="mean Daily Sea Level Pressure",
-                             lefttitlefontsize=16,
-                             righttitle="hPa",
-                             righttitlefontsize=16)
+# Use gv function to set title and subtitles
+gv.set_titles_and_labels(ax,
+                         maintitle=r"$\bf{SLP}$" + " " + r"$\bf{1963,}$" + " " +
+                         r"$\bf{January}$" + " " + r"$\bf{24th}$",
+                         maintitlefontsize=20,
+                         lefttitle="mean Daily Sea Level Pressure",
+                         lefttitlefontsize=16,
+                         righttitle="hPa",
+                         righttitlefontsize=16)
 
 # Set characteristics of text box
 props = dict(facecolor='white', edgecolor='black', alpha=0.5)

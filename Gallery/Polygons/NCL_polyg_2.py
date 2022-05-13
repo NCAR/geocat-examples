@@ -27,7 +27,7 @@ import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import matplotlib.cm as cm
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 import geocat.datafiles as gdf
 import cartopy.io.shapereader as shpreader

@@ -23,10 +23,10 @@ import numpy as np
 from matplotlib import pyplot as plt
 import cartopy
 import cartopy.crs as ccrs
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -82,7 +82,7 @@ ax.add_feature(cartopy.feature.LAND,
 levels = np.linspace(24, 28.9, 50)
 
 # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
-gvutil.truncate_colormap(gvcmaps.BlAqGrYeOrReVi200,
+gvutil.truncate_colormap(cmaps.BlAqGrYeOrReVi200,
                          minval=0.08,
                          maxval=0.96,
                          n=len(levels),

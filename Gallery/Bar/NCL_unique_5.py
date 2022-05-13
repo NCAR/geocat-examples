@@ -18,7 +18,7 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Generate labels:

@@ -46,7 +46,7 @@ import xarray as xr
 
 from geocat.comp import climatology_average
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:

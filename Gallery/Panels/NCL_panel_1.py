@@ -22,7 +22,7 @@ import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -83,11 +83,11 @@ hdl = ds.U.plot.contour(
 ax[0].clabel(hdl, np.arange(0, 32, 8), fontsize="small", fmt="%.0f")
 
 # Use geocat.viz.util convenience function to add left and right title to the plot axes.
-gvutil.set_titles_and_labels(ax[0],
-                             lefttitle="Zonal Wind",
-                             lefttitlefontsize=12,
-                             righttitle=ds.U.units,
-                             righttitlefontsize=12)
+gv.set_titles_and_labels(ax[0],
+                         lefttitle="Zonal Wind",
+                         lefttitlefontsize=12,
+                         righttitle=ds.U.units,
+                         righttitlefontsize=12)
 
 # Panel 2 (Subplot 2)
 # Contour-plot V data (for borderlines)
@@ -97,11 +97,11 @@ hdl = ds.V.plot.contour(x="lon", y="lat", ax=ax[1], **kwargs)
 ax[1].clabel(hdl, [0], fontsize="small", fmt="%.0f")
 
 # Use geocat.viz.util convenience function to add left and right title to the plot axes.
-gvutil.set_titles_and_labels(ax[1],
-                             lefttitle="Meridional Wind",
-                             lefttitlefontsize=12,
-                             righttitle=ds.V.units,
-                             righttitlefontsize=12)
+gv.set_titles_and_labels(ax[1],
+                         lefttitle="Meridional Wind",
+                         lefttitlefontsize=12,
+                         righttitle=ds.V.units,
+                         righttitlefontsize=12)
 
 # Panel 3 (Subplot 3)
 # Draw arrows
@@ -121,21 +121,21 @@ ax[2].quiver(subset.lon,
 ax[2].set_title("Vector Wind", loc="left", y=1.05)
 
 # Use geocat.viz.util convenience function to add left and right title to the plot axes.
-gvutil.set_titles_and_labels(ax[2],
-                             lefttitle="Vector Wind",
-                             lefttitlefontsize=12,
-                             righttitle=ds.U.units,
-                             righttitlefontsize=12)
+gv.set_titles_and_labels(ax[2],
+                         lefttitle="Vector Wind",
+                         lefttitlefontsize=12,
+                         righttitle=ds.U.units,
+                         righttitlefontsize=12)
 
 # cartopy axes require this to be manual
 ax[2].set_xticks(kwargs["xticks"])
 ax[2].set_yticks(kwargs["yticks"])
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-[gvutil.add_major_minor_ticks(axes) for axes in ax.flat]
+[gv.add_major_minor_ticks(axes) for axes in ax.flat]
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-[gvutil.add_lat_lon_ticklabels(axes) for axes in ax.flat]
+[gv.add_lat_lon_ticklabels(axes) for axes in ax.flat]
 
 # Show the plot
 plt.show()

@@ -17,10 +17,10 @@ import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -40,7 +40,7 @@ projection = ccrs.PlateCarree()
 ax = plt.axes(projection=projection)
 
 # Import an NCL colormap
-newcmp = gvcmaps.gui_default
+newcmp = cmaps.gui_default
 
 # Contourf-plot data (for filled contours)
 p = u.plot.contourf(ax=ax,

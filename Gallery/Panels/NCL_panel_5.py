@@ -23,10 +23,10 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import numpy as np
 import xarray as xr
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -49,9 +49,7 @@ def plot_labelled_filled_contours(data, ax=None, label=None):
     contours, and the contour labels."""
 
     # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
-    newcmp = gvutil.truncate_colormap(gvcmaps.gui_default,
-                                      minval=0.03,
-                                      maxval=0.9)
+    newcmp = gv.truncate_colormap(cmaps.gui_default, minval=0.03, maxval=0.9)
 
     handles = dict()
     handles["filled"] = data.plot.contourf(
@@ -85,25 +83,25 @@ def plot_labelled_filled_contours(data, ax=None, label=None):
     ax.coastlines(linewidth=0.5, alpha=0.75)
 
     # Use geocat.viz.util convenience function to set axes tick values
-    gvutil.set_axes_limits_and_ticks(ax,
-                                     xticks=np.arange(-180, 181, 30),
-                                     yticks=np.arange(-90, 91, 30))
+    gv.set_axes_limits_and_ticks(ax,
+                                 xticks=np.arange(-180, 181, 30),
+                                 yticks=np.arange(-90, 91, 30))
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax, labelsize=8)
+    gv.add_major_minor_ticks(ax, labelsize=8)
 
     # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax)
+    gv.add_lat_lon_ticklabels(ax)
     # Remove degree symbol from tick labels
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
     # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
-    gvutil.set_titles_and_labels(ax,
-                                 lefttitle=data.attrs['long_name'],
-                                 lefttitlefontsize=10,
-                                 righttitle=data.attrs['units'],
-                                 righttitlefontsize=10)
+    gv.set_titles_and_labels(ax,
+                             lefttitle=data.attrs['long_name'],
+                             lefttitlefontsize=10,
+                             righttitle=data.attrs['units'],
+                             righttitlefontsize=10)
 
     # Add a label in the upper left of the axes
     ax.text(0.025,

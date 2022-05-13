@@ -19,10 +19,10 @@ import xarray as xr
 from matplotlib import pyplot as plt
 import cartopy
 import cartopy.crs as ccrs
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -48,7 +48,7 @@ ax = plt.axes(projection=ccrs.PlateCarree())
 # Import an NCL colormap and truncate it for a range and color levels
 plt.cm.register_cmap(
     'BlAqGrYeOrReVi200',
-    gvutil.truncate_colormap(gvcmaps.BlAqGrYeOrReVi200,
+    gvutil.truncate_colormap(cmaps.BlAqGrYeOrReVi200,
                              minval=0.03,
                              maxval=0.95,
                              n=16))

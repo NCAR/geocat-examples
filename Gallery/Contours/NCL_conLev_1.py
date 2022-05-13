@@ -23,7 +23,7 @@ import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -37,7 +37,7 @@ temp = ds.TS.isel(time=43).drop_vars(names=['time'])
 temp.data = temp.data - 273.15
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-temp = gvutil.xr_add_cyclic_longitudes(temp, "lon")
+temp = gv.xr_add_cyclic_longitudes(temp, "lon")
 
 ###############################################################################
 # Plot:
@@ -54,12 +54,12 @@ ax.set_extent([-180, 180, -70, 70], crs=projection)
 ax.add_feature(cfeature.LAND, color='silver')
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xticks=np.linspace(-180, 180, 13),
-                                 yticks=np.linspace(-60, 60, 5))
+gv.set_axes_limits_and_ticks(ax,
+                             xticks=np.linspace(-180, 180, 13),
+                             yticks=np.linspace(-60, 60, 5))
 
 # Use geocat.viz.util convenience function to make latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 # Removing degree symbol from tick labels to more closely resemble NCL example
 ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))

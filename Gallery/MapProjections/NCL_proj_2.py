@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -38,7 +38,7 @@ t = ds.TS.isel(time=0)
 ###############################################################################
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 
-wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
+wrap_t = gv.xr_add_cyclic_longitudes(t, "lon")
 
 ###############################################################################
 # Plot:
@@ -79,10 +79,10 @@ wrap_t.plot.contour(ax=ax,
 
 # Use geocat.viz.util convenience function to add titles to left and right
 # of the plot axis.
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Example of Mercator Projection",
-                             lefttitle="Surface Temperature",
-                             righttitle="K")
+gv.set_titles_and_labels(ax,
+                         maintitle="Example of Mercator Projection",
+                         lefttitle="Surface Temperature",
+                         righttitle="K")
 
 # Show the plot
 plt.show()

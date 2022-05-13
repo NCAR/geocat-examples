@@ -21,7 +21,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -45,14 +45,14 @@ plt.plot(uz.lat, uz.values, c='gray', label='U')
 plt.legend(loc='upper left', frameon=False, prop={'weight': 'bold'})
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=5,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=3,
+                         y_minor_per_major=5,
+                         labelsize=12)
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, tick values, and tick labels to show latitude & longitude (i.e. North (N) - South (S))
-gvutil.set_axes_limits_and_ticks(
+gv.set_axes_limits_and_ticks(
     ax,
     xlim=(-90, 90),
     ylim=(-10, 40),

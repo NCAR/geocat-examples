@@ -21,7 +21,7 @@ import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 import numpy as np
 
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ##############################################################################
 # Plot:
@@ -33,15 +33,15 @@ ax = plt.axes(projection=ccrs.PlateCarree())
 ax.add_feature(cfeature.LAND, color='silver')
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xticks=np.linspace(-180, 180, 13),
-                                 yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(ax,
+                             xticks=np.linspace(-180, 180, 13),
+                             yticks=np.linspace(-90, 90, 7))
 
 # Use geocat.viz.util convenience function to make lat/lon tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add major and minor tick marks
-gvutil.add_major_minor_ticks(ax)
+gv.add_major_minor_ticks(ax)
 
 # Show plot
 plt.show()

@@ -22,11 +22,11 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
+import cmaps
 
 import cartopy.crs as ccrs
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -42,7 +42,7 @@ newx = x.mean('time')
 newx = x.isel(time=0) - newx
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-newx = gvutil.xr_add_cyclic_longitudes(newx, "lon")
+newx = gv.xr_add_cyclic_longitudes(newx, "lon")
 
 ###############################################################################
 # Plot:
@@ -59,7 +59,7 @@ ax.set_global()
 ax.coastlines(linewidth=0.5, resolution="110m")
 
 # Import an NCL colormap
-newcmp = gvcmaps.BlRe
+newcmp = cmaps.BlRe
 newcmp.colors[len(newcmp.colors) //
               2] = [1, 1, 1]  # Set middle value to white to match NCL
 
@@ -80,20 +80,20 @@ cbar.ax.tick_params(labelsize=11)
 cbar.set_ticks([-12, -10, -8, -6, -4, -2, -1, 1, 2, 4, 6, 8, 10, 12])
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xticks=np.linspace(-180, 180, 13),
-                                 yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(ax,
+                             xticks=np.linspace(-180, 180, 13),
+                             yticks=np.linspace(-90, 90, 7))
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, labelsize=12)
+gv.add_major_minor_ticks(ax, labelsize=12)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax,
-                             lefttitle='Anomalies: Surface Temperature',
-                             righttitle='K')
+gv.set_titles_and_labels(ax,
+                         lefttitle='Anomalies: Surface Temperature',
+                         righttitle='K')
 
 # Show the plot
 plt.show()

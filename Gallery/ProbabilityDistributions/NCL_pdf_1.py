@@ -21,7 +21,7 @@ import matplotlib.ticker as ticker
 import numpy as np
 from scipy import stats
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Generate univariate probability distributions:
@@ -76,32 +76,32 @@ ax3.plot(gammabincenters, gammahist, color='k', linewidth=0.5)
 plt.suptitle("Univariate PDFs of Three Variables", fontsize=15)
 
 # Use the geocat.viz function to set tile of centered top plot
-gvutil.set_titles_and_labels(ax1,
-                             maintitle='Univariate PDF: Normal',
-                             maintitlefontsize=8,
-                             ylabel='PDF (%)',
-                             labelfontsize=10)
+gv.set_titles_and_labels(ax1,
+                         maintitle='Univariate PDF: Normal',
+                         maintitlefontsize=8,
+                         ylabel='PDF (%)',
+                         labelfontsize=10)
 
 # Use the geocat.viz function to set tile of centered bottom left plot
-gvutil.set_titles_and_labels(ax2,
-                             maintitle='Univariate PDF: Chi (df=2)',
-                             maintitlefontsize=8,
-                             ylabel='PDF (%)',
-                             labelfontsize=10)
+gv.set_titles_and_labels(ax2,
+                         maintitle='Univariate PDF: Chi (df=2)',
+                         maintitlefontsize=8,
+                         ylabel='PDF (%)',
+                         labelfontsize=10)
 
 # Use the geocat.viz function to set tile of centered bottom left plot
-gvutil.set_titles_and_labels(ax3,
-                             maintitle='Univariate PDF: Gamma',
-                             maintitlefontsize=8,
-                             ylabel='PDF (%)',
-                             labelfontsize=10)
+gv.set_titles_and_labels(ax3,
+                         maintitle='Univariate PDF: Gamma',
+                         maintitlefontsize=8,
+                         ylabel='PDF (%)',
+                         labelfontsize=10)
 
 # Use geocat.viz.util convenience function to set axes parameters
 # Set axes limits, and tick values on x-axes.
-gvutil.set_axes_limits_and_ticks(ax1,
-                                 xlim=(-200, 200),
-                                 ylim=(0, 14),
-                                 yticks=np.arange(0, 15, 2))
+gv.set_axes_limits_and_ticks(ax1,
+                             xlim=(-200, 200),
+                             ylim=(0, 14),
+                             yticks=np.arange(0, 15, 2))
 
 # Use matplotlib.ticker to ensure ticks count by 5 (base), but not specify an
 # upper limit to allow for variability in x axis upper limit
@@ -126,21 +126,21 @@ ax3.yaxis.set_major_locator(ticker.MultipleLocator(base=3))
 ax3.set_ylim(bottom=0)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax1,
-                             x_minor_per_major=5,
-                             y_minor_per_major=4,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax1,
+                         x_minor_per_major=5,
+                         y_minor_per_major=4,
+                         labelsize=12)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax2,
-                             x_minor_per_major=3,
-                             y_minor_per_major=4,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax2,
+                         x_minor_per_major=3,
+                         y_minor_per_major=4,
+                         labelsize=12)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax3,
-                             x_minor_per_major=3,
-                             y_minor_per_major=3,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax3,
+                         x_minor_per_major=3,
+                         y_minor_per_major=3,
+                         labelsize=12)
 
 plt.show()

@@ -23,7 +23,7 @@ import cartopy.feature as cfeature
 from geographiclib.geodesic import Geodesic
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Plot
@@ -84,7 +84,7 @@ def Plot(color, ext, xext, yext, npts, title, subt, style, pt):
 
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
     # Set axes limits, and tick values
-    gvutil.set_axes_limits_and_ticks(
+    gv.set_axes_limits_and_ticks(
         ax,
         xlim=(-125, -60),
         ylim=(15, 65),
@@ -93,21 +93,21 @@ def Plot(color, ext, xext, yext, npts, title, subt, style, pt):
     )
 
     # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax)
+    gv.add_lat_lon_ticklabels(ax)
 
     # Remove the degree symbol from tick labels
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=""))
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=""))
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax, labelsize=12)
+    gv.add_major_minor_ticks(ax, labelsize=12)
 
     # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-    gvutil.set_titles_and_labels(ax,
-                                 maintitle=subt,
-                                 maintitlefontsize=12,
-                                 xlabel="",
-                                 ylabel="")
+    gv.set_titles_and_labels(ax,
+                             maintitle=subt,
+                             maintitlefontsize=12,
+                             xlabel="",
+                             ylabel="")
     plt.show()
 
 

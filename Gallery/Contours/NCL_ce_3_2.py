@@ -24,10 +24,10 @@ import xarray as xr
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -51,7 +51,7 @@ ax.coastlines(linewidths=0.5)
 ax.add_feature(cfeature.LAND, facecolor='lightgray')
 
 # Import an NCL colormap
-newcmp = gvcmaps.BlAqGrYeOrRe
+newcmp = cmaps.BlAqGrYeOrRe
 
 # Contourf-plot data
 heatmap = t.plot.contourf(ax=ax,

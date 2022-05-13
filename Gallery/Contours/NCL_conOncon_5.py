@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -48,7 +48,7 @@ ax.add_feature(cfeature.LAND, facecolor='lightgray')
 
 # Set map boundary to include latitudes between 0 and 40 and longitudes
 # between -180 and 180 only
-gvutil.set_map_boundary(ax, [-180, 180], [0, 40], south_pad=1)
+gv.set_map_boundary(ax, [-180, 180], [0, 40], south_pad=1)
 
 # Set draw_labels to False so that you can manually manipulate it later
 gl = ax.gridlines(ccrs.PlateCarree(),
@@ -103,7 +103,7 @@ p = ds.HGT.isel(time=0)
 
 # Use geocat-viz utility function to handle the no-shown-data
 # artifact of 0 and 360-degree longitudes
-slon = gvutil.xr_add_cyclic_longitudes(p, "lon")
+slon = gv.xr_add_cyclic_longitudes(p, "lon")
 
 # Plot contour data at pressure level 5500 at the first timestep
 p = slon.plot.contour(ax=ax,
@@ -128,7 +128,7 @@ for x in range(18):
 
     # Use geocat-viz utility function to handle the no-shown-data artifact
     # of 0 and 360-degree longitudes
-    slon = gvutil.xr_add_cyclic_longitudes(p, "lon")
+    slon = gv.xr_add_cyclic_longitudes(p, "lon")
 
     # Plot contour data at pressure level 5500 for the 12*x+1 timestep
     p = slon.plot.contour(ax=ax,
@@ -139,11 +139,10 @@ for x in range(18):
                           add_labels=False)
 
 # Use geocat.viz.util convenience function to add titles
-gvutil.set_titles_and_labels(ax,
-                             maintitle=r"$\bf{Spaghetti}$" + " " +
-                             r"$\bf{Plot}$",
-                             lefttitle=slon.long_name,
-                             righttitle=slon.units)
+gv.set_titles_and_labels(ax,
+                         maintitle=r"$\bf{Spaghetti}$" + " " + r"$\bf{Plot}$",
+                         lefttitle=slon.long_name,
+                         righttitle=slon.units)
 
 # Make tight layout
 plt.tight_layout()

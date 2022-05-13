@@ -23,7 +23,7 @@ import matplotlib.ticker as mticker
 
 import geocat.datafiles as gdf
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Define a helper function for plotting lat/lon ticks on an orthographic plane
@@ -145,15 +145,15 @@ left = t.long_name
 right = t.units
 
 # Use geocat-viz function to create main, left, and right plot titles
-title = gvutil.set_titles_and_labels(ax,
-                                     maintitle=main,
-                                     maintitlefontsize=16,
-                                     lefttitle=left,
-                                     lefttitlefontsize=14,
-                                     righttitle=right,
-                                     righttitlefontsize=14,
-                                     xlabel="",
-                                     ylabel="")
+title = gv.set_titles_and_labels(ax,
+                                 maintitle=main,
+                                 maintitlefontsize=16,
+                                 lefttitle=left,
+                                 lefttitlefontsize=14,
+                                 righttitle=right,
+                                 righttitlefontsize=14,
+                                 xlabel="",
+                                 ylabel="")
 
 # Plot gridlines
 gl = ax.gridlines(color='black', linewidth=0.2, zorder=2)

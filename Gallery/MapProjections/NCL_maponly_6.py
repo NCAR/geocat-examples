@@ -31,7 +31,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import matplotlib.cm as cm
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -132,7 +132,7 @@ fig.colorbar(mappable=mappable,
              anchor=(0.1, 0.5))
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(
+gv.set_titles_and_labels(
     ax,
     maintitle="1994-1998 Male Lung Cancer Age-Adjusted Deaths per 100,000",
     maintitlefontsize=15)

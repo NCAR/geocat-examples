@@ -26,7 +26,7 @@ import numpy as np
 import xarray as xr
 
 import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ##############################################################################
 # Helper function to convert date into 03-Oct 2000 (00H) format
@@ -59,18 +59,18 @@ def add_axes(fig, grid_space):
                    zorder=2)
 
     # Usa geocat.viz.util convenience function to set axes parameters
-    gvutil.set_axes_limits_and_ticks(ax,
-                                     ylim=(-90, 90),
-                                     xlim=(-180, 180),
-                                     xticks=np.arange(-180, 181, 30),
-                                     yticks=np.arange(-90, 91, 30))
+    gv.set_axes_limits_and_ticks(ax,
+                                 ylim=(-90, 90),
+                                 xlim=(-180, 180),
+                                 xticks=np.arange(-180, 181, 30),
+                                 yticks=np.arange(-90, 91, 30))
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax, labelsize=8)
+    gv.add_major_minor_ticks(ax, labelsize=8)
 
     # Use geocat.viz.util convenience function to make plots look like NCL
     # plots by using latitude, longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax)
+    gv.add_lat_lon_ticklabels(ax)
 
     # Remove the degree symbol from tick labels
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))

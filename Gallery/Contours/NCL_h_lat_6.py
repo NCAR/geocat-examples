@@ -19,10 +19,10 @@ import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
-from geocat.viz import cmaps as gvcmap
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:

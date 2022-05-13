@@ -23,9 +23,9 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 from matplotlib import colors, cm
+import cmaps
 
 from geocat.viz import util as gvutil
-from geocat.viz import cmaps as gvcmap
 
 ###############################################################################
 # Generate dummy data

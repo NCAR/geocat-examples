@@ -31,15 +31,13 @@ Note (1):
 
 import xarray as xr
 import numpy as np
+import matplotlib.pyplot as plt
+import cartopy.crs as ccrs
+import cmaps
 
 import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
-from geocat.viz import cmaps as gvcmaps
+import geocat.viz as gv
 from geocat.comp import eofunc_eofs, eofunc_pcs, month_to_season
-
-import matplotlib.pyplot as plt
-
-import cartopy.crs as ccrs
 
 ###############################################################################
 # User defined parameters and a convenience function:
@@ -157,7 +155,7 @@ def make_contour_plot(ax, dataset):
     values = dataset.data
 
     # Import an NCL colormap
-    cmap = gvcmaps.BlWhRe
+    cmap = cmaps.BlWhRe
 
     # Specify contour levelstamam
     v = np.linspace(-0.08, 0.08, 9, endpoint=True)

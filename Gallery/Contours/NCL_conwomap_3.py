@@ -22,7 +22,7 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import matplotlib.pyplot as plt
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Generate random data:
@@ -41,22 +41,22 @@ plt.figure(figsize=(10, 10))
 ax = plt.axes()
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(0, 30),
-                                 ylim=(0, 30),
-                                 xticks=None,
-                                 yticks=None,
-                                 xticklabels=None,
-                                 yticklabels=None)
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(0, 30),
+                             ylim=(0, 30),
+                             xticks=None,
+                             yticks=None,
+                             xticklabels=None,
+                             yticklabels=None)
 
 # Use geocat.viz.util to add major and minor tics
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=5,
-                             y_minor_per_major=5,
-                             labelsize=18)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=5,
+                         y_minor_per_major=5,
+                         labelsize=18)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax, ylabel="wave number", labelfontsize=24)
+gv.set_titles_and_labels(ax, ylabel="wave number", labelfontsize=24)
 
 # Set ticks and labels only on left and top of plot
 ax.xaxis.tick_top()

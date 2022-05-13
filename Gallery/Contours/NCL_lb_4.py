@@ -23,10 +23,10 @@ import xarray as xr
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -74,7 +74,7 @@ gvutil.set_titles_and_labels(ax,
                              righttitlefontsize=12)
 
 # Import an NCL colormap
-cmap = gvcmaps.wgne15
+cmap = cmaps.wgne15
 
 # Specify which contour levels to draw
 contour_lev = np.arange(-20, 28, 4)

@@ -30,7 +30,7 @@ import numpy as np
 import xarray as xr
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ##############################################################################
 # Read in data:
@@ -44,7 +44,7 @@ ds = ds.isel(time=0).drop("time")
 TS = ds.TS
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-TS = gvutil.xr_add_cyclic_longitudes(TS, "lon")
+TS = gv.xr_add_cyclic_longitudes(TS, "lon")
 
 ##############################################################################
 # Plot:
@@ -80,28 +80,28 @@ plt.colorbar(contour,
              shrink=0.7)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(-180, 180),
-                                 ylim=(-90, 90),
-                                 xticks=np.linspace(-180, 180, 13),
-                                 yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(-180, 180),
+                             ylim=(-90, 90),
+                             xticks=np.linspace(-180, 180, 13),
+                             yticks=np.linspace(-90, 90, 7))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, labelsize=12)
+gv.add_major_minor_ticks(ax, labelsize=12)
 
 # Use geocat.viz.util convenience function to make latitude and
 # longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 # Remove the degree symbol from tick labels
 ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add titles
-gvutil.set_titles_and_labels(ax,
-                             maintitle='Draw land ON TOP of contours',
-                             lefttitle=TS.long_name,
-                             righttitle=TS.units,
-                             lefttitlefontsize=14,
-                             righttitlefontsize=14)
+gv.set_titles_and_labels(ax,
+                         maintitle='Draw land ON TOP of contours',
+                         lefttitle=TS.long_name,
+                         righttitle=TS.units,
+                         lefttitlefontsize=14,
+                         righttitlefontsize=14)
 
 plt.show()

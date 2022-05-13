@@ -26,7 +26,7 @@ from scipy.interpolate import interp2d
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 from geocat.comp import interp_hybrid_to_pressure
 
 import warnings

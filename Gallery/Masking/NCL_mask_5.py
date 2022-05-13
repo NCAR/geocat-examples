@@ -27,7 +27,7 @@ import matplotlib.pyplot as plt
 import cartopy.feature as cfeature
 import matplotlib.patches as mpatches
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 import geocat.datafiles as gdf
 
 ###############################################################################
@@ -38,7 +38,7 @@ ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 t = ds.TS.isel(time=0)
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
+wrap_t = gv.xr_add_cyclic_longitudes(t, "lon")
 
 ###############################################################################
 # Plot:
@@ -74,9 +74,9 @@ plt.legend([land, lakes, ocean],
 
 # Use geocat.viz.util convenience function to set titles and labels without
 # calling several matplotlib functions
-gvutil.set_titles_and_labels(ax,
-                             maintitle="land sea mask using 'atmos.nc'",
-                             maintitlefontsize=14)
+gv.set_titles_and_labels(ax,
+                         maintitle="land sea mask using 'atmos.nc'",
+                         maintitlefontsize=14)
 
 # Plot second plot
 ax1 = plt.subplot(2, 1, 2, projection=ccrs.PlateCarree())
@@ -112,12 +112,12 @@ ax1.add_feature(cfeature.OCEAN, zorder=10, edgecolor='k')
 
 # Use geocat.viz.util convenience function to set titles and labels without
 # calling several matplotlib functions
-gvutil.set_titles_and_labels(ax1,
-                             maintitle="",
-                             maintitlefontsize=14,
-                             righttitle="degK",
-                             righttitlefontsize=14,
-                             lefttitle="temperature",
-                             lefttitlefontsize=14)
+gv.set_titles_and_labels(ax1,
+                         maintitle="",
+                         maintitlefontsize=14,
+                         righttitle="degK",
+                         righttitlefontsize=14,
+                         lefttitle="temperature",
+                         lefttitlefontsize=14)
 
 plt.show()

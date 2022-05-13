@@ -48,8 +48,8 @@ import numpy as np
 import xarray as xr
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import cmaps
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -111,7 +111,7 @@ def Plot(color, row, col, pos, title):
 
 
 # Plot first color map
-Plot(gvcmaps.BlAqGrYeOrRe, 2, 2, 1, "Figure 1: \n Rainbow Color Projection")
+Plot(cmaps.BlAqGrYeOrRe, 2, 2, 1, "Figure 1: \n Rainbow Color Projection")
 
 # plot second color map
 Plot("coolwarm", 2, 2, 2, "Figure 2: \n Coolwarm Color Projection")

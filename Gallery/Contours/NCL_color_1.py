@@ -23,10 +23,10 @@ import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
+import cmaps
 
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
 
 ###############################################################################
 # Read in data:
@@ -45,11 +45,11 @@ ax = plt.axes(projection=ccrs.PlateCarree())
 ax.coastlines(linewidth=0.5, alpha=0.6)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(-180, 180),
-                                 ylim=(-90, 90),
-                                 xticks=np.linspace(-180, 180, 13),
-                                 yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(-180, 180),
+                             ylim=(-90, 90),
+                             xticks=np.linspace(-180, 180, 13),
+                             yticks=np.linspace(-90, 90, 7))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gvutil.add_major_minor_ticks(ax, labelsize=10)
@@ -58,7 +58,7 @@ gvutil.add_major_minor_ticks(ax, labelsize=10)
 gvutil.add_lat_lon_ticklabels(ax)
 
 # Import the default color map
-newcmp = gvcmaps.ncl_default
+newcmp = cmaps.ncl_default
 
 # Define contour levels
 levels = np.arange(-16, 48, 4)

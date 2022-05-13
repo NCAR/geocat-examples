@@ -13,16 +13,16 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/conwomap_5_2_lg.png
 """
 
-import geocat.datafiles as gdf
-import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
+import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
+import cmaps
+
 from geocat.comp import interp_hybrid_to_pressure
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
-from matplotlib.ticker import ScalarFormatter
+import geocat.viz as gv
+import geocat.datafiles as gdf
 
 ###############################################################################
 # Read in data:
@@ -80,7 +80,7 @@ gvutil.add_major_minor_ticks(ax,
                              labelsize=16)
 
 # Specify colormap
-newcmap = gvcmaps.ncl_default
+newcmap = cmaps.ncl_default
 
 # Plot filed contours
 p = uzon.plot.contourf(ax=ax,

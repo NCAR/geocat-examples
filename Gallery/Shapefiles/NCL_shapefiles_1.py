@@ -38,7 +38,7 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -141,6 +141,6 @@ gl.xlabel_style = {'rotation': 0}
 gl.ylabel_style = {'rotation': 0}
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, maintitle='Percentage unemployment, by state')
+gv.set_titles_and_labels(ax, maintitle='Percentage unemployment, by state')
 
 plt.show()
