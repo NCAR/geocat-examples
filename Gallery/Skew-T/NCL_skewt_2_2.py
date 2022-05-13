@@ -128,25 +128,25 @@ skew.plot_mixing_lines(mixing_ratio=w,
                        linewidths=1)
 
 # Use geocat.viz utility functions to set axes limits and ticks
-gvutil.set_axes_limits_and_ticks(
+gv.set_axes_limits_and_ticks(
     ax=ax,
     xlim=[-32, 38],
     yticks=[1000, 850, 700, 500, 400, 300, 250, 200, 150, 100])
 
 # Use geocat.viz utility function to change the look of ticks and ticklabels
-gvutil.add_major_minor_ticks(ax=ax,
-                             x_minor_per_major=1,
-                             y_minor_per_major=1,
-                             labelsize=14)
+gv.add_major_minor_ticks(ax=ax,
+                         x_minor_per_major=1,
+                         y_minor_per_major=1,
+                         labelsize=14)
 # The utility function draws tickmarks all around the plot. We only need ticks
 # on the left and bottom edges
 ax.tick_params('both', which='both', top=False, right=False)
 
 # Use geocat.viz utility functions to add labels
-gvutil.set_titles_and_labels(ax=ax,
-                             xlabel='Temperature (C)',
-                             ylabel='P (hPa)',
-                             labelfontsize=14)
+gv.set_titles_and_labels(ax=ax,
+                         xlabel='Temperature (C)',
+                         ylabel='P (hPa)',
+                         labelfontsize=14)
 
 # Manually add suptitle and subtitle for appropriate positioning
 fig.suptitle('Raob; [Wind Reports]', fontsize=24, y=0.92)

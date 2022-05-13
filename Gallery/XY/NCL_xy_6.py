@@ -16,7 +16,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -57,34 +57,34 @@ ax = plt.gca()
 plt.plot(warm_yrs, y, color='grey', linewidth=1)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=1,
-                             y_minor_per_major=4,
-                             labelsize=16)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=1,
+                         y_minor_per_major=4,
+                         labelsize=16)
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, tick values, and tick labels
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(1951, 1991),
-                                 ylim=(-1.5, 0.6),
-                                 yticks=np.arange(-1.2, .6, .4),
-                                 xticks=np.array([
-                                     1951, 1954, 1957, 1961, 1965, 1968.5, 1972,
-                                     1977, 1982, 1986.5, 1991
-                                 ]),
-                                 xticklabels=[
-                                     '1951', '', '1957', '', '1965', '', '1972',
-                                     '', '1982', '', '1991'
-                                 ])
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(1951, 1991),
+                             ylim=(-1.5, 0.6),
+                             yticks=np.arange(-1.2, .6, .4),
+                             xticks=np.array([
+                                 1951, 1954, 1957, 1961, 1965, 1968.5, 1972,
+                                 1977, 1982, 1986.5, 1991
+                             ]),
+                             xticklabels=[
+                                 '1951', '', '1957', '', '1965', '', '1972', '',
+                                 '1982', '', '1991'
+                             ])
 
 # Turn off minor ticks on y axis
 ax.tick_params(axis='x', which='minor', bottom=False, top=False)
 
 # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Explicit axis labeling",
-                             xlabel="",
-                             ylabel="")
+gv.set_titles_and_labels(ax,
+                         maintitle="Explicit axis labeling",
+                         xlabel="",
+                         ylabel="")
 
 # Show the plot
 plt.tight_layout()

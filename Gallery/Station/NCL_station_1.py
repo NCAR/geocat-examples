@@ -83,22 +83,20 @@ ax.add_feature(cfeature.STATES,
 ax.add_feature(cfeature.LAKES, facecolor='white', edgecolor='black', zorder=2)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=(min(pwv_lat1d) - .5,
-                                       max(pwv_lat1d) + .5),
-                                 xlim=(min(pwv_lon1d) - .5,
-                                       max(pwv_lon1d) + .5),
-                                 yticks=np.array([34, 36, 38, 40]),
-                                 xticks=np.arange(-101, -93, 1))
+gv.set_axes_limits_and_ticks(ax,
+                             ylim=(min(pwv_lat1d) - .5, max(pwv_lat1d) + .5),
+                             xlim=(min(pwv_lon1d) - .5, max(pwv_lon1d) + .5),
+                             yticks=np.array([34, 36, 38, 40]),
+                             xticks=np.arange(-101, -93, 1))
 
 # Use geocat.viz.util convenience function to set latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=1,
-                             y_minor_per_major=1,
-                             labelsize=18)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=1,
+                         y_minor_per_major=1,
+                         labelsize=18)
 
 # Manually turn off ticks on top and right spines
 ax.tick_params(axis='x', top=False)

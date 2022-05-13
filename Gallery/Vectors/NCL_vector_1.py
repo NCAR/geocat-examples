@@ -82,11 +82,11 @@ ax.add_feature(cartopy.feature.LAND,
 levels = np.linspace(24, 28.9, 50)
 
 # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
-gvutil.truncate_colormap(cmaps.BlAqGrYeOrReVi200,
-                         minval=0.08,
-                         maxval=0.96,
-                         n=len(levels),
-                         name='BlAqGrYeOrReVi200')
+gv.truncate_colormap(cmaps.BlAqGrYeOrReVi200,
+                     minval=0.08,
+                     maxval=0.96,
+                     n=len(levels),
+                     name='BlAqGrYeOrReVi200')
 
 # Contourf-plot the SST data
 cf = sst.plot.contourf('lon',
@@ -127,25 +127,25 @@ ax.quiverkey(Q,
              labelsep=0.1)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(65, 95),
-                                 ylim=(5, 25),
-                                 xticks=range(70, 95, 10),
-                                 yticks=range(5, 27, 5))
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(65, 95),
+                             ylim=(5, 25),
+                             xticks=range(70, 95, 10),
+                             yticks=range(5, 27, 5))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=5,
-                             y_minor_per_major=5,
-                             labelsize=14)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=5,
+                         y_minor_per_major=5,
+                         labelsize=14)
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax,
-                             lefttitle='Sea Surface Temperature',
-                             righttitle='C')
+gv.set_titles_and_labels(ax,
+                         lefttitle='Sea Surface Temperature',
+                         righttitle='C')
 
 # Show the plot
 plt.show()

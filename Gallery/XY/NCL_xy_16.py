@@ -24,7 +24,7 @@ from matplotlib.ticker import (ScalarFormatter, NullFormatter)
 import matplotlib.ticker as tic
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -47,23 +47,23 @@ plt.figure(figsize=(8, 8))
 ax = plt.axes()
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=5,
-                             y_minor_per_major=4,
-                             labelsize=14)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=5,
+                         y_minor_per_major=4,
+                         labelsize=14)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(-20, 40),
-                                 ylim=(1000, 0),
-                                 xticks=np.arange(-20, 60, 10),
-                                 yticks=np.arange(0, 1200, 200))
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(-20, 40),
+                             ylim=(1000, 0),
+                             xticks=np.arange(-20, 60, 10),
+                             yticks=np.arange(0, 1200, 200))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax,
-                             maintitle='Profile Plot',
-                             xlabel=U.long_name,
-                             ylabel=U['lev'].long_name)
+gv.set_titles_and_labels(ax,
+                         maintitle='Profile Plot',
+                         xlabel=U.long_name,
+                         ylabel=U['lev'].long_name)
 
 # Add reference line x=0
 ax.axvline(x=0, color='black', linewidth=0.5)
@@ -145,14 +145,14 @@ ax.tick_params("both",
 
 # Use geocat.viz.util convenience function to set axes parameters
 pressure_lvls = [1, 5, 10, 30, 50, 100, 200, 300, 400, 500, 700, 1000]
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(-20, 40),
-                                 ylim=(1000, 4),
-                                 xticks=np.arange(-20, 60, 10),
-                                 yticks=pressure_lvls)
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(-20, 40),
+                             ylim=(1000, 4),
+                             xticks=np.arange(-20, 60, 10),
+                             yticks=pressure_lvls)
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, maintitle='Profile Plot', xlabel=U.long_name)
+gv.set_titles_and_labels(ax, maintitle='Profile Plot', xlabel=U.long_name)
 
 # Plot data
 plt.plot(U20.data,

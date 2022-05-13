@@ -88,10 +88,10 @@ gl.xlines = True
 gl.ylines = True
 
 # Add titles and labels to projection
-gvutil.set_titles_and_labels(ax,
-                             maintitle="WRF data on native grid",
-                             lefttitle="QV at 2 M",
-                             maintitlefontsize=16,
-                             lefttitlefontsize=14)
+gv.set_titles_and_labels(ax,
+                         maintitle="WRF data on native grid",
+                         lefttitle="QV at 2 M",
+                         maintitlefontsize=16,
+                         lefttitlefontsize=14)
 
 plt.show()

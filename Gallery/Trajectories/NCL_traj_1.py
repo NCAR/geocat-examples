@@ -66,12 +66,12 @@ plt.title('markers every 4th timestep', fontsize=10, pad=10)
 ax.add_feature(cfeature.LAND, color='lightgrey')
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xticks=np.linspace(-70, -30, 5),
-                                 yticks=np.linspace(-60, -20, 5))
+gv.set_axes_limits_and_ticks(ax,
+                             xticks=np.linspace(-70, -30, 5),
+                             yticks=np.linspace(-60, -20, 5))
 
 # Select trajectories to plot
 traj = [1, 10, 53, 67, 80]

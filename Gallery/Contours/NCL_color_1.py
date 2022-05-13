@@ -52,10 +52,10 @@ gv.set_axes_limits_and_ticks(ax,
                              yticks=np.linspace(-90, 90, 7))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, labelsize=10)
+gv.add_major_minor_ticks(ax, labelsize=10)
 
 # Use geocat.viz.util convenience function to make latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Import the default color map
 newcmp = cmaps.ncl_default
@@ -97,14 +97,14 @@ ds.U.plot.contour(ax=ax,
                   transform=ccrs.PlateCarree())
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Default Color",
-                             lefttitle=ds.U.long_name,
-                             lefttitlefontsize=16,
-                             righttitle=ds.U.units,
-                             righttitlefontsize=16,
-                             xlabel="",
-                             ylabel="")
+gv.set_titles_and_labels(ax,
+                         maintitle="Default Color",
+                         lefttitle=ds.U.long_name,
+                         lefttitlefontsize=16,
+                         righttitle=ds.U.units,
+                         righttitlefontsize=16,
+                         xlabel="",
+                         ylabel="")
 
 # Show the plot
 plt.show()

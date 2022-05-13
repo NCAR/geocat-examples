@@ -197,18 +197,18 @@ clb2.ax.set_yticklabels(ticklabs, ha='center')
 # Set axes features (tick formats and main title)
 #
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xticks=np.arange(-105, -84, 5),
-                                 yticks=np.arange(18, 35, 2))
+gv.set_axes_limits_and_ticks(ax,
+                             xticks=np.arange(-105, -84, 5),
+                             yticks=np.arange(18, 35, 2))
 
-# Use gvutil function to format latitude and longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+# Use gv function to format latitude and longitude tick labels
+gv.add_lat_lon_ticklabels(ax)
 
-# Use gvutil function to add major and minor ticks
-gvutil.add_major_minor_ticks(ax,
-                             y_minor_per_major=1,
-                             x_minor_per_major=1,
-                             labelsize=16)
+# Use gv function to add major and minor ticks
+gv.add_major_minor_ticks(ax,
+                         y_minor_per_major=1,
+                         x_minor_per_major=1,
+                         labelsize=16)
 
 # Set padding between tick labels and axes, and turn off ticks on top and right spines
 ax.tick_params(pad=9, top=False, right=False)

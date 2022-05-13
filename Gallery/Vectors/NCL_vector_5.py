@@ -177,23 +177,23 @@ ax.quiverkey(Q,
              fontproperties={'size': 13})
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, labelsize=16)
+gv.add_major_minor_ticks(ax, x_minor_per_major=3, labelsize=16)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(-88, 88),
-                                 ylim=(900, 200),
-                                 xticks=np.arange(-60, 61, 30),
-                                 yticks=np.array(
-                                     [200, 250, 300, 400, 500, 700, 850]),
-                                 xticklabels=['60S', '30S', '0', '30N', '60N'])
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(-88, 88),
+                             ylim=(900, 200),
+                             xticks=np.arange(-60, 61, 30),
+                             yticks=np.array(
+                                 [200, 250, 300, 400, 500, 700, 850]),
+                             xticklabels=['60S', '30S', '0', '30N', '60N'])
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Pressure/Height Vector",
-                             maintitlefontsize=28,
-                             ylabel='Pressure (mb)',
-                             labelfontsize=28)
+gv.set_titles_and_labels(ax,
+                         maintitle="Pressure/Height Vector",
+                         maintitlefontsize=28,
+                         ylabel='Pressure (mb)',
+                         labelfontsize=28)
 
 # Create second y-axis to show geo-potential height. Currently we're using
 # arbitrary values for height as we haven't figured out how to make this work
@@ -201,7 +201,7 @@ gvutil.set_titles_and_labels(ax,
 axRHS = ax.twinx()
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(axRHS, ylim=(0, 13), yticks=np.array([4, 8]))
+gv.set_axes_limits_and_ticks(axRHS, ylim=(0, 13), yticks=np.array([4, 8]))
 
 # manually set tick length, width and ticklabel size
 axRHS.tick_params(labelsize=16, length=8, width=0.9)

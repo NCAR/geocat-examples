@@ -246,17 +246,17 @@ gv.set_axes_limits_and_ticks(ax,
 gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=4,
-                             y_minor_per_major=5,
-                             labelsize=18)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=4,
+                         y_minor_per_major=5,
+                         labelsize=18)
 
 # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
-gvutil.set_titles_and_labels(ax,
-                             lefttitle="Temp",
-                             lefttitlefontsize=20,
-                             righttitle="Wind",
-                             righttitlefontsize=20)
+gv.set_titles_and_labels(ax,
+                         lefttitle="Temp",
+                         lefttitlefontsize=20,
+                         righttitle="Wind",
+                         righttitlefontsize=20)
 
 # Show the plot
 plt.show()

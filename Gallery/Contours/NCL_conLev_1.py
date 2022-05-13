@@ -65,14 +65,14 @@ ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, labelsize=12)
+gv.add_major_minor_ticks(ax, labelsize=12)
 
 # Use geocat.viz.util convenience function to add titles
-gvutil.set_titles_and_labels(ax,
-                             lefttitle=temp.long_name,
-                             righttitle=temp.units,
-                             lefttitlefontsize=14,
-                             righttitlefontsize=14)
+gv.set_titles_and_labels(ax,
+                         lefttitle=temp.long_name,
+                         righttitle=temp.units,
+                         lefttitlefontsize=14,
+                         righttitlefontsize=14)
 
 # Add lower text box
 ax.text(1,

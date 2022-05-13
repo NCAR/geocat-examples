@@ -46,7 +46,7 @@ plt.subplots(figsize=(10, 5.25))
 
 # Generate axes using Cartopy projection
 ax = plt.axes(projection=ccrs.PlateCarree())
-z = gvutil.set_vector_density(ds, 0.017)
+z = gv.set_vector_density(ds, 0.017)
 
 # Draw vector plot
 # Notes
@@ -90,20 +90,20 @@ ax.add_patch(
                   zorder=1))
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xticks=range(-180, 181, 30),
-                                 yticks=range(-90, 91, 30))
+gv.set_axes_limits_and_ticks(ax,
+                             xticks=range(-180, 181, 30),
+                             yticks=range(-90, 91, 30))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, labelsize=12)
+gv.add_major_minor_ticks(ax, labelsize=12)
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax,
-                             lefttitle=ds['U'].long_name,
-                             righttitle=ds['U'].units)
+gv.set_titles_and_labels(ax,
+                         lefttitle=ds['U'].long_name,
+                         righttitle=ds['U'].units)
 
 # Add timestamp
 ax.text(-200, -115, f'Created: {datetime.now()}')

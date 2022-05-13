@@ -19,7 +19,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -81,31 +81,30 @@ cs.collections[3].set_linewidth(1)
 cl = ax.clabel(cs, fmt='%d', levels=[-4, 0, 4])
 
 # Use geocat.viz.util convenience function to set axes limits & tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=[100, 220],
-                                 ylim=[0, 1.55 * 1e16],
-                                 xticks=[135, 180],
-                                 yticks=np.linspace(0, 1.55 * 1e16, 7),
-                                 xticklabels=['135E', '180'],
-                                 yticklabels=np.linspace(0, 180, 7,
-                                                         dtype='int'))
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=[100, 220],
+                             ylim=[0, 1.55 * 1e16],
+                             xticks=[135, 180],
+                             yticks=np.linspace(0, 1.55 * 1e16, 7),
+                             xticklabels=['135E', '180'],
+                             yticklabels=np.linspace(0, 180, 7, dtype='int'))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=3,
-                             labelsize=16)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=3,
+                         y_minor_per_major=3,
+                         labelsize=16)
 
 # Use geocat.viz.util convenience function to add titles
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Pacific Region",
-                             maintitlefontsize=20,
-                             lefttitle="Velocity Potential",
-                             lefttitlefontsize=18,
-                             righttitle="m2/s",
-                             righttitlefontsize=18,
-                             ylabel="elapsed time",
-                             labelfontsize=18)
+gv.set_titles_and_labels(ax,
+                         maintitle="Pacific Region",
+                         maintitlefontsize=20,
+                         lefttitle="Velocity Potential",
+                         lefttitlefontsize=18,
+                         righttitle="m2/s",
+                         righttitlefontsize=18,
+                         ylabel="elapsed time",
+                         labelfontsize=18)
 
 # Add lower text box
 ax.text(1,

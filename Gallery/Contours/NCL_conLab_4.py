@@ -73,14 +73,14 @@ ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=4,
-                             labelsize=14)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=3,
+                         y_minor_per_major=4,
+                         labelsize=14)
 
 # Use geocat.viz.util convenience function to add titles to left and right of
 # the plot axis
-gvutil.set_titles_and_labels(ax, lefttitle=U.long_name, righttitle=U.units)
+gv.set_titles_and_labels(ax, lefttitle=U.long_name, righttitle=U.units)
 
 # Select a color map
 cmap = cmaps.gui_default

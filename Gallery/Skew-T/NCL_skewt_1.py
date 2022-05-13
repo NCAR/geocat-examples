@@ -34,7 +34,7 @@ skew.plot_dry_adiabats()
 skew.plot_moist_adiabats()
 skew.plot_mixing_lines()
 
-gvutil.set_titles_and_labels(ax, maintitle="MetPy Default Skew-T")
+gv.set_titles_and_labels(ax, maintitle="MetPy Default Skew-T")
 plt.show()
 
 ###############################################################################
@@ -87,13 +87,13 @@ skew.plot_mixing_lines(mixing_ratio=w,
                        linewidths=1)
 
 # Use geocat.viz utility functions to set axes limits and ticks
-gvutil.set_axes_limits_and_ticks(
+gv.set_axes_limits_and_ticks(
     ax=ax,
     xlim=[-32, 38],
     yticks=[1000, 850, 700, 500, 400, 300, 250, 200, 150, 100])
 
 # Use geocat.viz utility functions to add a main title
-gvutil.set_titles_and_labels(ax=ax, maintitle="NCL Style Plot")
+gv.set_titles_and_labels(ax=ax, maintitle="NCL Style Plot")
 
 # Plot empty wind barbs with dummy data
 u = np.zeros(22)

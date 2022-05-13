@@ -86,22 +86,19 @@ ccr = LeadLagCorr(ts1, ts2)
 ax.plot(x, ccr, color='gray', linewidth=0.5)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=4,
-                             y_minor_per_major=5,
-                             labelsize=16)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=4,
+                         y_minor_per_major=5,
+                         labelsize=16)
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, tick values, and tick labels to show latitude & longitude (i.e. North (N) - South (S))
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(0, 24),
-                                 ylim=(-1.2, 1.2),
-                                 xticks=x[::4])
+gv.set_axes_limits_and_ticks(ax, xlim=(0, 24), ylim=(-1.2, 1.2), xticks=x[::4])
 
 # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-gvutil.set_titles_and_labels(ax,
-                             maintitle="37.7N 180E vs 23.72S 149W",
-                             xlabel="LAG")
+gv.set_titles_and_labels(ax,
+                         maintitle="37.7N 180E vs 23.72S 149W",
+                         xlabel="LAG")
 
 # Set major and minor tick directions and padding
 ax.tick_params(which='both', direction='in', pad=9)

@@ -100,14 +100,14 @@ def Plot(color, row, col, pos, title):
 
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
     # Set axes limits, and tick values
-    gvutil.set_axes_limits_and_ticks(ax1, xlim=(30, 120), ylim=(-60, 30))
+    gv.set_axes_limits_and_ticks(ax1, xlim=(30, 120), ylim=(-60, 30))
 
     # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-    gvutil.set_titles_and_labels(ax1,
-                                 maintitle=title,
-                                 maintitlefontsize=14,
-                                 xlabel="",
-                                 ylabel="")
+    gv.set_titles_and_labels(ax1,
+                             maintitle=title,
+                             maintitlefontsize=14,
+                             xlabel="",
+                             ylabel="")
 
 
 # Plot first color map

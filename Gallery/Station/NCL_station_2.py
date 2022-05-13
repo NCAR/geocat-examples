@@ -22,7 +22,7 @@ from matplotlib import pyplot as plt
 import cartopy
 import cartopy.crs as ccrs
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###################################################
 # Generate random data:
@@ -74,20 +74,20 @@ def make_shared_plot(title):
     ax = plt.axes(projection=ccrs.PlateCarree())
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax,
-                                 x_minor_per_major=4,
-                                 y_minor_per_major=5,
-                                 labelsize=14)
+    gv.add_major_minor_ticks(ax,
+                             x_minor_per_major=4,
+                             y_minor_per_major=5,
+                             labelsize=14)
 
     # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax)
+    gv.add_lat_lon_ticklabels(ax)
 
     # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-    gvutil.set_axes_limits_and_ticks(ax,
-                                     xlim=(-125, -70),
-                                     ylim=(25, 50),
-                                     xticks=range(-120, -75, 20),
-                                     yticks=range(30, 51, 10))
+    gv.set_axes_limits_and_ticks(ax,
+                                 xlim=(-125, -70),
+                                 ylim=(25, 50),
+                                 xticks=range(-120, -75, 20),
+                                 yticks=range(30, 51, 10))
 
     # Turn on continent shading
     ax.add_feature(cartopy.feature.LAND,

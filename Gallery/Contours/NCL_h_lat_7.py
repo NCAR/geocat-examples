@@ -166,29 +166,28 @@ qk = ax.quiverkey(
     fontproperties={'size': 13})
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=4,
-                             y_minor_per_major=1,
-                             labelsize=18)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=4,
+                         y_minor_per_major=1,
+                         labelsize=18)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=ax.get_ylim()[::-1],
-                                 xticks=np.array([-20, 0, 20]),
-                                 yticks=np.array(
-                                     [300, 400, 500, 700, 850, 1000]),
-                                 xticklabels=['20S', '0', '20N'])
+gv.set_axes_limits_and_ticks(ax,
+                             ylim=ax.get_ylim()[::-1],
+                             xticks=np.array([-20, 0, 20]),
+                             yticks=np.array([300, 400, 500, 700, 850, 1000]),
+                             xticklabels=['20S', '0', '20N'])
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Pressure/Height Vector Example",
-                             maintitlefontsize=24,
-                             lefttitle=hp.long_name,
-                             lefttitlefontsize=22,
-                             righttitle=hp.units,
-                             righttitlefontsize=22,
-                             ylabel='Pressure (mb)',
-                             labelfontsize=24)
+gv.set_titles_and_labels(ax,
+                         maintitle="Pressure/Height Vector Example",
+                         maintitlefontsize=24,
+                         lefttitle=hp.long_name,
+                         lefttitlefontsize=22,
+                         righttitle=hp.units,
+                         righttitlefontsize=22,
+                         ylabel='Pressure (mb)',
+                         labelfontsize=24)
 
 # Create second y-axis to show geo-potential height. Currently we're using
 # arbitrary values for height as we haven't figured out how to make this work
@@ -196,7 +195,7 @@ gvutil.set_titles_and_labels(ax,
 axRHS = ax.twinx()
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(axRHS, ylim=(0, 13), yticks=np.array([4, 8]))
+gv.set_axes_limits_and_ticks(axRHS, ylim=(0, 13), yticks=np.array([4, 8]))
 
 # manually set tick length, width and ticklabel size
 axRHS.tick_params(labelsize=18, length=8, width=0.9)

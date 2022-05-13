@@ -25,7 +25,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Generate data:
@@ -81,7 +81,7 @@ plt.plot(x_data, y_data, color='black', linewidth=0.5)
 
 # Usa geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits
-gvutil.set_axes_limits_and_ticks(ax1, xlim=(1949, 2006), ylim=(-4.2, 4.2))
+gv.set_axes_limits_and_ticks(ax1, xlim=(1949, 2006), ylim=(-4.2, 4.2))
 
 # Make a subplot with major ticks that are set to explicit values and minor ticks that are multiples of 1.
 
@@ -116,11 +116,10 @@ plt.plot(x_data, y_data, color='black', linewidth=0.5)
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values on x-axes.
-gvutil.set_axes_limits_and_ticks(
-    ax2,
-    xlim=(1949, 2006),
-    ylim=(-4.2, 4.2),
-    xticks=[1950, 1960, 1970, 1980, 1990, 2000, 2005])
+gv.set_axes_limits_and_ticks(ax2,
+                             xlim=(1949, 2006),
+                             ylim=(-4.2, 4.2),
+                             xticks=[1950, 1960, 1970, 1980, 1990, 2000, 2005])
 
 # Create more space between subplots
 plt.subplots_adjust(hspace=0.4)

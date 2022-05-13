@@ -103,10 +103,10 @@ skew.plot_mixing_lines(mixing_ratio=w, pressure=p_levs, colors='lime')
 
 skew.ax.set_ylim(1000, 100)
 
-gvutil.set_titles_and_labels(ax, maintitle="ATS Rawinsonde: degC + Thin wind")
+gv.set_titles_and_labels(ax, maintitle="ATS Rawinsonde: degC + Thin wind")
 
 # Set axes limits and ticks
-gvutil.set_axes_limits_and_ticks(
+gv.set_axes_limits_and_ticks(
     ax=ax,
     xlim=[-30, 50],
     yticks=[1000, 850, 700, 500, 400, 300, 250, 200, 150, 100])

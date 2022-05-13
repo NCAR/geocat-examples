@@ -77,18 +77,18 @@ cbar = plt.colorbar(filled,
 cbar.set_ticks(np.arange(262, 304, 4))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax)
+gv.add_major_minor_ticks(ax)
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Ocean Only",
-                             lefttitle=ocean_only.attrs['long_name'],
-                             lefttitlefontsize=14,
-                             righttitle=ocean_only.attrs['units'],
-                             righttitlefontsize=14)
+gv.set_titles_and_labels(ax,
+                         maintitle="Ocean Only",
+                         lefttitle=ocean_only.attrs['long_name'],
+                         lefttitlefontsize=14,
+                         righttitle=ocean_only.attrs['units'],
+                         righttitlefontsize=14)
 
 # Show the plot
 plt.show()
@@ -104,10 +104,7 @@ ax = plt.axes(projection=projection)
 ax.coastlines(linewidth=0.5, resolution="110m")
 
 # Import an NCL colormap
-newcmp = gvutil.truncate_colormap(cmaps.BlAqGrYeOrRe,
-                                  minval=0.1,
-                                  maxval=1.0,
-                                  n=32)
+newcmp = gv.truncate_colormap(cmaps.BlAqGrYeOrRe, minval=0.1, maxval=1.0, n=32)
 
 # Contourf-plot land-only data (for filled contours)
 filled = land_only.plot.contourf(ax=ax,
@@ -130,18 +127,18 @@ cbar = plt.colorbar(filled,
 cbar.set_ticks(np.arange(219, 304, 12))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax)
+gv.add_major_minor_ticks(ax)
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Land Only",
-                             lefttitle=land_only.attrs['long_name'],
-                             lefttitlefontsize=14,
-                             righttitle=land_only.attrs['units'],
-                             righttitlefontsize=14)
+gv.set_titles_and_labels(ax,
+                         maintitle="Land Only",
+                         lefttitle=land_only.attrs['long_name'],
+                         lefttitlefontsize=14,
+                         righttitle=land_only.attrs['units'],
+                         righttitlefontsize=14)
 
 # Show the plot
 plt.show()

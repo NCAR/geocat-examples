@@ -48,10 +48,10 @@ ax = plt.axes(projection=ccrs.PlateCarree())
 # Import an NCL colormap and truncate it for a range and color levels
 plt.cm.register_cmap(
     'BlAqGrYeOrReVi200',
-    gvutil.truncate_colormap(cmaps.BlAqGrYeOrReVi200,
-                             minval=0.03,
-                             maxval=0.95,
-                             n=16))
+    gv.truncate_colormap(cmaps.BlAqGrYeOrReVi200,
+                         minval=0.03,
+                         maxval=0.95,
+                         n=16))
 cmap = plt.cm.get_cmap('BlAqGrYeOrReVi200', 16)
 
 # Draw vector plot
@@ -85,20 +85,20 @@ qk = ax.quiverkey(Q,
                   color='black')
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, labelsize=12)
+gv.add_major_minor_ticks(ax, labelsize=12)
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Set major and minor ticks
 plt.xticks(range(-180, 181, 30))
 plt.yticks(range(-90, 91, 30))
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Vectors colored by a scalar map",
-                             lefttitle="Temperature",
-                             righttitle="$^{\circ}$K")
+gv.set_titles_and_labels(ax,
+                         maintitle="Vectors colored by a scalar map",
+                         lefttitle="Temperature",
+                         righttitle="$^{\circ}$K")
 
 cax = plt.axes((0.225, 0.075, 0.55, 0.025))
 cbar = fig.colorbar(Q,

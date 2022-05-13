@@ -25,7 +25,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from cycler import cycler
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ##############################################################################
 # Generate random data from a normal (Gaussian) distribution with a mean of 10 and standard deviation of 3
@@ -83,19 +83,19 @@ for txt in legend.get_texts():
     txt.set_y(-20)  # y-position
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(0, 300),
-                                 ylim=(0, 21),
-                                 xticks=range(0, 301, 50),
-                                 yticks=range(0, 22, 3))
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(0, 300),
+                             ylim=(0, 21),
+                             xticks=range(0, 301, 50),
+                             yticks=range(0, 22, 3))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=5,
-                             y_minor_per_major=3,
-                             labelsize=14)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=5,
+                         y_minor_per_major=3,
+                         labelsize=14)
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, maintitle="Scatter plot with grouped markers")
+gv.set_titles_and_labels(ax, maintitle="Scatter plot with grouped markers")
 
 plt.show()

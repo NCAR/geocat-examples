@@ -64,16 +64,16 @@ for k, label in enumerate(labels):
     plt.text(x[k], data[k] + 2000, label, rotation=45)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=(0, plot_y_max),
-                                 xticks=[],
-                                 yticks=np.linspace(0, plot_y_max, 7))
+gv.set_axes_limits_and_ticks(ax,
+                             ylim=(0, plot_y_max),
+                             xticks=[],
+                             yticks=np.linspace(0, plot_y_max, 7))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=0,
-                             y_minor_per_major=3,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=0,
+                         y_minor_per_major=3,
+                         labelsize=12)
 
 # Draw plot on the screen.
 plt.show()
@@ -96,22 +96,22 @@ labels_reversed = labels[::-1]
 plt.legend(bars_reversed, labels_reversed)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=(0, plot_y_max),
-                                 xticks=[],
-                                 yticks=np.linspace(0, plot_y_max, 7))
+gv.set_axes_limits_and_ticks(ax,
+                             ylim=(0, plot_y_max),
+                             xticks=[],
+                             yticks=np.linspace(0, plot_y_max, 7))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=0,
-                             y_minor_per_major=3,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=0,
+                         y_minor_per_major=3,
+                         labelsize=12)
 
 # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-gvutil.set_titles_and_labels(ax,
-                             maintitle=title,
-                             maintitlefontsize=title_fontsize,
-                             ylabel="Number of Deaths")
+gv.set_titles_and_labels(ax,
+                         maintitle=title,
+                         maintitlefontsize=title_fontsize,
+                         ylabel="Number of Deaths")
 
 # Show the plot
 plt.tight_layout()

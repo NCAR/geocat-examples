@@ -66,18 +66,18 @@ plt.yscale('log')
 ax.yaxis.set_major_formatter(ScalarFormatter())
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=(20000, 100000),
-                                 yticks=[100000, 70000, 50000, 30000],
-                                 yticklabels=['1000', '700', '500', '300'],
-                                 xticks=np.arange(-60, 90, 30),
-                                 xticklabels=['60S', '30S', '0', '30N', '60N'])
+gv.set_axes_limits_and_ticks(ax,
+                             ylim=(20000, 100000),
+                             yticks=[100000, 70000, 50000, 30000],
+                             yticklabels=['1000', '700', '500', '300'],
+                             xticks=np.arange(-60, 90, 30),
+                             xticklabels=['60S', '30S', '0', '30N', '60N'])
 
 # Us geocat.viz.util convenience function to add minor and major ticks
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=0,
-                             labelsize=16)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=3,
+                         y_minor_per_major=0,
+                         labelsize=16)
 
 # Specify colormap
 newcmap = cmaps.ncl_default
@@ -116,11 +116,11 @@ cbar = plt.colorbar(p,
 cbar.ax.tick_params(labelsize=14)
 
 # Use geocat.vix convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Logarithmic axis",
-                             maintitlefontsize=18,
-                             lefttitle="Zonal Wind",
-                             lefttitlefontsize=16)
+gv.set_titles_and_labels(ax,
+                         maintitle="Logarithmic axis",
+                         maintitlefontsize=18,
+                         lefttitle="Zonal Wind",
+                         lefttitlefontsize=16)
 
 # Show plot
 plt.show()

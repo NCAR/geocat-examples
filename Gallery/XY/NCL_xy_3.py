@@ -21,7 +21,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -44,18 +44,16 @@ ax = plt.gca()
 plt.plot(ds.data, ds.lev)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4)
+gv.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=(1000, 0),
-                                 xticks=np.arange(-10, 30, 5))
+gv.set_axes_limits_and_ticks(ax, ylim=(1000, 0), xticks=np.arange(-10, 30, 5))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Profile Plot",
-                             xlabel=ds.long_name,
-                             ylabel=ds['lev'].long_name)
+gv.set_titles_and_labels(ax,
+                         maintitle="Profile Plot",
+                         xlabel=ds.long_name,
+                         ylabel=ds['lev'].long_name)
 
 plt.show()
 
@@ -79,17 +77,15 @@ plt.plot(ds.data,
          dash_capstyle='round')
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4)
+gv.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=(1000, 0),
-                                 xticks=np.arange(-10, 30, 5))
+gv.set_axes_limits_and_ticks(ax, ylim=(1000, 0), xticks=np.arange(-10, 30, 5))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Make your own dash pattern",
-                             xlabel=ds.long_name,
-                             ylabel=ds['lev'].long_name)
+gv.set_titles_and_labels(ax,
+                         maintitle="Make your own dash pattern",
+                         xlabel=ds.long_name,
+                         ylabel=ds['lev'].long_name)
 
 plt.show()

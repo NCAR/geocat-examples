@@ -43,20 +43,20 @@ panel = 0
 for row in range(0, 2):
     for col in range(0, 2):
         # Use geocat.viz.util convenience function to set axes parameters
-        gvutil.set_axes_limits_and_ticks(axs[row][col],
-                                         ylim=(0.4, 1.2),
-                                         xticks=x,
-                                         yticks=np.arange(0.4, 1.4, 0.2),
-                                         xticklabels=months)
+        gv.set_axes_limits_and_ticks(axs[row][col],
+                                     ylim=(0.4, 1.2),
+                                     xticks=x,
+                                     yticks=np.arange(0.4, 1.4, 0.2),
+                                     xticklabels=months)
         # Use geocat.viz.util convenience function to add minor and major tick lines
-        gvutil.add_major_minor_ticks(axs[row][col],
-                                     x_minor_per_major=1,
-                                     y_minor_per_major=4,
-                                     labelsize=12)
+        gv.add_major_minor_ticks(axs[row][col],
+                                 x_minor_per_major=1,
+                                 y_minor_per_major=4,
+                                 labelsize=12)
         # Use geocat.viz.util convenience function to set titles and labels
-        gvutil.set_titles_and_labels(axs[row][col],
-                                     ylabel='(\u00B0C)',
-                                     labelfontsize=14)
+        gv.set_titles_and_labels(axs[row][col],
+                                 ylabel='(\u00B0C)',
+                                 labelfontsize=14)
 
         # Add overall figure title
         fig.suptitle('Paneling bar plots, dummy data', size=20, y=0.94)

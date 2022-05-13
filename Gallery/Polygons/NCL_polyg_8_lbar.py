@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 from matplotlib import colors, cm
 import cmaps
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Generate dummy data
@@ -69,25 +69,25 @@ ax.add_feature(cfeature.LAND, color='silver', zorder=0)
 ax.add_feature(cfeature.LAKES, color='white', zorder=0)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xticks=np.linspace(-120, -70, 6),
-                                 yticks=np.linspace(25, 50, 6))
+gv.set_axes_limits_and_ticks(ax,
+                             xticks=np.linspace(-120, -70, 6),
+                             yticks=np.linspace(25, 50, 6))
 
 # Use geocat.viz.util convenience function to make latitude and longitude tick
 # labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=1,
-                             y_minor_per_major=1,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=1,
+                         y_minor_per_major=1,
+                         labelsize=12)
 
 # Remove ticks on the top and right sides of the plot
 ax.tick_params(axis='both', which='both', top=False, right=False)
 
 # Use geocat.viz.util convenience function to add titles
-gvutil.set_titles_and_labels(
+gv.set_titles_and_labels(
     ax,
     maintitlefontsize=16,
     maintitle=

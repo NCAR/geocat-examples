@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 from matplotlib import collections as mc
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ##############################################################################
 # Read in data:
@@ -59,22 +59,22 @@ plt.plot(x, V.data, color='black', linewidth=0.5, marker='.')
 ax.add_collection(bars)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(0, 70),
-                                 ylim=(-9, 9),
-                                 xticks=np.arange(0, 71, 10),
-                                 yticks=np.arange(-9, 10, 3),
-                                 yticklabels=np.arange(-9.0, 10.0, 3.0))
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(0, 70),
+                             ylim=(-9, 9),
+                             xticks=np.arange(0, 71, 10),
+                             yticks=np.arange(-9, 10, 3),
+                             yticklabels=np.arange(-9.0, 10.0, 3.0))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=5,
-                             y_minor_per_major=3,
-                             labelsize=14)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=5,
+                         y_minor_per_major=3,
+                         labelsize=14)
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Example of error bars",
-                             ylabel=V.long_name + " " + V.units)
+gv.set_titles_and_labels(ax,
+                         maintitle="Example of error bars",
+                         ylabel=V.long_name + " " + V.units)
 
 plt.show()
