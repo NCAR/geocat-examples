@@ -20,10 +20,10 @@ import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
 import xarray as xr
 import numpy as np
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ##############################################################################
 # Read in data:
@@ -32,7 +32,7 @@ import geocat.viz.util as gvutil
 ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"),
                      decode_times=False)
 # Ensure longitudes range from 0 to 360 degrees
-T = gvutil.xr_add_cyclic_longitudes(ds.T, "lon_t")
+T = gv.xr_add_cyclic_longitudes(ds.T, "lon_t")
 
 # Extract slices of data for each panel
 T1 = T.isel(time=0).sel(lat_t=30, lon_t=180, method="nearest")
@@ -68,33 +68,33 @@ ax1.xaxis.tick_top()
 ax2.xaxis.tick_top()
 
 # Use geocat.viz.util convenience function to add minor and major ticks
-gvutil.add_major_minor_ticks(ax1,
-                             x_minor_per_major=4,
-                             y_minor_per_major=5,
-                             labelsize=14)
-gvutil.add_major_minor_ticks(ax2,
-                             x_minor_per_major=4,
-                             y_minor_per_major=5,
-                             labelsize=14)
+gv.add_major_minor_ticks(ax1,
+                         x_minor_per_major=4,
+                         y_minor_per_major=5,
+                         labelsize=14)
+gv.add_major_minor_ticks(ax2,
+                         x_minor_per_major=4,
+                         y_minor_per_major=5,
+                         labelsize=14)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax=ax1,
-                                 xlim=(0, 24),
-                                 ylim=(500000, 0),
-                                 xticks=np.arange(0, 28, 4),
-                                 yticks=np.arange(0, 600000, 100000))
-gvutil.set_axes_limits_and_ticks(ax=ax2,
-                                 xlim=(0, 21),
-                                 ylim=(500000, 0),
-                                 xticks=np.arange(0, 24, 3),
-                                 yticks=np.arange(0, 600000, 100000))
+gv.set_axes_limits_and_ticks(ax=ax1,
+                             xlim=(0, 24),
+                             ylim=(500000, 0),
+                             xticks=np.arange(0, 28, 4),
+                             yticks=np.arange(0, 600000, 100000))
+gv.set_axes_limits_and_ticks(ax=ax2,
+                             xlim=(0, 21),
+                             ylim=(500000, 0),
+                             xticks=np.arange(0, 24, 3),
+                             yticks=np.arange(0, 600000, 100000))
 
 # Remove ticklabels on Y axis for panel 2 (ax2)
 ax2.yaxis.set_ticklabels([])
 
 # Use geocat.viz.util convenience function to set titles without calling
 # several matplotlib functions
-gvutil.set_titles_and_labels(ax1, ylabel=T.z_t.long_name, labelfontsize=16)
+gv.set_titles_and_labels(ax1, ylabel=T.z_t.long_name, labelfontsize=16)
 
 # Manually set set titles and their positions
 ax1.set_title(T.long_name, y=1.1, fontsize=17)
@@ -104,7 +104,7 @@ ax2.set_title(T.long_name, y=1.1, fontsize=17)
 levels = np.arange(0, 28, 2)
 
 # Import an NCL colormap
-newcmp = gvcmaps.BlAqGrYeOrRe
+newcmp = cmaps.BlAqGrYeOrRe
 
 # Panel 3: Contourf-plot data
 T3.plot.contourf(ax=ax3,
@@ -188,7 +188,7 @@ ax4.yaxis.set_ticklabels([])
 
 # Use geocat.viz.util convenience function to set titles without calling
 # several matplotlib functions
-gvutil.set_titles_and_labels(ax3, ylabel=T.z_t.long_name, labelfontsize=16)
+gv.set_titles_and_labels(ax3, ylabel=T.z_t.long_name, labelfontsize=16)
 
 # Add colorbar
 cb = fig.colorbar(colors,

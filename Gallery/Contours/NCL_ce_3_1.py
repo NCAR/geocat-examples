@@ -24,10 +24,10 @@ import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import cartopy.feature as cfeature
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -51,7 +51,7 @@ ax.coastlines(linewidths=0.5)
 ax.add_feature(cfeature.LAND, facecolor='lightgray')
 
 # Import an NCL colormap
-newcmp = gvcmaps.BlAqGrYeOrRe
+newcmp = cmaps.BlAqGrYeOrRe
 
 # Contourf-plot data
 heatmap = t.plot.contourf(ax=ax,
@@ -68,29 +68,28 @@ cbar.ax.set_yticklabels([str(i) for i in np.arange(0, 32, 2)])
 
 # Usa geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(30, 120),
-                                 ylim=(-60, 30),
-                                 xticks=np.linspace(-180, 180, 13),
-                                 yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(30, 120),
+                             ylim=(-60, 30),
+                             xticks=np.linspace(-180, 180, 13),
+                             yticks=np.linspace(-90, 90, 7))
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, labelsize=12)
+gv.add_major_minor_ticks(ax, labelsize=12)
 
 # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-gvutil.set_titles_and_labels(
-    ax,
-    maintitle="30-degree major and 10-degree minor ticks",
-    maintitlefontsize=16,
-    lefttitle="Potential Temperature",
-    lefttitlefontsize=14,
-    righttitle="Celsius",
-    righttitlefontsize=14,
-    xlabel="",
-    ylabel="")
+gv.set_titles_and_labels(ax,
+                         maintitle="30-degree major and 10-degree minor ticks",
+                         maintitlefontsize=16,
+                         lefttitle="Potential Temperature",
+                         lefttitlefontsize=14,
+                         righttitle="Celsius",
+                         righttitlefontsize=14,
+                         xlabel="",
+                         ylabel="")
 
 # Show the plot
 plt.show()

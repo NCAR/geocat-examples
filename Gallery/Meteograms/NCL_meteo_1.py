@@ -29,7 +29,7 @@ from matplotlib.colors import ListedColormap, BoundaryNorm
 import cartopy.crs as ccrs
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -140,23 +140,23 @@ xticklabels = [
 axin = fig.add_subplot(spec[0, 0])
 
 # Use the geocat.viz function to set the main title of the plot
-gvutil.set_titles_and_labels(axin,
-                             maintitle='Meteogram for LGSA, 28/12Z',
-                             maintitlefontsize=18,
-                             ylabel='Pressure (mb)',
-                             labelfontsize=12)
+gv.set_titles_and_labels(axin,
+                         maintitle='Meteogram for LGSA, 28/12Z',
+                         maintitlefontsize=18,
+                         ylabel='Pressure (mb)',
+                         labelfontsize=12)
 
 # Add a pad between the y axis label and the axis spine
 axin.yaxis.labelpad = 5
 
 # Use the geocat.viz function to set axes limits and ticks
-gvutil.set_axes_limits_and_ticks(axin,
-                                 xlim=[taus[0], taus[-1]],
-                                 ylim=[levels[0], levels[-1]],
-                                 xticks=np.array(taus),
-                                 yticks=np.linspace(1000, 400, 8),
-                                 xticklabels=xticklabels,
-                                 yticklabels=yticklabels)
+gv.set_axes_limits_and_ticks(axin,
+                             xlim=[taus[0], taus[-1]],
+                             ylim=[levels[0], levels[-1]],
+                             xticks=np.array(taus),
+                             yticks=np.linspace(1000, 400, 8),
+                             xticklabels=xticklabels,
+                             yticklabels=yticklabels)
 
 # Make axis invisible
 axin.patch.set_alpha(0.0)
@@ -206,7 +206,7 @@ axin1.bar(taus,
           linewidth=.2)
 
 # Use the geocat.viz function to set the y axis label
-gvutil.set_titles_and_labels(axin1, ylabel='3hr rain total', labelfontsize=12)
+gv.set_titles_and_labels(axin1, ylabel='3hr rain total', labelfontsize=12)
 
 # Determine the labels for each tick on the x and y axes
 yticklabels = ['0.0', '0.10', '0.20', '0.30', '0.40', '0.50']
@@ -216,16 +216,16 @@ xticklabels = [
 ]
 
 # Use the geocat.viz function to set axes limits and ticks
-gvutil.set_axes_limits_and_ticks(axin1,
-                                 xlim=[0, 72],
-                                 ylim=[0, .5],
-                                 xticks=np.arange(0, 75, 3),
-                                 yticks=np.arange(0, .6, 0.1),
-                                 xticklabels=xticklabels,
-                                 yticklabels=yticklabels)
+gv.set_axes_limits_and_ticks(axin1,
+                             xlim=[0, 72],
+                             ylim=[0, .5],
+                             xticks=np.arange(0, 75, 3),
+                             yticks=np.arange(0, .6, 0.1),
+                             xticklabels=xticklabels,
+                             yticklabels=yticklabels)
 
 # Use the geocat.viz function to add minor ticks
-gvutil.add_major_minor_ticks(axin1, y_minor_per_major=5, labelsize="small")
+gv.add_major_minor_ticks(axin1, y_minor_per_major=5, labelsize="small")
 
 # Make ticks only show up on bottom, right, and left of inset axis
 axin1.tick_params(bottom=True, left=True, right=True, top=False)
@@ -237,7 +237,7 @@ axin1.tick_params(which='minor', top=False, bottom=False)
 axin2.plot(taus, tempht, color='red')
 
 # Use the geocat.viz function to set the y axis label
-gvutil.set_titles_and_labels(axin2, ylabel='Temp at 2m', labelfontsize=12)
+gv.set_titles_and_labels(axin2, ylabel='Temp at 2m', labelfontsize=12)
 
 # Determine the labels for each tick on the x and y axes
 yticklabels = ['59.0', '60.0', '61.0', '62.0', '63.0', '64.0']
@@ -247,16 +247,16 @@ xticklabels = [
 ]
 
 # Use the geocat.viz function to set inset axes limits and ticks
-gvutil.set_axes_limits_and_ticks(axin2,
-                                 xlim=[0, 72],
-                                 ylim=[59, 64.5],
-                                 xticks=np.arange(0, 75, 3),
-                                 yticks=np.arange(59, 65),
-                                 xticklabels=xticklabels,
-                                 yticklabels=yticklabels)
+gv.set_axes_limits_and_ticks(axin2,
+                             xlim=[0, 72],
+                             ylim=[59, 64.5],
+                             xticks=np.arange(0, 75, 3),
+                             yticks=np.arange(59, 65),
+                             xticklabels=xticklabels,
+                             yticklabels=yticklabels)
 
 # Use the geocat.viz function to add minor ticks
-gvutil.add_major_minor_ticks(axin2, y_minor_per_major=5, labelsize="small")
+gv.add_major_minor_ticks(axin2, y_minor_per_major=5, labelsize="small")
 
 # Make ticks only show up on bottom, right, and left of inset axis
 axin2.tick_params(bottom=True, left=True, right=True, top=False)

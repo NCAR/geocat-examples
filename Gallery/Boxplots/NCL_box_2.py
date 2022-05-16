@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
 import numpy as np
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Generate fake data:
@@ -71,23 +71,21 @@ ax.spines['right'].set_visible(False)
 ax.spines['top'].set_visible(False)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=(-6.0, 8.5),
-                                 yticks=[-3.0, 0.0, 3.0, 6.0])
+gv.set_axes_limits_and_ticks(ax, ylim=(-6.0, 8.5), yticks=[-3.0, 0.0, 3.0, 6.0])
 
 # Set y_axis format
 ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             y_minor_per_major=3,
-                             x_minor_per_major=1,
-                             labelsize=16)
+gv.add_major_minor_ticks(ax,
+                         y_minor_per_major=3,
+                         x_minor_per_major=1,
+                         labelsize=16)
 
 # Use geocat.viz.util convenience function to add title to the plot axis.
-gvutil.set_titles_and_labels(ax,
-                             maintitle='Tailored Box Plot',
-                             maintitlefontsize=22)
+gv.set_titles_and_labels(ax,
+                         maintitle='Tailored Box Plot',
+                         maintitlefontsize=22)
 
 # Make both major and minor ticks point inwards towards the plot
 ax.tick_params(direction="in", which='both', pad=9)

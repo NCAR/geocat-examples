@@ -24,7 +24,7 @@ import cartopy.crs as ccrs
 from wrf import (getvar, to_np, latlon_coords)
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in the data
@@ -88,10 +88,10 @@ gl.xlines = True
 gl.ylines = True
 
 # Add titles and labels to projection
-gvutil.set_titles_and_labels(ax,
-                             maintitle="WRF data on native grid",
-                             lefttitle="QV at 2 M",
-                             maintitlefontsize=16,
-                             lefttitlefontsize=14)
+gv.set_titles_and_labels(ax,
+                         maintitle="WRF data on native grid",
+                         lefttitle="QV at 2 M",
+                         maintitlefontsize=16,
+                         lefttitlefontsize=14)
 
 plt.show()

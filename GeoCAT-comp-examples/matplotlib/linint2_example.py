@@ -35,7 +35,7 @@ from matplotlib import cm
 from mpl_toolkits.axes_grid1 import AxesGrid
 
 import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 from geocat.comp import linint2
 
 ###############################################################################
@@ -108,17 +108,17 @@ for i, ax in enumerate(axgr):
 
     # Use geocat.viz.util convenience function to add minor and major tick
     # lines
-    gvutil.add_major_minor_ticks(ax)
+    gv.add_major_minor_ticks(ax)
 
     # Use geocat.viz.util convenience function to set axes limits & tick
     # values without calling several matplotlib functions
-    gvutil.set_axes_limits_and_ticks(ax,
-                                     xticks=np.linspace(-180, 180, 13),
-                                     yticks=np.linspace(-60, 60, 5))
+    gv.set_axes_limits_and_ticks(ax,
+                                 xticks=np.linspace(-180, 180, 13),
+                                 yticks=np.linspace(-60, 60, 5))
 
     # Use geocat.viz.util convenience function to make plots look like NCL
     # plots by using latitude, longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax, zero_direction_label=False)
+    gv.add_lat_lon_ticklabels(ax, zero_direction_label=False)
 
 # Add color bar and label details (title, size, etc.)
 cax = axgr.cbar_axes[0]

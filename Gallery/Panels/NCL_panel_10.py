@@ -21,12 +21,12 @@ import xarray as xr
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import matplotlib.gridspec as gridspec
-from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
+from cartopy.mpl.gridliner import LongitudeFormatter
 import warnings
+import cmaps
 
 import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
-from geocat.viz import cmaps as gvcmaps
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -83,7 +83,7 @@ cf = ax1.contourf(lon,
                   times,
                   chi,
                   levels=np.arange(-12, 13, 2),
-                  cmap=gvcmaps.BlWhRe)
+                  cmap=cmaps.BlWhRe)
 
 # Draw colorbar with larger tick labels
 cbar = plt.colorbar(cf,
@@ -93,51 +93,51 @@ cbar = plt.colorbar(cf,
 cbar.ax.tick_params(labelsize=12)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values
-gvutil.set_axes_limits_and_ticks(ax1,
-                                 xlim=[100, 220],
-                                 ylim=[0, 1.55 * 1e16],
-                                 xticks=[135, 180],
-                                 yticks=np.linspace(0, 1.55 * 1e16, 7),
-                                 xticklabels=['135E', '180'],
-                                 yticklabels=np.arange(0, 181, 30))
+gv.set_axes_limits_and_ticks(ax1,
+                             xlim=[100, 220],
+                             ylim=[0, 1.55 * 1e16],
+                             xticks=[135, 180],
+                             yticks=np.linspace(0, 1.55 * 1e16, 7),
+                             xticklabels=['135E', '180'],
+                             yticklabels=np.arange(0, 181, 30))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax1,
-                             x_minor_per_major=3,
-                             y_minor_per_major=3,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax1,
+                         x_minor_per_major=3,
+                         y_minor_per_major=3,
+                         labelsize=12)
 
 # Remove tick marks on right side of ax1
 ax1.tick_params('y', which='both', right=False)
 
 # Use geocat.viz.util convenience function to add titles
-gvutil.set_titles_and_labels(ax1,
-                             maintitle="Pacific Region",
-                             lefttitle="Velocity Potential",
-                             righttitle="m2/s",
-                             ylabel="elapsed time")
+gv.set_titles_and_labels(ax1,
+                         maintitle="Pacific Region",
+                         lefttitle="Velocity Potential",
+                         righttitle="m2/s",
+                         ylabel="elapsed time")
 
 # Format axes for zonal average plot
 # Use geocat.viz.util convenience function to set axes limits & tick values
-gvutil.set_axes_limits_and_ticks(ax2,
-                                 xlim=[-0.6, 0.9],
-                                 ylim=[0, 1.55 * 1e16],
-                                 xticks=np.arange(-0.3, 0.7, 0.3),
-                                 yticks=np.linspace(0, 1.55 * 1e16, 7),
-                                 xticklabels=['-0.30', '', '0.30', ''],
-                                 yticklabels=np.arange(0, 181, 30))
+gv.set_axes_limits_and_ticks(ax2,
+                             xlim=[-0.6, 0.9],
+                             ylim=[0, 1.55 * 1e16],
+                             xticks=np.arange(-0.3, 0.7, 0.3),
+                             yticks=np.linspace(0, 1.55 * 1e16, 7),
+                             xticklabels=['-0.30', '', '0.30', ''],
+                             yticklabels=np.arange(0, 181, 30))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax2,
-                             x_minor_per_major=1,
-                             y_minor_per_major=3,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax2,
+                         x_minor_per_major=1,
+                         y_minor_per_major=3,
+                         labelsize=12)
 
 # Remove tick marks on left side of ax2
 ax2.tick_params('y', which='both', left=False)
 
 # Use geocat.viz.util convenience function to add titles
-gvutil.set_titles_and_labels(ax2, maintitle="Zonal Ave", maintitlefontsize=12)
+gv.set_titles_and_labels(ax2, maintitle="Zonal Ave", maintitlefontsize=12)
 
 # Plot zonal average
 ax2.plot(mean, times, linewidth=0.5, color='black')
@@ -167,61 +167,59 @@ def make_subplot(fig, gridspec, xlim):
                                   times,
                                   chi,
                                   levels=np.arange(-12, 13, 2),
-                                  cmap=gvcmaps.BlWhRe)
+                                  cmap=cmaps.BlWhRe)
 
     # Use geocat.viz.util convenience function to add longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax1)
+    gv.add_lat_lon_ticklabels(ax1)
 
     # Remove degree symbol from tick labels
     ax1.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
     # Use geocat.viz.util convenience function to set axes limits & tick values
-    gvutil.set_axes_limits_and_ticks(ax1,
-                                     xlim=xlim,
-                                     ylim=[0, 1.55 * 1e16],
-                                     xticks=np.arange(xlim[0], xlim[1], 30),
-                                     yticks=np.linspace(0, 1.55 * 1e16, 7),
-                                     yticklabels=[])
+    gv.set_axes_limits_and_ticks(ax1,
+                                 xlim=xlim,
+                                 ylim=[0, 1.55 * 1e16],
+                                 xticks=np.arange(xlim[0], xlim[1], 30),
+                                 yticks=np.linspace(0, 1.55 * 1e16, 7),
+                                 yticklabels=[])
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax1,
-                                 x_minor_per_major=2,
-                                 y_minor_per_major=3,
-                                 labelsize=10)
+    gv.add_major_minor_ticks(ax1,
+                             x_minor_per_major=2,
+                             y_minor_per_major=3,
+                             labelsize=10)
 
     # Remove tick marks on right side of ax1
     ax1.tick_params('y', which='both', right=False)
 
     # Use geocat.viz.util convenience function to add titles
-    gvutil.set_titles_and_labels(ax1,
-                                 lefttitle="Velocity Potential",
-                                 righttitle="m2/s",
-                                 lefttitlefontsize=10,
-                                 righttitlefontsize=10)
+    gv.set_titles_and_labels(ax1,
+                             lefttitle="Velocity Potential",
+                             righttitle="m2/s",
+                             lefttitlefontsize=10,
+                             righttitlefontsize=10)
 
     # Format axes for zonal average plot
     # Use geocat.viz.util convenience function to set axes limits & tick values
-    gvutil.set_axes_limits_and_ticks(ax2,
-                                     xlim=[-0.6, 0.9],
-                                     ylim=[0, 1.55 * 1e16],
-                                     xticks=np.arange(-0.3, 0.7, 0.3),
-                                     yticks=np.linspace(0, 1.55 * 1e16, 7),
-                                     xticklabels=['-0.30', '', '0.30', ''],
-                                     yticklabels=[])
+    gv.set_axes_limits_and_ticks(ax2,
+                                 xlim=[-0.6, 0.9],
+                                 ylim=[0, 1.55 * 1e16],
+                                 xticks=np.arange(-0.3, 0.7, 0.3),
+                                 yticks=np.linspace(0, 1.55 * 1e16, 7),
+                                 xticklabels=['-0.30', '', '0.30', ''],
+                                 yticklabels=[])
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax2,
-                                 x_minor_per_major=1,
-                                 y_minor_per_major=3,
-                                 labelsize=8)
+    gv.add_major_minor_ticks(ax2,
+                             x_minor_per_major=1,
+                             y_minor_per_major=3,
+                             labelsize=8)
 
     # Remove tick marks on left side of ax2
     ax2.tick_params('y', which='both', left=False)
 
     # Use geocat.viz.util convenience function to add titles
-    gvutil.set_titles_and_labels(ax2,
-                                 maintitle="Zonal Ave",
-                                 maintitlefontsize=8)
+    gv.set_titles_and_labels(ax2, maintitle="Zonal Ave", maintitlefontsize=8)
 
     # Plot zonal average
     ax2.plot(mean, times, linewidth=0.5, color='black')

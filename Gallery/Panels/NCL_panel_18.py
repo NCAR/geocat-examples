@@ -20,10 +20,10 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import numpy as np
 import xarray as xr
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ##############################################################################
 # Read in data:
@@ -34,7 +34,7 @@ ds = xr.open_dataset(gdf.get("netcdf_files/TS.cam3.toga_ENS.1950-2000.nc"),
                      decode_times=False)
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-TS = gvutil.xr_add_cyclic_longitudes(ds.TS, "lon")
+TS = gv.xr_add_cyclic_longitudes(ds.TS, "lon")
 
 # Extract variables from data
 yr0 = TS[12, :, :]
@@ -68,38 +68,38 @@ ax3 = fig.add_subplot(grid[2], projection=proj)  # lower cell of grid
 for (ax, title) in [(ax1, 'Jan. 1999'), (ax2, 'Jan. 1951'),
                     (ax3, 'Difference: Jan 1999 - Jan 1951')]:
     # Use geocat.viz.util convenience function to set axes tick values
-    gvutil.set_axes_limits_and_ticks(ax=ax,
-                                     xlim=(-180, 180),
-                                     ylim=(-90, 90),
-                                     xticks=np.linspace(-180, 180, 13),
-                                     yticks=np.linspace(-90, 90, 7))
+    gv.set_axes_limits_and_ticks(ax=ax,
+                                 xlim=(-180, 180),
+                                 ylim=(-90, 90),
+                                 xticks=np.linspace(-180, 180, 13),
+                                 yticks=np.linspace(-90, 90, 7))
 
     # Use geocat.viz.util convenience function to make plots look like NCL
     # plots by using latitude, longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax)
+    gv.add_lat_lon_ticklabels(ax)
 
     # Remove the degree symbol from tick labels
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
     # Use geocat.viz.util convenience function to add minor and major ticks
-    gvutil.add_major_minor_ticks(ax)
+    gv.add_major_minor_ticks(ax)
 
     # Draw coastlines
     ax.coastlines(linewidth=0.5)
 
     # Use geocat.viz.util convenience function to set titles
-    gvutil.set_titles_and_labels(ax,
-                                 lefttitle='TS',
-                                 righttitle='°C',
-                                 lefttitlefontsize=10,
-                                 righttitlefontsize=10)
+    gv.set_titles_and_labels(ax,
+                             lefttitle='TS',
+                             righttitle='°C',
+                             lefttitlefontsize=10,
+                             righttitlefontsize=10)
     # Add center title
     ax.set_title(title, loc='center', y=1.04, fontsize=10)
 
 # Import colormaps
 newcmp = 'magma'
-newcmp2 = gvcmaps.BlueWhiteOrangeRed
+newcmp2 = cmaps.BlueWhiteOrangeRed
 
 # Plot data
 C = ax1.contourf(yr1['lon'],

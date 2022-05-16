@@ -21,7 +21,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import colors
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Create data:
@@ -59,22 +59,22 @@ titles = [
 for ax in range(6):
 
     # Use geocat-viz function to set main title of plot
-    gvutil.set_titles_and_labels(axesList[ax],
-                                 maintitle=titles[ax],
-                                 maintitlefontsize=10)
+    gv.set_titles_and_labels(axesList[ax],
+                             maintitle=titles[ax],
+                             maintitlefontsize=10)
 
     # Use geocat-viz function to set limits and tick locations on x and y axes
-    gvutil.set_axes_limits_and_ticks(axesList[ax],
-                                     xlim=[0, 1],
-                                     ylim=[-1.2, 1.2],
-                                     yticks=np.arange(-1.5, 1.5, 0.5),
-                                     yticklabels=np.arange(-1.5, 1.5, 0.5))
+    gv.set_axes_limits_and_ticks(axesList[ax],
+                                 xlim=[0, 1],
+                                 ylim=[-1.2, 1.2],
+                                 yticks=np.arange(-1.5, 1.5, 0.5),
+                                 yticklabels=np.arange(-1.5, 1.5, 0.5))
 
     # Use geocat-viz function to add major and minor ticks on the x and y axes
-    gvutil.add_major_minor_ticks(axesList[ax],
-                                 x_minor_per_major=4,
-                                 y_minor_per_major=5,
-                                 labelsize="small")
+    gv.add_major_minor_ticks(axesList[ax],
+                             x_minor_per_major=4,
+                             y_minor_per_major=5,
+                             labelsize="small")
 
 # Set standard alpha (transparency) value
 alpha = 0.4

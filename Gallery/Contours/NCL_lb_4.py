@@ -23,10 +23,10 @@ import xarray as xr
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -38,7 +38,7 @@ ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 V = ds.V.isel(time=0, lev=3)
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-V = gvutil.xr_add_cyclic_longitudes(V, "lon")
+V = gv.xr_add_cyclic_longitudes(V, "lon")
 
 ###############################################################################
 # Plot:
@@ -51,30 +51,30 @@ ax = plt.axes(projection=ccrs.PlateCarree())
 ax.coastlines(linewidths=0.5, alpha=0.6)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(-180, 180),
-                                 ylim=(-90, 90),
-                                 xticks=np.linspace(-180, 180, 13),
-                                 yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(-180, 180),
+                             ylim=(-90, 90),
+                             xticks=np.linspace(-180, 180, 13),
+                             yticks=np.linspace(-90, 90, 7))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, labelsize=10)
+gv.add_major_minor_ticks(ax, labelsize=10)
 
 # Use geocat.viz.util convenience function to make latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 # Remove degree symbol from tick labels
 ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add titles
-gvutil.set_titles_and_labels(ax,
-                             lefttitle=V.long_name,
-                             righttitle=V.units,
-                             lefttitlefontsize=12,
-                             righttitlefontsize=12)
+gv.set_titles_and_labels(ax,
+                         lefttitle=V.long_name,
+                         righttitle=V.units,
+                         lefttitlefontsize=12,
+                         righttitlefontsize=12)
 
 # Import an NCL colormap
-cmap = gvcmaps.wgne15
+cmap = cmaps.wgne15
 
 # Specify which contour levels to draw
 contour_lev = np.arange(-20, 28, 4)

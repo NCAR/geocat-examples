@@ -24,7 +24,7 @@ import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -81,19 +81,17 @@ cbar = plt.colorbar(
 cbar.ax.xaxis.set_tick_params(length=0, labelsize=24, pad=12)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(0, 49),
-                                 ylim=(0, 29),
-                                 xticks=np.linspace(0, 40, 5),
-                                 yticks=np.linspace(0, 25, 6))
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(0, 49),
+                             ylim=(0, 29),
+                             xticks=np.linspace(0, 40, 5),
+                             yticks=np.linspace(0, 25, 6))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=5)
+gv.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=5)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax,
-                             maintitle='Cone amplitude',
-                             maintitlefontsize=32)
+gv.set_titles_and_labels(ax, maintitle='Cone amplitude', maintitlefontsize=32)
 
 # Set both major and minor ticks to point inwards
 ax.tick_params(which='both', direction='in')

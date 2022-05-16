@@ -19,10 +19,10 @@ import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
-from geocat.viz import cmaps as gvcmaps
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -36,8 +36,8 @@ sst = sst.isel(time=11, drop=True).SSTA
 olr = olr.isel(time=47, drop=True).OLRA
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-sst = gvutil.xr_add_cyclic_longitudes(sst, 'lon')
-olr = gvutil.xr_add_cyclic_longitudes(olr, 'lon')
+sst = gv.xr_add_cyclic_longitudes(sst, 'lon')
+olr = gv.xr_add_cyclic_longitudes(olr, 'lon')
 
 ###############################################################################
 # Plot:
@@ -50,7 +50,7 @@ ax = plt.axes(projection=ccrs.PlateCarree(central_longitude=-160))
 ax.set_extent([100, 300, -60, 60], crs=ccrs.PlateCarree())
 
 # Load in color map and specify contour levels
-cmap = gvcmaps.BlWhRe
+cmap = cmaps.BlWhRe
 sst_levels = np.arange(-5.5, 6, 0.5)
 # Draw SST contour
 temp = sst.plot.contourf(ax=ax,
@@ -96,32 +96,32 @@ rad = olr.plot.contour(ax=ax,
 ax.clabel(rad, [0], fmt='%d', inline=True, colors='black')
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=(-60, 60),
-                                 yticks=np.arange(-60, 90, 30),
-                                 xticks=np.arange(-80, 120, 30))
+gv.set_axes_limits_and_ticks(ax,
+                             ylim=(-60, 60),
+                             yticks=np.arange(-60, 90, 30),
+                             xticks=np.arange(-80, 120, 30))
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by
 # using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Remove the degree symbol from tick labels
 ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=3,
-                             labelsize=10)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=3,
+                         y_minor_per_major=3,
+                         labelsize=10)
 
-gvutil.set_titles_and_labels(ax,
-                             maintitle=olr.long_name,
-                             maintitlefontsize=14,
-                             lefttitle='degC',
-                             lefttitlefontsize=12,
-                             righttitle='(W m s$^{-2}$)',
-                             righttitlefontsize=12)
+gv.set_titles_and_labels(ax,
+                         maintitle=olr.long_name,
+                         maintitlefontsize=14,
+                         lefttitle='degC',
+                         lefttitlefontsize=12,
+                         righttitle='(W m s$^{-2}$)',
+                         righttitlefontsize=12)
 # Add center title
 ax.text(0.35, 1.06, 'December 1982', fontsize=12, transform=ax.transAxes)
 

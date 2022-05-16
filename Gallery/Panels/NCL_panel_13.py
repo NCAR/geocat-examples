@@ -26,10 +26,10 @@ from matplotlib.ticker import FormatStrFormatter
 import matplotlib.patches as mpatches
 import numpy as np
 import xarray as xr
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -41,8 +41,8 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 ds = ds.isel(time=1).drop_vars('time')
 
 # Ensure longitudes range from 0 to 360 degrees
-U = gvutil.xr_add_cyclic_longitudes(ds.U, "lon")
-V = gvutil.xr_add_cyclic_longitudes(ds.V, "lon")
+U = gv.xr_add_cyclic_longitudes(ds.U, "lon")
+V = gv.xr_add_cyclic_longitudes(ds.V, "lon")
 
 # Thin data to only include every fourth value
 U = U[::4, ::4]
@@ -68,25 +68,25 @@ axs[0].coastlines(linewidth=0.5, zorder=1)
 axs[1].coastlines(linewidth=0.5, zorder=1)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(axs[0],
-                                 xlim=[-180, 180],
-                                 ylim=[-90, 90],
-                                 xticks=np.arange(-180, 181, 30),
-                                 yticks=np.arange(-90, 91, 30))
-gvutil.set_axes_limits_and_ticks(axs[1],
-                                 xlim=[-180, 180],
-                                 ylim=[-90, 90],
-                                 xticks=np.arange(-180, 181, 30),
-                                 yticks=np.arange(-90, 91, 30))
+gv.set_axes_limits_and_ticks(axs[0],
+                             xlim=[-180, 180],
+                             ylim=[-90, 90],
+                             xticks=np.arange(-180, 181, 30),
+                             yticks=np.arange(-90, 91, 30))
+gv.set_axes_limits_and_ticks(axs[1],
+                             xlim=[-180, 180],
+                             ylim=[-90, 90],
+                             xticks=np.arange(-180, 181, 30),
+                             yticks=np.arange(-90, 91, 30))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(axs[0])
-gvutil.add_major_minor_ticks(axs[1])
+gv.add_major_minor_ticks(axs[0])
+gv.add_major_minor_ticks(axs[1])
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by
 # using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(axs[0])
-gvutil.add_lat_lon_ticklabels(axs[1])
+gv.add_lat_lon_ticklabels(axs[0])
+gv.add_lat_lon_ticklabels(axs[1])
 # Remove the degree symbol from tick labels
 axs[0].yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 axs[0].xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
@@ -94,19 +94,19 @@ axs[1].yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 axs[1].xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(axs[0],
-                             lefttitle='Speed',
-                             lefttitlefontsize=10,
-                             righttitle=U.units,
-                             righttitlefontsize=10)
-gvutil.set_titles_and_labels(axs[1],
-                             lefttitle='Wind',
-                             lefttitlefontsize=10,
-                             righttitle=U.units,
-                             righttitlefontsize=10)
+gv.set_titles_and_labels(axs[0],
+                         lefttitle='Speed',
+                         lefttitlefontsize=10,
+                         righttitle=U.units,
+                         righttitlefontsize=10)
+gv.set_titles_and_labels(axs[1],
+                         lefttitle='Wind',
+                         lefttitlefontsize=10,
+                         righttitle=U.units,
+                         righttitlefontsize=10)
 
 # Load in colormap
-newcmap = gvcmaps.gui_default
+newcmap = cmaps.gui_default
 
 # Specify contour levels and contour ticks
 speed_levels = np.arange(0, 40, 2.5)

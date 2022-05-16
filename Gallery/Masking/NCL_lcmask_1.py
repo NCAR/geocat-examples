@@ -20,10 +20,10 @@ import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -36,7 +36,7 @@ ds = ds.isel(time=0).drop_vars(names=["time"])
 ds = ds.isel(lev=0).drop_vars(names=["lev"])
 V = ds.V
 # Ensure longitudes range from 0 to 360 degrees
-V = gvutil.xr_add_cyclic_longitudes(V, "lon")
+V = gv.xr_add_cyclic_longitudes(V, "lon")
 
 ###############################################################################
 # Plot unmasked data:
@@ -51,7 +51,7 @@ ax.set_extent((0, 359, 0, 89), crs=ccrs.PlateCarree())
 ax.coastlines(linewidth=0.5)
 
 # Plot data and create colorbar
-newcmp = gvcmaps.BlWhRe
+newcmp = cmaps.BlWhRe
 
 wind = V.plot.contourf(ax=ax,
                        cmap=newcmp,
@@ -68,11 +68,11 @@ cbar = plt.colorbar(wind,
 cbar.ax.tick_params(length=0)  # remove tick marks but leave in labels
 
 # Use geocat.viz.util convenience function to add left and right titles
-gvutil.set_titles_and_labels(ax,
-                             lefttitle=V.long_name,
-                             lefttitlefontsize=16,
-                             righttitle=V.units,
-                             righttitlefontsize=16)
+gv.set_titles_and_labels(ax,
+                         lefttitle=V.long_name,
+                         lefttitlefontsize=16,
+                         righttitle=V.units,
+                         righttitlefontsize=16)
 
 plt.show()
 
@@ -98,7 +98,7 @@ ax = plt.axes(projection=proj)
 ax.coastlines(linewidth=0.5)
 
 # Make a custom boundary using convenience function
-gvutil.set_map_boundary(ax, [-85, 40], [20, 80], south_pad=1)
+gv.set_map_boundary(ax, [-85, 40], [20, 80], south_pad=1)
 
 # Plot data and create colorbar
 wind = masked.plot.contourf(ax=ax,
@@ -116,9 +116,9 @@ cbar = plt.colorbar(wind,
 cbar.ax.tick_params(length=0)  # remove tick marks but leave in labels
 
 # Use geocat.viz.util convenience function to add left and right titles
-gvutil.set_titles_and_labels(ax,
-                             lefttitle=V.long_name,
-                             lefttitlefontsize=16,
-                             righttitle=V.units,
-                             righttitlefontsize=16)
+gv.set_titles_and_labels(ax,
+                         lefttitle=V.long_name,
+                         lefttitlefontsize=16,
+                         righttitle=V.units,
+                         righttitlefontsize=16)
 plt.show()

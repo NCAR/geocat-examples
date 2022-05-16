@@ -19,7 +19,7 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import matplotlib.pyplot as plt
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Generate fake data
@@ -76,18 +76,16 @@ plt.setp(boxplots['whiskers'], linestyle='--')
 setBoxColor(boxplots, ['blue', 'red', 'green'])
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=(-6.0, 9.0),
-                                 yticks=[-3.0, 0.0, 3.0, 6.0])
+gv.set_axes_limits_and_ticks(ax, ylim=(-6.0, 9.0), yticks=[-3.0, 0.0, 3.0, 6.0])
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             y_minor_per_major=3,
-                             x_minor_per_major=1,
-                             labelsize=14)
+gv.add_major_minor_ticks(ax,
+                         y_minor_per_major=3,
+                         x_minor_per_major=1,
+                         labelsize=14)
 
 # Use geocat.viz.util convenience function to add title to the plot axis.
-gvutil.set_titles_and_labels(ax, maintitle='Box Plot with Polymarkers')
+gv.set_titles_and_labels(ax, maintitle='Box Plot with Polymarkers')
 
 # Make both major and minor ticks point inwards towards the plot
 ax.tick_params(direction="in", which='both')

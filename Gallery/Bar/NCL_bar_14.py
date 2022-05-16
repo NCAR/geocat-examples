@@ -18,7 +18,7 @@ See following URLs to see the reproduced NCL plot & script:
 
 import numpy as np
 import matplotlib.pyplot as plt
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Generate data:
@@ -45,19 +45,19 @@ plt.plot(months, y2, color="b", linewidth=1)
 plt.hlines(40, 0, 13, color="b", linewidth=1)
 
 # Use geocat.viz.util convenience function to add titles and set their size
-gvutil.set_titles_and_labels(ax,
-                             maintitle="XY curve over a bar chart",
-                             maintitlefontsize=16,
-                             ylabel="mm",
-                             labelfontsize=14)
+gv.set_titles_and_labels(ax,
+                         maintitle="XY curve over a bar chart",
+                         maintitlefontsize=16,
+                         ylabel="mm",
+                         labelfontsize=14)
 
 # Use geocat.viz.util convenience function to set axes tick values and labels
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xticks=np.linspace(0, 12, 5),
-                                 xticklabels=np.linspace(0, 12, 5),
-                                 xlim=(0, 13),
-                                 yticks=np.linspace(0, 100, 6),
-                                 ylim=(0, 100))
+gv.set_axes_limits_and_ticks(ax,
+                             xticks=np.linspace(0, 12, 5),
+                             xticklabels=np.linspace(0, 12, 5),
+                             xlim=(0, 13),
+                             yticks=np.linspace(0, 100, 6),
+                             ylim=(0, 100))
 
 # Create the right axis
 axRHS = ax.twinx()
@@ -66,12 +66,12 @@ axRHS = ax.twinx()
 axRHS.set_ylabel((u"\u00b0" + "C"), size=14, rotation=270, labelpad=25)
 
 # Use geocat.viz.util convenience function to set axes tick values and labels for the right axis
-gvutil.set_axes_limits_and_ticks(axRHS,
-                                 yticks=np.linspace(0, 100, 6),
-                                 yticklabels=np.linspace(0, 50, 6, dtype=int))
+gv.set_axes_limits_and_ticks(axRHS,
+                             yticks=np.linspace(0, 100, 6),
+                             yticklabels=np.linspace(0, 50, 6, dtype=int))
 
 # Use geocat.viz.util convenience function to add major and minor tick lines
-gvutil.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4)
+gv.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4)
 
 # Adjust tick and ticklabel sizes for each axis
 ax.tick_params(axis="x", size=12, labelsize=12)

@@ -23,9 +23,9 @@ import numpy as np
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
+import cmaps
 
-from geocat.viz import util as gvutil
-from geocat.viz import cmaps as gvcmaps
+import geocat.viz as gv
 import geocat.datafiles as gdf
 
 ###############################################################################
@@ -77,7 +77,7 @@ gl.ylabel_style = {"rotation": 0, "size": 14}
 # Create colormap by choosing colors from existing colormap
 # The brightness of the colors in cmocean_speed increase linearly. This
 # makes the colormap easier to interpret for those with vision impairments
-cmap = gvcmaps.cmocean_speed
+cmap = cmaps.cmocean_speed
 
 # Specify the indices of the desired colors
 index = [0, 200, 180, 160, 140, 120, 100, 80, 60, 40, 20, 0]
@@ -107,11 +107,11 @@ plt.colorbar(contour,
              shrink=0.8)
 
 # Use geocat.viz.util function to easily set left and right titles
-gvutil.set_titles_and_labels(ax,
-                             lefttitle="topography",
-                             lefttitlefontsize=14,
-                             righttitle="m",
-                             righttitlefontsize=14)
+gv.set_titles_and_labels(ax,
+                         lefttitle="topography",
+                         lefttitlefontsize=14,
+                         righttitle="m",
+                         righttitlefontsize=14)
 
 # Add a main title above the left and right titles
 plt.title("Native Sterographic Example",

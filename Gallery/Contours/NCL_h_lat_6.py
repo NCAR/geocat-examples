@@ -19,10 +19,10 @@ import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
-from geocat.viz import cmaps as gvcmap
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -63,7 +63,7 @@ ax.clabel(lines, fmt='%d', levels=levels)
 # Plot filled contours
 colors = U.plot.contourf(ax=ax,
                          levels=levels,
-                         cmap=gvcmap.BlWhRe,
+                         cmap=cmaps.BlWhRe,
                          add_labels=False,
                          add_colorbar=False)
 # Add colorbar
@@ -78,30 +78,30 @@ plt.colorbar(colors,
 
 # Use geocat.viz.util convenience function to set axes tick values
 # Set y-lim inorder for y-axis to have descending values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xticks=np.linspace(-60, 60, 5),
-                                 xticklabels=['60S', '30S', '0', '30N', '60N'],
-                                 ylim=ax.get_ylim()[::-1],
-                                 yticks=U["lev"])
+gv.set_axes_limits_and_ticks(ax,
+                             xticks=np.linspace(-60, 60, 5),
+                             xticklabels=['60S', '30S', '0', '30N', '60N'],
+                             ylim=ax.get_ylim()[::-1],
+                             yticks=U["lev"])
 
 # Change formatter or else tick values will be in exponential form
 ax.yaxis.set_major_formatter(ScalarFormatter())
 
 # Use geocat.viz.util convenience function to add major tick lines with no
 # minor ticks on lefthand side y axis and some minor ticks on the x axis
-gvutil.add_major_minor_ticks(ax=ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=1,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax=ax,
+                         x_minor_per_major=3,
+                         y_minor_per_major=1,
+                         labelsize=12)
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
-gvutil.set_titles_and_labels(ax,
-                             lefttitle=U.long_name,
-                             lefttitlefontsize=14,
-                             righttitle=U.units,
-                             righttitlefontsize=14,
-                             ylabel=U.lev.long_name + " (" + U.lev.units + ")",
-                             labelfontsize=16)
+gv.set_titles_and_labels(ax,
+                         lefttitle=U.long_name,
+                         lefttitlefontsize=14,
+                         righttitle=U.units,
+                         righttitlefontsize=14,
+                         ylabel=U.lev.long_name + " (" + U.lev.units + ")",
+                         labelfontsize=16)
 
 # Create second y-axis to show geo-potential height.
 # Currently we're using arbitrary values for height as we haven't figured out
@@ -109,13 +109,11 @@ gvutil.set_titles_and_labels(ax,
 axRHS = ax.twinx()
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(axRHS,
-                                 ylim=(0, 32),
-                                 yticks=np.arange(4, 32, 4))
+gv.set_axes_limits_and_ticks(axRHS, ylim=(0, 32), yticks=np.arange(4, 32, 4))
 axRHS.tick_params(labelsize=12)  # manually set tick label size
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
-gvutil.set_titles_and_labels(axRHS, ylabel='Height (km)', labelfontsize=16)
+gv.set_titles_and_labels(axRHS, ylabel='Height (km)', labelfontsize=16)
 
 # Force the plot to be square by setting the aspect ratio to 1
 ax.set_box_aspect(1)

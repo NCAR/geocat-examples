@@ -18,7 +18,7 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Generate labels:
@@ -95,23 +95,23 @@ plt.legend(['OBS', 'CCSM2 (T42)', 'CCSM3 (T42)', 'CCSM3 (T85)'],
            ncol=2)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=(0.4, plot_y_max),
-                                 xticks=x,
-                                 xticklabels=labels,
-                                 yticks=np.linspace(0.4, plot_y_max, 5))
+gv.set_axes_limits_and_ticks(ax,
+                             ylim=(0.4, plot_y_max),
+                             xticks=x,
+                             xticklabels=labels,
+                             yticks=np.linspace(0.4, plot_y_max, 5))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=1,
-                             y_minor_per_major=4,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=1,
+                         y_minor_per_major=4,
+                         labelsize=12)
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax,
-                             maintitle='Nino3.4 Monthly Standard Deviation',
-                             maintitlefontsize=16,
-                             ylabel="(" + u'\N{DEGREE SIGN}' + "C)")
+gv.set_titles_and_labels(ax,
+                         maintitle='Nino3.4 Monthly Standard Deviation',
+                         maintitlefontsize=16,
+                         ylabel="(" + u'\N{DEGREE SIGN}' + "C)")
 
 # Show the plot
 plt.tight_layout()

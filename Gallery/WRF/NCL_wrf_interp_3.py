@@ -23,7 +23,7 @@ import os
 
 from wrf import (to_np, getvar, CoordPair, vertcross, latlon_coords)
 import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in the data
@@ -92,10 +92,10 @@ qv_contours = qv_cross.plot.contourf(ax=ax,
 plt.colorbar(qv_contours, ax=ax, ticks=np.arange(0.00025, 0.004, .00025))
 
 # Add minor ticks to the yaxis
-gvutil.add_major_minor_ticks(ax=ax,
-                             x_minor_per_major=1,
-                             y_minor_per_major=3,
-                             labelsize=14)
+gv.add_major_minor_ticks(ax=ax,
+                         x_minor_per_major=1,
+                         y_minor_per_major=3,
+                         labelsize=14)
 
 # Format the xtick labels
 x_labels = [

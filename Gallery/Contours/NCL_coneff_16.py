@@ -18,10 +18,10 @@ import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -45,7 +45,7 @@ ax.set_global()
 ax.coastlines()
 
 # Import an NCL colormap
-newcmp = gvcmaps.BlueYellowRed
+newcmp = cmaps.BlueYellowRed
 
 # Contourf-plot data (for filled contours)
 # Note, min-max contour levels are hard-coded. contourf's automatic contour value selector produces fractional values.
@@ -64,25 +64,25 @@ cbar.ax.tick_params(labelsize=14)
 cbar.set_ticks(np.linspace(-12, 40, 14))
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xticks=np.linspace(-180, 180, 13),
-                                 yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(ax,
+                             xticks=np.linspace(-180, 180, 13),
+                             yticks=np.linspace(-90, 90, 7))
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, labelsize=12)
+gv.add_major_minor_ticks(ax, labelsize=12)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Color contours mask filled land",
-                             lefttitle=U.long_name,
-                             lefttitlefontsize=16,
-                             righttitle=U.units,
-                             righttitlefontsize=16,
-                             xlabel="",
-                             ylabel="")
+gv.set_titles_and_labels(ax,
+                         maintitle="Color contours mask filled land",
+                         lefttitle=U.long_name,
+                         lefttitlefontsize=16,
+                         righttitle=U.units,
+                         righttitlefontsize=16,
+                         xlabel="",
+                         ylabel="")
 
 # Show the plot
 plt.show()

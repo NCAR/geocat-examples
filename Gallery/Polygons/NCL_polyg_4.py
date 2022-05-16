@@ -28,7 +28,7 @@ import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -188,17 +188,17 @@ def make_base_plot():
                       edgecolor='black'))
 
     # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
-    gvutil.set_titles_and_labels(ax,
-                                 lefttitle="Zonal Wind",
-                                 lefttitlefontsize=12,
-                                 righttitle="m/s",
-                                 righttitlefontsize=12)
+    gv.set_titles_and_labels(ax,
+                             lefttitle="Zonal Wind",
+                             lefttitlefontsize=12,
+                             righttitle="m/s",
+                             righttitlefontsize=12)
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax, y_minor_per_major=4)
+    gv.add_major_minor_ticks(ax, y_minor_per_major=4)
 
     # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax)
+    gv.add_lat_lon_ticklabels(ax)
 
     return ax
 

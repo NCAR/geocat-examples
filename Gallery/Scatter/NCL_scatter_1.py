@@ -19,7 +19,7 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import matplotlib.pyplot as plt
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Generate random data from a chi squared distribution with 2 dof
@@ -37,19 +37,19 @@ ax = plt.axes()
 plt.plot(data, marker='o', linewidth=0, color='darkblue')
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(0, 50),
-                                 ylim=(0, 10),
-                                 xticks=range(0, 51, 10),
-                                 yticks=range(0, 11, 2))
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(0, 50),
+                             ylim=(0, 10),
+                             xticks=range(0, 51, 10),
+                             yticks=range(0, 11, 2))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=5,
-                             y_minor_per_major=4,
-                             labelsize=14)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=5,
+                         y_minor_per_major=4,
+                         labelsize=14)
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, maintitle="Scatter Plot")
+gv.set_titles_and_labels(ax, maintitle="Scatter Plot")
 
 plt.show()

@@ -25,7 +25,7 @@ from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -72,30 +72,30 @@ def Plot(res, title):
     cbar.ax.tick_params(labelsize=10)
 
     # Use geocat.viz.util convenience function to set axes limit and tick values
-    gvutil.set_axes_limits_and_ticks(ax1,
-                                     xlim=(-8, -3),
-                                     ylim=(35, 37),
-                                     xticks=np.linspace(-3, -8, 6),
-                                     yticks=np.linspace(35, 37, 3))
+    gv.set_axes_limits_and_ticks(ax1,
+                                 xlim=(-8, -3),
+                                 ylim=(35, 37),
+                                 xticks=np.linspace(-3, -8, 6),
+                                 yticks=np.linspace(35, 37, 3))
 
     # Use geocat.viz.util convenience function to add major tick lines
-    gvutil.add_major_minor_ticks(ax1, y_minor_per_major=1, labelsize=12)
+    gv.add_major_minor_ticks(ax1, y_minor_per_major=1, labelsize=12)
 
     # Use geocat.viz.util convenience function to add lat and lon tick labels
-    gvutil.add_lat_lon_ticklabels(ax1)
+    gv.add_lat_lon_ticklabels(ax1)
 
     # Remove degree symbol from tick label
     ax1.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax1.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
     # Use geocat.viz.util convenience function to set titles and labels
-    gvutil.set_titles_and_labels(ax1,
-                                 righttitle="Deg C",
-                                 righttitlefontsize=15,
-                                 lefttitle="Temperature",
-                                 lefttitlefontsize=15,
-                                 xlabel="",
-                                 ylabel="")
+    gv.set_titles_and_labels(ax1,
+                             righttitle="Deg C",
+                             righttitlefontsize=15,
+                             lefttitle="Temperature",
+                             lefttitlefontsize=15,
+                             xlabel="",
+                             ylabel="")
 
     plt.suptitle("Strait of Gibraltar", x=.5, y=.83, fontsize=18)
     plt.title(title, x=.5, y=1.07, fontsize=15)

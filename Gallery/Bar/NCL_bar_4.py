@@ -21,7 +21,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -60,25 +60,25 @@ plt.bar(date_frac[::8],
         width=8 / 12)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=4,
-                             y_minor_per_major=5,
-                             labelsize=20)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=4,
+                         y_minor_per_major=5,
+                         labelsize=20)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=(-3, 3),
-                                 yticks=np.linspace(-3, 3, 7),
-                                 yticklabels=np.linspace(-3, 3, 7),
-                                 xlim=(date_frac[40], date_frac[-16]),
-                                 xticks=np.linspace(1900, 1980, 5))
+gv.set_axes_limits_and_ticks(ax,
+                             ylim=(-3, 3),
+                             yticks=np.linspace(-3, 3, 7),
+                             yticklabels=np.linspace(-3, 3, 7),
+                             xlim=(date_frac[40], date_frac[-16]),
+                             xticks=np.linspace(1900, 1980, 5))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Darwin Southern Oscillation Index",
-                             ylabel='Anomalies',
-                             maintitlefontsize=28,
-                             labelfontsize=20)
+gv.set_titles_and_labels(ax,
+                         maintitle="Darwin Southern Oscillation Index",
+                         ylabel='Anomalies',
+                         maintitlefontsize=28,
+                         labelfontsize=20)
 
 plt.tight_layout()
 plt.show()

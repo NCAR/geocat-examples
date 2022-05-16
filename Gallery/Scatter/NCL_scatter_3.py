@@ -21,7 +21,7 @@ import cartopy.feature as cfeature
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 import geocat.datafiles as gdf
 
 ###############################################################################
@@ -70,20 +70,20 @@ def Plots(xlim, ylim, xtic, ytic, xminor, yminor, size, color):
     ax = plt.axes(projection=ccrs.PlateCarree())
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax,
-                                 x_minor_per_major=xminor,
-                                 y_minor_per_major=yminor,
-                                 labelsize=14)
+    gv.add_major_minor_ticks(ax,
+                             x_minor_per_major=xminor,
+                             y_minor_per_major=yminor,
+                             labelsize=14)
 
     # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax)
+    gv.add_lat_lon_ticklabels(ax)
 
     # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-    gvutil.set_axes_limits_and_ticks(ax,
-                                     xlim=xlim,
-                                     ylim=ylim,
-                                     xticks=range(-180, 180, xtic),
-                                     yticks=range(-90, 90, ytic))
+    gv.set_axes_limits_and_ticks(ax,
+                                 xlim=xlim,
+                                 ylim=ylim,
+                                 xticks=range(-180, 180, xtic),
+                                 yticks=range(-90, 90, ytic))
 
     # Remove the degree symbol from tick labels
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))

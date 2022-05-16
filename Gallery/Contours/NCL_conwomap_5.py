@@ -13,21 +13,23 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/conwomap_5_2_lg.png
 """
 
-import geocat.datafiles as gdf
-import matplotlib.pyplot as plt
 ###############################################################################
 # Import packages:
+import matplotlib.pyplot as plt
+from matplotlib.ticker import ScalarFormatter
 import numpy as np
 import xarray as xr
+import cmaps
+
 from geocat.comp import interp_hybrid_to_pressure
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
-from matplotlib.ticker import ScalarFormatter
+import geocat.viz as gv
+import geocat.datafiles as gdf
 
 ###############################################################################
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
+
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 
 # Extract the data needed
@@ -66,21 +68,21 @@ plt.yscale('log')
 ax.yaxis.set_major_formatter(ScalarFormatter())
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=(20000, 100000),
-                                 yticks=[100000, 70000, 50000, 30000],
-                                 yticklabels=['1000', '700', '500', '300'],
-                                 xticks=np.arange(-60, 90, 30),
-                                 xticklabels=['60S', '30S', '0', '30N', '60N'])
+gv.set_axes_limits_and_ticks(ax,
+                             ylim=(20000, 100000),
+                             yticks=[100000, 70000, 50000, 30000],
+                             yticklabels=['1000', '700', '500', '300'],
+                             xticks=np.arange(-60, 90, 30),
+                             xticklabels=['60S', '30S', '0', '30N', '60N'])
 
 # Us geocat.viz.util convenience function to add minor and major ticks
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=0,
-                             labelsize=16)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=3,
+                         y_minor_per_major=0,
+                         labelsize=16)
 
 # Specify colormap
-newcmap = gvcmaps.ncl_default
+newcmap = cmaps.ncl_default
 
 # Plot filed contours
 p = uzon.plot.contourf(ax=ax,
@@ -116,11 +118,11 @@ cbar = plt.colorbar(p,
 cbar.ax.tick_params(labelsize=14)
 
 # Use geocat.vix convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Logarithmic axis",
-                             maintitlefontsize=18,
-                             lefttitle="Zonal Wind",
-                             lefttitlefontsize=16)
+gv.set_titles_and_labels(ax,
+                         maintitle="Logarithmic axis",
+                         maintitlefontsize=18,
+                         lefttitle="Zonal Wind",
+                         lefttitlefontsize=16)
 
 # Show plot
 plt.show()

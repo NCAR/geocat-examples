@@ -30,7 +30,7 @@ import numpy as np
 import xarray as xr
 
 import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -44,10 +44,10 @@ data1 = ds.T.isel(time=0, drop=True).isel(z_t=5, drop=True)
 data2 = ds.S.isel(time=0, drop=True).isel(z_t=0, drop=True)
 data3 = ds.S.isel(time=0, drop=True).isel(z_t=3, drop=True)
 
-data0 = gvutil.xr_add_cyclic_longitudes(data0, "lon_t")
-data1 = gvutil.xr_add_cyclic_longitudes(data1, "lon_t")
-data2 = gvutil.xr_add_cyclic_longitudes(data2, "lon_t")
-data3 = gvutil.xr_add_cyclic_longitudes(data3, "lon_t")
+data0 = gv.xr_add_cyclic_longitudes(data0, "lon_t")
+data1 = gv.xr_add_cyclic_longitudes(data1, "lon_t")
+data2 = gv.xr_add_cyclic_longitudes(data2, "lon_t")
+data3 = gv.xr_add_cyclic_longitudes(data3, "lon_t")
 
 data = [[data0, data1], [data2, data3]]
 
@@ -116,8 +116,7 @@ for row in range(0, 2):
                                    transform=ccrs.Geodetic())
 
         # Set boundary of plot to be circular
-        gvutil.set_map_boundary(axs[row][col], (-180, 180), (0, 90),
-                                south_pad=1)
+        gv.set_map_boundary(axs[row][col], (-180, 180), (0, 90), south_pad=1)
         # Create inset axes for color bars
         cax[row][col] = inset_axes(axs[row][col],
                                    width='5%',
@@ -281,8 +280,7 @@ for row in range(0, 2):
                                    transform=ccrs.Geodetic())
 
         # Set boundary of plot to be circular
-        gvutil.set_map_boundary(axs[row][col], (-180, 180), (0, 90),
-                                south_pad=1)
+        gv.set_map_boundary(axs[row][col], (-180, 180), (0, 90), south_pad=1)
         # Create inset axes for color bars
         cax[row][col] = inset_axes(axs[row][col],
                                    width='5%',

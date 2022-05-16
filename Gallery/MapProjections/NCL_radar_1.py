@@ -18,10 +18,10 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ##############################################################################
 # Read in data:
@@ -62,7 +62,7 @@ def radar_plot(X, Y, values, bg_color=None):
     fig, ax = plt.subplots(figsize=(6, 8))
 
     # Choose default colormap
-    cmap = gvcmaps.gui_default
+    cmap = cmaps.gui_default
 
     # Plot using contourf
     p = plt.contourf(X,
@@ -80,29 +80,29 @@ def radar_plot(X, Y, values, bg_color=None):
                  aspect=12)
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax, labelsize=12)
+    gv.add_major_minor_ticks(ax, labelsize=12)
 
     # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-    gvutil.set_titles_and_labels(ax,
-                                 lefttitle=ds.DZ.long_name,
-                                 lefttitlefontsize=16,
-                                 righttitle=ds.DZ.units,
-                                 righttitlefontsize=16,
-                                 xlabel="",
-                                 ylabel="")
+    gv.set_titles_and_labels(ax,
+                             lefttitle=ds.DZ.long_name,
+                             lefttitlefontsize=16,
+                             righttitle=ds.DZ.units,
+                             righttitlefontsize=16,
+                             xlabel="",
+                             ylabel="")
 
     # Use geocat.viz.util convenience function to set axes limits & tick values
-    gvutil.set_axes_limits_and_ticks(ax,
-                                     xlim=(-240, 240),
-                                     ylim=(-240, 240),
-                                     xticks=np.arange(-200, 201, 100),
-                                     yticks=np.arange(-200, 201, 100))
+    gv.set_axes_limits_and_ticks(ax,
+                                 xlim=(-240, 240),
+                                 ylim=(-240, 240),
+                                 xticks=np.arange(-200, 201, 100),
+                                 yticks=np.arange(-200, 201, 100))
 
     # Use geocat.viz.util convenience function to set tick placements
-    gvutil.add_major_minor_ticks(ax,
-                                 x_minor_per_major=5,
-                                 y_minor_per_major=5,
-                                 labelsize=14)
+    gv.add_major_minor_ticks(ax,
+                             x_minor_per_major=5,
+                             y_minor_per_major=5,
+                             labelsize=14)
 
     # Set aspect ratio
     ax.set_aspect('equal')

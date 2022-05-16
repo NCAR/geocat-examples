@@ -48,8 +48,8 @@ from cartopy.crs import PlateCarree
 from cartopy.io.shapereader import Reader as ShapeReader, natural_earth
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import cmaps
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -140,10 +140,10 @@ ax.set_extent([100, 145, 15, 55], crs=projection)
 clevs = np.arange(228, 273, 4, dtype=float)
 
 # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
-newcmp = gvutil.truncate_colormap(gvcmaps.BkBlAqGrYeOrReViWh200,
-                                  minval=0.1,
-                                  maxval=0.6,
-                                  n=len(clevs))
+newcmp = gv.truncate_colormap(cmaps.BkBlAqGrYeOrReViWh200,
+                              minval=0.1,
+                              maxval=0.6,
+                              n=len(clevs))
 
 # Draw the temperature contour plot with the subselected colormap
 # (Place the zorder of the contour plot at the lowest level)
@@ -213,25 +213,25 @@ ax.text(105,
         bbox=props)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xticks=[100, 120, 140],
-                                 yticks=[20, 30, 40, 50])
+gv.set_axes_limits_and_ticks(ax,
+                             xticks=[100, 120, 140],
+                             yticks=[20, 30, 40, 50])
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=4,
-                             y_minor_per_major=5,
-                             labelsize=18)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=4,
+                         y_minor_per_major=5,
+                         labelsize=18)
 
 # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
-gvutil.set_titles_and_labels(ax,
-                             lefttitle="Temp",
-                             lefttitlefontsize=20,
-                             righttitle="Wind",
-                             righttitlefontsize=20)
+gv.set_titles_and_labels(ax,
+                         lefttitle="Temp",
+                         lefttitlefontsize=20,
+                         righttitle="Wind",
+                         righttitlefontsize=20)
 
 # Show the plot
 plt.show()

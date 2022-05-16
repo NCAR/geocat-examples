@@ -47,8 +47,8 @@ import numpy as np
 import xarray as xr
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import cmaps
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -98,29 +98,29 @@ def Plot(color, row, col, pos, title):
 
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
     # Set axes limits, and tick values
-    gvutil.set_axes_limits_and_ticks(ax1,
-                                     xlim=(30, 55),
-                                     ylim=(20, 45),
-                                     xticks=np.linspace(30, 55, 6),
-                                     yticks=np.linspace(20, 45, 6))
+    gv.set_axes_limits_and_ticks(ax1,
+                                 xlim=(30, 55),
+                                 ylim=(20, 45),
+                                 xticks=np.linspace(30, 55, 6),
+                                 yticks=np.linspace(20, 45, 6))
 
     # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax1)
+    gv.add_lat_lon_ticklabels(ax1)
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax1, labelsize=12)
+    gv.add_major_minor_ticks(ax1, labelsize=12)
 
     # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-    gvutil.set_titles_and_labels(ax1,
-                                 maintitle=title,
-                                 maintitlefontsize=16,
-                                 righttitlefontsize=14,
-                                 xlabel="",
-                                 ylabel="")
+    gv.set_titles_and_labels(ax1,
+                             maintitle=title,
+                             maintitlefontsize=16,
+                             righttitlefontsize=14,
+                             xlabel="",
+                             ylabel="")
 
 
 #Plot first color map
-Plot(gvcmaps.BlAqGrYeOrRe, 2, 2, 1, "Rainbow Color Projection")
+Plot(cmaps.BlAqGrYeOrRe, 2, 2, 1, "Rainbow Color Projection")
 
 #plot second color map
 Plot('coolwarm', 2, 2, 2, "Coolwarm Color Projection")

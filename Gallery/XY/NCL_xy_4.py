@@ -31,7 +31,7 @@ import matplotlib.path as mpath
 import math
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -54,23 +54,23 @@ ax = plt.axes()
 plt.scatter(t.time, t.data, color='red')
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Scatter Plot",
-                             xlabel=t['time'].long_name,
-                             ylabel=t.long_name)
+gv.set_titles_and_labels(ax,
+                         maintitle="Scatter Plot",
+                         xlabel=t['time'].long_name,
+                         ylabel=t.long_name)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=5,
-                             y_minor_per_major=4,
-                             labelsize=14)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=5,
+                         y_minor_per_major=4,
+                         labelsize=14)
 
 # Calculate xlim by rounding the min value down and the max value up to a
 # multiple of 5
 xmin = 5 * math.floor(t.time.min().data / 5)
 xmax = 5 * math.ceil(t.time.max().data / 5)
 
-gvutil.set_axes_limits_and_ticks(
+gv.set_axes_limits_and_ticks(
     ax,
     xlim=(xmin, xmax),
     ylim=(220.0, 232.0),
@@ -127,18 +127,18 @@ plt.scatter(time4, data4, color='red', marker=path, s=100, label='custom path')
 plt.legend()
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Make your own marker",
-                             xlabel=t['time'].long_name,
-                             ylabel=t.long_name)
+gv.set_titles_and_labels(ax,
+                         maintitle="Make your own marker",
+                         xlabel=t['time'].long_name,
+                         ylabel=t.long_name)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=5,
-                             y_minor_per_major=4,
-                             labelsize=14)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=5,
+                         y_minor_per_major=4,
+                         labelsize=14)
 
-gvutil.set_axes_limits_and_ticks(
+gv.set_axes_limits_and_ticks(
     ax,
     xlim=(xmin, xmax),
     ylim=(220.0, 232.0),

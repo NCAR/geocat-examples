@@ -27,7 +27,7 @@ import shapefile as shp
 import numpy as np
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -244,7 +244,7 @@ for shape in usdetailed.shapeRecords():
 
 # Set title using helper function from geocat-viz
 title = r"$\bf{Population}$" + " " + r"$\bf{in}$" + " " + r"$\bf{Millions}$" + " " + r"$\bf{(2014)}$"
-gvutil.set_titles_and_labels(ax1, maintitle=title, maintitlefontsize=18)
+gv.set_titles_and_labels(ax1, maintitle=title, maintitlefontsize=18)
 
 # Create fourth inset axis for colorbar
 axin4 = inset_axes(ax2, width="115%", height="12%", loc='center')

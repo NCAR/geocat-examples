@@ -25,7 +25,7 @@ import matplotlib.colors as colors
 import matplotlib.colors as mcolors
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ################################################################################
 # Make color map
@@ -96,11 +96,11 @@ ax2 = fig.add_axes([.1, .1, .8, .05])
 
 # Set title of plot
 # Make title font bold using r"$\bf{_______}$" formatting
-gvutil.set_titles_and_labels(ax,
-                             maintitle=r"$\bf{Assigning}$" + " " +
-                             r"$\bf{color}$" + " " + r"$\bf{palette}$" + " " +
-                             r"$\bf{to}$" + " " + r"$\bf{streamlines}$",
-                             maintitlefontsize=25)
+gv.set_titles_and_labels(ax,
+                         maintitle=r"$\bf{Assigning}$" + " " + r"$\bf{color}$" +
+                         " " + r"$\bf{palette}$" + " " + r"$\bf{to}$" + " " +
+                         r"$\bf{streamlines}$",
+                         maintitlefontsize=25)
 
 # Plot colorbar on subplot
 cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm),

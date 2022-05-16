@@ -44,7 +44,7 @@ import cartopy.feature as cfeature
 import matplotlib.colors as mcolors
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
+import cmaps
 
 ###############################################################################
 # Read in data:
@@ -123,7 +123,7 @@ ax.add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=2)
 #
 # Plot pressure level contour
 #
-p_cmap = gvcmaps.StepSeq25
+p_cmap = cmaps.StepSeq25
 pressure = p.plot.contourf(ax=ax,
                            transform=ccrs.PlateCarree(),
                            cmap=p_cmap,
@@ -196,7 +196,7 @@ v = v.data[0:lat_size:2, 0:lon_size:2]
 t = t.data[0:lat_size:2, 0:lon_size:2]
 
 # Import and modify color map for vectors
-wind_cmap = gvcmaps.amwg_blueyellowred
+wind_cmap = cmaps.amwg_blueyellowred
 bounds = np.arange(-30, 120, 10)  # Sets where boundarys on color map will be
 norm = mcolors.BoundaryNorm(bounds, wind_cmap.N)  # Assigns colors to values
 # Draw wind vectors

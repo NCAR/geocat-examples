@@ -24,7 +24,7 @@ import xarray as xr
 from matplotlib import pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -209,17 +209,17 @@ ax.plot(time, gavav_avg, color='red', label='Anthropogenic + Natural', zorder=2)
 ax.legend(loc='upper left', frameon=False, fontsize=18)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=4,
-                             y_minor_per_major=3,
-                             labelsize=20)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=4,
+                         y_minor_per_major=3,
+                         labelsize=20)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(1890, 2000),
-                                 ylim=(-0.4, 1),
-                                 xticks=np.arange(1900, 2001, step=20),
-                                 yticks=np.arange(-0.3, 1, step=0.3))
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(1890, 2000),
+                             ylim=(-0.4, 1),
+                             xticks=np.arange(1900, 2001, step=20),
+                             yticks=np.arange(-0.3, 1, step=0.3))
 
 # Set three titles on top of each other using axes title and texts
 ax.set_title('Parallel Climate Model Ensembles', fontsize=24, pad=60.0)

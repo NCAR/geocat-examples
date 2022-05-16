@@ -20,10 +20,10 @@ import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -33,7 +33,7 @@ ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 t = ds.TS.isel(time=0)
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-wrap_t = gvutil.xr_add_cyclic_longitudes(t, "lon")
+wrap_t = gv.xr_add_cyclic_longitudes(t, "lon")
 
 ###############################################################################
 # Plot:
@@ -49,7 +49,7 @@ ax.coastlines(linewidths=0.5)
 gl = ax.gridlines(crs=ccrs.PlateCarree(), linewidth=1, color='black', alpha=0.5)
 
 # Import an NCL colormap
-newcmp = gvcmaps.gui_default
+newcmp = cmaps.gui_default
 
 # Contourf-plot data (for filled contours)
 temp = wrap_t.plot.contourf(ax=ax,
@@ -77,10 +77,10 @@ wrap_t.plot.contour(ax=ax,
                     cmap='black')
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Example of Mollweide Projection",
-                             lefttitle="Surface Temperature",
-                             righttitle="K")
+gv.set_titles_and_labels(ax,
+                         maintitle="Example of Mollweide Projection",
+                         lefttitle="Surface Temperature",
+                         righttitle="K")
 
 # Show the plot
 plt.show()

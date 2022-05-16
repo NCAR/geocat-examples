@@ -24,7 +24,7 @@ import cartopy.feature as cfeature
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Generate dummy data
@@ -56,25 +56,25 @@ ax.add_feature(cfeature.LAND, color='silver', zorder=0)
 ax.add_feature(cfeature.LAKES, color='white', zorder=0)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xticks=np.linspace(-120, -80, 3),
-                                 yticks=np.linspace(30, 50, 3))
+gv.set_axes_limits_and_ticks(ax,
+                             xticks=np.linspace(-120, -80, 3),
+                             yticks=np.linspace(30, 50, 3))
 
 # Use geocat.viz.util convenience function to make latitude and longitude tick
 # labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 # Removing degree symbol from tick labels to more closely resemble NCL example
 ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=4,
-                             y_minor_per_major=5,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=4,
+                         y_minor_per_major=5,
+                         labelsize=12)
 
 # Use geocat.viz.util convenience function to add titles
-gvutil.set_titles_and_labels(
+gv.set_titles_and_labels(
     ax,
     maintitlefontsize=16,
     maintitle=

@@ -21,7 +21,7 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Plot:
@@ -87,21 +87,20 @@ def map_plot(scale, long_min, long_max, lat_min, lat_max, long_labels,
     ax.set_extent((long_min, long_max, lat_min, lat_max), crs=projection)
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax,
-                                 x_minor_per_major=3,
-                                 y_minor_per_major=3,
-                                 labelsize=15)
+    gv.add_major_minor_ticks(ax,
+                             x_minor_per_major=3,
+                             y_minor_per_major=3,
+                             labelsize=15)
 
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
     # Set axes limits, tick values, and tick labels for both latitude and longitude
-    gvutil.set_axes_limits_and_ticks(ax,
-                                     xlim=(long_min, long_max),
-                                     ylim=(lat_min, lat_max),
-                                     xticks=np.linspace(long_min, long_max + 20,
-                                                        4),
-                                     yticks=np.linspace(lat_min, lat_max, 4),
-                                     xticklabels=long_labels,
-                                     yticklabels=lat_labels)
+    gv.set_axes_limits_and_ticks(ax,
+                                 xlim=(long_min, long_max),
+                                 ylim=(lat_min, lat_max),
+                                 xticks=np.linspace(long_min, long_max + 20, 4),
+                                 yticks=np.linspace(lat_min, lat_max, 4),
+                                 xticklabels=long_labels,
+                                 yticklabels=lat_labels)
     # Show plot with minimal whitespace
     plt.tight_layout()
     plt.show()

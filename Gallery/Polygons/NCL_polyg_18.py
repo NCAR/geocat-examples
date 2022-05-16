@@ -20,7 +20,7 @@ import cartopy.crs as ccrs
 from cartopy.mpl.ticker import LatitudeFormatter, LongitudeFormatter
 import numpy as np
 
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Define helper function to remove ticks/frames from axes
@@ -97,37 +97,37 @@ ax.add_patch(
                        transform=ccrs.PlateCarree(),
                        zorder=5))
 
-# Use gvutil function to set the ticks on axes
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=None,
-                                 ylim=None,
-                                 xticks=np.arange(-180, 210, 30),
-                                 yticks=np.arange(-90, 120, 30),
-                                 xticklabels=None,
-                                 yticklabels=None)
+# Use gv function to set the ticks on axes
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=None,
+                             ylim=None,
+                             xticks=np.arange(-180, 210, 30),
+                             yticks=np.arange(-90, 120, 30),
+                             xticklabels=None,
+                             yticklabels=None)
 
-# Use gvutil function to give ticks W/N/E/S labels
-gvutil.add_lat_lon_ticklabels(ax,
-                              zero_direction_label=True,
-                              dateline_direction_label=True)
+# Use gv function to give ticks W/N/E/S labels
+gv.add_lat_lon_ticklabels(ax,
+                          zero_direction_label=True,
+                          dateline_direction_label=True)
 
 # Took out degree symbols in latitude/longitude
 ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
-# Use gvutil function to set title of plot
+# Use gv function to set title of plot
 # Set title font to bold using the r"$\bf{_____}$" formatting characters
 # Spaces in title will not show up if included in curly brackets
-gvutil.set_titles_and_labels(ax,
-                             maintitle=r"$\bf{Big}$" + " " +
-                             r"$\bf{centered}$" + " " + r"$\bf{title}$",
-                             maintitlefontsize=25)
+gv.set_titles_and_labels(ax,
+                         maintitle=r"$\bf{Big}$" + " " + r"$\bf{centered}$" +
+                         " " + r"$\bf{title}$",
+                         maintitlefontsize=25)
 
-# Use gvutil function to plot three minor ticks for every major tick on axes
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=3,
-                             labelsize="small")
+# Use gv function to plot three minor ticks for every major tick on axes
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=3,
+                         y_minor_per_major=3,
+                         labelsize="small")
 
 # Make second subplot for legend
 ax2 = plt.subplot(grid[-1, 1:], frameon=False)

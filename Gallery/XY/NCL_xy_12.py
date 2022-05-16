@@ -18,7 +18,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ##############################################################################
 # Read in data:
@@ -47,7 +47,7 @@ ax.plot(U.lat[bins[1]:bins[2] + 1], highlight, color='red', linewidth=1)
 ax.plot(U.lat[bins[2]:], end, color='black', linewidth=0.5)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(
+gv.set_axes_limits_and_ticks(
     ax,
     ylim=(-10, 40),
     xlim=(-90, 90),
@@ -56,15 +56,15 @@ gvutil.set_axes_limits_and_ticks(
     xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'])
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=5,
-                             labelsize=14)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=3,
+                         y_minor_per_major=5,
+                         labelsize=14)
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Highlight Part of a Line",
-                             ylabel=U.long_name + " " + U.units)
+gv.set_titles_and_labels(ax,
+                         maintitle="Highlight Part of a Line",
+                         ylabel=U.long_name + " " + U.units)
 
 plt.show()
 
@@ -100,7 +100,7 @@ ax.fill_between(U.lat[bins[0]:bins[1] + 1], top, bottom, color='salmon')
 ax.plot(U.lat, U.data, color='black', linewidth=0.5)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(
+gv.set_axes_limits_and_ticks(
     ax,
     ylim=(-10, 50),
     xlim=(-90, 90),
@@ -109,14 +109,14 @@ gvutil.set_axes_limits_and_ticks(
     xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'])
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=5,
-                             labelsize=14)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=3,
+                         y_minor_per_major=5,
+                         labelsize=14)
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Highlight Part of a Line",
-                             ylabel=U.long_name + " " + U.units)
+gv.set_titles_and_labels(ax,
+                         maintitle="Highlight Part of a Line",
+                         ylabel=U.long_name + " " + U.units)
 
 plt.show()

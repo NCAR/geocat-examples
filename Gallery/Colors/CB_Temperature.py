@@ -48,8 +48,8 @@ import numpy as np
 import xarray as xr
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import cmaps
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -100,18 +100,18 @@ def Plot(color, row, col, pos, title):
 
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
     # Set axes limits, and tick values
-    gvutil.set_axes_limits_and_ticks(ax1, xlim=(30, 120), ylim=(-60, 30))
+    gv.set_axes_limits_and_ticks(ax1, xlim=(30, 120), ylim=(-60, 30))
 
     # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-    gvutil.set_titles_and_labels(ax1,
-                                 maintitle=title,
-                                 maintitlefontsize=14,
-                                 xlabel="",
-                                 ylabel="")
+    gv.set_titles_and_labels(ax1,
+                             maintitle=title,
+                             maintitlefontsize=14,
+                             xlabel="",
+                             ylabel="")
 
 
 # Plot first color map
-Plot(gvcmaps.BlAqGrYeOrRe, 2, 2, 1, "Figure 1: \n Rainbow Color Projection")
+Plot(cmaps.BlAqGrYeOrRe, 2, 2, 1, "Figure 1: \n Rainbow Color Projection")
 
 # plot second color map
 Plot("coolwarm", 2, 2, 2, "Figure 2: \n Coolwarm Color Projection")

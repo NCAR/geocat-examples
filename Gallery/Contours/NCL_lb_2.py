@@ -18,10 +18,10 @@ import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -32,7 +32,7 @@ ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 v = ds.V.isel(time=0, lev=3)
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-wrap_v = gvutil.xr_add_cyclic_longitudes(v, "lon")
+wrap_v = gv.xr_add_cyclic_longitudes(v, "lon")
 
 ###############################################################################
 # Plot:
@@ -45,7 +45,7 @@ ax = plt.axes(projection=ccrs.PlateCarree())
 ax.coastlines(linewidths=0.5)
 
 # Import an NCL colormap
-newcmp = gvcmaps.wgne15
+newcmp = cmaps.wgne15
 
 # Contourf-plot data (for filled contours)
 a = wrap_v.plot.contourf(levels=14,
@@ -64,25 +64,25 @@ cbar = fig.colorbar(a, label='', ticks=np.linspace(-24, 24, 12), shrink=0.4)
 cbar.ax.set_yticklabels(clabels)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gvutil.set_axes_limits_and_ticks(ax,
-                                 ylim=(-90, 90),
-                                 xticks=np.linspace(-180, 180, 13),
-                                 yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(ax,
+                             ylim=(-90, 90),
+                             xticks=np.linspace(-180, 180, 13),
+                             yticks=np.linspace(-90, 90, 7))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, labelsize=10)
+gv.add_major_minor_ticks(ax, labelsize=10)
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax,
-                             lefttitle="meridional wind component",
-                             lefttitlefontsize=14,
-                             righttitle="m/s",
-                             righttitlefontsize=14,
-                             xlabel="",
-                             ylabel="")
+gv.set_titles_and_labels(ax,
+                         lefttitle="meridional wind component",
+                         lefttitlefontsize=14,
+                         righttitle="m/s",
+                         righttitlefontsize=14,
+                         xlabel="",
+                         ylabel="")
 
 # Show the plot
 plt.show()

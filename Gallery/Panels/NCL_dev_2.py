@@ -28,8 +28,8 @@ import numpy as np
 import xarray as xr
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-import geocat.viz.util as gvutil
+import cmaps
+import geocat.viz as gv
 
 ##############################################################################
 # Read in data:
@@ -50,8 +50,8 @@ time_avg = ds.TS.mean(dim='time')
 time_dev = TS_0 - time_avg
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-TS_0 = gvutil.xr_add_cyclic_longitudes(TS_0, "lon")
-time_dev = gvutil.xr_add_cyclic_longitudes(time_dev, "lon")
+TS_0 = gv.xr_add_cyclic_longitudes(TS_0, "lon")
+time_dev = gv.xr_add_cyclic_longitudes(time_dev, "lon")
 
 ##############################################################################
 # Plot:
@@ -86,32 +86,32 @@ ax4 = fig.add_subplot(grid[1, 1], aspect=10)
 # Format ticks and ticklabels for the map axes
 for ax in [ax1, ax3]:
     # Use the geocat.viz function to set axes limits and ticks
-    gvutil.set_axes_limits_and_ticks(ax,
-                                     xlim=[-180, 180],
-                                     ylim=[-90, 90],
-                                     xticks=np.arange(-180, 181, 30),
-                                     yticks=np.arange(-90, 91, 30))
+    gv.set_axes_limits_and_ticks(ax,
+                                 xlim=[-180, 180],
+                                 ylim=[-90, 90],
+                                 xticks=np.arange(-180, 181, 30),
+                                 yticks=np.arange(-90, 91, 30))
 
     # Use the geocat.viz function to add minor ticks
-    gvutil.add_major_minor_ticks(ax)
+    gv.add_major_minor_ticks(ax)
 
     # Use geocat.viz.util convenience function to make plots look like NCL
     # plots by using latitude, longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax)
+    gv.add_lat_lon_ticklabels(ax)
 
     # Removing degree symbol from tick labels to resemble NCL example
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use the geocat.viz function to set axes limits and ticks for zonal average plot
-gvutil.set_axes_limits_and_ticks(ax2,
-                                 xlim=[200, 310],
-                                 ylim=[-90, 90],
-                                 xticks=[200, 240, 280],
-                                 yticks=[])
+gv.set_axes_limits_and_ticks(ax2,
+                             xlim=[200, 310],
+                             ylim=[-90, 90],
+                             xticks=[200, 240, 280],
+                             yticks=[])
 
 # Use the geocat.viz function to add minor ticks to zonal average plot
-gvutil.add_major_minor_ticks(ax2, x_minor_per_major=2)
+gv.add_major_minor_ticks(ax2, x_minor_per_major=2)
 
 # Plot contour lines for data at first timestep
 contour = TS_0.plot.contour(ax=ax1,
@@ -156,10 +156,10 @@ ax2.plot(mean.data, mean.lat, color='black', linewidth=0.5)
 ax2.axvline(273.15, color='black', linewidth=0.5)
 
 # Import color map
-cmap = gvcmaps.BlWhRe
+cmap = cmaps.BlWhRe
 
 # Truncate colormap to only use paler colors in the center of the colormap
-cmap = gvutil.truncate_colormap(cmap, minval=0.22, maxval=0.74, n=14)
+cmap = gv.truncate_colormap(cmap, minval=0.22, maxval=0.74, n=14)
 
 # Plot filled contour for deviation from time avg plot
 deviations = time_dev.plot.contourf(ax=ax3,

@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 
 import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -101,11 +101,11 @@ for axes in ax.flat:
               zorder=5)
 
     # Use geocat.viz.util convenience function to add left and right title to the plot axes.
-    gvutil.set_titles_and_labels(axes,
-                                 lefttitle="Zonal Wind",
-                                 lefttitlefontsize=12,
-                                 righttitle=U.units,
-                                 righttitlefontsize=12)
+    gv.set_titles_and_labels(axes,
+                             lefttitle="Zonal Wind",
+                             lefttitlefontsize=12,
+                             righttitle=U.units,
+                             righttitlefontsize=12)
 
 # Panel 1: Contourf-plot U data with '//' and '..' hatch styles
 U.plot.contourf(ax=ax[0],
@@ -144,10 +144,10 @@ U.plot.contourf(ax=ax[2],
 mpl.rcParams['hatch.linewidth'] = 0.5
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-[gvutil.add_major_minor_ticks(axes) for axes in ax.flat]
+[gv.add_major_minor_ticks(axes) for axes in ax.flat]
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
-[gvutil.add_lat_lon_ticklabels(axes) for axes in ax.flat]
+[gv.add_lat_lon_ticklabels(axes) for axes in ax.flat]
 
 # Remove ticklabels on X axis
 [axes.xaxis.set_ticklabels([]) for axes in ax.flat]

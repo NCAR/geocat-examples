@@ -23,7 +23,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ################################################################################
 # Read in data:
@@ -63,16 +63,16 @@ plt.xlim([6000, 9500])
 plt.ylim([268.0, 271.5])
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=5,
-                             y_minor_per_major=5,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=5,
+                         y_minor_per_major=5,
+                         labelsize=12)
 
 # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Output from regline",
-                             xlabel="simulation time",
-                             ylabel="Surface temperature")
+gv.set_titles_and_labels(ax,
+                         maintitle="Output from regline",
+                         xlabel="simulation time",
+                         ylabel="Surface temperature")
 
 # Show the plot
 plt.tight_layout()

@@ -20,10 +20,10 @@ from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
 import numpy as np
 import xarray as xr
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ##############################################################################
 # Helper function to convert date from YYYYMM to the month name and the year
@@ -49,20 +49,20 @@ def add_axes(fig, grid_space, date):
     ax.set_extent([100, 300, -60, 60], crs=ccrs.PlateCarree())
 
     # Usa geocat.viz.util convenience function to set axes parameters
-    gvutil.set_axes_limits_and_ticks(ax,
-                                     ylim=(-60, 60),
-                                     xticks=np.arange(-80, 120, 30),
-                                     yticks=np.arange(-60, 61, 30))
+    gv.set_axes_limits_and_ticks(ax,
+                                 ylim=(-60, 60),
+                                 xticks=np.arange(-80, 120, 30),
+                                 yticks=np.arange(-60, 61, 30))
 
     # Use geocat.viz.util convenience function to make plots look like NCL
     # plots by using latitude, longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax)
+    gv.add_lat_lon_ticklabels(ax)
     # Remove the degree symbol from tick labels
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax, labelsize=8)
+    gv.add_major_minor_ticks(ax, labelsize=8)
 
     # Make sure that tick marks are only on the left and bottom sides of subplot
     ax.tick_params('both', which='both', top=False, right=False)
@@ -75,11 +75,11 @@ def add_axes(fig, grid_space, date):
                    zorder=2)
 
     # Set subplot titles
-    gvutil.set_titles_and_labels(ax,
-                                 lefttitle='degC',
-                                 lefttitlefontsize=10,
-                                 righttitle='$(W m s^{-2})$',
-                                 righttitlefontsize=10)
+    gv.set_titles_and_labels(ax,
+                             lefttitle='degC',
+                             lefttitlefontsize=10,
+                             righttitle='$(W m s^{-2})$',
+                             righttitlefontsize=10)
     ax.set_title(convert_date(date), fontsize=10, y=1.04)
 
     return ax
@@ -99,7 +99,7 @@ def create_fig(grid, fig, title):
     # Create a dictionary with contour attributes
     contourf_kw = dict(transform=ccrs.PlateCarree(),
                        levels=21,
-                       cmap=gvcmaps.BlueRed,
+                       cmap=cmaps.BlueRed,
                        add_colorbar=False,
                        add_labels=False,
                        vmin=-5,
@@ -139,16 +139,16 @@ ds = xr.open_dataset(gdf.get("netcdf_files/sst8292a.nc"))
 dates = [198212, 199008, 198705, 198411]
 
 data1 = ds.sel(time=11).SSTA
-data1 = gvutil.xr_add_cyclic_longitudes(data1, 'lon')
+data1 = gv.xr_add_cyclic_longitudes(data1, 'lon')
 
 data2 = ds.sel(time=103).SSTA
-data2 = gvutil.xr_add_cyclic_longitudes(data2, 'lon')
+data2 = gv.xr_add_cyclic_longitudes(data2, 'lon')
 
 data3 = ds.sel(time=64).SSTA
-data3 = gvutil.xr_add_cyclic_longitudes(data3, 'lon')
+data3 = gv.xr_add_cyclic_longitudes(data3, 'lon')
 
 data4 = ds.sel(time=34).SSTA
-data4 = gvutil.xr_add_cyclic_longitudes(data4, 'lon')
+data4 = gv.xr_add_cyclic_longitudes(data4, 'lon')
 
 ##############################################################################
 # Plot with default spacing:

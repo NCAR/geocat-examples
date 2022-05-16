@@ -22,7 +22,7 @@ import numpy as np
 import xarray as xr
 
 import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ##############################################################################
 # Read in data:
@@ -33,7 +33,7 @@ ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"),
                      decode_times=False)
 
 # Ensure longitudes range from 0 to 360 degrees
-t = gvutil.xr_add_cyclic_longitudes(ds.T, "lon_t")
+t = gv.xr_add_cyclic_longitudes(ds.T, "lon_t")
 
 # Selecting the first time step and then the three levels of interest
 t = t.isel(time=0)
@@ -57,32 +57,32 @@ ax3 = fig.add_subplot(grid[2], projection=proj)  # lower cell of grid
 
 for (ax, title) in [(ax1, 'level 0'), (ax2, 'level 1'), (ax3, 'level 6')]:
     # Use geocat.viz.util convenience function to set axes tick values
-    gvutil.set_axes_limits_and_ticks(ax=ax,
-                                     xlim=(-180, 180),
-                                     ylim=(-90, 90),
-                                     xticks=np.linspace(-180, 180, 13),
-                                     yticks=np.linspace(-90, 90, 7))
+    gv.set_axes_limits_and_ticks(ax=ax,
+                                 xlim=(-180, 180),
+                                 ylim=(-90, 90),
+                                 xticks=np.linspace(-180, 180, 13),
+                                 yticks=np.linspace(-90, 90, 7))
 
     # Use geocat.viz.util convenience function to make plots look like NCL
     # plots by using latitude, longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax)
+    gv.add_lat_lon_ticklabels(ax)
 
     # Remove the degree symbol from tick labels
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
     # Use geocat.viz.util convenience function to add minor and major ticks
-    gvutil.add_major_minor_ticks(ax)
+    gv.add_major_minor_ticks(ax)
 
     # Draw coastlines
     ax.coastlines(linewidth=0.5)
 
     # Use geocat.viz.util convenience function to set titles
-    gvutil.set_titles_and_labels(ax,
-                                 lefttitle=t_1.long_name,
-                                 righttitle=t_1.units,
-                                 lefttitlefontsize=10,
-                                 righttitlefontsize=10)
+    gv.set_titles_and_labels(ax,
+                             lefttitle=t_1.long_name,
+                             righttitle=t_1.units,
+                             lefttitlefontsize=10,
+                             righttitlefontsize=10)
     # Add center title
     ax.set_title(title, loc='center', y=1.04, fontsize=10)
 

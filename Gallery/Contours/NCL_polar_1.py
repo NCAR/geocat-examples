@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -31,7 +31,7 @@ U = ds.U[1, :, :]
 
 ###############################################################################
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-wrap_U = gvutil.xr_add_cyclic_longitudes(U, "lon")
+wrap_U = gv.xr_add_cyclic_longitudes(U, "lon")
 
 ###############################################################################
 # Plot:
@@ -44,7 +44,7 @@ ax.add_feature(cfeature.LAND, facecolor='lightgray')
 
 # Set map boundary to include latitudes between 0 and 40 and longitudes
 # between -180 and 180 only
-gvutil.set_map_boundary(ax, [-180, 180], [0, 40], south_pad=1)
+gv.set_map_boundary(ax, [-180, 180], [0, 40], south_pad=1)
 
 # Set draw_labels to False so that you can manually manipulate it later
 gl = ax.gridlines(ccrs.PlateCarree(),
@@ -105,7 +105,7 @@ p = wrap_U.plot.contour(ax=ax,
 ax.clabel(p, np.arange(-8, 17, 8), fmt='%d', inline=1, fontsize=14)
 
 # Use geocat.viz.util convenience function to add left and right titles
-gvutil.set_titles_and_labels(ax, lefttitle="Zonal Wind", righttitle="m/s")
+gv.set_titles_and_labels(ax, lefttitle="Zonal Wind", righttitle="m/s")
 
 # Add lower text box
 ax.text(1.0,

@@ -23,9 +23,9 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
 from matplotlib import colors, cm
+import cmaps
 
-from geocat.viz import util as gvutil
-from geocat.viz import cmaps as gvcmap
+import geocat.viz as gv
 
 ###############################################################################
 # Generate dummy data
@@ -42,15 +42,15 @@ r = random.uniform(low=-1.2, high=35, size=npts)
 ###############################################################################
 # Specify bins and sizes and create custom mappable based on NCV_jet colormap
 bins = [0, 5, 10, 15, 20, 23, 26]
-cmap = gvcmap.NCV_jet
+cmap = cmaps.NCV_jet
 
 # Create the boundaries for your data, this may be larger than bins to
-# accomodate colors for data outside of the smallest and largest bins
+# accommodate colors for data outside of the smallest and largest bins
 boundaries = [-1.2, 0, 5, 10, 15, 20, 23, 26, 35]
 norm = colors.BoundaryNorm(boundaries, cmap.N)
 mappable = cm.ScalarMappable(norm=norm, cmap=cmap)
 
-# Retreive the list of colors to use for the markers
+# Retrieve the list of colors to use for the markers
 marker_colors = mappable.to_rgba(boundaries)
 
 # Increasing sizes for the markers in each bin, by using numpy.geomspace the
@@ -69,25 +69,25 @@ ax.add_feature(cfeature.LAND, color='silver', zorder=0)
 ax.add_feature(cfeature.LAKES, color='white', zorder=0)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xticks=np.linspace(-120, -70, 6),
-                                 yticks=np.linspace(25, 50, 6))
+gv.set_axes_limits_and_ticks(ax,
+                             xticks=np.linspace(-120, -70, 6),
+                             yticks=np.linspace(25, 50, 6))
 
 # Use geocat.viz.util convenience function to make latitude and longitude tick
 # labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=1,
-                             y_minor_per_major=1,
-                             labelsize=12)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=1,
+                         y_minor_per_major=1,
+                         labelsize=12)
 
 # Remove ticks on the top and right sides of the plot
 ax.tick_params(axis='both', which='both', top=False, right=False)
 
 # Use geocat.viz.util convenience function to add titles
-gvutil.set_titles_and_labels(
+gv.set_titles_and_labels(
     ax,
     maintitlefontsize=16,
     maintitle=

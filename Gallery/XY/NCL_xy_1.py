@@ -17,7 +17,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -39,14 +39,14 @@ U.isel(time=0).sel(lon=82, method='nearest').plot(x="lat",
                                                   linewidth=1.1)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=5,
-                             labelsize=16)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=3,
+                         y_minor_per_major=5,
+                         labelsize=16)
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, tick values, and tick labels to show latitude & longitude (i.e. North (N) - South (S))
-gvutil.set_axes_limits_and_ticks(
+gv.set_axes_limits_and_ticks(
     ax,
     xlim=(-90, 90),
     ylim=(-10, 50),
@@ -55,10 +55,10 @@ gvutil.set_axes_limits_and_ticks(
     xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'])
 
 # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Basic XY plot",
-                             xlabel="",
-                             ylabel="Zonal Wind")
+gv.set_titles_and_labels(ax,
+                         maintitle="Basic XY plot",
+                         xlabel="",
+                         ylabel="Zonal Wind")
 
 # Show the plot
 plt.tight_layout()

@@ -19,7 +19,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -60,19 +60,19 @@ ax.bar(date_frac[::8],
        bottom=-1.75)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=4,
-                             y_minor_per_major=5,
-                             labelsize=20)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=4,
+                         y_minor_per_major=5,
+                         labelsize=20)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax,
-                                 yticks=np.arange(-2.0, 2.0, 0.5),
-                                 xlim=(date_frac[40], date_frac[-16]),
-                                 xticks=np.linspace(1900, 1980, 5))
+gv.set_axes_limits_and_ticks(ax,
+                             yticks=np.arange(-2.0, 2.0, 0.5),
+                             xlim=(date_frac[40], date_frac[-16]),
+                             xticks=np.linspace(1900, 1980, 5))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax, maintitle="Bar plot", maintitlefontsize=30)
+gv.set_titles_and_labels(ax, maintitle="Bar plot", maintitlefontsize=30)
 
 # Draw plot on the screen
 plt.tight_layout()
@@ -106,21 +106,21 @@ ax.plot(xs, ys, color="black", linewidth=0.5)
 ax.fill_between(xs, 0, ys, color='white')
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=4,
-                             y_minor_per_major=5,
-                             labelsize=20)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=4,
+                         y_minor_per_major=5,
+                         labelsize=20)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax,
-                                 yticks=np.arange(-2.0, 2.0, 0.5),
-                                 xlim=(1880, 2000),
-                                 xticks=np.linspace(1880, 2000, 7))
+gv.set_axes_limits_and_ticks(ax,
+                             yticks=np.arange(-2.0, 2.0, 0.5),
+                             xlim=(1880, 2000),
+                             xticks=np.linspace(1880, 2000, 7))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Bar plot with outlines",
-                             maintitlefontsize=30)
+gv.set_titles_and_labels(ax,
+                         maintitle="Bar plot with outlines",
+                         maintitlefontsize=30)
 
 # Draw plot on the screen
 plt.tight_layout()
@@ -143,21 +143,21 @@ ax.bar(date_frac[::8],
        linewidth=.5)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=4,
-                             y_minor_per_major=5,
-                             labelsize=20)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=4,
+                         y_minor_per_major=5,
+                         labelsize=20)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gvutil.set_axes_limits_and_ticks(ax,
-                                 yticks=np.arange(-2.0, 2.0, 0.5),
-                                 xlim=(date_frac[40], date_frac[-16]),
-                                 xticks=np.linspace(1900, 1980, 5))
+gv.set_axes_limits_and_ticks(ax,
+                             yticks=np.arange(-2.0, 2.0, 0.5),
+                             xlim=(date_frac[40], date_frac[-16]),
+                             xticks=np.linspace(1900, 1980, 5))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gvutil.set_titles_and_labels(ax,
-                             maintitle="Bar plot with a reference line",
-                             maintitlefontsize=30)
+gv.set_titles_and_labels(ax,
+                         maintitle="Bar plot with a reference line",
+                         maintitlefontsize=30)
 
 # Show the plot
 plt.tight_layout()

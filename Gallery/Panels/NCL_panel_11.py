@@ -17,7 +17,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -93,33 +93,33 @@ def contour_plot(fig):
             x_tick_labels = ["90E", "135E"]
 
         # Use geocat.viz.util convenience function to add titles
-        gvutil.set_axes_limits_and_ticks(axis,
-                                         xlim=[l_boundary, h_boundary],
-                                         ylim=[0, 1.55 * 1e16],
-                                         xticks=x_ticks,
-                                         yticks=np.linspace(0, 1.55 * 1e16, 7),
-                                         xticklabels=x_tick_labels,
-                                         yticklabels=np.linspace(0,
-                                                                 180,
-                                                                 7,
-                                                                 dtype='int'))
+        gv.set_axes_limits_and_ticks(axis,
+                                     xlim=[l_boundary, h_boundary],
+                                     ylim=[0, 1.55 * 1e16],
+                                     xticks=x_ticks,
+                                     yticks=np.linspace(0, 1.55 * 1e16, 7),
+                                     xticklabels=x_tick_labels,
+                                     yticklabels=np.linspace(0,
+                                                             180,
+                                                             7,
+                                                             dtype='int'))
 
         # Use geocat.viz.util convenience function to add minor and major tick lines
-        gvutil.add_major_minor_ticks(axis,
-                                     x_minor_per_major=3,
-                                     y_minor_per_major=3,
-                                     labelsize=8)
+        gv.add_major_minor_ticks(axis,
+                                 x_minor_per_major=3,
+                                 y_minor_per_major=3,
+                                 labelsize=8)
 
         # Use geocat.viz.util convenience function to add titles
-        gvutil.set_titles_and_labels(axis,
-                                     maintitle="Pacific Region",
-                                     maintitlefontsize=9,
-                                     lefttitle="Velocity Potential",
-                                     lefttitlefontsize=8,
-                                     righttitle="m2/s",
-                                     righttitlefontsize=8,
-                                     ylabel="elapsed time",
-                                     labelfontsize=9)
+        gv.set_titles_and_labels(axis,
+                                 maintitle="Pacific Region",
+                                 maintitlefontsize=9,
+                                 lefttitle="Velocity Potential",
+                                 lefttitlefontsize=8,
+                                 righttitle="m2/s",
+                                 righttitlefontsize=8,
+                                 ylabel="elapsed time",
+                                 labelfontsize=9)
 
         # Add lower text box
         axis.text(1,

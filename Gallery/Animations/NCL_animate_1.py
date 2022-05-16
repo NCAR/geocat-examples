@@ -23,7 +23,7 @@ import xarray as xr
 from matplotlib import pyplot as plt
 
 import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -44,17 +44,17 @@ ax.coastlines(linewidths=0.5)
 ax.set_extent([-180, 180, -90, 90], ccrs.PlateCarree())
 
 # Use geocat.viz.util convenience function to set axes limits & tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(-180, 180),
-                                 ylim=(-90, 90),
-                                 xticks=np.linspace(-180, 180, 13),
-                                 yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(-180, 180),
+                             ylim=(-90, 90),
+                             xticks=np.linspace(-180, 180, 13),
+                             yticks=np.linspace(-90, 90, 7))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax, labelsize=10)
+gv.add_major_minor_ticks(ax, labelsize=10)
 
 # Use geocat.viz.util convenience function to make latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # create initial plot that establishes a colorbar
 tas[0, :, :].plot.contourf(ax=ax,
@@ -84,7 +84,7 @@ def animate(i):
         add_colorbar=False,
     )
 
-    gvutil.set_titles_and_labels(
+    gv.set_titles_and_labels(
         ax,
         maintitle="January Global Surface Temperature (K) - Day  " +
         str(tas.coords['time'].values[i])[:13],

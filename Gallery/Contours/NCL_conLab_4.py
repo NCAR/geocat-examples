@@ -23,10 +23,10 @@ from cartopy.mpl.gridliner import LatitudeFormatter, LongitudeFormatter
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -60,30 +60,30 @@ ax.add_feature(cfeature.COASTLINE, linewidth=0.5)
 ax.set_extent([0, 70, -30, 30], crs=ccrs.PlateCarree())
 
 # Use geocat.viz.util convenience function to set axes tick values
-gvutil.set_axes_limits_and_ticks(ax,
-                                 yticks=np.linspace(-20, 20, 3),
-                                 xticks=np.linspace(0, 60, 3))
+gv.set_axes_limits_and_ticks(ax,
+                             yticks=np.linspace(-20, 20, 3),
+                             xticks=np.linspace(0, 60, 3))
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots
 # by using latitude, longitude tick labels
-gvutil.add_lat_lon_ticklabels(ax)
+gv.add_lat_lon_ticklabels(ax)
 
 # Remove the degree symbol from tick labels
 ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=4,
-                             labelsize=14)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=3,
+                         y_minor_per_major=4,
+                         labelsize=14)
 
 # Use geocat.viz.util convenience function to add titles to left and right of
 # the plot axis
-gvutil.set_titles_and_labels(ax, lefttitle=U.long_name, righttitle=U.units)
+gv.set_titles_and_labels(ax, lefttitle=U.long_name, righttitle=U.units)
 
 # Select a color map
-cmap = gvcmaps.gui_default
+cmap = cmaps.gui_default
 
 # Draw filled contours
 colors = U.plot.contourf(ax=ax,

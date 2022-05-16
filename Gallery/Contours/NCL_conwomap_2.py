@@ -17,10 +17,10 @@ import numpy as np
 import xarray as xr
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
+import cmaps
 
 import geocat.datafiles as gdf
-from geocat.viz import cmaps as gvcmaps
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -40,7 +40,7 @@ projection = ccrs.PlateCarree()
 ax = plt.axes(projection=projection)
 
 # Import an NCL colormap
-newcmp = gvcmaps.gui_default
+newcmp = cmaps.gui_default
 
 # Contourf-plot data (for filled contours)
 p = u.plot.contourf(ax=ax,
@@ -70,27 +70,27 @@ cbar.ax.tick_params(labelsize=16)
 cbar.set_ticks(np.linspace(0, 9, 10))
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gvutil.set_axes_limits_and_ticks(ax,
-                                 xlim=(0, 49),
-                                 ylim=(0, 29),
-                                 xticks=np.linspace(0, 40, 5),
-                                 yticks=np.linspace(0, 25, 6))
+gv.set_axes_limits_and_ticks(ax,
+                             xlim=(0, 49),
+                             ylim=(0, 29),
+                             xticks=np.linspace(0, 40, 5),
+                             yticks=np.linspace(0, 25, 6))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
-                             x_minor_per_major=5,
-                             y_minor_per_major=5,
-                             labelsize=16)
+gv.add_major_minor_ticks(ax,
+                         x_minor_per_major=5,
+                         y_minor_per_major=5,
+                         labelsize=16)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(ax,
-                             lefttitle="Cone amplitude",
-                             lefttitlefontsize=18,
-                             righttitle="ndim",
-                             righttitlefontsize=18,
-                             xlabel="X",
-                             ylabel="Y",
-                             labelfontsize=18)
+gv.set_titles_and_labels(ax,
+                         lefttitle="Cone amplitude",
+                         lefttitlefontsize=18,
+                         righttitle="ndim",
+                         righttitlefontsize=18,
+                         xlabel="X",
+                         ylabel="Y",
+                         labelfontsize=18)
 
 # Show the plot
 plt.show()

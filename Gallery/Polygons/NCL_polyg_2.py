@@ -27,7 +27,7 @@ import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import matplotlib.cm as cm
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 import geocat.datafiles as gdf
 import cartopy.io.shapereader as shpreader
@@ -91,8 +91,8 @@ states_shp = shpreader.natural_earth(resolution='110m',
                                      category='cultural',
                                      name=shapename)
 
-# Set title and title fontsize of plot using gvutil function instead of matplotlib function call
-gvutil.set_titles_and_labels(
+# Set title and title fontsize of plot using gv function instead of matplotlib function call
+gv.set_titles_and_labels(
     ax,
     maintitle=
     "Average Annual Precipiation \n Computed for the period 1899-1999 \n NCDC climate division data \n",

@@ -20,7 +20,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -99,16 +99,16 @@ axRHS = ax0.twinx()
 degree = u"\u00b0"
 
 # Use geocat.viz.util convenience function to add titles to the center and right of the plot axis
-gvutil.set_titles_and_labels(ax0,
-                             maintitle="Monthly SST Anomalies for Nino-3",
-                             maintitlefontsize=25,
-                             righttitle=("(" + degree + "C)"),
-                             righttitlefontsize=18)
+gv.set_titles_and_labels(ax0,
+                         maintitle="Monthly SST Anomalies for Nino-3",
+                         maintitlefontsize=25,
+                         righttitle=("(" + degree + "C)"),
+                         righttitlefontsize=18)
 # Add center title
 ax0.text(0.38, 1.05, 'Warm Events', fontsize=18, transform=ax0.transAxes)
 
 # Use geocat.viz.util convenience function to add major tick lines
-gvutil.add_major_minor_ticks(ax0, x_minor_per_major=1, y_minor_per_major=1)
+gv.add_major_minor_ticks(ax0, x_minor_per_major=1, y_minor_per_major=1)
 
 # Create the tick labels for the left axis
 left_y_ticks = []
@@ -133,7 +133,7 @@ for year in warm:
 right_y_ticks.append("")
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gvutil.set_axes_limits_and_ticks(
+gv.set_axes_limits_and_ticks(
     ax0,
     xlim=(-3, 3),
     xticks=np.linspace(-3, 3, 7),
@@ -142,10 +142,10 @@ gvutil.set_axes_limits_and_ticks(
     yticklabels=left_y_ticks)
 
 ax0.spines['right'].set_visible(False)
-gvutil.set_axes_limits_and_ticks(axRHS,
-                                 ylim=(0, 45),
-                                 yticks=np.linspace(0, 45, 46),
-                                 yticklabels=right_y_ticks)
+gv.set_axes_limits_and_ticks(axRHS,
+                             ylim=(0, 45),
+                             yticks=np.linspace(0, 45, 46),
+                             yticklabels=right_y_ticks)
 
 # Set tick parameters for all axes
 ax0.tick_params(axis="x", length=9, labelsize=12)
@@ -192,17 +192,14 @@ for year in warm:
                linewidth=1)
 
     # Set ticks and limits for axes using convenience function
-    gvutil.set_axes_limits_and_ticks(ax2[i],
-                                     xlim=((year_start), year_end),
-                                     xticks=np.linspace(year_start, year_end,
-                                                        5),
-                                     ylim=(-3, 3.5),
-                                     yticks=np.linspace(-2, 2, 3))
+    gv.set_axes_limits_and_ticks(ax2[i],
+                                 xlim=((year_start), year_end),
+                                 xticks=np.linspace(year_start, year_end, 5),
+                                 ylim=(-3, 3.5),
+                                 yticks=np.linspace(-2, 2, 3))
 
     # Use geocat.viz.util convenience function to add major tick lines
-    gvutil.add_major_minor_ticks(ax2[i],
-                                 x_minor_per_major=4,
-                                 y_minor_per_major=2)
+    gv.add_major_minor_ticks(ax2[i], x_minor_per_major=4, y_minor_per_major=2)
 
     # Create right hand side axis, add the year as a title to the axis, and remove labels
     ax2RHS = ax2[i].twinx()

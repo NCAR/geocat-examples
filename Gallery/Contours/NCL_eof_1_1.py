@@ -31,15 +31,13 @@ Note (1):
 
 import xarray as xr
 import numpy as np
+import matplotlib.pyplot as plt
+import cartopy.crs as ccrs
+import cmaps
 
 import geocat.datafiles as gdf
-import geocat.viz.util as gvutil
-from geocat.viz import cmaps as gvcmaps
+import geocat.viz as gv
 from geocat.comp import eofunc_eofs, eofunc_pcs, month_to_season
-
-import matplotlib.pyplot as plt
-
-import cartopy.crs as ccrs
 
 ###############################################################################
 # User defined parameters and a convenience function:
@@ -157,7 +155,7 @@ def make_contour_plot(ax, dataset):
     values = dataset.data
 
     # Import an NCL colormap
-    cmap = gvcmaps.BlWhRe
+    cmap = cmaps.BlWhRe
 
     # Specify contour levelstamam
     v = np.linspace(-0.08, 0.08, 9, endpoint=True)
@@ -185,18 +183,18 @@ def make_contour_plot(ax, dataset):
     ax.coastlines(linewidth=0.5)
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax,
-                                 x_minor_per_major=3,
-                                 y_minor_per_major=4,
-                                 labelsize=10)
+    gv.add_major_minor_ticks(ax,
+                             x_minor_per_major=3,
+                             y_minor_per_major=4,
+                             labelsize=10)
 
     # Use geocat.viz.util convenience function to set axes tick values
-    gvutil.set_axes_limits_and_ticks(ax,
-                                     xticks=[-60, -30, 0, 30],
-                                     yticks=[40, 60, 80])
+    gv.set_axes_limits_and_ticks(ax,
+                                 xticks=[-60, -30, 0, 30],
+                                 yticks=[40, 60, 80])
 
     # Use geocat.viz.util convenience function to make plots look like NCL plots, using latitude & longitude tick labels
-    gvutil.add_lat_lon_ticklabels(ax)
+    gv.add_lat_lon_ticklabels(ax)
 
     return cplot, ax
 
@@ -219,11 +217,11 @@ for i in range(neof):
 
     # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
     pct = eofs.attrs['varianceFraction'].values[i] * 100
-    gvutil.set_titles_and_labels(axs[i],
-                                 lefttitle=f'EOF {i + 1}',
-                                 lefttitlefontsize=10,
-                                 righttitle=f'{pct:.1f}%',
-                                 righttitlefontsize=10)
+    gv.set_titles_and_labels(axs[i],
+                             lefttitle=f'EOF {i + 1}',
+                             lefttitlefontsize=10,
+                             righttitle=f'{pct:.1f}%',
+                             righttitlefontsize=10)
 
 # Adjust subplot spacings and locations
 plt.subplots_adjust(bottom=0.07, top=0.95, hspace=0.15)
@@ -263,15 +261,15 @@ def make_bar_plot(ax, dataset):
     ax.set_ylabel('Pa')
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gvutil.add_major_minor_ticks(ax,
-                                 x_minor_per_major=4,
-                                 y_minor_per_major=5,
-                                 labelsize=8)
+    gv.add_major_minor_ticks(ax,
+                             x_minor_per_major=4,
+                             y_minor_per_major=5,
+                             labelsize=8)
 
     # Use geocat.viz.util convenience function to set axes tick values
-    gvutil.set_axes_limits_and_ticks(ax,
-                                     xticks=np.linspace(1980, 2000, 6),
-                                     xlim=[1978.5, 2003.5])
+    gv.set_axes_limits_and_ticks(ax,
+                                 xticks=np.linspace(1980, 2000, 6),
+                                 xlim=[1978.5, 2003.5])
 
     return ax
 
@@ -288,11 +286,11 @@ for i in range(neof):
 
     axs[i] = make_bar_plot(axs[i], eof_single)
     pct = eofs.attrs['varianceFraction'].values[i] * 100
-    gvutil.set_titles_and_labels(axs[i],
-                                 lefttitle=f'EOF {i + 1}',
-                                 lefttitlefontsize=10,
-                                 righttitle=f'{pct:.1f}%',
-                                 righttitlefontsize=10)
+    gv.set_titles_and_labels(axs[i],
+                             lefttitle=f'EOF {i + 1}',
+                             lefttitlefontsize=10,
+                             righttitle=f'{pct:.1f}%',
+                             righttitlefontsize=10)
 
 # Set a common title
 axs[0].set_title(f'SLP: DJF: {yearStart}-{yearEnd}', fontsize=14, y=1.12)
