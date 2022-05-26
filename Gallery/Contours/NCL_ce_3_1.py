@@ -32,7 +32,7 @@ import geocat.viz as gv
 ###############################################################################
 # Read in data:
 
-# Open a netCDF data file using xarray default engine and load the data into xarrays
+# Open a netCDF data file using xarray default engine and load the data into xarray
 ds = xr.open_dataset(gdf.get('netcdf_files/h_avg_Y0191_D000.00.nc'),
                      decode_times=False)
 # Extract a slice of the data
