@@ -1,6 +1,6 @@
 """
 NCL_panel_4.py
-==============
+================
 This script illustrates the following concepts:
    - Paneling three plots vertically on a page
    - Adding a common title to paneled plots
@@ -10,12 +10,12 @@ This script illustrates the following concepts:
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/panel_4.ncl
-    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_4_lg.png
+    - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/panel_4_lg.png
+
 """
 
 ###############################################################################
-# Import packages:
-
+# Import Packages
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
@@ -30,14 +30,17 @@ import geocat.viz as gv
 ###############################################################################
 # Read in data:
 
-# Open a netCDF data file using xarray default engine and load the data into
-# xarrays, choosing the 2nd timestamp
-ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
+# Open a netCDF data file using xarray default engine and save as a variable
+ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 
 ###############################################################################
-# Utility Function: Labelled Filled Contour Plot:
 
-# Define a utility plotting function in order not to repeat many lines of codes
+# save the zonal and meridional wind separately, select July data
+zonal = ds.U.isel(time=1)
+meridional = ds.V.isel(time=1)
+
+###############################################################################
+# Define a utility plotting function in order not to repeat many lines of code
 # since we need to make the same figure with two different variables.
 
 
@@ -128,7 +131,7 @@ def plot_labelled_filled_contours(data, ax=None):
 
 
 ###############################################################################
-# Plot:
+# Create plot
 
 # Make three panels (i.e. subplots in matplotlib) specifying white space
 # between them using gridspec_kw and hspace
@@ -143,16 +146,16 @@ fig, ax = plt.subplots(3,
 levels = np.linspace(-10, 50, 13)
 
 # Contour-plot U data, save "handles" to add a colorbar later
-handles = plot_labelled_filled_contours(ds.U, ax=ax[0])
+handles = plot_labelled_filled_contours(zonal, ax=ax[0])
 
 # Set a common title
 plt.suptitle("A common title", fontsize=16, y=0.94)
 
 # Contour-plot V data
-plot_labelled_filled_contours(ds.V, ax=ax[1])
+plot_labelled_filled_contours(meridional, ax=ax[1])
 
 # Contour-plot U data again but in the bottom axes
-plot_labelled_filled_contours(ds.U, ax=ax[2])
+plot_labelled_filled_contours(zonal, ax=ax[2])
 
 # Create inset axes for colorbar
 cax = inset_axes(ax[2],
