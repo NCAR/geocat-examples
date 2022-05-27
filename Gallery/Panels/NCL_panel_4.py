@@ -1,6 +1,6 @@
 """
 NCL_panel_4.py
-================
+==============
 This script illustrates the following concepts:
    - Paneling three plots vertically on a page
    - Adding a common title to paneled plots
