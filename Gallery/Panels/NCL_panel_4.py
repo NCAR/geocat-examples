@@ -10,12 +10,12 @@ This script illustrates the following concepts:
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/panel_4.ncl
-    - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/panel_4_lg.png
-
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_4_lg.png
 """
 
 ###############################################################################
-# Import Packages
+# Import packages:
+
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
@@ -30,17 +30,14 @@ import geocat.viz as gv
 ###############################################################################
 # Read in data:
 
-# Open a netCDF data file using xarray default engine and save as a variable
-ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
+# Open a netCDF data file using xarray default engine and load the data into
+# xarrays, choosing the 2nd timestamp
+ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 
 ###############################################################################
+# Utility Function: Labelled Filled Contour Plot:
 
-# save the zonal and meridional wind separately, select July data
-zonal = ds.U.isel(time=1)
-meridional = ds.V.isel(time=1)
-
-###############################################################################
-# Define a utility plotting function in order not to repeat many lines of code
+# Define a utility plotting function in order not to repeat many lines of codes
 # since we need to make the same figure with two different variables.
 
 
@@ -131,7 +128,7 @@ def plot_labelled_filled_contours(data, ax=None):
 
 
 ###############################################################################
-# Create plot
+# Plot:
 
 # Make three panels (i.e. subplots in matplotlib) specifying white space
 # between them using gridspec_kw and hspace
@@ -146,16 +143,16 @@ fig, ax = plt.subplots(3,
 levels = np.linspace(-10, 50, 13)
 
 # Contour-plot U data, save "handles" to add a colorbar later
-handles = plot_labelled_filled_contours(zonal, ax=ax[0])
+handles = plot_labelled_filled_contours(ds.U, ax=ax[0])
 
 # Set a common title
 plt.suptitle("A common title", fontsize=16, y=0.94)
 
 # Contour-plot V data
-plot_labelled_filled_contours(meridional, ax=ax[1])
+plot_labelled_filled_contours(ds.V, ax=ax[1])
 
 # Contour-plot U data again but in the bottom axes
-plot_labelled_filled_contours(zonal, ax=ax[2])
+plot_labelled_filled_contours(ds.U, ax=ax[2])
 
 # Create inset axes for colorbar
 cax = inset_axes(ax[2],
