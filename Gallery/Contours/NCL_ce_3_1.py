@@ -36,7 +36,6 @@ import geocat.viz as gv
 ds = xr.open_dataset(gdf.get('netcdf_files/h_avg_Y0191_D000.00.nc'),
                      decode_times=False)
 # Extract a slice of the data
-
 t = ds.T.isel(time=0, z_t=0).sel(lat_t=slice(-60, 30), lon_t=slice(30, 120))
 
 ###############################################################################
