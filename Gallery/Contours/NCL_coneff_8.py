@@ -3,7 +3,7 @@ NCL_coneff_8.py
 ================
 This script illustrates the following concepts:
    - Showing features of the new color display model
-   - Using a NCL colormap with levels to assign a color palette to contours
+   - Creating a custom colormap
    - Drawing partially transparent filled contours
 
 See following URLs to see the reproduced NCL plot & script:
@@ -15,6 +15,7 @@ See following URLs to see the reproduced NCL plot & script:
 # Import Packages:
 import numpy as np
 import xarray as xr
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
 from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
@@ -56,41 +57,45 @@ uzon = u_int.mean(dim='lon')
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
-plt.figure(figsize=(7, 7))
+plt.figure(figsize=(7, 8))
 ax1 = plt.gca()
-ax1.invert_yaxis()
-ax2 = ax1.twinx()
+ax2 = ax1.twinx()  # Define second axis for height
 
 # Format log axis
 plt.yscale('log')
 ax1.yaxis.set_major_formatter(ScalarFormatter())
 
-# Plot filled contours ADD CMAP HERE!!
-levels = np.arange(0, 24, 8)
+# Create  custom colormap
+colors = ["darksalmon", "white", "cyan"]
+newcmp = mpl.colors.ListedColormap(colors)
+
+# Plot filled contours
+levels = np.arange(0, 25, 8)
 p = uzon.plot.contourf(ax=ax1,
                        levels=levels,
                        vmin=0,
-                       vmax=25,
+                       vmax=24,
+                       cmap=newcmp,
                        add_colorbar=False,
                        add_labels=False)
 
 # Plot contour lines
 uzon.plot.contour(ax=ax1,
-                  levels=12,
+                  levels=np.arange(0, 32, 4),
                   vmin=-8,
-                  vmax=40,
+                  vmax=32,
                   colors='black',
                   linewidths=0.5,
                   linestyles='solid',
                   add_labels=False)
 
 # Label the contours
-ax1.clabel(
-    p,
-    levels=levels,
-    fontsize=8,
-    fmt="%.0f",  # Turn off decimal points
-)
+clabels = ax1.clabel(p, levels=levels, fontsize=10, colors="black", fmt="%.0f")
+# Set background color for contour labels
+[
+    txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=2.5))
+    for txt in clabels
+]
 
 # Use geocat-viz utility function to configure labels
 gv.set_titles_and_labels(ax1, lefttitle="Zonal Wind", lefttitlefontsize=16)
