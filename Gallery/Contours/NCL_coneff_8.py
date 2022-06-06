@@ -2,9 +2,8 @@
 NCL_coneff_8.py
 ================
 This script illustrates the following concepts:
-   - Showing features of the new color display model
-   - Creating a custom colormap
-   - Drawing partially transparent filled contours
+   - Drawing pressure/height contours
+   - Selectively coloring between contour levels
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/coneff_8.ncl
@@ -18,7 +17,7 @@ import xarray as xr
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
-from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
+from cartopy.mpl.ticker import LatitudeFormatter
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
@@ -59,41 +58,40 @@ uzon = u_int.mean(dim='lon')
 # Generate figure (set its size (width, height) in inches)
 plt.figure(figsize=(7, 8))
 ax1 = plt.gca()
-ax2 = ax1.twinx()  # Define second axis for height
 
 # Format log axis
 plt.yscale('log')
 ax1.yaxis.set_major_formatter(ScalarFormatter())
 
-# Create  custom colormap
+# Create custom colormap
 colors = ["darksalmon", "white", "cyan"]
 newcmp = mpl.colors.ListedColormap(colors)
 
 # Plot filled contours
-levels = np.arange(0, 25, 8)
+levels = np.arange(0, 32, 8)
 p = uzon.plot.contourf(ax=ax1,
-                       levels=levels,
-                       vmin=0,
-                       vmax=24,
+                       levels=13,
+                       vmin=-8,
+                       vmax=40,
                        cmap=newcmp,
                        add_colorbar=False,
                        add_labels=False)
 
 # Plot contour lines
-uzon.plot.contour(ax=ax1,
-                  levels=np.arange(0, 32, 4),
-                  vmin=-8,
-                  vmax=32,
-                  colors='black',
-                  linewidths=0.5,
-                  linestyles='solid',
-                  add_labels=False)
+contours = uzon.plot.contour(ax=ax1,
+                             levels=13,
+                             vmin=-8,
+                             vmax=40,
+                             colors='black',
+                             linewidths=0.5,
+                             linestyles='solid',
+                             add_labels=False)
 
 # Label the contours
 clabels = ax1.clabel(p, levels=levels, fontsize=10, colors="black", fmt="%.0f")
 # Set background color for contour labels
 [
-    txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=2.5))
+    txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=2))
     for txt in clabels
 ]
 
@@ -102,26 +100,29 @@ gv.set_titles_and_labels(ax1, lefttitle="Zonal Wind", lefttitlefontsize=16)
 
 # Label left and right y-axis
 ax1.set_ylabel("Pressure (mb)", fontsize=20)
-ax2.set_ylabel("Height (km)", fontsize=20)
 
 # Format x-axis to show latitudes
 lat_formatter = LatitudeFormatter(degree_symbol='')
 ax1.xaxis.set_major_formatter(lat_formatter)
 
 # Use geocat-viz utility function to add minor ticks on x-axis for both axes
-gv.add_major_minor_ticks(ax1,
-                         x_minor_per_major=3,
-                         y_minor_per_major=1,
-                         labelsize=12)
+gv.add_major_minor_ticks(ax1, x_minor_per_major=3, labelsize=12)
 
-gv.add_major_minor_ticks(ax2,
-                         x_minor_per_major=3,
-                         y_minor_per_major=1,
-                         labelsize=12)
+# Add second axis to plot heights (heights chosen arbitrarily)
+gv.add_right_hand_axis(ax1,
+                       label="Height (km)",
+                       ylim=(0, 13),
+                       yticks=np.array([4, 8]),
+                       ticklabelsize=12,
+                       axislabelsize=20)
 
-# Use geocat-viz utility function to configure tick labels
+# Turn off tick marks on y-axis, set length and width parameters for x-axis
+ax1.tick_params(axis='y', which='minor', left=False, right=False)
+ax1.tick_params(axis='x', which='minor', length=4, width=0.6, pad=9)
+ax1.tick_params(axis='x', which='major', length=9, width=1, pad=9)
+
+# Use geocat-viz utility function to configure ticks and labels
 gv.set_axes_limits_and_ticks(ax1,
-                             xlim=None,
                              ylim=(100000, 20000),
                              xticks=np.linspace(-60, 60, 5),
                              yticks=np.flip(new_levels),
