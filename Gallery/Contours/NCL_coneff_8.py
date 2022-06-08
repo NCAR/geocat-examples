@@ -31,7 +31,7 @@ ds = xr.open_dataset(gdf.get('netcdf_files/atmos.nc'), decode_times=False)
 ## Select zonal wind
 u = ds.U.isel(time=0)
 
-## Define inputs for geocat-comp interpolation function
+# Define inputs for geocat-comp interpolation function
 hyam = ds.hyam  # hybrid A coefficient
 hybm = ds.hybm  # hybrid B coefficient
 ps = ds.PS.isel(time=0)  # surface pressures in Pascals
@@ -68,7 +68,6 @@ colors = ["darksalmon", "white", "cyan"]
 newcmp = mpl.colors.ListedColormap(colors)
 
 # Plot filled contours
-levels = np.arange(0, 32, 8)
 p = uzon.plot.contourf(ax=ax1,
                        levels=13,
                        vmin=-8,
@@ -88,8 +87,12 @@ contours = uzon.plot.contour(ax=ax1,
                              add_labels=False)
 
 # Label the contours
+levels = np.arange(0, 32, 8)
+# manual = [(-60, 39000), (-70, 51000), (50, 43000),
+#           (-40, 35000), (-10, 40000), (-29, 85000),
+#           (-35, 75000), (-55, 30000)]
 clabels = ax1.clabel(p, levels=levels, fontsize=10, colors="black", fmt="%.0f")
-# Set background color for contour labels
+# Set background color to white for contour labels
 [
     txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=2))
     for txt in clabels
@@ -105,15 +108,15 @@ ax1.set_ylabel("Pressure (mb)", fontsize=20)
 lat_formatter = LatitudeFormatter(degree_symbol='')
 ax1.xaxis.set_major_formatter(lat_formatter)
 
-# Use geocat-viz utility function to add minor ticks on x-axis for both axes
-gv.add_major_minor_ticks(ax1, x_minor_per_major=3, labelsize=12)
+# Use geocat-viz utility function to add minor ticks on x-axis
+gv.add_major_minor_ticks(ax1, x_minor_per_major=3, labelsize=14)
 
 # Add second axis to plot heights (heights chosen arbitrarily)
 gv.add_right_hand_axis(ax1,
                        label="Height (km)",
                        ylim=(0, 13),
                        yticks=np.array([4, 8]),
-                       ticklabelsize=12,
+                       ticklabelsize=14,
                        axislabelsize=20)
 
 # Turn off tick marks on y-axis, set length and width parameters for x-axis
@@ -129,3 +132,5 @@ gv.set_axes_limits_and_ticks(ax1,
                              xticklabels=None,
                              yticklabels=np.flip(
                                  (new_levels / 100).astype(int)))
+
+plt.show()
