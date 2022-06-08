@@ -33,7 +33,6 @@ import geocat.viz as gv
 # Open a netCDF data file using xarray default engine and save as a variable
 ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 
-###############################################################################
 
 # save the zonal and meridional wind separately, select July data
 zonal = ds.U.isel(time=1)
