@@ -25,9 +25,9 @@ import xarray as xr
 import cartopy.feature as cfeature
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
+import cmaps
 
 import geocat.datafiles as gdf
-import cmaps
 import geocat.viz as gv
 
 ###############################################################################
