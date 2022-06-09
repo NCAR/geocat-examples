@@ -10,7 +10,7 @@ This script illustrates the following concepts:
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/panel_4.ncl
-    - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/panel_4_lg.png
+    - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_4_lg.png
 
 """
 
@@ -19,6 +19,7 @@ See following URLs to see the reproduced NCL plot & script:
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import numpy as np
 import xarray as xr
@@ -33,13 +34,13 @@ import geocat.viz as gv
 # Open a netCDF data file using xarray default engine and save as a variable
 ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 
-###############################################################################
-
 # save the zonal and meridional wind separately, select July data
 zonal = ds.U.isel(time=1)
 meridional = ds.V.isel(time=1)
 
 ###############################################################################
+# Define plotting helper function
+
 # Define a utility plotting function in order not to repeat many lines of code
 # since we need to make the same figure with two different variables.
 
@@ -71,8 +72,13 @@ def plot_labelled_filled_contours(data, ax=None):
         tick labels.
     """
 
-    # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
-    newcmp = gv.truncate_colormap(cmaps.gui_default, minval=0.03, maxval=0.9)
+    # Import an NCL colormap, truncate it, and save the colormap
+
+    # Import the colormap
+    cmap = cmaps.gui_default
+    # Create a linear segmented colormap using the colormap
+    newcmp = mpl.colors.LinearSegmentedColormap.from_list(
+        colors=cmap(np.linspace(0.03, 0.9, 100)))
 
     handles = dict()
     handles["filled"] = data.plot.contourf(
@@ -95,7 +101,7 @@ def plot_labelled_filled_contours(data, ax=None):
         add_labels=False,  # again turn off automatic labels
     )
 
-    # Label the contours
+    #Label the contours
     ax.clabel(
         handles["contour"],
         levels=np.arange(-10, 50, 10),
@@ -131,7 +137,7 @@ def plot_labelled_filled_contours(data, ax=None):
 
 
 ###############################################################################
-# Create plot
+# Plot
 
 # Make three panels (i.e. subplots in matplotlib) specifying white space
 # between them using gridspec_kw and hspace
