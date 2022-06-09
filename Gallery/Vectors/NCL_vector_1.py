@@ -129,7 +129,7 @@ gv.add_major_minor_ticks(ax,
                          labelsize=14)
 
 # Add and customize colorbar
-cbar_ticks = np.arange(24, 29.1, .3)
+cbar_ticks = np.arange(24, 29, .3)
 plt.colorbar(ax=ax,
              mappable=sst_plot,
              extendrect=True,
