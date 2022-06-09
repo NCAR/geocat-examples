@@ -78,7 +78,7 @@ def plot_labelled_filled_contours(data, ax=None):
     cmap = cmaps.gui_default
     # Create a linear segmented colormap using the colormap
     newcmp = mpl.colors.LinearSegmentedColormap.from_list(
-        colors=cmap(np.linspace(0.03, 0.9, 100)))
+        name="newcmap", colors=cmap(np.linspace(0.03, 0.9, 100)))
 
     handles = dict()
     handles["filled"] = data.plot.contourf(
