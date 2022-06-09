@@ -69,7 +69,7 @@ plt.figure(figsize=(8, 5))
 ax = plt.axes(projection=proj)
 
 # add land feature and zoom in on desired location
-ax.add_feature(cfeature.LAND, facecolor="lightgrey", zorder=1)
+ax.add_feature(cfeature.LAND, facecolor="lightgrey", zorder=2)
 ax.set_extent((66, 96, 5, 25), crs=ccrs.PlateCarree())
 
 # Create the filled contour plot
