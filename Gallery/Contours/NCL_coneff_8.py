@@ -1,6 +1,6 @@
 """
 NCL_coneff_8.py
-================
+===============
 This script illustrates the following concepts:
    - Drawing pressure/height contours
    - Selectively coloring between contour levels
@@ -51,11 +51,16 @@ u_int = interp_hybrid_to_pressure(u,
 # Calculate zonal mean
 uzon = u_int.mean(dim='lon')
 
+# interpolate nan values
+uzon = uzon.interpolate_na(dim='lat',
+                           method='nearest',
+                           fill_value='extrapolate')
+
 ###############################################################################
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
-plt.figure(figsize=(7, 8))
+plt.figure(figsize=(9, 10))
 ax1 = plt.gca()
 
 # Format log axis
@@ -86,14 +91,16 @@ contours = uzon.plot.contour(ax=ax1,
                              add_labels=False)
 
 # Label the contours
-# manual = [(-60, 39000), (-70, 51000), (50, 43000),
-#           (-40, 35000), (-10, 40000), (-29, 85000),
-#           (-35, 75000), (-55, 30000)]
+manual = [(-70, 55000), (-80, 26000), (-72, 22500), (-62, 40000), (-58, 30000),
+          (-45, 69500), (-40, 34000), (-12, 39000), (-37, 75000), (40, 50000),
+          (-25, 42000), (18, 23000), (30, 40000), (45, 40000), (57, 41000),
+          (63, 39000), (55, 80000), (65, 85000)]
 clabels = ax1.clabel(p,
                      levels=np.arange(0, 25, 8),
-                     fontsize=10,
+                     fontsize=12,
                      colors="black",
-                     fmt="%.0f")
+                     fmt="%.0f",
+                     manual=manual)
 # Set background color to white for contour labels
 [
     txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=2))
@@ -114,15 +121,15 @@ ax1.xaxis.set_major_formatter(lat_formatter)
 gv.add_major_minor_ticks(ax1,
                          x_minor_per_major=3,
                          y_minor_per_major=0,
-                         labelsize=14)
+                         labelsize=15)
 
 # Add second axis to plot heights (heights chosen arbitrarily)
 gv.add_right_hand_axis(ax1,
                        label="Height (km)",
                        ylim=(0, 13),
                        yticks=np.array([4, 8]),
-                       ticklabelsize=14,
-                       axislabelsize=20)
+                       ticklabelsize=15,
+                       axislabelsize=21)
 
 # Turn off tick marks on y-axis, set length and width parameters for x-axis
 ax1.tick_params(axis='y', which='minor', left=False, right=False)
