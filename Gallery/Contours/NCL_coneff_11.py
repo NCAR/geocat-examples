@@ -20,6 +20,7 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
@@ -45,7 +46,6 @@ def plot_labelled_filled_contour(title, hatchsize):
 
     Parameters
      ----------
-
      title : :class:`String`:
          The main title of the plot.
 
@@ -58,7 +58,6 @@ def plot_labelled_filled_contour(title, hatchsize):
 
      Description
      -----------
-
          Produce labeled and filled contour with tickmarks and tick labels.
     """
 
@@ -133,7 +132,7 @@ def plot_labelled_filled_contour(title, hatchsize):
     ax.set_xlabel(None)
     ax.set_ylabel(None)
 
-    # Use geocat-viz utility function to tick marks and tick labels
+    # Use geocat-viz utility function to set tick marks and tick labels
     gv.set_axes_limits_and_ticks(
         ax,
         xticks=np.arange(0, 360, 60),
