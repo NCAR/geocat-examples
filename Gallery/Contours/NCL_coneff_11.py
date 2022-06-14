@@ -73,6 +73,8 @@ def plot_labelled_filled_contour(title, hatchsize):
         'coral', 'palegreen', 'royalblue', 'lemonchiffon', 'white', 'fuchsia',
         'brown', 'cyan', 'mediumblue'
     ]
+    # Create colormap with the colors
+    cmap = mpl.colors.ListedColormap(colors)
 
     # Create a filled contour plot
     p = v.plot.contourf(ax=ax,
@@ -81,7 +83,7 @@ def plot_labelled_filled_contour(title, hatchsize):
                         levels=10,
                         add_colorbar=False,
                         hatches=hatches,
-                        cmap='white')
+                        cmap=cmap)  #'white')
 
     # Set the colors for the hatches
     for i, collection in enumerate(p.collections):
