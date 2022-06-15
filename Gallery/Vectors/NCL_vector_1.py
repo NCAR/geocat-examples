@@ -145,17 +145,18 @@ rect = mpl.patches.Rectangle((91.7, 22.7),
                              zorder=2)
 ax.add_patch(rect)
 
-ax.quiverkey(Q,
-             0.95,
-             0.9,
-             4,
-             '4',
-             labelpos='N',
-             color='black',
-             coordinates='axes',
-             fontproperties={'size': 14},
-             labelsep=0.1,
-             zorder=3)
+ax.quiverkey(
+    Q,  # the quiver instance
+    0.95,  # x position of the key
+    0.9,  # y position of the key
+    4,  # length of the key
+    '4',  # label for the key
+    labelpos='N',  # position the label to the 'north' of the arrow
+    color='black',
+    coordinates='axes',
+    fontproperties={'size': 14},
+    labelsep=0.1,  # Distance between arow and label
+    zorder=3)  # Make sure the key is on top of the quiver plot
 
 # Show the plot
 plt.show()
