@@ -3,6 +3,11 @@ NCL_vector_1.py
 ===============
 Plot U & V vector over SST
 
+Note: The colormap on this plot has been changed from the original NCL colormap
+      in order to follow best practices for colormaps. See other examples here:
+      https://geocat-examples.readthedocs.io/en/latest/gallery/index.html#colors
+
+
 This script illustrates the following concepts:
   - Overlaying vectors and filled contours on a map
   - Changing the scale of the vectors on the plot
@@ -25,7 +30,6 @@ import xarray as xr
 import cartopy.feature as cfeature
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
-import cmaps
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
@@ -58,12 +62,6 @@ lon_uv = u['lon']
 # Define map projection to use
 proj = ccrs.PlateCarree()
 
-# Use utility function to import NCL colormap
-gv.truncate_colormap(cmaps.BlAqGrYeOrReVi200,
-                     minval=0.08,
-                     maxval=0.96,
-                     name="BlAqGrYeOrReVi200")
-
 # Define figure and axes
 plt.figure(figsize=(8, 5))
 ax = plt.axes(projection=proj)
@@ -78,7 +76,7 @@ sst_plot = sst.plot.contourf(ax=ax,
                              levels=50,
                              vmin=24,
                              vmax=28.8,
-                             cmap="BlAqGrYeOrReVi200",
+                             cmap="plasma",
                              add_colorbar=False)
 
 # Remove default x and y labels from plot
