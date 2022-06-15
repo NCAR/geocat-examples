@@ -1,6 +1,10 @@
 """
 NCL_panel_4.py
 ==============
+Note: The colormap has been changed from the original NCL colormap in order to follow
+      best practices for colormaps. See more examples here:
+      https://geocat-examples.readthedocs.io/en/latest/gallery/index.html#colors
+
 This script illustrates the following concepts:
    - Paneling three plots vertically on a page
    - Adding a common title to paneled plots
@@ -23,7 +27,6 @@ import matplotlib as mpl
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import numpy as np
 import xarray as xr
-import cmaps
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
@@ -75,15 +78,15 @@ def plot_labelled_filled_contours(data, ax=None):
     # Import an NCL colormap, truncate it, and save the colormap
 
     # Import the colormap
-    cmap = cmaps.gui_default
+    cmap = mpl.cm.get_cmap('OrRd', 13)
     # Create a linear segmented colormap using the colormap
-    newcmp = mpl.colors.LinearSegmentedColormap.from_list(
-        name="newcmap", colors=cmap(np.linspace(0.03, 0.9, 100)))
+    # newcmp = mpl.colors.LinearSegmentedColormap.from_list(
+    #     name="newcmap", colors=cmap(np.linspace(0.03, 0.9, 13)))
 
     handles = dict()
     handles["filled"] = data.plot.contourf(
         ax=ax,  # this is the axes we want to plot to
-        cmap=newcmp,  # our special colormap
+        cmap=cmap,  # our colormap
         levels=levels,  # contour levels specified outside this function
         transform=projection,  # data projection
         add_colorbar=False,  # don't add individual colorbars for each plot call
@@ -101,7 +104,7 @@ def plot_labelled_filled_contours(data, ax=None):
         add_labels=False,  # again turn off automatic labels
     )
 
-    #Label the contours
+    # Label the contours
     ax.clabel(
         handles["contour"],
         levels=np.arange(-10, 50, 10),
