@@ -69,15 +69,15 @@ plt.figure(figsize=(8, 5))
 ax = plt.axes(projection=proj)
 
 # add land feature and zoom in on desired location
-ax.add_feature(cfeature.LAND, facecolor="lightgrey", zorder=2)
+ax.add_feature(cfeature.LAND, facecolor="lightgrey", zorder=1)
 ax.set_extent((66, 96, 5, 25), crs=ccrs.PlateCarree())
 
 # Create the filled contour plot
 sst_plot = sst.plot.contourf(ax=ax,
                              transform=proj,
                              levels=50,
-                             vmin=24.0,
-                             vmax=28.9,
+                             vmin=24,
+                             vmax=28.8,
                              cmap="BlAqGrYeOrReVi200",
                              add_colorbar=False)
 
@@ -129,7 +129,7 @@ gv.add_major_minor_ticks(ax,
                          labelsize=14)
 
 # Add and customize colorbar
-cbar_ticks = np.arange(24, 29, .3)
+cbar_ticks = np.arange(23.7, 29.1, .3)
 plt.colorbar(ax=ax,
              mappable=sst_plot,
              extendrect=True,
@@ -150,7 +150,7 @@ ax.add_patch(rect)
 ax.quiverkey(Q,
              0.95,
              0.9,
-             3,
+             4,
              '4',
              labelpos='N',
              color='black',
