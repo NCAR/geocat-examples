@@ -76,7 +76,7 @@ sst_plot = sst.plot.contourf(ax=ax,
                              levels=50,
                              vmin=24,
                              vmax=28.8,
-                             cmap="plasma",
+                             cmap="YlOrRd",
                              add_colorbar=False)
 
 # Remove default x and y labels from plot
@@ -127,10 +127,11 @@ gv.add_major_minor_ticks(ax,
                          labelsize=14)
 
 # Add and customize colorbar
-cbar_ticks = np.arange(23.7, 29.1, .3)
+cbar_ticks = np.arange(24, 28.8, .3)
 plt.colorbar(ax=ax,
              mappable=sst_plot,
              extendrect=True,
+             extendfrac='auto',
              shrink=0.88,
              aspect=10,
              ticks=cbar_ticks,
