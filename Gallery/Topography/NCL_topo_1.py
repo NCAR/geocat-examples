@@ -40,8 +40,9 @@ projection = ccrs.PlateCarree()
 ax = plt.axes(projection=projection)
 
 ax.coastlines(zorder=10)
-ax.set_extent([-120, -92, 30,
-               50])  # Set map extent [lonmin, lonmax, latmin, latmax]
+
+# Set map extent [lonmin, lonmax, latmin, latmax]
+ax.set_extent([-120, -92, 30, 50])
 
 states_provinces = cfeature.NaturalEarthFeature(
     category='cultural',
