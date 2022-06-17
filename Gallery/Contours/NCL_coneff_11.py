@@ -3,11 +3,10 @@ NCL_coneff_11.py
 ================
 
 This script illustrates the following concepts:
-   - Filling contours with multiple shaded patterns
-   - Filling contours with stippling (solid dots)
-   - Changing the size of the dot fill pattern in a contour plot
-   - Overlaying a stipple pattern to show area of interest
-   - Changing the density of contour shaded patterns
+   - Filling contours with multiple styles of hatches
+   - Changing the color of hatches in a contour plot and colorbar
+   - Changing the size of hatches in a contour plot
+   - Changing the density hatches in a contour plot
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/coneff_11.ncl
