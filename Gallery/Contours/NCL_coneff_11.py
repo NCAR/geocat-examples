@@ -91,6 +91,12 @@ cbar = plt.colorbar(p,
 cbar.ax.tick_params(labelsize=16)
 cbar.set_ticks(np.arange(-35, 40, 10))
 
+# Color the hatches in colorbar
+# We need to do this manually because matplotlib only uses information
+# from the contourf call to create the colorbar.
+for i, patch in enumerate(cbar.solids_patches):
+    patch.set(edgecolor=colors[i % len(colors)])
+
 # Use geocat-viz utility function to format latitude and longitude labels
 gv.add_lat_lon_ticklabels(ax)
 
