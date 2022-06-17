@@ -1,7 +1,6 @@
 """
 NCL_coneff_11.py
 ================
-Note: Matplotlib currently does not support customizing hatch mark colors in the colorbar.
 
 This script illustrates the following concepts:
    - Filling contours with multiple shaded patterns
@@ -51,8 +50,6 @@ colors = [
     'coral', 'palegreen', 'royalblue', 'lemonchiffon', 'white', 'fuchsia',
     'brown', 'cyan', 'mediumblue'
 ]
-# Create colormap with the colors
-cmap = mpl.colors.ListedColormap(colors)
 
 # Create a filled contour plot
 p = v.plot.contourf(ax=ax,
@@ -61,7 +58,7 @@ p = v.plot.contourf(ax=ax,
                     levels=10,
                     add_colorbar=False,
                     hatches=hatches,
-                    cmap='white')
+                    cmap='white')  # Use white cmap to have a white background
 
 # Set the colors for the hatches
 for i, collection in enumerate(p.collections):
