@@ -73,3 +73,20 @@ gv.add_lat_lon_ticklabels(ax)
 # Remove degree symbol from lat/lon labels
 ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
+
+# import ee
+# ee.Initialize()
+
+# import geemap
+
+# Map = geemap.Map(center=[40,-100])
+
+# dataset = ee.Image('NOAA/NGDC/ETOPO1')
+# elevation = dataset.select('bedrock')
+# elevationVis = {
+#   'min': -7000.0,
+#   'max': 3200.0,
+#   'palette': ['#011de2', 'afafaf', '3603ff', 'fff477', 'b42109']
+# }
+# Map.setCenter(-37.62, 25.8, 2)
+# Map.addLayer(elevation, elevationVis, 'Elevation')
