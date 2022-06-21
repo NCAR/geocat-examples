@@ -36,7 +36,7 @@ hybm = ds.hybm  # hybrid B coefficient
 ps = ds.PS.isel(time=0)  # surface pressures in Pascals
 p0 = 100000  # surface reference pressure in Pascals
 
-## Specify output pressure levels in millibars
+# Specify output pressure levels in millibars
 new_levels = np.array([1000, 850, 700, 500, 400, 300, 250, 200])
 new_levels = new_levels * 100  # convert to Pascals
 
