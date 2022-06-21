@@ -47,21 +47,8 @@ Please see our documentation for [installation instructions](https://github.com/
 
 # Citing GeoCAT-examples
 
-Cite GeoCAT-examples using the following text:
-
-<> Visualization & Analysis Systems Technologies. (Year).
-Geoscience Community Analysis Toolkit (GeoCAT-examples) [Software].
-Boulder, CO: UCAR/NCAR - Computational and Informational System Lab. doi:10.5065/A8PP-4358.
-
-Update the year as appropriate. For example:
-
-<> Visualization & Analysis Systems Technologies. (2021).
-Geoscience Community Analysis Toolkit (GeoCAT-examples) [Software].
-Boulder, CO: UCAR/NCAR - Computational and Informational System Lab. doi:10.5065/A8PP-4358.
-
-For further information, please refer to
-[GeoCAT homepage - Citation](https://geocat.ucar.edu/pages/citation.html).
-
+If you use this software, please cite it as described at the [GeoCAT-examples - Citation](
+https://geocat-examples.readthedocs.io/en/latest/citation.html) page.
 
 
 
