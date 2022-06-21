@@ -27,7 +27,7 @@ from geocat.comp import interp_hybrid_to_pressure
 # Open a netCDF data file using xarray default engine and load the data into an xarray
 ds = xr.open_dataset(gdf.get('netcdf_files/atmos.nc'), decode_times=False)
 
-## Select zonal wind
+# Select zonal wind
 u = ds.U.isel(time=0)
 
 # Define inputs for geocat-comp interpolation function
