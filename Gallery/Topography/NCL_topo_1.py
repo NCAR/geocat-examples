@@ -23,6 +23,11 @@ import geocat.viz as gv
 ###############################################################################
 # Read in data:
 
+# other option:
+# import wxee
+# wxee.Initialize()
+# ee.Image("NOAA/NGDC/ETOPO1").wx.to_xarray()
+
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset('~/Downloads/nsamerica.nc')
 
@@ -74,19 +79,20 @@ gv.add_lat_lon_ticklabels(ax)
 ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
-# import ee
-# ee.Initialize()
+import ee
 
-# import geemap
+ee.Initialize()
 
-# Map = geemap.Map(center=[40,-100])
+import geemap
 
-# dataset = ee.Image('NOAA/NGDC/ETOPO1')
-# elevation = dataset.select('bedrock')
-# elevationVis = {
-#   'min': -7000.0,
-#   'max': 3200.0,
-#   'palette': ['#011de2', 'afafaf', '3603ff', 'fff477', 'b42109']
-# }
-# Map.setCenter(-37.62, 25.8, 2)
-# Map.addLayer(elevation, elevationVis, 'Elevation')
+Map = geemap.Map(center=[40, -100])
+
+dataset = ee.Image('NOAA/NGDC/ETOPO1')
+elevation = dataset.select('bedrock')
+elevationVis = {
+    'min': -7000.0,
+    'max': 3200.0,
+    'palette': ['#011de2', 'afafaf', '3603ff', 'fff477', 'b42109']
+}
+Map.setCenter(-37.62, 25.8, 2)
+Map.addLayer(elevation, elevationVis, 'Elevation')
