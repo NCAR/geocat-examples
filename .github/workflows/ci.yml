@@ -1,6 +1,5 @@
 name: CI
 on:
-  push:
   pull_request:
   workflow_dispatch:
   schedule:
@@ -25,9 +24,10 @@ jobs:
     - name: Create conda environment
       env:
         ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-      uses: goanpeca/setup-miniconda@v1
+      uses: mamba-org/provision-with-micromamba@main
       with:
-         activate-environment: geocat-examples
+         micromamba-version: "latest"
+         environment-name: geocat-examples
          environment-file: conda_environment.yml
     - name: Make html
       shell: bash -l {0}

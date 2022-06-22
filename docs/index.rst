@@ -30,9 +30,11 @@ download Python script and/or Jupyter notebook.
 
    ./gallery/index
    ./gallery-geocat-comp/index
+   ./gallery_nb
    ./install
    ./citation
    ./support
+
 
 
 Indices and tables
