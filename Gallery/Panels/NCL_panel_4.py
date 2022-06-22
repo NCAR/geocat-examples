@@ -75,18 +75,10 @@ def plot_labelled_filled_contours(data, ax=None):
         tick labels.
     """
 
-    # Import an NCL colormap, truncate it, and save the colormap
-
-    # Import the colormap
-    cmap = mpl.cm.get_cmap('OrRd', 13)
-    # Create a linear segmented colormap using the colormap
-    # newcmp = mpl.colors.LinearSegmentedColormap.from_list(
-    #     name="newcmap", colors=cmap(np.linspace(0.03, 0.9, 13)))
-
     handles = dict()
     handles["filled"] = data.plot.contourf(
         ax=ax,  # this is the axes we want to plot to
-        cmap=cmap,  # our colormap
+        cmap='viridis',  # our colormap
         levels=levels,  # contour levels specified outside this function
         transform=projection,  # data projection
         add_colorbar=False,  # don't add individual colorbars for each plot call
