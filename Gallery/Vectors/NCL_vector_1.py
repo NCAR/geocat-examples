@@ -76,7 +76,7 @@ sst_plot = sst.plot.contourf(ax=ax,
                              levels=50,
                              vmin=24,
                              vmax=28.8,
-                             cmap="YlOrRd",
+                             cmap="plasma",
                              add_colorbar=False)
 
 # Remove default x and y labels from plot
