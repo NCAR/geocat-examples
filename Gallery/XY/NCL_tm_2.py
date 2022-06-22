@@ -74,7 +74,7 @@ ax1.xaxis.set_minor_locator(MultipleLocator(1.25))
 ax1.yaxis.set_minor_locator(MultipleLocator(0.5))
 
 # Add a descriptive string to the top left corner of the plot.
-ax1.text(0.01, 1.1, spacingString, transform=ax1.transAxes, fontWeight='bold')
+ax1.text(0.01, 1.1, spacingString, transform=ax1.transAxes, fontweight='bold')
 
 # Plot data and set the X axis limits.
 plt.plot(x_data, y_data, color='black', linewidth=0.5)
@@ -109,7 +109,7 @@ ax2.text(0.01,
          1.1,
          "Ticks Set Explicitly",
          transform=ax2.transAxes,
-         fontWeight='bold')
+         fontweight='bold')
 
 # Line-plot data
 plt.plot(x_data, y_data, color='black', linewidth=0.5)
