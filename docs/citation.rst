@@ -18,13 +18,13 @@ corresponding release for reproducibility purposes.
 If you would like to cite GeoCAT-examples as a whole (without referring to a specific Github release),
 use the following text:
 
-**Visualization & Analysis Systems Technologies. (Year).
+**Visualization & Analysis Systems Technologies. (2020).
 Geoscience Community Analysis Toolkit: GeoCAT-examples [Software].
 Boulder, CO: UCAR/NCAR - Computational and Informational System Lab. doi:10.5281/zenodo.6678258.**
 
 Instead, if you would like to cite a specific Github release of GeoCAT-examples, use the following text:
 
-**Visualization & Analysis Systems Technologies. (Year).
+**Visualization & Analysis Systems Technologies. (\<Year\>).
 Geoscience Community Analysis Toolkit: GeoCAT-examples (v\<version\>) [Software].
 Boulder, CO, USA: UCAR/NCAR - Computational and Informational System Lab. doi:\<DOI\>.**
 
