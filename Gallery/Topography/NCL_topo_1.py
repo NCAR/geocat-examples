@@ -9,6 +9,10 @@ This script illustrates the following concepts:
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/topo_1.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/topo_1_lg.png
+
+Note:
+    In the original NCL script, the ETOPO5 dataset was used. For this example,
+    we use the most current version of this data, ETOPO1.
 """
 
 ###############################################################################
@@ -20,19 +24,22 @@ import numpy as np
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import cmaps
-import wget
+import requests
 
 import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
 
-# Use wget to retrieve and download NOAA elevation data
+# Use requests module to retrieve and download NOAA elevation data
 url = 'https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/ice_surface/grid_registered/netcdf/ETOPO1_Ice_g_gmt4.grd.gz'
-file_name = wget.download(url)
+req = requests.get(url)
+filename = 'ETOPO1_Ice_g_gmt4.grd.gz'
+with open(filename, 'wb') as output_file:
+    output_file.write(req.content)
 
 # Open the dataset using xarray
-ds = xr.open_dataset(file_name)
+ds = xr.open_dataset(filename)
 
 # Select the elevation data
 ds = ds.z
