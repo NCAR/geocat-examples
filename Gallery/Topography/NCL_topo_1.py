@@ -54,7 +54,7 @@ plt.figure(figsize=(12, 10))
 projection = ccrs.PlateCarree()
 ax = plt.axes(projection=projection)
 
-# Add coastines
+# Add coastlines
 ax.coastlines(zorder=10)
 
 # Plot the elevation data
