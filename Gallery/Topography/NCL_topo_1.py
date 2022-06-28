@@ -58,10 +58,10 @@ ax = plt.axes(projection=projection)
 ax.coastlines(zorder=10)
 
 # Plot the elevation data
-elev = ds.plot(ax=ax,
-               transform=projection,
-               cmap=cmaps.GMT_relief,
-               add_colorbar=False)
+elev = ds.plot.imshow(ax=ax,
+                      transform=projection,
+                      cmap=cmaps.GMT_relief,
+                      add_colorbar=False)
 
 # Add colorbar
 cbar = plt.colorbar(ax=ax, mappable=elev, orientation='horizontal', pad=0.1)
