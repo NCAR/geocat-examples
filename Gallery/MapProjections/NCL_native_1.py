@@ -59,11 +59,13 @@ ax.coastlines(linewidths=0.5)
 ax.set_extent([4.25, 15.25, 42.25, 49.25], ccrs.PlateCarree())
 
 # Use geocat-viz utility function to add gridlines to the map
-gl = gv.add_lat_lon_gridlines(ax, color='black')
+gl = gv.add_lat_lon_gridlines(
+    ax,
+    color='black',
+    xlocator=np.arange(4, 18, 2),  # longitudes for gridlines
+    ylocator=np.arange(43, 50))  # latitudes for gridlines
 
-# Manipulate latitude and longitude gridline numbers and spacing
-gl.xlocator = mticker.FixedLocator(np.arange(4, 18, 2))
-gl.ylocator = mticker.FixedLocator(np.arange(43, 50))
+# Add padding between figure and longitude labels
 gl.xpadding = 15
 
 # Create colormap by choosing colors from existing colormap
