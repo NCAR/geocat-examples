@@ -1,6 +1,6 @@
 """
 NCL_taylor_2.py
-==============
+===============
 Concepts illustrated:
   - Creating a simple Taylor Diagram
   - Adding background options for the diagram
