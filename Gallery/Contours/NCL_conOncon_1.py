@@ -44,12 +44,12 @@ ax = plt.gca()
 plt.yscale('log')
 
 # Contour-plot U-data
-p = U.plot.contour(ax=ax, levels=16, colors='red', extend='neither')
-ax.clabel(p, fmt='%d', inline=1, fontsize=14)
+p = U.plot.contour(ax=ax, levels=27, colors='red', extend='neither')
+ax.clabel(p, fmt='%d', inline=1, fontsize=14, colors='k')
 
 # Contour-plot V-data
 p = V.plot.contour(ax=ax, levels=16, colors='blue', extend='neither')
-ax.clabel(p, fmt='%d', inline=1, fontsize=14)
+ax.clabel(p, fmt='%d', inline=1, fontsize=14, colors='k')
 
 # Use geocat-viz utility function to add minor ticks to x-axis
 gv.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=0)
