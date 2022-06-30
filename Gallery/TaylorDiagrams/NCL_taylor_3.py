@@ -1,6 +1,6 @@
 """
 NCL_taylor_3.py
-===========
+===============
 This script illustrates the following concepts:
    - Creating a basic Taylor diagram
    - Adding labels to a Taylor diagram
@@ -14,7 +14,6 @@ See following URLs to see the reproduced NCL plot & script:
 # Import packages:
 
 import matplotlib.pyplot as plt
-import numpy as np
 
 import geocat.viz as gv
 
@@ -22,12 +21,16 @@ import geocat.viz as gv
 # Create dummy data:
 
 # Case A
-CA_ratio = [1.230, 0.988, 1.092, 1.172, 1.064, 0.966, 1.079, 0.781]
-CA_cc = [0.958, 0.973, 0.740, 0.743, 0.922, 0.982, 0.952, 0.433]
+CA_ratio = [1.230, 0.988, 1.092, 1.172, 1.064, 0.966, 1.079,
+            0.781]  # standard deviation
+CA_cc = [0.958, 0.973, 0.740, 0.743, 0.922, 0.982, 0.952,
+         0.433]  # correlation coefficient
 
 # Case B
-CB_ratio = [1.129, 0.996, 1.016, 1.134, 1.023, 0.962, 1.048, 0.852]
-CB_cc = [0.963, 0.975, 0.801, 0.814, 0.946, 0.984, 0.968, 0.647]
+CB_ratio = [1.129, 0.996, 1.016, 1.134, 1.023, 0.962, 1.048,
+            0.852]  # standard deviation
+CB_cc = [0.963, 0.975, 0.801, 0.814, 0.946, 0.984, 0.968,
+         0.647]  # correlation coefficient
 
 ###############################################################################
 # Plot:
