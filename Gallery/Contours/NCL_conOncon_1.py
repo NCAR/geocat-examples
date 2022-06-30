@@ -51,6 +51,9 @@ ax.clabel(p, fmt='%d', inline=1, fontsize=14)
 p = V.plot.contour(ax=ax, levels=16, colors='blue', extend='neither')
 ax.clabel(p, fmt='%d', inline=1, fontsize=14)
 
+# Use geocat-viz utility function to add minor ticks to x-axis
+gv.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=0)
+
 # Use geocat.viz.util convenience function to set axes tick values
 # Set y-lim inorder for y-axis to have descending values
 gv.set_axes_limits_and_ticks(ax,
@@ -64,7 +67,6 @@ ax.yaxis.set_major_formatter(ScalarFormatter())
 
 # Set font size for y-axis, turn off minor ticks
 ax.yaxis.label.set_size(22)
-ax.minorticks_off()
 
 # Use geocat-viz utility function to create second y-axis
 # Heights were chosen arbitrarily
@@ -76,8 +78,9 @@ axRHS = gv.add_right_hand_axis(ax,
                                axislabelsize=22)
 
 # Adjust length and width of tick marks for left and right y-axis
-ax.tick_params('both', length=18, width=1.5, which='major', labelsize=18)
-axRHS.tick_params('both', length=15, width=1.5)
+ax.tick_params('both', length=15, width=1, which='major', labelsize=18)
+ax.tick_params('x', length=7, width=0.6, which='minor')
+axRHS.tick_params('both', length=15, width=1)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
 gv.set_titles_and_labels(ax,
