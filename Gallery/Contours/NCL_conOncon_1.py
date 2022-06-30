@@ -37,7 +37,7 @@ V = ds.V[0, :, :]
 # Plot:
 
 # Generate figure (set its size (width, height) in inches) and axes
-plt.figure(figsize=(10, 10))
+fig = plt.figure(figsize=(10, 10))
 ax = plt.gca()
 
 # Set y-axis to have log-scale
@@ -48,7 +48,7 @@ p = U.plot.contour(ax=ax, levels=27, colors='red', extend='neither')
 ax.clabel(p, fmt='%d', inline=1, fontsize=14, colors='k')
 
 # Contour-plot V-data
-p = V.plot.contour(ax=ax, levels=16, colors='blue', extend='neither')
+p = V.plot.contour(ax=ax, levels=20, colors='blue', extend='neither')
 ax.clabel(p, fmt='%d', inline=1, fontsize=14, colors='k')
 
 # Use geocat-viz utility function to add minor ticks to x-axis
@@ -91,6 +91,14 @@ gv.set_titles_and_labels(ax,
                          righttitle=U.units,
                          righttitlefontsize=22,
                          xlabel="")
+
+# Add figure label
+fig.text(0.7,
+         0.03,
+         "CONTOUR FROM -3.2 TO 2.8 BY 4",
+         horizontalalignment='center',
+         fontsize=15,
+         bbox=dict(facecolor='none', edgecolor='k'))
 
 # Show the plot
 plt.show()
