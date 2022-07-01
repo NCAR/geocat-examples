@@ -9,6 +9,9 @@ This script illustrates the following concepts:
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/taylor_8.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/taylor_8_lg.png
+
+Note: Due to to limitations of matplotlib's curve linear grid helper, we cannot include minor tick marks
+        between 0.9 and 0.99, as seen in the original NCL plot.
 """
 
 ###############################################################################
