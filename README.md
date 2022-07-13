@@ -47,20 +47,8 @@ Please see our documentation for [installation instructions](https://github.com/
 
 # Citing GeoCAT-examples
 
-Cite GeoCAT-examples using the following text:
-
-<> Visualization & Analysis Systems Technologies. (Year).
-Geoscience Community Analysis Toolkit (GeoCAT-examples) [Software].
-Boulder, CO: UCAR/NCAR - Computational and Informational System Lab. doi:10.5065/A8PP-4358.
-
-Update the year as appropriate. For example:
-
-<> Visualization & Analysis Systems Technologies. (2021).
-Geoscience Community Analysis Toolkit (GeoCAT-examples) [Software].
-Boulder, CO: UCAR/NCAR - Computational and Informational System Lab. doi:10.5065/A8PP-4358.
-
-For further information, please refer to
-[GeoCAT homepage - Citation](https://geocat.ucar.edu/pages/citation.html).
+If you use this software, please cite it as described at the [GeoCAT-examples - Citation](
+https://geocat-examples.readthedocs.io/en/latest/citation.html) page.
 
 
 
@@ -70,6 +58,8 @@ For further information, please refer to
 [rtd-badge]: https://img.shields.io/readthedocs/geocat-examples/latest.svg?style=for-the-badge
 [rtd-link]: https://geocat-examples.readthedocs.io/en/latest/?badge=latest
 [license-badge]: https://img.shields.io/github/license/NCAR/geocat-examples?style=for-the-badge
-[doi-badge]: https://img.shields.io/badge/DOI-10.5065%2Fa8pp--4358-brightgreen?style=for-the-badge
-[doi-link]: https://doi.org/10.5065/a8pp-4358
+[doi-badge]: https://zenodo.org/badge/DOI/10.5281/zenodo.6678258.svg
+[doi-link]: https://doi.org/10.5281/zenodo.6678258
+[comment]: <> ([doi-badge]: https://img.shields.io/badge/DOI-10.5065%2Fa8pp--4358-brightgreen?style=for-the-badge)
+[comment]: <> ([doi-link]: https://doi.org/10.5065/a8pp-4358)
 [repo-link]: https://github.com/NCAR/geocat-examples
