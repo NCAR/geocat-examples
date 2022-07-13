@@ -8,7 +8,7 @@ Note: The colormap has been changed from the original NCL colormap in order to f
 This script illustrates the following concepts:
    - Paneling three plots vertically on a page
    - Adding a common title to paneled plots
-   - Adding a common labelbar to paneled plots
+   - Adding a common colorbar to paneled plots
    - Adding additional text at the bottom of a series of paneled plots
    - Subsetting a color map
 
