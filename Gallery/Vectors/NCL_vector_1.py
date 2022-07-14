@@ -65,36 +65,39 @@ proj = ccrs.PlateCarree()
 # Generate figure (set its size (width, height) in inches)
 plt.figure(figsize=(10, 7))
 
-# Define axis using Cartopy
+# Define axis using Cartopy and zoom in on the region of interest
 ax = plt.axes(projection=proj)
-
-# add land feature and zoom in on desired location
-ax.add_feature(cfeature.LAND, facecolor="lightgrey", zorder=1)
 ax.set_extent((66, 96, 5, 25), crs=ccrs.PlateCarree())
 
 # Create the filled contour plot
-sst_plot = sst.plot.contourf(ax=ax,
-                             transform=proj,
-                             levels=50,
-                             vmin=24,
-                             vmax=28.8,
-                             cmap="plasma",
-                             add_colorbar=False)
+sst_plot = sst.plot.contourf(
+    ax=ax,
+    transform=proj,
+    levels=50,
+    vmin=24,
+    vmax=28.8,
+    cmap="magma",
+    add_colorbar=False,
+)
 
 # Remove default x and y labels from plot
 plt.xlabel("")
 plt.ylabel("")
 
+# add land feature
+ax.add_feature(cfeature.LAND, facecolor="lightgrey", zorder=1)
+
 # Add vectors onto the plot
-Q = plt.quiver(lon_uv,
-               lat_uv,
-               u,
-               v,
-               color='white',
-               pivot='middle',
-               width=.0025,
-               scale=75,
-               zorder=2)
+Q = plt.quiver(
+    lon_uv,
+    lat_uv,
+    u,
+    v,
+    color='white',
+    pivot='middle',
+    width=.0025,
+    scale=75,
+)
 
 # Use geocat-viz utility function to format title
 gv.set_titles_and_labels(ax,
@@ -128,27 +131,17 @@ gv.add_major_minor_ticks(ax,
                          y_minor_per_major=4,
                          labelsize=14)
 
-# Add and customize colorbar
-cbar_ticks = np.arange(24, 28.8, .3)
-plt.colorbar(ax=ax,
-             mappable=sst_plot,
-             extendrect=True,
-             extendfrac='auto',
-             shrink=0.88,
-             aspect=10,
-             ticks=cbar_ticks,
-             drawedges=True)
-
 # Draw the key for the quiver plot as a rectangle patch
-rect = mpl.patches.Rectangle((91.7, 22.7),
-                             3.1,
-                             2.2,
-                             facecolor='white',
-                             edgecolor='k',
-                             zorder=2)
+rect = mpl.patches.Rectangle(
+    (91.7, 22.7),  # (x, y)
+    3.2,  # width
+    2.2,  # height
+    facecolor='white',
+    edgecolor='k',
+)
 ax.add_patch(rect)
 
-ax.quiverkey(
+qk = ax.quiverkey(
     Q,  # the quiver instance
     0.95,  # x position of the key
     0.9,  # y position of the key
@@ -158,8 +151,19 @@ ax.quiverkey(
     color='black',
     coordinates='axes',
     fontproperties={'size': 14},
-    labelsep=0.1,  # Distance between arow and label
-    zorder=3)  # Make sure the key is on top of the quiver plot
+    labelsep=0.1,  # Distance between arrow and label
+)
+
+# Add and customize colorbar
+cbar_ticks = np.arange(24, 28.8, .3)
+plt.colorbar(ax=ax,
+             mappable=sst_plot,
+             extendrect=True,
+             extendfrac='auto',
+             shrink=0.75,
+             aspect=10,
+             ticks=cbar_ticks,
+             drawedges=True)
 
 # Show the plot
 plt.show()
