@@ -53,9 +53,7 @@ colors = ['blue', 'green', 'red', 'yellow', 'purple']
 ax.scatter(
     lons,
     lats,
-    c=[
-        colors[i] for i in np.random.randint(0, len(colors) - 1, size=lats.size)
-    ],
+    c=[colors[i] for i in np.random.randint(0, len(colors), size=lats.size)],
     edgecolors='face',
     s=1350,
     alpha=0.75,
