@@ -65,7 +65,7 @@ u.plot.contour(ax=ax,
                add_labels=False)
 
 # Add horizontal colorbar
-cbar = plt.colorbar(p, orientation='horizontal', shrink=0.5)
+cbar = plt.colorbar(p, orientation='horizontal', shrink=0.5, drawedges=True)
 cbar.ax.tick_params(labelsize=16)
 cbar.set_ticks(np.linspace(0, 9, 10))
 
