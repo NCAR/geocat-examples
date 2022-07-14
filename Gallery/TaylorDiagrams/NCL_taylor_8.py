@@ -1,6 +1,6 @@
 """
 NCL_taylor_8.py
-==============
+===============
 This script illustrates the following concepts:
    - Creating a taylor diagram
    - Plotting percent bias of each case for each variable in a taylor diagram
@@ -10,7 +10,7 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/taylor_8.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/taylor_8_lg.png
 
-Note: Due to to limitations of matplotlib's axisartist toolkit, we cannot include minor tick marks
+Note: Due to limitations of matplotlib's axisartist toolkit, we cannot include minor tick marks
         between 0.9 and 0.99, as seen in the original NCL plot.
 """
 
@@ -50,7 +50,7 @@ modelTextsA, _ = dia.add_model_set(
     fontsize=13,
     xytext=(-5, 9),  # marker label position
     model_outlier_on=
-    True,  # models with negative correlations and/or standard deviations are plotted at bottom of diagram
+    True,  # plots models with negative correlations and/or standard deviations at bottom of diagram
     percent_bias_on=True,  # model marker and size plotted based on bias array
     bias_array=BA,
     edgecolors='red',
@@ -75,6 +75,7 @@ for txt in modelTextsA:
     txt.set_bbox(
         dict(facecolor='red', edgecolor='none', pad=0.05, boxstyle='square'))
     txt.set_color('white')
+
 for txt in modelTextsB:
     txt.set_bbox(
         dict(facecolor='blue', edgecolor='none', pad=0.05, boxstyle='square'))
