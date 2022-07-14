@@ -50,6 +50,8 @@ lons = lons[~mask]
 # Create an array of colors to choose from
 colors = ['blue', 'green', 'red', 'yellow', 'purple']
 
+# Create a scatter plot of the latitudes and longitudes with a random color
+# from the colors array and a square marker to imitate a grid of colors
 ax.scatter(
     lons,
     lats,
