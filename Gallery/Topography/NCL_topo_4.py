@@ -3,9 +3,9 @@ NCL_topo_4.py
 ===============
 This script illustrates the following concepts:
    - Drawing a topographic map using 1' data
-   - Drawing topographic data using GMT colormap
-   - Using wget to download a dataset
+   - Drawing topographic data using NCL colormap
    - Plotting a specific region of the world
+   - Masking ocean elevation data
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/topo_1.ncl
@@ -24,14 +24,21 @@ import xarray as xr
 import numpy as np
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
-from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
+import cmaps
 
 import geocat.viz as gv
+import geocat.datafiles as gdf
 
 ###############################################################################
 # Read in data:
 
-ds = xr.open_dataset('~/Desktop/aus_elev.nc').z
+# Note: The dataset used in this example is a subset of the ETOPO1 global elevation dataset which can be downloaded here: https://www.ngdc.noaa.gov/mgg/global/
+
+# Open a netCDF file using xarray
+ds = xr.open_dataset(gdf.get('netcdf_files/aus_elev.nc'))
+
+# Select elevation data
+ds = ds.z
 
 ###############################################################################
 # Plot
@@ -46,15 +53,30 @@ ax = plt.axes(projection=projection)
 # Add coastlines
 ax.coastlines(zorder=10)
 
+# Add state/territory borders
+states_provinces = cfeature.NaturalEarthFeature(
+    category='cultural',
+    name='admin_1_states_provinces_lines',
+    scale='50m',
+    facecolor='none')
+ax.add_feature(states_provinces, zorder=5, linewidth=0.4)
+
+# Select NCL colormap and truncate
+cmap = cmaps.OceanLakeLandSnow
+newcmap = gv.truncate_colormap(cmap=cmap, minval=0.01, maxval=1)
+
 # Plot the elevation data
 elev = ds.plot.imshow(ax=ax,
                       transform=projection,
-                      cmap="gist_earth",
+                      cmap=newcmap,
+                      vmin=0,
+                      vmax=4000,
                       add_colorbar=False)
 
 # Set extent of the plot
 ax.set_extent([110, 155, -45, -5])
 
+# Add ocean mask
 ax.add_feature(cfeature.OCEAN, zorder=2)
 
 # Add colorbar
@@ -62,7 +84,8 @@ cbar = plt.colorbar(ax=ax,
                     mappable=elev,
                     orientation='horizontal',
                     pad=0.1,
-                    shrink=0.85)
+                    shrink=0.85,
+                    ticks=np.arange(0, 4500, 500))
 cbar.ax.tick_params(
     size=0,
     labelsize=14)  # Remove the tick marks from the colorbar, set label size
