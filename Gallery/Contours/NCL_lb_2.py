@@ -38,7 +38,7 @@ wrap_v = gv.xr_add_cyclic_longitudes(v, "lon")
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
-fig = plt.figure(figsize=(10, 10))
+fig = plt.figure(figsize=(12, 6))
 
 # Generate axes using Cartopy and draw coastlines
 ax = plt.axes(projection=ccrs.PlateCarree())
@@ -48,19 +48,18 @@ ax.coastlines(linewidths=0.5)
 newcmp = cmaps.wgne15
 
 # Contourf-plot data (for filled contours)
-a = wrap_v.plot.contourf(levels=14,
+a = wrap_v.plot.contourf(levels=np.arange(-24,25,4),
                          cmap=newcmp,
                          add_colorbar=False,
                          add_labels=False)
 # Contour-plot data (for borderlines)
-wrap_v.plot.contour(levels=14, linewidths=0.5, cmap='black', add_labels=False)
+wrap_v.plot.contour(levels=np.arange(-24,25,4), linewidths=0.5, cmap='black', add_labels=False)
 
 # Add vertical colorbar
-clabels = [
-    "-70", "-50", "-30", "-10", "10", "30", "50", "70", "90", "110", "130",
-    "150"
-]
-cbar = fig.colorbar(a, label='', ticks=np.linspace(-24, 24, 12), shrink=0.4)
+cbar = plt.colorbar(a, ticks=np.arange(-20,25,4), shrink=0.8, aspect=10, extendrect=True, extendfrac='auto')
+
+# Change the colorbar tick labels
+clabels = np.arange(-70, 151, 20)
 cbar.ax.set_yticklabels(clabels)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
