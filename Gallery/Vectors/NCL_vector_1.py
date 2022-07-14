@@ -62,8 +62,10 @@ lon_uv = u['lon']
 # Define map projection to use
 proj = ccrs.PlateCarree()
 
-# Define figure and axes
-plt.figure(figsize=(8, 5))
+# Generate figure (set its size (width, height) in inches)
+plt.figure(figsize=(10, 7))
+
+# Define axis using Cartopy
 ax = plt.axes(projection=proj)
 
 # add land feature and zoom in on desired location
