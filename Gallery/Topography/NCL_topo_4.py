@@ -3,7 +3,7 @@ NCL_topo_4.py
 ===============
 This script illustrates the following concepts:
    - Drawing a topographic map using 1' data
-   - Drawing topographic data using NCL colormap
+   - Drawing topographic data using an original NCL colormap
    - Plotting a specific region of the world
    - Masking ocean elevation data
 
@@ -13,7 +13,7 @@ See following URLs to see the reproduced NCL plot & script:
 
 Note:
     In the original NCL script, the ETOPO2 dataset was used. For this example,
-    we use the most current version of this data, ETOPO1.
+    we use the newer 1' data, ETOPO1.
 """
 
 ###############################################################################
@@ -61,7 +61,7 @@ states_provinces = cfeature.NaturalEarthFeature(
     facecolor='none')
 ax.add_feature(states_provinces, zorder=5, linewidth=0.4)
 
-# Select NCL colormap and truncate
+# Select NCL colormap and truncate to remove blue from lower end
 cmap = cmaps.OceanLakeLandSnow
 newcmap = gv.truncate_colormap(cmap=cmap, minval=0.01, maxval=1)
 
