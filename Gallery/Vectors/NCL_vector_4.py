@@ -40,7 +40,7 @@ ds = file_in.isel(time=0, lev=12, lon=slice(0, -1, 5), lat=slice(2, -1, 3))
 # this plot does not look as identical as the NCL version.
 
 # Generate figure (set its size (width, height) in inches)
-fig, ax = plt.subplots(figsize=(10, 7.25))
+fig = plt.figure(figsize=(10, 7.25))
 
 # Generate axes using Cartopy projection
 ax = plt.axes(projection=ccrs.PlateCarree())

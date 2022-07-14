@@ -56,7 +56,7 @@ lon_uv = u['lon']
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
-plt.subplots(figsize=(10, 7))
+plt.figure(figsize=(10, 7))
 
 # Generate axes using Cartopy projection
 ax = plt.axes(projection=ccrs.PlateCarree())
