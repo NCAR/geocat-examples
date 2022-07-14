@@ -8,11 +8,11 @@ This script illustrates the following concepts:
    - Masking ocean elevation data
 
 See following URLs to see the reproduced NCL plot & script:
-    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/topo_1.ncl
+    - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/topo_4.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/topo_4_lg.png
 
 Note:
-    In the original NCL script, the ETOPO5 dataset was used. For this example,
+    In the original NCL script, the ETOPO2 dataset was used. For this example,
     we use the most current version of this data, ETOPO1.
 """
 
