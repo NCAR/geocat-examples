@@ -14,6 +14,7 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 
+from unittest import load_tests
 import numpy as np
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
@@ -38,29 +39,28 @@ ax.coastlines()
 lat = np.arange(-70, 85, 20)
 lon = np.arange(-160, 170, 20)
 
-# Create an array of colors
+# Make a meshgrid of the latitudes and longitudes
+lons, lats = np.meshgrid(lon, lat)
+
+# randomly remove some of the points from the meshgrid
+mask = np.random.rand(lats.shape[0], lats.shape[1]) < 0.35
+lats = lats[~mask]
+lons = lons[~mask]
+
+# Create an array of colors to choose from
 colors = ['blue', 'green', 'red', 'yellow', 'purple']
 
-# Plot markers randomly on the map
-for i in range(len(lat)):
-    for j in range(len(lon)):
-        # Generate a random number between 0 and 1
-        rand = np.random.random(size=1)
-
-        # Don't plot a marker if rand<0.35 (exit the loop)
-        if rand < 0.35:
-            continue
-
-        # Scatter plot
-        ax.scatter(
-            lon[j],  # Longitude of marker
-            lat[i],  # Latitude of marker
-            color=np.random.choice(colors,
-                                   size=1)[0],  # Randomly select a color
-            s=1296,  # Size of marker
-            alpha=0.75,  # Transparency of the marker
-            zorder=2,  # Plot markers on top of map
-            marker='s')  # Use a square shaped marker
+ax.scatter(
+    lons,
+    lats,
+    c=[
+        colors[i] for i in np.random.randint(0, len(colors) - 1, size=lats.size)
+    ],
+    edgecolors='face',
+    s=1350,
+    alpha=0.75,
+    zorder=2,
+    marker='s')
 
 # Use geocat-viz utility function to format latitude/longitude labels
 gv.add_lat_lon_ticklabels(ax)
