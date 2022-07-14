@@ -1,3 +1,6 @@
+> **Warning**
+>    This version of the gallery uses experimental features from [geocat-viz](https://github.com/NCAR/geocat-viz>). We advise against using this version of the gallery to learn how to make visualizations, as it will be minimally maintained for plotting accuracy. However, we still want to provide it as a sneak peak for the GeoCAT user community. To see the latest stable version of the gallery, click on the version at the bottom of the contents panel on the left and select ``latest``.
+
 Please first refer to [GeoCAT Contributor's Guide](https://geocat.ucar.edu/pages/contributing.html) for overall
 contribution guidelines (such as detailed description of GeoCAT structure, forking, repository cloning,
 branching, etc.). Once you determine that a function should be contributed under this repo, please refer to the
