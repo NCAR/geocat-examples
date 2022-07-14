@@ -3,12 +3,12 @@ NCL_lb_4.py
 ===========
 This script illustrates the following concepts:
    - Drawing a horizontal colorbar
-   - Changing the labelbar labels
-   - Adding a title to a labelbar
-   - Changing the font of the labelbar's labels
-   - Making the labelbar label fonts smaller
-   - Centering the labels inside each box in a labelbar
-   - Adding a vertical title to a labelbar
+   - Changing the colorbar labels
+   - Adding a title to a colorbar
+   - Changing the font of the colorbar's labels
+   - Making the colorbar label fonts smaller
+   - Centering the labels inside each box in a colorbar
+   - Adding a vertical title to a colorbar
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/lb_4.ncl
@@ -116,9 +116,13 @@ cbar.ax.set_xticklabels([])
 cbar.ax.get_xaxis().set_ticks([])
 
 # Draw text in the center of each box
-offset = 1 / 13 / 2
+# The origin of the colorbar xaxis starts at right edge of the leftmost box
+# The offset moves the test left to the center of each box
+# The i/11 comes from the 11 main boxes on the colorbar since the boxes on each
+# end are the extensions for values that fall outside the colorbar rand
+offset = 3/22
 for i in range(1, 14):
-    cbar.ax.text(i / 13 - offset,
+    cbar.ax.text(i/11 - offset,
                  0.45,
                  i,
                  horizontalalignment='center',
@@ -126,8 +130,8 @@ for i in range(1, 14):
                  fontweight='bold',
                  transform=cbar.ax.transAxes)
 
-# Draw the colorbar title
-cbar.ax.text(1.1,
+# Draw the colorbar units
+cbar.ax.text(1.15,
              0.5,
              V.units,
              horizontalalignment='center',
