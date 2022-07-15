@@ -42,7 +42,7 @@ ds = file_in.isel(time=1, lon=slice(0, -1, 3), lat=slice(1, -1, 3))
 # Plot:
 
 # Generate figure (set its size (width, height) in inches)
-plt.subplots(figsize=(10, 5.25))
+plt.figure(figsize=(10, 5.25))
 
 # Generate axes using Cartopy projection
 ax = plt.axes(projection=ccrs.PlateCarree())
