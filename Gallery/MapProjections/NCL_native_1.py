@@ -22,7 +22,6 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
 import cmaps
 
 import geocat.viz as gv
@@ -58,22 +57,6 @@ ax.coastlines(linewidths=0.5)
 # and 42.25N to 49.25N
 ax.set_extent([4.25, 15.25, 42.25, 49.25], ccrs.PlateCarree())
 
-# Draw gridlines
-gl = ax.gridlines(crs=ccrs.PlateCarree(),
-                  draw_labels=True,
-                  dms=False,
-                  x_inline=False,
-                  y_inline=False,
-                  linewidth=1,
-                  color="black",
-                  alpha=0.25)
-
-# Manipulate latitude and longitude gridline numbers and spacing
-gl.xlocator = mticker.FixedLocator(np.arange(4, 18, 2))
-gl.ylocator = mticker.FixedLocator(np.arange(43, 50))
-gl.xlabel_style = {"rotation": 0, "size": 14}
-gl.ylabel_style = {"rotation": 0, "size": 14}
-
 # Create colormap by choosing colors from existing colormap
 # The brightness of the colors in cmocean_speed increase linearly. This
 # makes the colormap easier to interpret for those with vision impairments
@@ -106,19 +89,26 @@ plt.colorbar(contour,
              pad=0.1,
              shrink=0.8)
 
+# Use geocat-viz utility function to add gridlines to the map
+gl = gv.add_lat_lon_gridlines(
+    ax,
+    color='black',
+    labelsize=14,
+    xlocator=np.arange(4, 18, 2),  # longitudes for gridlines
+    ylocator=np.arange(43, 50))  # latitudes for gridlines
+
+# Add padding between figure and longitude labels
+gl.xpadding = 12
+
 # Use geocat.viz.util function to easily set left and right titles
 gv.set_titles_and_labels(ax,
                          lefttitle="topography",
-                         lefttitlefontsize=14,
+                         lefttitlefontsize=16,
                          righttitle="m",
-                         righttitlefontsize=14)
+                         righttitlefontsize=16)
 
 # Add a main title above the left and right titles
-plt.title("Native Sterographic Example",
-          loc="center",
-          y=1.1,
-          size=18,
-          fontweight="bold")
+plt.title("Native Stereographic Example", y=1.1, size=18, fontweight="bold")
 
 # Remove whitespace around plot
 plt.tight_layout()
