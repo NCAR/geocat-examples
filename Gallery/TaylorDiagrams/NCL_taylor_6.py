@@ -2,6 +2,7 @@
 NCL_taylor_6.py
 ===============
 This script illustrates the following concepts:
+   - Using geocat-viz Taylor diagram function to create a Taylor diagram. Documentation here: https://geocat-viz.readthedocs.io/en/latest/user_api/generated/geocat.viz.TaylorDiagram.html#geocat.viz.TaylorDiagram
    - Labelling a Taylor diagram
    - Using subplots
 
@@ -9,7 +10,7 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/taylor_6.ncl
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/taylor_6_3_lg.png
 
-Note: Due to to limitations of matplotlib's axisartist toolkit, we cannot include minor tick marks
+Note: Due to limitations of matplotlib's axisartist toolkit, we cannot include minor tick marks
         between 0.9 and 0.99, as seen in the original NCL plot.
 """
 
