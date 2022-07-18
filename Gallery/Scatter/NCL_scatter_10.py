@@ -42,7 +42,7 @@ lon = np.arange(-160, 170, 20)
 # Make a meshgrid of the latitudes and longitudes
 lons, lats = np.meshgrid(lon, lat)
 
-# randomly remove some of the points from the meshgrid
+# Randomly remove some of the points from the meshgrid
 mask = np.random.rand(lats.shape[0], lats.shape[1]) < 0.35
 lats = lats[~mask]
 lons = lons[~mask]
