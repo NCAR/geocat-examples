@@ -232,7 +232,9 @@ cbar = plt.colorbar(cplot,
                     orientation='horizontal',
                     shrink=0.9,
                     pad=0.05,
-                    fraction=.02)
+                    fraction=.02,
+                    extendrect=True,
+                    extendfrac='auto')
 cbar.ax.tick_params(labelsize=8)
 
 # Set a common title
