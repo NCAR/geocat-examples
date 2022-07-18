@@ -27,7 +27,7 @@ import geocat.datafiles as gdf
 # Read in Data:
 
 # Read in the image file
-fname = 'EarthMap.jpg'
+fname = gdf.get('image_files/EarthMap.jpg')
 img = plt.imread(fname)
 
 # Read in the vector data using xarray
