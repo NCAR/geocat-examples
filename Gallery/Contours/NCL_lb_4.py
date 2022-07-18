@@ -120,9 +120,9 @@ cbar.ax.get_xaxis().set_ticks([])
 # The offset moves the test left to the center of each box
 # The i/11 comes from the 11 main boxes on the colorbar since the boxes on each
 # end are the extensions for values that fall outside the colorbar rand
-offset = 3/22
+offset = 3 / 22
 for i in range(1, 14):
-    cbar.ax.text(i/11 - offset,
+    cbar.ax.text(i / 11 - offset,
                  0.45,
                  i,
                  horizontalalignment='center',

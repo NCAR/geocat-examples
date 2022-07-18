@@ -124,14 +124,15 @@ ax[0].set_title("A plot with a common colorbar", fontsize=14, y=1.15)
 plot_labelled_filled_contours(ds.V, ax=ax[1])
 
 # Add horizontal colorbar
-cbar = plt.colorbar(handles["filled"],
-                    ax=ax,
-                    orientation="horizontal",
-                    ticks=levels[:-1],  # keep the last colorbar tick from showing
-                    drawedges=True,
-                    extendrect=True,
-                    extendfrac='auto',
-                    aspect=30)
+cbar = plt.colorbar(
+    handles["filled"],
+    ax=ax,
+    orientation="horizontal",
+    ticks=levels[:-1],  # keep the last colorbar tick from showing
+    drawedges=True,
+    extendrect=True,
+    extendfrac='auto',
+    aspect=30)
 cbar.ax.tick_params(labelsize=10)
 
 # Show the plot

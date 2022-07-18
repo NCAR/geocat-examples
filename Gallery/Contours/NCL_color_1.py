@@ -39,7 +39,7 @@ U = gv.xr_add_cyclic_longitudes(U, 'lon')
 
 ###############################################################################
 # Generate figure (set its size (width, height) in inches)
-plt.figure(figsize=(12,8))
+plt.figure(figsize=(12, 8))
 
 # Generate axes, using Cartopy
 projection = ccrs.PlateCarree()
