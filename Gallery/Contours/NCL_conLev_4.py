@@ -75,7 +75,14 @@ p = newx.plot.contourf(
     add_labels=False)
 
 # Add horizontal colorbar
-cbar = plt.colorbar(p, orientation='horizontal', shrink=0.5)
+cbar = plt.colorbar(p,
+                    orientation='horizontal',
+                    shrink=0.6,
+                    extendrect=True,
+                    extendfrac='auto',
+                    pad=0.075,
+                    aspect=15,
+                    drawedges=True)
 cbar.ax.tick_params(labelsize=11)
 cbar.set_ticks([-12, -10, -8, -6, -4, -2, -1, 1, 2, 4, 6, 8, 10, 12])
 
