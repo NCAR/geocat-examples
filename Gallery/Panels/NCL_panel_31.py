@@ -85,7 +85,10 @@ def plot_img(ax):
 # Plot:
 
 # Create a figure and axes
-fig, axs = plt.subplots(ncols=2, nrows=4, figsize=(8, 16))
+fig, axs = plt.subplots(ncols=2,
+                        nrows=4,
+                        figsize=(13, 19),
+                        subplot_kw={'projection': ccrs.PlateCarree()})
 
 # Define pressures
 pressure = [1000, 850, 700, 500, 400, 300, 250, 200]
@@ -94,6 +97,8 @@ pressure = [1000, 850, 700, 500, 400, 300, 250, 200]
 img_extent = (-180, 180, -90, 90)
 
 # Loop through each axes and plot
+# Start at the first level
+level = 0
 # Loop through each row
 for i in range(4):
     # Loop through each column
@@ -112,14 +117,14 @@ for i in range(4):
         ax.coastlines(resolution='50m', color='black', linewidth=1)
 
         # Add vectors onto the plot
-        Q = plt.quiver(lon,
-                       lat,
-                       U.sel(lev=pressure[i]),
-                       V.sel(lev=pressure[i]),
-                       color='white',
-                       pivot='middle',
-                       width=.0025,
-                       scale=75)
+        Q = ax.quiver(lon,
+                      lat,
+                      U.sel(lev=pressure[level]),
+                      V.sel(lev=pressure[level]),
+                      color='white',
+                      pivot='middle',
+                      width=.0025,
+                      scale=75)
 
         # Use geocat-viz utility function to format lat/lon tick labels
         gv.add_lat_lon_ticklabels(ax=ax)
@@ -133,6 +138,14 @@ for i in range(4):
 
         # Customize tick labels
         ax.tick_params(labelsize=12, length=8)
+
+        # Add title to the axes
+        ax.set_title(f'level={pressure[level]} hPa')
+
+        level += 1
+
+# Add title to the figure
+plt.suptitle("Zonal Wind (m/s)", fontsize=30, y=0.93, x=0.5)
 
 #####
 
