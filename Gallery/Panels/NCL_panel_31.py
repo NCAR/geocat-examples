@@ -17,7 +17,6 @@ See following URLs to see the reproduced NCL plot & script:
 
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib as mpl
 import cartopy.crs as ccrs
 import xarray as xr
 
@@ -96,7 +95,7 @@ for i in range(4):
                                      xticks=range(65, 100, 5),
                                      yticks=range(5, 27, 5))
 
-        # Customize tick labels
+        # Customize ticks and labels
         ax.tick_params(labelsize=11, length=8)
 
         # Add title to the axes
@@ -113,11 +112,12 @@ ax.add_patch(
         5.7,  # height
         facecolor='white',
         edgecolor='grey',
-        clip_on=False))
+        clip_on=False)  # allow rectangle to be visible beyond axes
+)
 
-qk = ax.quiverkey(
+ax.quiverkey(
     Q,  # the quiver instance
-    0.98,  # x position of the key
+    0.985,  # x position of the key
     0.145,  # y position of the key
     4,  # length of the key
     '4',  # label for the key
@@ -128,4 +128,8 @@ qk = ax.quiverkey(
     labelsep=0.1,  # Distance between arrow and label
 )
 
+# Add text to key
 plt.text(97, 5.5, "Reference Vector", fontsize=15)
+
+# Show the plot
+plt.show()
