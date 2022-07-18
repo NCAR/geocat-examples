@@ -1,28 +1,32 @@
 """
 NCL_panel_4.py
 ==============
+Note: The colormap has been changed from the original NCL colormap in order to follow
+      best practices for colormaps. See more examples here:
+      https://geocat-examples.readthedocs.io/en/latest/gallery/index.html#colors
+
 This script illustrates the following concepts:
    - Paneling three plots vertically on a page
    - Adding a common title to paneled plots
-   - Adding a common labelbar to paneled plots
+   - Adding a common colorbar to paneled plots
    - Adding additional text at the bottom of a series of paneled plots
    - Subsetting a color map
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/panel_4.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/panel_4_lg.png
+
 """
 
 ###############################################################################
-# Import packages:
-
+# Import Packages
 import cartopy.crs as ccrs
 from cartopy.mpl.gridliner import LongitudeFormatter, LatitudeFormatter
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 import numpy as np
 import xarray as xr
-import cmaps
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
@@ -30,14 +34,17 @@ import geocat.viz as gv
 ###############################################################################
 # Read in data:
 
-# Open a netCDF data file using xarray default engine and load the data into
-# xarrays, choosing the 2nd timestamp
-ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
+# Open a netCDF data file using xarray default engine and save as a variable
+ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
+
+# save the zonal and meridional wind separately, select July data
+zonal = ds.U.isel(time=1)
+meridional = ds.V.isel(time=1)
 
 ###############################################################################
-# Utility Function: Labelled Filled Contour Plot:
+# Define plotting helper function
 
-# Define a utility plotting function in order not to repeat many lines of codes
+# Define a utility plotting function in order not to repeat many lines of code
 # since we need to make the same figure with two different variables.
 
 
@@ -68,13 +75,10 @@ def plot_labelled_filled_contours(data, ax=None):
         tick labels.
     """
 
-    # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
-    newcmp = gv.truncate_colormap(cmaps.gui_default, minval=0.03, maxval=0.9)
-
     handles = dict()
     handles["filled"] = data.plot.contourf(
         ax=ax,  # this is the axes we want to plot to
-        cmap=newcmp,  # our special colormap
+        cmap='viridis',  # our colormap
         levels=levels,  # contour levels specified outside this function
         transform=projection,  # data projection
         add_colorbar=False,  # don't add individual colorbars for each plot call
@@ -128,7 +132,7 @@ def plot_labelled_filled_contours(data, ax=None):
 
 
 ###############################################################################
-# Plot:
+# Plot
 
 # Make three panels (i.e. subplots in matplotlib) specifying white space
 # between them using gridspec_kw and hspace
@@ -143,16 +147,16 @@ fig, ax = plt.subplots(3,
 levels = np.linspace(-10, 50, 13)
 
 # Contour-plot U data, save "handles" to add a colorbar later
-handles = plot_labelled_filled_contours(ds.U, ax=ax[0])
+handles = plot_labelled_filled_contours(zonal, ax=ax[0])
 
 # Set a common title
 plt.suptitle("A common title", fontsize=16, y=0.94)
 
 # Contour-plot V data
-plot_labelled_filled_contours(ds.V, ax=ax[1])
+plot_labelled_filled_contours(meridional, ax=ax[1])
 
 # Contour-plot U data again but in the bottom axes
-plot_labelled_filled_contours(ds.U, ax=ax[2])
+plot_labelled_filled_contours(zonal, ax=ax[2])
 
 # Create inset axes for colorbar
 cax = inset_axes(ax[2],
