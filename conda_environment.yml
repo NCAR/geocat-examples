@@ -1,4 +1,4 @@
-name: geocat-examples
+name: geocat-examples-experimental
 channels:
   - conda-forge
   - ncar
@@ -9,7 +9,6 @@ dependencies:
   - geocat-datafiles
   - eofs
   - fiona
-  - geocat-viz
   - cartopy
   - geographiclib
   - jupyter
@@ -29,3 +28,4 @@ dependencies:
   - wrf-python
   - pip:
       - pre-commit
+      - git+https://github.com/NCAR/geocat-viz@experimental
