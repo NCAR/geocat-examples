@@ -15,7 +15,9 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 
+import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 import cartopy.crs as ccrs
 import xarray as xr
 
@@ -41,64 +43,22 @@ lat = ds.lat
 lon = ds.lon
 
 ###############################################################################
-# Convenience function
-# Since we will repeat this code many times, use a convenience function to
-# plot the image on the map
-
-
-def plot_img(ax):
-    """Plot the image on the map for the given axes."""
-    img_extent = (-180, 180, -90, 90)
-
-    # Set extent of the map
-    ax.set_extent([65, 95, 5, 25])
-
-    # add the image. The "origin" of the image is in the upper left corner
-    ax.imshow(img,
-              origin='upper',
-              extent=img_extent,
-              transform=ccrs.PlateCarree())
-    ax.coastlines(resolution='50m', color='black', linewidth=1)
-
-    # Add vectors onto the plot
-    Q = plt.quiver(lon,
-                   lat,
-                   U.sel(lev=1000),
-                   V.sel(lev=1000),
-                   color='white',
-                   pivot='middle',
-                   width=.0025,
-                   scale=75)
-
-    # Use geocat-viz utility function to format lat/lon tick labels
-    gv.add_lat_lon_ticklabels(ax=ax)
-
-    # Use geocat-viz utility function to customize tick marks
-    gv.set_axes_limits_and_ticks(ax,
-                                 xlim=(65, 95),
-                                 ylim=(5, 25),
-                                 xticks=range(65, 100, 5),
-                                 yticks=range(5, 27, 5))
-
-
-###############################################################################
 # Plot:
 
 # Create a figure and axes
 fig, axs = plt.subplots(ncols=2,
                         nrows=4,
-                        figsize=(13, 19),
+                        figsize=(14, 20),
                         subplot_kw={'projection': ccrs.PlateCarree()})
 
-# Define pressures
-pressure = [1000, 850, 700, 500, 400, 300, 250, 200]
+# Define pressures and reshape to match subplot layout (4 rows, 2 columns)
+levs = np.array([1000, 850, 700, 500, 400, 300, 250, 200])
+pressure = np.reshape(levs, (4, 2))
 
-# Set image extent
+# Define image extent. This image is of the entire globe, so extent covers all latitudes and longitudes
 img_extent = (-180, 180, -90, 90)
 
 # Loop through each axes and plot
-# Start at the first level
-level = 0
 # Loop through each row
 for i in range(4):
     # Loop through each column
@@ -119,8 +79,8 @@ for i in range(4):
         # Add vectors onto the plot
         Q = ax.quiver(lon,
                       lat,
-                      U.sel(lev=pressure[level]),
-                      V.sel(lev=pressure[level]),
+                      U.sel(lev=pressure[i][j]),
+                      V.sel(lev=pressure[i][j]),
                       color='white',
                       pivot='middle',
                       width=.0025,
@@ -137,43 +97,35 @@ for i in range(4):
                                      yticks=range(5, 27, 5))
 
         # Customize tick labels
-        ax.tick_params(labelsize=12, length=8)
+        ax.tick_params(labelsize=11, length=8)
 
         # Add title to the axes
-        ax.set_title(f'level={pressure[level]} hPa')
-
-        level += 1
+        ax.set_title(f'level={pressure[i][j]} hPa')
 
 # Add title to the figure
 plt.suptitle("Zonal Wind (m/s)", fontsize=30, y=0.93, x=0.5)
 
-#####
+# Draw legend for vector plot
+ax.add_patch(
+    plt.Rectangle(
+        (96.5, 5),  # xy location of rectangle
+        12,  # width
+        5.7,  # height
+        facecolor='white',
+        edgecolor='grey',
+        clip_on=False))
 
-# fig = plt.figure(figsize=(8, 12))
+qk = ax.quiverkey(
+    Q,  # the quiver instance
+    0.98,  # x position of the key
+    0.145,  # y position of the key
+    4,  # length of the key
+    '4',  # label for the key
+    labelpos='N',  # position the label to the 'north' of the arrow
+    color='black',  # arrow color
+    coordinates='figure',
+    fontproperties={'size': 20},
+    labelsep=0.1,  # Distance between arrow and label
+)
 
-# ax = plt.axes(projection=ccrs.PlateCarree())
-
-# # Set extent of the map
-# ax.set_extent([65, 95, 5, 25])
-
-# # add the image. The "origin" of the image is in the upper left corner
-# ax.imshow(img, origin='upper', extent=img_extent, transform=ccrs.PlateCarree())
-# ax.coastlines(resolution='50m', color='black', linewidth=1)
-
-# # Add vectors onto the plot
-# Q = plt.quiver(lon, lat, U.sel(lev=1000), V.sel(lev=1000), color='white', pivot='middle', width=.0025, scale=75)
-
-# # Use geocat-viz utility function to format lat/lon tick labels
-# gv.add_lat_lon_ticklabels(ax=ax)
-
-# # Use geocat-viz utility function to customize tick marks
-# gv.set_axes_limits_and_ticks(ax,
-#                              xlim=(65, 95),
-#                              ylim=(5, 25),
-#                              xticks=range(65, 100, 5),
-#                              yticks=range(5, 27, 5))
-
-# # Customize tick labels
-# ax.tick_params(labelsize=12, length=8)
-
-# plt.show()
+plt.text(97, 5.5, "Reference Vector", fontsize=15)
