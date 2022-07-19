@@ -96,11 +96,9 @@ gv.set_titles_and_labels(ax,
                          lefttitle='elevation',
                          righttitle='m',
                          maintitle='ETOPO1',
-                         maintitlefontsize=23)
-
-# Remove default x and y labels
-plt.xlabel("")
-plt.ylabel("")
+                         maintitlefontsize=23,
+                         xlabel="",
+                         ylabel="")
 
 # Use geocat-viz utility function to format x and y tick labels
 gv.set_axes_limits_and_ticks(ax,
