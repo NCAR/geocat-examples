@@ -2,7 +2,7 @@
 NCL_taylor_6.py
 ===============
 This script illustrates the following concepts:
-   - Using geocat-viz Taylor diagram function to create a Taylor diagram. Documentation here: https://geocat-viz.readthedocs.io/en/latest/user_api/generated/geocat.viz.TaylorDiagram.html#geocat.viz.TaylorDiagram
+   - Using geocat-viz `Taylor diagram function <https://geocat-viz.readthedocs.io/en/latest/user_api/generated/geocat.viz.TaylorDiagram.html#geocat.viz.TaylorDiagram>`_ to create a Taylor diagram.
    - Labelling a Taylor diagram
    - Using subplots
 
