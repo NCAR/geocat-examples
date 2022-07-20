@@ -47,7 +47,7 @@ lon = ds.lon
 # Create a figure and axes
 fig, axs = plt.subplots(ncols=2,
                         nrows=4,
-                        figsize=(14, 20),
+                        figsize=(15.5, 18),
                         subplot_kw={'projection': ccrs.PlateCarree()})
 
 # Define pressures and reshape to match subplot layout (4 rows, 2 columns)
@@ -102,13 +102,13 @@ for i in range(4):
         ax.set_title(f'level={pressure[i][j]} hPa')
 
 # Add title to the figure
-plt.suptitle("Zonal Wind (m/s)", fontsize=30, y=0.93, x=0.5)
+plt.suptitle("Zonal Wind (m/2)", fontsize=30, y=1, x=0.45)
 
 # Draw legend for vector plot
 ax.add_patch(
     plt.Rectangle(
         (96.5, 5),  # xy location of rectangle
-        12,  # width
+        11,  # width
         5.7,  # height
         facecolor='white',
         edgecolor='grey',
@@ -117,8 +117,8 @@ ax.add_patch(
 
 ax.quiverkey(
     Q,  # the quiver instance
-    0.985,  # x position of the key
-    0.145,  # y position of the key
+    0.935,  # x position of the key
+    .05,  # y position of the key
     4,  # length of the key
     '4',  # label for the key
     labelpos='N',  # position the label to the 'north' of the arrow
@@ -130,6 +130,6 @@ ax.quiverkey(
 
 # Add text to key
 plt.text(97, 5.5, "Reference Vector", fontsize=15)
-
+plt.tight_layout()
 # Show the plot
 plt.show()
