@@ -130,6 +130,7 @@ ax.quiverkey(
 
 # Add text to key
 plt.text(97, 5.5, "Reference Vector", fontsize=15)
-plt.tight_layout()
+
 # Show the plot
+plt.tight_layout()  # Auto adjusts padding on edge of figure
 plt.show()
