@@ -1,6 +1,6 @@
 """
 NCL_topo_4.py
-===============
+=============
 This script illustrates the following concepts:
    - Drawing a topographic map using 1' data
    - Drawing topographic data using an original NCL colormap
@@ -59,6 +59,7 @@ states_provinces = cfeature.NaturalEarthFeature(
     name='admin_1_states_provinces_lines',
     scale='50m',
     facecolor='none')
+
 ax.add_feature(states_provinces, zorder=5, linewidth=0.4)
 
 # Select NCL colormap and truncate to remove blue from lower end
@@ -86,9 +87,11 @@ cbar = plt.colorbar(ax=ax,
                     pad=0.1,
                     shrink=0.85,
                     ticks=np.arange(0, 4500, 500))
-cbar.ax.tick_params(
-    size=0,
-    labelsize=14)  # Remove the tick marks from the colorbar, set label size
+
+# Remove the tick marks from the colorbar and set tick label size
+cbar.ax.tick_params(size=0, labelsize=14)
+
+# Set colorbar tick label distance
 cbar.ax.xaxis.set_tick_params(pad=10)
 
 # Use geocat-viz utility function to add left and right titles
