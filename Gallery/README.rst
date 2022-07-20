@@ -25,5 +25,3 @@ a higher level implementation for low level `matplotlib` functionalities.
 
 Click on any image to see the full image and source code as well as to
 download Python script and/or Jupyter notebook.
-
-
