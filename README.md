@@ -5,6 +5,8 @@
 | **Citing**   |               [![DOI][doi-badge]][doi-link]                  |
 
 # GeoCAT-examples
+> **Warning**
+>    This version of the gallery uses experimental features from [geocat-viz](https://github.com/NCAR/geocat-viz>). We advise against using this version of the gallery to learn how to make visualizations, as it will be minimally maintained for plotting accuracy. However, we still want to provide it as a sneak peak for the GeoCAT user community. To see the latest stable version of the gallery, switch to the `main` branch.
 
 GeoCAT-examples repo contains visualization examples that demonstrate how to use GeoCAT’s computational functions
 or how to plot data with packages in the Python ecosystem (primarily, Matplotlib and Cartopy).
