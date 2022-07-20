@@ -12,7 +12,10 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/ce_3.ncl
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/ce_3_1_lg.png
 
-A previous version of this script that does not use geocat-viz Contour function can be found here: https://geocat-examples.readthedocs.io/en/v2022.5.0/gallery/Contours/NCL_ce_3_1.html#sphx-glr-gallery-contours-ncl-ce-3-1-py
+Note:
+    This is an experimental version of the script. Go to the [latest](https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_ce_3_1.html) version for the stable version.
+
+    See the geocat-viz experimental documentation for the functionality in this script [here](https://geocat-viz.readthedocs.io/en/experimental/).
 """
 
 ###############################################################################
