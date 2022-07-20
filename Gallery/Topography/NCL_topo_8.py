@@ -43,12 +43,11 @@ open(gdf.get("shape_files/states.prj"), 'r')
 shapefile_counties = shpreader.Reader(gdf.get("shape_files/countyl010g.dbf"))
 
 # Open shapefile of all rivers. This data can be downloaded from `NOAA: <https://www.weather.gov/gis/Rivers>`_
-open("/Users/dquint/Downloads/rv16my07/rv16my07.dbf")
-open("/Users/dquint/Downloads/rv16my07/rv16my07.shx")
-open("/Users/dquint/Downloads/rv16my07/rv16my07.prj")
-open("/Users/dquint/Downloads/rv16my07/rv16my07.shp")
-shapefile_rivers = shpreader.Reader(
-    '/Users/dquint/Downloads/rv16my07/rv16my07.dbf')
+open(gdf.get("shape_files/rv16my07.dbf"), 'r')
+open(gdf.get("shape_files/rv16my07.shx"), 'r')
+open(gdf.get("shape_files/rv16my07.shp"), 'r')
+open(gdf.get("shape_files/rv16my07.prj"), 'r')
+shapefile_rivers = shpreader.Reader(gdf.get("shape_files/rv16my07.dbf"))
 
 ###############################################################################
 # Plot:
@@ -82,7 +81,7 @@ cbar.ax.xaxis.set_tick_params(
 cbar.set_label("elevation (meters)", fontsize=20,
                labelpad=15)  # Add colorbar label
 
-# Add Colorado counties
+# Add counties
 counties = list(shapefile_counties.geometries())
 COUNTIES = cfeature.ShapelyFeature(counties, ccrs.PlateCarree())
 ax.add_feature(COUNTIES,
@@ -91,7 +90,7 @@ ax.add_feature(COUNTIES,
                linewidth=0.4,
                zorder=5)
 
-# Add Colorado rivers
+# Add rivers
 rivers = list(shapefile_rivers.geometries())
 RIVERS = cfeature.ShapelyFeature(rivers, ccrs.PlateCarree())
 ax.add_feature(RIVERS,
@@ -107,7 +106,7 @@ gv.set_titles_and_labels(ax,
                          maintitle="Rivers of Colorado",
                          maintitlefontsize=28)
 
-# Use geocat-viz utility function to format x and y tick labels
+# Use geocat-viz utility function to format x and y axes
 gv.set_axes_limits_and_ticks(ax,
                              xlim=[-109.1, -102],
                              ylim=[36.9, 41.2],
