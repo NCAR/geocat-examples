@@ -4,6 +4,7 @@ NCL_topo_8.py
 This script illustrates the following concepts:
    - Drawing a topographic map using 1' data
    - Drawing topographic data using an NCL colormap
+   - Working with shapefiles
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/topo_8.ncl
@@ -29,21 +30,25 @@ import geocat.datafiles as gdf
 # Read in data:
 
 # Open a netcdf data file using xarray
-ds = xr.open_dataset('~/Desktop/colorado_elev.nc')
+ds = xr.open_dataset(gdf.get('netcdf_files/colorado_elev.nc'))
 
 # Select elevation data
 ds = ds.z
 
 # Open shapefile of US counties
 open(gdf.get("shape_files/countyl010g.dbf"), 'r')
-# open(gdf.get("shape_files/states.shp"), 'r')
-# open(gdf.get("shape_files/states.shx"), 'r')
-# open(gdf.get("shape_files/states.prj"), 'r')
-shapefile = shpreader.Reader(gdf.get("shape_files/countyl010g.dbf"))
+open(gdf.get("shape_files/states.shp"), 'r')
+open(gdf.get("shape_files/states.shx"), 'r')
+open(gdf.get("shape_files/states.prj"), 'r')
+shapefile_counties = shpreader.Reader(gdf.get("shape_files/countyl010g.dbf"))
 
-# Open shapefie of all rivers
-#open('~/Downloads/rv16my07/rv16my07.dbf')
-#shapefile_r = shpreader.Reader('~/Downloads/rv16my07/rv16my07.dbf')
+# Open shapefile of all rivers. This data can be downloaded from `NOAA: <https://www.weather.gov/gis/Rivers>`_
+open("/Users/dquint/Downloads/rv16my07/rv16my07.dbf")
+open("/Users/dquint/Downloads/rv16my07/rv16my07.shx")
+open("/Users/dquint/Downloads/rv16my07/rv16my07.prj")
+open("/Users/dquint/Downloads/rv16my07/rv16my07.shp")
+shapefile_rivers = shpreader.Reader(
+    '/Users/dquint/Downloads/rv16my07/rv16my07.dbf')
 
 ###############################################################################
 # Plot:
@@ -70,13 +75,15 @@ cbar = plt.colorbar(ax=ax,
                     mappable=elev,
                     orientation='horizontal',
                     pad=0.13,
-                    shrink=0.88)
-cbar.ax.tick_params(size=0, labelsize=14)
-cbar.ax.xaxis.set_tick_params(pad=10, labelsize=16)
-cbar.set_label("elevation (meters)", fontsize=20, labelpad=15)
+                    shrink=0.85)
+cbar.ax.tick_params(size=0)  # Remove tick marks from colorbar
+cbar.ax.xaxis.set_tick_params(
+    pad=10, labelsize=16)  # Pad between colorbar and tick labels
+cbar.set_label("elevation (meters)", fontsize=20,
+               labelpad=15)  # Add colorbar label
 
 # Add Colorado counties
-counties = list(shapefile.geometries())
+counties = list(shapefile_counties.geometries())
 COUNTIES = cfeature.ShapelyFeature(counties, ccrs.PlateCarree())
 ax.add_feature(COUNTIES,
                facecolor='none',
@@ -84,14 +91,14 @@ ax.add_feature(COUNTIES,
                linewidth=0.4,
                zorder=5)
 
-# Add rivers
-ax.add_feature(cfeature.RIVERS)
-rivers = cfeature.NaturalEarthFeature(category='physical',
-                                      name='rivers_north_america',
-                                      scale='10m',
-                                      facecolor='none',
-                                      edgecolor='blue')
-ax.add_feature(rivers)
+# Add Colorado rivers
+rivers = list(shapefile_rivers.geometries())
+RIVERS = cfeature.ShapelyFeature(rivers, ccrs.PlateCarree())
+ax.add_feature(RIVERS,
+               facecolor='none',
+               edgecolor='blue',
+               linewidth=0.6,
+               zorder=6)
 
 # Use geocat-viz utility function to customize titles and labels
 gv.set_titles_and_labels(ax,
@@ -108,7 +115,7 @@ gv.set_axes_limits_and_ticks(ax,
                              yticks=np.arange(37, 42))
 
 # Customize ticks and labels
-ax.tick_params(length=8, labelsize=16, pad=10)
+ax.tick_params(length=10, width=1.2, labelsize=16, pad=10)
 
 # Use geocat-viz utility function to add lat/lon formatting for tick labels
 gv.add_lat_lon_ticklabels(ax)
