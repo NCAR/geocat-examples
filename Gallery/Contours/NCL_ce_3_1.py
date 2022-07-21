@@ -13,9 +13,9 @@ See following URLs to see the reproduced NCL plot & script:
     - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/ce_3_1_lg.png
 
 .. Warning::
-    This is an experimental version of the script. Go to the [latest](https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_ce_3_1.html) version for the stable version.
+    This is an experimental version of the script. Go to the `latest <https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_ce_3_1.html>`_ version for the stable version.
 
-    See the geocat-viz experimental documentation for the functionality in this script [here](https://geocat-viz.readthedocs.io/en/experimental/).
+    See the geocat-viz experimental documentation for the functionality in this script `here <https://geocat-viz.readthedocs.io/en/experimental/>`_.
 """
 
 ###############################################################################
