@@ -65,7 +65,8 @@ cbar = plt.colorbar(temp,
                     shrink=0.8,
                     pad=0.05,
                     extendrect=True,
-                    ticks=cbar_ticks)
+                    ticks=cbar_ticks,
+                    drawedges=True)
 
 cbar.ax.tick_params(labelsize=10)
 
