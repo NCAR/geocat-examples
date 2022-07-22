@@ -48,7 +48,7 @@ modelTextsA, _ = dia.add_model_set(
     CA_std,
     CA_corr,
     fontsize=13,
-    xytext=(-5, 9),  # marker label position
+    xytext=(-5, 13),  # marker label position
     model_outlier_on=
     True,  # plots models with negative correlations and/or standard deviations at bottom of diagram
     percent_bias_on=True,  # model marker and size plotted based on bias array
@@ -61,7 +61,7 @@ modelTextsA, _ = dia.add_model_set(
 modelTextsB, _ = dia.add_model_set(CB_std,
                                    CB_corr,
                                    fontsize=13,
-                                   xytext=(-5, 9),
+                                   xytext=(-5, 13),
                                    model_outlier_on=True,
                                    percent_bias_on=True,
                                    bias_array=BB,
