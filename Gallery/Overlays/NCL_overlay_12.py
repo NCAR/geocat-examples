@@ -189,9 +189,8 @@ clb2 = fig.colorbar(mappable, cax=cax2, ticks=levels, drawedges=True)
 # Manually set color bar tick length and tick labels padding.
 clb2.ax.yaxis.set_tick_params(length=0, pad=18, labelsize=14)
 
-# Center align colorbar tick labels
-ticklabs = clb2.ax.get_yticklabels()
-clb2.ax.set_yticklabels(ticklabs, ha='center')
+# Add tick labels and center align them
+clb2.ax.set_yticklabels(levels, ha='center')
 
 #
 # Set axes features (tick formats and main title)
