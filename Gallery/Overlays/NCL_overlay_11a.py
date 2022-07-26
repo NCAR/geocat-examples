@@ -157,7 +157,7 @@ cbar = plt.colorbar(cf,
                     ticks=clevs[1:-1],
                     drawedges=True,
                     orientation='horizontal')
-cbar.ax.tick_params(labelsize=12)
+cbar.ax.tick_params(labelsize=12, rotation=45)
 
 # Add the land mask feature on top of the contour plot (higher zorder)
 ax.add_feature(land_mask, zorder=2)

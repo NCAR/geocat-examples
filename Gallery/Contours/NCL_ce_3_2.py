@@ -56,14 +56,19 @@ newcmp = cmaps.BlAqGrYeOrRe
 # Contourf-plot data
 heatmap = t.plot.contourf(ax=ax,
                           transform=projection,
-                          levels=40,
+                          levels=np.arange(0, 32, .5),
                           vmin=0,
                           vmax=32,
                           cmap=newcmp,
                           add_colorbar=False)
 
 # Add colorbar
-cbar = plt.colorbar(heatmap, ticks=np.arange(0, 32, 2))
+cbar = plt.colorbar(heatmap,
+                    shrink=0.8,
+                    drawedges=True,
+                    ticks=np.arange(0, 32, 2),
+                    extendrect=True,
+                    extendfrac='auto')
 cbar.ax.set_yticklabels([str(i) for i in np.arange(0, 32, 2)])
 
 # Adjust tick label size
