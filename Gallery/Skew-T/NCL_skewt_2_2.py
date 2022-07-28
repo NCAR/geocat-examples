@@ -70,9 +70,9 @@ skew.plot(p, tdc, color='blue')
 # Draw parcel path
 parcel_prof = mpcalc.parcel_profile(p, tc[0], tdc[0]).to('degC')
 skew.plot(p, parcel_prof, color='red', linestyle='--')
-u = np.where(p >= 100 * units.hPa, u, np.nan)
-v = np.where(p >= 100 * units.hPa, v, np.nan)
-p = np.where(p >= 100 * units.hPa, p, np.nan)
+u = np.where(p >= 100 * units.hPa, u, np.nan) * units.hPa
+v = np.where(p >= 100 * units.hPa, v, np.nan) * units.hPa
+p = np.where(p >= 100 * units.hPa, p, np.nan) * units.hPa
 
 # Add wind barbs
 skew.plot_barbs(p[::2],
