@@ -70,12 +70,13 @@ skew.plot(p, tdc, color='blue')
 # Draw parcel path
 parcel_prof = mpcalc.parcel_profile(p, tc[0], tdc[0]).to('degC')
 skew.plot(p, parcel_prof, color='red', linestyle='--')
-u = np.where(p >= 100 * units.hPa, u, np.nan) * units.hPa
-v = np.where(p >= 100 * units.hPa, v, np.nan) * units.hPa
-p = np.where(p >= 100 * units.hPa, p, np.nan) * units.hPa
+u = np.where(p >= 100 * units.hPa, u, np.nan)
+v = np.where(p >= 100 * units.hPa, v, np.nan)
+p = np.where(ds[1].values >= 100, ds[1].values,
+             np.nan)  # unitless for plot_barbs
 
 # Add wind barbs
-skew.plot_barbs(p[::2],
+skew.plot_barbs(pressure=p[::2],
                 u=u[::2],
                 v=v[::2],
                 xloc=1.05,
@@ -96,7 +97,7 @@ x1 = np.linspace(-100, 40, 8)  # The starting x values for the shaded regions
 x2 = np.linspace(-90, 50, 8)  # The ending x values for the shaded regions
 y = [1050, 100]  # The range of y values that the shades regions should cover
 for i in range(0, 8):
-    skew.shade_area(y=y * units.hPa,
+    skew.shade_area(y=y,
                     x1=x1[i],
                     x2=x2[i],
                     color='limegreen',

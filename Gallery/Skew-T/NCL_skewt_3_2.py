@@ -32,7 +32,7 @@ import geocat.viz as gv
 ds = pd.read_csv(gdf.get('ascii_files/sounding_ATS.csv'), header=None)
 
 # Extract the data
-p = ds[0].values * units.hPa  # Pressure [mb/hPa]
+p = ds[0].values  # Pressure [mb/hPa] (unitless for plot_barbs)
 tc = ds[1].values * units.degC  # Temperature [C]
 tdc = ds[2].values * units.degC  # Dew pt temp  [C]
 wspd = ds[5].values * units.knots  # Wind speed   [knots or m/s]
@@ -66,8 +66,8 @@ skew.plot(p, tc, 'black')
 skew.plot(p, tdc, 'blue')
 # Plot only every third windbarb
 skew.plot_barbs(pressure=p[::3],
-                u=u[::3],
-                v=v[::3],
+                u=u[::3] * units.hPa,
+                v=v[::3] * units.hPa,
                 xloc=1.05,
                 fill_empty=True,
                 sizes=dict(emptybarb=0.075, width=0.1, height=0.2))

@@ -16,7 +16,7 @@ dependencies:
   - jupyterlab
   - make
   - matplotlib
-  - metpy=1.3.0
+  - metpy
   - mock
   - nbsphinx
   - netcdf4
