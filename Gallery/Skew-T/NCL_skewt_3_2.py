@@ -66,8 +66,8 @@ skew.plot(p, tc, 'black')
 skew.plot(p, tdc, 'blue')
 # Plot only every third windbarb
 skew.plot_barbs(pressure=p[::3],
-                u=u[::3] * units.hPa,
-                v=v[::3] * units.hPa,
+                u=u[::3],
+                v=v[::3],
                 xloc=1.05,
                 fill_empty=True,
                 sizes=dict(emptybarb=0.075, width=0.1, height=0.2))
