@@ -32,7 +32,7 @@ import geocat.viz as gv
 ds = pd.read_csv(gdf.get('ascii_files/sounding_ATS.csv'), header=None)
 
 # Extract the data
-p = ds[0].values * units.hPa  # Pressure [mb/hPa]
+p = ds[0].values  # Pressure [mb/hPa] (unitless for plot_barbs)
 tc = ds[1].values * units.degC  # Temperature [C]
 tdc = ds[2].values * units.degC  # Dew pt temp  [C]
 wspd = ds[5].values * units.knots  # Wind speed   [knots or m/s]
