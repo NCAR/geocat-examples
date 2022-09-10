@@ -1,11 +1,8 @@
-name: CI
+name: CI Nightly
 on:
-  pull_request:
   workflow_dispatch:
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  schedule:
+  - cron: '0 1 * * *' # Daily “At 01:00”
 
 jobs:
   build-and-run:
@@ -18,16 +15,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ "ubuntu-latest"]
+        os: [ "ubuntu-latest", "macos-latest"]
         python-version: [ "3.7", "3.8", "3.9", "3.10" ]
-        include:
-          - os: "macos-latest"
-            python-version: "3.7"
-          - os: "macos-latest"
-            python-version: "3.10"
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     - name: Create conda environment
       env:
         ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
