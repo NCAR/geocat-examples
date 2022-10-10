@@ -72,10 +72,11 @@ parcel_prof = mpcalc.parcel_profile(p, tc[0], tdc[0]).to('degC')
 skew.plot(p, parcel_prof, color='red', linestyle='--')
 u = np.where(p >= 100 * units.hPa, u, np.nan)
 v = np.where(p >= 100 * units.hPa, v, np.nan)
-p = np.where(p >= 100 * units.hPa, p, np.nan)
+p = np.where(ds[1].values >= 100, ds[1].values,
+             np.nan)  # unitless for plot_barbs
 
 # Add wind barbs
-skew.plot_barbs(p[::2],
+skew.plot_barbs(pressure=p[::2],
                 u=u[::2],
                 v=v[::2],
                 xloc=1.05,
