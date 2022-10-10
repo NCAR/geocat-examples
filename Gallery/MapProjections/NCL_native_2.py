@@ -24,9 +24,9 @@ import xarray as xr
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
 
 import geocat.datafiles as gdf
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -68,28 +68,23 @@ cbar = plt.colorbar(pt,
                     ticks=cbar_ticks)
 
 # Draw gridlines
-gl = ax.gridlines(crs=ccrs.PlateCarree(),
-                  draw_labels=True,
-                  dms=False,
-                  x_inline=False,
-                  y_inline=False,
-                  linewidth=1,
-                  color="black",
-                  alpha=0.25)
+gl = gv.add_lat_lon_gridlines(
+    ax,
+    color='grey',
+    labelsize=14,
+    xlocator=np.arange(130, 144, 4),  # longitudes for gridlines
+    ylocator=np.arange(36, 51, 2))  # latitudes for gridlines
 
-# Manipulate latitude and longitude gridline numbers and spacing
+# Remove lat/lon labels on top and right sides of plot
 gl.top_labels = False
 gl.right_labels = False
-gl.xlocator = mticker.FixedLocator([130, 134, 138, 142])
-gl.ylocator = mticker.FixedLocator([36, 38, 40, 42, 44, 46, 48, 50])
-gl.xlabel_style = {"rotation": 0, "size": 15}
-gl.ylabel_style = {"rotation": 0, "size": 15}
 
+# Add title
 plt.title("Native Mercator Projection",
-          loc="center",
           y=1.05,
           size=15,
-          fontweight="bold")
+          fontweight="bold",
+          pad=0)
 plt.title(t.units, loc="right", y=1.0, size=14)
 plt.title("free surface deviation", loc="left", y=1.0, size=14)
 
