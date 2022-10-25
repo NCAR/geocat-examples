@@ -21,7 +21,7 @@ dependencies:
   - nbsphinx
   - netcdf4
   - pillow
-  - pint
+  - pint<0.20
   - pip
   - scikit-learn
   - sphinx
