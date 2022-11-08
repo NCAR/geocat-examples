@@ -15,12 +15,13 @@ dependencies:
   - jupyter
   - jupyterlab
   - make
-  - matplotlib
+  - matplotlib<3.6
   - metpy
   - mock
   - nbsphinx
   - netcdf4
   - pillow
+  - pint<0.20
   - pip
   - scikit-learn
   - sphinx
