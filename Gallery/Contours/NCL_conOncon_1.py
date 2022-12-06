@@ -148,7 +148,6 @@ gv.set_titles_and_labels(ax,
                          righttitlefontsize=22,
                          xlabel="")
 
-
 # Create second y-axis to show geo-potential height.
 # Currently we're using bogus values for height, cause we haven't figured out how to make this work.
 dummy = 10
@@ -168,7 +167,6 @@ fig.text(0.7,
          horizontalalignment='center',
          fontsize=15,
          bbox=dict(facecolor='none', edgecolor='k'))
-
 
 # Show the plot
 plt.show()
