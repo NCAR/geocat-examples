@@ -1,9 +1,10 @@
 /docs/_build/
 /docs/gallery/
 /docs/gallery-geocat-comp/
-/Plots/CSV/*.csv
+/Gallery/CSV/*.csv
 *.ncl
 .vscode/
 .idea/
 .DS_Store
 .ipynb_checkpoints/
+*.grd.gz
