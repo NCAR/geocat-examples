@@ -4,18 +4,23 @@
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
+import os
+
+import logging
+
+# the following lines suppress INFO messages when files are downloaded using geocat.datafiles
+import geocat.datafiles
+import pooch
+
+logger = pooch.get_logger()
+logger.setLevel(logging.WARNING)
+geocat.datafiles.get("registry.txt")
+
 # -- Path setup --------------------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-import importlib
-import os
-import warnings
-
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
 
 # -- Project information -----------------------------------------------------
 
@@ -35,7 +40,15 @@ author = u'GeoCAT'
 # ones.
 extensions = [
     'sphinx_gallery.gen_gallery',
+    'nbsphinx',
+    'sphinx_gallery.load_style',
 ]
+
+# Define what extensions will parse which kind of source file
+source_suffix = {
+    '.md': 'sphinx_gallery',
+    '.rst': 'restructuredtext',
+}
 
 image_scrapers = ('matplotlib',)
 
@@ -79,22 +92,35 @@ warnings.filterwarnings("ignore",
 import sphinx_rtd_theme
 
 html_theme = 'sphinx_rtd_theme'
-html_style = None
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+html_static_path = ['_static']
+html_logo = '_static/images/nsf.png'
+html_style = None
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+html_theme_options = {
+    'navigation_depth': 2,
+}
+
 # Specify master_doc (see https://github.com/readthedocs/readthedocs.org/issues/2569#issuecomment-485117471)
 master_doc = 'index'
+
+
+# Allow for changes to be made to the css in the theme_overrides file
+# This is used for dynamically adjusting page width in this repo
+def setup(app):
+    app.add_css_file('theme_overrides.css')
+
 
 # Configure sphinx-gallery plugin
 from sphinx_gallery.sorting import ExampleTitleSortKey
 
 sphinx_gallery_conf = {
-    'examples_dirs': ['../Plots', '../GeoCAT-comp-examples'
+    'examples_dirs': ['../Gallery', '../GeoCAT-comp-examples'
                      ],  # path to your example scripts
     'filename_pattern': '^((?!sgskip).)*$',
     'gallery_dirs': ['gallery', 'gallery-geocat-comp'
@@ -103,16 +129,10 @@ sphinx_gallery_conf = {
     'matplotlib_animations': True,
 }
 
-html_theme_options = {
-    'navigation_depth': 2,
-}
+# Configure nbsphinx
+nbsphinx_prolog = """
+Download notebook (Right click and save):
+https://github.com/NCAR/GeoCAT-examples/raw/main/docs/{{ env.doc2path(env.docname, base=None) }}
 
-import logging
-
-# the following lines suppress INFO messages when files are downloaded using geocat.datafiles
-import geocat.datafiles
-import pooch
-
-logger = pooch.get_logger()
-logger.setLevel(logging.WARNING)
-geocat.datafiles.get("registry.txt")
+----
+"""

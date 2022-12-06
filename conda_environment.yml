@@ -13,12 +13,15 @@ dependencies:
   - cartopy
   - geographiclib
   - jupyter
+  - jupyterlab
   - make
-  - matplotlib=3.3.0
+  - matplotlib<3.6
   - metpy
   - mock
+  - nbsphinx
   - netcdf4
   - pillow
+  - pint<0.20
   - pip
   - scikit-learn
   - sphinx
