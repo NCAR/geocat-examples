@@ -37,19 +37,22 @@ V = ds.V[0, :, :]
 # Plot:
 
 # Generate figure (set its size (width, height) in inches) and axes
-plt.figure(figsize=(12, 12))
+fig = plt.figure(figsize=(10, 10))
 ax = plt.gca()
 
 # Set y-axis to have log-scale
 plt.yscale('log')
 
 # Contour-plot U-data
-p = U.plot.contour(ax=ax, levels=16, colors='red', extend='neither')
-ax.clabel(p, fmt='%d', inline=1, fontsize=14)
+p = U.plot.contour(ax=ax, levels=27, colors='red', extend='neither')
+ax.clabel(p, fmt='%d', inline=1, fontsize=14, colors='k')
 
 # Contour-plot V-data
-p = V.plot.contour(ax=ax, levels=16, colors='blue', extend='neither')
-ax.clabel(p, fmt='%d', inline=1, fontsize=14)
+p = V.plot.contour(ax=ax, levels=20, colors='blue', extend='neither')
+ax.clabel(p, fmt='%d', inline=1, fontsize=14, colors='k')
+
+# Use geocat-viz utility function to add minor ticks to x-axis
+gv.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=0)
 
 # Use geocat.viz.util convenience function to set axes tick values
 # Set y-lim inorder for y-axis to have descending values
@@ -62,32 +65,40 @@ gv.set_axes_limits_and_ticks(ax,
 # Change formatter or else we tick values formatted in exponential form
 ax.yaxis.set_major_formatter(ScalarFormatter())
 
-# Tweak label sizes, etc.
-ax.yaxis.label.set_size(20)
-ax.tick_params('both', length=20, width=2, which='major', labelsize=18)
-ax.minorticks_off()
+# Set font size for y-axis, turn off minor ticks
+ax.yaxis.label.set_size(22)
+
+# Use geocat-viz utility function to create second y-axis
+# Heights were chosen arbitrarily
+axRHS = gv.add_right_hand_axis(ax,
+                               label="Height (km)",
+                               ylim=(0, 32),
+                               yticks=np.arange(4, 30, 4),
+                               ticklabelsize=18,
+                               axislabelsize=22)
+
+# Adjust length and width of tick marks for left and right y-axis
+ax.tick_params('both', length=15, width=1, which='major', labelsize=18)
+ax.tick_params('x', length=7, width=0.6, which='minor')
+axRHS.tick_params('both', length=15, width=1)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
 gv.set_titles_and_labels(ax,
                          maintitle="Ensemble Average 1987-89",
-                         maintitlefontsize=20,
+                         maintitlefontsize=25,
                          lefttitle=U.long_name,
-                         lefttitlefontsize=18,
+                         lefttitlefontsize=22,
                          righttitle=U.units,
-                         righttitlefontsize=18,
+                         righttitlefontsize=22,
                          xlabel="")
 
-# Create second y-axis to show geo-potential height.
-# Currently we're using bogus values for height, cause we haven't figured out how to make this work.
-axRHS = ax.twinx()
-dummy = 10
-mn, mx = ax.get_ylim()
-axRHS.set_ylim(mn * dummy, mx * dummy)
-axRHS.set_ylim(axRHS.get_ylim()[::-1])
-axRHS.set_ylabel('Height (km)')
-axRHS.yaxis.label.set_size(20)
-axRHS.tick_params('both', length=20, width=2, which='major', labelsize=18)
+# Add figure label
+fig.text(0.7,
+         0.03,
+         "CONTOUR FROM -3.2 TO 2.8 BY 4",
+         horizontalalignment='center',
+         fontsize=15,
+         bbox=dict(facecolor='none', edgecolor='k'))
 
 # Show the plot
-plt.tight_layout()
 plt.show()
