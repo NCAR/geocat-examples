@@ -27,6 +27,8 @@ dependencies:
   - sphinx
   - sphinx-gallery
   - sphinx_rtd_theme
+  - sphinx-design
+  - sphinx-book-theme
   - wrf-python
   - pip:
       - pre-commit
