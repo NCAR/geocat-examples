@@ -27,6 +27,7 @@ dependencies:
   - sphinx
   - sphinx-gallery
   - sphinx_rtd_theme
+  - xarray<=2023.02.0
   - wrf-python
   - pip:
       - pre-commit
