@@ -25,6 +25,8 @@ dependencies:
   - pip
   - scikit-learn
   - sphinx
+  - sphinx-book-theme
+  - sphinx-design
   - sphinx-gallery
   - sphinx_rtd_theme
   - xarray<=2023.02.0
