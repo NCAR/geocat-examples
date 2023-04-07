@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
 import cmaps
 import metpy.calc as mpcalc
+from metpy.units import units
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
@@ -111,16 +112,19 @@ gv.set_titles_and_labels(ax,
 # Create second y-axis to show geo-potential height.
 axRHS = ax.twinx()
 
-# Use MetPy's pressure_to_height_std function to get standard atmosphere height conversion
-heights = mpcalc.pressure_to_height_std(ds.lev).values
-min_height = min(heights)
-max_height = max(heights)
+# Select heights to display as tick labels
+heights_nice = np.arange(0, 32, 4)
+# Send "nice" height values back to pressure  as tick locations
+pressures_nice = mpcalc.height_to_pressure_std(heights_nice *
+                                               units('km')).magnitude
 
-# Use geocat.viz.util convenience function to set axes tick values
+axRHS.set_yscale('log')
 gv.set_axes_limits_and_ticks(axRHS,
-                             ylim=(min_height, max_height),
-                             yticks=np.arange(4, max_height, 4))
+                             ylim=ax.get_ylim(),
+                             yticks=pressures_nice,
+                             yticklabels=heights_nice)
 axRHS.tick_params(labelsize=12)  # manually set tick label size
+axRHS.minorticks_off()
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
 axRHS.set_ylabel(ylabel='Height (km)', labelpad=10, fontsize=18)

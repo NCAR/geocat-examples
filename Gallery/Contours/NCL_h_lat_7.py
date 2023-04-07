@@ -194,15 +194,19 @@ gv.set_titles_and_labels(ax,
 # Create second y-axis to show geo-potential height.
 axRHS = ax.twinx()
 
-# Use MetPy's pressure_to_height_std function to get standard atmosphere height conversion
-heights = mpcalc.pressure_to_height_std(hp.plev * units('mbar')).values
-min_height = min(heights)
-max_height = max(heights)
+# Select heights to display as tick labels
+heights_nice = np.arange(0, 12, 4)
+# Send "nice" height values back to pressure  as tick locations
+pressures_nice = mpcalc.height_to_pressure_std(heights_nice *
+                                               units('km')).magnitude
 
-# Use geocat.viz.util convenience function to set axes tick values
+axRHS.set_yscale('log')
 gv.set_axes_limits_and_ticks(axRHS,
-                             ylim=(min_height, max_height),
-                             yticks=np.arange(2, max_height, 2))
+                             ylim=ax.get_ylim(),
+                             yticks=pressures_nice,
+                             yticklabels=heights_nice)
+axRHS.tick_params(labelsize=12)  # manually set tick label size
+axRHS.minorticks_off()
 
 # manually set tick length, width and ticklabel size
 axRHS.tick_params(labelsize=18, length=8, width=0.9)

@@ -21,6 +21,8 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
 import cmaps
 import metpy.calc as mpcalc
+from metpy.units import units
+
 import scipy
 
 import geocat.datafiles as gdf
@@ -108,33 +110,20 @@ gv.set_titles_and_labels(ax,
 # Create second y-axis to show geo-potential height.
 axRHS = ax.twinx()
 
-# Use MetPy's pressure_to_height_std function to get standard atmosphere height conversion
-heights = mpcalc.pressure_to_height_std(ds.lev).values
+# Select heights to display as tick labels
+heights_nice = np.arange(0, 32, 4)
+# Send "nice" height values back to pressure  as tick locations
+pressures_nice = mpcalc.height_to_pressure_std(heights_nice *
+                                               units('km')).magnitude
 
-min_height = min(heights)
-max_height = max(heights)
-
-# Auto select "nice" heights based on range
-height_range = max_height - min_height
-if (height_range < 35):
-    step = 4
-else:
-    if (height_range < 70):
-        step = 7
-    else:
-        step = 10
-
-heights_nice = np.arange(int(min_height), int(max_height), step)
-
-# Use a cubic spline interpolation to send "nice" height values back to pressure tick locations
-cubic_spline = scipy.interpolate.CubicSpline(heights, np.flip(ds.lev))
-pressures_nice = cubic_spline(heights_nice)
-
+axRHS.set_yscale('log')
 gv.set_axes_limits_and_ticks(axRHS,
-                             ylim=ax.get_ylim()[::-1],
+                             ylim=ax.get_ylim(),
                              yticks=pressures_nice,
                              yticklabels=heights_nice)
+
 axRHS.tick_params(labelsize=12)  # manually set tick label size
+axRHS.minorticks_off()
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
 gv.set_titles_and_labels(axRHS, ylabel='Height (km)', labelfontsize=16)
