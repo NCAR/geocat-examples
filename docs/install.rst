@@ -8,7 +8,7 @@ The easiest way to access GeoCAT-examples scripts as a whole is by cloning the r
 
 This guide includes only the instructions to run GeoCAT-examples scripts locally. For information about installing the
 entire GeoCAT project, see our
-`Contributor's Guide <(https://geocat.ucar.edu/pages/contributing.html#3-creating-a-development-environment)>`_.
+`Contributor's Guide <(https://geocat.ucar.edu/pages/contributing.html)>`_.
 
 Creating a Conda environment
 ----------------------------

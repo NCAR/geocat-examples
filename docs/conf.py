@@ -24,7 +24,7 @@ geocat.datafiles.get("registry.txt")
 
 # -- Project information -----------------------------------------------------
 
-project = 'GeoCAT-examples'
+project = u'GeoCAT-examples'
 
 import datetime
 
@@ -42,6 +42,7 @@ extensions = [
     'sphinx_gallery.gen_gallery',
     'nbsphinx',
     'sphinx_gallery.load_style',
+    "sphinx_design",
 ]
 
 # Define what extensions will parse which kind of source file
@@ -91,20 +92,29 @@ warnings.filterwarnings("ignore",
 #
 import sphinx_rtd_theme
 
-html_theme = 'sphinx_rtd_theme'
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+html_theme = 'sphinx_book_theme'
+html_title = ""
 html_static_path = ['_static']
-html_logo = '_static/images/nsf.png'
-html_style = None
+html_logo = '_static/images/GeoCAT_nsf.svg'
+html_favicon = '_static/images/GeoCAT_square.svg'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
 
-html_theme_options = {
-    'navigation_depth': 2,
-}
+html_theme_options = dict(
+    # canonical_url="",
+    repository_url="https://github.com/NCAR/geocat-examples",
+    repository_branch="main",
+    path_to_docs="docs",
+    use_edit_page_button=True,
+    use_repository_button=True,
+    use_issues_button=True,
+    home_page_in_toc=False,
+    navbar_footer_text="",
+    extra_footer=
+    "<em>The National Center for Atmospheric Research is sponsored by the National Science Foundation. Any opinions, findings and conclusions or recommendations expressed in this material do not necessarily reflect the views of the National Science Foundation.</em>",
+)
 
 # Specify master_doc (see https://github.com/readthedocs/readthedocs.org/issues/2569#issuecomment-485117471)
 master_doc = 'index'

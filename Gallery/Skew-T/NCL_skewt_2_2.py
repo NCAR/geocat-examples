@@ -23,7 +23,6 @@ import metpy.calc as mpcalc
 
 import geocat.viz as gv
 import geocat.datafiles as gdf
-import geocat.comp.skewt_params as gcskewt
 
 ##############################################################################
 # Read in data:
@@ -48,7 +47,7 @@ u, v = mpcalc.wind_components(wspd, wdir)  # Calculate wind components
 tc0 = tc[0]  # Temperature of surface parcel
 tdc0 = tdc[0]  # Dew point temperature of surface parcel
 pro = mpcalc.parcel_profile(p, tc0, tdc0)  # Temperature profile of parcel
-subtitle = gcskewt.get_skewt_vars(p, tc, tdc, pro)  # Create subtitle
+subtitle = gv.get_skewt_vars(p, tc, tdc, pro)  # Create subtitle
 
 ##############################################################################
 # Plot:
