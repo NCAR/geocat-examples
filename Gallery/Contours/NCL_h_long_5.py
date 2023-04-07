@@ -19,6 +19,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
 import cmaps
+import metpy.calc as mpcalc
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
@@ -107,13 +108,16 @@ gv.set_titles_and_labels(ax,
                          ylabel=U.lev.long_name,
                          labelfontsize=18)
 
-# Create second y-axis to show geo-potential height. Currently we're using
-# arbitrary values for height as we haven't figured out how to make this work
-# properly yet.
+# Create second y-axis to show geo-potential height.
 axRHS = ax.twinx()
 
+# Use MetPy's pressure_to_height_std function to get standard atmosphere height conversion
+heights = mpcalc.pressure_to_height_std(ds.lev).values
+min_height = min(heights)
+max_height = max(heights)
+
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(axRHS, ylim=(0, 32), yticks=np.arange(4, 32, 4))
+gv.set_axes_limits_and_ticks(axRHS, ylim=(min_height, max_height), yticks=np.arange(4, max_height, 4))
 axRHS.tick_params(labelsize=12)  # manually set tick label size
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
