@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
 import cmaps
 import metpy.calc as mpcalc
+import scipy
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
@@ -109,13 +110,30 @@ axRHS = ax.twinx()
 
 # Use MetPy's pressure_to_height_std function to get standard atmosphere height conversion
 heights = mpcalc.pressure_to_height_std(ds.lev).values
+
 min_height = min(heights)
 max_height = max(heights)
 
-# Use geocat.viz.util convenience function to set axes tick values
+# Auto select "nice" heights based on range
+height_range = max_height - min_height
+if (height_range < 35):
+    step = 4
+else:
+    if (height_range < 70):
+        step = 7
+    else:
+        step = 10
+
+heights_nice = np.arange(int(min_height), int(max_height), step)
+
+# Use a cubic spline interpolation to send "nice" height values back to pressure tick locations
+cubic_spline = scipy.interpolate.CubicSpline(heights, np.flip(ds.lev))
+pressures_nice = cubic_spline(heights_nice)
+
 gv.set_axes_limits_and_ticks(axRHS,
-                             ylim=(min_height, max_height),
-                             yticks=np.arange(4, max_height, 4))
+                             ylim=ax.get_ylim()[::-1],
+                             yticks=pressures_nice,
+                             yticklabels=heights_nice)
 axRHS.tick_params(labelsize=12)  # manually set tick label size
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
