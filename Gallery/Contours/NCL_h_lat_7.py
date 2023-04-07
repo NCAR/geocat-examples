@@ -200,7 +200,9 @@ min_height = min(heights)
 max_height = max(heights)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(axRHS, ylim=(min_height, max_height), yticks=np.arange(2, max_height, 2))
+gv.set_axes_limits_and_ticks(axRHS,
+                             ylim=(min_height, max_height),
+                             yticks=np.arange(2, max_height, 2))
 
 # manually set tick length, width and ticklabel size
 axRHS.tick_params(labelsize=18, length=8, width=0.9)
