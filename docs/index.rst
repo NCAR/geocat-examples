@@ -1,10 +1,5 @@
-.. GeoCAT-examples documentation master file, created by
-   sphinx-quickstart on Wed Dec  4 11:06:58 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-GeoCAT-examples
-===============
+GeoCAT-examples Documentation
+=============================
 
 This gallery contains visualization examples from many plotting categories
 of geosciences data (under the
@@ -26,20 +21,22 @@ download Python script and/or Jupyter notebook.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Gallery
+   :hidden:
 
    ./gallery/index
    ./gallery-geocat-comp/index
    ./gallery_nb
+
+.. toctree::
+   :caption: Usage
+   :hidden:
+
    ./install
    ./citation
+
+.. toctree::
+   :caption: Support
+   :hidden:
+
    ./support
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

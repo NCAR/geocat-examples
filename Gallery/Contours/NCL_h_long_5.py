@@ -19,6 +19,8 @@ import xarray as xr
 import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
 import cmaps
+import metpy.calc as mpcalc
+from metpy.units import units
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
@@ -107,14 +109,22 @@ gv.set_titles_and_labels(ax,
                          ylabel=U.lev.long_name,
                          labelfontsize=18)
 
-# Create second y-axis to show geo-potential height. Currently we're using
-# arbitrary values for height as we haven't figured out how to make this work
-# properly yet.
+# Create second y-axis to show geo-potential height.
 axRHS = ax.twinx()
 
-# Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(axRHS, ylim=(0, 32), yticks=np.arange(4, 32, 4))
+# Select heights to display as tick labels
+heights_nice = np.arange(0, 32, 4)
+# Send "nice" height values back to pressure  as tick locations
+pressures_nice = mpcalc.height_to_pressure_std(heights_nice *
+                                               units('km')).magnitude
+
+axRHS.set_yscale('log')
+gv.set_axes_limits_and_ticks(axRHS,
+                             ylim=ax.get_ylim(),
+                             yticks=pressures_nice,
+                             yticklabels=heights_nice)
 axRHS.tick_params(labelsize=12)  # manually set tick label size
+axRHS.minorticks_off()
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
 axRHS.set_ylabel(ylabel='Height (km)', labelpad=10, fontsize=18)

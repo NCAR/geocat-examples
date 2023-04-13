@@ -21,12 +21,15 @@ dependencies:
   - nbsphinx
   - netcdf4
   - pillow
-  - pint<0.20
+  - pint
   - pip
   - scikit-learn
   - sphinx
+  - sphinx-book-theme
+  - sphinx-design
   - sphinx-gallery
   - sphinx_rtd_theme
+  - xarray<=2023.02.0
   - wrf-python
   - pip:
       - pre-commit
