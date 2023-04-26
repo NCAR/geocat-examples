@@ -70,19 +70,9 @@ ax.yaxis.set_major_formatter(ScalarFormatter())
 # Set font size for y-axis, turn off minor ticks
 ax.yaxis.label.set_size(22)
 
-# Use geocat-viz utility function to create second y-axis
-# Heights were chosen arbitrarily
-axRHS = gv.add_right_hand_axis(ax,
-                               label="Height (km)",
-                               ylim=(0, 32),
-                               yticks=np.arange(4, 30, 4),
-                               ticklabelsize=18,
-                               axislabelsize=22)
-
 # Adjust length and width of tick marks for left and right y-axis
 ax.tick_params('both', length=15, width=1, which='major', labelsize=18)
 ax.tick_params('x', length=7, width=0.6, which='minor')
-axRHS.tick_params('both', length=15, width=1)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
 gv.set_titles_and_labels(ax,
@@ -95,22 +85,10 @@ gv.set_titles_and_labels(ax,
                          xlabel="")
 
 # Create second y-axis to show geo-potential height.
-axRHS = ax.twinx()
-
-# Select heights to display as tick labels
-heights_nice = np.arange(0, 32, 4)
-# Send "nice" height values back to pressure  as tick locations
-pressures_nice = mpcalc.height_to_pressure_std(heights_nice *
-                                               units('km')).magnitude
-
-axRHS.set_yscale('log')
-gv.set_axes_limits_and_ticks(axRHS,
-                             ylim=ax.get_ylim(),
-                             yticks=pressures_nice,
-                             yticklabels=heights_nice)
-
-axRHS.tick_params(labelsize=12)  # manually set tick label size
-axRHS.minorticks_off()
+axRHS = gv.add_height_from_pressure_axis(ax,
+                                    heights=np.arange(4, 28, 4),
+                                    ticklabelsize=18,
+                                    axislabelsize=22)
 
 # Add figure label
 fig.text(0.7,
