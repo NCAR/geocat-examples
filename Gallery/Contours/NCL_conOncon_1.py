@@ -20,8 +20,6 @@ import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
-import metpy.calc as mpcalc
-from metpy.units import units
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
