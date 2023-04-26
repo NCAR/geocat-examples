@@ -192,7 +192,7 @@ gv.set_titles_and_labels(ax,
                          labelfontsize=24)
 
 # Create second y-axis to show geo-potential height.
-axRHS = gv.add_height_from_pressure_axis(ax, heights=np.arange(4,28,4))
+axRHS = gv.add_height_from_pressure_axis(ax, heights=np.arange(4, 28, 4))
 
 # Force the plot to be square by setting the aspect ratio to 1
 ax.set_box_aspect(1)
