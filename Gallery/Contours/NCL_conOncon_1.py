@@ -86,9 +86,9 @@ gv.set_titles_and_labels(ax,
 
 # Create second y-axis to show geo-potential height.
 axRHS = gv.add_height_from_pressure_axis(ax,
-                                    heights=np.arange(4, 28, 4),
-                                    ticklabelsize=18,
-                                    axislabelsize=22)
+                                         heights=np.arange(4, 28, 4),
+                                         ticklabelsize=18,
+                                         axislabelsize=22)
 
 # Add figure label
 fig.text(0.7,
