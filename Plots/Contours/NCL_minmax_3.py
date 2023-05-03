@@ -20,7 +20,7 @@ import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
 
-from geocat.viz import util as gvutil
+from geocat.viz import util as gv
 from geocat.viz import cmaps as gvcmaps
 
 ###############################################################################
@@ -189,9 +189,9 @@ lines = ax.contour(contours, linewidths=0.5, linestyles='solid', colors='black')
 
 # Find local min/max extrema with GeoCAT-Viz findLocalExtrema
 # Use below command instead after PR#46 in Viz is merged
-# lmin = gvutil.findLocalExtrema(data, eType='Low', highVal=12, lowVal=-10, eps=7)
-lmin = gvutil.findLocalExtrema(data, eType='Low', highVal=12, lowVal=-10)
-lmax = gvutil.findLocalExtrema(data, eType='High', highVal=12, lowVal=-10)
+# lmin = gv.findLocalExtrema(data, eType='Low', highVal=12, lowVal=-10, eps=7)
+lmin = gv.findLocalExtrema(data, eType='Low', highVal=12, lowVal=-10)
+lmax = gv.findLocalExtrema(data, eType='High', highVal=12, lowVal=-10)
 
 # Plot labels for local extrema
 plotLabels(lmin, 'L')
@@ -221,20 +221,20 @@ cbar.ax.set_yticklabels(ticklabs, ha='center')
 cbar.ax.yaxis.set_tick_params(pad=26, length=0, labelsize=16)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gvutil.set_axes_limits_and_ticks(ax,
+gv.set_axes_limits_and_ticks(ax,
                                  xlim=(0, 99),
                                  ylim=(0, 99),
                                  xticks=np.arange(0, 100, 20),
                                  yticks=np.arange(0, 100, 20))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gvutil.add_major_minor_ticks(ax,
+gv.add_major_minor_ticks(ax,
                              x_minor_per_major=4,
                              y_minor_per_major=4,
                              labelsize=16)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gvutil.set_titles_and_labels(
+gv.set_titles_and_labels(
     ax,
     maintitle='Adding your own minima/maxima text strings',
     maintitlefontsize=24)
