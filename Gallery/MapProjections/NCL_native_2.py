@@ -70,12 +70,12 @@ cbar = plt.colorbar(pt,
 
 # Draw gridlines
 gl = gv.add_lat_lon_gridlines(ax,
-                           xlocator=[130, 134, 138, 142],
-                           ylocator=[36, 38, 40, 42, 44, 46, 48, 50],
-                           labelsize=15,
-                           linewidth=1,
-                           color='black',
-                           alpha=0.25)
+                              xlocator=[130, 134, 138, 142],
+                              ylocator=[36, 38, 40, 42, 44, 46, 48, 50],
+                              labelsize=15,
+                              linewidth=1,
+                              color='black',
+                              alpha=0.25)
 
 # Remove lat/lon labels on top and right sides of plot
 gl.top_labels = False
