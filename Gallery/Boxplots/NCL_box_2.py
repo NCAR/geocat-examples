@@ -81,9 +81,9 @@ gv.add_major_minor_ticks(ax,
 
 # Use geocat.viz.util convenience function to set spines visibility
 gv.set_tick_direction_spine_visibility(ax,
-                                    tick_direction='in',
-                                    top_spine_visible=False,
-                                    right_spine_visible=False)
+                                       tick_direction='in',
+                                       top_spine_visible=False,
+                                       right_spine_visible=False)
 
 # Use geocat.viz.util convenience function to add title to the plot axis.
 gv.set_titles_and_labels(ax,
