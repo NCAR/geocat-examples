@@ -37,7 +37,6 @@ ds = xr.open_dataset(gdf.get("netcdf_files/1994_256_FSD.nc"),
                      decode_times=False)
 t = ds.FSD.isel(time=0)
 
-
 ###############################################################################
 # Plot:
 
