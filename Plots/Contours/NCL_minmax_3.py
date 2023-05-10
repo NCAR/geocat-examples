@@ -222,22 +222,21 @@ cbar.ax.yaxis.set_tick_params(pad=26, length=0, labelsize=16)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
 gv.set_axes_limits_and_ticks(ax,
-                                 xlim=(0, 99),
-                                 ylim=(0, 99),
-                                 xticks=np.arange(0, 100, 20),
-                                 yticks=np.arange(0, 100, 20))
+                             xlim=(0, 99),
+                             ylim=(0, 99),
+                             xticks=np.arange(0, 100, 20),
+                             yticks=np.arange(0, 100, 20))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gv.add_major_minor_ticks(ax,
-                             x_minor_per_major=4,
-                             y_minor_per_major=4,
-                             labelsize=16)
+                         x_minor_per_major=4,
+                         y_minor_per_major=4,
+                         labelsize=16)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gv.set_titles_and_labels(
-    ax,
-    maintitle='Adding your own minima/maxima text strings',
-    maintitlefontsize=24)
+gv.set_titles_and_labels(ax,
+                         maintitle='Adding your own minima/maxima text strings',
+                         maintitlefontsize=24)
 
 # Set different tick font sizes and padding for X and Y axis
 ax.tick_params(axis='both', pad=10)
