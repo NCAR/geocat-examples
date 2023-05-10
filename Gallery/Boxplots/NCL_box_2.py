@@ -31,7 +31,6 @@ data = np.random.lognormal(size=(40, 3), mean=1, sigma=.7)
 for a in range(len(data)):
     data[a] = [x - 4 for x in data[a]]
 
-
 ###############################################################################
 # Helper function to set edge color of boxes
 
@@ -48,7 +47,6 @@ def setBoxColor(boxplot, colors):
         for box, color in zip(
                 zip(boxplot[element][::2], boxplot[element][1::2]), colors):
             plt.setp(box, color=color)
-
 
 ###############################################################################
 # Plot:
