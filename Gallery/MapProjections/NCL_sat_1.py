@@ -90,14 +90,21 @@ regularCLabels = [(176.4, 34.63), (-150.46, 42.44), (-142.16, 28.5),
 
 # low pressure contour levels- these will be plotted
 # as a subscript to an 'L' symbol.
-lowCLabels = gv.findLocalExtrema(pressure,
-                                 eType='Low',
-                                 highVal=1040,
-                                 lowVal=975)
+lowCLabels = gv.find_local_extrema(pressure,
+                                   eType='Low',
+                                   highVal=1040,
+                                   lowVal=975)
 
 # Plot Clabels
-gv.plotCLabels(ax, p, ccrs.Geodetic(), proj, clabel_locations=regularCLabels)
-gv.plotELabels(pressure, ccrs.Geodetic(), proj, clabel_locations=lowCLabels)
+gv.plot_contour_labels(ax,
+                       p,
+                       ccrs.Geodetic(),
+                       proj,
+                       clabel_locations=regularCLabels)
+gv.plot_contour_extrema_labels(pressure,
+                               ccrs.Geodetic(),
+                               proj,
+                               clabel_locations=lowCLabels)
 
 # Use gv function to set title and subtitles
 gv.set_titles_and_labels(ax,
