@@ -104,7 +104,7 @@ gv.plot_contour_labels(ax,
 gv.plot_extrema_labels(pressure,
                        ccrs.Geodetic(),
                        proj,
-                       clabel_locations=lowCLabels)
+                       label_locations=lowCLabels)
 
 # Use gv function to set title and subtitles
 gv.set_titles_and_labels(ax,

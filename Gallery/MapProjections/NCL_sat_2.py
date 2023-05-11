@@ -105,12 +105,12 @@ ax.clabel(p,
 gv.plot_extrema_labels(wrap_pressure,
                        ccrs.Geodetic(),
                        proj,
-                       clabel_locations=lowClevels,
+                       label_locations=lowClevels,
                        label='L')
 gv.plot_extrema_labels(wrap_pressure,
                        ccrs.Geodetic(),
                        proj,
-                       clabel_locations=highClevels,
+                       label_locations=highClevels,
                        label='H')
 
 # Use gv function to set title and subtitles
