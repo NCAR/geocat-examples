@@ -187,11 +187,11 @@ cmap = gvcmaps.BlueYellowRed
 contours = ax.contourf(data, cmap=cmap, levels=levels)
 lines = ax.contour(contours, linewidths=0.5, linestyles='solid', colors='black')
 
-# Find local min/max extrema with GeoCAT-Viz findLocalExtrema
+# Find local min/max extrema with GeoCAT-Viz find_local_extrema
 # Use below command instead after PR#46 in Viz is merged
-# lmin = gv.findLocalExtrema(data, eType='Low', highVal=12, lowVal=-10, eps=7)
-lmin = gv.findLocalExtrema(data, eType='Low', highVal=12, lowVal=-10)
-lmax = gv.findLocalExtrema(data, eType='High', highVal=12, lowVal=-10)
+# lmin = gv.find_local_extrema(data, eType='Low', highVal=12, lowVal=-10, eps=7)
+lmin = gv.find_local_extrema(data, eType='Low', highVal=12, lowVal=-10)
+lmax = gv.find_local_extrema(data, eType='High', highVal=12, lowVal=-10)
 
 # Plot labels for local extrema
 plotLabels(lmin, 'L')

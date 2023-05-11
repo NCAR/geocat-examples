@@ -102,16 +102,16 @@ ax.clabel(p,
           fmt="%.0f")
 
 # Label low and high contours
-gv.plot_contour_extrema_labels(wrap_pressure,
-                               ccrs.Geodetic(),
-                               proj,
-                               clabel_locations=lowClevels,
-                               label='L')
-gv.plot_contour_extrema_labels(wrap_pressure,
-                               ccrs.Geodetic(),
-                               proj,
-                               clabel_locations=highClevels,
-                               label='H')
+gv.plot_extrema_labels(wrap_pressure,
+                       ccrs.Geodetic(),
+                       proj,
+                       clabel_locations=lowClevels,
+                       label='L')
+gv.plot_extrema_labels(wrap_pressure,
+                       ccrs.Geodetic(),
+                       proj,
+                       clabel_locations=highClevels,
+                       label='H')
 
 # Use gv function to set title and subtitles
 gv.set_titles_and_labels(ax,
