@@ -143,7 +143,7 @@ clevs = np.arange(228, 273, 4, dtype=float)
 newcmp = gv.truncate_colormap(cmaps.BkBlAqGrYeOrReViWh200,
                               minval=0.1,
                               maxval=0.6,
-                              num_values=len(clevs))
+                              n=len(clevs))
 
 # Draw the temperature contour plot with the subselected colormap
 # (Place the zorder of the contour plot at the lowest level)

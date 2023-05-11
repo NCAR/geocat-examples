@@ -51,7 +51,7 @@ plt.cm.register_cmap(
     gv.truncate_colormap(cmaps.BlAqGrYeOrReVi200,
                          minval=0.03,
                          maxval=0.95,
-                         num_values=16))
+                         n=16))
 cmap = plt.cm.get_cmap('BlAqGrYeOrReVi200', 16)
 
 # Draw vector plot

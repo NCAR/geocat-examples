@@ -155,7 +155,7 @@ ax2.plot(mean.data, mean.lat, color='black', linewidth=0.5)
 cmap = cmaps.BlWhRe
 
 # Truncate colormap to only use paler colors in the center of the colormap
-cmap = gv.truncate_colormap(cmap, minval=0.22, maxval=0.74, num_values=15)
+cmap = gv.truncate_colormap(cmap, minval=0.22, maxval=0.74, n=15)
 
 # Plot deviations from zonal mean
 deviations = ax3.contourf(TS['lon'],
