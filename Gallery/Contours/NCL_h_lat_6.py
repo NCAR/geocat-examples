@@ -20,6 +20,10 @@ import xarray as xr
 import matplotlib.pyplot as plt
 from matplotlib.ticker import ScalarFormatter
 import cmaps
+import metpy.calc as mpcalc
+from metpy.units import units
+
+import scipy
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
@@ -104,16 +108,7 @@ gv.set_titles_and_labels(ax,
                          labelfontsize=16)
 
 # Create second y-axis to show geo-potential height.
-# Currently we're using arbitrary values for height as we haven't figured out
-# how to make this work properly yet
-axRHS = ax.twinx()
-
-# Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(axRHS, ylim=(0, 32), yticks=np.arange(4, 32, 4))
-axRHS.tick_params(labelsize=12)  # manually set tick label size
-
-# Use geocat.viz.util convenience function to add titles and the pressure label
-gv.set_titles_and_labels(axRHS, ylabel='Height (km)', labelfontsize=16)
+axRHS = gv.add_height_from_pressure_axis(ax, heights=[4, 8])
 
 # Force the plot to be square by setting the aspect ratio to 1
 ax.set_box_aspect(1)

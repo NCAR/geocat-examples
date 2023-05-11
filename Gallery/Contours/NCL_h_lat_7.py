@@ -19,6 +19,8 @@ See following URLs to see the reproduced NCL plot & script:
 import xarray as xr
 from matplotlib import pyplot as plt
 import numpy as np
+import metpy.calc as mpcalc
+from metpy.units import units
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
@@ -189,19 +191,8 @@ gv.set_titles_and_labels(ax,
                          ylabel='Pressure (mb)',
                          labelfontsize=24)
 
-# Create second y-axis to show geo-potential height. Currently we're using
-# arbitrary values for height as we haven't figured out how to make this work
-# properly yet.
-axRHS = ax.twinx()
-
-# Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(axRHS, ylim=(0, 13), yticks=np.array([4, 8]))
-
-# manually set tick length, width and ticklabel size
-axRHS.tick_params(labelsize=18, length=8, width=0.9)
-
-# Use geocat.viz.util convenience function to add titles and the pressure label
-axRHS.set_ylabel(ylabel='Height (km)', labelpad=10, fontsize=24)
+# Create second y-axis to show geo-potential height.
+axRHS = gv.add_height_from_pressure_axis(ax, heights=np.arange(4, 28, 4))
 
 # Force the plot to be square by setting the aspect ratio to 1
 ax.set_box_aspect(1)
