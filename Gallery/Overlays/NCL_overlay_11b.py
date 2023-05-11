@@ -149,7 +149,7 @@ clevs = np.arange(228, 273, 4, dtype=float)
 newcmp = gv.truncate_colormap(cmaps.BkBlAqGrYeOrReViWh200,
                               minval=0.1,
                               maxval=0.6,
-                              n=len(clevs))
+                              num_values=len(clevs))
 
 # Draw the contour plot, "clipped" to the country boundaries
 # (NOTE: There are multiple closed polygons representing the boundaries of the

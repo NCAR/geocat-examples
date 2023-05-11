@@ -54,7 +54,10 @@ ax = plt.axes(projection=projection)
 ax.coastlines(linewidth=0.5, resolution="110m")
 
 # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
-newcmp = gv.truncate_colormap(cmaps.BlAqGrYeOrRe, minval=0.1, maxval=1.0, n=22)
+newcmp = gv.truncate_colormap(cmaps.BlAqGrYeOrRe,
+                              minval=0.1,
+                              maxval=1.0,
+                              num_values=22)
 
 # Contourf-plot ocean-only data (for filled contours)
 filled = ocean_only.plot.contourf(ax=ax,
@@ -104,7 +107,10 @@ ax = plt.axes(projection=projection)
 ax.coastlines(linewidth=0.5, resolution="110m")
 
 # Import an NCL colormap
-newcmp = gv.truncate_colormap(cmaps.BlAqGrYeOrRe, minval=0.1, maxval=1.0, n=32)
+newcmp = gv.truncate_colormap(cmaps.BlAqGrYeOrRe,
+                              minval=0.1,
+                              maxval=1.0,
+                              num_values=32)
 
 # Contourf-plot land-only data (for filled contours)
 filled = land_only.plot.contourf(ax=ax,
