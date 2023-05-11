@@ -4,7 +4,7 @@ NCL_skewt_2_2.py
 This script illustrates the following concepts:
    - Customizing the background of a Skew-T plot
    - Plotting temperature, dewpoint, and wind data on a Skew-T plot
-   - Using GeoCAT-comp function `get_skewt_vars <https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.skewt_params.get_skewt_vars.html#geocat.comp.skewt_params.get_skewt_vars>`_ to calculate CAPE, Precipitable Water, Showalter Index, Pressure of the lifting condensation level, and Temperature at the lifting condensation level [C]
+   - Using GeoCAT-viz function `get_skewt_vars <https://geocat-viz.readthedocs.io/en/latest/user_api/generated/geocat.viz.util.get_skewt_vars.html>`_ to calculate CAPE, Precipitable Water, Showalter Index, Pressure of the lifting condensation level, and Temperature at the lifting condensation level [C]
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/skewt_2.ncl
     - Original NCL plots: https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png
@@ -23,7 +23,6 @@ import metpy.calc as mpcalc
 
 import geocat.viz as gv
 import geocat.datafiles as gdf
-import geocat.comp.skewt_params as gcskewt
 
 ##############################################################################
 # Read in data:
@@ -48,7 +47,7 @@ u, v = mpcalc.wind_components(wspd, wdir)  # Calculate wind components
 tc0 = tc[0]  # Temperature of surface parcel
 tdc0 = tdc[0]  # Dew point temperature of surface parcel
 pro = mpcalc.parcel_profile(p, tc0, tdc0)  # Temperature profile of parcel
-subtitle = gcskewt.get_skewt_vars(p, tc, tdc, pro)  # Create subtitle
+subtitle = gv.get_skewt_vars(p, tc, tdc, pro)  # Create subtitle
 
 ##############################################################################
 # Plot:
