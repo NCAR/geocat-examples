@@ -192,27 +192,7 @@ gv.set_titles_and_labels(ax,
                          labelfontsize=24)
 
 # Create second y-axis to show geo-potential height.
-axRHS = ax.twinx()
-
-# Select heights to display as tick labels
-heights_nice = np.arange(0, 12, 4)
-# Send "nice" height values back to pressure  as tick locations
-pressures_nice = mpcalc.height_to_pressure_std(heights_nice *
-                                               units('km')).magnitude
-
-axRHS.set_yscale('log')
-gv.set_axes_limits_and_ticks(axRHS,
-                             ylim=ax.get_ylim(),
-                             yticks=pressures_nice,
-                             yticklabels=heights_nice)
-axRHS.tick_params(labelsize=12)  # manually set tick label size
-axRHS.minorticks_off()
-
-# manually set tick length, width and ticklabel size
-axRHS.tick_params(labelsize=18, length=8, width=0.9)
-
-# Use geocat.viz.util convenience function to add titles and the pressure label
-axRHS.set_ylabel(ylabel='Height (km)', labelpad=10, fontsize=24)
+axRHS = gv.add_height_from_pressure_axis(ax, heights=np.arange(4, 28, 4))
 
 # Force the plot to be square by setting the aspect ratio to 1
 ax.set_box_aspect(1)

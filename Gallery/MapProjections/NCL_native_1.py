@@ -28,53 +28,6 @@ import geocat.viz as gv
 import geocat.datafiles as gdf
 
 ###############################################################################
-# Potential viz covenience function add_lat_lon_gridlines
-
-
-def add_lat_lon_gridlines(ax,
-                          projection=None,
-                          draw_labels=True,
-                          xlocator=np.arange(-180, 180, 15),
-                          ylocator=np.arange(-90, 90, 15),
-                          labelsize=12,
-                          **kwargs):
-    """Utility function that adds latitude and longtitude gridlines to the
-    plot.
-    Args:
-        ax (:class:`cartopy.mpl.geoaxes.GeoAxes`):
-            Current axes to the current figure.
-        projection (:class:`cartopy.crs.CRS`):
-            Defines a Cartopy Coordinate Reference System. If not given,
-            defaults to ccrs.PlateCarree()
-        draw_labels (:class:`bool`):
-            Toggle whether to draw labels, default to True.
-        xlocator, ylocator (:class:`numpy.ndarray` or list):
-            Arrays of fixed locations of the gridlines in the x and y coordinate of the given CRS.
-            Default to np.arange(-180, 180, 15) and np.arange(-90, 90, 15).
-        labelsize (:class:`float`):
-            Fontsizes of label fontsizes of x and y coordinates.
-        *kwargs* control line properties and are passed through to `matplotlib.collections.Collection`.
-    Return:
-        gl (:class:`cartopy.mpl.gridliner.Gridliner`):
-    """
-    import matplotlib.ticker as mticker
-
-    # Draw gridlines
-    gl = ax.gridlines(crs=projection,
-                      draw_labels=draw_labels,
-                      x_inline=False,
-                      y_inline=False,
-                      **kwargs)
-
-    gl.xlocator = mticker.FixedLocator(xlocator)
-    gl.ylocator = mticker.FixedLocator(ylocator)
-    gl.xlabel_style = {"rotation": 0, "size": labelsize}
-    gl.ylabel_style = {"rotation": 0, "size": labelsize}
-
-    return gl
-
-
-###############################################################################
 # Read in data:
 nlat = 293
 nlon = 343
@@ -103,15 +56,6 @@ ax.coastlines(linewidths=0.5)
 # Set extent to show particular area of the map ranging from 4.25E to 15.25E
 # and 42.25N to 49.25N
 ax.set_extent([4.25, 15.25, 42.25, 49.25], ccrs.PlateCarree())
-
-# Draw gridlines
-add_lat_lon_gridlines(ax,
-                      xlocator=np.arange(4, 18, 2),
-                      ylocator=np.arange(43, 50),
-                      labelsize=14,
-                      linewidth=1,
-                      color='black',
-                      alpha=0.25)
 
 # Create colormap by choosing colors from existing colormap
 # The brightness of the colors in cmocean_speed increase linearly. This
