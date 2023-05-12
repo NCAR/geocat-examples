@@ -1,0 +1,31 @@
+name: geocat-examples
+channels:
+  - conda-forge
+  - ncar
+dependencies:
+  - python>=3.7
+  - geocat-comp
+  - cf_xarray>=0.3.1
+  - geocat-datafiles
+  - eofs
+  - fiona
+  - geocat-viz
+  - cartopy
+  - geographiclib
+  - jupyter
+  - jupyterlab
+  - make
+  - matplotlib<3.6
+  - metpy
+  - mock
+  - nbsphinx
+  - netcdf4
+  - pillow
+  - pint<0.20
+  - pip
+  - scikit-learn
+  - sphinx
+  - sphinx-gallery
+  - sphinx_rtd_theme
+  - pip:
+      - pre-commit

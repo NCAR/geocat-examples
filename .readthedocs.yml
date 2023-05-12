@@ -16,4 +16,4 @@ submodules:
   recursive: true
 
 conda:
-  environment: conda_environment.yml
+  environment: build_envs/docs.yml
