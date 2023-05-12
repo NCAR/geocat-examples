@@ -66,10 +66,6 @@ plt.setp(boxplots['whiskers'], linestyle='--')
 # Set boxplot edge colors
 setBoxColor(boxplots, ['blue', 'red', '#66FF00'])
 
-# Remove axis lines on top and right sides
-ax.spines['right'].set_visible(False)
-ax.spines['top'].set_visible(False)
-
 # Use geocat.viz.util convenience function to set axes tick values
 gv.set_axes_limits_and_ticks(ax, ylim=(-6.0, 8.5), yticks=[-3.0, 0.0, 3.0, 6.0])
 
@@ -82,17 +78,19 @@ gv.add_major_minor_ticks(ax,
                          x_minor_per_major=1,
                          labelsize=16)
 
+# Use geocat.viz.util convenience function to set spines visibility
+gv.set_tick_direction_spine_visibility(ax,
+                                       tick_direction='in',
+                                       top_spine_visible=False,
+                                       right_spine_visible=False)
+
 # Use geocat.viz.util convenience function to add title to the plot axis.
 gv.set_titles_and_labels(ax,
                          maintitle='Tailored Box Plot',
                          maintitlefontsize=22)
 
-# Make both major and minor ticks point inwards towards the plot
-ax.tick_params(direction="in", which='both', pad=9)
-
-# Set ticks only at left and bottom sides of plot
-ax.yaxis.set_ticks_position('left')
-ax.xaxis.set_ticks_position('bottom')
+# Set padding between ticks and tick labels
+ax.tick_params(pad=9)
 
 # Display Plot
 plt.tight_layout()
