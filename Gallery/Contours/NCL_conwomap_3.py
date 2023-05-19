@@ -79,7 +79,7 @@ cp = ax.contour(xdata, ydata, zdata, colors='black', linewidths=1.0)
 ax.clabel(cp, inline=True, fontsize=10, colors='black', fmt="%.0f")
 
 # Ignore second half of the graph
-y1 = np.full(shape=len(xlist), fill_value=0, dtype=np.int)
+y1 = np.full(shape=len(xlist), fill_value=0, dtype=np.int32)
 y2 = x
 ax.fill_between(x,
                 y1,
