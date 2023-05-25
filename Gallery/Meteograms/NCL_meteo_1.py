@@ -129,7 +129,7 @@ cont3labels = ax1.clabel(contour3,
 ]
 
 # Determine the labels for each tick on the x and y axes
-yticklabels = np.array(levels, dtype=np.int)
+yticklabels = np.array(levels, dtype=np.int32)
 xticklabels = [
     '12z', '15z', '18z', '21z', 'Apr29', '03z', '06z', '09z', '12z', '15z',
     '18z', '21z', 'Apr30', '03z', '06z', '09z', '12z', '15z', '18z', '21z',
