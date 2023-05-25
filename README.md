@@ -43,7 +43,7 @@ in the function's doc string and/or requires visualization for improved demonstr
 
 # Installation instructions
 
-Please see our documentation for [installation instructions](https://github.com/NCAR/geocat-examples/INSTALLATION.md).
+Please see our documentation for [installation instructions](INSTALLATION.md).
 
 # Citing GeoCAT-examples
 
