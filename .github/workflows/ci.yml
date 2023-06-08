@@ -1,6 +1,8 @@
 name: CI
 on:
   pull_request:
+  schedule:
+    - cron: '0 0 * * *' # Daily “At 00:00”
   workflow_dispatch:
 
 concurrency:
@@ -27,16 +29,17 @@ jobs:
             python-version: "3.10"
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Create conda environment
-      env:
-        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-      uses: mamba-org/provision-with-micromamba@main
+    - name: checkout
+      uses: actions/checkout@v3
+    - name: setup micromamba
+      uses: mamba-org/setup-micromamba@v1
       with:
-         micromamba-version: "latest"
          environment-name: geocat-examples
          environment-file: conda_environment.yml
-    - name: Make html
+         cache-environment: true
+         create-args: >-
+           python=${{matrix.python-version}}
+    - name: make html
       shell: bash -l {0}
       working-directory: ./docs
       run: |
