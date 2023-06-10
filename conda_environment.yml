@@ -1,7 +1,6 @@
 name: geocat-examples
 channels:
   - conda-forge
-  - ncar
 dependencies:
   - python>=3.8
   - geocat-comp
@@ -15,7 +14,7 @@ dependencies:
   - jupyter
   - jupyterlab
   - make
-  - matplotlib<3.6
+  - matplotlib
   - metpy
   - mock
   - nbsphinx
