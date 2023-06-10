@@ -46,13 +46,10 @@ fig = plt.figure(figsize=(10, 7.25))
 ax = plt.axes(projection=ccrs.PlateCarree())
 
 # Import an NCL colormap and truncate it for a range and color levels
-plt.cm.register_cmap(
-    'BlAqGrYeOrReVi200',
-    gv.truncate_colormap(cmaps.BlAqGrYeOrReVi200,
-                         minval=0.03,
-                         maxval=0.95,
-                         n=16))
-cmap = plt.cm.get_cmap('BlAqGrYeOrReVi200', 16)
+cmap = gv.truncate_colormap(cmaps.BlAqGrYeOrReVi200,
+                            minval=0.03,
+                            maxval=0.95,
+                            n=16)
 
 # Draw vector plot
 # (there is no matplotlib equivalent to "CurlyVector" yet)
