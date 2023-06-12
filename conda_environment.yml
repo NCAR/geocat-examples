@@ -1,9 +1,8 @@
 name: geocat-examples
 channels:
   - conda-forge
-  - ncar
 dependencies:
-  - python>=3.8
+  - python>=3.8, <3.11  # minimum support 3.8, 3.11 not yet fully supported
   - geocat-comp
   - cf_xarray>=0.3.1
   - geocat-datafiles
@@ -15,7 +14,7 @@ dependencies:
   - jupyter
   - jupyterlab
   - make
-  - matplotlib<3.6
+  - matplotlib
   - metpy
   - mock
   - nbsphinx
