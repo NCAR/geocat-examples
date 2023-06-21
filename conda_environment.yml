@@ -9,6 +9,7 @@ dependencies:
   - eofs
   - fiona
   - geocat-viz
+  - holoviews
   - cartopy
   - geographiclib
   - jupyter
