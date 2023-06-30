@@ -3,17 +3,17 @@ linint2pts_example.py
 =====================
 
 This script illustrates the following concepts:
-   - Usage of geocat-comp's `linint2pts` function
+   - Usage of geocat-f2py's `linint2pts` function
    - Bilinear interpolation from a rectilinear grid to an unstructured grid or locations
    - Usage of geocat-datafiles for accessing NetCDF files
    - Usage of geocat-viz plotting convenience functions
 
 See following GitHub repositories to see further information about the function and to access data:
-    - For `linint2pts` function: https://github.com/NCAR/geocat-comp
+    - For `linint2pts` function: https://github.com/NCAR/geocat-f2py
     - For "sst.nc" data file: https://github.com/NCAR/geocat-datafiles/tree/main/netcdf_files
 
 Dependencies:
-    - geocat.comp
+    - geocat.f2py
     - geocat.datafiles (Not necessary but for conveniently accessing the NetCDF data file)
     - geocat.viz (Not necessary but for plotting convenience)
     - numpy
@@ -36,7 +36,7 @@ from mpl_toolkits.axes_grid1 import AxesGrid
 
 import geocat.viz as gv
 import geocat.datafiles as gdf
-from geocat.comp import linint2pts
+from geocat.f2py import linint2pts
 
 ###############################################################################
 # Read in data:
@@ -50,7 +50,7 @@ lat = ds.LAT[:]
 lon = ds.LON[:]
 
 ###############################################################################
-# GeoCAT-comp function call:
+# GeoCAT-f2py function call:
 
 # Provide (output) interpolation locations. This script uses 3000 arbitrary
 # locations world-wide in order to demonstrate an extensive comparison of the
@@ -59,7 +59,7 @@ lon = ds.LON[:]
 newlat = np.random.uniform(low=min(lat), high=max(lat), size=(3000,))
 newlon = np.random.uniform(low=min(lon), high=max(lon), size=(3000,))
 
-# Call `linint2pts` from `geocat-comp`
+# Call `linint2pts` from `geocat-f2py`
 newsst = linint2pts(sst, newlon, newlat, False)
 
 ###############################################################################
