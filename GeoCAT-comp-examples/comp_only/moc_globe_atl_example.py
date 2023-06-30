@@ -3,18 +3,18 @@ moc_globe_atl_example.py
 ========================
 
 This script illustrates the following concepts:
-   - Usage of geocat-comp's `moc_globe_atl` function
+   - Usage of geocat-f2py's `moc_globe_atl` function
    - Computing POP MOC field offline from POP netcdf history files (designed for the CESM4 ocean component)
    - Usage of geocat-datafiles for accessing NetCDF files
    - Usage of geocat-viz plotting convenience functions
 
 See following GitHub repositories to see further information about the function and to access data:
-    - For `moc_globe_atl` function: https://github.com/NCAR/geocat-comp
+    - For `moc_globe_atl` function: https://github.com/NCAR/geocat-f2py
     - For "tavg_downsized.nc" file: https://github.com/NCAR/geocat-datafiles/tree/main/netcdf_files
 
 Dependencies:
-    - geocat.comp
     - geocat.datafiles (Not necessary but for conveniently accessing the NetCDF data file)
+    - geocat.f2py
     - numpy
     - xarray
 
@@ -27,7 +27,7 @@ import numpy as np
 import xarray as xr
 
 import geocat.datafiles as gdf
-from geocat.comp import moc_globe_atl
+from geocat.f2py import moc_globe_atl
 
 ###############################################################################
 # Read in data:
@@ -74,9 +74,9 @@ a_bolus = np.where(ocean, w_i[0, :, :, :] * tarea3d, 0.0)
 a_submeso = np.where(ocean, w_sm[0, :, :, :] * tarea3d, 0.0)
 
 ###############################################################################
-# GeoCAT-comp function call:
+# GeoCAT-f2py function call:
 
-# Invoke `moc_globe_atl` from `geocat-comp`
+# Invoke `moc_globe_atl` from `geocat-f2py`
 result = moc_globe_atl(lat_aux_grid,
                        a_wvel,
                        a_bolus,
