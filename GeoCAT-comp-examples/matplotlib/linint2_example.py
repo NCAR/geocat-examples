@@ -3,17 +3,17 @@ linint2_example.py
 ==================
 
 This script illustrates the following concepts:
-   - Usage of geocat-comp's `linint2` function
+   - Usage of geocat-f2py's `linint2` function
    - Bilinear Interpolation from a rectilinear grid to another rectilinear grid
    - Usage of geocat-datafiles for accessing NetCDF files
    - Usage of geocat-viz plotting convenience functions
 
 See following GitHub repositories to see further information about the function and to access data:
-    - For `linint2` function: https://github.com/NCAR/geocat-comp
+    - For `linint2` function: https://github.com/NCAR/geocat-f2py
     - For "sst.nc" file: https://github.com/NCAR/geocat-datafiles/tree/main/netcdf_files
 
 Dependencies:
-    - geocat.comp
+    - geocat.f2py
     - geocat.datafiles (Not necessary but for conveniently accessing the NetCDF data file)
     - geocat.viz (Not necessary but for plotting convenience)
     - numpy
@@ -36,7 +36,7 @@ from mpl_toolkits.axes_grid1 import AxesGrid
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
-from geocat.comp import linint2
+from geocat.f2py import linint2
 
 ###############################################################################
 # Read in data:
@@ -49,13 +49,13 @@ lat = ds.LAT[:]
 lon = ds.LON[:]
 
 ###############################################################################
-# GeoCAT-comp function call:
+# GeoCAT-f2py function call:
 
 # Provide (output) interpolation grid
 newlat = np.linspace(min(lat), max(lat), 24)
 newlon = np.linspace(min(lon), max(lon), 72)
 
-# Invoke `linint2` from `geocat.comp`
+# Invoke `linint2` from `geocat.f2py`
 newsst = linint2(sst, newlon, newlat, icycx=False)
 
 ###############################################################################
