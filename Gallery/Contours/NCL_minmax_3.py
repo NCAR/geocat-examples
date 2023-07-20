@@ -19,9 +19,8 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
-
-from geocat.viz import util as gv
-from geocat.viz import cmaps as gvcmaps
+import geocat.viz as gv
+import cmaps
 
 ###############################################################################
 # Definition of generate_2d_array and helper functions adapted from
@@ -181,17 +180,15 @@ ax = plt.axes()
 levels = np.arange(-20, 18.5, 2.5)
 
 # Plot data and create colorbar
-cmap = gvcmaps.BlueYellowRed
+cmap = cmaps.BlueYellowRed
 
 # Plot filled contour and contour lines
 contours = ax.contourf(data, cmap=cmap, levels=levels)
 lines = ax.contour(contours, linewidths=0.5, linestyles='solid', colors='black')
 
 # Find local min/max extrema with GeoCAT-Viz find_local_extrema
-# Use below command instead after PR#46 in Viz is merged
-# lmin = gv.find_local_extrema(data, eType='Low', highVal=12, lowVal=-10, eps=7)
-lmin = gv.find_local_extrema(data, eType='Low', highVal=12, lowVal=-10)
-lmax = gv.find_local_extrema(data, eType='High', highVal=12, lowVal=-10)
+lmin = gv.find_local_extrema(data, eType='Low', highVal=12, lowVal=-10, eps=7)
+lmax = gv.find_local_extrema(data, eType='High', highVal=12, lowVal=-10, eps=7)
 
 # Plot labels for local extrema
 plotLabels(lmin, 'L')
