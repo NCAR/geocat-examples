@@ -1,4 +1,4 @@
-| CI           | [![GitHub Workflow Status][github-ci-badge]][github-ci-link] |
+| CI           | [![CI](https://github.com/NCAR/geocat-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/NCAR/geocat-examples/actions/workflows/ci.yml) |
 | :----------- | :----------------------------------------------------------: |
 | **Docs**     |       [![Documentation Status][rtd-badge]][rtd-link]         |
 | **License**  |           [![License][license-badge]][repo-link]             |
