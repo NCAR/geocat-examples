@@ -17,7 +17,7 @@ dependencies:
   - geographiclib
   - jupyterlab
   - make
-  - matplotlib
+  - matplotlib<3.8
   - metpy
   - mock
   - nbsphinx
