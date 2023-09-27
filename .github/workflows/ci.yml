@@ -37,6 +37,7 @@ jobs:
          environment-name: geocat-examples
          environment-file: conda_environment.yml
          cache-environment: true
+         cache-environment-key: "${{runner.os}}-${{runner.arch}}-py${{matrix.python-version}}-${{env.TODAY}}"
          create-args: >-
            python=${{matrix.python-version}}
     - name: make html
