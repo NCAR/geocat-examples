@@ -29,7 +29,7 @@ dependencies:
   - sphinx-book-theme
   - sphinx-design
   - sphinx-gallery
-  - xarray<=2023.02.0
+  - xarray
   - wrf-python
   - pip:
       - pre-commit
