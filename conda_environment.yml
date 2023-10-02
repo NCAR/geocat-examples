@@ -15,10 +15,9 @@ dependencies:
   - holoviews
   - cartopy
   - geographiclib
-  - jupyter
   - jupyterlab
   - make
-  - matplotlib
+  - matplotlib<3.8
   - metpy
   - mock
   - nbsphinx
@@ -27,12 +26,10 @@ dependencies:
   - pint
   - pip
   - scikit-learn
-  - sphinx
   - sphinx-book-theme
   - sphinx-design
   - sphinx-gallery
-  - sphinx_rtd_theme
-  - xarray<=2023.02.0
+  - xarray
   - wrf-python
   - pip:
       - pre-commit
