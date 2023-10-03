@@ -34,7 +34,7 @@ in the function's doc string and/or requires visualization for improved demonstr
 
 [GeoCAT Homepage](https://geocat.ucar.edu/)
 
-[GeoCAT Contributor's Guide](https://geocat.ucar.edu/pages/contributing.html)
+[GeoCAT Contributor's Guide](https://geocat-examples.readthedocs.io/en/latest/contrib.html)
 
 [GeoCAT-Examples Gallery](https://geocat-examples.readthedocs.io)
 
@@ -43,7 +43,7 @@ in the function's doc string and/or requires visualization for improved demonstr
 
 # Installation instructions
 
-Please see our documentation for [installation instructions](INSTALLATION.md).
+Please see our documentation for [installation instructions](https://geocat-examples.readthedocs.io/en/latest/install.html).
 
 # Citing GeoCAT-examples
 
