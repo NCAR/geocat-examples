@@ -239,7 +239,7 @@ The ``geocat-examples`` top-level directory is organized as follows:
   ``geocat-examples``.
 
 * The ``Gallery`` directory, contains the code for the examples as python scripts.
-  This is the place to add new examples.  
+  This is the place to add new examples.
 
 
 When making changes to the examples gallery, please add a summary to the release
