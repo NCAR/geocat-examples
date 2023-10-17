@@ -96,4 +96,4 @@ def animate(i):
 anim = animation.FuncAnimation(fig, animate, frames=30, interval=200)
 
 # Uncomment this line to save the created animation
-anim.save('animate_1.gif', writer='pillow', fps=5)
+#anim.save('animate_1.gif', writer='pillow', fps=5)
