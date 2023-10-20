@@ -71,8 +71,8 @@ Contributing new examples
 
 For ideas of examples to work on check the `issues on the GeoCAT-Examples
 repository <https://github.com/NCAR/geocat-examples/issues>`__.  Or, if you have
-an idea of your own, log a corresponding issue using the `example request template.
-<https://github.com/NCAR/geocat-examples/issues/new?assignees=&labels=enhancement&projects=&template=example-request.md&title=>`__
+an idea of your own, log a corresponding issue using the `example request template
+<https://github.com/NCAR/geocat-examples/issues/new?assignees=&labels=enhancement&projects=&template=example-request.md&title=>`__.
 
 Next, check to see if the data required for your example is available in the
 `GeoCAT-datafiles repository <https://github.com/NCAR/geocat-datafiles>`__.  If not,
