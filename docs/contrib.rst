@@ -70,17 +70,17 @@ Contributing new examples
 *************************
 
 For ideas of examples to work on check the `issues on the GeoCAT-Examples
-repository<https://github.com/NCAR/geocat-examples/issues>`__.  Or, if you have
+repository <https://github.com/NCAR/geocat-examples/issues>`__.  Or, if you have
 an idea of your own, log a corresponding issue using the `example request template.
 <https://github.com/NCAR/geocat-examples/issues/new?assignees=&labels=enhancement&projects=&template=example-request.md&title=>`__
 
 Next, check to see if the data required for your example is available in the
-`GeoCAT-datafiles repository<https://github.com/NCAR/geocat-datafiles>`__.  If not,
-check the `contributing guidelines<https://github.com/NCAR/geocat-datafiles/blob/main/CONTRIBUTING.md>`__
+`GeoCAT-datafiles repository <https://github.com/NCAR/geocat-datafiles>`__.  If not,
+check the `contributing guidelines <https://github.com/NCAR/geocat-datafiles/blob/main/CONTRIBUTING.md>`__
 for how to add it.
 
 After ensuring the necessary data is available, you can begin work on your example.
-A `template example is available here`<https://github.com/NCAR/geocat-examples/blob/main/template_script.py>`__.  
+A `template example is available here <https://github.com/NCAR/geocat-examples/blob/main/template_script.py>`__.  
 
 Please consult the `Development workflow overview`_ for additional information on
 how to contribute your example and confirm the gallery builds with your example as expected. 
