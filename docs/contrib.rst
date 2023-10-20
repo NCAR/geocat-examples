@@ -65,6 +65,25 @@ to get started.
 You can also use our `Feature Request Form
 <https://forms.gle/6DTo3ELLri4DAGfG8>`__ to submit a feature request.
 
+*************************
+Contributing new examples
+*************************
+
+For ideas of examples to work on check the `issues on the GeoCAT-Examples
+repository<https://github.com/NCAR/geocat-examples/issues>`__.  Or, if you have
+an idea of your own, log a corresponding issue using the `example request template.
+<https://github.com/NCAR/geocat-examples/issues/new?assignees=&labels=enhancement&projects=&template=example-request.md&title=>`__
+
+Next, check to see if the data required for your example is available in the
+`GeoCAT-datafiles repository<https://github.com/NCAR/geocat-datafiles>`__.  If not,
+check the `contributing guidelines<https://github.com/NCAR/geocat-datafiles/blob/main/CONTRIBUTING.md>`__
+for how to add it.
+
+After ensuring the necessary data is available, you can begin work on your example.
+A `template example is available here`<https://github.com/NCAR/geocat-examples/blob/main/template_script.py>`__.  
+
+Please consult the `Development workflow overview`_ for additional information on
+how to contribute your example and confirm the gallery builds with your example as expected. 
 
 ***********************
 Improving Documentation
@@ -239,20 +258,16 @@ The ``geocat-examples`` top-level directory is organized as follows:
   ``geocat-examples``.
 
 * The ``Gallery`` directory, contains the code for the examples as python scripts.
-  This is the place to add new examples.
-
+  This is the place to add new examples.  
+  * Examples are organized in subdirectories based upon categories from `NCL
+    Applications <https://www.ncl.ucar.edu/Applications/>`__.
+  * Scripts should are named based upon the original NCL examples (i.e. example_1.ncl becomes NCL_example_1.py).
 
 When making changes to the examples gallery, please add a summary to the release
 notes.
 
 * ``docs/release-notes.rst``: This file documents changes to the codebase that
   we add to in the same PR as the code changes.
-
-
-Adding new examples
-___________________
-
-
 
 
 *************
