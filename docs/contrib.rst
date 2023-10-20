@@ -80,10 +80,10 @@ check the `contributing guidelines <https://github.com/NCAR/geocat-datafiles/blo
 for how to add it.
 
 After ensuring the necessary data is available, you can begin work on your example.
-A `template example is available here <https://github.com/NCAR/geocat-examples/blob/main/template_script.py>`__.  
+A `template example is available here <https://github.com/NCAR/geocat-examples/blob/main/template_script.py>`__.
 
 Please consult the `Development workflow overview`_ for additional information on
-how to contribute your example and confirm the gallery builds with your example as expected. 
+how to contribute your example and confirm the gallery builds with your example as expected.
 
 ***********************
 Improving Documentation
@@ -258,7 +258,7 @@ The ``geocat-examples`` top-level directory is organized as follows:
   ``geocat-examples``.
 
 * The ``Gallery`` directory, contains the code for the examples as python scripts.
-  This is the place to add new examples.  
+  This is the place to add new examples.
   * Examples are organized in subdirectories based upon categories from `NCL
     Applications <https://www.ncl.ucar.edu/Applications/>`__.
   * Scripts should are named based upon the original NCL examples (i.e. example_1.ncl becomes NCL_example_1.py).
