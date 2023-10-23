@@ -36,6 +36,12 @@ download Python script and/or Jupyter notebook.
    ./citation
 
 .. toctree::
+   :caption: Contributing
+   :hidden:
+
+   ./contrib
+
+.. toctree::
    :caption: Support
    :hidden:
 
