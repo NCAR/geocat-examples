@@ -2,7 +2,7 @@ name: geocat-examples
 channels:
   - conda-forge
 dependencies:
-  - python>=3.9, <3.12  
+  - python>=3.9, <3.12
   - geocat-comp
   - geocat-f2py
   - cf_xarray>=0.3.1
