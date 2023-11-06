@@ -1,4 +1,4 @@
-| CI           | [![GitHub Workflow Status][github-ci-badge]][github-ci-link] |
+| CI | [![CI](https://github.com/NCAR/geocat-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/NCAR/geocat-examples/actions/workflows/ci.yml) |
 | :----------- | :----------------------------------------------------------: |
 | **Docs**     |       [![Documentation Status][rtd-badge]][rtd-link]         |
 | **License**  |           [![License][license-badge]][repo-link]             |
@@ -25,7 +25,7 @@ NCL example page and list any NCL functions whose functionality is missing from 
 
 [GeoCAT Homepage](https://geocat.ucar.edu/)
 
-[GeoCAT Contributor's Guide](https://geocat.ucar.edu/pages/contributing.html)
+[GeoCAT Contributor's Guide](https://geocat-examples.readthedocs.io/en/latest/contrib.html)
 
 [GeoCAT-Examples Gallery](https://geocat-examples.readthedocs.io)
 
@@ -34,7 +34,7 @@ NCL example page and list any NCL functions whose functionality is missing from 
 
 # Installation instructions
 
-Please see our documentation for [installation instructions](https://github.com/NCAR/geocat-examples/INSTALLATION.md).
+Please see our documentation for [installation instructions](https://geocat-examples.readthedocs.io/en/latest/install.html).
 
 # Citing GeoCAT-examples
 
