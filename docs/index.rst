@@ -16,8 +16,8 @@ dataset storage and `geocat-viz <https://github.com/NCAR/geocat-viz>`_ is used f
 a higher level implementation for low level `matplotlib` functionalities.
 `Xarray` and `numpy` are used for data processing.
 
-Click on any image to see the full image and source code as well as to
-download Python script and/or Jupyter notebook.
+Gallery cards link to full image and source code, with download of Python script
+enabled.
 
 .. toctree::
    :maxdepth: 2

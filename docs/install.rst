@@ -13,11 +13,6 @@ entire GeoCAT project, see our
 Creating a Conda environment
 ----------------------------
 
-The GeoCAT-examples repository has two different types of implementation for visualization examples:
-
-1.  Python scripts (``.py``) under the "Gallery" and "GeoCAT-comp-examples" directories
-2.  Jupyter notebooks under the "docs/gallery-notebooks" directory
-
 This repository provides a Conda environment file that can be used to create an evironment to build
 both (1) and (2). However, each of Jupyter notebooks under (2) will require their own additional
 dependencies that are written in the beginning of them and needs to be installed into the active
