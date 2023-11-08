@@ -1,4 +1,4 @@
-| CI           | [![CI](https://github.com/NCAR/geocat-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/NCAR/geocat-examples/actions/workflows/ci.yml) |
+| CI | [![CI](https://github.com/NCAR/geocat-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/NCAR/geocat-examples/actions/workflows/ci.yml) |
 | :----------- | :----------------------------------------------------------: |
 | **Docs**     |       [![Documentation Status][rtd-badge]][rtd-link]         |
 | **License**  |           [![License][license-badge]][repo-link]             |
@@ -6,14 +6,9 @@
 
 # GeoCAT-examples
 
-GeoCAT-examples repo contains visualization examples that demonstrate how to use GeoCAT’s computational functions
-or how to plot data with packages in the Python ecosystem (primarily, Matplotlib and Cartopy).
+GeoCAT-examples repo contains visualization examples that demonstrate how to how to plot data with packages in the Python ecosystem (primarily, Matplotlib and Cartopy).
 
-Check out our [GeoCAT-Examples Gallery](https://geocat-examples.readthedocs.io/en/latest/) to see the example plots
-and to access Python code files as well as auto-generated Jupyter notebooks of this repo!
-
-Several visualizations in this repository could be compared to NCL scripts from the
-[NCL Application Examples website](https://ncl.ucar.edu/Applications/).
+Specifically, visualizations in this repository are intended to demonstrate Python ways of generating figures akin to the [NCL Application Examples website](https://ncl.ucar.edu/Applications/).
 
 A primary objective of this project is to identify any NCL plotting functionality that is missing from
 the popular Matplotlib + Cartopy toolchain, so each contributed script, if originating from NCL, should
@@ -24,10 +19,6 @@ In the future, PyNGL examples may be included in this repository as well, but th
 That said, if you identify any NCL functionality in particular that does not seem to exist in
 Matplotlib/Cartopy, please create an issue on this repository's GitHub page with a link to the original
 NCL example page and list any NCL functions whose functionality is missing from Python.
-
-As a secondary objective, this repository may also contain extended examples of the GeoCAT computational
-functions ([GeoCAT-comp](https://github.com/NCAR/geocat-comp)), which may be too long/complex to be included
-in the function's doc string and/or requires visualization for improved demonstration.
 
 
 # Documentation
