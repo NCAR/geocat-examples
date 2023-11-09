@@ -2,13 +2,7 @@ GeoCAT-examples Documentation
 =============================
 
 This gallery contains visualization examples from many plotting categories
-of geosciences data (under the
-`Gallery <https://geocat-examples.readthedocs.io/en/latest/gallery/index.html>`_
-tab) and usage examples for the functions of the GeoCAT computational component,
-`GeoCAT-comp <https://geocat-comp.readthedocs.io>`_ (under the
-`GeoCAT-comp Examples
-<https://geocat-examples.readthedocs.io/en/latest/gallery-geocat-comp/index.html>`_
-tab).
+of geosciences data.
 
 For visualization, mainly `matplotlib` and `cartopy` are used. In addition,
 `geocat-datafiles <https://github.com/NCAR/geocat-datafiles>`_ is used as a
@@ -16,8 +10,8 @@ dataset storage and `geocat-viz <https://github.com/NCAR/geocat-viz>`_ is used f
 a higher level implementation for low level `matplotlib` functionalities.
 `Xarray` and `numpy` are used for data processing.
 
-Click on any image to see the full image and source code as well as to
-download Python script and/or Jupyter notebook.
+Gallery cards link to full image and source code, with download of Python script
+enabled.
 
 .. toctree::
    :maxdepth: 2
@@ -25,8 +19,6 @@ download Python script and/or Jupyter notebook.
    :hidden:
 
    ./gallery/index
-   ./gallery-geocat-comp/index
-   ./gallery_nb
 
 .. toctree::
    :caption: Usage

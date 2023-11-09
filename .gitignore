@@ -1,6 +1,5 @@
 /docs/_build/
 /docs/gallery/
-/docs/gallery-geocat-comp/
 /Gallery/CSV/*.csv
 *.ncl
 .vscode/

@@ -46,12 +46,14 @@ plt.figure(figsize=(10, 5.25))
 
 # Generate axes using Cartopy projection
 ax = plt.axes(projection=ccrs.PlateCarree())
-z = gv.set_vector_density(ds, 0.017)
+z = gv.set_vector_density(ds, 10)
 
 # Draw vector plot
 # Notes
 
-# 1. We are using `set_vector_density` on line 47 as a replacement for NCL's vcMinDistanceF
+# 1. We are using the geocat-viz `set_vector_density` on line 47 as a replacement for NCL's vcMinDistanceF.
+#    Note that it uses a minimum distance threshold specified as a integer in degrees rather than the NCL normalized device coordinates.
+#
 # 2. There is no matplotlib equivalent to "CurlyVector"
 Q = plt.quiver(z['lon'],
                z['lat'],
