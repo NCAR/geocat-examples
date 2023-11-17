@@ -31,22 +31,24 @@ import geocat.viz as gv
 nlat = 2160
 nlon = 4320
 
-elevation_data = np.fromfile(gdf.get("binary_files/ETOPO5.DAT"),dtype = '>i2').reshape((nlat, nlon))
+elevation_data = np.fromfile(gdf.get("binary_files/ETOPO5.DAT"),
+                             dtype='>i2').reshape((nlat, nlon))
 
 # Create numpy arrays for latitude and longitude
 lat = np.linspace(90, -90, nlat)
 lon = np.linspace(0, 360, nlon)
 
 # Create an xarray DataArray
-da = xr.DataArray(
-    data=elevation_data,
-    dims=["lat", "lon"],
-    coords=dict(
-        lat=(["lat"], lat, {"long_name":"latitude"}),
-        lon=(["lon"], lon, {"long_name":"longitude"})),
-    name="elevation",
-    attrs={"units":"m"}
-)
+da = xr.DataArray(data=elevation_data,
+                  dims=["lat", "lon"],
+                  coords=dict(lat=(["lat"], lat, {
+                      "long_name": "latitude"
+                  }),
+                              lon=(["lon"], lon, {
+                                  "long_name": "longitude"
+                              })),
+                  name="elevation",
+                  attrs={"units": "m"})
 
 ###############################################################################
 # Plot
