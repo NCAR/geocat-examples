@@ -51,12 +51,8 @@ ax.set_extent((-80, -10, 30, 80), crs=ccrs.PlateCarree())
 
 # Add natural feature to map
 ax.coastlines(resolution='110m')
-ax.add_feature(cfeature.LAND,
-               facecolor='lightgray',
-               zorder=1.25)
-ax.add_feature(cfeature.COASTLINE,
-               linewidth=0.2,
-               zorder=1.5)
+ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1.25)
+ax.add_feature(cfeature.COASTLINE, linewidth=0.2, zorder=1.5)
 ax.add_feature(cfeature.LAKES,
                edgecolor='black',
                linewidth=0.2,
