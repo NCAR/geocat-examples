@@ -82,6 +82,9 @@ cbar = plt.colorbar(heatmap,
 
 cbar.ax.tick_params(labelsize=10)
 
+# Remove minor ticks that don't work well with other formatting
+cbar.ax.minorticks_off()
+
 # Get rid of black outline on colorbar
 cbar.outline.set_visible(False)
 
