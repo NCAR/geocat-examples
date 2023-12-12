@@ -79,7 +79,7 @@ def Plot(color, row, col, pos, title):
     # Contourf-plot data
     pre = t.plot.contourf(ax=ax1,
                           transform=projection,
-                          levels=14,
+                          levels=13,
                           vmin=0,
                           vmax=240,
                           cmap=newcmp,
