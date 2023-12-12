@@ -73,9 +73,9 @@ ax.set_extent((66, 96, 5, 25), crs=ccrs.PlateCarree())
 sst_plot = sst.plot.contourf(
     ax=ax,
     transform=proj,
-    levels=50,
+    levels=51,
     vmin=24,
-    vmax=28.8,
+    vmax=29,
     cmap="magma",
     add_colorbar=False,
 )
