@@ -1,0 +1,43 @@
+name: CI Upstream
+on:
+  schedule:
+    - cron: "0 0 * * *" # daily at 00:00 UTC
+  workflow_dispatch: # allows you to trigger the workflow run manually
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  upstream-dev:
+    name: upstream-dev
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11"]
+    steps:
+      - name: checkout
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # fetch all history for all branches and tags.
+      - name: set up environment
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          environment-file: conda_environment.yml
+          create-args: >-
+            python=${{ matrix.python-version }}
+      - name: install upstream versions
+        run: |
+          bash ci/install-upstream.sh
+      - name: environment info
+        run: |
+          conda info
+          conda list
+      - name: make html
+        working-directory: ./docs
+        run: |
+          make html
