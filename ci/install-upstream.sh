@@ -18,7 +18,8 @@ conda list
 
 # if available install from nightly wheels
 python -m pip install \
-    -i https://pypi.anaconda.org/scipy-wheels-nightly/simple \
+    --index-url https://pypi.anaconda.org/scientific-python-nightly-wheels/simple \
+    --extra-index-url https://pypi.org/simple \
     --no-deps \
     --pre \
     --upgrade \
