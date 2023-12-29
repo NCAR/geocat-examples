@@ -10,7 +10,8 @@ conda remove -y --force \
     xarray \
     matplotlib \
     geocat-viz \
-    geocat-comp
+    geocat-comp \
+    cartopy
 
 # conda list
 conda list
@@ -31,4 +32,5 @@ python -m pip install \
 python -m pip install \
     git+https://github.com/Unidata/MetPy.git \
     git+https://github.com/NCAR/geocat-comp.git \
-    git+https://github.com/NCAR/geocat-viz.git
+    git+https://github.com/NCAR/geocat-viz.git \
+    git+https://github.com/SciTools/cartopy.git
