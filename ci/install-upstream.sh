@@ -30,5 +30,5 @@ python -m pip install \
 # install rest from source
 python -m pip install \
     git+https://github.com/Unidata/MetPy.git \
-    git+https://github.com/NCAR/geocat-comp \
-    git+https://github.com/NCAR/geocat-viz
+    git+https://github.com/NCAR/geocat-comp.git \
+    git+https://github.com/NCAR/geocat-viz.git
