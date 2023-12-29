@@ -164,13 +164,13 @@ def plotRegion(region, axis, xlim, puertoRico, waterBody):
             color = findDivColor(colorbounds, pop)
             # Set characteristics and measurements of each filled polygon "patch"
             patches.append(
-                Polygon(np.vstack((x, y)).T, True, color=color, linewidth=0.1))
+                Polygon(np.vstack((x, y)).T, closed=True, color=color, linewidth=0.1))
 
         # If the region being plotted is a body of water with no population
         else:
             # Set characteristics and measurements of each filled polygon "patch"
             water_patches.append(
-                Polygon(np.vstack((x, y)).T, True, color='white', linewidth=.7))
+                Polygon(np.vstack((x, y)).T, closed=True, color='white', linewidth=.7))
 
     pc = PatchCollection(patches,
                          match_original=True,
