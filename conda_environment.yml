@@ -14,9 +14,12 @@ dependencies:
   - metpy
   - nbsphinx
   - netcdf4
+  - numpy
+  - pandas
   - pillow
   - pip
   - scikit-learn
+  - scipy
   - sphinx-book-theme
   - sphinx-design
   - sphinx-gallery
