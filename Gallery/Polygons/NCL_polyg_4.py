@@ -101,7 +101,6 @@ def make_base_plot():
     ]
     ax.clabel(
         hdl,
-        np.arange(-8, 24, 8),  # Only label these contour levels: [-8, 0, 8, 16]
         fontsize="small",
         colors="black",
         fmt="%.0f",  # Turn off decimal points
