@@ -45,9 +45,12 @@ jobs:
          create-args: >-
            python=${{matrix.python-version}}
     - name: make html
-      shell: bash -l {0}
-      working-directory: ./docs
-      run: |
-        conda info
-        conda list
-        make html
+      uses: nick-fields/retry@v2
+      with:
+         timeout_minutes: 40
+         max_attempts: 3
+         command: |
+            cd docs
+            conda info
+            conda list
+            make html
