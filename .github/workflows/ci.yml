@@ -50,6 +50,9 @@ jobs:
          timeout_minutes: 40
          max_attempts: 3
          command: |
+            eval "$(micromamba shell hook --shell bash)"
+            micromamba activate
+            micromamba activate geocat-examples
             cd docs
             conda info
             conda list
