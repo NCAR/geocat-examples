@@ -29,9 +29,12 @@ import math
 
 ###############################################################################
 # Uploading random smooth 2d data from geocat.datafiles
-data1 = xr.open_dataset(gcd.get("netcdf_files/panel_35_data1.nc"), engine='netcdf4')
-data2 = xr.open_dataset(gcd.get("netcdf_files/panel_35_data2.nc"), engine='netcdf4')
-data3 = xr.open_dataset(gcd.get("netcdf_files/panel_35_data3.nc"), engine='netcdf4')
+data1 = xr.open_dataset(gcd.get("netcdf_files/panel_35_data1.nc"),
+                        engine='netcdf4')
+data2 = xr.open_dataset(gcd.get("netcdf_files/panel_35_data2.nc"),
+                        engine='netcdf4')
+data3 = xr.open_dataset(gcd.get("netcdf_files/panel_35_data3.nc"),
+                        engine='netcdf4')
 
 ###############################################################################
 # Create figure and axes using gv
