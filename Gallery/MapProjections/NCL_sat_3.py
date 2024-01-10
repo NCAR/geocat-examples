@@ -26,57 +26,6 @@ import geocat.datafiles as gdf
 import geocat.viz as gv
 
 ###############################################################################
-# Define a helper function for plotting lat/lon ticks on an orthographic plane
-
-
-def plotOrthoTicks(coords, loc):
-
-    if loc == 'zero':
-        for lon, lat in coords:
-            ax.text(lon,
-                    lat,
-                    '{0}\N{DEGREE SIGN}'.format(lon),
-                    va='bottom',
-                    ha='center',
-                    transform=ccrs.PlateCarree())
-    if loc == 'left':
-        for lon, lat in coords:
-            ax.text(lon,
-                    lat,
-                    '{0}\N{DEGREE SIGN} N '.format(lat),
-                    va='center',
-                    ha='right',
-                    transform=ccrs.PlateCarree())
-
-    if loc == 'right':
-        for lon, lat in coords:
-            ax.text(lon,
-                    lat,
-                    '{0}\N{DEGREE SIGN} N '.format(lat),
-                    va='center',
-                    ha='left',
-                    transform=ccrs.PlateCarree())
-
-    if loc == 'top':
-        for lon, lat in coords:
-            ax.text(lon,
-                    lat,
-                    '{0}\N{DEGREE SIGN} W '.format(-lon),
-                    va='bottom',
-                    ha='center',
-                    transform=ccrs.PlateCarree())
-
-    if loc == 'bottom':
-        for lon, lat in coords:
-            ax.text(lon,
-                    lat,
-                    '{0}\N{DEGREE SIGN} W '.format(-lon),
-                    va='top',
-                    ha='center',
-                    transform=ccrs.PlateCarree())
-
-
-###############################################################################
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and
@@ -102,13 +51,13 @@ ax.set_extent((-80, -10, 30, 80), crs=ccrs.PlateCarree())
 
 # Add natural feature to map
 ax.coastlines(resolution='110m')
-ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=3)
-ax.add_feature(cfeature.COASTLINE, linewidth=0.2, zorder=3)
+ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1.25)
+ax.add_feature(cfeature.COASTLINE, linewidth=0.2, zorder=1.5)
 ax.add_feature(cfeature.LAKES,
                edgecolor='black',
                linewidth=0.2,
                facecolor='white',
-               zorder=4)
+               zorder=1.5)
 
 # plot filled contour data
 heatmap = t.plot.contourf(ax=ax,
@@ -118,7 +67,7 @@ heatmap = t.plot.contourf(ax=ax,
                           vmax=28.5,
                           cmap='RdGy',
                           add_colorbar=False,
-                          zorder=1)
+                          zorder=0.5)
 
 # Add color bar
 cbar_ticks = np.arange(-1.5, 31.5, 3)
@@ -132,6 +81,9 @@ cbar = plt.colorbar(heatmap,
                     ticks=cbar_ticks)
 
 cbar.ax.tick_params(labelsize=10)
+
+# Remove minor ticks that don't work well with other formatting
+cbar.ax.minorticks_off()
 
 # Get rid of black outline on colorbar
 cbar.outline.set_visible(False)
@@ -156,21 +108,12 @@ title = gv.set_titles_and_labels(ax,
                                  ylabel="")
 
 # Plot gridlines
-gl = ax.gridlines(color='black', linewidth=0.2, zorder=2)
-
-# Set frequency of gridlines in the x and y directions
-gl.xlocator = mticker.FixedLocator(np.arange(-180, 180, 15))
-gl.ylocator = mticker.FixedLocator(np.arange(-90, 90, 15))
-
-# Manually plot tick marks.
-# NCL has automatic tick mark placement on orthographic projections,
-# Python's cartopy module does not have this functionality yet.
-plotOrthoTicks([(0, 81.7)], 'zero')
-plotOrthoTicks([(-80, 30), (-76, 20), (-88, 40), (-107, 50)], 'left')
-plotOrthoTicks([(-9, 30), (-6, 40), (1, 50), (13, 60)], 'right')
-plotOrthoTicks([(-120, 60), (-60, 82.5)], 'top')
-plotOrthoTicks([(-75, 16.0), (-60, 25.0), (-45, 29.0), (-30, 29.5),
-                (-15, 26.5)], 'bottom')
+gl = ax.gridlines(color='black',
+                  linewidth=0.2,
+                  zorder=1,
+                  xlocs=np.arange(-180, 180, 15),
+                  ylocs=np.arange(-90, 90, 15),
+                  draw_labels=True)
 
 plt.tight_layout()
 plt.show()

@@ -90,7 +90,7 @@ contour = wrap_t.plot.contourf(ax=ax1,
                                transform=ccrs.PlateCarree(),
                                vmin=235,
                                vmax=315,
-                               levels=18,
+                               levels=17,
                                cmap='magma',
                                add_colorbar=False)
 
@@ -103,7 +103,7 @@ cbar = plt.colorbar(contour,
                     extendrect=True,
                     extendfrac='auto',
                     use_gridspec=False,
-                    ticks=np.arange(240, 315, 5))
+                    ticks=np.arange(235, 315, 5))
 
 cbar.ax.tick_params(labelsize=10)
 
