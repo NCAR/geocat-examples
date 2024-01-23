@@ -1,4 +1,4 @@
-| CI | [![CI](https://github.com/NCAR/geocat-examples/actions/workflows/ci.yml/badge.svg)](https://github.com/NCAR/geocat-examples/actions/workflows/ci.yml) |
+| CI | [![GitHub Workflow Status][github-ci-badge]][github-ci-link] [![GitHub Workflow Status][github-upstream-ci-badge]][github-upstream-ci-link] |
 | :----------- | :----------------------------------------------------------: |
 | **Docs**     |       [![Documentation Status][rtd-badge]][rtd-link]         |
 | **License**  |           [![License][license-badge]][repo-link]             |
@@ -44,8 +44,10 @@ https://geocat-examples.readthedocs.io/en/latest/citation.html) page.
 
 
 
-[github-ci-badge]: https://img.shields.io/github/workflow/status/NCAR/geocat-examples/CI?label=CI&logo=github&style=for-the-badge
-[github-ci-link]: https://github.com/NCAR/geocat-examples/actions?query=workflow%3ACI
+[github-ci-badge]: https://img.shields.io/github/actions/workflow/status/NCAR/geocat-examples/ci.yml?label=CI&style=for-the-badge
+[github-ci-link]: https://github.com/NCAR/geocat-examples/actions/workflows/ci.yml
+[github-upstream-ci-badge]: https://img.shields.io/github/actions/workflow/status/NCAR/geocat-examples/upstream-dev-ci.yml?&label=Upstream%20CI&style=for-the-badge
+[github-upstream-ci-link]: https://github.com/NCAR/geocat-comp/actions/workflows/upstream-dev-ci.yml
 [rtd-badge]: https://img.shields.io/readthedocs/geocat-examples/latest.svg?style=for-the-badge
 [rtd-link]: https://geocat-examples.readthedocs.io/en/latest/?badge=latest
 [license-badge]: https://img.shields.io/github/license/NCAR/geocat-examples?style=for-the-badge
