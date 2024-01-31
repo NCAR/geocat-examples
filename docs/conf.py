@@ -94,12 +94,22 @@ warnings.filterwarnings("ignore",
 html_theme = 'sphinx_book_theme'
 html_title = ""
 html_static_path = ['_static']
-html_logo = '_static/images/GeoCAT_nsf.svg'
 html_favicon = '_static/images/GeoCAT_square.svg'
+html_theme_options = {
+    "logo": {
+        "image_light": '_static/images/NSF_NCAR_light.svg',
+        "image_dark": '_static/images/NSF_NCAR_dark.svg',
+    }
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
+# Add any paths that contain custom static files (such as style sheets) here,
+# relative to this directory. They are copied after the builtin static files,
+# so a file named "default.css" will overwrite the builtin "default.css".
+html_static_path = ['_static']
+html_css_files = ["theme_overrides.css"]
 
 html_theme_options = dict(
     # canonical_url="",
@@ -112,17 +122,11 @@ html_theme_options = dict(
     home_page_in_toc=False,
     navbar_footer_text="",
     extra_footer=
-    "<em>The National Center for Atmospheric Research is sponsored by the National Science Foundation. Any opinions, findings and conclusions or recommendations expressed in this material do not necessarily reflect the views of the National Science Foundation.</em>",
+    "<em>This material is based upon work supported by the NSF National Center for Atmospheric Research, a major facility sponsored by the U.S. National Science Foundation and managed by the University Corporation for Atmospheric Research. Any opinions, findings and conclusions or recommendations expressed in this material do not necessarily reflect the views of the U.S. National Science Foundation.</em>",
 )
 
 # Specify master_doc (see https://github.com/readthedocs/readthedocs.org/issues/2569#issuecomment-485117471)
 master_doc = 'index'
-
-
-# Allow for changes to be made to the css in the theme_overrides file
-# This is used for dynamically adjusting page width in this repo
-def setup(app):
-    app.add_css_file('theme_overrides.css')
 
 
 # Configure sphinx-gallery plugin
