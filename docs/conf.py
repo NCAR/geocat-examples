@@ -94,12 +94,6 @@ html_theme = 'sphinx_book_theme'
 html_title = ""
 html_static_path = ['_static']
 html_favicon = '_static/images/GeoCAT_square.svg'
-html_theme_options = {
-    "logo": {
-        "image_light": '_static/images/NSF_NCAR_light.svg',
-        "image_dark": '_static/images/NSF_NCAR_dark.svg',
-    }
-}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -123,6 +117,14 @@ html_theme_options = dict(
     extra_footer=
     "<em>This material is based upon work supported by the NSF National Center for Atmospheric Research, a major facility sponsored by the U.S. National Science Foundation and managed by the University Corporation for Atmospheric Research. Any opinions, findings and conclusions or recommendations expressed in this material do not necessarily reflect the views of the U.S. National Science Foundation.</em>",
 )
+
+# Specify logos
+html_theme_options = {
+    "logo": {
+        "image_light": '_static/images/NSF_NCAR_light.svg',
+        "image_dark": '_static/images/NSF_NCAR_dark.svg',
+    }
+}
 
 # Specify master_doc (see https://github.com/readthedocs/readthedocs.org/issues/2569#issuecomment-485117471)
 master_doc = 'index'
