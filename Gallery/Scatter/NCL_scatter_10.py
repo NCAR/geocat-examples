@@ -14,7 +14,6 @@ See following URLs to see the reproduced NCL plot & script:
 ###############################################################################
 # Import packages:
 
-from unittest import load_tests
 import numpy as np
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
