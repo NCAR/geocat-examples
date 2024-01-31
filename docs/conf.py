@@ -135,16 +135,7 @@ from sphinx_gallery.sorting import ExampleTitleSortKey
 sphinx_gallery_conf = {
     'examples_dirs': ['../Gallery'],  # path to your example scripts
     'filename_pattern': '^((?!sgskip).)*$',
-    'gallery_dirs': ['gallery',
-                    ],  # path to where to save gallery generated output
+    'gallery_dirs': ['gallery'],  # path to where to save gallery generated output
     'within_subsection_order': ExampleTitleSortKey,
     'matplotlib_animations': True,
 }
-
-# Configure nbsphinx
-nbsphinx_prolog = """
-Download notebook (Right click and save):
-https://github.com/NCAR/GeoCAT-examples/raw/main/docs/{{ env.doc2path(env.docname, base=None) }}
-
-----
-"""
