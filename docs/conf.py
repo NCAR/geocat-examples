@@ -127,7 +127,6 @@ html_theme_options = dict(
 # Specify master_doc (see https://github.com/readthedocs/readthedocs.org/issues/2569#issuecomment-485117471)
 master_doc = 'index'
 
-
 # Configure sphinx-gallery plugin
 from sphinx_gallery.sorting import ExampleTitleSortKey
 
