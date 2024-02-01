@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 
 import geocat.datafiles as gdf
-from geocat.viz import util as gvutil
+import geocat.viz as gv
 
 ###############################################################################
 # Read in data:
@@ -38,9 +38,9 @@ T = t.sel(lat=slice(60, 90))
 
 ###############################################################################
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-wrap_U = gvutil.xr_add_cyclic_longitudes(U, "lon")
-wrap_V = gvutil.xr_add_cyclic_longitudes(V, "lon")
-wrap_T = gvutil.xr_add_cyclic_longitudes(T, "lon")
+wrap_U = gv.xr_add_cyclic_longitudes(U, "lon")
+wrap_V = gv.xr_add_cyclic_longitudes(V, "lon")
+wrap_T = gv.xr_add_cyclic_longitudes(T, "lon")
 
 ###############################################################################
 # Plot:
@@ -56,7 +56,7 @@ ax.add_feature(land_110m, facecolor='none', edgecolor='gray')
 
 # Set map boundary to include latitudes between 0 and 40 and longitudes
 # between -180 and 180 only
-gvutil.set_map_boundary(ax, [-180, 180], [60, 90], south_pad=1)
+gv.set_map_boundary(ax, [-180, 180], [60, 90], south_pad=1)
 
 # Set draw_labels to False to manually set labels later
 gl = ax.gridlines(ccrs.PlateCarree(),
@@ -143,11 +143,11 @@ clb = plt.colorbar(p,
 clb.ax.xaxis.set_tick_params(length=0, labelsize=13, pad=9)
 
 # Use geocat.viz.util convenience function to add left and right titles
-gvutil.set_titles_and_labels(ax,
-                             lefttitle="Surface temperature",
-                             righttitle="K",
-                             lefttitlefontsize=16,
-                             righttitlefontsize=16)
+gv.set_titles_and_labels(ax,
+                         lefttitle="Surface temperature",
+                         righttitle="K",
+                         lefttitlefontsize=16,
+                         righttitlefontsize=16)
 
 # Show the plot
 plt.tight_layout()
