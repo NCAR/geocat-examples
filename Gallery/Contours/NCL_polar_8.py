@@ -25,21 +25,25 @@ import geocat.viz as gv
 ###############################################################################
 # Read in data:
 
-# Open a netCDF data file using xarray default engine and load the data into xarrays
+# Open a netCDF data file using xarray default engine
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
-u = ds.U[0, 1, :, :]
-v = ds.V[0, 1, :, :]
-t = ds.TS[0, :, :]
+U = ds.U[0, 1, :, :].sel(lat=slice(60, 90))
+V = ds.V[0, 1, :, :].sel(lat=slice(60, 90))
+T = ds.TS[0, :, :].sel(lat=slice(60, 90))
 
-# Extract slices of data
-U = u.sel(lat=slice(60, 90))
-V = u.sel(lat=slice(60, 90))
-T = t.sel(lat=slice(60, 90))
+# Rotate and rescale the wind vectors following recommendations from SciTools/cartopy#1179
+U_source_crs = U / np.cos(U["lat"] / 180. * np.pi)
+V_source_crs = V
+magnitude = np.sqrt(U**2 + V**2)
+magnitude_source_crs = np.sqrt(U_source_crs**2 + V_source_crs**2)
+
+U_rs = U_source_crs * magnitude / magnitude_source_crs
+V_rs = V_source_crs * magnitude / magnitude_source_crs
 
 ###############################################################################
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
-wrap_U = gv.xr_add_cyclic_longitudes(U, "lon")
-wrap_V = gv.xr_add_cyclic_longitudes(V, "lon")
+wrap_U = gv.xr_add_cyclic_longitudes(U_rs, "lon")
+wrap_V = gv.xr_add_cyclic_longitudes(V_rs, "lon")
 wrap_T = gv.xr_add_cyclic_longitudes(T, "lon")
 
 ###############################################################################
