@@ -25,6 +25,7 @@ dependencies:
   - sphinx-design
   - sphinx-gallery
   - xarray
+  - dask
   - wrf-python
   - pip:
       - pre-commit
