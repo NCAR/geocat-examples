@@ -33,8 +33,10 @@ ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"),
                      decode_times=False)
 # Extract slice of the data
 temp = ds.TS.isel(time=43).drop_vars(names=['time'])
-# Convert from Celsius to Kelvin
+
+# Convert from Kelvin to Celsius and update units
 temp.data = temp.data - 273.15
+temp.attrs['units'] = 'C'
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 temp = gv.xr_add_cyclic_longitudes(temp, "lon")
