@@ -2,3 +2,13 @@
 .wy-nav-content {
     max-width: none !important;
 }
+
+html[data-theme="light"] {
+    --pst-color-primary: #012169;
+    --pst-color-secondary: #1A658F;
+}
+
+html[data-theme="dark"] {
+    --pst-color-primary: #53565A;
+    --pst-color-secondary: #1A658F;
+}

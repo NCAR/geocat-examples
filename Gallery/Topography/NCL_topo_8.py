@@ -37,17 +37,17 @@ ds = ds.z
 
 # Open shapefile of US counties
 open(gdf.get("shape_files/countyl010g.dbf"), 'r')
-open(gdf.get("shape_files/states.shp"), 'r')
-open(gdf.get("shape_files/states.shx"), 'r')
-open(gdf.get("shape_files/states.prj"), 'r')
-shapefile_counties = shpreader.Reader(gdf.get("shape_files/countyl010g.dbf"))
+open(gdf.get("shape_files/countyl010g.shp"), 'r')
+open(gdf.get("shape_files/countyl010g.shx"), 'r')
+open(gdf.get("shape_files/countyl010g.prj"), 'r')
+shapefile_counties = shpreader.Reader(gdf.get("shape_files/countyl010g.shp"))
 
 # Open shapefile of all rivers. This data can be downloaded from `NOAA: <https://www.weather.gov/gis/Rivers>`_
 open(gdf.get("shape_files/rv16my07.dbf"), 'r')
 open(gdf.get("shape_files/rv16my07.shx"), 'r')
 open(gdf.get("shape_files/rv16my07.shp"), 'r')
 open(gdf.get("shape_files/rv16my07.prj"), 'r')
-shapefile_rivers = shpreader.Reader(gdf.get("shape_files/rv16my07.dbf"))
+shapefile_rivers = shpreader.Reader(gdf.get("shape_files/rv16my07.shp"))
 
 ###############################################################################
 # Plot:

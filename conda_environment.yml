@@ -20,10 +20,12 @@ dependencies:
   - pip
   - scikit-learn
   - scipy
+  - sphinx<7
   - sphinx-book-theme
   - sphinx-design
   - sphinx-gallery
   - xarray
+  - dask
   - wrf-python
   - pip:
       - pre-commit

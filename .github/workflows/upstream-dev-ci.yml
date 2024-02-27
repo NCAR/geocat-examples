@@ -38,6 +38,13 @@ jobs:
           conda info
           conda list
       - name: make html
-        working-directory: ./docs
-        run: |
-          make html
+        uses: nick-fields/retry@v3
+        with:
+           timeout_minutes: 40
+           max_attempts: 3
+           command: |
+              eval "$(micromamba shell hook --shell bash)"
+              micromamba activate
+              micromamba activate geocat-examples
+              cd docs
+              make html
