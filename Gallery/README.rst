@@ -9,6 +9,8 @@ Gallery
 This gallery contains visualization examples from many plotting categories
 of geosciences data.
 
+Specifically, visualizations in this repository are intended to demonstrate Python ways of generating figures akin to the [NCL Application Examples website](https://ncl.ucar.edu/Applications/).
+
 A primary objective of this project is to identify any NCL plotting functionality that is missing from
 the popular Matplotlib + Cartopy toolchain, so each contributed script, if originating from NCL, should
 contain a best-effort attempt at reproducing an NCL graphic as closely as possible without using NCL or PyNGL.
