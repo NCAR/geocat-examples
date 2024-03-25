@@ -65,11 +65,11 @@ dia.add_contours(levels=np.arange(0, 1.1, 0.25),
                  colors='lightgrey',
                  linewidths=0.5)
 
-# Add y axis grid
-dia.add_ygrid(np.array([0.5, 1.5]), color='grey')
+# Add standard deviation axis grid
+dia.add_std_grid(np.array([0.5, 1.5]), color='grey')
 
-# Add x axis grid
-dia.add_xgrid(np.array([0.6, 0.9]))
+# Add correlation axis grid
+dia.add_corr_grid(np.array([0.6, 0.9]))
 
 # Add figure title
 plt.title("Example", size=26, pad=45)
