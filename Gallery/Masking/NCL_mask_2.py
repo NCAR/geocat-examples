@@ -54,7 +54,9 @@ fig = plt.figure(figsize=(10, 6))
 ax = plt.axes(projection=ccrs.PlateCarree())
 
 # Load shapefile for Lakes at 110m resolution
-shpfilename = cfeature.shapereader.natural_earth(resolution='110m', category='physical', name='lakes')
+shpfilename = cfeature.shapereader.natural_earth(resolution='110m',
+                                                 category='physical',
+                                                 name='lakes')
 reader = cfeature.shapereader.Reader(shpfilename)
 lakes = [lake.geometry for lake in reader.records()]
 
@@ -67,7 +69,10 @@ for lake in lakes:
 
 # Add land areas without lakes to axes
 for land_geom in land_geoms:
-    ax.add_geometries([land_geom], crs=ccrs.PlateCarree(), facecolor='lightgrey', edgecolor='black')
+    ax.add_geometries([land_geom],
+                      crs=ccrs.PlateCarree(),
+                      facecolor='lightgrey',
+                      edgecolor='black')
 
 # Plot filled contour
 contour = TS.plot.contourf(ax=ax,
