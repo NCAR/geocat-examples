@@ -51,16 +51,23 @@ TS = gv.xr_add_cyclic_longitudes(TS, "lon")
 
 # Generate figure (set its size (width, height) in inches)
 fig = plt.figure(figsize=(10, 6))
-
-# Generate axes using Cartopy and draw land masses, coastlines, and lakes
 ax = plt.axes(projection=ccrs.PlateCarree())
-ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1)
-ax.add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=1)
-ax.add_feature(cfeature.LAKES,
-               linewidth=0.5,
-               edgecolor='black',
-               facecolor='None',
-               zorder=1)
+
+# Load shapefile for Lakes at 110m resolution
+shpfilename = cfeature.shapereader.natural_earth(resolution='110m', category='physical', name='lakes')
+reader = cfeature.shapereader.Reader(shpfilename)
+lakes = [lake.geometry for lake in reader.records()]
+
+# Get all land geometries
+land_geoms = list(cfeature.LAND.geometries())
+
+# Remove land areas intersecting with lakes
+for lake in lakes:
+    land_geoms = [land_geom.difference(lake) for land_geom in land_geoms]
+
+# Add land areas without lakes to axes
+for land_geom in land_geoms:
+    ax.add_geometries([land_geom], crs=ccrs.PlateCarree(), facecolor='lightgrey', edgecolor='black')
 
 # Plot filled contour
 contour = TS.plot.contourf(ax=ax,
