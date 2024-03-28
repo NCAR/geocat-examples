@@ -152,14 +152,8 @@ ax4.set_title(U_0.long_name, loc='left', y=1.04, fontsize=8)
 ax4.set_title('Time = 1', loc='right', y=1.04, fontsize=8)
 
 # Plot xy data at a particular longitude
-ax1.plot(U_0['lat'],
-         U_0.isel(lon=93, drop=True).data,
-         c='black',
-         linewidth=0.5)
-ax2.plot(U_1['lat'],
-         U_1.isel(lon=93, drop=True).data,
-         c='black',
-         linewidth=0.5)
+ax1.plot(U_0['lat'], U_0.isel(lon=93, drop=True).data, c='black', linewidth=0.5)
+ax2.plot(U_1['lat'], U_1.isel(lon=93, drop=True).data, c='black', linewidth=0.5)
 
 # Choose colormap for contour plots
 divnorm = colors.TwoSlopeNorm(vmin=-15, vcenter=0, vmax=40)
