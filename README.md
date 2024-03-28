@@ -47,7 +47,7 @@ https://geocat-examples.readthedocs.io/en/latest/citation.html) page.
 [github-ci-badge]: https://img.shields.io/github/actions/workflow/status/NCAR/geocat-examples/ci.yml?label=CI&style=for-the-badge
 [github-ci-link]: https://github.com/NCAR/geocat-examples/actions/workflows/ci.yml
 [github-upstream-ci-badge]: https://img.shields.io/github/actions/workflow/status/NCAR/geocat-examples/upstream-dev-ci.yml?&label=Upstream%20CI&style=for-the-badge
-[github-upstream-ci-link]: https://github.com/NCAR/geocat-comp/actions/workflows/upstream-dev-ci.yml
+[github-upstream-ci-link]: https://github.com/NCAR/geocat-examples/actions/workflows/upstream-dev-ci.yml
 [rtd-badge]: https://img.shields.io/readthedocs/geocat-examples/latest.svg?style=for-the-badge
 [rtd-link]: https://geocat-examples.readthedocs.io/en/latest/?badge=latest
 [license-badge]: https://img.shields.io/github/license/NCAR/geocat-examples?style=for-the-badge
