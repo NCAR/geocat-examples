@@ -31,6 +31,7 @@ import xarray as xr
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
+from shapely import GeometryCollection
 
 ##############################################################################
 # Read in data:
@@ -51,16 +52,20 @@ TS = gv.xr_add_cyclic_longitudes(TS, "lon")
 
 # Generate figure (set its size (width, height) in inches)
 fig = plt.figure(figsize=(10, 6))
-
-# Generate axes using Cartopy and draw land masses, coastlines, and lakes
 ax = plt.axes(projection=ccrs.PlateCarree())
-ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1)
-ax.add_feature(cfeature.COASTLINE, linewidth=0.5, zorder=1)
-ax.add_feature(cfeature.LAKES,
-               linewidth=0.5,
-               edgecolor='black',
-               facecolor='None',
-               zorder=1)
+
+# Get LAND and LAKES shapefile sat 110 m resolution
+land = GeometryCollection(list(cfeature.LAND.with_scale('110m').geometries()))
+lakes = GeometryCollection(list(cfeature.LAKES.with_scale('110m').geometries()))
+land_no_lakes = land.difference(lakes)  # LAND where not in LAKES
+
+# Add LAND minus LAKES to axis
+ax.add_geometries(land_no_lakes,
+                  crs=ccrs.PlateCarree(),
+                  facecolor='lightgray',
+                  edgecolor='black',
+                  linewidth=0.5,
+                  zorder=1)
 
 # Plot filled contour
 contour = TS.plot.contourf(ax=ax,
