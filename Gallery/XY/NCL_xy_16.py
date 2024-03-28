@@ -31,13 +31,13 @@ import geocat.viz as gv
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
-U = ds.U.isel(time=0).drop('time').isel(lon=0).drop('lon')
+U = ds.U.isel(time=0, lon=0, drop=True)
 
 # Extract slices of the data at different latitudes using the index of the desired value
-U20 = U.isel(lat=39).drop('lat')
-U30 = U.isel(lat=42).drop('lat')
-U40 = U.isel(lat=46).drop('lat')
-U50 = U.isel(lat=49).drop('lat')
+U20 = U.isel(lat=39, drop=True)
+U30 = U.isel(lat=42, drop=True)
+U40 = U.isel(lat=46, drop=True)
+U50 = U.isel(lat=49, drop=True)
 
 ###############################################################################
 # Plot with linear y axis:

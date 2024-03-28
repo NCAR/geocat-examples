@@ -39,7 +39,7 @@ ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"),
                      decode_times=False)
 
 # Extract slice of data at first timestep
-TS_0 = ds.TS.isel(time=0).drop('time')
+TS_0 = ds.TS.isel(time=0, drop=True)
 
 # Calculate zonal mean
 mean = TS_0.mean(dim='lon')
