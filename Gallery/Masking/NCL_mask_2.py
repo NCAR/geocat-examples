@@ -31,6 +31,7 @@ import xarray as xr
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
+from shapely import GeometryCollection
 
 ##############################################################################
 # Read in data:
@@ -53,27 +54,18 @@ TS = gv.xr_add_cyclic_longitudes(TS, "lon")
 fig = plt.figure(figsize=(10, 6))
 ax = plt.axes(projection=ccrs.PlateCarree())
 
-# Load shapefile for Lakes at 110m resolution
-shpfilename = cfeature.shapereader.natural_earth(resolution='110m',
-                                                 category='physical',
-                                                 name='lakes')
-reader = cfeature.shapereader.Reader(shpfilename)
-lakes = [lake.geometry for lake in reader.records()]
+# Get LAND and LAKES shapefile sat 110 m resolution
+land = GeometryCollection(list(cfeature.LAND.with_scale('110m').geometries()))
+lakes = GeometryCollection(list(cfeature.LAKES.with_scale('110m').geometries()))
+land_no_lakes = land.difference(lakes)  # LAND where not in LAKES
 
-# Get all land geometries
-land_geoms = list(cfeature.LAND.geometries())
-
-# Remove land areas intersecting with lakes
-for lake in lakes:
-    land_geoms = [land_geom.difference(lake) for land_geom in land_geoms]
-
-# Add land areas without lakes to axes
-for land_geom in land_geoms:
-    ax.add_geometries([land_geom],
-                      crs=ccrs.PlateCarree(),
-                      facecolor='lightgrey',
-                      edgecolor='black',
-                      linewidth=0.5)
+# Add LAND minus LAKES to axis
+ax.add_geometries(land_no_lakes,
+                  crs=ccrs.PlateCarree(),
+                  facecolor='lightgray',
+                  edgecolor='black',
+                  linewidth=0.5,
+                  zorder=1)
 
 # Plot filled contour
 contour = TS.plot.contourf(ax=ax,
