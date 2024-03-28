@@ -42,9 +42,7 @@ ds = xr.open_dataset(gdf.get('netcdf_files/AtmJan360_xy_4.nc'),
 
 # Extract a slice of the data
 ds = ds['T']
-t = ds.isel(lev=0).drop('lev')
-t = t.isel(lat=32).drop('lat')
-t = t.isel(lon=29).drop('lon')
+t = ds.isel(lev=0, lat=32, lon=29, drop=True)
 
 ###############################################################################
 # Plot with standard markers:

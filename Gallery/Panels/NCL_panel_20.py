@@ -32,8 +32,8 @@ import geocat.viz as gv
 ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 
 # Extract data from second timestep
-time_0 = ds.isel(time=0).drop_vars('time')
-time_1 = ds.isel(time=1).drop_vars('time')
+time_0 = ds.isel(time=0, drop=True)
+time_1 = ds.isel(time=1, drop=True)
 
 # Ensure longitudes range from 0 to 360 degrees
 U_0 = gv.xr_add_cyclic_longitudes(time_0.U, "lon")
@@ -153,11 +153,11 @@ ax4.set_title('Time = 1', loc='right', y=1.04, fontsize=8)
 
 # Plot xy data at a particular longitude
 ax1.plot(U_0['lat'],
-         U_0.isel(lon=93).drop_vars('lon').data,
+         U_0.isel(lon=93, drop=True).data,
          c='black',
          linewidth=0.5)
 ax2.plot(U_1['lat'],
-         U_1.isel(lon=93).drop_vars('lon').data,
+         U_1.isel(lon=93, drop=True).data,
          c='black',
          linewidth=0.5)
 

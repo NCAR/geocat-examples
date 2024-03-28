@@ -32,7 +32,7 @@ import geocat.viz as gv
 ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"),
                      decode_times=False)
 # Extract slice of the data
-temp = ds.TS.isel(time=43).drop_vars(names=['time'])
+temp = ds.TS.isel(time=43, drop=True)
 
 # Convert from Kelvin to Celsius and update units
 temp.data = temp.data - 273.15

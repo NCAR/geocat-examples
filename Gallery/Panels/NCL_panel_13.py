@@ -38,7 +38,7 @@ import geocat.viz as gv
 ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc"))
 
 # Extract data from second timestep
-ds = ds.isel(time=1).drop_vars('time')
+ds = ds.isel(time=1, drop=True)
 
 # Ensure longitudes range from 0 to 360 degrees
 U = gv.xr_add_cyclic_longitudes(ds.U, "lon")

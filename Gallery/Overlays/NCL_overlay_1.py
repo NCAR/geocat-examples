@@ -35,8 +35,8 @@ import cmaps
 ds = xr.open_dataset(gdf.get("netcdf_files/80.nc"))
 
 # Extract slice of data
-u = ds.U.isel(time=0).drop('time').isel(lev=10).drop('lev')
-t = ds.T.isel(time=0).drop('time').isel(lev=10).drop('lev')
+u = ds.U.isel(time=0, drop=True).isel(lev=10, drop=True)
+t = ds.T.isel(time=0, drop=True).isel(lev=10, drop=True)
 
 ###############################################################################
 # Specify levels and color map for contour

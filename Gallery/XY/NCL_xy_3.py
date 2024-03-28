@@ -29,9 +29,9 @@ import geocat.viz as gv
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 ds = ds.U
-ds = ds.isel(time=0).drop('time')
-ds = ds.isel(lon=0).drop('lon')
-ds = ds.isel(lat=42).drop('lat')
+ds = ds.isel(time=0, drop=True)
+ds = ds.isel(lon=0, drop=True)
+ds = ds.isel(lat=42, drop=True)
 
 ###############################################################################
 # Plot:
