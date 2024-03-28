@@ -42,8 +42,8 @@ sst_in = xr.open_dataset(gdf.get("netcdf_files/sst8292.nc"))
 uv_in = xr.open_dataset(gdf.get("netcdf_files/uvt.nc"))
 
 # Use date as the dimension rather than time
-sst_in = sst_in.set_coords("date").swap_dims({"time": "date"}).drop('time')
-uv_in = uv_in.set_coords("date").swap_dims({"time": "date"}).drop('time')
+sst_in = sst_in.set_coords("date").swap_dims({"time": "date"}).drop_vars('time')
+uv_in = uv_in.set_coords("date").swap_dims({"time": "date"}).drop_vars('time')
 
 # Extract required variables
 # Read SST and U, V for Jan 1988 (at 1000 mb for U, V)

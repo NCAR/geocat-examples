@@ -57,12 +57,12 @@ tf = xr.open_dataset(gdf.get("netcdf_files/Tstorm.cdf"))
 u500f = xr.open_dataset(gdf.get("netcdf_files/U500storm.cdf"))
 v500f = xr.open_dataset(gdf.get("netcdf_files/V500storm.cdf"))
 
-p = pf.p.isel(timestep=0).drop('timestep')
-t = tf.t.isel(timestep=0).drop('timestep')
-u = uf.u.isel(timestep=0).drop('timestep')
-v = vf.v.isel(timestep=0).drop('timestep')
-u500 = u500f.u.isel(timestep=0).drop('timestep')
-v500 = v500f.v.isel(timestep=0).drop('timestep')
+p = pf.p.isel(timestep=0, drop=True)
+t = tf.t.isel(timestep=0, drop=True)
+u = uf.u.isel(timestep=0, drop=True)
+v = vf.v.isel(timestep=0, drop=True)
+u500 = u500f.u.isel(timestep=0, drop=True)
+v500 = v500f.v.isel(timestep=0, drop=True)
 time = vf.timestep
 
 # Convert Pa to hPa

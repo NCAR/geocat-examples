@@ -41,7 +41,7 @@ from shapely import GeometryCollection
 ds = xr.open_dataset(gdf.get("netcdf_files/atmos.nc"), decode_times=False)
 
 # Extract a slice of the data at first time step
-ds = ds.isel(time=0).drop("time")
+ds = ds.isel(time=0, drop=True)
 TS = ds.TS
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
