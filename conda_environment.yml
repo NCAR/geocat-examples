@@ -19,7 +19,7 @@ dependencies:
   - pillow
   - pip
   - scikit-learn
-  - scipy
+  - scipy<1.14
   - sphinx<7
   - sphinx-book-theme
   - sphinx-design
