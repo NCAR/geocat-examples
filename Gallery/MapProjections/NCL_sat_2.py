@@ -52,7 +52,9 @@ fig = plt.figure(figsize=(8, 8))
 
 # Set global axes with a nearside perspective projection (equivalent to NCL's
 # satellite projection)
-proj = ccrs.NearsidePerspective(central_longitude=270.0, central_latitude=45.0, satellite_height=12742000)
+proj = ccrs.NearsidePerspective(central_longitude=270.0,
+                                central_latitude=45.0,
+                                satellite_height=12742000)
 ax = plt.axes(projection=proj)
 ax.set_global()
 

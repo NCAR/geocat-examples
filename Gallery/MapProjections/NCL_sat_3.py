@@ -43,8 +43,8 @@ plt.figure(figsize=(8, 8))
 
 # Create an axis with an orthographic projection (equivalent to NCL's satellite
 # projection where mpSatelliteDistF <= 1.0)
-ax = plt.axes(projection=ccrs.Orthographic(central_longitude=-35,
-                                           central_latitude=60))
+ax = plt.axes(
+    projection=ccrs.Orthographic(central_longitude=-35, central_latitude=60))
 
 # Set extent of map
 ax.set_extent((-80, -10, 30, 80), crs=ccrs.PlateCarree())
