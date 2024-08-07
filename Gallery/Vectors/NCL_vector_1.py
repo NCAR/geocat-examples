@@ -88,17 +88,15 @@ plt.ylabel("")
 ax.add_feature(cfeature.LAND, facecolor="lightgrey", zorder=1)
 
 # Add streamplots
-stream = plt.streamplot(
-    lon_uv,
-    lat_uv,
-    u,
-    v,
-    color='white',
-    arrowsize=0,
-    density=.75,
-    maxlength=.5,
-    transform=proj
-)
+stream = plt.streamplot(lon_uv,
+                        lat_uv,
+                        u,
+                        v,
+                        color='white',
+                        arrowsize=0,
+                        density=.75,
+                        maxlength=.5,
+                        transform=proj)
 
 # Extract the end points of streamlines and their directions
 end_points_x = []
@@ -117,14 +115,29 @@ for line in stream.lines.get_segments():
     directions_v.append(dy / norm)
 
 # Add quiver arrows at the end points of the streamlines
-ax.quiver(end_points_x, end_points_y, directions_u, directions_v,
-          color='white', scale=1, scale_units='xy', width=0.004, transform=proj)
+ax.quiver(end_points_x,
+          end_points_y,
+          directions_u,
+          directions_v,
+          color='white',
+          scale=1,
+          scale_units='xy',
+          width=0.004,
+          transform=proj)
 
 # Add custom legend
 legend_elements = [
-    mpl.lines.Line2D([0], [0], color='black', lw=2, marker='>', markersize=10, label='4')
+    mpl.lines.Line2D([0], [0],
+                     color='black',
+                     lw=2,
+                     marker='>',
+                     markersize=10,
+                     label='4')
 ]
-ax.legend(handles=legend_elements, loc='upper left', fontsize=12, bbox_to_anchor=(.85, .95))
+ax.legend(handles=legend_elements,
+          loc='upper left',
+          fontsize=12,
+          bbox_to_anchor=(.85, .95))
 
 # Draw a reference streamline
 ref_point = np.array([[0, 0]])
