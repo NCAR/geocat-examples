@@ -14,6 +14,7 @@ This script illustrates the following concepts:
   - Moving the vector reference annotation to the top right of the plot
   - Setting the color for vectors
   - Increasing the thickness of vectors
+  - Combining streamlines and quivers to create "curly vectors"
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/vector_1.ncl
