@@ -80,19 +80,22 @@ def Plot(row, col, pos, proj, title):
     gl.ylocator = mticker.FixedLocator([20, 25, 30, 35, 40, 45])
     gl.xlabel_style = {'rotation': 0}
     gl.ylabel_style = {'rotation': 0}
-    '''
-    When using certain types of projections in Cartopy, you may find that there
-    is not a direct 1-to-1 projection similarity. When looking at the three Lambert
-    projections offered, you will notice the closest match to the NCL projection
-    is actually the Lambert Cylindrical projection. This is due to NCL having certain
-    "smoothing" and "flattening" options for the Lambert Conformal projection not seen
-    in the Cartopy version. By using Lambert Cylindrical over Lambert Conformal in Python,
-    you will be able to create the "rectangular" style of coordinates not classically
-    represented by a Lambert Conformal map. Additionally, Cartopy does not currently support
-    adding tick marks to a projection like NCL, this is why these Python projections do not
-    have this feature. The GeoCAT Team is actively adding to the list of convenience functions
+    """When using certain types of projections in Cartopy, you may find that
+    there is not a direct 1-to-1 projection similarity.
+
+    When looking at the three Lambert projections offered, you will
+    notice the closest match to the NCL projection is actually the
+    Lambert Cylindrical projection. This is due to NCL having certain
+    "smoothing" and "flattening" options for the Lambert Conformal
+    projection not seen in the Cartopy version. By using Lambert
+    Cylindrical over Lambert Conformal in Python, you will be able to
+    create the "rectangular" style of coordinates not classically
+    represented by a Lambert Conformal map. Additionally, Cartopy does
+    not currently support adding tick marks to a projection like NCL,
+    this is why these Python projections do not have this feature. The
+    GeoCAT Team is actively adding to the list of convenience functions
     supported and hopes to add this functionality one day.
-    '''
+    """
 
     # Plot data and create colorbar
     prec = t.plot.contourf(ax=ax,
