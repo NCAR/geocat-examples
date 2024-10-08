@@ -25,7 +25,7 @@ jobs:
         with:
           fetch-depth: 0 # fetch all history for all branches and tags.
       - name: set up environment
-        uses: mamba-org/setup-micromamba@v1
+        uses: mamba-org/setup-micromamba@v2
         with:
           micromamba-version: '1.5.10-0'
           environment-file: conda_environment.yml
