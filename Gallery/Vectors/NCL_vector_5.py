@@ -119,19 +119,15 @@ colors = T.plot.contourf(ax=ax,
 
 # We attempt to recreate curly vectors with Matplotlib's streamplot function.
 # streamplot requires the input parameter x, y to be evenly spaced strictly increasing arrays.
-# Therefore we interpolate the original dataset onto an manually set, evenly spaced grid.
-# There are probably more suitable interpolation routines than scipy's interp2d,
-# but we do not have a standardized procedure for interpolation for streamplot as of this point.
+# Therefore we interpolate the original dataset onto an evenly spaced grid that we generate below.
 
 # regularly spaced grid spanning the domain of x and y
 xi = np.linspace(T['lat'].min(), T['lat'].max(), T['lat'].size)
 yi = np.linspace(T['plev'].min(), T['plev'].max(), T['plev'].size)
 
-# interp2d function creates interpolator classes
-u_func = interp2d(T['lat'], T['plev'], V)
-v_func = interp2d(T['lat'], T['plev'], wscale)
-uCi = u_func(xi, yi)
-vCi = v_func(xi, yi)
+# use xarray's interp to interpolate onto the new grid
+uCi = V.interp(lat=xi, plev=yi)
+vCi = wscale.interp(lat=xi, plev=yi)
 
 # Use streamplot to match curly vector
 ax.streamplot(xi,
