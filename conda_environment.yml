@@ -19,7 +19,7 @@ dependencies:
   - pillow
   - pip
   - scikit-learn
-  - scipy<1.14
+  - scipy
   - sphinx<7
   - sphinx-book-theme
   - sphinx-design
@@ -27,5 +27,4 @@ dependencies:
   - xarray
   - dask
   - wrf-python
-  - pip:
-      - pre-commit
+  - pre-commit
