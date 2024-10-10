@@ -32,7 +32,6 @@ jobs:
     - name: setup micromamba
       uses: mamba-org/setup-micromamba@v2
       with:
-         micromamba-version: '1.5.10-0'
          environment-name: geocat-examples
          environment-file: conda_environment.yml
          cache-environment: true
