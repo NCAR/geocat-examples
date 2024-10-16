@@ -49,9 +49,8 @@ cf = ax.contourf(lon,
                  hatches=['....'])
 
 # Make all dot-filled areas light gray so contour lines are still visible
-for i, collection in enumerate(cf.collections):
-    collection.set_edgecolor('lightgray')
-    collection.set_linewidth(0.)
+cf.set_edgecolor('lightgray')
+cf.set_linewidth(0.)
 
 # Fill area at the lowest contour level, -6, with line hatching
 cf = ax.contourf(lon,

@@ -175,15 +175,7 @@ for path in geos_to_path(country_geos):
     #        another contour plot and clip that contour plot with the patch.  In
     #        other words, every island on this plot corresponds to its own
     #        contour plot!)
-    cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp)
-
-    # Clip each contour of the contour plot
-    # (NOTE: Each contour of the contour plot is actually its own "plot".  There
-    #        is no easy mechanism in matplotlib to clip the entire contour plot
-    #        at once, so we must loop through the "collections" in the contour
-    #        plot and clip each one separately.)
-    for col in cf.collections:
-        col.set_clip_path(patch)
+    cf = ax.contourf(lon, lat, T, levels=clevs, cmap=newcmp, clip_path=patch)
 
 # Add horizontal colorbar
 cax = plt.axes((0.14, 0.08, 0.74, 0.02))

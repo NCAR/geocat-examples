@@ -96,15 +96,14 @@ plt.plot(U50.data,
 
 # Add legend
 handles, labels = ax.get_legend_handles_labels()
-# Default order is the order in which the data was plotted
-handles = reversed(handles)  # Reverse order of legend elements
-labels = reversed(labels)
+
 plt.legend(handles,
            labels,
            loc='center right',
            frameon=False,
            fontsize=14,
-           labelspacing=1)
+           labelspacing=1,
+           reverse=True)
 
 plt.show()
 
@@ -183,13 +182,13 @@ plt.plot(U50.data,
 # Add legend
 handles, labels = ax.get_legend_handles_labels()
 # Default order is the order in which the data was plotted
-handles = reversed(handles)  # Reverse order of legend elements
-labels = reversed(labels)
+
 plt.legend(handles,
            labels,
            loc='center right',
            frameon=False,
            fontsize=14,
-           labelspacing=1)
+           labelspacing=1,
+           reverse=True)
 
 plt.show()
