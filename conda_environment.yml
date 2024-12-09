@@ -24,7 +24,7 @@ dependencies:
   - sphinx-book-theme
   - sphinx-design
   - sphinx-gallery
-  - xarray
+  - xarray!=2024.11.0
   - dask
   - wrf-python
   - pre-commit
