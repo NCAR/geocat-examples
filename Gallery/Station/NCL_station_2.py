@@ -57,8 +57,9 @@ colors = [
 
 nbins = len(colors)  # One bin for each color
 
-# Define colormap for plotting based on these colors
+# Define colormap and norm for plotting based on these colors
 cmap = mpl.colors.ListedColormap(colors)
+norm = mpl.colors.BoundaryNorm([-1.2] + bin_bounds + [35], len(colors))
 
 ###################################################
 # Utility Function: Make Shared Plot:
@@ -100,7 +101,12 @@ def make_shared_plot(title):
                    zorder=0)
 
     # Scatter-plot the location data on the map
-    scatter = plt.scatter(lon, lat, c=dummy_data, cmap=cmap, zorder=1)
+    scatter = plt.scatter(lon,
+                          lat,
+                          c=dummy_data,
+                          cmap=cmap,
+                          norm=norm,
+                          zorder=1)
 
     plt.title(title, fontsize=16, y=1.04)
 
@@ -152,7 +158,6 @@ scatter2 = make_shared_plot(
 
 # Add a horizontal colorbar
 cax = plt.axes((0.225, 0.05, 0.55, 0.025))
-norm = mpl.colors.BoundaryNorm([-1.2] + bin_bounds + [35], len(colors))
 mpl.colorbar.ColorbarBase(cax,
                           cmap=cmap,
                           orientation='horizontal',
