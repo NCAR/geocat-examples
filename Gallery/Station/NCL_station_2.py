@@ -101,7 +101,12 @@ def make_shared_plot(title):
                    zorder=0)
 
     # Scatter-plot the location data on the map
-    scatter = plt.scatter(lon, lat, c=dummy_data, cmap=cmap, norm=norm, zorder=1)
+    scatter = plt.scatter(lon,
+                          lat,
+                          c=dummy_data,
+                          cmap=cmap,
+                          norm=norm,
+                          zorder=1)
 
     plt.title(title, fontsize=16, y=1.04)
 
