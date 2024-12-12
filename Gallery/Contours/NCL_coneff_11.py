@@ -59,9 +59,8 @@ p = v.plot.contourf(ax=ax,
                     cmap='white')  # Use white cmap to have a white background
 
 # Set the colors for the hatches
-for i, collection in enumerate(p.collections):
-    collection.set_edgecolor(colors[i % len(colors)])
-    collection.set_linewidth(0.)
+p.set_edgecolors(colors)
+p.set_linewidth(0.)
 
 # Set linewidth of hatches
 plt.rcParams['hatch.linewidth'] = 2.5
