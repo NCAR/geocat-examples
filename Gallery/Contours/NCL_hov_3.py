@@ -67,7 +67,7 @@ cs = ax.contour(lon,
                 levels=np.arange(-6, 12, 2),
                 colors='black',
                 linestyles="-",
-                linewidths=[.2,.2,.2,1,.2,.2,.2,.2,.2])
+                linewidths=[.2, .2, .2, 1, .2, .2, .2, .2, .2])
 
 # Label the contour levels -4, 0, and 4
 cl = ax.clabel(cs, fmt='%d', levels=[-4, 0, 4])
