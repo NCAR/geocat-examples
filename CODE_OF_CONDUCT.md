@@ -68,7 +68,7 @@ Upon receipt of a complaint, the project administrator(s) may take any action de
 circumstances. Such action can include things such as: removing, editing, or rejecting comments, commits, code, wiki edits,
 email, issues, and other contributions that are not aligned to this Code of Conduct, or banning temporarily or permanently
 any contributor for other behaviors that are deemed inappropriate, threatening, offensive, or harmful. Project administrators
-also have the right to report violations to UCAR HR, as well as a participant’s home institution and/or law enforcement. In 
+also have the right to report violations to UCAR HR, as well as a participant’s home institution and/or law enforcement. In
 the event an incident is reported to UCAR, UCAR will follow its Harassment Reporting and Complaint Procedure.
 
 ## Attribution
