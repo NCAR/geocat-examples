@@ -4,7 +4,6 @@
 # forcibly remove packages to avoid artifacts
 conda remove -y --force \
     metpy \
-    numpy \
     pandas \
     scipy \
     xarray \
@@ -23,7 +22,6 @@ python -m pip install \
     --no-deps \
     --pre \
     --upgrade \
-    numpy \
     pandas \
     scipy \
     xarray \
