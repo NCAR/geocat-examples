@@ -127,7 +127,7 @@ Q = ax.quiver(wrap_U['lon'],
               wrap_V.data,
               zorder=4,
               pivot="middle",
-              width=0.001,
+              width=0.0025,
               color='white',
               transform=ccrs.PlateCarree(),
               regrid_shape=20)
