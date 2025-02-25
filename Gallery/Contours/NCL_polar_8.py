@@ -127,10 +127,20 @@ Q = ax.quiver(wrap_U['lon'],
               wrap_V.data,
               zorder=4,
               pivot="middle",
-              width=0.001,
+              width=0.0025,
               color='white',
               transform=ccrs.PlateCarree(),
               regrid_shape=20)
+
+plt.quiverkey(Q,
+              X=0.7,
+              Y=0.2,
+              U=40,
+              label=r'$40\: \frac{m}{s}$',
+              labelpos='E',
+              coordinates='figure',
+              color='black',
+              fontproperties={'size': 12})
 
 # Add colorbar
 clb = plt.colorbar(p,
