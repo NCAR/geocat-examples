@@ -105,6 +105,9 @@ html_static_path = ['_static']
 html_css_files = ["theme_overrides.css"]
 
 html_theme_options = {
+    "analytics": {
+        "google_analytics_id": "G-BY9T11S8QG",
+    },
     "repository_url":
         "https://github.com/NCAR/geocat-examples",
     "repository_branch":
