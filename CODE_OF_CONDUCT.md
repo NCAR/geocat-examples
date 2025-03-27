@@ -13,7 +13,7 @@ Examples of behaviors that contribute to a positive environment include:
 - Communicate openly with respect for others, critiquing ideas rather than individuals and gracefully accepting criticism
 - Acknowledging the contributions of others
 - Avoid personal attacks directed toward other contributors
-- Be mindful of your surroundings and of your fellow contributors 
+- Be mindful of your surroundings and of your fellow contributors
 - Alert UCAR staff and suppliers/vendors if you notice a dangerous situation or someone in distress
 - Respect the rules and policies of the project and venue
 
@@ -25,7 +25,7 @@ Examples of unacceptable behavior include, but are not limited to:
 - Personal attacks directed at other guests, members, contributors, etc.
 - Publishing others’ private information, such as a physical or electronic address, without explicit permission
 - Alarming, intimidating, threatening, or hostile comments or conduct
-- Inappropriate use of nudity and/or sexual images 
+- Inappropriate use of nudity and/or sexual images
 - Threatening or stalking anyone, including a contributor
 - Other conduct which could reasonably be considered inappropriate in a professional setting
 
@@ -45,7 +45,7 @@ Project administrators are also expected to keep this Code of Conduct updated wi
 
 ## Reporting
 
-Instances of unacceptable behavior can be brought to the attention of the project administrator(s) who may take any reasonable and necessary action to address and stop the behavior. However, making a report to a project administrator is not considered an ‘official report’ to UCAR. 
+Instances of unacceptable behavior can be brought to the attention of the project administrator(s) who may take any reasonable and necessary action to address and stop the behavior. However, making a report to a project administrator is not considered an ‘official report’ to UCAR.
 
 Instances of unacceptable behavior may also be reported:
 - To [The Chief Human Resources Officer](chro@ucar.edu) who serves as UCAR’s Section 504, Title VI, VII and IX Coordinator;
