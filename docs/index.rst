@@ -37,4 +37,5 @@ enabled.
    :caption: Support
    :hidden:
 
-   ./support
+   GitHub Issues <https://github.com/NCAR/geocat-examples/issues>
+   Suggestion Box <https://forms.gle/6DTo3ELLri4DAGfG8>
