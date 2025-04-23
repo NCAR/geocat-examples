@@ -30,7 +30,7 @@ jobs:
       run: |
         echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
     - name: setup micromamba
-      uses: mamba-org/setup-micromamba@v2
+      uses: mamba-org/setup-micromamba@0dea6379afdaffa5d528b3d1dabc45da37f443fc # v2.0.4
       with:
          environment-name: geocat-examples
          environment-file: conda_environment.yml
@@ -39,9 +39,9 @@ jobs:
          create-args: >-
            python=${{matrix.python-version}}
     - name: make html
-      uses: nick-fields/retry@v3
+      uses: nick-fields/retry@ce71cc2ab81d554ebbe88c79ab5975992d79ba08 # v3.0.2
       with:
-         timeout_minutes: 40
+         timeout_minutes: 20
          max_attempts: 3
          command: |
             eval "$(micromamba shell hook --shell bash)"
