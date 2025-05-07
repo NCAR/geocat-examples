@@ -114,7 +114,7 @@ plt.show()
 plt.figure(figsize=(8, 8))
 ax = plt.axes()
 
-# Note: Currently geocat-viz does not have a utility function for formating
+# Note: Currently geocat-viz does not have a utility function for formatting
 # major and minor ticks on logarithmic axes.
 plt.yscale('log')
 ax.yaxis.set_major_formatter(ScalarFormatter())

@@ -197,7 +197,7 @@ t = t.data[0:lat_size:2, 0:lon_size:2]
 
 # Import and modify color map for vectors
 wind_cmap = cmaps.amwg_blueyellowred
-bounds = np.arange(-30, 120, 10)  # Sets where boundarys on color map will be
+bounds = np.arange(-30, 120, 10)  # Sets where boundaries on color map will be
 norm = mcolors.BoundaryNorm(bounds, wind_cmap.N)  # Assigns colors to values
 # Draw wind vectors
 with np.errstate(

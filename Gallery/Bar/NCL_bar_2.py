@@ -35,7 +35,7 @@ date = ds.date
 num_months = np.shape(date)[0]
 
 # Dates in the file are represented by year and month (YYYYMM)
-# representing them fractionally will make ploting the data easier
+# representing them fractionally will make plotting the data easier
 # This produces the same results as NCL's yyyymm_to_yyyyfrac() function
 date_frac = np.empty_like(date)
 for n in np.arange(0, num_months, 1):

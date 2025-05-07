@@ -24,14 +24,13 @@ geocat.datafiles.get("registry.txt")
 
 # -- Project information -----------------------------------------------------
 
-project = u'GeoCAT-examples'
+project = 'GeoCAT-examples'
 
 import datetime
 
 current_year = datetime.datetime.now().year
-copyright = u'{}, University Corporation for Atmospheric Research'.format(
-    current_year)
-author = u'GeoCAT'
+copyright = f'{current_year}, University Corporation for Atmospheric Research'
+author = 'GeoCAT'
 
 # -- General configuration ---------------------------------------------------
 

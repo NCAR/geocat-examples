@@ -4,7 +4,7 @@ NCL_box_1.py
 
 This script illustrates the following concepts:
    - Drawing box plots
-   - Manipulating boxplot vizualizations
+   - Manipulating boxplot visualizations
    - Manipulating plot axes
 
 See following URLs to see the reproduced NCL plot & script:

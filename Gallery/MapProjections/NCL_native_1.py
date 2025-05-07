@@ -9,7 +9,7 @@ This script illustrates the following concepts:
    - Turning on map tickmark labels with degree symbols
    - Choosing colors from a pre-existing colormap
    - Making the ends of the colormap white
-   - Using best practices when choosing plot color scheme to accomodate visual impairments
+   - Using best practices when choosing plot color scheme to accommodate visual impairments
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/native_1.ncl

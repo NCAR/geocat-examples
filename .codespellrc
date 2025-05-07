@@ -1,0 +1,3 @@
+[codespell]
+skip = *.svg,.codespellrc
+#ignore-words-list = 

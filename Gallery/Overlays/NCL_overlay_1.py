@@ -83,7 +83,7 @@ wind = u.plot.contour(ax=ax,
                       linewidths=0.5,
                       add_labels=False)
 
-# Manually specify where contour labels will go using lat and lon coordiantes
+# Manually specify where contour labels will go using lat and lon coordinates
 manual = [(-107, 52), (-79, 57), (-78, 47), (-103, 32), (-86, 23)]
 ax.clabel(wind, u_lev, fmt='%d', inline=True, fontsize=10, manual=manual)
 
