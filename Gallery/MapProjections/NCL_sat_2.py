@@ -52,21 +52,18 @@ fig = plt.figure(figsize=(8, 8))
 
 # Set global axes with a nearside perspective projection (equivalent to NCL's
 # satellite projection)
-proj = ccrs.NearsidePerspective(central_longitude=270.0,
-                                central_latitude=45.0,
-                                satellite_height=12742000)
+proj = ccrs.NearsidePerspective(
+    central_longitude=270.0, central_latitude=45.0, satellite_height=12742000
+)
 ax = plt.axes(projection=proj)
 ax.set_global()
 
 # Add land, coastlines, and ocean features
 ax.add_feature(cfeature.LAND, facecolor='lightgray', zorder=1)
-ax.add_feature(cfeature.COASTLINE, linewidth=.3, zorder=2)
+ax.add_feature(cfeature.COASTLINE, linewidth=0.3, zorder=2)
 ax.add_feature(cfeature.OCEAN, facecolor='white')
-ax.add_feature(cfeature.BORDERS, linewidth=.3)
-ax.add_feature(cfeature.LAKES,
-               facecolor='white',
-               edgecolor='black',
-               linewidth=.3)
+ax.add_feature(cfeature.BORDERS, linewidth=0.3)
+ax.add_feature(cfeature.LAKES, facecolor='white', edgecolor='black', linewidth=0.3)
 
 # Create color map
 colorvalues = [1020, 1036, 1500]
@@ -74,21 +71,25 @@ cmap = colors.ListedColormap(['None', 'lightgray', 'dimgrey'])
 norm = colors.BoundaryNorm(colorvalues, 2)
 
 # Plot contour data
-p = wrap_pressure.plot.contourf(ax=ax,
-                                zorder=2,
-                                transform=ccrs.PlateCarree(),
-                                levels=30,
-                                cmap=cmap,
-                                norm=norm,
-                                add_labels=False,
-                                add_colorbar=False)
+p = wrap_pressure.plot.contourf(
+    ax=ax,
+    zorder=2,
+    transform=ccrs.PlateCarree(),
+    levels=30,
+    cmap=cmap,
+    norm=norm,
+    add_labels=False,
+    add_colorbar=False,
+)
 
-p = wrap_pressure.plot.contour(ax=ax,
-                               transform=ccrs.PlateCarree(),
-                               linewidths=0.3,
-                               levels=30,
-                               cmap='black',
-                               add_labels=False)
+p = wrap_pressure.plot.contour(
+    ax=ax,
+    transform=ccrs.PlateCarree(),
+    linewidths=0.3,
+    levels=30,
+    cmap='black',
+    add_labels=False,
+)
 
 # low pressure contour levels- these will be plotted
 # as a subscript to an 'L' symbol.
@@ -97,45 +98,52 @@ highClevels = gv.find_local_extrema(pressure, highVal=1042, eType='High')
 
 # Label regular contours with automatic matplotlib labeling
 # Specify the levels to label every other contour level
-ax.clabel(p,
-          levels=np.arange(956, 1064, 8),
-          inline=True,
-          fontsize=12,
-          colors='black',
-          fmt="%.0f")
+ax.clabel(
+    p,
+    levels=np.arange(956, 1064, 8),
+    inline=True,
+    fontsize=12,
+    colors='black',
+    fmt="%.0f",
+)
 
 # Label low and high contours
-gv.plot_extrema_labels(wrap_pressure,
-                       ccrs.Geodetic(),
-                       proj,
-                       label_locations=lowClevels,
-                       label='L')
-gv.plot_extrema_labels(wrap_pressure,
-                       ccrs.Geodetic(),
-                       proj,
-                       label_locations=highClevels,
-                       label='H')
+gv.plot_extrema_labels(
+    wrap_pressure, ccrs.Geodetic(), proj, label_locations=lowClevels, label='L'
+)
+gv.plot_extrema_labels(
+    wrap_pressure, ccrs.Geodetic(), proj, label_locations=highClevels, label='H'
+)
 
 # Use gv function to set title and subtitles
-gv.set_titles_and_labels(ax,
-                         maintitle=r"$\bf{SLP}$" + " " + r"$\bf{1963,}$" + " " +
-                         r"$\bf{January}$" + " " + r"$\bf{24th}$",
-                         maintitlefontsize=20,
-                         lefttitle="mean Daily Sea Level Pressure",
-                         lefttitlefontsize=16,
-                         righttitle="hPa",
-                         righttitlefontsize=16)
+gv.set_titles_and_labels(
+    ax,
+    maintitle=r"$\bf{SLP}$"
+    + " "
+    + r"$\bf{1963,}$"
+    + " "
+    + r"$\bf{January}$"
+    + " "
+    + r"$\bf{24th}$",
+    maintitlefontsize=20,
+    lefttitle="mean Daily Sea Level Pressure",
+    lefttitlefontsize=16,
+    righttitle="hPa",
+    righttitlefontsize=16,
+)
 
 # Set characteristics of text box
 props = dict(facecolor='white', edgecolor='black', alpha=0.5)
 
 # Place text box
-ax.text(0.40,
-        -0.1,
-        'CONTOUR FROM 948 TO 1064 BY 4',
-        transform=ax.transAxes,
-        fontsize=16,
-        bbox=props)
+ax.text(
+    0.40,
+    -0.1,
+    'CONTOUR FROM 948 TO 1064 BY 4',
+    transform=ax.transAxes,
+    fontsize=16,
+    bbox=props,
+)
 
 # Add gridlines to axis
 gl = ax.gridlines(color='gray', linestyle='--')

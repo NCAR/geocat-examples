@@ -54,39 +54,40 @@ newcmp = cmaps.ncl_default
 
 # Contourf-plot data (for filled contours)
 # Note, min-max contour levels are hard-coded. contourf's automatic contour value selector produces fractional values.
-p = U.plot.contourf(ax=ax,
-                    vmin=-16.0,
-                    vmax=44,
-                    levels=16,
-                    cmap=newcmp,
-                    add_colorbar=False,
-                    transform=projection,
-                    extend='neither')
+p = U.plot.contourf(
+    ax=ax,
+    vmin=-16.0,
+    vmax=44,
+    levels=16,
+    cmap=newcmp,
+    add_colorbar=False,
+    transform=projection,
+    extend='neither',
+)
 
 # Contour-plot data (for contour lines)
 # Note, min-max contour levels are hard-coded. contourf's automatic contour value selector produces fractional values.
-U.plot.contour(ax=ax,
-               vmin=-16.0,
-               vmax=44,
-               levels=16,
-               colors='black',
-               linewidths=0.5,
-               transform=projection)
+U.plot.contour(
+    ax=ax,
+    vmin=-16.0,
+    vmax=44,
+    levels=16,
+    colors='black',
+    linewidths=0.5,
+    transform=projection,
+)
 
 # Add horizontal colorbar
-cbar = plt.colorbar(p,
-                    orientation='horizontal',
-                    shrink=0.75,
-                    drawedges=True,
-                    aspect=16,
-                    pad=0.075)
+cbar = plt.colorbar(
+    p, orientation='horizontal', shrink=0.75, drawedges=True, aspect=16, pad=0.075
+)
 cbar.ax.tick_params(labelsize=14)
 cbar.set_ticks(np.linspace(-12, 40, 14))
 
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(ax,
-                             xticks=np.linspace(-180, 180, 13),
-                             yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(
+    ax, xticks=np.linspace(-180, 180, 13), yticks=np.linspace(-90, 90, 7)
+)
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gv.add_lat_lon_ticklabels(ax)
@@ -95,14 +96,16 @@ gv.add_lat_lon_ticklabels(ax)
 gv.add_major_minor_ticks(ax, labelsize=14)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gv.set_titles_and_labels(ax,
-                         maintitle="NCL Default Colors",
-                         lefttitle=U.long_name,
-                         lefttitlefontsize=16,
-                         righttitle=U.units,
-                         righttitlefontsize=16,
-                         xlabel="",
-                         ylabel="")
+gv.set_titles_and_labels(
+    ax,
+    maintitle="NCL Default Colors",
+    lefttitle=U.long_name,
+    lefttitlefontsize=16,
+    righttitle=U.units,
+    righttitlefontsize=16,
+    xlabel="",
+    ylabel="",
+)
 
 # Show the plot
 plt.show()

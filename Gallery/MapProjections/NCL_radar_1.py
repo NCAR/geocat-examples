@@ -65,50 +65,50 @@ def radar_plot(X, Y, values, bg_color=None):
     cmap = cmaps.gui_default
 
     # Plot using contourf
-    p = plt.contourf(X,
-                     Y,
-                     values,
-                     cmap=cmap,
-                     levels=np.arange(-20, 70, 5) * 100,
-                     zorder=3)
+    p = plt.contourf(
+        X, Y, values, cmap=cmap, levels=np.arange(-20, 70, 5) * 100, zorder=3
+    )
 
     # Change orientation and tick marks of colorbar
-    plt.colorbar(p,
-                 orientation="horizontal",
-                 ticks=np.arange(-15, 65, 15) * 100,
-                 drawedges=True,
-                 aspect=12)
+    plt.colorbar(
+        p,
+        orientation="horizontal",
+        ticks=np.arange(-15, 65, 15) * 100,
+        drawedges=True,
+        aspect=12,
+    )
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
     gv.add_major_minor_ticks(ax, labelsize=12)
 
     # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-    gv.set_titles_and_labels(ax,
-                             lefttitle=ds.DZ.long_name,
-                             lefttitlefontsize=16,
-                             righttitle=ds.DZ.units,
-                             righttitlefontsize=16,
-                             xlabel="",
-                             ylabel="")
+    gv.set_titles_and_labels(
+        ax,
+        lefttitle=ds.DZ.long_name,
+        lefttitlefontsize=16,
+        righttitle=ds.DZ.units,
+        righttitlefontsize=16,
+        xlabel="",
+        ylabel="",
+    )
 
     # Use geocat.viz.util convenience function to set axes limits & tick values
-    gv.set_axes_limits_and_ticks(ax,
-                                 xlim=(-240, 240),
-                                 ylim=(-240, 240),
-                                 xticks=np.arange(-200, 201, 100),
-                                 yticks=np.arange(-200, 201, 100))
+    gv.set_axes_limits_and_ticks(
+        ax,
+        xlim=(-240, 240),
+        ylim=(-240, 240),
+        xticks=np.arange(-200, 201, 100),
+        yticks=np.arange(-200, 201, 100),
+    )
 
     # Use geocat.viz.util convenience function to set tick placements
-    gv.add_major_minor_ticks(ax,
-                             x_minor_per_major=5,
-                             y_minor_per_major=5,
-                             labelsize=14)
+    gv.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=5, labelsize=14)
 
     # Set aspect ratio
     ax.set_aspect('equal')
 
     # Allow optional background circle to be set
-    if (bg_color is not None):
+    if bg_color is not None:
         circle_bg = plt.Circle((0, 0), 240, color=bg_color, zorder=1)
         ax.add_artist(circle_bg)
 

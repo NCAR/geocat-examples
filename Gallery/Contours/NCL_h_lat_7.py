@@ -19,8 +19,6 @@ See following URLs to see the reproduced NCL plot & script:
 import xarray as xr
 from matplotlib import pyplot as plt
 import numpy as np
-import metpy.calc as mpcalc
-from metpy.units import units
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
@@ -59,31 +57,19 @@ ps = ps / 100  # Convert from pascal to millibar
 lev_p = np.array([300, 400, 500, 600, 700, 800, 900, 1000])
 
 # interp_hybrid_to_pressure is the Python version of vinth2p in NCL script
-hp = interp_hybrid_to_pressure(data=h,
-                               ps=ps,
-                               hyam=hyam,
-                               hybm=hybm,
-                               p0=P0mb,
-                               new_levels=lev_p,
-                               method='log')
+hp = interp_hybrid_to_pressure(
+    data=h, ps=ps, hyam=hyam, hybm=hybm, p0=P0mb, new_levels=lev_p, method='log'
+)
 # Assign attribute values
 hp.attrs['units'] = "kJ/kg"
 hp.attrs['long_name'] = "Moist Static Energy"
 
-op = interp_hybrid_to_pressure(data=omega,
-                               ps=ps,
-                               hyam=hyam,
-                               hybm=hybm,
-                               p0=P0mb,
-                               new_levels=lev_p,
-                               method='log')
-vp = interp_hybrid_to_pressure(data=V,
-                               ps=ps,
-                               hyam=hyam,
-                               hybm=hybm,
-                               p0=P0mb,
-                               new_levels=lev_p,
-                               method='log')
+op = interp_hybrid_to_pressure(
+    data=omega, ps=ps, hyam=hyam, hybm=hybm, p0=P0mb, new_levels=lev_p, method='log'
+)
+vp = interp_hybrid_to_pressure(
+    data=V, ps=ps, hyam=hyam, hybm=hybm, p0=P0mb, new_levels=lev_p, method='log'
+)
 
 # Extract slices of the data
 hp = hp.isel(time=0).sel(lat=slice(-30, 30)).sel(lon=210, method='nearest')
@@ -108,19 +94,19 @@ levels = np.arange(300, 335, 2)
 levels = np.append(levels, 335)
 
 # Plot contour lines
-hp.plot.contour(ax=ax,
-                colors='black',
-                levels=levels,
-                linewidths=0.5,
-                linestyles='solid',
-                add_labels=False)
+hp.plot.contour(
+    ax=ax,
+    colors='black',
+    levels=levels,
+    linewidths=0.5,
+    linestyles='solid',
+    add_labels=False,
+)
 
 # Plot filled contours
-colors = hp.plot.contourf(ax=ax,
-                          levels=levels,
-                          cmap='viridis',
-                          add_labels=False,
-                          add_colorbar=False)
+colors = hp.plot.contourf(
+    ax=ax, levels=levels, cmap='viridis', add_labels=False, add_colorbar=False
+)
 
 # Draw vector plot
 # (there is no matplotlib equivalent to "CurlyVector" yet)
@@ -133,18 +119,20 @@ Q = ax.quiver(
     pivot="middle",
     width=0.001,
     headwidth=15,
-    zorder=1)
+    zorder=1,
+)
 
 # Draw legend for vector plot
 ax.add_patch(
     plt.Rectangle(
-        (17.3,
-         944),  # location of the SW corner of box in the same units as the data
+        (17.3, 944),  # location of the SW corner of box in the same units as the data
         12,  # the width of the box in the same units as the x axis
         55,  # the height of the box in the same units as the y axis
         facecolor='white',
         edgecolor='black',
-        clip_on=False))
+        clip_on=False,
+    )
+)
 # Call quiver key twice to draw the text above and below the key arrow
 qk = ax.quiverkey(
     Q,
@@ -155,7 +143,8 @@ qk = ax.quiverkey(
     labelpos='S',
     coordinates='figure',
     color='black',
-    fontproperties={'size': 13})
+    fontproperties={'size': 13},
+)
 qk = ax.quiverkey(
     Q,
     0.828,  # x coordinate of the center of the arrow as a percent of the plot width
@@ -165,31 +154,33 @@ qk = ax.quiverkey(
     labelpos='N',
     coordinates='figure',
     color='black',
-    fontproperties={'size': 13})
+    fontproperties={'size': 13},
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=4,
-                         y_minor_per_major=1,
-                         labelsize=18)
+gv.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=1, labelsize=18)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(ax,
-                             ylim=ax.get_ylim()[::-1],
-                             xticks=np.array([-20, 0, 20]),
-                             yticks=np.array([300, 400, 500, 700, 850, 1000]),
-                             xticklabels=['20S', '0', '20N'])
+gv.set_axes_limits_and_ticks(
+    ax,
+    ylim=ax.get_ylim()[::-1],
+    xticks=np.array([-20, 0, 20]),
+    yticks=np.array([300, 400, 500, 700, 850, 1000]),
+    xticklabels=['20S', '0', '20N'],
+)
 
 # Use geocat.viz.util convenience function to add titles and the pressure label
-gv.set_titles_and_labels(ax,
-                         maintitle="Pressure/Height Vector Example",
-                         maintitlefontsize=24,
-                         lefttitle=hp.long_name,
-                         lefttitlefontsize=22,
-                         righttitle=hp.units,
-                         righttitlefontsize=22,
-                         ylabel='Pressure (mb)',
-                         labelfontsize=24)
+gv.set_titles_and_labels(
+    ax,
+    maintitle="Pressure/Height Vector Example",
+    maintitlefontsize=24,
+    lefttitle=hp.long_name,
+    lefttitlefontsize=22,
+    righttitle=hp.units,
+    righttitlefontsize=22,
+    ylabel='Pressure (mb)',
+    labelfontsize=24,
+)
 
 # Create second y-axis to show geo-potential height.
 axRHS = gv.add_height_from_pressure_axis(ax, heights=np.arange(4, 28, 4))
@@ -205,14 +196,16 @@ ax.tick_params(axis='y', which='minor', left=False, right=False)
 plt.tight_layout()
 
 cax = plt.axes((0.15, 0.03, 0.75, 0.06))
-cab = fig.colorbar(colors,
-                   ax=ax,
-                   cax=cax,
-                   orientation='horizontal',
-                   ticks=levels[::2],
-                   extendrect=True,
-                   drawedges=True,
-                   spacing='uniform')
+cab = fig.colorbar(
+    colors,
+    ax=ax,
+    cax=cax,
+    orientation='horizontal',
+    ticks=levels[::2],
+    extendrect=True,
+    drawedges=True,
+    spacing='uniform',
+)
 
 # Set colorbar ticklabel font size
 cab.ax.xaxis.set_tick_params(length=0, labelsize=18)

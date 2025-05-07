@@ -45,11 +45,13 @@ ax.coastlines(linewidths=0.5)
 ax.set_extent([-180, 180, -90, 90], ccrs.PlateCarree())
 
 # Use geocat-viz convenience function to set axes limits & tick values
-gv.set_axes_limits_and_ticks(ax,
-                             xlim=(-180, 180),
-                             ylim=(-90, 90),
-                             xticks=np.linspace(-180, 180, 13),
-                             yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(
+    ax,
+    xlim=(-180, 180),
+    ylim=(-90, 90),
+    xticks=np.linspace(-180, 180, 13),
+    yticks=np.linspace(-90, 90, 7),
+)
 
 # Use geocat-viz convenience function to add minor and major tick lines
 gv.add_major_minor_ticks(ax, labelsize=10)
@@ -58,21 +60,25 @@ gv.add_major_minor_ticks(ax, labelsize=10)
 gv.add_lat_lon_ticklabels(ax)
 
 # Create initial plot
-cplot = tas[0, :, :].plot.contourf(ax=ax,
-                                   transform=ccrs.PlateCarree(),
-                                   vmin=195,
-                                   vmax=328,
-                                   levels=53,
-                                   cmap="inferno",
-                                   add_colorbar=False)
+cplot = tas[0, :, :].plot.contourf(
+    ax=ax,
+    transform=ccrs.PlateCarree(),
+    vmin=195,
+    vmax=328,
+    levels=53,
+    cmap="inferno",
+    add_colorbar=False,
+)
 
 # Create a colorbar
-cbar = fig.colorbar(cplot,
-                    extendrect=True,
-                    orientation="horizontal",
-                    ticks=np.arange(195, 332, 9),
-                    label="",
-                    shrink=0.90)
+cbar = fig.colorbar(
+    cplot,
+    extendrect=True,
+    orientation="horizontal",
+    ticks=np.arange(195, 332, 9),
+    label="",
+    shrink=0.90,
+)
 
 # Remove minor ticks from colorbar that don't work well with other formatting
 cbar.ax.minorticks_off()
@@ -80,24 +86,27 @@ cbar.ax.minorticks_off()
 
 # Animate function for matplotlib FuncAnimation
 def animate(i):
-    tas[i, :, :].plot.contourf(ax=ax,
-                               transform=ccrs.PlateCarree(),
-                               vmin=195,
-                               vmax=328,
-                               levels=53,
-                               cmap="inferno",
-                               add_colorbar=False)
+    tas[i, :, :].plot.contourf(
+        ax=ax,
+        transform=ccrs.PlateCarree(),
+        vmin=195,
+        vmax=328,
+        levels=53,
+        cmap="inferno",
+        add_colorbar=False,
+    )
 
     gv.set_titles_and_labels(
         ax,
-        maintitle="January Global Surface Temperature (K) - Day  " +
-        str(tas.coords['time'].values[i])[:13],
+        maintitle="January Global Surface Temperature (K) - Day  "
+        + str(tas.coords['time'].values[i])[:13],
         xlabel="",
-        ylabel="")
+        ylabel="",
+    )
 
 
 # Run the animation initiated with the frame from init and progressed with the animate function
 anim = animation.FuncAnimation(fig, animate, frames=30, interval=200)
 
 # Uncomment this line to save the animation
-#anim.save('animate_1.gif', writer='pillow', fps=5)
+# anim.save('animate_1.gif', writer='pillow', fps=5)

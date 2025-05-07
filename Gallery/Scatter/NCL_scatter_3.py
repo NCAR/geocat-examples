@@ -27,8 +27,7 @@ import geocat.datafiles as gdf
 ###############################################################################
 # Open a netCDF data file using xarray default engine and load the data into xarrays
 
-ds = xr.open_dataset(gdf.get("netcdf_files/95031800_sao.cdf"),
-                     decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/95031800_sao.cdf"), decode_times=False)
 lat = ds.lat.isel()
 lon = ds.lon.isel()
 
@@ -70,43 +69,36 @@ def Plots(xlim, ylim, xtic, ytic, xminor, yminor, size, color):
     ax = plt.axes(projection=ccrs.PlateCarree())
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gv.add_major_minor_ticks(ax,
-                             x_minor_per_major=xminor,
-                             y_minor_per_major=yminor,
-                             labelsize=14)
+    gv.add_major_minor_ticks(
+        ax, x_minor_per_major=xminor, y_minor_per_major=yminor, labelsize=14
+    )
 
     # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
     gv.add_lat_lon_ticklabels(ax)
 
     # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-    gv.set_axes_limits_and_ticks(ax,
-                                 xlim=xlim,
-                                 ylim=ylim,
-                                 xticks=range(-180, 180, xtic),
-                                 yticks=range(-90, 90, ytic))
+    gv.set_axes_limits_and_ticks(
+        ax,
+        xlim=xlim,
+        ylim=ylim,
+        xticks=range(-180, 180, xtic),
+        yticks=range(-90, 90, ytic),
+    )
 
     # Remove the degree symbol from tick labels
     ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
     # Turn on continent shading
-    ax.add_feature(cfeature.LAND,
-                   edgecolor='lightgray',
-                   facecolor='lightgray',
-                   zorder=0)
-    ax.add_feature(cfeature.LAKES,
-                   edgecolor='white',
-                   facecolor='white',
-                   zorder=0)
+    ax.add_feature(
+        cfeature.LAND, edgecolor='lightgray', facecolor='lightgray', zorder=0
+    )
+    ax.add_feature(cfeature.LAKES, edgecolor='white', facecolor='white', zorder=0)
 
     # Scatter-plot the location data on the map
     plt.scatter(lon, lat, s=size, c=color, marker='+', linewidth=0.5, zorder=1)
 
-    plt.title("Locations of stations",
-              loc="center",
-              y=1.03,
-              size=15,
-              fontweight="bold")
+    plt.title("Locations of stations", loc="center", y=1.03, size=15, fontweight="bold")
 
     plt.show()
 

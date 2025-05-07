@@ -38,17 +38,31 @@ from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 # Read in data
 
 # Open climate division datafile and add to xarray
-ds = xr.open_dataset(gdf.get("netcdf_files/climdiv_prcp_1899-1999.nc"),
-                     decode_times=False)
+ds = xr.open_dataset(
+    gdf.get("netcdf_files/climdiv_prcp_1899-1999.nc"), decode_times=False
+)
 
 ###############################################################################
 # Initialize color map and bounds for each color
 
-colormap = colors.ListedColormap([
-    'mediumpurple', 'mediumblue', 'royalblue', 'cornflowerblue', 'lightblue',
-    'lightseagreen', 'yellowgreen', 'green', 'wheat', 'tan', 'gold', 'orange',
-    'red', 'firebrick'
-])
+colormap = colors.ListedColormap(
+    [
+        'mediumpurple',
+        'mediumblue',
+        'royalblue',
+        'cornflowerblue',
+        'lightblue',
+        'lightseagreen',
+        'yellowgreen',
+        'green',
+        'wheat',
+        'tan',
+        'gold',
+        'orange',
+        'red',
+        'firebrick',
+    ]
+)
 
 # Values represent average number of inches of rain
 colorbounds = [0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100]
@@ -58,9 +72,7 @@ colorbounds = [0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 100]
 
 
 def findDivColor(colorbounds, pdata):
-
     for x in range(len(colorbounds)):
-
         if pdata >= colorbounds[len(colorbounds) - 1]:
             return colormap.colors[x - 1]
         if pdata >= colorbounds[x]:
@@ -78,40 +90,35 @@ fig = plt.figure(figsize=(8, 8))
 
 # Add axes for lambert conformal map
 # Set dimensions of axes with [X0, Y0, width, height] argument. Each value is a fraction of total figure size.
-ax = plt.axes([.05, -.05, .9, 1],
-              projection=ccrs.LambertConformal(),
-              frameon=False)
+ax = plt.axes([0.05, -0.05, 0.9, 1], projection=ccrs.LambertConformal(), frameon=False)
 
 # Set latitude and longitude extent of map
 ax.set_extent([-119, -74, 18, 50], ccrs.Geodetic())
 
 # Set shape name of map (which depicts the United States)
 shapename = 'admin_1_states_provinces_lakes'
-states_shp = shpreader.natural_earth(resolution='110m',
-                                     category='cultural',
-                                     name=shapename)
+states_shp = shpreader.natural_earth(
+    resolution='110m', category='cultural', name=shapename
+)
 
 # Set title and title fontsize of plot using gv function instead of matplotlib function call
 gv.set_titles_and_labels(
     ax,
-    maintitle=
-    "Average Annual Precipiation \n Computed for the period 1899-1999 \n NCDC climate division data \n",
-    maintitlefontsize=18)
+    maintitle="Average Annual Precipiation \n Computed for the period 1899-1999 \n NCDC climate division data \n",
+    maintitlefontsize=18,
+)
 
 # Add outlines of each state within the United States
 for state in shpreader.Reader(states_shp).geometries():
-
     facecolor = 'white'
     edgecolor = 'black'
 
-    ax.add_geometries([state],
-                      ccrs.PlateCarree(),
-                      facecolor=facecolor,
-                      edgecolor=edgecolor)
+    ax.add_geometries(
+        [state], ccrs.PlateCarree(), facecolor=facecolor, edgecolor=edgecolor
+    )
 
 # For each variable (climate division) in data set, create outline on map and fill with random color
 for varname, da in ds.data_vars.items():
-
     # This condition is included because first item in xarray only has one attribute, 'current date'
     if hasattr(da, 'state_name'):
         # Get number of years of data by dividing number of months recorded (length of array) by 12 (12 months per year)
@@ -134,11 +141,13 @@ for varname, da in ds.data_vars.items():
         track = sgeom.LineString(zip(lon, lat))
 
         # Add division outlines to map
-        im = ax.add_geometries([track],
-                               ccrs.PlateCarree(),
-                               facecolor=color,
-                               edgecolor='black',
-                               linewidths=.5)
+        im = ax.add_geometries(
+            [track],
+            ccrs.PlateCarree(),
+            facecolor=color,
+            edgecolor='black',
+            linewidths=0.5,
+        )
 
 # Create and plot colorbar
 
@@ -149,12 +158,14 @@ norm = colors.BoundaryNorm(colorbounds, colormap.N)
 axins1 = inset_axes(ax, width="75%", height="3%", loc='lower center')
 
 # Add colorbar to plot
-cb = fig.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm),
-                  cax=axins1,
-                  boundaries=colorbounds,
-                  ticks=colorbounds,
-                  spacing='uniform',
-                  orientation='horizontal',
-                  label='inches')
+cb = fig.colorbar(
+    cm.ScalarMappable(cmap=colormap, norm=norm),
+    cax=axins1,
+    boundaries=colorbounds,
+    ticks=colorbounds,
+    spacing='uniform',
+    orientation='horizontal',
+    label='inches',
+)
 
 plt.show()

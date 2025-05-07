@@ -29,8 +29,7 @@ import geocat.viz as gv
 
 # Open a netCDF data file using xarray default engine and load the data into
 # xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"),
-                     decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"), decode_times=False)
 
 # Ensure longitudes range from 0 to 360 degrees
 t = gv.xr_add_cyclic_longitudes(ds.T, "lon_t")
@@ -55,13 +54,15 @@ ax1 = fig.add_subplot(grid[0], projection=proj)  # upper cell of grid
 ax2 = fig.add_subplot(grid[1], projection=proj)  # middle cell of grid
 ax3 = fig.add_subplot(grid[2], projection=proj)  # lower cell of grid
 
-for (ax, title) in [(ax1, 'level 0'), (ax2, 'level 1'), (ax3, 'level 6')]:
+for ax, title in [(ax1, 'level 0'), (ax2, 'level 1'), (ax3, 'level 6')]:
     # Use geocat.viz.util convenience function to set axes tick values
-    gv.set_axes_limits_and_ticks(ax=ax,
-                                 xlim=(-180, 180),
-                                 ylim=(-90, 90),
-                                 xticks=np.linspace(-180, 180, 13),
-                                 yticks=np.linspace(-90, 90, 7))
+    gv.set_axes_limits_and_ticks(
+        ax=ax,
+        xlim=(-180, 180),
+        ylim=(-90, 90),
+        xticks=np.linspace(-180, 180, 13),
+        yticks=np.linspace(-90, 90, 7),
+    )
 
     # Use geocat.viz.util convenience function to make plots look like NCL
     # plots by using latitude, longitude tick labels
@@ -78,11 +79,13 @@ for (ax, title) in [(ax1, 'level 0'), (ax2, 'level 1'), (ax3, 'level 6')]:
     ax.coastlines(linewidth=0.5)
 
     # Use geocat.viz.util convenience function to set titles
-    gv.set_titles_and_labels(ax,
-                             lefttitle=t_1.long_name,
-                             righttitle=t_1.units,
-                             lefttitlefontsize=10,
-                             righttitlefontsize=10)
+    gv.set_titles_and_labels(
+        ax,
+        lefttitle=t_1.long_name,
+        righttitle=t_1.units,
+        lefttitlefontsize=10,
+        righttitlefontsize=10,
+    )
     # Add center title
     ax.set_title(title, loc='center', y=1.04, fontsize=10)
 
@@ -90,42 +93,52 @@ for (ax, title) in [(ax1, 'level 0'), (ax2, 'level 1'), (ax3, 'level 6')]:
 cmap = 'magma'
 
 # Plot data
-C = ax1.contourf(t_1['lon_t'],
-                 t_1['lat_t'],
-                 t_1.data,
-                 levels=np.arange(0, 30, 2),
-                 cmap=cmap,
-                 extend='both')
-ax2.contourf(t_2['lon_t'],
-             t_2['lat_t'],
-             t_2.data,
-             levels=np.arange(0, 30, 2),
-             cmap=cmap,
-             extend='both')
-C_2 = ax3.contourf(t_6['lon_t'],
-                   t_6['lat_t'],
-                   t_6.data,
-                   levels=np.arange(0, 22, 2),
-                   cmap=cmap,
-                   extend='both')
+C = ax1.contourf(
+    t_1['lon_t'],
+    t_1['lat_t'],
+    t_1.data,
+    levels=np.arange(0, 30, 2),
+    cmap=cmap,
+    extend='both',
+)
+ax2.contourf(
+    t_2['lon_t'],
+    t_2['lat_t'],
+    t_2.data,
+    levels=np.arange(0, 30, 2),
+    cmap=cmap,
+    extend='both',
+)
+C_2 = ax3.contourf(
+    t_6['lon_t'],
+    t_6['lat_t'],
+    t_6.data,
+    levels=np.arange(0, 22, 2),
+    cmap=cmap,
+    extend='both',
+)
 
 # Add colorbars
 # By specifying two axes for `ax` the colorbar will span both of them
-plt.colorbar(C,
-             ax=[ax1, ax2],
-             ticks=range(0, 30, 2),
-             extendrect=True,
-             extendfrac='auto',
-             shrink=0.85,
-             aspect=13,
-             drawedges=True)
-plt.colorbar(C_2,
-             ax=ax3,
-             ticks=range(0, 22, 2),
-             extendrect=True,
-             extendfrac='auto',
-             shrink=0.85,
-             aspect=5.5,
-             drawedges=True)
+plt.colorbar(
+    C,
+    ax=[ax1, ax2],
+    ticks=range(0, 30, 2),
+    extendrect=True,
+    extendfrac='auto',
+    shrink=0.85,
+    aspect=13,
+    drawedges=True,
+)
+plt.colorbar(
+    C_2,
+    ax=ax3,
+    ticks=range(0, 22, 2),
+    extendrect=True,
+    extendfrac='auto',
+    shrink=0.85,
+    aspect=5.5,
+    drawedges=True,
+)
 
 plt.show()

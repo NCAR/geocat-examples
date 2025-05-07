@@ -24,16 +24,48 @@ import geocat.viz as gv
 # Create dummy data:
 
 # Case A
-CA_ratio = [1.230, 0.988, 1.092, 1.172, 1.064, 0.966, 1.079,
-            0.781]  # standard deviation
-CA_cc = [0.958, 0.973, 0.740, 0.743, 0.922, 0.982, 0.952,
-         0.433]  # correlation coefficient
+CA_ratio = [
+    1.230,
+    0.988,
+    1.092,
+    1.172,
+    1.064,
+    0.966,
+    1.079,
+    0.781,
+]  # standard deviation
+CA_cc = [
+    0.958,
+    0.973,
+    0.740,
+    0.743,
+    0.922,
+    0.982,
+    0.952,
+    0.433,
+]  # correlation coefficient
 
 # Case B
-CB_ratio = [1.129, 0.996, 1.016, 1.134, 1.023, 0.962, 1.048,
-            0.852]  # standard deviation
-CB_cc = [0.963, 0.975, 0.801, 0.814, 0.946, 0.984, 0.968,
-         0.647]  # correlation coefficient
+CB_ratio = [
+    1.129,
+    0.996,
+    1.016,
+    1.134,
+    1.023,
+    0.962,
+    1.048,
+    0.852,
+]  # standard deviation
+CB_cc = [
+    0.963,
+    0.975,
+    0.801,
+    0.814,
+    0.946,
+    0.984,
+    0.968,
+    0.647,
+]  # correlation coefficient
 
 ###############################################################################
 # Plot:
@@ -43,19 +75,11 @@ fig = plt.figure(figsize=(10, 10))
 dia = gv.TaylorDiagram(fig=fig, label='REF')
 
 # Add models to Taylor diagram
-dia.add_model_set(CA_ratio,
-                  CA_cc,
-                  color='red',
-                  marker='o',
-                  label='Case A',
-                  fontsize=16)
+dia.add_model_set(CA_ratio, CA_cc, color='red', marker='o', label='Case A', fontsize=16)
 
-dia.add_model_set(CB_ratio,
-                  CB_cc,
-                  color='blue',
-                  marker='o',
-                  label='Case B',
-                  fontsize=16)
+dia.add_model_set(
+    CB_ratio, CB_cc, color='blue', marker='o', label='Case B', fontsize=16
+)
 
 # Create model name list
 namearr = ['SLP', 'Tsfc', 'Prc', 'Prc 30S-30N', 'LW', 'SW', 'U300', 'Guess']

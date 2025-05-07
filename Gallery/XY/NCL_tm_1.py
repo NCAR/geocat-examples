@@ -34,9 +34,7 @@ nyears = x_data.size
 y_data = np.random.uniform(-4, 4, nyears)
 
 # Print out a formatted message; note the starting 'f' for the string.
-print(
-    f"There are { len(x_data) } values in x_data, and { len(y_data) } values in y_data."
-)
+print(f"There are {len(x_data)} values in x_data, and {len(y_data)} values in y_data.")
 
 ###############################################################################
 # Plot 1
@@ -49,19 +47,16 @@ ax = plt.gca()
 ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=5,
-                         y_minor_per_major=4,
-                         labelsize=16)
+gv.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4, labelsize=16)
 
 # Plot data and set the X axis limits.
 plt.plot(x_data, y_data, color='grey', linewidth=0.5)
 
 # Usa geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits
-gv.set_axes_limits_and_ticks(ax,
-                             xlim=(min(x_data) - 1, max(x_data) + 1),
-                             ylim=(-4.5, 4.5))
+gv.set_axes_limits_and_ticks(
+    ax, xlim=(min(x_data) - 1, max(x_data) + 1), ylim=(-4.5, 4.5)
+)
 
 # Draw plot on the screen
 plt.tight_layout()
@@ -82,19 +77,16 @@ ax.xaxis.set_major_locator(FixedLocator(xticks))
 ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=4,
-                         y_minor_per_major=4,
-                         labelsize=16)
+gv.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=4, labelsize=16)
 
 # Line-plot data
 plt.plot(x_data, y_data, color='grey', linewidth=0.5)
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values on x-axes.
-gv.set_axes_limits_and_ticks(ax,
-                             xlim=(min(x_data) - 1, max(x_data) + 1),
-                             ylim=(-4.5, 4.5))
+gv.set_axes_limits_and_ticks(
+    ax, xlim=(min(x_data) - 1, max(x_data) + 1), ylim=(-4.5, 4.5)
+)
 
 # Draw plot on the screen
 plt.tight_layout()

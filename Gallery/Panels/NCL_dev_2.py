@@ -35,8 +35,7 @@ import geocat.viz as gv
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"),
-                     decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"), decode_times=False)
 
 # Extract slice of data at first timestep
 TS_0 = ds.TS.isel(time=0, drop=True)
@@ -64,10 +63,7 @@ fig = plt.figure(figsize=(8, 8))
 
 # Create girdspec for layout, width_ratio is used to make the plots on the
 # right narrower than the ones on the left
-grid = fig.add_gridspec(ncols=2,
-                        nrows=2,
-                        width_ratios=[0.85, 0.15],
-                        wspace=0.08)
+grid = fig.add_gridspec(ncols=2, nrows=2, width_ratios=[0.85, 0.15], wspace=0.08)
 
 # Create axis for plot with data from first timestep
 ax1 = fig.add_subplot(grid[0, 0], projection=ccrs.PlateCarree())
@@ -86,11 +82,13 @@ ax4 = fig.add_subplot(grid[1, 1], aspect=10)
 # Format ticks and ticklabels for the map axes
 for ax in [ax1, ax3]:
     # Use the geocat.viz function to set axes limits and ticks
-    gv.set_axes_limits_and_ticks(ax,
-                                 xlim=[-180, 180],
-                                 ylim=[-90, 90],
-                                 xticks=np.arange(-180, 181, 30),
-                                 yticks=np.arange(-90, 91, 30))
+    gv.set_axes_limits_and_ticks(
+        ax,
+        xlim=[-180, 180],
+        ylim=[-90, 90],
+        xticks=np.arange(-180, 181, 30),
+        yticks=np.arange(-90, 91, 30),
+    )
 
     # Use the geocat.viz function to add minor ticks
     gv.add_major_minor_ticks(ax)
@@ -104,24 +102,24 @@ for ax in [ax1, ax3]:
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use the geocat.viz function to set axes limits and ticks for zonal average plot
-gv.set_axes_limits_and_ticks(ax2,
-                             xlim=[200, 310],
-                             ylim=[-90, 90],
-                             xticks=[200, 240, 280],
-                             yticks=[])
+gv.set_axes_limits_and_ticks(
+    ax2, xlim=[200, 310], ylim=[-90, 90], xticks=[200, 240, 280], yticks=[]
+)
 
 # Use the geocat.viz function to add minor ticks to zonal average plot
 gv.add_major_minor_ticks(ax2, x_minor_per_major=2)
 
 # Plot contour lines for data at first timestep
-contour = TS_0.plot.contour(ax=ax1,
-                            transform=proj,
-                            vmin=235,
-                            vmax=305,
-                            levels=np.arange(210, 311, 10),
-                            colors='black',
-                            linewidths=0.25,
-                            add_labels=False)
+contour = TS_0.plot.contour(
+    ax=ax1,
+    transform=proj,
+    vmin=235,
+    vmax=305,
+    levels=np.arange(210, 311, 10),
+    colors='black',
+    linewidths=0.25,
+    add_labels=False,
+)
 
 # Label every other contour lines
 ax1.clabel(contour, np.arange(220, 311, 20), fmt='%d', inline=True, fontsize=10)
@@ -131,16 +129,16 @@ for txt in contour.labelTexts:
     txt.set_bbox(dict(facecolor='white', edgecolor='none', pad=0))
 
 # Add lower text box
-ax1.text(0.995,
-         0.03,
-         "CONTOUR FROM 210 TO 310 BY 10",
-         horizontalalignment='right',
-         transform=ax1.transAxes,
-         fontsize=8,
-         bbox=dict(boxstyle='square, pad=0.25',
-                   facecolor='white',
-                   edgecolor='black'),
-         zorder=5)
+ax1.text(
+    0.995,
+    0.03,
+    "CONTOUR FROM 210 TO 310 BY 10",
+    horizontalalignment='right',
+    transform=ax1.transAxes,
+    fontsize=8,
+    bbox=dict(boxstyle='square, pad=0.25', facecolor='white', edgecolor='black'),
+    zorder=5,
+)
 
 # Add titles to top plot
 size = 10
@@ -162,25 +160,29 @@ cmap = cmaps.BlWhRe
 cmap = gv.truncate_colormap(cmap, minval=0.22, maxval=0.74, n=14)
 
 # Plot filled contour for deviation from time avg plot
-deviations = time_dev.plot.contourf(ax=ax3,
-                                    transform=proj,
-                                    vmin=-14,
-                                    vmax=18,
-                                    levels=np.arange(-14, 20, 2),
-                                    cmap=cmap,
-                                    add_colorbar=False,
-                                    add_labels=False)
+deviations = time_dev.plot.contourf(
+    ax=ax3,
+    transform=proj,
+    vmin=-14,
+    vmax=18,
+    levels=np.arange(-14, 20, 2),
+    cmap=cmap,
+    add_colorbar=False,
+    add_labels=False,
+)
 
 # Draw contour lines for deviation from time avg plot
-time_dev.plot.contour(ax=ax3,
-                      transform=proj,
-                      vmin=-14,
-                      vmax=18,
-                      levels=np.arange(-14, 20, 2),
-                      colors='black',
-                      linewidths=0.25,
-                      linestyles='solid',
-                      add_labels=False)
+time_dev.plot.contour(
+    ax=ax3,
+    transform=proj,
+    vmin=-14,
+    vmax=18,
+    levels=np.arange(-14, 20, 2),
+    colors='black',
+    linewidths=0.25,
+    linestyles='solid',
+    add_labels=False,
+)
 
 # Add titles to bottom plot
 ax3.set_title('Deviation from time ave', fontsize=size, y=y)
@@ -188,9 +190,6 @@ ax3.set_title(ds.TS.long_name, fontsize=size, loc='left', y=y)
 ax3.set_title(ds.TS.units, fontsize=size, loc='right', y=y)
 
 # Add colorbar
-plt.colorbar(deviations,
-             cax=ax4,
-             ticks=np.linspace(-12, 16, 15),
-             drawedges=True)
+plt.colorbar(deviations, cax=ax4, ticks=np.linspace(-12, 16, 15), drawedges=True)
 
 plt.show()

@@ -64,18 +64,17 @@ ax.fill_between(date_frac, dsoik, where=dsoik > 0, color='red')
 ax.fill_between(date_frac, dsoik, where=dsoik < 0, color='blue')
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=4,
-                         y_minor_per_major=5,
-                         labelsize=14)
+gv.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5, labelsize=14)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gv.set_axes_limits_and_ticks(ax,
-                             ylim=(-3, 3),
-                             yticks=np.linspace(-3, 3, 7),
-                             yticklabels=np.linspace(-3, 3, 7),
-                             xlim=(date_frac[0], date_frac[-1]),
-                             xticks=np.linspace(1880, 1980, 6))
+gv.set_axes_limits_and_ticks(
+    ax,
+    ylim=(-3, 3),
+    yticks=np.linspace(-3, 3, 7),
+    yticklabels=np.linspace(-3, 3, 7),
+    xlim=(date_frac[0], date_frac[-1]),
+    xticks=np.linspace(1880, 1980, 6),
+)
 
 # Use geocat.viz.util convenience function to set titles and labels
 gv.set_titles_and_labels(ax, maintitle="Darwin Southern Oscillation Index")

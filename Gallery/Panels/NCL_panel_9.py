@@ -45,10 +45,7 @@ fig = plt.figure(figsize=(10, 12))
 
 # Create grid with two rows and one column
 # Use `height_ratios` to adjust the relative height of the rows
-grid = gridspec.GridSpec(nrows=2,
-                         ncols=1,
-                         height_ratios=[0.75, 0.25],
-                         figure=fig)
+grid = gridspec.GridSpec(nrows=2, ncols=1, height_ratios=[0.75, 0.25], figure=fig)
 
 # Specify the projection
 proj = ccrs.NorthPolarStereo()
@@ -65,17 +62,16 @@ gv.set_map_boundary(ax1, [-180, 180], [30, 90], south_pad=1)
 ax2 = plt.subplot(grid[1])
 
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(ax=ax2,
-                             xlim=(ds.time[0], ds.time[-1]),
-                             ylim=(-4, 3),
-                             yticks=np.arange(-4, 4, 1),
-                             yticklabels=np.arange(-4.0, 4.0, 1.0))
+gv.set_axes_limits_and_ticks(
+    ax=ax2,
+    xlim=(ds.time[0], ds.time[-1]),
+    ylim=(-4, 3),
+    yticks=np.arange(-4, 4, 1),
+    yticklabels=np.arange(-4.0, 4.0, 1.0),
+)
 
 # Use geocat.viz.util convenience function to add minor and major ticks
-gv.add_major_minor_ticks(ax=ax2,
-                         x_minor_per_major=4,
-                         y_minor_per_major=5,
-                         labelsize=12)
+gv.add_major_minor_ticks(ax=ax2, x_minor_per_major=4, y_minor_per_major=5, labelsize=12)
 
 # Create list of colors based on Blue-White-Red colormap
 cmap = cmaps.BlWhRe  # select colormap
@@ -85,30 +81,32 @@ index = [98, 88, 73, 69, 66, 63, 60, 58, 55, 53, 50, 50, 47, 45, 42, 40, 37, 34]
 color_list = [cmap[i].colors for i in index]
 
 # Plot contour data (use `color` keyword vs `cmap` for lists of colors)
-contour_fill = deppat.plot.contourf(ax=ax1,
-                                    transform=ccrs.PlateCarree(),
-                                    vmin=-5.5,
-                                    vmax=3.5,
-                                    levels=19,
-                                    colors=color_list,
-                                    add_colorbar=False)
+contour_fill = deppat.plot.contourf(
+    ax=ax1,
+    transform=ccrs.PlateCarree(),
+    vmin=-5.5,
+    vmax=3.5,
+    levels=19,
+    colors=color_list,
+    add_colorbar=False,
+)
 
 # Create colorbar
-plt.colorbar(contour_fill,
-             ax=ax1,
-             ticks=np.arange(-5, 3.5, 0.5),
-             drawedges=True,
-             format='%g')  # remove trailing zeros from labels
+plt.colorbar(
+    contour_fill, ax=ax1, ticks=np.arange(-5, 3.5, 0.5), drawedges=True, format='%g'
+)  # remove trailing zeros from labels
 
 # Plot contour lines
-deppat.plot.contour(ax=ax1,
-                    transform=ccrs.PlateCarree(),
-                    vmin=-5.5,
-                    vmax=3.5,
-                    levels=19,
-                    colors='black',
-                    linewidths=0.25,
-                    linestyles='solid')
+deppat.plot.contour(
+    ax=ax1,
+    transform=ccrs.PlateCarree(),
+    vmin=-5.5,
+    vmax=3.5,
+    levels=19,
+    colors='black',
+    linewidths=0.25,
+    linestyles='solid',
+)
 
 # Add mean temperature over time data to XY plot
 line = ax2.plot(xyarr.time, xyarr, linewidth=0.25, color='black')
@@ -124,8 +122,9 @@ ax2.fill_between(x, y, where=y < 0, color='blue', interpolate=True)
 ax2.axhline(y=0, color='black', linewidth=0.5)
 
 # Array with weights for rolling average
-weight = xr.DataArray([1 / 24, 3 / 24, 5 / 24, 6 / 24, 5 / 24, 3 / 24, 1 / 24],
-                      dims=['window'])
+weight = xr.DataArray(
+    [1 / 24, 3 / 24, 5 / 24, 6 / 24, 5 / 24, 3 / 24, 1 / 24], dims=['window']
+)
 
 # Calculating the dot product of rolling average and weights
 roll_avg = xyarr.rolling(time=7, center=True).construct('window').dot(weight)
@@ -134,9 +133,6 @@ roll_avg = xyarr.rolling(time=7, center=True).construct('window').dot(weight)
 ax2.plot(xyarr.time, roll_avg, color='black', linewidth=1)
 
 # Add figure title
-fig.suptitle("North Atlantic Oscillation (DJF)",
-             fontsize=16,
-             fontweight='bold',
-             y=0.95)
+fig.suptitle("North Atlantic Oscillation (DJF)", fontsize=16, fontweight='bold', y=0.95)
 
 plt.show()

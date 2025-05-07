@@ -4,8 +4,6 @@
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-import os
-
 import logging
 
 # the following lines suppress INFO messages when files are downloaded using geocat.datafiles
@@ -63,6 +61,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '**/README.rst']
 # Set plotly renderer to capture _repr_html_ for sphinx-gallery
 try:
     import plotly.io as pio
+
     pio.renderers.default = 'sphinx_gallery'
 except ImportError:
     pass
@@ -71,18 +70,22 @@ except ImportError:
 import warnings
 
 # filter Matplotlib 'agg' warnings
-warnings.filterwarnings("ignore",
-                        category=UserWarning,
-                        message='Matplotlib is currently using agg, which is a'
-                        ' non-GUI backend, so cannot show the figure.')
+warnings.filterwarnings(
+    "ignore",
+    category=UserWarning,
+    message='Matplotlib is currently using agg, which is a'
+    ' non-GUI backend, so cannot show the figure.',
+)
 
 # filter seaborn warnings
-warnings.filterwarnings("ignore",
-                        category=UserWarning,
-                        message='As seaborn no longer sets a default style on'
-                        ' import, the seaborn.apionly module is'
-                        ' deprecated. It will be removed in a future'
-                        ' version.')
+warnings.filterwarnings(
+    "ignore",
+    category=UserWarning,
+    message='As seaborn no longer sets a default style on'
+    ' import, the seaborn.apionly module is'
+    ' deprecated. It will be removed in a future'
+    ' version.',
+)
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -107,28 +110,19 @@ html_theme_options = {
     "analytics": {
         "google_analytics_id": "G-BY9T11S8QG",
     },
-    "repository_url":
-        "https://github.com/NCAR/geocat-examples",
-    "repository_branch":
-        "main",
-    "path_to_docs":
-        "docs",
-    "use_edit_page_button":
-        True,
-    "use_repository_button":
-        True,
-    "use_issues_button":
-        True,
-    "home_page_in_toc":
-        False,
-    "navbar_footer_text":
-        "",
+    "repository_url": "https://github.com/NCAR/geocat-examples",
+    "repository_branch": "main",
+    "path_to_docs": "docs",
+    "use_edit_page_button": True,
+    "use_repository_button": True,
+    "use_issues_button": True,
+    "home_page_in_toc": False,
+    "navbar_footer_text": "",
     "logo": {
         "image_light": '_static/images/NSF_NCAR_light.svg',
         "image_dark": '_static/images/NSF_NCAR_dark.svg',
     },
-    "extra_footer":
-        "<em>This material is based upon work supported by the NSF National Center for Atmospheric Research, a major facility sponsored by the U.S. National Science Foundation and managed by the University Corporation for Atmospheric Research. Any opinions, findings and conclusions or recommendations expressed in this material do not necessarily reflect the views of the U.S. National Science Foundation.</em>",
+    "extra_footer": "<em>This material is based upon work supported by the NSF National Center for Atmospheric Research, a major facility sponsored by the U.S. National Science Foundation and managed by the University Corporation for Atmospheric Research. Any opinions, findings and conclusions or recommendations expressed in this material do not necessarily reflect the views of the U.S. National Science Foundation.</em>",
 }
 
 # Specify master_doc (see https://github.com/readthedocs/readthedocs.org/issues/2569#issuecomment-485117471)
@@ -140,8 +134,9 @@ from sphinx_gallery.sorting import ExampleTitleSortKey
 sphinx_gallery_conf = {
     'examples_dirs': ['../Gallery'],  # path to your example scripts
     'filename_pattern': '^((?!sgskip).)*$',
-    'gallery_dirs': ['gallery',
-                    ],  # path to where to save gallery generated output
+    'gallery_dirs': [
+        'gallery',
+    ],  # path to where to save gallery generated output
     'within_subsection_order': ExampleTitleSortKey,
     'matplotlib_animations': True,
 }

@@ -21,7 +21,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import cartopy.crs as ccrs
-from wrf import (getvar, to_np, latlon_coords)
+from wrf import getvar, to_np, latlon_coords
 
 import geocat.datafiles as gdf
 import geocat.viz as gv
@@ -29,8 +29,9 @@ import geocat.viz as gv
 ###############################################################################
 # Read in the data
 
-wrfin = Dataset(gdf.get("netcdf_files/wrfout_d01_2003-07-15_00_00_00"),
-                decode_times=True)
+wrfin = Dataset(
+    gdf.get("netcdf_files/wrfout_d01_2003-07-15_00_00_00"), decode_times=True
+)
 q2 = getvar(wrfin, "Q2")
 
 ###############################################################################
@@ -46,36 +47,42 @@ fig = plt.figure(figsize=(10, 10))
 ax = plt.axes(projection=ccrs.PlateCarree())
 
 # Add filled contours
-plt.contourf(to_np(lons),
-             to_np(lats),
-             q2,
-             levels=np.linspace(0.01125, 0.05, 32),
-             cmap="magma",
-             vmin=0,
-             vmax=0.05,
-             zorder=4)
+plt.contourf(
+    to_np(lons),
+    to_np(lats),
+    q2,
+    levels=np.linspace(0.01125, 0.05, 32),
+    cmap="magma",
+    vmin=0,
+    vmax=0.05,
+    zorder=4,
+)
 
 # Add a colorbar
-cbar = plt.colorbar(ax=ax,
-                    orientation="vertical",
-                    ticks=np.arange(0.0125, 0.0476, 0.0025),
-                    drawedges=True,
-                    extendrect=True,
-                    shrink=0.65)
+cbar = plt.colorbar(
+    ax=ax,
+    orientation="vertical",
+    ticks=np.arange(0.0125, 0.0476, 0.0025),
+    drawedges=True,
+    extendrect=True,
+    shrink=0.65,
+)
 
 # Format colorbar ticks and labels
 cbar.ax.tick_params(size=0, labelsize=10)
 
 # Draw gridlines
-gl = ax.gridlines(crs=ccrs.PlateCarree(),
-                  draw_labels=True,
-                  dms=False,
-                  x_inline=False,
-                  y_inline=False,
-                  linewidth=1,
-                  color="k",
-                  alpha=0.25,
-                  zorder=4)
+gl = ax.gridlines(
+    crs=ccrs.PlateCarree(),
+    draw_labels=True,
+    dms=False,
+    x_inline=False,
+    y_inline=False,
+    linewidth=1,
+    color="k",
+    alpha=0.25,
+    zorder=4,
+)
 
 # Manipulate latitude and longitude gridline numbers and spacing
 gl.top_labels = False
@@ -88,10 +95,12 @@ gl.xlines = True
 gl.ylines = True
 
 # Add titles and labels to projection
-gv.set_titles_and_labels(ax,
-                         maintitle="WRF data on native grid",
-                         lefttitle="QV at 2 M",
-                         maintitlefontsize=16,
-                         lefttitlefontsize=14)
+gv.set_titles_and_labels(
+    ax,
+    maintitle="WRF data on native grid",
+    lefttitle="QV at 2 M",
+    maintitlefontsize=16,
+    lefttitlefontsize=14,
+)
 
 plt.show()

@@ -49,7 +49,8 @@ dia.add_model_set(
     color='red',
     marker='o',
     facecolors='none',
-    s=100)  # marker size
+    s=100,
+)  # marker size
 dia.add_model_set(
     tstddev,
     tcorrcoef,
@@ -58,12 +59,11 @@ dia.add_model_set(
     color='blue',
     marker='D',
     facecolors='none',
-    s=100)
+    s=100,
+)
 
 # Add RMS contours, and label them
-dia.add_contours(levels=np.arange(0, 1.1, 0.25),
-                 colors='lightgrey',
-                 linewidths=0.5)
+dia.add_contours(levels=np.arange(0, 1.1, 0.25), colors='lightgrey', linewidths=0.5)
 
 # Add standard deviation axis grid
 dia.add_std_grid(np.array([0.5, 1.5]), color='grey')

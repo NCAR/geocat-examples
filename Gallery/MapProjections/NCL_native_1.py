@@ -72,22 +72,26 @@ color_list[-1] = [1, 1, 1]
 
 # Plot contour data, use the transform keyword to specify that the data is
 # stored as rectangular lon,lat coordinates
-contour = ax.contourf(lon,
-                      lat,
-                      topo,
-                      transform=ccrs.PlateCarree(),
-                      levels=np.arange(-300, 3301, 300),
-                      extend='neither',
-                      colors=color_list)
+contour = ax.contourf(
+    lon,
+    lat,
+    topo,
+    transform=ccrs.PlateCarree(),
+    levels=np.arange(-300, 3301, 300),
+    extend='neither',
+    colors=color_list,
+)
 
 # Create colorbar
-plt.colorbar(contour,
-             ax=ax,
-             ticks=np.arange(0, 3001, 300),
-             orientation='horizontal',
-             aspect=12,
-             pad=0.1,
-             shrink=0.8)
+plt.colorbar(
+    contour,
+    ax=ax,
+    ticks=np.arange(0, 3001, 300),
+    orientation='horizontal',
+    aspect=12,
+    pad=0.1,
+    shrink=0.8,
+)
 
 # Use geocat-viz utility function to add gridlines to the map
 gl = gv.add_lat_lon_gridlines(
@@ -95,17 +99,20 @@ gl = gv.add_lat_lon_gridlines(
     color='black',
     labelsize=14,
     xlocator=np.arange(4, 18, 2),  # longitudes for gridlines
-    ylocator=np.arange(43, 50))  # latitudes for gridlines
+    ylocator=np.arange(43, 50),
+)  # latitudes for gridlines
 
 # Add padding between figure and longitude labels
 gl.xpadding = 12
 
 # Use geocat.viz.util function to easily set left and right titles
-gv.set_titles_and_labels(ax,
-                         lefttitle="topography",
-                         lefttitlefontsize=16,
-                         righttitle="m",
-                         righttitlefontsize=16)
+gv.set_titles_and_labels(
+    ax,
+    lefttitle="topography",
+    lefttitlefontsize=16,
+    righttitle="m",
+    righttitlefontsize=16,
+)
 
 # Add a main title above the left and right titles
 plt.title("Native Stereographic Example", y=1.1, size=18, fontweight="bold")

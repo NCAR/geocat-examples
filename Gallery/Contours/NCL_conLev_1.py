@@ -29,8 +29,7 @@ import geocat.viz as gv
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"),
-                     decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"), decode_times=False)
 # Extract slice of the data
 temp = ds.TS.isel(time=43, drop=True)
 
@@ -56,9 +55,9 @@ ax.set_extent([-180, 180, -70, 70], crs=projection)
 ax.add_feature(cfeature.LAND, color='silver')
 
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(ax,
-                             xticks=np.linspace(-180, 180, 13),
-                             yticks=np.linspace(-60, 60, 5))
+gv.set_axes_limits_and_ticks(
+    ax, xticks=np.linspace(-180, 180, 13), yticks=np.linspace(-60, 60, 5)
+)
 
 # Use geocat.viz.util convenience function to make latitude, longitude tick labels
 gv.add_lat_lon_ticklabels(ax)
@@ -70,21 +69,23 @@ ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 gv.add_major_minor_ticks(ax, labelsize=12)
 
 # Use geocat.viz.util convenience function to add titles
-gv.set_titles_and_labels(ax,
-                         lefttitle=temp.long_name,
-                         righttitle=temp.units,
-                         lefttitlefontsize=14,
-                         righttitlefontsize=14)
+gv.set_titles_and_labels(
+    ax,
+    lefttitle=temp.long_name,
+    righttitle=temp.units,
+    lefttitlefontsize=14,
+    righttitlefontsize=14,
+)
 
 # Add lower text box
-ax.text(1,
-        -0.15,
-        "CONTOUR FROM -5 TO 30 BY 5",
-        horizontalalignment='right',
-        transform=ax.transAxes,
-        bbox=dict(boxstyle='square, pad=0.25',
-                  facecolor='white',
-                  edgecolor='black'))
+ax.text(
+    1,
+    -0.15,
+    "CONTOUR FROM -5 TO 30 BY 5",
+    horizontalalignment='right',
+    transform=ax.transAxes,
+    bbox=dict(boxstyle='square, pad=0.25', facecolor='white', edgecolor='black'),
+)
 
 # Specify which contour levels to draw
 contour_lev = np.arange(-5, 35, 5)
@@ -93,14 +94,16 @@ contour_lev = np.arange(-5, 35, 5)
 # set exactly where the labels will be drawn.
 labels = np.linspace(0, 20, 3)
 # Plot contour lines
-contour = temp.plot.contour(ax=ax,
-                            transform=ccrs.PlateCarree(),
-                            vmin=-5,
-                            vmax=30,
-                            levels=contour_lev,
-                            colors='black',
-                            linestyles='solid',
-                            linewidths=0.5,
-                            add_labels=False)
+contour = temp.plot.contour(
+    ax=ax,
+    transform=ccrs.PlateCarree(),
+    vmin=-5,
+    vmax=30,
+    levels=contour_lev,
+    colors='black',
+    linestyles='solid',
+    linewidths=0.5,
+    add_labels=False,
+)
 ax.clabel(contour, labels, fmt='%d', inline=True, fontsize=10)
 plt.show()

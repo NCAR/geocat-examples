@@ -80,9 +80,9 @@ lon = ds["lon"]
 # China or Taiwan.
 
 # Download the Natural Earth shapefile for country boundaries at 10m resolution
-shapefile = natural_earth(category='cultural',
-                          resolution='10m',
-                          name='admin_0_countries')
+shapefile = natural_earth(
+    category='cultural', resolution='10m', name='admin_0_countries'
+)
 
 # Sort the geometries in the shapefile into Chinese/Taiwanese or other
 country_geos = []
@@ -99,20 +99,17 @@ projection = PlateCarree()
 
 # Define a Cartopy Feature for the country borders and the land mask (i.e.,
 # all other land) from the shapefile geometries, so they can be easily plotted
-countries = ShapelyFeature(country_geos,
-                           crs=projection,
-                           facecolor='none',
-                           edgecolor='black',
-                           lw=1.5)
-land_mask = ShapelyFeature(other_land_geos,
-                           crs=projection,
-                           facecolor='white',
-                           edgecolor='none')
+countries = ShapelyFeature(
+    country_geos, crs=projection, facecolor='none', edgecolor='black', lw=1.5
+)
+land_mask = ShapelyFeature(
+    other_land_geos, crs=projection, facecolor='white', edgecolor='none'
+)
 
 # Download the Natural Earth shapefile for the states/provinces at 10m resolution
-shapefile = natural_earth(category='cultural',
-                          resolution='10m',
-                          name='admin_1_states_provinces')
+shapefile = natural_earth(
+    category='cultural', resolution='10m', name='admin_1_states_provinces'
+)
 
 # Extract the Chinese province borders
 province_geos = [
@@ -122,11 +119,9 @@ province_geos = [
 ]
 
 # Define a Cartopy Feature for the province borders, so they can be easily plotted
-provinces = ShapelyFeature(province_geos,
-                           crs=projection,
-                           facecolor='none',
-                           edgecolor='black',
-                           lw=0.25)
+provinces = ShapelyFeature(
+    province_geos, crs=projection, facecolor='none', edgecolor='black', lw=0.25
+)
 
 ###############################################################################
 # Plot:
@@ -146,10 +141,9 @@ ax.add_feature(LAKES.with_scale('50m'), edgecolor='black', lw=1)
 clevs = np.arange(228, 273, 4, dtype=float)
 
 # Import an NCL colormap, truncating it by using geocat.viz.util convenience function
-newcmp = gv.truncate_colormap(cmaps.BkBlAqGrYeOrReViWh200,
-                              minval=0.1,
-                              maxval=0.6,
-                              n=len(clevs))
+newcmp = gv.truncate_colormap(
+    cmaps.BkBlAqGrYeOrReViWh200, minval=0.1, maxval=0.6, n=len(clevs)
+)
 
 # Draw the contour plot, "clipped" to the country boundaries
 # (NOTE: There are multiple closed polygons representing the boundaries of the
@@ -158,11 +152,9 @@ newcmp = gv.truncate_colormap(cmaps.BkBlAqGrYeOrReViWh200,
 #        As a result, we have to loop over *all closed paths* and construct a
 #        matplotlib patch object that we can use the clip the contour plot.)
 for path in geos_to_path(country_geos):
-    patch = PathPatch(path,
-                      transform=ax.transData,
-                      facecolor='none',
-                      edgecolor='black',
-                      lw=1.5)
+    patch = PathPatch(
+        path, transform=ax.transData, facecolor='none', edgecolor='black', lw=1.5
+    )
 
     # Draw the patch on the plot
     ax.add_patch(patch)
@@ -179,76 +171,60 @@ for path in geos_to_path(country_geos):
 
 # Add horizontal colorbar
 cax = plt.axes((0.14, 0.08, 0.74, 0.02))
-cbar = plt.colorbar(cf,
-                    ax=ax,
-                    cax=cax,
-                    ticks=clevs[1:-1],
-                    drawedges=True,
-                    orientation='horizontal')
+cbar = plt.colorbar(
+    cf, ax=ax, cax=cax, ticks=clevs[1:-1], drawedges=True, orientation='horizontal'
+)
 cbar.ax.tick_params(labelsize=12)
 
 # Draw the province borders
 ax.add_feature(provinces)
 
 # Draw the quiver plot (and its key)
-Q = ax.quiver(lon,
-              lat,
-              U,
-              V,
-              color='black',
-              width=.003,
-              scale=600.,
-              headwidth=3.75)
-rect = plt.Rectangle((142, 52),
-                     3,
-                     3,
-                     facecolor='mediumorchid',
-                     edgecolor=None,
-                     zorder=1)
+Q = ax.quiver(lon, lat, U, V, color='black', width=0.003, scale=600.0, headwidth=3.75)
+rect = plt.Rectangle(
+    (142, 52), 3, 3, facecolor='mediumorchid', edgecolor=None, zorder=1
+)
 ax.add_patch(rect)
-ax.quiverkey(Q,
-             0.9675,
-             0.95,
-             30,
-             '30',
-             labelpos='N',
-             color='black',
-             coordinates='axes',
-             fontproperties={'size': 14},
-             labelsep=0.1)
+ax.quiverkey(
+    Q,
+    0.9675,
+    0.95,
+    30,
+    '30',
+    labelpos='N',
+    color='black',
+    coordinates='axes',
+    fontproperties={'size': 14},
+    labelsep=0.1,
+)
 
 # Draw the '500hPa' label at the top left of the plot
 props = dict(facecolor='white', edgecolor='none', alpha=0.8)
-ax.text(105,
-        52.7,
-        '500hPa',
-        transform=projection,
-        fontsize=18,
-        ha='center',
-        va='center',
-        color='mediumorchid',
-        bbox=props)
+ax.text(
+    105,
+    52.7,
+    '500hPa',
+    transform=projection,
+    fontsize=18,
+    ha='center',
+    va='center',
+    color='mediumorchid',
+    bbox=props,
+)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(ax,
-                             xticks=[100, 120, 140],
-                             yticks=[20, 30, 40, 50])
+gv.set_axes_limits_and_ticks(ax, xticks=[100, 120, 140], yticks=[20, 30, 40, 50])
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=4,
-                         y_minor_per_major=5,
-                         labelsize=18)
+gv.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5, labelsize=18)
 
 # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
-gv.set_titles_and_labels(ax,
-                         lefttitle="Temp",
-                         lefttitlefontsize=20,
-                         righttitle="Wind",
-                         righttitlefontsize=20)
+gv.set_titles_and_labels(
+    ax, lefttitle="Temp", lefttitlefontsize=20, righttitle="Wind", righttitlefontsize=20
+)
 
 # Show the plot
 plt.show()

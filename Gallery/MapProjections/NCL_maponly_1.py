@@ -33,9 +33,9 @@ ax = plt.axes(projection=ccrs.PlateCarree())
 ax.add_feature(cfeature.LAND, color='silver')
 
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(ax,
-                             xticks=np.linspace(-180, 180, 13),
-                             yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(
+    ax, xticks=np.linspace(-180, 180, 13), yticks=np.linspace(-90, 90, 7)
+)
 
 # Use geocat.viz.util convenience function to make lat/lon tick labels
 gv.add_lat_lon_ticklabels(ax)

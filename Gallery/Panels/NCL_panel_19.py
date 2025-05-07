@@ -31,8 +31,18 @@ import geocat.viz as gv
 
 def convert_date(date):
     months = [
-        'January', 'February', 'March', 'April', 'May', 'June', 'July',
-        'August', 'September', 'October', 'November', 'December'
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
     ]
     year = str(date)[:4]
     month = months[int(str(date)[4:]) - 1]
@@ -44,15 +54,18 @@ def convert_date(date):
 
 
 def add_axes(fig, grid_space, date):
-    ax = fig.add_subplot(grid_space,
-                         projection=ccrs.PlateCarree(central_longitude=-160))
+    ax = fig.add_subplot(
+        grid_space, projection=ccrs.PlateCarree(central_longitude=-160)
+    )
     ax.set_extent([100, 300, -60, 60], crs=ccrs.PlateCarree())
 
     # Usa geocat.viz.util convenience function to set axes parameters
-    gv.set_axes_limits_and_ticks(ax,
-                                 ylim=(-60, 60),
-                                 xticks=np.arange(-80, 120, 30),
-                                 yticks=np.arange(-60, 61, 30))
+    gv.set_axes_limits_and_ticks(
+        ax,
+        ylim=(-60, 60),
+        xticks=np.arange(-80, 120, 30),
+        yticks=np.arange(-60, 61, 30),
+    )
 
     # Use geocat.viz.util convenience function to make plots look like NCL
     # plots by using latitude, longitude tick labels
@@ -68,18 +81,22 @@ def add_axes(fig, grid_space, date):
     ax.tick_params('both', which='both', top=False, right=False)
 
     # Add land to the subplot
-    ax.add_feature(cfeature.LAND,
-                   facecolor='lightgray',
-                   edgecolor='black',
-                   linewidths=0.5,
-                   zorder=2)
+    ax.add_feature(
+        cfeature.LAND,
+        facecolor='lightgray',
+        edgecolor='black',
+        linewidths=0.5,
+        zorder=2,
+    )
 
     # Set subplot titles
-    gv.set_titles_and_labels(ax,
-                             lefttitle='degC',
-                             lefttitlefontsize=10,
-                             righttitle='$(W m s^{-2})$',
-                             righttitlefontsize=10)
+    gv.set_titles_and_labels(
+        ax,
+        lefttitle='degC',
+        lefttitlefontsize=10,
+        righttitle='$(W m s^{-2})$',
+        righttitlefontsize=10,
+    )
     ax.set_title(convert_date(date), fontsize=10, y=1.04)
 
     return ax
@@ -97,15 +114,17 @@ def create_fig(grid, fig, title):
     ax4 = add_axes(fig, grid[1, 1], dates[3])
 
     # Create a dictionary with contour attributes
-    contourf_kw = dict(transform=ccrs.PlateCarree(),
-                       levels=21,
-                       cmap=cmaps.BlueRed,
-                       add_colorbar=False,
-                       add_labels=False,
-                       vmin=-5,
-                       vmax=5,
-                       extend='both',
-                       zorder=1)
+    contourf_kw = dict(
+        transform=ccrs.PlateCarree(),
+        levels=21,
+        cmap=cmaps.BlueRed,
+        add_colorbar=False,
+        add_labels=False,
+        vmin=-5,
+        vmax=5,
+        extend='both',
+        zorder=1,
+    )
 
     # Plot the filled contours
     contour1 = data1.plot.contourf(ax=ax1, **contourf_kw)
@@ -114,15 +133,17 @@ def create_fig(grid, fig, title):
     contour4 = data4.plot.contourf(ax=ax4, **contourf_kw)
 
     # Add colorbar for all four plots
-    fig.colorbar(contour4,
-                 ax=[ax1, ax2, ax3, ax4],
-                 ticks=np.linspace(-5, 5, 11),
-                 drawedges=True,
-                 orientation='horizontal',
-                 shrink=0.5,
-                 pad=0.075,
-                 extendfrac='auto',
-                 extendrect=True)
+    fig.colorbar(
+        contour4,
+        ax=[ax1, ax2, ax3, ax4],
+        ticks=np.linspace(-5, 5, 11),
+        drawedges=True,
+        orientation='horizontal',
+        shrink=0.5,
+        pad=0.075,
+        extendfrac='auto',
+        extendrect=True,
+    )
 
     # Add figure title
     fig.suptitle(title, fontsize=18, y=0.9)

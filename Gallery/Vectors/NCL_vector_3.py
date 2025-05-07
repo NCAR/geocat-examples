@@ -55,46 +55,35 @@ z = gv.set_vector_density(ds, 10)
 #    Note that it uses a minimum distance threshold specified as a integer in degrees rather than the NCL normalized device coordinates.
 #
 # 2. There is no matplotlib equivalent to "CurlyVector"
-Q = plt.quiver(z['lon'],
-               z['lat'],
-               z['U'].data,
-               z['V'].data,
-               color='black',
-               zorder=1,
-               pivot="middle",
-               width=0.0007,
-               headwidth=10)
+Q = plt.quiver(
+    z['lon'],
+    z['lat'],
+    z['U'].data,
+    z['V'].data,
+    color='black',
+    zorder=1,
+    pivot="middle",
+    width=0.0007,
+    headwidth=10,
+)
 
 # Draw legend for vector plot
-qk = ax.quiverkey(Q,
-                  167.5,
-                  72.5,
-                  20,
-                  r'20',
-                  labelpos='N',
-                  coordinates='data',
-                  color='black',
-                  zorder=2)
+qk = ax.quiverkey(
+    Q, 167.5, 72.5, 20, r'20', labelpos='N', coordinates='data', color='black', zorder=2
+)
 
 # Turn on continent shading
-ax.add_feature(cartopy.feature.LAND,
-               edgecolor='lightgray',
-               facecolor='lightgray',
-               zorder=0)
+ax.add_feature(
+    cartopy.feature.LAND, edgecolor='lightgray', facecolor='lightgray', zorder=0
+)
 
 # Draw the key for the quiver plot as a rectangle patch
 ax.add_patch(
-    plt.Rectangle((155, 65),
-                  25,
-                  25,
-                  facecolor='white',
-                  edgecolor='black',
-                  zorder=1))
+    plt.Rectangle((155, 65), 25, 25, facecolor='white', edgecolor='black', zorder=1)
+)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(ax,
-                             xticks=range(-180, 181, 30),
-                             yticks=range(-90, 91, 30))
+gv.set_axes_limits_and_ticks(ax, xticks=range(-180, 181, 30), yticks=range(-90, 91, 30))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gv.add_major_minor_ticks(ax, labelsize=12)
@@ -103,9 +92,7 @@ gv.add_major_minor_ticks(ax, labelsize=12)
 gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gv.set_titles_and_labels(ax,
-                         lefttitle=ds['U'].long_name,
-                         righttitle=ds['U'].units)
+gv.set_titles_and_labels(ax, lefttitle=ds['U'].long_name, righttitle=ds['U'].units)
 
 # Add timestamp
 ax.text(-200, -115, f'Created: {datetime.now()}')

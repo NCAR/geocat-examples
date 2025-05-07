@@ -52,36 +52,36 @@ gl = ax.gridlines(crs=ccrs.PlateCarree(), linewidth=1, color='black', alpha=0.5)
 newcmp = cmaps.gui_default
 
 # Contourf-plot data (for filled contours)
-temp = wrap_t.plot.contourf(ax=ax,
-                            transform=ccrs.PlateCarree(),
-                            levels=11,
-                            cmap=newcmp,
-                            add_colorbar=False)
+temp = wrap_t.plot.contourf(
+    ax=ax, transform=ccrs.PlateCarree(), levels=11, cmap=newcmp, add_colorbar=False
+)
 
 # Add color bar
 cbar_ticks = np.arange(220, 310, 10)
-cbar = plt.colorbar(temp,
-                    orientation='horizontal',
-                    shrink=0.8,
-                    pad=0.05,
-                    extendrect=True,
-                    ticks=cbar_ticks,
-                    drawedges=True)
+cbar = plt.colorbar(
+    temp,
+    orientation='horizontal',
+    shrink=0.8,
+    pad=0.05,
+    extendrect=True,
+    ticks=cbar_ticks,
+    drawedges=True,
+)
 
 cbar.ax.tick_params(labelsize=10)
 
 # Contour-plot data (for borderlines)
-wrap_t.plot.contour(ax=ax,
-                    transform=ccrs.PlateCarree(),
-                    levels=11,
-                    linewidths=0.5,
-                    cmap='black')
+wrap_t.plot.contour(
+    ax=ax, transform=ccrs.PlateCarree(), levels=11, linewidths=0.5, cmap='black'
+)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gv.set_titles_and_labels(ax,
-                         maintitle="Example of Mollweide Projection",
-                         lefttitle="Surface Temperature",
-                         righttitle="K")
+gv.set_titles_and_labels(
+    ax,
+    maintitle="Example of Mollweide Projection",
+    lefttitle="Surface Temperature",
+    righttitle="K",
+)
 
 # Show the plot
 plt.show()

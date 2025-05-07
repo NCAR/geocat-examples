@@ -41,20 +41,21 @@ U = ds.U
 # See https://matplotlib.org/tutorials/intermediate/constrainedlayout_guide.html
 # Generate figure and axes using Cartopy projection
 projection = ccrs.PlateCarree()
-fig, ax = plt.subplots(3,
-                       1,
-                       constrained_layout=True,
-                       subplot_kw={"projection": projection})
+fig, ax = plt.subplots(
+    3, 1, constrained_layout=True, subplot_kw={"projection": projection}
+)
 
 # Set figure size (width, height) in inches
 fig.set_size_inches((6, 9.6))
 
 # Add continents
-continents = cartopy.feature.NaturalEarthFeature(name="coastline",
-                                                 category="physical",
-                                                 scale="50m",
-                                                 edgecolor="None",
-                                                 facecolor="lightgray")
+continents = cartopy.feature.NaturalEarthFeature(
+    name="coastline",
+    category="physical",
+    scale="50m",
+    edgecolor="None",
+    facecolor="lightgray",
+)
 [axes.add_feature(continents) for axes in ax.flat]
 
 # Specify which contour levels to draw
@@ -89,56 +90,64 @@ for axes in ax.flat:
     axes.clabel(contour, labels, fontsize="small", fmt="%.0f")
 
     # Add lower text box
-    axes.text(0.995,
-              0.03,
-              "CONTOUR FROM -10 TO 35 BY 5",
-              horizontalalignment='right',
-              transform=axes.transAxes,
-              fontsize=8,
-              bbox=dict(boxstyle='square, pad=0.25',
-                        facecolor='white',
-                        edgecolor='gray'),
-              zorder=5)
+    axes.text(
+        0.995,
+        0.03,
+        "CONTOUR FROM -10 TO 35 BY 5",
+        horizontalalignment='right',
+        transform=axes.transAxes,
+        fontsize=8,
+        bbox=dict(boxstyle='square, pad=0.25', facecolor='white', edgecolor='gray'),
+        zorder=5,
+    )
 
     # Use geocat.viz.util convenience function to add left and right title to the plot axes.
-    gv.set_titles_and_labels(axes,
-                             lefttitle="Zonal Wind",
-                             lefttitlefontsize=12,
-                             righttitle=U.units,
-                             righttitlefontsize=12)
+    gv.set_titles_and_labels(
+        axes,
+        lefttitle="Zonal Wind",
+        lefttitlefontsize=12,
+        righttitle=U.units,
+        righttitlefontsize=12,
+    )
 
 # Panel 1: Contourf-plot U data with '//' and '..' hatch styles
-U.plot.contourf(ax=ax[0],
-                transform=projection,
-                levels=levels,
-                yticks=np.arange(-90, 91, 30),
-                cmap='none',
-                hatches=['//', '//', '', '', '', '', '', '', '', '..', '..'],
-                add_colorbar=False,
-                add_labels=False,
-                zorder=4)
+U.plot.contourf(
+    ax=ax[0],
+    transform=projection,
+    levels=levels,
+    yticks=np.arange(-90, 91, 30),
+    cmap='none',
+    hatches=['//', '//', '', '', '', '', '', '', '', '..', '..'],
+    add_colorbar=False,
+    add_labels=False,
+    zorder=4,
+)
 
 # Panel 2: Contourf-plot U data (for shading)
-U.plot.contourf(ax=ax[1],
-                transform=projection,
-                levels=levels,
-                yticks=np.arange(-90, 91, 30),
-                cmap='none',
-                hatches=['//', '//', '//', '', '', '', '', '', '', '', ''],
-                add_colorbar=False,
-                add_labels=False,
-                zorder=4)
+U.plot.contourf(
+    ax=ax[1],
+    transform=projection,
+    levels=levels,
+    yticks=np.arange(-90, 91, 30),
+    cmap='none',
+    hatches=['//', '//', '//', '', '', '', '', '', '', '', ''],
+    add_colorbar=False,
+    add_labels=False,
+    zorder=4,
+)
 
 # Panel 3: Contourf-plot U data (for shading)
-U.plot.contourf(ax=ax[2],
-                transform=projection,
-                levels=levels,
-                yticks=np.arange(-90, 91, 30),
-                cmap='none',
-                hatches=['', '', '', '', '', '', '', '', '', '..', '..'],
-                add_colorbar=False,
-                add_labels=False,
-                zorder=4)
+U.plot.contourf(
+    ax=ax[2],
+    transform=projection,
+    levels=levels,
+    yticks=np.arange(-90, 91, 30),
+    cmap='none',
+    hatches=['', '', '', '', '', '', '', '', '', '..', '..'],
+    add_colorbar=False,
+    add_labels=False,
+    zorder=4,
+)
 
 # Customizing line width and dot size of shading patterns
 mpl.rcParams['hatch.linewidth'] = 0.5

@@ -25,32 +25,26 @@ import cmaps
 import geocat.viz as gv
 import geocat.datafiles as gcd
 
-import math
-
 ###############################################################################
 # Uploading random smooth 2d data from geocat.datafiles
-data1 = xr.open_dataarray(gcd.get("netcdf_files/panel_35_data1.nc"),
-                          engine='netcdf4')
-data2 = xr.open_dataarray(gcd.get("netcdf_files/panel_35_data2.nc"),
-                          engine='netcdf4')
-data3 = xr.open_dataarray(gcd.get("netcdf_files/panel_35_data3.nc"),
-                          engine='netcdf4')
+data1 = xr.open_dataarray(gcd.get("netcdf_files/panel_35_data1.nc"), engine='netcdf4')
+data2 = xr.open_dataarray(gcd.get("netcdf_files/panel_35_data2.nc"), engine='netcdf4')
+data3 = xr.open_dataarray(gcd.get("netcdf_files/panel_35_data3.nc"), engine='netcdf4')
 
 ###############################################################################
 # Create figure and axes using gv
-fig, axs = plt.subplots(1,
-                        3,
-                        figsize=(12, 6),
-                        sharex='all',
-                        sharey='all',
-                        gridspec_kw={'wspace': 0})
+fig, axs = plt.subplots(
+    1, 3, figsize=(12, 6), sharex='all', sharey='all', gridspec_kw={'wspace': 0}
+)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(axs[0],
-                             xticks=np.arange(0, 100, 20),
-                             yticks=np.arange(0, 100, 20),
-                             xticklabels=np.arange(0, 100, 20),
-                             yticklabels=np.arange(0, 100, 20))
+gv.set_axes_limits_and_ticks(
+    axs[0],
+    xticks=np.arange(0, 100, 20),
+    yticks=np.arange(0, 100, 20),
+    xticklabels=np.arange(0, 100, 20),
+    yticklabels=np.arange(0, 100, 20),
+)
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gv.add_major_minor_ticks(axs[0], x_minor_per_major=4, y_minor_per_major=4)
 # Specify which edges of the subplot should have tick lines
@@ -59,20 +53,24 @@ axs[0].tick_params(axis='both', which='both', left=True, right=False)
 axs[0].set_aspect(aspect='equal')
 
 # Repeat for other subplots with a few changes
-gv.set_axes_limits_and_ticks(axs[1],
-                             xticks=np.arange(0, 100, 20),
-                             yticks=np.arange(0, 100, 20),
-                             xticklabels=np.arange(0, 100, 20),
-                             yticklabels=np.arange(0, 100, 20))
+gv.set_axes_limits_and_ticks(
+    axs[1],
+    xticks=np.arange(0, 100, 20),
+    yticks=np.arange(0, 100, 20),
+    xticklabels=np.arange(0, 100, 20),
+    yticklabels=np.arange(0, 100, 20),
+)
 gv.add_major_minor_ticks(axs[1], x_minor_per_major=4, y_minor_per_major=4)
 axs[1].tick_params(axis='both', which='both', left=False, right=False)
 axs[1].set_aspect(aspect='equal')
 
-gv.set_axes_limits_and_ticks(axs[2],
-                             xticks=np.arange(0, 100, 20),
-                             yticks=np.arange(0, 100, 20),
-                             xticklabels=np.arange(0, 100, 20),
-                             yticklabels=np.arange(0, 100, 20))
+gv.set_axes_limits_and_ticks(
+    axs[2],
+    xticks=np.arange(0, 100, 20),
+    yticks=np.arange(0, 100, 20),
+    xticklabels=np.arange(0, 100, 20),
+    yticklabels=np.arange(0, 100, 20),
+)
 gv.add_major_minor_ticks(axs[2], x_minor_per_major=4, y_minor_per_major=4)
 axs[2].tick_params(axis='both', which='both', left=False, right=True)
 axs[2].set_aspect(aspect='equal')
@@ -89,20 +87,24 @@ axs[1].contour(filled2, colors='black', linestyles='solid', linewidths=0.4)
 filled3 = axs[2].contourf(data3, cmap=newcmap, levels=contour_levels)
 axs[2].contour(filled3, colors='black', linestyles='solid', linewidths=0.4)
 
-plt.colorbar(filled3,
-             orientation='horizontal',
-             ax=axs,
-             ticks=np.arange(-28, 20, 4),
-             shrink=0.75,
-             drawedges=True,
-             pad=0.1)
+plt.colorbar(
+    filled3,
+    orientation='horizontal',
+    ax=axs,
+    ticks=np.arange(-28, 20, 4),
+    shrink=0.75,
+    drawedges=True,
+    pad=0.1,
+)
 
 # Add title
-fig.suptitle("Three dummy plots attached along Y axes",
-             horizontalalignment='center',
-             y=0.9,
-             fontsize=18,
-             fontweight='bold',
-             fontfamily='sans-serif')
+fig.suptitle(
+    "Three dummy plots attached along Y axes",
+    horizontalalignment='center',
+    y=0.9,
+    fontsize=18,
+    fontweight='bold',
+    fontfamily='sans-serif',
+)
 
 plt.show()

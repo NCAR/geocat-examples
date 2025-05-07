@@ -56,11 +56,13 @@ gv.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=0)
 
 # Use geocat.viz.util convenience function to set axes tick values
 # Set y-lim inorder for y-axis to have descending values
-gv.set_axes_limits_and_ticks(ax,
-                             xticks=np.linspace(-60, 60, 5),
-                             xticklabels=['60S', '30S', '0', '30N', '60N'],
-                             ylim=ax.get_ylim()[::-1],
-                             yticks=U["lev"])
+gv.set_axes_limits_and_ticks(
+    ax,
+    xticks=np.linspace(-60, 60, 5),
+    xticklabels=['60S', '30S', '0', '30N', '60N'],
+    ylim=ax.get_ylim()[::-1],
+    yticks=U["lev"],
+)
 
 # Change formatter or else we tick values formatted in exponential form
 ax.yaxis.set_major_formatter(ScalarFormatter())
@@ -73,28 +75,31 @@ ax.tick_params('both', length=15, width=1, which='major', labelsize=18)
 ax.tick_params('x', length=7, width=0.6, which='minor')
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gv.set_titles_and_labels(ax,
-                         maintitle="Ensemble Average 1987-89",
-                         maintitlefontsize=25,
-                         lefttitle=U.long_name,
-                         lefttitlefontsize=22,
-                         righttitle=U.units,
-                         righttitlefontsize=22,
-                         xlabel="")
+gv.set_titles_and_labels(
+    ax,
+    maintitle="Ensemble Average 1987-89",
+    maintitlefontsize=25,
+    lefttitle=U.long_name,
+    lefttitlefontsize=22,
+    righttitle=U.units,
+    righttitlefontsize=22,
+    xlabel="",
+)
 
 # Create second y-axis to show geo-potential height.
-axRHS = gv.add_height_from_pressure_axis(ax,
-                                         heights=np.arange(4, 28, 4),
-                                         ticklabelsize=18,
-                                         axislabelsize=22)
+axRHS = gv.add_height_from_pressure_axis(
+    ax, heights=np.arange(4, 28, 4), ticklabelsize=18, axislabelsize=22
+)
 
 # Add figure label
-fig.text(0.7,
-         0.03,
-         "CONTOUR FROM -3.2 TO 2.8 BY 4",
-         horizontalalignment='center',
-         fontsize=15,
-         bbox=dict(facecolor='none', edgecolor='k'))
+fig.text(
+    0.7,
+    0.03,
+    "CONTOUR FROM -3.2 TO 2.8 BY 4",
+    horizontalalignment='center',
+    fontsize=15,
+    bbox=dict(facecolor='none', edgecolor='k'),
+)
 
 # Show the plot
 plt.show()

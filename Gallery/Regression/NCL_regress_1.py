@@ -27,10 +27,9 @@ import geocat.viz as gv
 # Open a ascii data file using numpy's loadtxt
 # Specify the delimiter from the file
 # Read in the data as a floats
-x, y = np.loadtxt(gdf.get("ascii_files/regress_1.txt"),
-                  delimiter=',',
-                  unpack=True,
-                  dtype=float)
+x, y = np.loadtxt(
+    gdf.get("ascii_files/regress_1.txt"), delimiter=',', unpack=True, dtype=float
+)
 
 ###############################################################################
 # Calculate regression:
@@ -69,17 +68,16 @@ plt.ylim([266, 274])
 gv.set_titles_and_labels(ax=ax, maintitle="Regression 1")
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=5,
-                         y_minor_per_major=4,
-                         labelsize=12)
+gv.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4, labelsize=12)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gv.set_axes_limits_and_ticks(ax,
-                             xlim=(6000, 9000),
-                             xticks=np.arange(6000, 9001, 500),
-                             ylim=(266, 274),
-                             yticks=np.arange(266, 275, 2))
+gv.set_axes_limits_and_ticks(
+    ax,
+    xlim=(6000, 9000),
+    xticks=np.arange(6000, 9001, 500),
+    ylim=(266, 274),
+    yticks=np.arange(266, 275, 2),
+)
 
 # Show plot
 plt.tight_layout()

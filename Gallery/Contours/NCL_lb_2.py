@@ -48,33 +48,35 @@ ax.coastlines(linewidths=0.5)
 newcmp = cmaps.wgne15
 
 # Contourf-plot data (for filled contours)
-a = wrap_v.plot.contourf(levels=np.arange(-24, 25, 4),
-                         cmap=newcmp,
-                         add_colorbar=False,
-                         add_labels=False)
+a = wrap_v.plot.contourf(
+    levels=np.arange(-24, 25, 4), cmap=newcmp, add_colorbar=False, add_labels=False
+)
 # Contour-plot data (for borderlines)
-wrap_v.plot.contour(levels=np.arange(-24, 25, 4),
-                    linewidths=0.5,
-                    cmap='black',
-                    add_labels=False)
+wrap_v.plot.contour(
+    levels=np.arange(-24, 25, 4), linewidths=0.5, cmap='black', add_labels=False
+)
 
 # Add vertical colorbar
-cbar = plt.colorbar(a,
-                    ticks=np.arange(-20, 25, 4),
-                    shrink=0.8,
-                    aspect=10,
-                    extendrect=True,
-                    extendfrac='auto')
+cbar = plt.colorbar(
+    a,
+    ticks=np.arange(-20, 25, 4),
+    shrink=0.8,
+    aspect=10,
+    extendrect=True,
+    extendfrac='auto',
+)
 
 # Change the colorbar tick labels
 clabels = np.arange(-70, 151, 20)
 cbar.ax.set_yticklabels(clabels)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gv.set_axes_limits_and_ticks(ax,
-                             ylim=(-90, 90),
-                             xticks=np.linspace(-180, 180, 13),
-                             yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(
+    ax,
+    ylim=(-90, 90),
+    xticks=np.linspace(-180, 180, 13),
+    yticks=np.linspace(-90, 90, 7),
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gv.add_major_minor_ticks(ax, labelsize=10)
@@ -83,13 +85,15 @@ gv.add_major_minor_ticks(ax, labelsize=10)
 gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gv.set_titles_and_labels(ax,
-                         lefttitle="meridional wind component",
-                         lefttitlefontsize=14,
-                         righttitle="m/s",
-                         righttitlefontsize=14,
-                         xlabel="",
-                         ylabel="")
+gv.set_titles_and_labels(
+    ax,
+    lefttitle="meridional wind component",
+    lefttitlefontsize=14,
+    righttitle="m/s",
+    righttitlefontsize=14,
+    xlabel="",
+    ylabel="",
+)
 
 # Show the plot
 plt.show()

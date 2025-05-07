@@ -53,35 +53,34 @@ ax = plt.axes(projection=ccrs.PlateCarree())
 ax.set_extent([230, 300, 20, 60], crs=ccrs.PlateCarree())
 
 # Draw map features
-ax.add_feature(cfeature.LAKES,
-               linewidth=0.5,
-               edgecolor='black',
-               facecolor='None')
+ax.add_feature(cfeature.LAKES, linewidth=0.5, edgecolor='black', facecolor='None')
 ax.add_feature(cfeature.COASTLINE, linewidth=0.5)
 
 # Plot filled contour
-temp = t.plot.contourf(ax=ax,
-                       transform=ccrs.PlateCarree(),
-                       cmap=cmap,
-                       levels=t_lev,
-                       extend='neither',
-                       add_colorbar=False,
-                       add_labels=False)
-plt.colorbar(temp,
-             ax=ax,
-             ticks=np.arange(215, 270, 5),
-             orientation='horizontal',
-             pad=0.075)
+temp = t.plot.contourf(
+    ax=ax,
+    transform=ccrs.PlateCarree(),
+    cmap=cmap,
+    levels=t_lev,
+    extend='neither',
+    add_colorbar=False,
+    add_labels=False,
+)
+plt.colorbar(
+    temp, ax=ax, ticks=np.arange(215, 270, 5), orientation='horizontal', pad=0.075
+)
 
 # Plot line contour
-wind = u.plot.contour(ax=ax,
-                      transform=ccrs.PlateCarree(),
-                      vmin=-5,
-                      vmax=35,
-                      levels=u_lev,
-                      colors='black',
-                      linewidths=0.5,
-                      add_labels=False)
+wind = u.plot.contour(
+    ax=ax,
+    transform=ccrs.PlateCarree(),
+    vmin=-5,
+    vmax=35,
+    levels=u_lev,
+    colors='black',
+    linewidths=0.5,
+    add_labels=False,
+)
 
 # Manually specify where contour labels will go using lat and lon coordinates
 manual = [(-107, 52), (-79, 57), (-78, 47), (-103, 32), (-86, 23)]
@@ -94,20 +93,19 @@ ax.clabel(wind, u_lev, fmt='%d', inline=True, fontsize=10, manual=manual)
 ]
 
 # Add lower text box
-ax.text(1,
-        -0.3,
-        "CONTOUR FROM -5 TO 35 BY 5",
-        horizontalalignment='right',
-        transform=ax.transAxes,
-        bbox=dict(boxstyle='square, pad=0.25',
-                  facecolor='white',
-                  edgecolor='black'))
+ax.text(
+    1,
+    -0.3,
+    "CONTOUR FROM -5 TO 35 BY 5",
+    horizontalalignment='right',
+    transform=ax.transAxes,
+    bbox=dict(boxstyle='square, pad=0.25', facecolor='white', edgecolor='black'),
+)
 
 # Use geocat.viz.util convenience function to set titles and labels
-gv.set_titles_and_labels(ax,
-                         maintitle=r"$\bf{T/U @500hPa}$",
-                         lefttitle=t.long_name,
-                         righttitle=t.units)
+gv.set_titles_and_labels(
+    ax, maintitle=r"$\bf{T/U @500hPa}$", lefttitle=t.long_name, righttitle=t.units
+)
 # Add secondary title below the one placed by gv
 ax.text(0, 1.01, u.long_name, transform=ax.transAxes)
 ax.text(0.97, 1.01, u.units, transform=ax.transAxes)
@@ -121,14 +119,11 @@ ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=3,
-                         y_minor_per_major=5,
-                         labelsize=12)
+gv.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=5, labelsize=12)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(ax,
-                             xticks=np.arange(-120, -30, 30),
-                             yticks=np.arange(20, 70, 10))
+gv.set_axes_limits_and_ticks(
+    ax, xticks=np.arange(-120, -30, 30), yticks=np.arange(20, 70, 10)
+)
 
 plt.show()

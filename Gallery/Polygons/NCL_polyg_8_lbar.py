@@ -69,19 +69,16 @@ ax.add_feature(cfeature.LAND, color='silver', zorder=0)
 ax.add_feature(cfeature.LAKES, color='white', zorder=0)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(ax,
-                             xticks=np.linspace(-120, -70, 6),
-                             yticks=np.linspace(25, 50, 6))
+gv.set_axes_limits_and_ticks(
+    ax, xticks=np.linspace(-120, -70, 6), yticks=np.linspace(25, 50, 6)
+)
 
 # Use geocat.viz.util convenience function to make latitude and longitude tick
 # labels
 gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=1,
-                         y_minor_per_major=1,
-                         labelsize=12)
+gv.add_major_minor_ticks(ax, x_minor_per_major=1, y_minor_per_major=1, labelsize=12)
 
 # Remove ticks on the top and right sides of the plot
 ax.tick_params(axis='both', which='both', top=False, right=False)
@@ -90,17 +87,13 @@ ax.tick_params(axis='both', which='both', top=False, right=False)
 gv.set_titles_and_labels(
     ax,
     maintitlefontsize=16,
-    maintitle=
-    "Dummy station data colored and\nsized according to range of values")
+    maintitle="Dummy station data colored and\nsized according to range of values",
+)
 
 # Plot markers with values less than first bin value
 masked_lon = np.where(r < bins[0], lon, np.nan)
 masked_lat = np.where(r < bins[0], lat, np.nan)
-plt.scatter(masked_lon,
-            masked_lat,
-            s=sizes[0],
-            color=marker_colors[0],
-            zorder=1)
+plt.scatter(masked_lon, masked_lat, s=sizes[0], color=marker_colors[0], zorder=1)
 
 # Plot all other markers but those in the last bin
 for x in range(1, len(bins)):
@@ -108,27 +101,21 @@ for x in range(1, len(bins)):
     masked_lon = np.where(r < bins[x], masked_lon, np.nan)
     masked_lat = np.where(bins[x - 1] <= r, lat, np.nan)
     masked_lat = np.where(r < bins[x], masked_lat, np.nan)
-    plt.scatter(masked_lon,
-                masked_lat,
-                s=sizes[x],
-                color=marker_colors[x],
-                zorder=1)
+    plt.scatter(masked_lon, masked_lat, s=sizes[x], color=marker_colors[x], zorder=1)
 
 # Plot markers with values greater than or equal to last bin value
 masked_lon = np.where(r >= bins[-1], lon, np.nan)
 masked_lat = np.where(r >= bins[-1], lat, np.nan)
-plt.scatter(masked_lon,
-            masked_lat,
-            s=sizes[-1],
-            color=marker_colors[-1],
-            zorder=1)
+plt.scatter(masked_lon, masked_lat, s=sizes[-1], color=marker_colors[-1], zorder=1)
 
 # Create colorbar
-plt.colorbar(mappable=mappable,
-             ax=ax,
-             orientation='horizontal',
-             drawedges=True,
-             format='%.2f',
-             ticks=bins)
+plt.colorbar(
+    mappable=mappable,
+    ax=ax,
+    orientation='horizontal',
+    drawedges=True,
+    format='%.2f',
+    ticks=bins,
+)
 
 plt.show()
