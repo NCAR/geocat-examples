@@ -16,7 +16,7 @@ Note:
     A different colormap was used in this example than in the NCL example
     because rainbow colormaps do not translate well to black and white formats,
     are not accessible for individuals affected by color blindness, and
-    vary widely in how they are percieved by different people. See this
+    vary widely in how they are perceived by different people. See this
     `example <https://geocat-examples.readthedocs.io/en/latest/gallery/Colors/CB_Temperature.html#sphx-glr-gallery-colors-cb-temperature-py>`_
     for more information on choosing colormaps.
 """

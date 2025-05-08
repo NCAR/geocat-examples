@@ -105,7 +105,7 @@ ax2.patch.set_alpha(0.2)
 ax2.set_xlim(0, 6)
 ax2.set_ylim(-6, 9)
 
-# Turn both major and minor ticks in overlayed axis off
+# Turn both major and minor ticks in overlaid axis off
 ax2.tick_params(which='both',
                 top=False,
                 bottom=False,

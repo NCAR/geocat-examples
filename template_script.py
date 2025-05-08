@@ -39,5 +39,5 @@ print("Even more code")
 
 ###############################################################################
 # Note the inline comment in the previous code cell. This was not converted to
-# its own markdown cell because it was not contiguously preceeded with a
+# its own markdown cell because it was not contiguously preceded with a
 # comment line beginning with 20+ '#' characters.

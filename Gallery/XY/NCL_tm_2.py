@@ -10,7 +10,7 @@ throughout this script.
 This script illustrates the following concepts:
    - Explicitly setting tickmarks and labels on the bottom X axis
    - Setting the spacing for tickmarks
-   - Setting the mininum/maximum value of the Y axis in an XY plot
+   - Setting the minimum/maximum value of the Y axis in an XY plot
    - Changing the width and height of a plot
 
 See following URLs to see the reproduced NCL plot & script:

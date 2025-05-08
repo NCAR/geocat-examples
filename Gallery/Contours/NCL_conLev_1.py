@@ -89,7 +89,7 @@ ax.text(1,
 # Specify which contour levels to draw
 contour_lev = np.arange(-5, 35, 5)
 # Specify which contour lines to label. Where the labels appear on the contours
-# is handeled by xarray.plot.contour(). The keyword manual can be used to
+# is handled by xarray.plot.contour(). The keyword manual can be used to
 # set exactly where the labels will be drawn.
 labels = np.linspace(0, 20, 3)
 # Plot contour lines

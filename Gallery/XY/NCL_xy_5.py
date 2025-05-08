@@ -8,7 +8,7 @@ This script illustrates the following concepts:
    - Using named colors to indicate a fill color
    - Converting dates from YYYYMM format to floats
    - Creating a main title
-   - Setting the mininum/maximum value of the Y axis in an XY plot
+   - Setting the minimum/maximum value of the Y axis in an XY plot
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/xy_5.ncl
@@ -36,7 +36,7 @@ date = ds.date
 num_months = np.shape(date)[0]
 
 # Dates in the file are represented by year and month (YYYYMM)
-# representing them fractionally will make ploting the data easier
+# representing them fractionally will make plotting the data easier
 # This produces the same results as NCL's yyyymm_to_yyyyfrac() function
 date_frac = np.empty_like(date)
 for n in np.arange(0, num_months, 1):
