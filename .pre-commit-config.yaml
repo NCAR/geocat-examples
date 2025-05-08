@@ -16,6 +16,7 @@ repos:
     rev: v2.4.1
     hooks:
       - id: codespell
+        args: ["--skip=*.svg"]
 
 -   repo: https://github.com/pre-commit/pre-commit-hooks    # Some common pre-commit hooks
     rev: v5.0.0
