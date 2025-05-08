@@ -19,7 +19,7 @@ repos:
       - id: codespell
         exclude: >
           (?x)^(
-              .*\.svg|
+              .*\.svg
           )$
 
 -   repo: https://github.com/pre-commit/pre-commit-hooks    # Some common pre-commit hooks
