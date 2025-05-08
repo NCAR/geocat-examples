@@ -79,7 +79,7 @@ p = wrap_pressure.plot.contour(ax=ax,
 
 # regular pressure contour levels- These values were found by setting
 # 'manual' argument in ax.clabel call to 'True' and then hovering mouse
-# over desired location of countour label to find coordinate
+# over desired location of contour label to find coordinate
 # (which can be found in bottom left of figure window).
 regularCLabels = [(176.4, 34.63), (-150.46, 42.44), (-142.16, 28.5),
                   (-134.12, 16.32), (-108.9, 17.08), (-98.17, 15.6),

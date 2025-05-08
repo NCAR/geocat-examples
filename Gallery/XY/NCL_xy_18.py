@@ -71,7 +71,7 @@ import geocat.viz as gv
 # takes the single-file dataset, sets the ``calendar`` attribute of the ``time``
 # coordinate variable to ``noleap``, and returns the *decoded* dataset (using
 # the Xarray function ``decode_cf``).  Work-arounds like this are needed
-# whenever you have "errors" or "inconsistancies" in your data.
+# whenever you have "errors" or "inconsistencies" in your data.
 
 
 # Define the xarray.open_mfdataset pre-processing function

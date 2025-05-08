@@ -77,7 +77,7 @@ ax = plt.axes()
 
 bins = [5, 24]
 # Slicing data in Python excludes the last value. To include the last value we
-# can increment it by 1. This ensures that the highlight extends thorugh the
+# can increment it by 1. This ensures that the highlight extends through the
 # last bin value
 highlight = U.data[bins[0]:bins[1] + 1]
 

@@ -18,7 +18,7 @@ Creating a Conda environment
 ----------------------------
 
 This repository provides a `Conda environment file <https://github.com/NCAR/geocat-examples/blob/main/conda_environment.yml>`_
-that can be used to create an evironment to run the examples included in this gallery.
+that can be used to create an environment to run the examples included in this gallery.
 
 To create a Conda environment using the file provided by this repo, from the root directory of
 the cloned geocat-examples repository (or the directory containing the ``conda_environment.yml``

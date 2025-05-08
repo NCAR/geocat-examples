@@ -8,7 +8,7 @@ This script illustrates the following concepts:
    - Changing the title on the Y axis
    - Changing the line dash pattern in an XY plot
    - Changing the line color for multiple curves in an XY plot
-   - Setting the mininum/maximum value of the Y axis in an XY plot
+   - Setting the minimum/maximum value of the Y axis in an XY plot
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/xy_7.ncl
