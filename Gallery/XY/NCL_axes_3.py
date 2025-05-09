@@ -34,54 +34,50 @@ y = 500 + 0.9 * np.arange(0, npts) * np.sin(np.pi / 100 * np.arange(0, npts))
 # Plot:
 
 # Create subplots
-fig, axes = plt.subplots(nrows=2,
-                         ncols=2,
-                         figsize=(10, 10),
-                         gridspec_kw=dict(wspace=0.5, hspace=0.5))
+fig, axes = plt.subplots(
+    nrows=2, ncols=2, figsize=(10, 10), gridspec_kw=dict(wspace=0.5, hspace=0.5)
+)
 
 # Subplot(0, 0): Create plot with linear axes and full perimeter
 axes[0][0].plot(x, y, color='orange')
 
 # Use geocat.viz.util convenience function to set titles and labels
-gv.set_titles_and_labels(axes[0][0],
-                         maintitle="Perimeter Background",
-                         xlabel="Linear",
-                         ylabel="Linear")
+gv.set_titles_and_labels(
+    axes[0][0], maintitle="Perimeter Background", xlabel="Linear", ylabel="Linear"
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(axes[0][0],
-                         x_minor_per_major=2,
-                         y_minor_per_major=2,
-                         labelsize=10)
+gv.add_major_minor_ticks(
+    axes[0][0], x_minor_per_major=2, y_minor_per_major=2, labelsize=10
+)
 
 # Use geocat.viz.util convenience function to set axes limits and tick labels
-gv.set_axes_limits_and_ticks(axes[0][0],
-                             xlim=(0, 900),
-                             ylim=(100, 1000),
-                             xticks=range(0, 901, 100),
-                             yticks=range(100, 1001, 100))
+gv.set_axes_limits_and_ticks(
+    axes[0][0],
+    xlim=(0, 900),
+    ylim=(100, 1000),
+    xticks=range(0, 901, 100),
+    yticks=range(100, 1001, 100),
+)
 
 # Subplot(0, 1): Create plot with log y-axis and gridlines
 axes[0][1].set_yscale('log')
 axes[0][1].plot(x, y, color='limegreen')
 
 # Use geocat.viz.util convenience function to set titles and labels
-gv.set_titles_and_labels(axes[0][1],
-                         maintitle="Grid Background",
-                         xlabel="Linear",
-                         ylabel="Logarithmic")
+gv.set_titles_and_labels(
+    axes[0][1], maintitle="Grid Background", xlabel="Linear", ylabel="Logarithmic"
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(axes[0][1],
-                         x_minor_per_major=2,
-                         y_minor_per_major=2,
-                         labelsize=10)
+gv.add_major_minor_ticks(
+    axes[0][1], x_minor_per_major=2, y_minor_per_major=2, labelsize=10
+)
 
 # Use geocat.viz.util convenience function to set axes limits and tick labels
-gv.set_axes_limits_and_ticks(axes[0][1],
-                             xlim=(0, 900),
-                             ylim=(100, 1000),
-                             xticks=range(0, 901, 100))
+gv.set_axes_limits_and_ticks(
+    axes[0][1], xlim=(0, 900), ylim=(100, 1000), xticks=range(0, 901, 100)
+)
 
 # Remove labels for minor ticks on log scale
 axes[0][1].yaxis.set_minor_formatter(NullFormatter())
@@ -94,22 +90,19 @@ axes[1][0].set_xscale('log')
 axes[1][0].plot(x, y, color='blueviolet')
 
 # Use geocat.viz.util convenience function to set titles and labels
-gv.set_titles_and_labels(axes[1][0],
-                         maintitle="Half-Axis Background",
-                         xlabel="Logarithmic",
-                         ylabel="Linear")
+gv.set_titles_and_labels(
+    axes[1][0], maintitle="Half-Axis Background", xlabel="Logarithmic", ylabel="Linear"
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(axes[1][0],
-                         x_minor_per_major=2,
-                         y_minor_per_major=2,
-                         labelsize=10)
+gv.add_major_minor_ticks(
+    axes[1][0], x_minor_per_major=2, y_minor_per_major=2, labelsize=10
+)
 
 # Use geocat.viz.util convenience function to set axes limits and tick labels
-gv.set_axes_limits_and_ticks(axes[1][0],
-                             xlim=(10, 1000),
-                             ylim=(100, 1000),
-                             yticks=range(100, 1001, 100))
+gv.set_axes_limits_and_ticks(
+    axes[1][0], xlim=(10, 1000), ylim=(100, 1000), yticks=range(100, 1001, 100)
+)
 
 # Remove labels for minor ticks on log scale
 axes[1][0].xaxis.set_minor_formatter(NullFormatter())
@@ -128,10 +121,9 @@ axes[1][1].set_yscale('log')
 axes[1][1].plot(x, y, color='firebrick')
 
 # Use geocat.viz.util convenience function to set titles and labels
-gv.set_titles_and_labels(axes[1][1],
-                         maintitle="No Background",
-                         xlabel="Logarithmic",
-                         ylabel="Logarithmic")
+gv.set_titles_and_labels(
+    axes[1][1], maintitle="No Background", xlabel="Logarithmic", ylabel="Logarithmic"
+)
 
 # Use geocat.viz.util convenience function to set axes limits and tick labels
 gv.set_axes_limits_and_ticks(axes[1][1], xlim=(31.628, 1000), ylim=(100, 1000))
@@ -140,15 +132,17 @@ gv.set_axes_limits_and_ticks(axes[1][1], xlim=(31.628, 1000), ylim=(100, 1000))
 axes[1][1].set_frame_on(False)
 
 # Remove all tick marks and their labels
-axes[1][1].tick_params(which='both',
-                       top=False,
-                       bottom=False,
-                       left=False,
-                       right=False,
-                       labeltop=False,
-                       labelbottom=False,
-                       labelleft=False,
-                       labelright=False)
+axes[1][1].tick_params(
+    which='both',
+    top=False,
+    bottom=False,
+    left=False,
+    right=False,
+    labeltop=False,
+    labelbottom=False,
+    labelleft=False,
+    labelright=False,
+)
 
 # Show plot
 plt.show()

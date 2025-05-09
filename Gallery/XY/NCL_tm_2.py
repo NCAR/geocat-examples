@@ -36,9 +36,7 @@ x_data = np.arange(1950, 2006)
 y_data = np.random.uniform(-4, 4, 56)
 
 # Print out a formatted message; note the starting 'f' for the string.
-print(
-    f"There are { len(x_data) } values in x_data, and { len(y_data) } values in y_data."
-)
+print(f"There are {len(x_data)} values in x_data, and {len(y_data)} values in y_data.")
 
 ###############################################################################
 # Plot:
@@ -105,21 +103,19 @@ ax2.xaxis.set_minor_locator(MultipleLocator(1))
 ax2.yaxis.set_minor_locator(MultipleLocator(0.5))
 
 # Add a descriptive text to the top left corner of the axes.
-ax2.text(0.01,
-         1.1,
-         "Ticks Set Explicitly",
-         transform=ax2.transAxes,
-         fontweight='bold')
+ax2.text(0.01, 1.1, "Ticks Set Explicitly", transform=ax2.transAxes, fontweight='bold')
 
 # Line-plot data
 plt.plot(x_data, y_data, color='black', linewidth=0.5)
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values on x-axes.
-gv.set_axes_limits_and_ticks(ax2,
-                             xlim=(1949, 2006),
-                             ylim=(-4.2, 4.2),
-                             xticks=[1950, 1960, 1970, 1980, 1990, 2000, 2005])
+gv.set_axes_limits_and_ticks(
+    ax2,
+    xlim=(1949, 2006),
+    ylim=(-4.2, 4.2),
+    xticks=[1950, 1960, 1970, 1980, 1990, 2000, 2005],
+)
 
 # Create more space between subplots
 plt.subplots_adjust(hspace=0.4)

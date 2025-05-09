@@ -40,8 +40,19 @@ ax.set_ylim([0, 90])
 ax.set_theta_zero_location("S")
 
 # Create array of marker colors
-colors = ("limegreen", "orange", "green", "red", "yellow", "purple", "blue",
-          "red", "brown", "crimson", "skyblue")
+colors = (
+    "limegreen",
+    "orange",
+    "green",
+    "red",
+    "yellow",
+    "purple",
+    "blue",
+    "red",
+    "brown",
+    "crimson",
+    "skyblue",
+)
 
 # Create array of marker sizes
 bins = np.linspace(100, 2000, 10)
@@ -50,18 +61,32 @@ bins = np.linspace(100, 2000, 10)
 # longitude points must be transformed from degrees to radians
 # to be plotted on polar projection
 for x in range(numpoints):
-    ax.scatter((np.pi / 180.0) * lon[x],
-               lat[x],
-               color=colors[x % 10],
-               s=bins[x % 10],
-               edgecolors='black',
-               linewidths=1,
-               alpha=0.9,
-               zorder=2)
+    ax.scatter(
+        (np.pi / 180.0) * lon[x],
+        lat[x],
+        color=colors[x % 10],
+        s=bins[x % 10],
+        edgecolors='black',
+        linewidths=1,
+        alpha=0.9,
+        zorder=2,
+    )
 
 # set the labels and locations of the angular gridlines
-linelabels = ('0', '30E', '60E', '90E', '120E', '150E', '180', '150W', '120W',
-              '90E', '60E', '30E')
+linelabels = (
+    '0',
+    '30E',
+    '60E',
+    '90E',
+    '120E',
+    '150E',
+    '180',
+    '150W',
+    '120W',
+    '90E',
+    '60E',
+    '30E',
+)
 lines, labels = plt.thetagrids(range(0, 360, 30), linelabels, fontsize=12)
 
 # Create distance between the x tick labels and the axis

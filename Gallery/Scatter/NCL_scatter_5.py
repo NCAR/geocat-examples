@@ -36,8 +36,14 @@ data = random.normal(loc=10, scale=3, size=npts)
 ##############################################################################
 # Specify colors and markers
 colors = [
-    'darkgoldenrod', 'darkgreen', 'coral', 'cyan', 'firebrick', 'darkslateblue',
-    'limegreen', 'goldenrod'
+    'darkgoldenrod',
+    'darkgreen',
+    'coral',
+    'cyan',
+    'firebrick',
+    'darkslateblue',
+    'limegreen',
+    'goldenrod',
 ]
 markers = ['+', '*', 'o', 'x', 's', '^', 'v', 'D']
 
@@ -58,23 +64,27 @@ label = "{start:g}:{end:g}"
 for x in range(0, numBins):
     bins = np.where(data > partitions[x], data, np.nan)
     with np.errstate(
-            invalid='ignore'
+        invalid='ignore'
     ):  # Indeed not needed, just to get rid of warnings about numpy's NaN comparisons
         bins = np.where(bins < partitions[x + 1], bins, np.nan)
     indices = np.where(bins != np.nan, indices, np.nan)
-    plt.plot(indices,
-             bins,
-             marker=markers[x],
-             fillstyle='none',
-             linewidth=0,
-             label=label.format(start=partitions[x], end=partitions[x + 1]))
+    plt.plot(
+        indices,
+        bins,
+        marker=markers[x],
+        fillstyle='none',
+        linewidth=0,
+        label=label.format(start=partitions[x], end=partitions[x + 1]),
+    )
 
 # `ncol` being equal to the number of labels makes it appear horizontal
-legend = ax.legend(bbox_to_anchor=(-0.075, -0.2),
-                   ncol=numBins,
-                   loc='lower left',
-                   columnspacing=0.5,
-                   frameon=False)
+legend = ax.legend(
+    bbox_to_anchor=(-0.075, -0.2),
+    ncol=numBins,
+    loc='lower left',
+    columnspacing=0.5,
+    frameon=False,
+)
 for txt in legend.get_texts():
     txt.set_ha("center")  # horizontal alignment of text item
     txt.set_va("center")  # vertical alignment of text item
@@ -83,17 +93,12 @@ for txt in legend.get_texts():
     txt.set_y(-20)  # y-position
 
 # Use geocat.viz.util convenience function to set axes parameters
-gv.set_axes_limits_and_ticks(ax,
-                             xlim=(0, 300),
-                             ylim=(0, 21),
-                             xticks=range(0, 301, 50),
-                             yticks=range(0, 22, 3))
+gv.set_axes_limits_and_ticks(
+    ax, xlim=(0, 300), ylim=(0, 21), xticks=range(0, 301, 50), yticks=range(0, 22, 3)
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=5,
-                         y_minor_per_major=3,
-                         labelsize=14)
+gv.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=3, labelsize=14)
 
 # Use geocat.viz.util convenience function to set titles and labels
 gv.set_titles_and_labels(ax, maintitle="Scatter plot with grouped markers")

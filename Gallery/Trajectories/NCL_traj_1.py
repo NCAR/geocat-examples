@@ -35,9 +35,7 @@ sdata = ds.get('sdata')
 
 
 def plot_nth_timestep(nparrayy, nparrayx, n):
-
     for x in range(0, len(nparrayx)):
-
         # Plot green starting point of each trajectory
         if x == 0:
             y, x = nparrayy[x], nparrayx[x]
@@ -69,9 +67,9 @@ ax.add_feature(cfeature.LAND, color='lightgrey')
 gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(ax,
-                             xticks=np.linspace(-70, -30, 5),
-                             yticks=np.linspace(-60, -20, 5))
+gv.set_axes_limits_and_ticks(
+    ax, xticks=np.linspace(-70, -30, 5), yticks=np.linspace(-60, -20, 5)
+)
 
 # Select trajectories to plot
 traj = [1, 10, 53, 67, 80]
@@ -81,9 +79,8 @@ trajlinecolors = ["red", "blue", "green", "grey", "magenta"]
 
 # Plot each trajectory
 for i in range(len(traj)):
-
     # Extract latitude
-    ypt = (np.array(sdata[1, :, traj[i]]) - 360)
+    ypt = np.array(sdata[1, :, traj[i]]) - 360
 
     # Extract longitude
     xpt = np.array(sdata[2, :, traj[i]])

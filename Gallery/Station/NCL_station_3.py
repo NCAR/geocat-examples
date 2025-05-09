@@ -30,7 +30,8 @@ import geocat.datafiles as gdf
 ds = pd.read_csv(
     gdf.get('ascii_files/istasyontablosu_son.txt'),
     delimiter='\\s+',
-    names=['index', 'station', 'year1', 'year2', 'number', 'lat', 'lon'])
+    names=['index', 'station', 'year1', 'year2', 'number', 'lat', 'lon'],
+)
 
 # Get number of stations
 npts = len(ds)
@@ -45,7 +46,6 @@ lon = ds.lon
 
 
 def create_axes(maintitle):
-
     # Generate figure (set its size (width, height) in inches)
     fig = plt.figure(figsize=(12, 6.5))
 
@@ -59,14 +59,16 @@ def create_axes(maintitle):
     ax.add_feature(cfeature.LAND, facecolor='none', edgecolor='gray')
 
     # Draw gridlines
-    gl = ax.gridlines(crs=ccrs.PlateCarree(),
-                      draw_labels=True,
-                      dms=False,
-                      x_inline=False,
-                      y_inline=False,
-                      linewidth=1,
-                      color="gray",
-                      alpha=0.25)
+    gl = ax.gridlines(
+        crs=ccrs.PlateCarree(),
+        draw_labels=True,
+        dms=False,
+        x_inline=False,
+        y_inline=False,
+        linewidth=1,
+        color="gray",
+        alpha=0.25,
+    )
 
     # Set frequency of gridlines in the x and y directions
     gl.xlocator = mticker.FixedLocator(np.arange(26, 45, 2))
@@ -97,14 +99,16 @@ fig, ax = create_axes('Overlapping text strings')
 
 # Add all station number texts
 for i in range(npts):
-    ax.text(lon[i],
-            lat[i],
-            no[i],
-            fontsize=8,
-            fontweight='bold',
-            va='center',
-            ha='center',
-            transform=ccrs.PlateCarree())
+    ax.text(
+        lon[i],
+        lat[i],
+        no[i],
+        fontsize=8,
+        fontweight='bold',
+        va='center',
+        ha='center',
+        transform=ccrs.PlateCarree(),
+    )
 
 # Show the plot
 plt.tight_layout()
@@ -139,14 +143,16 @@ for i in range(npts):
 # Add text if it is not tagged to be removed
 for i in range(npts):
     if not remove[i]:
-        ax.text(lon[i],
-                lat[i],
-                no[i],
-                fontsize=8,
-                fontweight='bold',
-                va='center',
-                ha='center',
-                transform=ccrs.PlateCarree())
+        ax.text(
+            lon[i],
+            lat[i],
+            no[i],
+            fontsize=8,
+            fontweight='bold',
+            va='center',
+            ha='center',
+            transform=ccrs.PlateCarree(),
+        )
 
 # Show the plot
 plt.tight_layout()

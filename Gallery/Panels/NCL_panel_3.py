@@ -86,11 +86,13 @@ def plot_labelled_filled_contours(data, ax=None):
     gv.add_lat_lon_ticklabels(ax)
 
     # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
-    gv.set_titles_and_labels(ax,
-                             lefttitle=data.attrs['long_name'],
-                             lefttitlefontsize=10,
-                             righttitle=data.attrs['units'],
-                             righttitlefontsize=10)
+    gv.set_titles_and_labels(
+        ax,
+        lefttitle=data.attrs['long_name'],
+        lefttitlefontsize=10,
+        righttitle=data.attrs['units'],
+        righttitlefontsize=10,
+    )
 
     return handles
 
@@ -103,10 +105,9 @@ def plot_labelled_filled_contours(data, ax=None):
 # See https://matplotlib.org/tutorials/intermediate/constrainedlayout_guide.html
 # Generate figure and axes using Cartopy projection
 projection = ccrs.PlateCarree()
-fig, ax = plt.subplots(2,
-                       1,
-                       constrained_layout=True,
-                       subplot_kw={"projection": projection})
+fig, ax = plt.subplots(
+    2, 1, constrained_layout=True, subplot_kw={"projection": projection}
+)
 
 # Set figure size (width, height) in inches
 fig.set_size_inches((8, 8.2))
@@ -132,7 +133,8 @@ cbar = plt.colorbar(
     drawedges=True,
     extendrect=True,
     extendfrac='auto',
-    aspect=30)
+    aspect=30,
+)
 cbar.ax.tick_params(labelsize=10)
 
 # Show the plot

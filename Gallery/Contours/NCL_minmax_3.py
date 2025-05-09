@@ -29,15 +29,106 @@ import cmaps
 #  Globals for random number generator for generate_2d_array
 dfran_iseq = 0
 dfran_rseq = [
-    .749, .973, .666, .804, .081, .483, .919, .903, .951, .960, .039, .269,
-    .270, .756, .222, .478, .621, .063, .550, .798, .027, .569, .149, .697,
-    .451, .738, .508, .041, .266, .249, .019, .191, .266, .625, .492, .940,
-    .508, .406, .972, .311, .757, .378, .299, .536, .619, .844, .342, .295,
-    .447, .499, .688, .193, .225, .520, .954, .749, .997, .693, .217, .273,
-    .961, .948, .902, .104, .495, .257, .524, .100, .492, .347, .981, .019,
-    .225, .806, .678, .710, .235, .600, .994, .758, .682, .373, .009, .469,
-    .203, .730, .588, .603, .213, .495, .884, .032, .185, .127, .010, .180,
-    .689, .354, .372, .429
+    0.749,
+    0.973,
+    0.666,
+    0.804,
+    0.081,
+    0.483,
+    0.919,
+    0.903,
+    0.951,
+    0.960,
+    0.039,
+    0.269,
+    0.270,
+    0.756,
+    0.222,
+    0.478,
+    0.621,
+    0.063,
+    0.550,
+    0.798,
+    0.027,
+    0.569,
+    0.149,
+    0.697,
+    0.451,
+    0.738,
+    0.508,
+    0.041,
+    0.266,
+    0.249,
+    0.019,
+    0.191,
+    0.266,
+    0.625,
+    0.492,
+    0.940,
+    0.508,
+    0.406,
+    0.972,
+    0.311,
+    0.757,
+    0.378,
+    0.299,
+    0.536,
+    0.619,
+    0.844,
+    0.342,
+    0.295,
+    0.447,
+    0.499,
+    0.688,
+    0.193,
+    0.225,
+    0.520,
+    0.954,
+    0.749,
+    0.997,
+    0.693,
+    0.217,
+    0.273,
+    0.961,
+    0.948,
+    0.902,
+    0.104,
+    0.495,
+    0.257,
+    0.524,
+    0.100,
+    0.492,
+    0.347,
+    0.981,
+    0.019,
+    0.225,
+    0.806,
+    0.678,
+    0.710,
+    0.235,
+    0.600,
+    0.994,
+    0.758,
+    0.682,
+    0.373,
+    0.009,
+    0.469,
+    0.203,
+    0.730,
+    0.588,
+    0.603,
+    0.213,
+    0.495,
+    0.884,
+    0.032,
+    0.185,
+    0.127,
+    0.010,
+    0.180,
+    0.689,
+    0.354,
+    0.372,
+    0.429,
 ]
 
 
@@ -87,8 +178,8 @@ def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0):
     # Column-major (Fortran-style) order in memory
     out_array = np.zeros([nx, ny], 'f')
     tmp_array = np.zeros([3, 25], 'f')
-    fovm = 9. / float(nx)
-    fovn = 9. / float(ny)
+    fovm = 9.0 / float(nx)
+    fovn = 9.0 / float(ny)
     # Make sure that num_low and num_high are between 1 to 25 inclusive
     nlow = max(1, min(25, num_low))
     nhgh = max(1, min(25, num_high))
@@ -97,14 +188,14 @@ def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0):
     # Fill up the temporary array
     for k in range(num_low):
         # lows at random locations.
-        tmp_array[0, k] = 1. + (float(nx) - 1.) * _dfran()
-        tmp_array[1, k] = 1. + (float(ny) - 1.) * _dfran()
-        tmp_array[2, k] = -1.
+        tmp_array[0, k] = 1.0 + (float(nx) - 1.0) * _dfran()
+        tmp_array[1, k] = 1.0 + (float(ny) - 1.0) * _dfran()
+        tmp_array[2, k] = -1.0
     for k in range(num_low, num_low + num_high):
         # highs at random locations.
-        tmp_array[0, k] = 1. + (float(nx) - 1.) * _dfran()
-        tmp_array[1, k] = 1. + (float(ny) - 1.) * _dfran()
-        tmp_array[2, k] = 1.
+        tmp_array[0, k] = 1.0 + (float(nx) - 1.0) * _dfran()
+        tmp_array[1, k] = 1.0 + (float(ny) - 1.0) * _dfran()
+        tmp_array[2, k] = 1.0
 
     # Initialize dmin and dmax to positive and negative infinity
     dmin = np.inf
@@ -120,9 +211,10 @@ def generate_2d_array(dims, num_low, num_high, minv, maxv, seed=0):
                 tempi = fovm * (float(i + 1) - tmp_array[0, k])
                 tempj = fovn * (float(j + 1) - tmp_array[1, k])
                 temp = -(np.square(tempi) + np.square(tempj))
-                if (temp >= -20.):
-                    out_array[i,j] = out_array[i,j] + \
-                       0.5*(maxv - minv)*tmp_array[2,k]*np.exp(temp)
+                if temp >= -20.0:
+                    out_array[i, j] = out_array[i, j] + 0.5 * (maxv - minv) * tmp_array[
+                        2, k
+                    ] * np.exp(temp)
             dmin = min(dmin, out_array[i, j])
             dmax = max(dmax, out_array[i, j])
 
@@ -145,12 +237,14 @@ def plotLabels(coord_locations, label):
         # and first item of coord (lon) access the index for the column number
         value = round(data.data[coord[1], coord[0]], 1)
 
-        txt = ax.text(coord[0],
-                      coord[1],
-                      label + str(value),
-                      fontsize=14,
-                      horizontalalignment='center',
-                      verticalalignment='center')
+        txt = ax.text(
+            coord[0],
+            coord[1],
+            label + str(value),
+            fontsize=14,
+            horizontalalignment='center',
+            verticalalignment='center',
+        )
         txt.set_bbox(dict(facecolor='w', edgecolor='gray', pad=2))
 
 
@@ -160,12 +254,12 @@ def plotLabels(coord_locations, label):
 nx = 100
 ny = 100
 
-data = generate_2d_array((nx, ny), 10, 10, -19., 16., 0)
+data = generate_2d_array((nx, ny), 10, 10, -19.0, 16.0, 0)
 
 # Convert data into type xarray.DataArray
-data = xr.DataArray(data,
-                    dims=["lat", "lon"],
-                    coords=dict(lat=np.arange(nx), lon=np.arange(ny)))
+data = xr.DataArray(
+    data, dims=["lat", "lon"], coords=dict(lat=np.arange(nx), lon=np.arange(ny))
+)
 
 ###############################################################################
 # Plot:
@@ -195,45 +289,43 @@ plotLabels(lmin, 'L')
 plotLabels(lmax, 'H')
 
 # Add colorbar
-cbar = plt.colorbar(contours,
-                    ax=ax,
-                    orientation='vertical',
-                    shrink=0.96,
-                    pad=0.06,
-                    extendrect=True,
-                    extendfrac='auto',
-                    aspect=15,
-                    drawedges=True,
-                    ticks=levels[1:-1:])  # set colorbar levels
+cbar = plt.colorbar(
+    contours,
+    ax=ax,
+    orientation='vertical',
+    shrink=0.96,
+    pad=0.06,
+    extendrect=True,
+    extendfrac='auto',
+    aspect=15,
+    drawedges=True,
+    ticks=levels[1:-1:],
+)  # set colorbar levels
 
 # Set every other tick labels to be integers
 ticklabs = cbar.ax.get_yticklabels()
-[
-    ticklabs[i].set_text(ticklabs[i].get_text()[:-2])
-    for i in range(1, len(ticklabs), 2)
-]
+[ticklabs[i].set_text(ticklabs[i].get_text()[:-2]) for i in range(1, len(ticklabs), 2)]
 
 # Center align colorbar tick labels
 cbar.ax.set_yticklabels(ticklabs, ha='center')
 cbar.ax.yaxis.set_tick_params(pad=26, length=0, labelsize=16)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gv.set_axes_limits_and_ticks(ax,
-                             xlim=(0, 99),
-                             ylim=(0, 99),
-                             xticks=np.arange(0, 100, 20),
-                             yticks=np.arange(0, 100, 20))
+gv.set_axes_limits_and_ticks(
+    ax,
+    xlim=(0, 99),
+    ylim=(0, 99),
+    xticks=np.arange(0, 100, 20),
+    yticks=np.arange(0, 100, 20),
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=4,
-                         y_minor_per_major=4,
-                         labelsize=16)
+gv.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=4, labelsize=16)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gv.set_titles_and_labels(ax,
-                         maintitle='Adding your own minima/maxima text strings',
-                         maintitlefontsize=24)
+gv.set_titles_and_labels(
+    ax, maintitle='Adding your own minima/maxima text strings', maintitlefontsize=24
+)
 
 # Set different tick font sizes and padding for X and Y axis
 ax.tick_params(axis='both', pad=10)

@@ -35,10 +35,9 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 # Generate figure and axes using Cartopy projection
 # Make three subplots using matplotlib
 projection = ccrs.PlateCarree()
-fig, ax = plt.subplots(3,
-                       1,
-                       constrained_layout=True,
-                       subplot_kw={"projection": projection})
+fig, ax = plt.subplots(
+    3, 1, constrained_layout=True, subplot_kw={"projection": projection}
+)
 
 # Set figure size
 fig.set_size_inches((8, 13.5))
@@ -47,11 +46,13 @@ fig.set_size_inches((8, 13.5))
 plt.suptitle("A common title", fontsize=16)
 
 # Display continents
-continents = cartopy.feature.NaturalEarthFeature(name="coastline",
-                                                 category="physical",
-                                                 scale="50m",
-                                                 edgecolor="None",
-                                                 facecolor="lightgray")
+continents = cartopy.feature.NaturalEarthFeature(
+    name="coastline",
+    category="physical",
+    scale="50m",
+    edgecolor="None",
+    facecolor="lightgray",
+)
 [axes.add_feature(continents) for axes in ax.flat]
 
 # Using a dictionary makes it easy to reuse the same keyword arguments twice for the contours
@@ -63,7 +64,8 @@ kwargs = dict(
     add_labels=False,  # turn off xarray's automatic Lat, lon labels
     colors="black",  # note plurals in this and following kwargs
     linestyles="-",
-    linewidths=0.5)
+    linewidths=0.5,
+)
 
 # Define first contour levels
 levels = np.arange(-16, 33, 4)
@@ -76,11 +78,13 @@ hdl = ds.U.plot.contour(x="lon", y="lat", ax=ax[0], levels=levels, **kwargs)
 ax[0].clabel(hdl, np.arange(0, 33, 8), fmt="%.0f")
 
 # Use geocat.viz.util convenience function to add left and right title to the plot axes.
-gv.set_titles_and_labels(ax[0],
-                         lefttitle="Zonal Wind",
-                         lefttitlefontsize=12,
-                         righttitle=ds.U.units,
-                         righttitlefontsize=12)
+gv.set_titles_and_labels(
+    ax[0],
+    lefttitle="Zonal Wind",
+    lefttitlefontsize=12,
+    righttitle=ds.U.units,
+    righttitlefontsize=12,
+)
 
 # Panel 2
 # Define second contour levels
@@ -93,35 +97,41 @@ hdl = ds.V.plot.contour(x="lon", y="lat", ax=ax[1], levels=levels, **kwargs)
 ax[1].clabel(hdl, [0], fmt="%.0f")
 
 # Use geocat.viz.util convenience function to add left and right title to the plot axes.
-gv.set_titles_and_labels(ax[1],
-                         lefttitle="Meridional Wind",
-                         lefttitlefontsize=12,
-                         righttitle=ds.V.units,
-                         righttitlefontsize=12)
+gv.set_titles_and_labels(
+    ax[1],
+    lefttitle="Meridional Wind",
+    lefttitlefontsize=12,
+    righttitle=ds.V.units,
+    righttitlefontsize=12,
+)
 
 # Panel 3
 # Draw arrows
 # xarray doesn't have a quiver method (yet)
 # the NCL code plots every 4th value in lat, lon; this is the equivalent of u(::4, ::4)
 subset = ds.isel(lat=slice(None, None, 4), lon=slice(None, None, 4))
-ax[2].quiver(subset.lon,
-             subset.lat,
-             subset.U,
-             subset.V,
-             width=0.0015,
-             transform=projection,
-             zorder=2,
-             scale=1100)
+ax[2].quiver(
+    subset.lon,
+    subset.lat,
+    subset.U,
+    subset.V,
+    width=0.0015,
+    transform=projection,
+    zorder=2,
+    scale=1100,
+)
 
 # Set axes title
 ax[2].set_title("Vector Wind", loc="left", y=1.05)
 
 # Use geocat.viz.util convenience function to add left and right title to the plot axes.
-gv.set_titles_and_labels(ax[2],
-                         lefttitle="Vector Wind",
-                         lefttitlefontsize=12,
-                         righttitle=ds.U.units,
-                         righttitlefontsize=12)
+gv.set_titles_and_labels(
+    ax[2],
+    lefttitle="Vector Wind",
+    lefttitlefontsize=12,
+    righttitle=ds.U.units,
+    righttitlefontsize=12,
+)
 
 # cartopy axes require this to be manual
 ax[2].set_xticks(kwargs["xticks"])

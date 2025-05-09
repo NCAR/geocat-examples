@@ -51,18 +51,19 @@ lines = u.plot.contour(ax=ax, levels=levels, linewidths=0.5, add_labels=False)
 # Draw contour labels and set bounding boxes for the labels
 ax.clabel(lines, np.array([0]), colors='black', fmt="%.0f", fontsize=18)
 [
-    txt.set_bbox(
-        dict(mutation_aspect=0.8, facecolor='white', edgecolor='none', pad=2))
+    txt.set_bbox(dict(mutation_aspect=0.8, facecolor='white', edgecolor='none', pad=2))
     for txt in lines.labelTexts
 ]
 
 # Plot filled contour
-colors = u.plot.contourf(ax=ax,
-                         cmap='viridis_r',
-                         levels=levels,
-                         transform=ccrs.PlateCarree(),
-                         add_colorbar=False,
-                         add_labels=False)
+colors = u.plot.contourf(
+    ax=ax,
+    cmap='viridis_r',
+    levels=levels,
+    transform=ccrs.PlateCarree(),
+    add_colorbar=False,
+    add_labels=False,
+)
 
 # Add colorbar
 cbar = plt.colorbar(
@@ -75,17 +76,20 @@ cbar = plt.colorbar(
     extendfrac='auto',
     aspect=11,  # aspect ratio
     drawedges=True,
-    ticks=levels[:-1:2])  # set colorbar levels
+    ticks=levels[:-1:2],
+)  # set colorbar levels
 
 # Set colorbar label size
 cbar.ax.xaxis.set_tick_params(length=0, labelsize=24, pad=12)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gv.set_axes_limits_and_ticks(ax,
-                             xlim=(0, 49),
-                             ylim=(0, 29),
-                             xticks=np.linspace(0, 40, 5),
-                             yticks=np.linspace(0, 25, 6))
+gv.set_axes_limits_and_ticks(
+    ax,
+    xlim=(0, 49),
+    ylim=(0, 29),
+    xticks=np.linspace(0, 40, 5),
+    yticks=np.linspace(0, 25, 6),
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gv.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=5)

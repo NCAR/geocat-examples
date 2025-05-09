@@ -47,16 +47,17 @@ gv.add_major_minor_ticks(ax1, x_minor_per_major=5, labelsize=14)
 
 # Usa geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values
-gv.set_axes_limits_and_ticks(ax1,
-                             xlim=(1970, 1973),
-                             ylim=(0.0, 16.0),
-                             yticks=np.arange(0, 17, 3))
+gv.set_axes_limits_and_ticks(
+    ax1, xlim=(1970, 1973), ylim=(0.0, 16.0), yticks=np.arange(0, 17, 3)
+)
 
 # Usa geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-gv.set_titles_and_labels(ax1,
-                         maintitle="Curves Offset",
-                         xlabel=ds.time.long_name,
-                         ylabel=f"{ds.T.long_name} [solid]")
+gv.set_titles_and_labels(
+    ax1,
+    maintitle="Curves Offset",
+    xlabel=ds.time.long_name,
+    ylabel=f"{ds.T.long_name} [solid]",
+)
 
 # Create second y-axis
 ax2 = ax1.twinx()
@@ -65,18 +66,13 @@ ax2 = ax1.twinx()
 gv.add_major_minor_ticks(ax2, x_minor_per_major=5, labelsize=14)
 
 # Line-plot data
-ax2.plot(ds.time,
-         ds.P,
-         color="red",
-         linestyle="--",
-         dashes=[6.5, 3.7],
-         linewidth=0.9)
+ax2.plot(ds.time, ds.P, color="red", linestyle="--", dashes=[6.5, 3.7], linewidth=0.9)
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, and tick values
-gv.set_axes_limits_and_ticks(ax2,
-                             ylim=(1008.0, 1024.0),
-                             yticks=np.arange(1008, 1025, 3))
+gv.set_axes_limits_and_ticks(
+    ax2, ylim=(1008.0, 1024.0), yticks=np.arange(1008, 1025, 3)
+)
 
 # Set second y-axis label
 ax2.set_ylabel(f"{ds.P.long_name} [dash]", fontsize=16)

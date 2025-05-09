@@ -41,19 +41,18 @@ plt.figure(figsize=(10, 10))
 ax = plt.axes()
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gv.set_axes_limits_and_ticks(ax,
-                             xlim=(0, 30),
-                             ylim=(0, 30),
-                             xticks=None,
-                             yticks=None,
-                             xticklabels=None,
-                             yticklabels=None)
+gv.set_axes_limits_and_ticks(
+    ax,
+    xlim=(0, 30),
+    ylim=(0, 30),
+    xticks=None,
+    yticks=None,
+    xticklabels=None,
+    yticklabels=None,
+)
 
 # Use geocat.viz.util to add major and minor tics
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=5,
-                         y_minor_per_major=5,
-                         labelsize=18)
+gv.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=5, labelsize=18)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
 gv.set_titles_and_labels(ax, ylabel="wave number", labelfontsize=24)
@@ -81,35 +80,34 @@ ax.clabel(cp, inline=True, fontsize=10, colors='black', fmt="%.0f")
 # Ignore second half of the graph
 y1 = np.full(shape=len(xlist), fill_value=0, dtype=np.int32)
 y2 = x
-ax.fill_between(x,
-                y1,
-                y2,
-                where=y2 >= y1,
-                color='white',
-                step='pre',
-                alpha=1.0,
-                zorder=4)
+ax.fill_between(
+    x, y1, y2, where=y2 >= y1, color='white', step='pre', alpha=1.0, zorder=4
+)
 
 # Set properties for the text boxes
 props1 = dict(facecolor='white', edgecolor='white', alpha=0.5)
 props2 = dict(facecolor='white', edgecolor='black', alpha=0.5)
 
 # Place first text box
-ax.text(0.70,
-        0.35,
-        'J(${\u03B1}$)',
-        transform=ax.transAxes,
-        fontsize=25,
-        bbox=props1,
-        zorder=5)
+ax.text(
+    0.70,
+    0.35,
+    'J(${\u03b1}$)',
+    transform=ax.transAxes,
+    fontsize=25,
+    bbox=props1,
+    zorder=5,
+)
 
 # Place second text box
-ax.text(0.70,
-        0.05,
-        'CONTOUR FROM -8 TO 6 BY 1',
-        transform=ax.transAxes,
-        fontsize=10,
-        bbox=props2,
-        zorder=5)
+ax.text(
+    0.70,
+    0.05,
+    'CONTOUR FROM -8 TO 6 BY 1',
+    transform=ax.transAxes,
+    fontsize=10,
+    bbox=props2,
+    zorder=5,
+)
 
 plt.show()

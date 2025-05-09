@@ -32,7 +32,7 @@ V = ds.V[0, 1, :, :].sel(lat=slice(60, 90))
 T = ds.TS[0, :, :].sel(lat=slice(60, 90))
 
 # Rotate and rescale the wind vectors following recommendations from SciTools/cartopy#1179
-U_source_crs = U / np.cos(U["lat"] / 180. * np.pi)
+U_source_crs = U / np.cos(U["lat"] / 180.0 * np.pi)
 V_source_crs = V
 magnitude = np.sqrt(U**2 + V**2)
 magnitude_source_crs = np.sqrt(U_source_crs**2 + V_source_crs**2)
@@ -63,10 +63,9 @@ ax.add_feature(land_110m, facecolor='none', edgecolor='gray')
 gv.set_map_boundary(ax, [-180, 180], [60, 90], south_pad=1)
 
 # Set draw_labels to False to manually set labels later
-gl = ax.gridlines(ccrs.PlateCarree(),
-                  draw_labels=False,
-                  linestyle=(0, (4, 10)),
-                  color='black')
+gl = ax.gridlines(
+    ccrs.PlateCarree(), draw_labels=False, linestyle=(0, (4, 10)), color='black'
+)
 
 # Manipulate latitude and longitude gridline numbers and spacing
 gl.ylocator = mticker.FixedLocator(np.arange(60, 90, 15))
@@ -82,86 +81,102 @@ yticks = np.full_like(xticks, 58)  # Latitude of the labels
 
 for xtick, ytick, label in zip(xticks, yticks, labels):
     if label == '180':
-        ax.text(xtick,
-                ytick,
-                label,
-                fontsize=13,
-                horizontalalignment='center',
-                verticalalignment='top',
-                transform=ccrs.PlateCarree())
+        ax.text(
+            xtick,
+            ytick,
+            label,
+            fontsize=13,
+            horizontalalignment='center',
+            verticalalignment='top',
+            transform=ccrs.PlateCarree(),
+        )
     elif label == '0':
-        ax.text(xtick,
-                ytick,
-                label,
-                fontsize=13,
-                horizontalalignment='center',
-                verticalalignment='bottom',
-                transform=ccrs.PlateCarree())
+        ax.text(
+            xtick,
+            ytick,
+            label,
+            fontsize=13,
+            horizontalalignment='center',
+            verticalalignment='bottom',
+            transform=ccrs.PlateCarree(),
+        )
     else:
-        ax.text(xtick,
-                ytick,
-                label,
-                fontsize=13,
-                horizontalalignment='center',
-                verticalalignment='center',
-                transform=ccrs.PlateCarree())
+        ax.text(
+            xtick,
+            ytick,
+            label,
+            fontsize=13,
+            horizontalalignment='center',
+            verticalalignment='center',
+            transform=ccrs.PlateCarree(),
+        )
 
 # Set contour levels
 levels = np.arange(249, 283, 3)
 
 # Contourf-plot T-data
-p = wrap_T.plot.contourf(ax=ax,
-                         alpha=0.85,
-                         transform=ccrs.PlateCarree(),
-                         levels=levels,
-                         cmap='viridis',
-                         add_labels=False,
-                         add_colorbar=False,
-                         zorder=3)
+p = wrap_T.plot.contourf(
+    ax=ax,
+    alpha=0.85,
+    transform=ccrs.PlateCarree(),
+    levels=levels,
+    cmap='viridis',
+    add_labels=False,
+    add_colorbar=False,
+    zorder=3,
+)
 
 # Draw vector plot
 # (there is no matplotlib equivalent to "CurlyVector" yet)
-Q = ax.quiver(wrap_U['lon'],
-              wrap_U['lat'],
-              wrap_U.data,
-              wrap_V.data,
-              zorder=4,
-              pivot="middle",
-              width=0.0025,
-              color='white',
-              transform=ccrs.PlateCarree(),
-              regrid_shape=20)
+Q = ax.quiver(
+    wrap_U['lon'],
+    wrap_U['lat'],
+    wrap_U.data,
+    wrap_V.data,
+    zorder=4,
+    pivot="middle",
+    width=0.0025,
+    color='white',
+    transform=ccrs.PlateCarree(),
+    regrid_shape=20,
+)
 
-plt.quiverkey(Q,
-              X=0.7,
-              Y=0.2,
-              U=40,
-              label=r'$40\: \frac{m}{s}$',
-              labelpos='E',
-              coordinates='figure',
-              color='black',
-              fontproperties={'size': 12})
+plt.quiverkey(
+    Q,
+    X=0.7,
+    Y=0.2,
+    U=40,
+    label=r'$40\: \frac{m}{s}$',
+    labelpos='E',
+    coordinates='figure',
+    color='black',
+    fontproperties={'size': 12},
+)
 
 # Add colorbar
-clb = plt.colorbar(p,
-                   ax=ax,
-                   pad=0.12,
-                   shrink=0.85,
-                   aspect=9,
-                   ticks=levels,
-                   extendrect=True,
-                   extendfrac='auto',
-                   orientation='horizontal')
+clb = plt.colorbar(
+    p,
+    ax=ax,
+    pad=0.12,
+    shrink=0.85,
+    aspect=9,
+    ticks=levels,
+    extendrect=True,
+    extendfrac='auto',
+    orientation='horizontal',
+)
 
 # Set colorbar ticks
 clb.ax.xaxis.set_tick_params(length=0, labelsize=13, pad=9)
 
 # Use geocat.viz.util convenience function to add left and right titles
-gv.set_titles_and_labels(ax,
-                         lefttitle="Surface temperature",
-                         righttitle="K",
-                         lefttitlefontsize=16,
-                         righttitlefontsize=16)
+gv.set_titles_and_labels(
+    ax,
+    lefttitle="Surface temperature",
+    righttitle="K",
+    lefttitlefontsize=16,
+    righttitlefontsize=16,
+)
 
 # Show the plot
 plt.tight_layout()

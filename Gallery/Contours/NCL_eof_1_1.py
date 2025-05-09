@@ -43,10 +43,10 @@ from geocat.comp import eofunc_eofs, eofunc_pcs, month_to_season
 # User defined parameters and a convenience function:
 
 # In order to specify region of the globe, time span, etc.
-latS = 25.
-latN = 80.
-lonL = -70.
-lonR = 40.
+latS = 25.0
+latN = 80.0
+lonL = -70.0
+lonR = 40.0
 
 yearStart = 1979
 yearEnd = 2003
@@ -161,20 +161,19 @@ def make_contour_plot(ax, dataset):
     v = np.linspace(-0.08, 0.08, 9, endpoint=True)
 
     # The function contourf() produces fill colors, and contour() calculates contour label locations.
-    cplot = ax.contourf(lon,
-                        lat,
-                        values,
-                        levels=v,
-                        cmap=cmap,
-                        extend="both",
-                        transform=ccrs.PlateCarree())
+    cplot = ax.contourf(
+        lon,
+        lat,
+        values,
+        levels=v,
+        cmap=cmap,
+        extend="both",
+        transform=ccrs.PlateCarree(),
+    )
 
-    p = ax.contour(lon,
-                   lat,
-                   values,
-                   levels=v,
-                   linewidths=0.0,
-                   transform=ccrs.PlateCarree())
+    p = ax.contour(
+        lon, lat, values, levels=v, linewidths=0.0, transform=ccrs.PlateCarree()
+    )
 
     # Label the contours
     ax.clabel(p, fontsize=8, fmt="%0.2f", colors="black")
@@ -183,15 +182,10 @@ def make_contour_plot(ax, dataset):
     ax.coastlines(linewidth=0.5)
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gv.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=4,
-                             labelsize=10)
+    gv.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4, labelsize=10)
 
     # Use geocat.viz.util convenience function to set axes tick values
-    gv.set_axes_limits_and_ticks(ax,
-                                 xticks=[-60, -30, 0, 30],
-                                 yticks=[40, 60, 80])
+    gv.set_axes_limits_and_ticks(ax, xticks=[-60, -30, 0, 30], yticks=[40, 60, 80])
 
     # Use geocat.viz.util convenience function to make plots look like NCL plots, using latitude & longitude tick labels
     gv.add_lat_lon_ticklabels(ax)
@@ -203,10 +197,9 @@ def make_contour_plot(ax, dataset):
 # Plot (1): Draw a contour plot for each EOF
 
 # Generate figure and axes using Cartopy projection  and set figure size (width, height) in inches
-fig, axs = plt.subplots(neof,
-                        1,
-                        subplot_kw={"projection": ccrs.PlateCarree()},
-                        figsize=(6, 10.6))
+fig, axs = plt.subplots(
+    neof, 1, subplot_kw={"projection": ccrs.PlateCarree()}, figsize=(6, 10.6)
+)
 
 # Add multiple axes to the figure as contour and contourf plots
 for i in range(neof):
@@ -217,24 +210,28 @@ for i in range(neof):
 
     # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
     pct = eofs.attrs['varianceFraction'].values[i] * 100
-    gv.set_titles_and_labels(axs[i],
-                             lefttitle=f'EOF {i + 1}',
-                             lefttitlefontsize=10,
-                             righttitle=f'{pct:.1f}%',
-                             righttitlefontsize=10)
+    gv.set_titles_and_labels(
+        axs[i],
+        lefttitle=f'EOF {i + 1}',
+        lefttitlefontsize=10,
+        righttitle=f'{pct:.1f}%',
+        righttitlefontsize=10,
+    )
 
 # Adjust subplot spacings and locations
 plt.subplots_adjust(bottom=0.07, top=0.95, hspace=0.15)
 
 # Add horizontal colorbar
-cbar = plt.colorbar(cplot,
-                    ax=axs,
-                    orientation='horizontal',
-                    shrink=0.9,
-                    pad=0.05,
-                    fraction=.02,
-                    extendrect=True,
-                    extendfrac='auto')
+cbar = plt.colorbar(
+    cplot,
+    ax=axs,
+    orientation='horizontal',
+    shrink=0.9,
+    pad=0.05,
+    fraction=0.02,
+    extendrect=True,
+    extendfrac='auto',
+)
 cbar.ax.tick_params(labelsize=8)
 
 # Set a common title
@@ -254,24 +251,16 @@ def make_bar_plot(ax, dataset):
     values = list(dataset.values)
     colors = ['blue' if val < 0 else 'red' for val in values]
 
-    ax.bar(years,
-           values,
-           color=colors,
-           width=1.0,
-           edgecolor='black',
-           linewidth=0.5)
+    ax.bar(years, values, color=colors, width=1.0, edgecolor='black', linewidth=0.5)
     ax.set_ylabel('Pa')
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gv.add_major_minor_ticks(ax,
-                             x_minor_per_major=4,
-                             y_minor_per_major=5,
-                             labelsize=8)
+    gv.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5, labelsize=8)
 
     # Use geocat.viz.util convenience function to set axes tick values
-    gv.set_axes_limits_and_ticks(ax,
-                                 xticks=np.linspace(1980, 2000, 6),
-                                 xlim=[1978.5, 2003.5])
+    gv.set_axes_limits_and_ticks(
+        ax, xticks=np.linspace(1980, 2000, 6), xlim=[1978.5, 2003.5]
+    )
 
     return ax
 
@@ -288,11 +277,13 @@ for i in range(neof):
 
     axs[i] = make_bar_plot(axs[i], eof_single)
     pct = eofs.attrs['varianceFraction'].values[i] * 100
-    gv.set_titles_and_labels(axs[i],
-                             lefttitle=f'EOF {i + 1}',
-                             lefttitlefontsize=10,
-                             righttitle=f'{pct:.1f}%',
-                             righttitlefontsize=10)
+    gv.set_titles_and_labels(
+        axs[i],
+        lefttitle=f'EOF {i + 1}',
+        lefttitlefontsize=10,
+        righttitle=f'{pct:.1f}%',
+        righttitlefontsize=10,
+    )
 
 # Set a common title
 axs[0].set_title(f'SLP: DJF: {yearStart}-{yearEnd}', fontsize=14, y=1.12)

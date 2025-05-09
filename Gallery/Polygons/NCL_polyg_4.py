@@ -45,7 +45,6 @@ ds = xr.open_dataset(gdf.get("netcdf_files/uv300.nc")).isel(time=1)
 # Define a utility function to create the basic contour plot, which will get used twice to create two slightly
 # different plots
 def make_base_plot():
-
     # Generate axes using Cartopy projection
     ax = plt.axes(projection=ccrs.PlateCarree())
 
@@ -105,7 +104,8 @@ def make_base_plot():
         colors="black",
         fmt="%.0f",  # Turn off decimal points
         manual=label_locations,  # Manual label locations
-        inline=False)  # Don't remove the contour line where labels are located.
+        inline=False,
+    )  # Don't remove the contour line where labels are located.
 
     # Create a rectangle patch, to color the border of the rectangle a different color.
     # Specify the rectangle as a corner point with width and height, to help place border text more easily.
@@ -122,7 +122,8 @@ def make_base_plot():
         fill=False,
         zorder=3,  # Plot on top of the purple box border.
         edgecolor='red',
-        alpha=0.5)  # Lower color intensity.
+        alpha=0.5,
+    )  # Lower color intensity.
     ax.add_patch(p)
 
     # Draw text labels around the box.
@@ -130,18 +131,18 @@ def make_base_plot():
     # Create "text_args" to keep from repeating code when drawing text.
     text_shared_args = dict(
         fontsize=8,
-        bbox=dict(boxstyle='square, pad=0',
-                  facecolor='white',
-                  edgecolor='white'),
+        bbox=dict(boxstyle='square, pad=0', facecolor='white', edgecolor='white'),
     )
 
     # Draw top text
-    ax.text(left + 0.6 * width,
-            top,
-            'test',
-            horizontalalignment='right',
-            verticalalignment='center',
-            **text_shared_args)
+    ax.text(
+        left + 0.6 * width,
+        top,
+        'test',
+        horizontalalignment='right',
+        verticalalignment='center',
+        **text_shared_args,
+    )
 
     # Draw bottom text.   Change text background to match the map.
     ax.text(
@@ -151,47 +152,53 @@ def make_base_plot():
         horizontalalignment='right',
         verticalalignment='center',
         fontsize=8,
-        bbox=dict(boxstyle='square, pad=0',
-                  facecolor='lightgrey',
-                  edgecolor='lightgrey'),
+        bbox=dict(
+            boxstyle='square, pad=0', facecolor='lightgrey', edgecolor='lightgrey'
+        ),
     )
 
     # Draw left text
-    ax.text(left,
-            top,
-            'test',
-            horizontalalignment='center',
-            verticalalignment='top',
-            rotation=90,
-            **text_shared_args)
+    ax.text(
+        left,
+        top,
+        'test',
+        horizontalalignment='center',
+        verticalalignment='top',
+        rotation=90,
+        **text_shared_args,
+    )
 
     # Draw right text
-    ax.text(right,
-            bottom,
-            'test',
-            horizontalalignment='center',
-            verticalalignment='bottom',
-            rotation=-90,
-            **text_shared_args)
+    ax.text(
+        right,
+        bottom,
+        'test',
+        horizontalalignment='center',
+        verticalalignment='bottom',
+        rotation=-90,
+        **text_shared_args,
+    )
 
     # Add lower text box.  Box appears off-center, but this is to leave room
     # for lower-case letters that drop lower.
-    ax.text(1.0,
-            -0.20,
-            "CONTOUR FROM -12 TO 40 BY 4",
-            fontname='Helvetica',
-            horizontalalignment='right',
-            transform=ax.transAxes,
-            bbox=dict(boxstyle='square, pad=0.15',
-                      facecolor='white',
-                      edgecolor='black'))
+    ax.text(
+        1.0,
+        -0.20,
+        "CONTOUR FROM -12 TO 40 BY 4",
+        fontname='Helvetica',
+        horizontalalignment='right',
+        transform=ax.transAxes,
+        bbox=dict(boxstyle='square, pad=0.15', facecolor='white', edgecolor='black'),
+    )
 
     # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
-    gv.set_titles_and_labels(ax,
-                             lefttitle="Zonal Wind",
-                             lefttitlefontsize=12,
-                             righttitle="m/s",
-                             righttitlefontsize=12)
+    gv.set_titles_and_labels(
+        ax,
+        lefttitle="Zonal Wind",
+        lefttitlefontsize=12,
+        righttitle="m/s",
+        righttitlefontsize=12,
+    )
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
     gv.add_major_minor_ticks(ax, y_minor_per_major=4)
@@ -228,12 +235,11 @@ def draw_hatch_polygon(xvals, yvals, hatchcolor, hatchpattern):
         xvals,
         yvals,
         edgecolor=hatchcolor,
-        zorder=
-        -1,  # Place underneath contour map (larger zorder is closer to viewer).
+        zorder=-1,  # Place underneath contour map (larger zorder is closer to viewer).
         fill=False,
         linewidth=0.5,
         hatch=hatchpattern,
-        alpha=0.3  # Reduce color intensity
+        alpha=0.3,  # Reduce color intensity
     )
 
     # Hatch color and polygon edge color are tied together, so we have to draw a white polygon edge
@@ -242,10 +248,9 @@ def draw_hatch_polygon(xvals, yvals, hatchcolor, hatchpattern):
         xvals,
         yvals,
         edgecolor='white',
-        zorder=
-        0,  # Place on top of other polygon (larger zorder is closer to viewer).
+        zorder=0,  # Place on top of other polygon (larger zorder is closer to viewer).
         fill=False,
-        linewidth=1  # Slightly larger linewidth removes ghost edges.
+        linewidth=1,  # Slightly larger linewidth removes ghost edges.
     )
 
 
@@ -272,7 +277,7 @@ ax.fill(
     fill=False,
     hatch='...',  # Adding more or fewer dots to '...' will change hatch density.
     linewidth=0.5,  # Make each dot smaller
-    alpha=0.2  # Make hatch semi-transparent using alpha level in range [0, 1].
+    alpha=0.2,  # Make hatch semi-transparent using alpha level in range [0, 1].
 )
 
 # Draw some triangles with various hatch pattern densities.

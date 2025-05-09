@@ -31,24 +31,25 @@ import geocat.viz as gv
 nlat = 2160
 nlon = 4320
 
-elevation_data = np.fromfile(gdf.get("binary_files/ETOPO5.DAT"),
-                             dtype='>i2').reshape((nlat, nlon))
+elevation_data = np.fromfile(gdf.get("binary_files/ETOPO5.DAT"), dtype='>i2').reshape(
+    (nlat, nlon)
+)
 
 # Create numpy arrays for latitude and longitude
 lat = np.linspace(90, -90, nlat)
 lon = np.linspace(0, 360, nlon)
 
 # Create an xarray DataArray
-da = xr.DataArray(data=elevation_data,
-                  dims=["lat", "lon"],
-                  coords=dict(lat=(["lat"], lat, {
-                      "long_name": "latitude"
-                  }),
-                              lon=(["lon"], lon, {
-                                  "long_name": "longitude"
-                              })),
-                  name="elevation",
-                  attrs={"units": "m"})
+da = xr.DataArray(
+    data=elevation_data,
+    dims=["lat", "lon"],
+    coords=dict(
+        lat=(["lat"], lat, {"long_name": "latitude"}),
+        lon=(["lon"], lon, {"long_name": "longitude"}),
+    ),
+    name="elevation",
+    attrs={"units": "m"},
+)
 
 ###############################################################################
 # Plot
@@ -64,16 +65,15 @@ ax = plt.axes(projection=projection)
 ax.coastlines(zorder=10)
 
 # Plot the elevation data
-elev = da.plot.imshow(ax=ax,
-                      transform=projection,
-                      cmap=cmaps.GMT_relief,
-                      add_colorbar=False)
+elev = da.plot.imshow(
+    ax=ax, transform=projection, cmap=cmaps.GMT_relief, add_colorbar=False
+)
 
 # Add colorbar
 cbar = plt.colorbar(ax=ax, mappable=elev, orientation='horizontal', pad=0.1)
 cbar.ax.tick_params(
-    size=0,
-    labelsize=14)  # Remove the tick marks from the colorbar, set label size
+    size=0, labelsize=14
+)  # Remove the tick marks from the colorbar, set label size
 cbar.ax.xaxis.set_tick_params(pad=10)
 
 # Use geocat-viz utility function to format major and minor tick marks
@@ -85,11 +85,13 @@ plt.xlabel("")
 plt.ylabel("")
 
 # Use geocat-viz utility function to format x and y tick labels
-gv.set_axes_limits_and_ticks(ax,
-                             xlim=[-180, 180],
-                             ylim=[-90, 90],
-                             xticks=np.arange(-180, 181, 30),
-                             yticks=np.arange(-90, 91, 30))
+gv.set_axes_limits_and_ticks(
+    ax,
+    xlim=[-180, 180],
+    ylim=[-90, 90],
+    xticks=np.arange(-180, 181, 30),
+    yticks=np.arange(-90, 91, 30),
+)
 
 # Use geocat-viz utility function to add lat/lon formatting for tick labels
 gv.add_lat_lon_ticklabels(ax)

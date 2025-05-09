@@ -55,31 +55,31 @@ x2 = np.linspace(-90, 50, 8)  # The ending x values for the shaded regions
 y = [1050, 100]  # The range of y values that the shaded regions should cover
 
 for i in range(0, 8):
-    skew.shade_area(y=y,
-                    x1=x1[i],
-                    x2=x2[i],
-                    color='limegreen',
-                    alpha=0.25,
-                    zorder=1)
+    skew.shade_area(y=y, x1=x1[i], x2=x2[i], color='limegreen', alpha=0.25, zorder=1)
 
 skew.plot(p, tc, 'black')
 skew.plot(p, tdc, 'blue')
 # Plot only every third windbarb
-skew.plot_barbs(pressure=p[::3],
-                u=u[::3],
-                v=v[::3],
-                xloc=1.05,
-                fill_empty=True,
-                sizes=dict(emptybarb=0.075, width=0.1, height=0.2))
+skew.plot_barbs(
+    pressure=p[::3],
+    u=u[::3],
+    v=v[::3],
+    xloc=1.05,
+    fill_empty=True,
+    sizes=dict(emptybarb=0.075, width=0.1, height=0.2),
+)
 
 # Draw line underneath wind barbs
-line = mlines.Line2D([1.05, 1.05], [0, 1],
-                     color='gray',
-                     linewidth=0.5,
-                     transform=ax.transAxes,
-                     dash_joinstyle='round',
-                     clip_on=False,
-                     zorder=0)
+line = mlines.Line2D(
+    [1.05, 1.05],
+    [0, 1],
+    color='gray',
+    linewidth=0.5,
+    transform=ax.transAxes,
+    dash_joinstyle='round',
+    clip_on=False,
+    zorder=0,
+)
 ax.add_line(line)
 
 # Add relevant special lines
@@ -89,10 +89,7 @@ skew.plot_dry_adiabats(t0=t0, linestyles='solid', colors='gray', linewidth=1.5)
 
 # Choose temperatures for moist adiabats
 t0 = units.K * np.arange(281.15, 306.15, 4)
-msa = skew.plot_moist_adiabats(t0=t0,
-                               linestyles='solid',
-                               colors='lime',
-                               linewidths=1.5)
+msa = skew.plot_moist_adiabats(t0=t0, linestyles='solid', colors='lime', linewidths=1.5)
 
 # Choose mixing ratios
 w = np.array([0.001, 0.002, 0.003, 0.005, 0.008, 0.012, 0.020]).reshape(-1, 1)
@@ -107,17 +104,11 @@ gv.set_titles_and_labels(ax, maintitle="ATS Rawinsonde: degC + Thin wind")
 
 # Set axes limits and ticks
 gv.set_axes_limits_and_ticks(
-    ax=ax,
-    xlim=[-30, 50],
-    yticks=[1000, 850, 700, 500, 400, 300, 250, 200, 150, 100])
+    ax=ax, xlim=[-30, 50], yticks=[1000, 850, 700, 500, 400, 300, 250, 200, 150, 100]
+)
 
 # Change the style of the gridlines
-plt.grid(True,
-         which='major',
-         axis='both',
-         color='tan',
-         linewidth=1.5,
-         alpha=0.5)
+plt.grid(True, which='major', axis='both', color='tan', linewidth=1.5, alpha=0.5)
 plt.xlabel("Temperature (C)")
 plt.ylabel("P (hPa)")
 plt.show()

@@ -50,14 +50,16 @@ ax.set_global()
 # Stream-plot the data
 # There is no Xarray streamplot function, yet. So need to call matplotlib.streamplot directly. Not sure why, but can't
 # pass xarray.DataArray objects directly: fetch NumPy arrays via 'data' attribute'
-ax.streamplot(U.lon.data,
-              U.lat.data,
-              U.data,
-              V.data,
-              linewidth=1,
-              density=4,
-              color='black',
-              zorder=1)
+ax.streamplot(
+    U.lon.data,
+    U.lat.data,
+    U.data,
+    V.data,
+    linewidth=1,
+    density=4,
+    color='black',
+    zorder=1,
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gv.add_major_minor_ticks(ax, labelsize=16)
@@ -66,23 +68,25 @@ gv.add_major_minor_ticks(ax, labelsize=16)
 gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat.viz.util convenience function to set axes tick values without calling two different matplotlib functions
-gv.set_axes_limits_and_ticks(ax,
-                             xticks=np.linspace(-180, 180, 13),
-                             yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(
+    ax, xticks=np.linspace(-180, 180, 13), yticks=np.linspace(-90, 90, 7)
+)
 
 # Draw filled polygons for land
 ax.add_feature(cfeature.LAND, zorder=0, edgecolor='black', color='lightgray')
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gv.set_titles_and_labels(ax,
-                         maintitle="Example of a streamline plot",
-                         maintitlefontsize=22,
-                         lefttitle=U.long_name,
-                         lefttitlefontsize=18,
-                         righttitle=U.units,
-                         righttitlefontsize=18,
-                         xlabel="",
-                         ylabel="")
+gv.set_titles_and_labels(
+    ax,
+    maintitle="Example of a streamline plot",
+    maintitlefontsize=22,
+    lefttitle=U.long_name,
+    lefttitlefontsize=18,
+    righttitle=U.units,
+    righttitlefontsize=18,
+    xlabel="",
+    ylabel="",
+)
 
 # Show the plot
 plt.tight_layout()

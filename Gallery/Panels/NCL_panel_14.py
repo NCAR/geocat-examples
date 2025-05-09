@@ -29,8 +29,7 @@ import geocat.viz as gv
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"),
-                     decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"), decode_times=False)
 # Ensure longitudes range from 0 to 360 degrees
 T = gv.xr_add_cyclic_longitudes(ds.T, "lon_t")
 
@@ -68,26 +67,24 @@ ax1.xaxis.tick_top()
 ax2.xaxis.tick_top()
 
 # Use geocat.viz.util convenience function to add minor and major ticks
-gv.add_major_minor_ticks(ax1,
-                         x_minor_per_major=4,
-                         y_minor_per_major=5,
-                         labelsize=14)
-gv.add_major_minor_ticks(ax2,
-                         x_minor_per_major=4,
-                         y_minor_per_major=5,
-                         labelsize=14)
+gv.add_major_minor_ticks(ax1, x_minor_per_major=4, y_minor_per_major=5, labelsize=14)
+gv.add_major_minor_ticks(ax2, x_minor_per_major=4, y_minor_per_major=5, labelsize=14)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(ax=ax1,
-                             xlim=(0, 24),
-                             ylim=(500000, 0),
-                             xticks=np.arange(0, 28, 4),
-                             yticks=np.arange(0, 600000, 100000))
-gv.set_axes_limits_and_ticks(ax=ax2,
-                             xlim=(0, 21),
-                             ylim=(500000, 0),
-                             xticks=np.arange(0, 24, 3),
-                             yticks=np.arange(0, 600000, 100000))
+gv.set_axes_limits_and_ticks(
+    ax=ax1,
+    xlim=(0, 24),
+    ylim=(500000, 0),
+    xticks=np.arange(0, 28, 4),
+    yticks=np.arange(0, 600000, 100000),
+)
+gv.set_axes_limits_and_ticks(
+    ax=ax2,
+    xlim=(0, 21),
+    ylim=(500000, 0),
+    xticks=np.arange(0, 24, 3),
+    yticks=np.arange(0, 600000, 100000),
+)
 
 # Remove ticklabels on Y axis for panel 2 (ax2)
 ax2.yaxis.set_ticklabels([])
@@ -107,18 +104,14 @@ levels = np.arange(0, 28, 2)
 newcmp = cmaps.BlAqGrYeOrRe
 
 # Panel 3: Contourf-plot data
-T3.plot.contourf(ax=ax3,
-                 levels=levels,
-                 cmap=newcmp,
-                 add_colorbar=False,
-                 add_labels=False)
+T3.plot.contourf(
+    ax=ax3, levels=levels, cmap=newcmp, add_colorbar=False, add_labels=False
+)
 
 # Panel 4: Contourf-plot data
-colors = T4.plot.contourf(ax=ax4,
-                          levels=levels,
-                          cmap=newcmp,
-                          add_colorbar=False,
-                          add_labels=False)
+colors = T4.plot.contourf(
+    ax=ax4, levels=levels, cmap=newcmp, add_colorbar=False, add_labels=False
+)
 
 
 # Define functions for axis scales
@@ -164,24 +157,28 @@ for axes in [ax3, ax4]:
     axes.set_ylim(axes.get_ylim()[::-1])
 
     # Set ticks to match styles of the original NCL plot
-    axes.tick_params("both",
-                     length=8,
-                     width=0.9,
-                     which="major",
-                     bottom=True,
-                     top=True,
-                     left=True,
-                     right=True,
-                     labelsize=14)
-    axes.tick_params("both",
-                     length=4,
-                     width=0.4,
-                     which="minor",
-                     bottom=True,
-                     top=True,
-                     left=True,
-                     right=True,
-                     labelsize=14)
+    axes.tick_params(
+        "both",
+        length=8,
+        width=0.9,
+        which="major",
+        bottom=True,
+        top=True,
+        left=True,
+        right=True,
+        labelsize=14,
+    )
+    axes.tick_params(
+        "both",
+        length=4,
+        width=0.4,
+        which="minor",
+        bottom=True,
+        top=True,
+        left=True,
+        right=True,
+        labelsize=14,
+    )
 
 # Remove ticklabels on Y axis for panel 4
 ax4.yaxis.set_ticklabels([])
@@ -191,16 +188,18 @@ ax4.yaxis.set_ticklabels([])
 gv.set_titles_and_labels(ax3, ylabel=T.z_t.long_name, labelfontsize=16)
 
 # Add colorbar
-cb = fig.colorbar(colors,
-                  ax=[ax1, ax2, ax3, ax4],
-                  orientation='horizontal',
-                  drawedges=True,
-                  extendrect=True,
-                  aspect=30,
-                  shrink=0.9,
-                  extendfrac='auto',
-                  pad=0.02,
-                  ticks=levels)
+cb = fig.colorbar(
+    colors,
+    ax=[ax1, ax2, ax3, ax4],
+    orientation='horizontal',
+    drawedges=True,
+    extendrect=True,
+    aspect=30,
+    shrink=0.9,
+    extendfrac='auto',
+    pad=0.02,
+    ticks=levels,
+)
 
 # Set colorbar ticklabel fontsize and tick length
 cb.ax.tick_params(labelsize=14, length=0)

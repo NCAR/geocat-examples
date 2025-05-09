@@ -53,13 +53,15 @@ for i in range(4):
 
     # Add models case by case
     for j in range(stddev.shape[0]):
-        da.add_model_set(stddev[j],
-                         corrcoef[j],
-                         xytext=(-4, 5),
-                         fontsize=10,
-                         color=colors[j],
-                         label=labels[j],
-                         marker='o')
+        da.add_model_set(
+            stddev[j],
+            corrcoef[j],
+            xytext=(-4, 5),
+            fontsize=10,
+            color=colors[j],
+            label=labels[j],
+            marker='o',
+        )
     # Add legend
     da.add_legend(1.1, 1.05, fontsize=9, zorder=10)
 

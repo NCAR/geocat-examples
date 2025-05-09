@@ -34,14 +34,13 @@ t = ds.TS.isel(time=0)
 wrap_t = gv.xr_add_cyclic_longitudes(t, "lon")
 
 ###############################################################################
-#Plot:
+# Plot:
 
 # Generate figure (set its size (width, height) in inches)
 fig = plt.figure(figsize=(10, 10))
 
 # Generate axes using Cartopy and draw coastlines with
-ax = plt.axes(
-    projection=ccrs.Orthographic(central_longitude=-120, central_latitude=50))
+ax = plt.axes(projection=ccrs.Orthographic(central_longitude=-120, central_latitude=50))
 
 # Set extent to include latitudes between 0 and 90, and longitude between
 # 0 and -180 only
@@ -50,28 +49,30 @@ ax.set_global()
 ax.coastlines(linewidths=0.5)
 
 # Plot data and add a colorbar
-temp = wrap_t.plot.contourf(ax=ax,
-                            transform=ccrs.PlateCarree(),
-                            levels=11,
-                            cmap='coolwarm',
-                            add_colorbar=False)
+temp = wrap_t.plot.contourf(
+    ax=ax, transform=ccrs.PlateCarree(), levels=11, cmap='coolwarm', add_colorbar=False
+)
 
 cbar_ticks = np.arange(210, 311, 10)
-cbar = plt.colorbar(temp,
-                    orientation='horizontal',
-                    shrink=0.75,
-                    pad=0.05,
-                    extendrect=True,
-                    ticks=cbar_ticks)
+cbar = plt.colorbar(
+    temp,
+    orientation='horizontal',
+    shrink=0.75,
+    pad=0.05,
+    extendrect=True,
+    ticks=cbar_ticks,
+)
 
 cbar.ax.tick_params(labelsize=10)
 
 # Use geocat.viz.util convenience function to add titles to left and right
 # of the plot axis.
-gv.set_titles_and_labels(ax,
-                         maintitle="Example of Orthogonal Projection",
-                         lefttitle="Surface Temperature",
-                         righttitle="K")
+gv.set_titles_and_labels(
+    ax,
+    maintitle="Example of Orthogonal Projection",
+    lefttitle="Surface Temperature",
+    righttitle="K",
+)
 
 # Show the plot
 plt.show()

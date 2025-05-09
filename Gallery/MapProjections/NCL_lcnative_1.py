@@ -35,8 +35,7 @@ import geocat.datafiles as gdf
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/pre.8912.mon.nc"),
-                     decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/pre.8912.mon.nc"), decode_times=False)
 
 # Extract a slice of the data
 t = ds.pre.isel(time=0)
@@ -68,10 +67,7 @@ def Plot(row, col, pos, proj, title):
     ax.coastlines(linewidth=0.5)
 
     # Use ax "gridlines" function to draw lat/lon markers on projections
-    gl = ax.gridlines(draw_labels=True,
-                      dms=False,
-                      x_inline=False,
-                      y_inline=False)
+    gl = ax.gridlines(draw_labels=True, dms=False, x_inline=False, y_inline=False)
     gl.top_labels = True
     gl.right_labels = True
     gl.xlines = False
@@ -98,18 +94,18 @@ def Plot(row, col, pos, proj, title):
     """
 
     # Plot data and create colorbar
-    prec = t.plot.contourf(ax=ax,
-                           cmap="Blues_r",
-                           transform=ccrs.PlateCarree(),
-                           levels=14,
-                           add_colorbar=False)
+    prec = t.plot.contourf(
+        ax=ax,
+        cmap="Blues_r",
+        transform=ccrs.PlateCarree(),
+        levels=14,
+        add_colorbar=False,
+    )
 
     cbar_ticks = np.arange(0, 240, 20)
-    cbar = plt.colorbar(prec,
-                        orientation='horizontal',
-                        pad=0.075,
-                        shrink=0.8,
-                        ticks=cbar_ticks)
+    cbar = plt.colorbar(
+        prec, orientation='horizontal', pad=0.075, shrink=0.8, ticks=cbar_ticks
+    )
 
     cbar.ax.tick_params(labelsize=10)
     plt.title(title, loc='center', y=1.17, size=15)
@@ -118,11 +114,13 @@ def Plot(row, col, pos, proj, title):
 
 
 Plot(
-    2, 2, 1,
-    ccrs.LambertConformal(central_longitude=45,
-                          standard_parallels=(36, 55),
-                          globe=ccrs.Globe()), "Lambert Conformal")
-Plot(2, 2, 2, ccrs.LambertCylindrical(central_longitude=45),
-     "Lambert Cylindrical")
-Plot(2, 2, 3, ccrs.LambertAzimuthalEqualArea(central_longitude=45),
-     "Lambert Azimuthal")
+    2,
+    2,
+    1,
+    ccrs.LambertConformal(
+        central_longitude=45, standard_parallels=(36, 55), globe=ccrs.Globe()
+    ),
+    "Lambert Conformal",
+)
+Plot(2, 2, 2, ccrs.LambertCylindrical(central_longitude=45), "Lambert Cylindrical")
+Plot(2, 2, 3, ccrs.LambertAzimuthalEqualArea(central_longitude=45), "Lambert Azimuthal")

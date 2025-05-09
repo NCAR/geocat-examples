@@ -39,8 +39,9 @@ import cmaps
 # Read in data
 
 # Read in the dataset
-wrfin = Dataset(gdf.get("netcdf_files/wrfout_d01_2003-07-15_00_00_00"),
-                decode_times=True)
+wrfin = Dataset(
+    gdf.get("netcdf_files/wrfout_d01_2003-07-15_00_00_00"), decode_times=True
+)
 
 # Read variables
 hgt = getvar(wrfin, "HGT")  # terrain height in m
@@ -63,14 +64,16 @@ shapefile = shpreader.Reader(gdf.get("shape_files/countyl010g.dbf"))
 
 # This print output resembles NCL printMinMax function
 print("------------------------------------------")
-print("{} ({}) : min={:.1f}    max={:.3f}".format(hgt.attrs['description'],
-                                                  hgt.attrs['units'],
-                                                  hgt.min().data,
-                                                  hgt.max().data))
-print("{} ({}) : min={:.1f}    max={:.3f}".format(dbz.attrs['description'],
-                                                  dbz.attrs['units'],
-                                                  dbz.min().data,
-                                                  dbz.max().data))
+print(
+    "{} ({}) : min={:.1f}    max={:.3f}".format(
+        hgt.attrs['description'], hgt.attrs['units'], hgt.min().data, hgt.max().data
+    )
+)
+print(
+    "{} ({}) : min={:.1f}    max={:.3f}".format(
+        dbz.attrs['description'], dbz.attrs['units'], dbz.min().data, dbz.max().data
+    )
+)
 
 ###############################################################################
 # Create plot
@@ -85,26 +88,29 @@ projection = ccrs.PlateCarree()
 ax = plt.axes([0.05, 0.22, 0.9, 0.7], projection=projection)
 
 # Create inset axes for color bars
-cax1 = inset_axes(ax,
-                  width='98%',
-                  height='10%',
-                  loc='lower left',
-                  bbox_to_anchor=(0.01, -0.25, 1, 1),
-                  bbox_transform=ax.transAxes,
-                  borderpad=0)
-cax2 = inset_axes(ax,
-                  width='6%',
-                  height='98%',
-                  loc='lower right',
-                  bbox_to_anchor=(0.08, 0.01, 1, 1),
-                  bbox_transform=ax.transAxes,
-                  borderpad=0)
+cax1 = inset_axes(
+    ax,
+    width='98%',
+    height='10%',
+    loc='lower left',
+    bbox_to_anchor=(0.01, -0.25, 1, 1),
+    bbox_transform=ax.transAxes,
+    borderpad=0,
+)
+cax2 = inset_axes(
+    ax,
+    width='6%',
+    height='98%',
+    loc='lower right',
+    bbox_to_anchor=(0.08, 0.01, 1, 1),
+    bbox_transform=ax.transAxes,
+    borderpad=0,
+)
 
 # Set latitude and longitude extent to zoom in on map
-ax.set_extent([lon.min().data,
-               lon.max().data,
-               lat.min().data,
-               lat.max().data], projection)
+ax.set_extent(
+    [lon.min().data, lon.max().data, lat.min().data, lat.max().data], projection
+)
 
 #
 # Add state and county borders
@@ -112,22 +118,21 @@ ax.set_extent([lon.min().data,
 
 # Add US states borders
 ax.add_feature(
-    cfeature.NaturalEarthFeature(category='cultural',
-                                 name='admin_1_states_provinces',
-                                 scale='10m',
-                                 facecolor='none',
-                                 edgecolor='black',
-                                 linewidth=0.2,
-                                 zorder=5))
+    cfeature.NaturalEarthFeature(
+        category='cultural',
+        name='admin_1_states_provinces',
+        scale='10m',
+        facecolor='none',
+        edgecolor='black',
+        linewidth=0.2,
+        zorder=5,
+    )
+)
 
 # Add US county borders
 counties = list(shapefile.geometries())
 COUNTIES = cfeature.ShapelyFeature(counties, ccrs.PlateCarree())
-ax.add_feature(COUNTIES,
-               facecolor='none',
-               edgecolor='black',
-               linewidth=0.2,
-               zorder=5)
+ax.add_feature(COUNTIES, facecolor='none', edgecolor='black', linewidth=0.2, zorder=5)
 
 #
 # Plot terrain height contour
@@ -140,19 +145,11 @@ cmap = cmaps.OceanLakeLandSnow
 levels = np.array([0, 1] + [i for i in range(201, 3202, 200)])
 
 # Contourf hgt data
-contour = ax.contourf(lon,
-                      lat,
-                      hgt.data,
-                      alpha=0.6,
-                      levels=levels,
-                      cmap=cmap,
-                      zorder=3)
+contour = ax.contourf(lon, lat, hgt.data, alpha=0.6, levels=levels, cmap=cmap, zorder=3)
 # Add first color bar
-clb = fig.colorbar(contour,
-                   cax=cax1,
-                   orientation='horizontal',
-                   ticks=levels[1:-1],
-                   drawedges=True)
+clb = fig.colorbar(
+    contour, cax=cax1, orientation='horizontal', ticks=levels[1:-1], drawedges=True
+)
 
 # Manually set color bar tick length and tick labels padding.
 clb.ax.xaxis.set_tick_params(length=0, pad=10)
@@ -168,12 +165,7 @@ clb.set_label("Terrain Height (m)", fontsize=16, labelpad=-90)
 levels = np.arange(-28, 41, 4)
 
 # Contourf dbz data
-contour2 = ax.contourf(lon,
-                       lat,
-                       dbz.data,
-                       cmap='magma',
-                       levels=levels,
-                       zorder=4)
+contour2 = ax.contourf(lon, lat, dbz.data, cmap='magma', levels=levels, zorder=4)
 
 # Set colormap and its bounds for the second contour
 cmap = plt.get_cmap('magma')
@@ -196,28 +188,26 @@ clb2.ax.set_yticklabels(levels, ha='center')
 # Set axes features (tick formats and main title)
 #
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.set_axes_limits_and_ticks(ax,
-                             xticks=np.arange(-105, -84, 5),
-                             yticks=np.arange(18, 35, 2))
+gv.set_axes_limits_and_ticks(
+    ax, xticks=np.arange(-105, -84, 5), yticks=np.arange(18, 35, 2)
+)
 
 # Use gv function to format latitude and longitude tick labels
 gv.add_lat_lon_ticklabels(ax)
 
 # Use gv function to add major and minor ticks
-gv.add_major_minor_ticks(ax,
-                         y_minor_per_major=1,
-                         x_minor_per_major=1,
-                         labelsize=16)
+gv.add_major_minor_ticks(ax, y_minor_per_major=1, x_minor_per_major=1, labelsize=16)
 
 # Set padding between tick labels and axes, and turn off ticks on top and right spines
 ax.tick_params(pad=9, top=False, right=False)
 
 # Set title and title fontsize
-ax.set_title("Reflectivity ({}) at znu level = {:.3f}".format(
-    dbz.attrs['units'], znu[1].data),
-             fontweight='bold',
-             fontsize=30,
-             y=1.03)
+ax.set_title(
+    "Reflectivity ({}) at znu level = {:.3f}".format(dbz.attrs['units'], znu[1].data),
+    fontweight='bold',
+    fontsize=30,
+    y=1.03,
+)
 
 # Show plot
 plt.show()

@@ -56,10 +56,7 @@ magnitude = np.sqrt(U.data**2 + V.data**2)
 
 # Create subplots and specify their projections
 projection = ccrs.PlateCarree()
-fig, axs = plt.subplots(2,
-                        1,
-                        figsize=(7, 10),
-                        subplot_kw={"projection": projection})
+fig, axs = plt.subplots(2, 1, figsize=(7, 10), subplot_kw={"projection": projection})
 plt.tight_layout(pad=4, h_pad=7)
 
 # Add coastlines, the zorder keyword specifies the order in which the elements
@@ -68,16 +65,20 @@ axs[0].coastlines(linewidth=0.5, zorder=1)
 axs[1].coastlines(linewidth=0.5, zorder=1)
 
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(axs[0],
-                             xlim=[-180, 180],
-                             ylim=[-90, 90],
-                             xticks=np.arange(-180, 181, 30),
-                             yticks=np.arange(-90, 91, 30))
-gv.set_axes_limits_and_ticks(axs[1],
-                             xlim=[-180, 180],
-                             ylim=[-90, 90],
-                             xticks=np.arange(-180, 181, 30),
-                             yticks=np.arange(-90, 91, 30))
+gv.set_axes_limits_and_ticks(
+    axs[0],
+    xlim=[-180, 180],
+    ylim=[-90, 90],
+    xticks=np.arange(-180, 181, 30),
+    yticks=np.arange(-90, 91, 30),
+)
+gv.set_axes_limits_and_ticks(
+    axs[1],
+    xlim=[-180, 180],
+    ylim=[-90, 90],
+    xticks=np.arange(-180, 181, 30),
+    yticks=np.arange(-90, 91, 30),
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gv.add_major_minor_ticks(axs[0])
@@ -94,16 +95,20 @@ axs[1].yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 axs[1].xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gv.set_titles_and_labels(axs[0],
-                         lefttitle='Speed',
-                         lefttitlefontsize=10,
-                         righttitle=U.units,
-                         righttitlefontsize=10)
-gv.set_titles_and_labels(axs[1],
-                         lefttitle='Wind',
-                         lefttitlefontsize=10,
-                         righttitle=U.units,
-                         righttitlefontsize=10)
+gv.set_titles_and_labels(
+    axs[0],
+    lefttitle='Speed',
+    lefttitlefontsize=10,
+    righttitle=U.units,
+    righttitlefontsize=10,
+)
+gv.set_titles_and_labels(
+    axs[1],
+    lefttitle='Wind',
+    lefttitlefontsize=10,
+    righttitle=U.units,
+    righttitlefontsize=10,
+)
 
 # Load in colormap
 newcmap = cmaps.gui_default
@@ -115,84 +120,84 @@ wind_levels = np.arange(-16, 44, 4)
 wind_ticks = np.arange(-12, 40, 4)
 
 # Plot filled contours
-speed = axs[0].contourf(U['lon'],
-                        U['lat'],
-                        magnitude,
-                        levels=speed_levels,
-                        cmap=newcmap,
-                        zorder=0)
-wind = axs[1].contourf(U['lon'],
-                       U['lat'],
-                       U.data,
-                       levels=wind_levels,
-                       cmap=newcmap,
-                       zorder=0)
+speed = axs[0].contourf(
+    U['lon'], U['lat'], magnitude, levels=speed_levels, cmap=newcmap, zorder=0
+)
+wind = axs[1].contourf(
+    U['lon'], U['lat'], U.data, levels=wind_levels, cmap=newcmap, zorder=0
+)
 
 # Create color bars
-speed_cbar = plt.colorbar(speed,
-                          ax=axs[0],
-                          orientation='horizontal',
-                          ticks=speed_ticks,
-                          shrink=0.8,
-                          drawedges=True,
-                          pad=0.1)
-plt.colorbar(wind,
-             ax=axs[1],
-             orientation='horizontal',
-             ticks=wind_ticks,
-             shrink=0.8,
-             drawedges=True,
-             pad=0.1)
+speed_cbar = plt.colorbar(
+    speed,
+    ax=axs[0],
+    orientation='horizontal',
+    ticks=speed_ticks,
+    shrink=0.8,
+    drawedges=True,
+    pad=0.1,
+)
+plt.colorbar(
+    wind,
+    ax=axs[1],
+    orientation='horizontal',
+    ticks=wind_ticks,
+    shrink=0.8,
+    drawedges=True,
+    pad=0.1,
+)
 # Remove trailing zeros from speed color bar tick labels
 speed_cbar.ax.xaxis.set_major_formatter(FormatStrFormatter('%g'))
 
 # Plotting vector field
-quiver_speed = axs[0].quiver(U['lon'],
-                             U['lat'],
-                             U.data,
-                             V.data,
-                             scale=400,
-                             width=0.002,
-                             headwidth=6,
-                             headlength=7,
-                             zorder=2)
-quiver_wind = axs[1].quiver(U['lon'],
-                            U['lat'],
-                            U.data,
-                            V.data,
-                            scale=400,
-                            width=0.002,
-                            headwidth=6,
-                            headlength=7,
-                            zorder=2)
+quiver_speed = axs[0].quiver(
+    U['lon'],
+    U['lat'],
+    U.data,
+    V.data,
+    scale=400,
+    width=0.002,
+    headwidth=6,
+    headlength=7,
+    zorder=2,
+)
+quiver_wind = axs[1].quiver(
+    U['lon'],
+    U['lat'],
+    U.data,
+    V.data,
+    scale=400,
+    width=0.002,
+    headwidth=6,
+    headlength=7,
+    zorder=2,
+)
 
 # Add white box to go behind reference vector
 axs[0].add_patch(
-    mpatches.Rectangle(xy=[0.775, 0],
-                       width=0.225,
-                       height=0.2,
-                       facecolor='white',
-                       transform=axs[0].transAxes,
-                       zorder=2))
+    mpatches.Rectangle(
+        xy=[0.775, 0],
+        width=0.225,
+        height=0.2,
+        facecolor='white',
+        transform=axs[0].transAxes,
+        zorder=2,
+    )
+)
 axs[1].add_patch(
-    mpatches.Rectangle(xy=[0.775, 0],
-                       width=0.225,
-                       height=0.2,
-                       facecolor='white',
-                       transform=axs[1].transAxes,
-                       zorder=2))
+    mpatches.Rectangle(
+        xy=[0.775, 0],
+        width=0.225,
+        height=0.2,
+        facecolor='white',
+        transform=axs[1].transAxes,
+        zorder=2,
+    )
+)
 # Add reference vector and label
 axs[0].quiverkey(quiver_speed, 0.8875, 0.1, 20, 20, zorder=2)
 axs[1].quiverkey(quiver_wind, 0.8875, 0.1, 20, 20, zorder=2)
-axs[0].text(0.785,
-            0.025,
-            "Reference Vector",
-            transform=axs[0].transAxes,
-            zorder=2)
-axs[1].text(0.785,
-            0.025,
-            "Reference Vector",
-            transform=axs[1].transAxes,
-            zorder=2)
+axs[0].text(0.785, 0.025, "Reference Vector", transform=axs[0].transAxes, zorder=2)
+axs[1].text(0.785, 0.025, "Reference Vector", transform=axs[1].transAxes, zorder=2)
 
 plt.show()

@@ -40,18 +40,13 @@ ps = ds.PS  # surface pressures in Pascals
 p0 = 100000  # surface reference pressure in Pascals
 
 # Specify output pressure levels
-new_levels = np.array([1000, 950, 800, 700, 600, 500, 400, 300,
-                       200])  # in millibars
+new_levels = np.array([1000, 950, 800, 700, 600, 500, 400, 300, 200])  # in millibars
 new_levels = new_levels * 100  # convert to Pascals
 
 # Interpolate pressure coordinates form hybrid sigma coord
-u_int = interp_hybrid_to_pressure(u,
-                                  ps[0, :, :],
-                                  hyam,
-                                  hybm,
-                                  p0=p0,
-                                  new_levels=new_levels,
-                                  method='log')
+u_int = interp_hybrid_to_pressure(
+    u, ps[0, :, :], hyam, hybm, p0=p0, new_levels=new_levels, method='log'
+)
 
 # Calculate zonal mean of u component of wind
 uzon = u_int.mean(dim='lon')
@@ -68,61 +63,68 @@ plt.yscale('log')
 ax.yaxis.set_major_formatter(ScalarFormatter())
 
 # Use geocat.viz.util convenience function to set axes parameters
-gv.set_axes_limits_and_ticks(ax,
-                             ylim=(20000, 100000),
-                             yticks=[100000, 70000, 50000, 30000],
-                             yticklabels=['1000', '700', '500', '300'],
-                             xticks=np.arange(-60, 90, 30),
-                             xticklabels=['60S', '30S', '0', '30N', '60N'])
+gv.set_axes_limits_and_ticks(
+    ax,
+    ylim=(20000, 100000),
+    yticks=[100000, 70000, 50000, 30000],
+    yticklabels=['1000', '700', '500', '300'],
+    xticks=np.arange(-60, 90, 30),
+    xticklabels=['60S', '30S', '0', '30N', '60N'],
+)
 
 # Us geocat.viz.util convenience function to add minor and major ticks
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=3,
-                         y_minor_per_major=0,
-                         labelsize=16)
+gv.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=0, labelsize=16)
 
 # Specify colormap
 newcmap = cmaps.ncl_default
 
 # Plot filed contours
-p = uzon.plot.contourf(ax=ax,
-                       levels=13,
-                       vmin=-8,
-                       vmax=40,
-                       cmap=newcmap,
-                       add_colorbar=False,
-                       add_labels=False)
+p = uzon.plot.contourf(
+    ax=ax,
+    levels=13,
+    vmin=-8,
+    vmax=40,
+    cmap=newcmap,
+    add_colorbar=False,
+    add_labels=False,
+)
 
 # Plot contour lines
-uzon.plot.contour(ax=ax,
-                  levels=13,
-                  vmin=-8,
-                  vmax=40,
-                  colors='black',
-                  linewidths=0.5,
-                  linestyles='solid',
-                  add_labels=False)
+uzon.plot.contour(
+    ax=ax,
+    levels=13,
+    vmin=-8,
+    vmax=40,
+    colors='black',
+    linewidths=0.5,
+    linestyles='solid',
+    add_labels=False,
+)
 
 # Create colorbar
-cbar = plt.colorbar(p,
-                    ax=ax,
-                    drawedges=True,
-                    extendrect=True,
-                    extendfrac='auto',
-                    ticks=np.arange(-8, 44, 4),
-                    orientation='horizontal',
-                    pad=0.075,
-                    aspect=11)
+cbar = plt.colorbar(
+    p,
+    ax=ax,
+    drawedges=True,
+    extendrect=True,
+    extendfrac='auto',
+    ticks=np.arange(-8, 44, 4),
+    orientation='horizontal',
+    pad=0.075,
+    aspect=11,
+)
 
 # Set colorbar tick label size
 cbar.ax.tick_params(labelsize=14)
 
 # Use geocat.vix convenience function to set titles and labels
-gv.set_titles_and_labels(ax,
-                         maintitle="Logarithmic axis",
-                         maintitlefontsize=18,
-                         lefttitle="Zonal Wind",
-                         lefttitlefontsize=16)
+gv.set_titles_and_labels(
+    ax,
+    maintitle="Logarithmic axis",
+    maintitlefontsize=18,
+    lefttitle="Zonal Wind",
+    lefttitlefontsize=16,
+)
 
 # Show plot
 plt.show()

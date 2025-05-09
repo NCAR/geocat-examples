@@ -66,17 +66,15 @@ ocean = mpatches.Rectangle((0, 0), 1, 1, facecolor="blue")
 labels = ['Land ', 'Lakes', 'Ocean']
 
 # Add a legend to plot
-plt.legend([land, lakes, ocean],
-           labels,
-           loc='lower center',
-           bbox_to_anchor=(0.5, -0.2),
-           ncol=3)
+plt.legend(
+    [land, lakes, ocean], labels, loc='lower center', bbox_to_anchor=(0.5, -0.2), ncol=3
+)
 
 # Use geocat.viz.util convenience function to set titles and labels without
 # calling several matplotlib functions
-gv.set_titles_and_labels(ax,
-                         maintitle="land sea mask using 'atmos.nc'",
-                         maintitlefontsize=14)
+gv.set_titles_and_labels(
+    ax, maintitle="land sea mask using 'atmos.nc'", maintitlefontsize=14
+)
 
 # Plot second plot
 ax1 = plt.subplot(2, 1, 2, projection=ccrs.PlateCarree())
@@ -86,24 +84,28 @@ ax1.coastlines(linewidths=0.5)
 plt.suptitle("dummy TS field (ocean-masked)", x=0.5, y=0.5, fontsize=14)
 
 # Contourf-plot data
-contour = wrap_t.plot.contourf(ax=ax1,
-                               transform=ccrs.PlateCarree(),
-                               vmin=235,
-                               vmax=315,
-                               levels=17,
-                               cmap='magma',
-                               add_colorbar=False)
+contour = wrap_t.plot.contourf(
+    ax=ax1,
+    transform=ccrs.PlateCarree(),
+    vmin=235,
+    vmax=315,
+    levels=17,
+    cmap='magma',
+    add_colorbar=False,
+)
 
 # Add colorbar to bottom of plot
-cbar = plt.colorbar(contour,
-                    ax=ax1,
-                    orientation='horizontal',
-                    shrink=0.75,
-                    pad=0.11,
-                    extendrect=True,
-                    extendfrac='auto',
-                    use_gridspec=False,
-                    ticks=np.arange(235, 315, 5))
+cbar = plt.colorbar(
+    contour,
+    ax=ax1,
+    orientation='horizontal',
+    shrink=0.75,
+    pad=0.11,
+    extendrect=True,
+    extendfrac='auto',
+    use_gridspec=False,
+    ticks=np.arange(235, 315, 5),
+)
 
 cbar.ax.tick_params(labelsize=10)
 
@@ -112,12 +114,14 @@ ax1.add_feature(cfeature.OCEAN, zorder=10, edgecolor='k')
 
 # Use geocat.viz.util convenience function to set titles and labels without
 # calling several matplotlib functions
-gv.set_titles_and_labels(ax1,
-                         maintitle="",
-                         maintitlefontsize=14,
-                         righttitle="degK",
-                         righttitlefontsize=14,
-                         lefttitle="temperature",
-                         lefttitlefontsize=14)
+gv.set_titles_and_labels(
+    ax1,
+    maintitle="",
+    maintitlefontsize=14,
+    righttitle="degK",
+    righttitlefontsize=14,
+    lefttitle="temperature",
+    lefttitlefontsize=14,
+)
 
 plt.show()

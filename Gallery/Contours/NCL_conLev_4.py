@@ -32,8 +32,7 @@ import geocat.viz as gv
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"),
-                     decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"), decode_times=False)
 x = ds.TS
 
 # Apply mean reduction from coordinates as performed in NCL's dim_rmvmean_n_Wrap(x,0)
@@ -60,8 +59,11 @@ ax.coastlines(linewidth=0.5, resolution="110m")
 
 # Import an NCL colormap
 newcmp = cmaps.BlRe
-newcmp.colors[len(newcmp.colors) //
-              2] = [1, 1, 1]  # Set middle value to white to match NCL
+newcmp.colors[len(newcmp.colors) // 2] = [
+    1,
+    1,
+    1,
+]  # Set middle value to white to match NCL
 
 # Contourf-plot data (for filled contours)
 p = newx.plot.contourf(
@@ -72,24 +74,27 @@ p = newx.plot.contourf(
     cmap=newcmp,
     add_colorbar=False,
     transform=projection,
-    add_labels=False)
+    add_labels=False,
+)
 
 # Add horizontal colorbar
-cbar = plt.colorbar(p,
-                    orientation='horizontal',
-                    shrink=0.6,
-                    extendrect=True,
-                    extendfrac='auto',
-                    pad=0.075,
-                    aspect=15,
-                    drawedges=True)
+cbar = plt.colorbar(
+    p,
+    orientation='horizontal',
+    shrink=0.6,
+    extendrect=True,
+    extendfrac='auto',
+    pad=0.075,
+    aspect=15,
+    drawedges=True,
+)
 cbar.ax.tick_params(labelsize=11)
 cbar.set_ticks([-12, -10, -8, -6, -4, -2, -1, 1, 2, 4, 6, 8, 10, 12])
 
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(ax,
-                             xticks=np.linspace(-180, 180, 13),
-                             yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(
+    ax, xticks=np.linspace(-180, 180, 13), yticks=np.linspace(-90, 90, 7)
+)
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots by using latitude, longitude tick labels
 gv.add_lat_lon_ticklabels(ax)
@@ -98,9 +103,7 @@ gv.add_lat_lon_ticklabels(ax)
 gv.add_major_minor_ticks(ax, labelsize=12)
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gv.set_titles_and_labels(ax,
-                         lefttitle='Anomalies: Surface Temperature',
-                         righttitle='K')
+gv.set_titles_and_labels(ax, lefttitle='Anomalies: Surface Temperature', righttitle='K')
 
 # Show the plot
 plt.show()
