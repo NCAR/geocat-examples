@@ -14,6 +14,7 @@ This script illustrates the following concepts:
   - Moving the vector reference annotation to the top right of the plot
   - Setting the color for vectors
   - Increasing the thickness of vectors
+  - Combining streamlines and quivers to create "curly vectors"
 
 See following URLs to see the reproduced NCL plot & script:
     - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/vector_1.ncl
@@ -63,7 +64,7 @@ lon_uv = u['lon']
 proj = ccrs.PlateCarree()
 
 # Generate figure (set its size (width, height) in inches)
-plt.figure(figsize=(10, 7))
+fig = plt.figure(figsize=(10, 7))
 
 # Define axis using Cartopy and zoom in on the region of interest
 ax = plt.axes(projection=proj)
@@ -84,20 +85,64 @@ sst_plot = sst.plot.contourf(
 plt.xlabel("")
 plt.ylabel("")
 
-# add land feature
+# Add land feature
 ax.add_feature(cfeature.LAND, facecolor="lightgrey", zorder=1)
 
-# Add vectors onto the plot
-Q = plt.quiver(
-    lon_uv,
-    lat_uv,
-    u,
-    v,
-    color='white',
-    pivot='middle',
-    width=.0025,
-    scale=75,
-)
+# Add streamplots
+stream = plt.streamplot(lon_uv,
+                        lat_uv,
+                        u,
+                        v,
+                        color='white',
+                        arrowsize=0,
+                        density=.75,
+                        maxlength=.5,
+                        transform=proj)
+
+# Extract the end points of streamlines and their directions
+end_points_x = []
+end_points_y = []
+directions_u = []
+directions_v = []
+
+for line in stream.lines.get_segments():
+    end_points_x.append(line[-1, 0])
+    end_points_y.append(line[-1, 1])
+    # Calculate direction from the second last point to the last point
+    dx = line[-1, 0] - line[-2, 0]
+    dy = line[-1, 1] - line[-2, 1]
+    norm = np.sqrt(dx**2 + dy**2)
+    directions_u.append(dx / norm)
+    directions_v.append(dy / norm)
+
+# Add quiver arrows at the end points of the streamlines
+ax.quiver(end_points_x,
+          end_points_y,
+          directions_u,
+          directions_v,
+          color='white',
+          scale=1,
+          scale_units='xy',
+          width=0.004,
+          transform=proj)
+
+# Add custom legend
+legend_elements = [
+    mpl.lines.Line2D([0], [0],
+                     color='black',
+                     lw=2,
+                     marker='>',
+                     markersize=10,
+                     label='4')
+]
+ax.legend(handles=legend_elements,
+          loc='upper left',
+          fontsize=12,
+          bbox_to_anchor=(.85, .95))
+
+# Draw a reference streamline
+ref_point = np.array([[0, 0]])
+#stream = plt.streamplot(lon_uv, lat_uv, u, v, color='r', start_points=ref_point, minlength=1, maxlength=1, integration_direction='both')
 
 # Use geocat-viz utility function to format title
 gv.set_titles_and_labels(ax,
@@ -130,29 +175,6 @@ gv.add_major_minor_ticks(ax,
                          x_minor_per_major=4,
                          y_minor_per_major=4,
                          labelsize=14)
-
-# Draw the key for the quiver plot as a rectangle patch
-rect = mpl.patches.Rectangle(
-    (91.7, 22.7),  # (x, y)
-    3.2,  # width
-    2.2,  # height
-    facecolor='white',
-    edgecolor='k',
-)
-ax.add_patch(rect)
-
-qk = ax.quiverkey(
-    Q,  # the quiver instance
-    0.95,  # x position of the key
-    0.9,  # y position of the key
-    4,  # length of the key
-    '4',  # label for the key
-    labelpos='N',  # position the label to the 'north' of the arrow
-    color='black',
-    coordinates='axes',
-    fontproperties={'size': 14},
-    labelsep=0.1,  # Distance between arrow and label
-)
 
 # Add and customize colorbar
 cbar_ticks = np.arange(24, 28.8, .3)
