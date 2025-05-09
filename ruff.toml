@@ -1,0 +1,8 @@
+[format]
+# preserve mixture of single and double quotes
+quote-style = "preserve"
+
+[lint]
+# Skip F841 Local variable name is assigned to but never used
+# Skip E402 Module level import not at top of cell
+ignore = ["E402", "F841"]
