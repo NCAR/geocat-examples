@@ -68,21 +68,22 @@ def color_assignment(record):
     population = record.PERSONS
     unempolyment = record.UNEMPLOY
     percent = unempolyment / population
-    if (0.01 <= percent and percent < 0.02):
+    if 0.01 <= percent and percent < 0.02:
         return colormap.colors[0]
-    elif (0.02 <= percent and percent < 0.03):
+    elif 0.02 <= percent and percent < 0.03:
         return colormap.colors[1]
-    elif (0.03 <= percent and percent < 0.04):
+    elif 0.03 <= percent and percent < 0.04:
         return colormap.colors[2]
-    elif (0.04 <= percent):
+    elif 0.04 <= percent:
         return colormap.colors[3]
 
 
 ###############################################################################
 # Plot:
 plt.figure(figsize=(10, 8))
-ax = plt.axes(projection=ccrs.LambertConformal(standard_parallels=(33, 45),
-                                               central_longitude=-98))
+ax = plt.axes(
+    projection=ccrs.LambertConformal(standard_parallels=(33, 45), central_longitude=-98)
+)
 ax.set_extent([-125, -74, 22, 50])
 
 ax.add_feature(cfeature.LAND, color='silver', zorder=0)
@@ -97,41 +98,49 @@ for i in range(0, len(shapefile.shapes())):
         for j in range(0, len(shape.parts)):
             start_index = shape.parts[j]
             # the last part uses the remaining points and doesn't require and end_index
-            if (j is (len(shape.parts) - 1)):
-                patch = mpatches.Polygon(shape.points[start_index:],
-                                         facecolor=color,
-                                         edgecolor='black',
-                                         linewidth=0.5,
-                                         transform=ccrs.PlateCarree(),
-                                         zorder=2)
+            if j is (len(shape.parts) - 1):
+                patch = mpatches.Polygon(
+                    shape.points[start_index:],
+                    facecolor=color,
+                    edgecolor='black',
+                    linewidth=0.5,
+                    transform=ccrs.PlateCarree(),
+                    zorder=2,
+                )
             else:
                 end_index = shape.parts[j + 1]
-                patch = mpatches.Polygon(shape.points[start_index:end_index],
-                                         facecolor=color,
-                                         edgecolor='black',
-                                         linewidth=0.5,
-                                         transform=ccrs.PlateCarree(),
-                                         zorder=2)
+                patch = mpatches.Polygon(
+                    shape.points[start_index:end_index],
+                    facecolor=color,
+                    edgecolor='black',
+                    linewidth=0.5,
+                    transform=ccrs.PlateCarree(),
+                    zorder=2,
+                )
             ax.add_patch(patch)
     else:
-        patch = mpatches.Polygon(shape.points,
-                                 facecolor=color,
-                                 edgecolor='black',
-                                 linewidth=0.5,
-                                 transform=ccrs.PlateCarree(),
-                                 zorder=2)
+        patch = mpatches.Polygon(
+            shape.points,
+            facecolor=color,
+            edgecolor='black',
+            linewidth=0.5,
+            transform=ccrs.PlateCarree(),
+            zorder=2,
+        )
         ax.add_patch(patch)
 
 # Create colorbar
-plt.colorbar(cm.ScalarMappable(cmap=colormap, norm=norm),
-             ax=ax,
-             boundaries=colorbounds,
-             orientation='horizontal',
-             shrink=0.75,
-             ticks=[1, 2, 3, 4],
-             label='percent',
-             aspect=30,
-             pad=0.075)
+plt.colorbar(
+    cm.ScalarMappable(cmap=colormap, norm=norm),
+    ax=ax,
+    boundaries=colorbounds,
+    orientation='horizontal',
+    shrink=0.75,
+    ticks=[1, 2, 3, 4],
+    label='percent',
+    aspect=30,
+    pad=0.075,
+)
 
 # Add latitude and longitude labels
 gl = ax.gridlines(draw_labels=True, x_inline=False, y_inline=False)

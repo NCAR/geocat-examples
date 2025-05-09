@@ -40,7 +40,7 @@ for year in range(tstart, tend + 1):
         i += 1
 
 # Create random 1D array
-arr = np.random.uniform(-5., 10., t_size)
+arr = np.random.uniform(-5.0, 10.0, t_size)
 
 ###############################################################################
 # Plot:
@@ -58,37 +58,42 @@ ax[0].xaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
 for axes in [ax[0], ax[1]]:
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gv.add_major_minor_ticks(axes,
-                             x_minor_per_major=5,
-                             y_minor_per_major=3,
-                             labelsize=14)
+    gv.add_major_minor_ticks(
+        axes, x_minor_per_major=5, y_minor_per_major=3, labelsize=14
+    )
 
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
     # Set axes limits
-    gv.set_axes_limits_and_ticks(axes,
-                                 xlim=(tstart, tend + 1),
-                                 ylim=(-6, 12),
-                                 yticks=np.arange(-6, 13, 3))
+    gv.set_axes_limits_and_ticks(
+        axes, xlim=(tstart, tend + 1), ylim=(-6, 12), yticks=np.arange(-6, 13, 3)
+    )
 
 # Add minor and major tick lines for plot 3
-gv.add_major_minor_ticks(ax[2],
-                         x_minor_per_major=1,
-                         y_minor_per_major=4,
-                         labelsize=14)
+gv.add_major_minor_ticks(ax[2], x_minor_per_major=1, y_minor_per_major=4, labelsize=14)
 
 # Set axes limits, ticks and tick labels for plot 3
-gv.set_axes_limits_and_ticks(ax[2],
-                             xlim=(date[0], date[12]),
-                             ylim=(-4, 10),
-                             xticks=date[0:13],
-                             xticklabels=[
-                                 'Jan\n2000', "Feb\n2000", "Mar\n2000",
-                                 "Apr\n2000", "May\n2000", "Jun\n2000",
-                                 "Jul\n2000", " Aug\n2000", " Sep\n2000",
-                                 " Oct\n2000", " Nov\n2000", " Dec\n2000",
-                                 " Jan\n2001"
-                             ],
-                             yticks=np.arange(-4, 11, 2))
+gv.set_axes_limits_and_ticks(
+    ax[2],
+    xlim=(date[0], date[12]),
+    ylim=(-4, 10),
+    xticks=date[0:13],
+    xticklabels=[
+        'Jan\n2000',
+        "Feb\n2000",
+        "Mar\n2000",
+        "Apr\n2000",
+        "May\n2000",
+        "Jun\n2000",
+        "Jul\n2000",
+        " Aug\n2000",
+        " Sep\n2000",
+        " Oct\n2000",
+        " Nov\n2000",
+        " Dec\n2000",
+        " Jan\n2001",
+    ],
+    yticks=np.arange(-4, 11, 2),
+)
 
 # Add main title for plot 2 and 3
 ax[1].set_title('time', fontsize=16, y=1.04)

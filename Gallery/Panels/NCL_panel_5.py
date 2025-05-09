@@ -83,9 +83,9 @@ def plot_labelled_filled_contours(data, ax=None, label=None):
     ax.coastlines(linewidth=0.5, alpha=0.75)
 
     # Use geocat.viz.util convenience function to set axes tick values
-    gv.set_axes_limits_and_ticks(ax,
-                                 xticks=np.arange(-180, 181, 30),
-                                 yticks=np.arange(-90, 91, 30))
+    gv.set_axes_limits_and_ticks(
+        ax, xticks=np.arange(-180, 181, 30), yticks=np.arange(-90, 91, 30)
+    )
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
     gv.add_major_minor_ticks(ax, labelsize=8)
@@ -97,18 +97,22 @@ def plot_labelled_filled_contours(data, ax=None, label=None):
     ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
     # Use geocat.viz.util convenience function to add main title as well as titles to left and right of the plot axes.
-    gv.set_titles_and_labels(ax,
-                             lefttitle=data.attrs['long_name'],
-                             lefttitlefontsize=10,
-                             righttitle=data.attrs['units'],
-                             righttitlefontsize=10)
+    gv.set_titles_and_labels(
+        ax,
+        lefttitle=data.attrs['long_name'],
+        lefttitlefontsize=10,
+        righttitle=data.attrs['units'],
+        righttitlefontsize=10,
+    )
 
     # Add a label in the upper left of the axes
-    ax.text(0.025,
-            0.9,
-            label,
-            transform=ax.transAxes,
-            bbox=dict(boxstyle='square, pad=0.25', facecolor='white'))
+    ax.text(
+        0.025,
+        0.9,
+        label,
+        transform=ax.transAxes,
+        bbox=dict(boxstyle='square, pad=0.25', facecolor='white'),
+    )
     return handles
 
 
@@ -119,11 +123,13 @@ def plot_labelled_filled_contours(data, ax=None, label=None):
 # between them using gridspec_kw and hspace
 # Generate figure and axes using Cartopy projection
 projection = ccrs.PlateCarree()
-fig, ax = plt.subplots(3,
-                       1,
-                       figsize=(6, 10),
-                       gridspec_kw=dict(hspace=0.3),
-                       subplot_kw={"projection": projection})
+fig, ax = plt.subplots(
+    3,
+    1,
+    figsize=(6, 10),
+    gridspec_kw=dict(hspace=0.3),
+    subplot_kw={"projection": projection},
+)
 # Define the contour levels
 levels = np.linspace(-10, 50, 13)
 
@@ -140,31 +146,37 @@ plot_labelled_filled_contours(ds.V, ax=ax[1], label='b)')
 plot_labelled_filled_contours(ds.U, ax=ax[2], label='c)')
 
 # Create inset axes for colorbar
-cax = inset_axes(ax[2],
-                 width='100%',
-                 height='7%',
-                 loc='lower left',
-                 bbox_to_anchor=(0, -0.25, 1, 1),
-                 bbox_transform=ax[2].transAxes,
-                 borderpad=0)
+cax = inset_axes(
+    ax[2],
+    width='100%',
+    height='7%',
+    loc='lower left',
+    bbox_to_anchor=(0, -0.25, 1, 1),
+    bbox_transform=ax[2].transAxes,
+    borderpad=0,
+)
 # Add horizontal colorbar
-cbar = plt.colorbar(handles["filled"],
-                    cax=cax,
-                    orientation="horizontal",
-                    ticks=levels[:-1],
-                    drawedges=True,
-                    aspect=30,
-                    extendrect=True,
-                    extendfrac='auto',
-                    shrink=0.8)
+cbar = plt.colorbar(
+    handles["filled"],
+    cax=cax,
+    orientation="horizontal",
+    ticks=levels[:-1],
+    drawedges=True,
+    aspect=30,
+    extendrect=True,
+    extendfrac='auto',
+    shrink=0.8,
+)
 cbar.ax.tick_params(labelsize=10)
 
 # Add figure label underneath subplots
-fig.text(0.5,
-         0.015,
-         "Figure 1: A nifty panel plot",
-         horizontalalignment='center',
-         fontsize=14)
+fig.text(
+    0.5,
+    0.015,
+    "Figure 1: A nifty panel plot",
+    horizontalalignment='center',
+    fontsize=14,
+)
 
 # Show the plot
 plt.show()

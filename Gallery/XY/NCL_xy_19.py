@@ -45,19 +45,20 @@ def make_axes(plot_size):
     # Use geocat.viz.util convenience function to add minor and major tick lines
     gv.add_major_minor_ticks(ax1, y_minor_per_major=5, labelsize=14)
     gv.add_major_minor_ticks(ax2, y_minor_per_major=5, labelsize=14)
-    gv.add_major_minor_ticks(ax3,
-                             x_minor_per_major=5,
-                             y_minor_per_major=4,
-                             labelsize=14)
+    gv.add_major_minor_ticks(
+        ax3, x_minor_per_major=5, y_minor_per_major=4, labelsize=14
+    )
 
     # Use geocat.viz.util convenience function to set axes tick values
     gv.set_axes_limits_and_ticks(ax1, ylim=(-3500, -2900))
     gv.set_axes_limits_and_ticks(ax2, ylim=(10, 60))
-    gv.set_axes_limits_and_ticks(ax3,
-                                 xlim=(0, 360),
-                                 ylim=(-16, 12),
-                                 xticks=[0, 100, 200, 300],
-                                 yticks=np.arange(-16, 13, 4))
+    gv.set_axes_limits_and_ticks(
+        ax3,
+        xlim=(0, 360),
+        ylim=(-16, 12),
+        xticks=[0, 100, 200, 300],
+        yticks=np.arange(-16, 13, 4),
+    )
 
     # Adjust which sides of the plot the tick marks are drawn for each axes
     ax1.tick_params('both', which='both', right=False)
@@ -109,20 +110,22 @@ gv.set_titles_and_labels(ax3, ylabel='v')
 # the `handles` for the legend. Since we only want the line objects, a comma is
 # added after t_plot to extract the first item of the list returned by
 # axes.plot()
-t_plot, = ax1.plot(lon, t, linewidth=0.5, c='r', label='t')
-u_plot, = ax2.plot(lon, u, linewidth=0.5, c='g', label='u')
-v_plot, = ax3.plot(lon, v, linewidth=0.5, c='b', label='v')
+(t_plot,) = ax1.plot(lon, t, linewidth=0.5, c='r', label='t')
+(u_plot,) = ax2.plot(lon, u, linewidth=0.5, c='g', label='u')
+(v_plot,) = ax3.plot(lon, v, linewidth=0.5, c='b', label='v')
 
 # Add a legend using the Line2D objects from before as the handles
-plt.legend(loc='lower right',
-           fancybox=False,
-           edgecolor='black',
-           borderaxespad=0,
-           borderpad=0.75,
-           handlelength=3.5,
-           handletextpad=0,
-           fontsize=14,
-           handles=[v_plot, u_plot, t_plot])
+plt.legend(
+    loc='lower right',
+    fancybox=False,
+    edgecolor='black',
+    borderaxespad=0,
+    borderpad=0.75,
+    handlelength=3.5,
+    handletextpad=0,
+    fontsize=14,
+    handles=[v_plot, u_plot, t_plot],
+)
 
 plt.tight_layout()
 plt.show()

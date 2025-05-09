@@ -103,11 +103,9 @@ def Plot(color, ext, xext, yext, npts, title, subt, style, pt):
     gv.add_major_minor_ticks(ax, labelsize=12)
 
     # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-    gv.set_titles_and_labels(ax,
-                             maintitle=subt,
-                             maintitlefontsize=12,
-                             xlabel="",
-                             ylabel="")
+    gv.set_titles_and_labels(
+        ax, maintitle=subt, maintitlefontsize=12, xlabel="", ylabel=""
+    )
     plt.show()
 
 

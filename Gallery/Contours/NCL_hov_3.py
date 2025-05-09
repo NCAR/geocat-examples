@@ -41,72 +41,65 @@ chi = chi / scale
 fig, ax = plt.subplots(figsize=(7, 7.5))
 
 # Fill area between level 4 contours and level 10 contours with dot hatching
-cf = ax.contourf(lon,
-                 times,
-                 chi,
-                 levels=[4, 12],
-                 colors='None',
-                 hatches=['....'])
+cf = ax.contourf(lon, times, chi, levels=[4, 12], colors='None', hatches=['....'])
 
 # Make all dot-filled areas light gray so contour lines are still visible
 cf.set_edgecolor('lightgray')
-cf.set_linewidth(0.)
+cf.set_linewidth(0.0)
 
 # Fill area at the lowest contour level, -6, with line hatching
-cf = ax.contourf(lon,
-                 times,
-                 chi,
-                 levels=[-7, -6],
-                 colors='None',
-                 hatches=['///'])
+cf = ax.contourf(lon, times, chi, levels=[-7, -6], colors='None', hatches=['///'])
 
 # Draw contour lines at levels [-6, -4, -2, 0, 2, 4, 6, 8, 10]
-cs = ax.contour(lon,
-                times,
-                chi,
-                levels=np.arange(-6, 12, 2),
-                colors='black',
-                linestyles="-",
-                linewidths=[.2, .2, .2, 1, .2, .2, .2, .2, .2])
+cs = ax.contour(
+    lon,
+    times,
+    chi,
+    levels=np.arange(-6, 12, 2),
+    colors='black',
+    linestyles="-",
+    linewidths=[0.2, 0.2, 0.2, 1, 0.2, 0.2, 0.2, 0.2, 0.2],
+)
 
 # Label the contour levels -4, 0, and 4
 cl = ax.clabel(cs, fmt='%d', levels=[-4, 0, 4])
 
 # Use geocat.viz.util convenience function to set axes limits & tick values
-gv.set_axes_limits_and_ticks(ax,
-                             xlim=[100, 220],
-                             ylim=[0, 1.55 * 1e16],
-                             xticks=[135, 180],
-                             yticks=np.linspace(0, 1.55 * 1e16, 7),
-                             xticklabels=['135E', '180'],
-                             yticklabels=np.linspace(0, 180, 7, dtype='int'))
+gv.set_axes_limits_and_ticks(
+    ax,
+    xlim=[100, 220],
+    ylim=[0, 1.55 * 1e16],
+    xticks=[135, 180],
+    yticks=np.linspace(0, 1.55 * 1e16, 7),
+    xticklabels=['135E', '180'],
+    yticklabels=np.linspace(0, 180, 7, dtype='int'),
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=3,
-                         y_minor_per_major=3,
-                         labelsize=16)
+gv.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=3, labelsize=16)
 
 # Use geocat.viz.util convenience function to add titles
-gv.set_titles_and_labels(ax,
-                         maintitle="Pacific Region",
-                         maintitlefontsize=20,
-                         lefttitle="Velocity Potential",
-                         lefttitlefontsize=18,
-                         righttitle="m2/s",
-                         righttitlefontsize=18,
-                         ylabel="elapsed time",
-                         labelfontsize=18)
+gv.set_titles_and_labels(
+    ax,
+    maintitle="Pacific Region",
+    maintitlefontsize=20,
+    lefttitle="Velocity Potential",
+    lefttitlefontsize=18,
+    righttitle="m2/s",
+    righttitlefontsize=18,
+    ylabel="elapsed time",
+    labelfontsize=18,
+)
 
 # Add lower text box
-ax.text(1,
-        -0.12,
-        "CONTOUR FROM -6 TO 10 BY 2",
-        horizontalalignment='right',
-        transform=ax.transAxes,
-        bbox=dict(boxstyle='square, pad=0.25',
-                  facecolor='white',
-                  edgecolor='black'))
+ax.text(
+    1,
+    -0.12,
+    "CONTOUR FROM -6 TO 10 BY 2",
+    horizontalalignment='right',
+    transform=ax.transAxes,
+    bbox=dict(boxstyle='square, pad=0.25', facecolor='white', edgecolor='black'),
+)
 
 plt.tight_layout()
 plt.show()

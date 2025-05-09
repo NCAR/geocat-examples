@@ -50,10 +50,9 @@ gv.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4)
 gv.set_axes_limits_and_ticks(ax, ylim=(1000, 0), xticks=np.arange(-10, 30, 5))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gv.set_titles_and_labels(ax,
-                         maintitle="Profile Plot",
-                         xlabel=ds.long_name,
-                         ylabel=ds['lev'].long_name)
+gv.set_titles_and_labels(
+    ax, maintitle="Profile Plot", xlabel=ds.long_name, ylabel=ds['lev'].long_name
+)
 
 plt.show()
 
@@ -69,12 +68,14 @@ ax = plt.gca()
 # Use keyword `linewidth` to change the line thickness
 # Use keyword `dashes` to create a custom dash pattern
 # Use keyword `dash_capstyle` to change the shape of the dash end
-plt.plot(ds.data,
-         ds.lev,
-         color='red',
-         linewidth=3,
-         dashes=[3, 2, 1, 2, 1, 2, 1, 2],
-         dash_capstyle='round')
+plt.plot(
+    ds.data,
+    ds.lev,
+    color='red',
+    linewidth=3,
+    dashes=[3, 2, 1, 2, 1, 2, 1, 2],
+    dash_capstyle='round',
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gv.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4)
@@ -83,9 +84,11 @@ gv.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4)
 gv.set_axes_limits_and_ticks(ax, ylim=(1000, 0), xticks=np.arange(-10, 30, 5))
 
 # Use geocat.viz.util convenience function to set titles and labels
-gv.set_titles_and_labels(ax,
-                         maintitle="Make your own dash pattern",
-                         xlabel=ds.long_name,
-                         ylabel=ds['lev'].long_name)
+gv.set_titles_and_labels(
+    ax,
+    maintitle="Make your own dash pattern",
+    xlabel=ds.long_name,
+    ylabel=ds['lev'].long_name,
+)
 
 plt.show()

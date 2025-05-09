@@ -22,14 +22,13 @@ import matplotlib.ticker as mticker
 import cartopy.crs as ccrs
 from cartopy.feature import NaturalEarthFeature
 
-from wrf import (getvar, to_np, latlon_coords, get_cartopy)
+from wrf import getvar, to_np, latlon_coords, get_cartopy
 import geocat.datafiles as gdf
 
 ###############################################################################
 # Read in the data
 
-wrfin = Dataset(
-    gdf.get("netcdf_files/wrfout_d03_2012-04-22_23_00_00_subset.nc"))
+wrfin = Dataset(gdf.get("netcdf_files/wrfout_d03_2012-04-22_23_00_00_subset.nc"))
 td2 = getvar(wrfin, "td2")
 
 # Set attributes for creating plot titles later
@@ -71,55 +70,62 @@ fig = plt.figure(figsize=(12, 12))
 ax = plt.axes(projection=cart_proj)
 
 # Add features to the projection
-states = NaturalEarthFeature(category="cultural",
-                             scale="50m",
-                             facecolor="none",
-                             name="admin_1_states_provinces")
+states = NaturalEarthFeature(
+    category="cultural", scale="50m", facecolor="none", name="admin_1_states_provinces"
+)
 
 ax.add_feature(states, linewidth=0.5, edgecolor="black")
 ax.coastlines('50m', linewidth=0.8)
 
 # Add filled dew point temperature contours
-plt.contourf(to_np(lons),
-             to_np(lats),
-             to_np(td2_zoom),
-             levels=13,
-             cmap="magma",
-             transform=ccrs.PlateCarree(),
-             vmin=-8,
-             vmax=18)
+plt.contourf(
+    to_np(lons),
+    to_np(lats),
+    to_np(td2_zoom),
+    levels=13,
+    cmap="magma",
+    transform=ccrs.PlateCarree(),
+    vmin=-8,
+    vmax=18,
+)
 
 # Add a colorbar
-cbar = plt.colorbar(ax=ax,
-                    orientation="horizontal",
-                    ticks=np.arange(-6, 18, 2),
-                    drawedges=True,
-                    extendrect=True,
-                    pad=0.08,
-                    shrink=0.75,
-                    aspect=30)
+cbar = plt.colorbar(
+    ax=ax,
+    orientation="horizontal",
+    ticks=np.arange(-6, 18, 2),
+    drawedges=True,
+    extendrect=True,
+    pad=0.08,
+    shrink=0.75,
+    aspect=30,
+)
 
 # Format location of colorbar text to look like NCL version
-cbar.ax.text(0.5,
-             1.5,
-             '2m Dewpoint Temperature (C)',
-             horizontalalignment='center',
-             verticalalignment='center',
-             transform=cbar.ax.transAxes)
+cbar.ax.text(
+    0.5,
+    1.5,
+    '2m Dewpoint Temperature (C)',
+    horizontalalignment='center',
+    verticalalignment='center',
+    transform=cbar.ax.transAxes,
+)
 
 # Format colorbar ticks and labels
 cbar.ax.tick_params(labelsize=10)
 cbar.ax.get_xaxis().labelpad = -48
 
 # Draw gridlines
-gl = ax.gridlines(crs=ccrs.PlateCarree(),
-                  draw_labels=True,
-                  dms=False,
-                  x_inline=False,
-                  y_inline=False,
-                  linewidth=1,
-                  color="k",
-                  alpha=0.25)
+gl = ax.gridlines(
+    crs=ccrs.PlateCarree(),
+    draw_labels=True,
+    dms=False,
+    x_inline=False,
+    y_inline=False,
+    linewidth=1,
+    color="k",
+    alpha=0.25,
+)
 
 # Manipulate latitude and longitude gridline numbers and spacing
 gl.top_labels = False
@@ -132,15 +138,12 @@ gl.xlines = False
 gl.ylines = False
 
 # Add titles to the plot
-plt.title("Zoomed in plot", loc='center', x=.13, y=1.1, size=15)
+plt.title("Zoomed in plot", loc='center', x=0.13, y=1.1, size=15)
 plt.title("2m Dewpoint Temperature (C)", loc='left', y=1.02, size=10)
 plt.title(sd_frmt.format(s_date), loc='right', y=1.1, size=10)
 
 # Add lower text using attributes from the dataset
 fig.text(0.25, 0.1, getattr(wrfin, 'TITLE'), size=12)
-fig.text(0.252,
-         0.08,
-         str_format.format(we, sn, lvl, dis, phys, pbl, cu),
-         size=12)
+fig.text(0.252, 0.08, str_format.format(we, sn, lvl, dis, phys, pbl, cu), size=12)
 
 plt.show()

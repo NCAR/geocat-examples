@@ -30,8 +30,8 @@ ds = xr.open_dataset(gdf.get("netcdf_files/Jsst.nc"))
 sst = ds.SST
 date = ds.date
 
-#scale the sst variable to range from around -1 to 1
-sst = sst * .1
+# scale the sst variable to range from around -1 to 1
+sst = sst * 0.1
 
 # Dates in the file are represented by year and month (YYYYMM)
 # representing them fractionally will make plotting the data easier
@@ -50,12 +50,22 @@ for n in np.arange(0, num_months, 1):
 # in inches of the bottom left corner of year graph
 warm = [1951, 1953, 1957, 1963, 1965, 1969, 1972, 1976, 1982, 1987, 1991]
 heights_list = [
-    0.0585, 0.128, 0.195, .267, .342, .4, 0.482, .541, .636, .686, .763
+    0.0585,
+    0.128,
+    0.195,
+    0.267,
+    0.342,
+    0.4,
+    0.482,
+    0.541,
+    0.636,
+    0.686,
+    0.763,
 ]
 
 # Set the number of subplots
 num_subplots = 11
-fig_height = (num_subplots)
+fig_height = num_subplots
 
 # Create figure and default axis which will be visible
 fig, ax0 = plt.subplots(figsize=(8, fig_height + 2), constrained_layout=True)
@@ -79,16 +89,17 @@ for ax, year in zip(ax_dict, warm):
     year_iend = int(np.where(np.round(date_frac, 3) == year_end)[0])
 
     # Create each bar chart where it is red if it is above 0 and blue if below
-    ax_dict[ax].bar(date_frac[year_istart:year_iend],
-                    sst[year_istart:year_iend],
-                    align='edge',
-                    edgecolor='black',
-                    color=[
-                        'red' if (value > 0) else 'blue'
-                        for value in sst[year_istart:year_iend]
-                    ],
-                    width=.08,
-                    linewidth=1)
+    ax_dict[ax].bar(
+        date_frac[year_istart:year_iend],
+        sst[year_istart:year_iend],
+        align='edge',
+        edgecolor='black',
+        color=[
+            'red' if (value > 0) else 'blue' for value in sst[year_istart:year_iend]
+        ],
+        width=0.08,
+        linewidth=1,
+    )
     # Turn off axis so it is not visible
     ax_dict[ax].axis("off")
 
@@ -96,14 +107,16 @@ for ax, year in zip(ax_dict, warm):
 axRHS = ax0.twinx()
 
 # Make a variable for the degree symbol
-degree = u"\u00b0"
+degree = "\u00b0"
 
 # Use geocat.viz.util convenience function to add titles to the center and right of the plot axis
-gv.set_titles_and_labels(ax0,
-                         maintitle="Monthly SST Anomalies for Nino-3",
-                         maintitlefontsize=25,
-                         righttitle=("(" + degree + "C)"),
-                         righttitlefontsize=18)
+gv.set_titles_and_labels(
+    ax0,
+    maintitle="Monthly SST Anomalies for Nino-3",
+    maintitlefontsize=25,
+    righttitle=("(" + degree + "C)"),
+    righttitlefontsize=18,
+)
 # Add center title
 ax0.text(0.38, 1.05, 'Warm Events', fontsize=18, transform=ax0.transAxes)
 
@@ -139,13 +152,13 @@ gv.set_axes_limits_and_ticks(
     xticks=np.linspace(-3, 3, 7),
     xticklabels=["Jan₋₁", "Jul₋₁", "Jan₀", "Jul₀", "Jan₊₁", "Jul₊₁", "Jan₊₂"],
     yticks=np.linspace(0, 46, 46),
-    yticklabels=left_y_ticks)
+    yticklabels=left_y_ticks,
+)
 
 ax0.spines['right'].set_visible(False)
-gv.set_axes_limits_and_ticks(axRHS,
-                             ylim=(0, 45),
-                             yticks=np.linspace(0, 45, 46),
-                             yticklabels=right_y_ticks)
+gv.set_axes_limits_and_ticks(
+    axRHS, ylim=(0, 45), yticks=np.linspace(0, 45, 46), yticklabels=right_y_ticks
+)
 
 # Set tick parameters for all axes
 ax0.tick_params(axis="x", length=9, labelsize=12)
@@ -180,23 +193,26 @@ for year in warm:
     year_iend = int(np.where(np.round(date_frac, 3) == year_end)[0])
 
     # Create each bar chart where it is red if it is above 0 and blue if below
-    ax2[i].bar(date_frac[year_istart:year_iend],
-               sst[year_istart:year_iend],
-               align='edge',
-               edgecolor='black',
-               color=[
-                   'red' if (value > 0) else 'blue'
-                   for value in sst[year_istart:year_iend]
-               ],
-               width=.08,
-               linewidth=1)
+    ax2[i].bar(
+        date_frac[year_istart:year_iend],
+        sst[year_istart:year_iend],
+        align='edge',
+        edgecolor='black',
+        color=[
+            'red' if (value > 0) else 'blue' for value in sst[year_istart:year_iend]
+        ],
+        width=0.08,
+        linewidth=1,
+    )
 
     # Set ticks and limits for axes using convenience function
-    gv.set_axes_limits_and_ticks(ax2[i],
-                                 xlim=((year_start), year_end),
-                                 xticks=np.linspace(year_start, year_end, 5),
-                                 ylim=(-3, 3.5),
-                                 yticks=np.linspace(-2, 2, 3))
+    gv.set_axes_limits_and_ticks(
+        ax2[i],
+        xlim=((year_start), year_end),
+        xticks=np.linspace(year_start, year_end, 5),
+        ylim=(-3, 3.5),
+        yticks=np.linspace(-2, 2, 3),
+    )
 
     # Use geocat.viz.util convenience function to add major tick lines
     gv.add_major_minor_ticks(ax2[i], x_minor_per_major=4, y_minor_per_major=2)
@@ -216,17 +232,19 @@ for year in warm:
 plt.subplots_adjust(hspace=1)
 
 # Make a variable for the degree symbol
-degree = u"\u00b0"
+degree = "\u00b0"
 
 # Add title to entire figure
-fig2.suptitle("Monthly SST Anomalies for Nino-3",
-              horizontalalignment='center',
-              y=0.93,
-              fontsize=15,
-              fontweight='bold')
+fig2.suptitle(
+    "Monthly SST Anomalies for Nino-3",
+    horizontalalignment='center',
+    y=0.93,
+    fontsize=15,
+    fontweight='bold',
+)
 
 # Add subtitles
-fig2.text(0.42, .895, 'Warm Events', fontsize=9)
-fig2.text(0.12, .895, "(" + degree + "C)", fontsize=9)
+fig2.text(0.42, 0.895, 'Warm Events', fontsize=9)
+fig2.text(0.12, 0.895, "(" + degree + "C)", fontsize=9)
 
 plt.show()

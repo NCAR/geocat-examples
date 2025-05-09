@@ -59,7 +59,8 @@ ax.scatter(
     s=1350,
     alpha=0.75,
     zorder=2,
-    marker='s')
+    marker='s',
+)
 
 # Use geocat-viz utility function to format latitude/longitude labels
 gv.add_lat_lon_ticklabels(ax)
@@ -72,11 +73,13 @@ ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 gv.add_major_minor_ticks(ax, labelsize=14)
 
 # Use geocat-viz utility function to format tick labels
-gv.set_axes_limits_and_ticks(ax=ax,
-                             xlim=(-180, 181),
-                             ylim=(-90, 91),
-                             xticks=np.arange(-180, 190, 30),
-                             yticks=np.arange(-90, 100, 30))
+gv.set_axes_limits_and_ticks(
+    ax=ax,
+    xlim=(-180, 181),
+    ylim=(-90, 91),
+    xticks=np.arange(-180, 190, 30),
+    yticks=np.arange(-90, 100, 30),
+)
 
 # Add title
 plt.title('Dummy markers over a map', fontweight='bold', fontsize=20, pad=20)

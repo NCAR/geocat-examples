@@ -34,15 +34,12 @@ plt.figure(figsize=(7, 6.5))
 ax = plt.gca()
 
 # Plot the specific slice of the data with the correct color and linewidth
-U.isel(time=0).sel(lon=82, method='nearest').plot(x="lat",
-                                                  color="#afafaf",
-                                                  linewidth=1.1)
+U.isel(time=0).sel(lon=82, method='nearest').plot(
+    x="lat", color="#afafaf", linewidth=1.1
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=3,
-                         y_minor_per_major=5,
-                         labelsize=16)
+gv.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=5, labelsize=16)
 
 # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
 # Set axes limits, tick values, and tick labels to show latitude & longitude (i.e. North (N) - South (S))
@@ -52,13 +49,11 @@ gv.set_axes_limits_and_ticks(
     ylim=(-10, 50),
     xticks=np.linspace(-90, 90, 7),
     yticks=np.linspace(-10, 50, 7),
-    xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'])
+    xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'],
+)
 
 # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-gv.set_titles_and_labels(ax,
-                         maintitle="Basic XY plot",
-                         xlabel="",
-                         ylabel="Zonal Wind")
+gv.set_titles_and_labels(ax, maintitle="Basic XY plot", xlabel="", ylabel="Zonal Wind")
 
 # Show the plot
 plt.tight_layout()

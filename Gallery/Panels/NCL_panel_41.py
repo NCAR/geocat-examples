@@ -34,8 +34,18 @@ import geocat.viz as gv
 
 def convert_date(date):
     months = [
-        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct',
-        'Nov', 'Dec'
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sept',
+        'Oct',
+        'Nov',
+        'Dec',
     ]
     year = date[:4]
     month = months[int(date[5:7]) - 1]
@@ -52,18 +62,18 @@ def add_axes(fig, grid_space):
     ax = fig.add_subplot(grid_space, projection=ccrs.PlateCarree())
 
     # Add land to the subplot
-    ax.add_feature(cfeature.LAND,
-                   facecolor="none",
-                   edgecolor='black',
-                   linewidths=0.5,
-                   zorder=2)
+    ax.add_feature(
+        cfeature.LAND, facecolor="none", edgecolor='black', linewidths=0.5, zorder=2
+    )
 
     # Usa geocat.viz.util convenience function to set axes parameters
-    gv.set_axes_limits_and_ticks(ax,
-                                 ylim=(-90, 90),
-                                 xlim=(-180, 180),
-                                 xticks=np.arange(-180, 181, 30),
-                                 yticks=np.arange(-90, 91, 30))
+    gv.set_axes_limits_and_ticks(
+        ax,
+        ylim=(-90, 90),
+        xlim=(-180, 180),
+        xticks=np.arange(-180, 181, 30),
+        yticks=np.arange(-90, 91, 30),
+    )
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
     gv.add_major_minor_ticks(ax, labelsize=8)
@@ -116,24 +126,26 @@ cmap = plt.get_cmap('magma')
 for i, axes in enumerate([ax1, ax2, ax3, ax4, ax5, ax6]):
     dataset = tsurf[plot_idxs[i], :, :]
     # Contourf plot data
-    contour = axes.contourf(dataset.lon,
-                            dataset.lat,
-                            dataset.data,
-                            vmin=250,
-                            vmax=310,
-                            cmap=cmap,
-                            levels=levels)
+    contour = axes.contourf(
+        dataset.lon,
+        dataset.lat,
+        dataset.data,
+        vmin=250,
+        vmax=310,
+        cmap=cmap,
+        levels=levels,
+    )
     # Add lower text box
-    axes.text(0.98,
-              0.05,
-              convert_date(str(dataset.time.data)),
-              horizontalalignment='right',
-              transform=axes.transAxes,
-              fontsize=8,
-              bbox=dict(boxstyle='square, pad=0.25',
-                        facecolor='white',
-                        edgecolor='gray'),
-              zorder=5)
+    axes.text(
+        0.98,
+        0.05,
+        convert_date(str(dataset.time.data)),
+        horizontalalignment='right',
+        transform=axes.transAxes,
+        fontsize=8,
+        bbox=dict(boxstyle='square, pad=0.25', facecolor='white', edgecolor='gray'),
+        zorder=5,
+    )
 
 # Set colorbounds of norm
 colorbounds = np.arange(249, 311, 1)
@@ -142,16 +154,18 @@ norm = mcolors.BoundaryNorm(colorbounds, cmap.N)
 mappable = cm.ScalarMappable(norm=norm, cmap=cmap)
 
 # Add colorbar for all six plots
-fig.colorbar(mappable,
-             ax=[ax1, ax2, ax3, ax4, ax5, ax6],
-             ticks=colorbounds[3:-1:3],
-             drawedges=True,
-             orientation='horizontal',
-             shrink=0.82,
-             pad=0.01,
-             aspect=35,
-             extendfrac='auto',
-             extendrect=True)
+fig.colorbar(
+    mappable,
+    ax=[ax1, ax2, ax3, ax4, ax5, ax6],
+    ticks=colorbounds[3:-1:3],
+    drawedges=True,
+    orientation='horizontal',
+    shrink=0.82,
+    pad=0.01,
+    aspect=35,
+    extendfrac='auto',
+    extendrect=True,
+)
 
 # Add figure titles
 fig.suptitle("rectilinear_grid_2D.nc", fontsize=22, fontweight='bold')

@@ -49,36 +49,36 @@ modelTextsA, _ = dia.add_model_set(
     CA_corr,
     fontsize=13,
     xytext=(-5, 13),  # marker label position
-    model_outlier_on=
-    True,  # plots models with negative correlations and/or standard deviations at bottom of diagram
+    model_outlier_on=True,  # plots models with negative correlations and/or standard deviations at bottom of diagram
     percent_bias_on=True,  # model marker and size plotted based on bias array
     bias_array=BA,
     edgecolors='red',
     facecolors='none',
     linewidths=0.5,
-    label='Data A')
+    label='Data A',
+)
 
-modelTextsB, _ = dia.add_model_set(CB_std,
-                                   CB_corr,
-                                   fontsize=13,
-                                   xytext=(-5, 13),
-                                   model_outlier_on=True,
-                                   percent_bias_on=True,
-                                   bias_array=BB,
-                                   edgecolors='blue',
-                                   facecolors='none',
-                                   linewidths=0.5,
-                                   label='Data B')
+modelTextsB, _ = dia.add_model_set(
+    CB_std,
+    CB_corr,
+    fontsize=13,
+    xytext=(-5, 13),
+    model_outlier_on=True,
+    percent_bias_on=True,
+    bias_array=BB,
+    edgecolors='blue',
+    facecolors='none',
+    linewidths=0.5,
+    label='Data B',
+)
 
 # Customize model labels: add background color
 for txt in modelTextsA:
-    txt.set_bbox(
-        dict(facecolor='red', edgecolor='none', pad=0.05, boxstyle='square'))
+    txt.set_bbox(dict(facecolor='red', edgecolor='none', pad=0.05, boxstyle='square'))
     txt.set_color('white')
 
 for txt in modelTextsB:
-    txt.set_bbox(
-        dict(facecolor='blue', edgecolor='none', pad=0.05, boxstyle='square'))
+    txt.set_bbox(dict(facecolor='blue', edgecolor='none', pad=0.05, boxstyle='square'))
     txt.set_color('white')
 
 # Add legend

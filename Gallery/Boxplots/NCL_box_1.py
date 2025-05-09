@@ -26,7 +26,7 @@ import geocat.viz as gv
 seed = 200
 np.random.seed(seed)
 
-data = np.random.lognormal(size=(40, 3), mean=1, sigma=.7)
+data = np.random.lognormal(size=(40, 3), mean=1, sigma=0.7)
 for a in range(len(data)):
     data[a] = [x - 4 for x in data[a]]
 
@@ -36,10 +36,9 @@ for a in range(len(data)):
 # Create figure and axis
 w = 0.25
 fig, ax = plt.subplots(figsize=(6, 6))
-boxplots = ax.boxplot(data,
-                      labels=['Control', '-2Xna', '2Xna'],
-                      widths=[w, w, w],
-                      showfliers=False)
+boxplots = ax.boxplot(
+    data, labels=['Control', '-2Xna', '2Xna'], widths=[w, w, w], showfliers=False
+)
 
 # Set whiskers style to dashed
 plt.setp(boxplots['whiskers'], linestyle='--')
@@ -55,10 +54,7 @@ ax.spines['top'].set_visible(False)
 gv.set_axes_limits_and_ticks(ax, ylim=(-6.0, 9.0), yticks=[-3.0, 0.0, 3.0, 6.0])
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         y_minor_per_major=3,
-                         x_minor_per_major=1,
-                         labelsize=14)
+gv.add_major_minor_ticks(ax, y_minor_per_major=3, x_minor_per_major=1, labelsize=14)
 
 # Use geocat.viz.util convenience function to add title to the plot axis.
 gv.set_titles_and_labels(ax, maintitle='Default Box Plot')

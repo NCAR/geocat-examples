@@ -29,8 +29,18 @@ panels = 4
 data = np.random.uniform(0.1, 1.15, (panels, bars_per_panel, num_months))
 
 months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov',
-    'Dec'
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
 ]
 ###############################################################################
 # Plot:
@@ -43,63 +53,72 @@ panel = 0
 for row in range(0, 2):
     for col in range(0, 2):
         # Use geocat.viz.util convenience function to set axes parameters
-        gv.set_axes_limits_and_ticks(axs[row][col],
-                                     ylim=(0.4, 1.2),
-                                     xticks=x,
-                                     yticks=np.arange(0.4, 1.4, 0.2),
-                                     xticklabels=months)
+        gv.set_axes_limits_and_ticks(
+            axs[row][col],
+            ylim=(0.4, 1.2),
+            xticks=x,
+            yticks=np.arange(0.4, 1.4, 0.2),
+            xticklabels=months,
+        )
         # Use geocat.viz.util convenience function to add minor and major tick lines
-        gv.add_major_minor_ticks(axs[row][col],
-                                 x_minor_per_major=1,
-                                 y_minor_per_major=4,
-                                 labelsize=12)
+        gv.add_major_minor_ticks(
+            axs[row][col], x_minor_per_major=1, y_minor_per_major=4, labelsize=12
+        )
         # Use geocat.viz.util convenience function to set titles and labels
-        gv.set_titles_and_labels(axs[row][col],
-                                 ylabel='(\u00B0C)',
-                                 labelfontsize=14)
+        gv.set_titles_and_labels(axs[row][col], ylabel='(\u00b0C)', labelfontsize=14)
 
         # Add overall figure title
         fig.suptitle('Paneling bar plots, dummy data', size=20, y=0.94)
 
         # Add data to subplot
-        axs[row][col].bar(x - width * 3 / 2,
-                          data[panel][0][:],
-                          width,
-                          edgecolor='black',
-                          linewidth=0.25,
-                          color='red',
-                          label='first')
-        axs[row][col].bar(x - width / 2,
-                          data[panel][1][:],
-                          width,
-                          edgecolor='black',
-                          linewidth=0.25,
-                          color='lightsteelblue',
-                          label='second')
-        axs[row][col].bar(x + width / 2,
-                          data[panel][2][:],
-                          width,
-                          edgecolor='black',
-                          linewidth=0.25,
-                          color='blue',
-                          label='third')
-        axs[row][col].bar(x + width * 3 / 2,
-                          data[panel][3][:],
-                          width,
-                          edgecolor='black',
-                          linewidth=0.25,
-                          color='lime',
-                          label='fourth')
+        axs[row][col].bar(
+            x - width * 3 / 2,
+            data[panel][0][:],
+            width,
+            edgecolor='black',
+            linewidth=0.25,
+            color='red',
+            label='first',
+        )
+        axs[row][col].bar(
+            x - width / 2,
+            data[panel][1][:],
+            width,
+            edgecolor='black',
+            linewidth=0.25,
+            color='lightsteelblue',
+            label='second',
+        )
+        axs[row][col].bar(
+            x + width / 2,
+            data[panel][2][:],
+            width,
+            edgecolor='black',
+            linewidth=0.25,
+            color='blue',
+            label='third',
+        )
+        axs[row][col].bar(
+            x + width * 3 / 2,
+            data[panel][3][:],
+            width,
+            edgecolor='black',
+            linewidth=0.25,
+            color='lime',
+            label='fourth',
+        )
         panel += 1
 
 # Add legend with `figlegend()` to position it relative to figure instead of subplots
 handles, labels = axs[0][0].get_legend_handles_labels()
-fig.legend(handles,
-           labels,
-           ncol=4,
-           loc='lower center',
-           fontsize=14,
-           columnspacing=5,
-           frameon=False)
+fig.legend(
+    handles,
+    labels,
+    ncol=4,
+    loc='lower center',
+    fontsize=14,
+    columnspacing=5,
+    frameon=False,
+)
 
 plt.show()

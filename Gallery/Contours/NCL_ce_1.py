@@ -54,21 +54,22 @@ contour = ds.U.plot.contour(
     add_labels=False,  # turn off xarray's automatic Lat, lon labels
     colors="black",  # note plurals in this and following kwargs
     linestyles="-",
-    linewidths=0.5)
+    linewidths=0.5,
+)
 
 # Label the contours and set axes title
 ax.clabel(contour, [-8, 0, 8, 16, 24, 32], fontsize=12, fmt="%.0f")
 
 # Add lower text box
-ax.text(0.995,
-        -0.13,
-        "CONTOUR FROM -12 TO 40 BY 4",
-        horizontalalignment='right',
-        transform=ax.transAxes,
-        fontsize=14,
-        bbox=dict(boxstyle='square, pad=0.25',
-                  facecolor='white',
-                  edgecolor='black'))
+ax.text(
+    0.995,
+    -0.13,
+    "CONTOUR FROM -12 TO 40 BY 4",
+    horizontalalignment='right',
+    transform=ax.transAxes,
+    fontsize=14,
+    bbox=dict(boxstyle='square, pad=0.25', facecolor='white', edgecolor='black'),
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gv.add_major_minor_ticks(ax)
@@ -81,11 +82,13 @@ ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add left and right title to the plot axes.
-gv.set_titles_and_labels(ax,
-                         lefttitle="Zonal Wind",
-                         lefttitlefontsize=16,
-                         righttitle=ds.U.units,
-                         righttitlefontsize=16)
+gv.set_titles_and_labels(
+    ax,
+    lefttitle="Zonal Wind",
+    lefttitlefontsize=16,
+    righttitle=ds.U.units,
+    righttitlefontsize=16,
+)
 
 # Set ticklabel fontsize
 plt.xticks(fontsize=14)

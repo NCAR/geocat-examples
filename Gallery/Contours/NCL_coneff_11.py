@@ -45,43 +45,51 @@ hatches = ['/////', '/////', '/////', '/////', None, '..', '.', '.', '.']
 
 # Choose colors for the hatches
 colors = [
-    'coral', 'palegreen', 'royalblue', 'lemonchiffon', 'white', 'fuchsia',
-    'brown', 'cyan', 'mediumblue'
+    'coral',
+    'palegreen',
+    'royalblue',
+    'lemonchiffon',
+    'white',
+    'fuchsia',
+    'brown',
+    'cyan',
+    'mediumblue',
 ]
 
 # Create a filled contour plot
-p = v.plot.contourf(ax=ax,
-                    vmin=-45.0,
-                    vmax=45,
-                    levels=10,
-                    add_colorbar=False,
-                    hatches=hatches,
-                    cmap='white')  # Use white cmap to have a white background
+p = v.plot.contourf(
+    ax=ax,
+    vmin=-45.0,
+    vmax=45,
+    levels=10,
+    add_colorbar=False,
+    hatches=hatches,
+    cmap='white',
+)  # Use white cmap to have a white background
 
 # Set the colors for the hatches
 p.set_edgecolors(colors)
-p.set_linewidth(0.)
+p.set_linewidth(0.0)
 
 # Set linewidth of hatches
 plt.rcParams['hatch.linewidth'] = 2.5
 
 # Plot the contour lines
-c = v.plot.contour(ax=ax,
-                   vmin=-45.0,
-                   vmax=45,
-                   levels=10,
-                   colors='k',
-                   linewidths=1,
-                   add_colorbar=False,
-                   linestyles='solid')
+c = v.plot.contour(
+    ax=ax,
+    vmin=-45.0,
+    vmax=45,
+    levels=10,
+    colors='k',
+    linewidths=1,
+    add_colorbar=False,
+    linestyles='solid',
+)
 
 # Add horizontal colorbar
-cbar = plt.colorbar(p,
-                    orientation='horizontal',
-                    shrink=0.97,
-                    aspect=10,
-                    pad=0.09,
-                    drawedges=True)
+cbar = plt.colorbar(
+    p, orientation='horizontal', shrink=0.97, aspect=10, pad=0.09, drawedges=True
+)
 cbar.ax.tick_params(labelsize=16)
 cbar.set_ticks(np.arange(-35, 40, 10))
 
@@ -95,19 +103,18 @@ for i, patch in enumerate(cbar.solids_patches):
 gv.add_lat_lon_ticklabels(ax)
 
 # Use geocat-viz utility function to format major and minor ticks
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=2,
-                         y_minor_per_major=3,
-                         labelsize=16)
+gv.add_major_minor_ticks(ax, x_minor_per_major=2, y_minor_per_major=3, labelsize=16)
 
 # Use geocat-viz utility function to set titles and labels
-gv.set_titles_and_labels(ax,
-                         maintitle="Patterned Contour Plot",
-                         maintitlefontsize=18,
-                         lefttitle="meridional wind component",
-                         lefttitlefontsize=16,
-                         righttitle="m/s",
-                         righttitlefontsize=16)
+gv.set_titles_and_labels(
+    ax,
+    maintitle="Patterned Contour Plot",
+    maintitlefontsize=18,
+    lefttitle="meridional wind component",
+    lefttitlefontsize=16,
+    righttitle="m/s",
+    righttitlefontsize=16,
+)
 
 # Remove default x and y labels
 ax.set_xlabel(None)
@@ -119,6 +126,7 @@ gv.set_axes_limits_and_ticks(
     xticks=np.arange(0, 360, 60),
     yticks=np.arange(-60, 90, 30),
     xticklabels=['0', '60E', '120E', '180', '120W', '60W'],
-    yticklabels=['60S', '30S', '0', '30N', '60N'])
+    yticklabels=['60S', '30S', '0', '30N', '60N'],
+)
 
 plt.show()

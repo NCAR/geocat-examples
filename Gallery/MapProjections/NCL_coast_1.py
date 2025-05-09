@@ -41,7 +41,6 @@ t = ds.t
 
 
 def Plot(res, title):
-
     fig = plt.figure(figsize=(8, 6))
 
     # Generate axes, using Cartopy, drawing coastlines, and adding features
@@ -52,31 +51,37 @@ def Plot(res, title):
     ax1.add_feature(cfeature.LAND.with_scale(res), facecolor="wheat")
 
     # Contourf-plot data
-    temp = t.plot.contourf(ax=ax1,
-                           transform=projection,
-                           levels=25,
-                           vmin=14.9,
-                           vmax=17.3,
-                           cmap='magma',
-                           add_colorbar=False)
+    temp = t.plot.contourf(
+        ax=ax1,
+        transform=projection,
+        levels=25,
+        vmin=14.9,
+        vmax=17.3,
+        cmap='magma',
+        add_colorbar=False,
+    )
 
     # Add color bar
     cbar_ticks = np.arange(15, 17.3, 0.3)
-    cbar = plt.colorbar(temp,
-                        orientation='horizontal',
-                        shrink=0.8,
-                        pad=0.073,
-                        extendrect=True,
-                        ticks=cbar_ticks)
+    cbar = plt.colorbar(
+        temp,
+        orientation='horizontal',
+        shrink=0.8,
+        pad=0.073,
+        extendrect=True,
+        ticks=cbar_ticks,
+    )
 
     cbar.ax.tick_params(labelsize=10)
 
     # Use geocat.viz.util convenience function to set axes limit and tick values
-    gv.set_axes_limits_and_ticks(ax1,
-                                 xlim=(-8, -3),
-                                 ylim=(35, 37),
-                                 xticks=np.linspace(-3, -8, 6),
-                                 yticks=np.linspace(35, 37, 3))
+    gv.set_axes_limits_and_ticks(
+        ax1,
+        xlim=(-8, -3),
+        ylim=(35, 37),
+        xticks=np.linspace(-3, -8, 6),
+        yticks=np.linspace(35, 37, 3),
+    )
 
     # Use geocat.viz.util convenience function to add major tick lines
     gv.add_major_minor_ticks(ax1, y_minor_per_major=1, labelsize=12)
@@ -89,16 +94,18 @@ def Plot(res, title):
     ax1.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
     # Use geocat.viz.util convenience function to set titles and labels
-    gv.set_titles_and_labels(ax1,
-                             righttitle="Deg C",
-                             righttitlefontsize=15,
-                             lefttitle="Temperature",
-                             lefttitlefontsize=15,
-                             xlabel="",
-                             ylabel="")
+    gv.set_titles_and_labels(
+        ax1,
+        righttitle="Deg C",
+        righttitlefontsize=15,
+        lefttitle="Temperature",
+        lefttitlefontsize=15,
+        xlabel="",
+        ylabel="",
+    )
 
-    plt.suptitle("Strait of Gibraltar", x=.5, y=.83, fontsize=18)
-    plt.title(title, x=.5, y=1.07, fontsize=15)
+    plt.suptitle("Strait of Gibraltar", x=0.5, y=0.83, fontsize=18)
+    plt.title(title, x=0.5, y=1.07, fontsize=15)
     plt.tight_layout()
     plt.show()
 

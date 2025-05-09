@@ -46,40 +46,32 @@ fig = plt.figure(figsize=(10, 7.25))
 ax = plt.axes(projection=ccrs.PlateCarree())
 
 # Import an NCL colormap and truncate it for a range and color levels
-cmap = gv.truncate_colormap(cmaps.BlAqGrYeOrReVi200,
-                            minval=0.03,
-                            maxval=0.95,
-                            n=16)
+cmap = gv.truncate_colormap(cmaps.BlAqGrYeOrReVi200, minval=0.03, maxval=0.95, n=16)
 
 # Draw vector plot
 # (there is no matplotlib equivalent to "CurlyVector" yet)
-Q = plt.quiver(ds['lon'],
-               ds['lat'],
-               ds['U'].data,
-               ds['V'].data,
-               ds['T'].data,
-               cmap=cmap,
-               zorder=1,
-               pivot="middle",
-               width=0.001)
+Q = plt.quiver(
+    ds['lon'],
+    ds['lat'],
+    ds['U'].data,
+    ds['V'].data,
+    ds['T'].data,
+    cmap=cmap,
+    zorder=1,
+    pivot="middle",
+    width=0.001,
+)
 plt.clim(228, 292)
 
 # Draw legend for vector plot
 ax.add_patch(
-    plt.Rectangle((150, -140),
-                  30,
-                  30,
-                  facecolor='white',
-                  edgecolor='black',
-                  clip_on=False))
-qk = ax.quiverkey(Q,
-                  0.93,
-                  0.06,
-                  10,
-                  r'10 $m/s$',
-                  labelpos='N',
-                  coordinates='figure',
-                  color='black')
+    plt.Rectangle(
+        (150, -140), 30, 30, facecolor='white', edgecolor='black', clip_on=False
+    )
+)
+qk = ax.quiverkey(
+    Q, 0.93, 0.06, 10, r'10 $m/s$', labelpos='N', coordinates='figure', color='black'
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gv.add_major_minor_ticks(ax, labelsize=12)
@@ -92,24 +84,27 @@ plt.xticks(range(-180, 181, 30))
 plt.yticks(range(-90, 91, 30))
 
 # Use geocat.viz.util convenience function to add titles to left and right of the plot axis.
-gv.set_titles_and_labels(ax,
-                         maintitle="Vectors colored by a scalar map",
-                         lefttitle="Temperature",
-                         righttitle="$^{\circ}$K")
+gv.set_titles_and_labels(
+    ax,
+    maintitle="Vectors colored by a scalar map",
+    lefttitle="Temperature",
+    righttitle="$^{\circ}$K",
+)
 
 cax = plt.axes((0.225, 0.075, 0.55, 0.025))
-cbar = fig.colorbar(Q,
-                    ax=ax,
-                    cax=cax,
-                    orientation='horizontal',
-                    ticks=range(232, 289, 8),
-                    drawedges=True)
+cbar = fig.colorbar(
+    Q,
+    ax=ax,
+    cax=cax,
+    orientation='horizontal',
+    ticks=range(232, 289, 8),
+    drawedges=True,
+)
 
 # Turn on continent shading
-ax.add_feature(cartopy.feature.LAND,
-               edgecolor='lightgray',
-               facecolor='lightgray',
-               zorder=0)
+ax.add_feature(
+    cartopy.feature.LAND, edgecolor='lightgray', facecolor='lightgray', zorder=0
+)
 
 # Generate plot!
 plt.tight_layout()

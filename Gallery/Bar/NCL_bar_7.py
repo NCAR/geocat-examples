@@ -27,15 +27,27 @@ import geocat.viz as gv
 x = [1, 2, 3, 4, 5, 6, 7, 8]
 data = [154900, 56600, 40000, 30200, 29700, 24400, 21700, 13900]
 labels = [
-    'Lung', 'Colon/rectum', 'Breast', 'Prostate', 'Pancreas',
-    'Non-Hodgkin\'s Lymphoma', 'Leukemias', 'Ovary'
+    'Lung',
+    'Colon/rectum',
+    'Breast',
+    'Prostate',
+    'Pancreas',
+    'Non-Hodgkin\'s Lymphoma',
+    'Leukemias',
+    'Ovary',
 ]
 
 ###############################################################################
 # Create the custom color list.
 color_list = [
-    'firebrick', 'red', 'orange', 'green', 'navy', 'blue', 'skyblue',
-    'slateblue'
+    'firebrick',
+    'red',
+    'orange',
+    'green',
+    'navy',
+    'blue',
+    'skyblue',
+    'slateblue',
 ]
 
 ###############################################################################
@@ -64,16 +76,12 @@ for k, label in enumerate(labels):
     plt.text(x[k], data[k] + 2000, label, rotation=45)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gv.set_axes_limits_and_ticks(ax,
-                             ylim=(0, plot_y_max),
-                             xticks=[],
-                             yticks=np.linspace(0, plot_y_max, 7))
+gv.set_axes_limits_and_ticks(
+    ax, ylim=(0, plot_y_max), xticks=[], yticks=np.linspace(0, plot_y_max, 7)
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=0,
-                         y_minor_per_major=3,
-                         labelsize=12)
+gv.add_major_minor_ticks(ax, x_minor_per_major=0, y_minor_per_major=3, labelsize=12)
 
 # Draw plot on the screen.
 plt.show()
@@ -96,22 +104,17 @@ labels_reversed = labels[::-1]
 plt.legend(bars_reversed, labels_reversed)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values without calling several matplotlib functions
-gv.set_axes_limits_and_ticks(ax,
-                             ylim=(0, plot_y_max),
-                             xticks=[],
-                             yticks=np.linspace(0, plot_y_max, 7))
+gv.set_axes_limits_and_ticks(
+    ax, ylim=(0, plot_y_max), xticks=[], yticks=np.linspace(0, plot_y_max, 7)
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=0,
-                         y_minor_per_major=3,
-                         labelsize=12)
+gv.add_major_minor_ticks(ax, x_minor_per_major=0, y_minor_per_major=3, labelsize=12)
 
 # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-gv.set_titles_and_labels(ax,
-                         maintitle=title,
-                         maintitlefontsize=title_fontsize,
-                         ylabel="Number of Deaths")
+gv.set_titles_and_labels(
+    ax, maintitle=title, maintitlefontsize=title_fontsize, ylabel="Number of Deaths"
+)
 
 # Show the plot
 plt.tight_layout()

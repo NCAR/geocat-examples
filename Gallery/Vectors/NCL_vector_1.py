@@ -95,41 +95,38 @@ Q = plt.quiver(
     v,
     color='white',
     pivot='middle',
-    width=.0025,
+    width=0.0025,
     scale=75,
 )
 
 # Use geocat-viz utility function to format title
-gv.set_titles_and_labels(ax,
-                         maintitle='',
-                         maintitlefontsize=18,
-                         lefttitle="Sea Surface Temperature",
-                         lefttitlefontsize=18,
-                         righttitle="C",
-                         righttitlefontsize=18,
-                         xlabel=None,
-                         ylabel=None,
-                         labelfontsize=16)
+gv.set_titles_and_labels(
+    ax,
+    maintitle='',
+    maintitlefontsize=18,
+    lefttitle="Sea Surface Temperature",
+    lefttitlefontsize=18,
+    righttitle="C",
+    righttitlefontsize=18,
+    xlabel=None,
+    ylabel=None,
+    labelfontsize=16,
+)
 
 # Format tick labels as latitude and longitudes
 gv.add_lat_lon_ticklabels(ax=ax)
 
 # Use geocat-viz utility function to customize tick marks
-gv.set_axes_limits_and_ticks(ax,
-                             xlim=(65, 95),
-                             ylim=(5, 25),
-                             xticks=range(70, 95, 10),
-                             yticks=range(5, 27, 5))
+gv.set_axes_limits_and_ticks(
+    ax, xlim=(65, 95), ylim=(5, 25), xticks=range(70, 95, 10), yticks=range(5, 27, 5)
+)
 
 # Remove degree symbol from tick labels
 ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Add minor tick marks
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=4,
-                         y_minor_per_major=4,
-                         labelsize=14)
+gv.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=4, labelsize=14)
 
 # Draw the key for the quiver plot as a rectangle patch
 rect = mpl.patches.Rectangle(
@@ -155,15 +152,17 @@ qk = ax.quiverkey(
 )
 
 # Add and customize colorbar
-cbar_ticks = np.arange(24, 28.8, .3)
-plt.colorbar(ax=ax,
-             mappable=sst_plot,
-             extendrect=True,
-             extendfrac='auto',
-             shrink=0.75,
-             aspect=10,
-             ticks=cbar_ticks,
-             drawedges=True)
+cbar_ticks = np.arange(24, 28.8, 0.3)
+plt.colorbar(
+    ax=ax,
+    mappable=sst_plot,
+    extendrect=True,
+    extendfrac='auto',
+    shrink=0.75,
+    aspect=10,
+    ticks=cbar_ticks,
+    drawedges=True,
+)
 
 # Show the plot
 plt.show()

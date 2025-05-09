@@ -50,26 +50,27 @@ ax = plt.gca()
 baseline = np.nanmin(dsoik[::8])
 
 # Create barplot
-ax.bar(date_frac[::8],
-       dsoik[::8] - baseline,
-       align='center',
-       edgecolor='grey',
-       color='white',
-       width=8 / 12,
-       linewidth=.5,
-       bottom=-1.75)
+ax.bar(
+    date_frac[::8],
+    dsoik[::8] - baseline,
+    align='center',
+    edgecolor='grey',
+    color='white',
+    width=8 / 12,
+    linewidth=0.5,
+    bottom=-1.75,
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=4,
-                         y_minor_per_major=5,
-                         labelsize=20)
+gv.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5, labelsize=20)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gv.set_axes_limits_and_ticks(ax,
-                             yticks=np.arange(-2.0, 2.0, 0.5),
-                             xlim=(date_frac[40], date_frac[-16]),
-                             xticks=np.linspace(1900, 1980, 5))
+gv.set_axes_limits_and_ticks(
+    ax,
+    yticks=np.arange(-2.0, 2.0, 0.5),
+    xlim=(date_frac[40], date_frac[-16]),
+    xticks=np.linspace(1900, 1980, 5),
+)
 
 # Use geocat.viz.util convenience function to set titles and labels
 gv.set_titles_and_labels(ax, maintitle="Bar plot", maintitlefontsize=30)
@@ -106,21 +107,18 @@ ax.plot(xs, ys, color="black", linewidth=0.5)
 ax.fill_between(xs, 0, ys, color='white')
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=4,
-                         y_minor_per_major=5,
-                         labelsize=20)
+gv.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5, labelsize=20)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gv.set_axes_limits_and_ticks(ax,
-                             yticks=np.arange(-2.0, 2.0, 0.5),
-                             xlim=(1880, 2000),
-                             xticks=np.linspace(1880, 2000, 7))
+gv.set_axes_limits_and_ticks(
+    ax,
+    yticks=np.arange(-2.0, 2.0, 0.5),
+    xlim=(1880, 2000),
+    xticks=np.linspace(1880, 2000, 7),
+)
 
 # Use geocat.viz.util convenience function to set titles and labels
-gv.set_titles_and_labels(ax,
-                         maintitle="Bar plot with outlines",
-                         maintitlefontsize=30)
+gv.set_titles_and_labels(ax, maintitle="Bar plot with outlines", maintitlefontsize=30)
 
 # Draw plot on the screen
 plt.tight_layout()
@@ -134,30 +132,31 @@ plt.figure(3, figsize=(10, 5))
 ax = plt.gca()
 
 # Create barplot
-ax.bar(date_frac[::8],
-       dsoik[::8],
-       align='edge',
-       edgecolor='black',
-       color='white',
-       width=8 / 12,
-       linewidth=.5)
+ax.bar(
+    date_frac[::8],
+    dsoik[::8],
+    align='edge',
+    edgecolor='black',
+    color='white',
+    width=8 / 12,
+    linewidth=0.5,
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=4,
-                         y_minor_per_major=5,
-                         labelsize=20)
+gv.add_major_minor_ticks(ax, x_minor_per_major=4, y_minor_per_major=5, labelsize=20)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gv.set_axes_limits_and_ticks(ax,
-                             yticks=np.arange(-2.0, 2.0, 0.5),
-                             xlim=(date_frac[40], date_frac[-16]),
-                             xticks=np.linspace(1900, 1980, 5))
+gv.set_axes_limits_and_ticks(
+    ax,
+    yticks=np.arange(-2.0, 2.0, 0.5),
+    xlim=(date_frac[40], date_frac[-16]),
+    xticks=np.linspace(1900, 1980, 5),
+)
 
 # Use geocat.viz.util convenience function to set titles and labels
-gv.set_titles_and_labels(ax,
-                         maintitle="Bar plot with a reference line",
-                         maintitlefontsize=30)
+gv.set_titles_and_labels(
+    ax, maintitle="Bar plot with a reference line", maintitlefontsize=30
+)
 
 # Show the plot
 plt.tight_layout()

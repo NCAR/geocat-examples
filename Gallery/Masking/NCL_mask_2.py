@@ -60,36 +60,44 @@ lakes = GeometryCollection(list(cfeature.LAKES.with_scale('110m').geometries()))
 land_no_lakes = land.difference(lakes)  # LAND where not in LAKES
 
 # Add LAND minus LAKES to axis
-ax.add_geometries(land_no_lakes,
-                  crs=ccrs.PlateCarree(),
-                  facecolor='lightgray',
-                  edgecolor='black',
-                  linewidth=0.5,
-                  zorder=1)
+ax.add_geometries(
+    land_no_lakes,
+    crs=ccrs.PlateCarree(),
+    facecolor='lightgray',
+    edgecolor='black',
+    linewidth=0.5,
+    zorder=1,
+)
 
 # Plot filled contour
-contour = TS.plot.contourf(ax=ax,
-                           transform=ccrs.PlateCarree(),
-                           cmap='magma',
-                           levels=np.arange(216, 315, 3),
-                           extend='neither',
-                           add_colorbar=False,
-                           add_labels=False,
-                           zorder=0)
-plt.colorbar(contour,
-             ax=ax,
-             ticks=np.linspace(219, 303, 8),
-             orientation='horizontal',
-             pad=0.075,
-             drawedges=True,
-             shrink=0.7)
+contour = TS.plot.contourf(
+    ax=ax,
+    transform=ccrs.PlateCarree(),
+    cmap='magma',
+    levels=np.arange(216, 315, 3),
+    extend='neither',
+    add_colorbar=False,
+    add_labels=False,
+    zorder=0,
+)
+plt.colorbar(
+    contour,
+    ax=ax,
+    ticks=np.linspace(219, 303, 8),
+    orientation='horizontal',
+    pad=0.075,
+    drawedges=True,
+    shrink=0.7,
+)
 
 # Use geocat.viz.util convenience function to set axes limits & tick values
-gv.set_axes_limits_and_ticks(ax,
-                             xlim=(-180, 180),
-                             ylim=(-90, 90),
-                             xticks=np.linspace(-180, 180, 13),
-                             yticks=np.linspace(-90, 90, 7))
+gv.set_axes_limits_and_ticks(
+    ax,
+    xlim=(-180, 180),
+    ylim=(-90, 90),
+    xticks=np.linspace(-180, 180, 13),
+    yticks=np.linspace(-90, 90, 7),
+)
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
 gv.add_major_minor_ticks(ax, labelsize=12)
@@ -102,11 +110,13 @@ ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add titles
-gv.set_titles_and_labels(ax,
-                         maintitle='Draw land ON TOP of contours',
-                         lefttitle=TS.long_name,
-                         righttitle=TS.units,
-                         lefttitlefontsize=14,
-                         righttitlefontsize=14)
+gv.set_titles_and_labels(
+    ax,
+    maintitle='Draw land ON TOP of contours',
+    lefttitle=TS.long_name,
+    righttitle=TS.units,
+    lefttitlefontsize=14,
+    righttitlefontsize=14,
+)
 
 plt.show()

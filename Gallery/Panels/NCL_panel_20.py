@@ -57,13 +57,11 @@ def format_linegraph_axes(ax):
         ylim=(-20, 50),
         xticks=np.arange(-90, 91, 30),
         yticks=np.arange(-20, 51, 10),
-        xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'])
+        xticklabels=['90S', '60S', '30S', '0', '30N', '60N', '90N'],
+    )
 
     # Use geocat.viz.util convenience function to add minor and major ticks
-    gv.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=5,
-                             labelsize=12)
+    gv.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=5, labelsize=12)
 
 
 def format_contour_axes(ax):
@@ -75,11 +73,13 @@ def format_contour_axes(ax):
             The set of axes to be manipulated
     """
     # Use geocat.viz.util convenience function to set axes tick values
-    gv.set_axes_limits_and_ticks(ax=ax,
-                                 xlim=(-180, 180),
-                                 ylim=(-90, 90),
-                                 xticks=np.arange(-180, 181, 30),
-                                 yticks=np.arange(-90, 91, 30))
+    gv.set_axes_limits_and_ticks(
+        ax=ax,
+        xlim=(-180, 180),
+        ylim=(-90, 90),
+        xticks=np.arange(-180, 181, 30),
+        yticks=np.arange(-90, 91, 30),
+    )
 
     # Use geocat.viz.util convenience function to add minor and major ticks
     gv.add_major_minor_ticks(ax, labelsize=8)
@@ -103,11 +103,9 @@ fig = plt.figure(figsize=(12, 10))
 
 # Create grid with two rows and two columns
 # Use `height_ratios` to adjust the relative heights of the rows
-grid = gridspec.GridSpec(nrows=2,
-                         ncols=2,
-                         height_ratios=[0.55, 0.45],
-                         hspace=0.1,
-                         figure=fig)
+grid = gridspec.GridSpec(
+    nrows=2, ncols=2, height_ratios=[0.55, 0.45], hspace=0.1, figure=fig
+)
 
 # Choose the map projection
 proj = ccrs.PlateCarree()
@@ -124,11 +122,13 @@ ax4.coastlines(linewidth=0.5)
 
 # Use geocat.viz.util convenience function to set titles without calling
 # several matplotlib functions
-gv.set_titles_and_labels(ax1,
-                         maintitle='Time=0',
-                         maintitlefontsize=14,
-                         ylabel=U_0.long_name,
-                         labelfontsize=14)
+gv.set_titles_and_labels(
+    ax1,
+    maintitle='Time=0',
+    maintitlefontsize=14,
+    ylabel=U_0.long_name,
+    labelfontsize=14,
+)
 gv.set_titles_and_labels(ax2, maintitle='Time=1', maintitlefontsize=14)
 
 # Draw tick labels on the right side of the top right plot
@@ -163,56 +163,68 @@ cmap = cmaps.BlueRed
 levels = np.arange(-10, 36, 5)
 
 # Add filled contour to maps
-contour3 = ax3.contourf(U_0['lon'],
-                        U_0['lat'],
-                        U_0.data,
-                        cmap=cmap,
-                        norm=divnorm,
-                        levels=levels,
-                        extend='both')
-contour4 = ax4.contourf(U_1['lon'],
-                        U_1['lat'],
-                        U_1.data,
-                        cmap=cmap,
-                        norm=divnorm,
-                        levels=levels,
-                        extend='both')
+contour3 = ax3.contourf(
+    U_0['lon'],
+    U_0['lat'],
+    U_0.data,
+    cmap=cmap,
+    norm=divnorm,
+    levels=levels,
+    extend='both',
+)
+contour4 = ax4.contourf(
+    U_1['lon'],
+    U_1['lat'],
+    U_1.data,
+    cmap=cmap,
+    norm=divnorm,
+    levels=levels,
+    extend='both',
+)
 
 # Add contour line to maps
-ax3.contour(U_0['lon'],
-            U_0['lat'],
-            U_0.data,
-            colors='black',
-            linewidths=0.5,
-            linestyles='solid',
-            levels=levels)
-ax4.contour(U_1['lon'],
-            U_1['lat'],
-            U_1.data,
-            colors='black',
-            linewidths=0.5,
-            linestyles='solid',
-            levels=levels)
+ax3.contour(
+    U_0['lon'],
+    U_0['lat'],
+    U_0.data,
+    colors='black',
+    linewidths=0.5,
+    linestyles='solid',
+    levels=levels,
+)
+ax4.contour(
+    U_1['lon'],
+    U_1['lat'],
+    U_1.data,
+    colors='black',
+    linewidths=0.5,
+    linestyles='solid',
+    levels=levels,
+)
 
 # Create colorbars
-cbar3 = plt.colorbar(contour3,
-                     ax=ax3,
-                     orientation='horizontal',
-                     extendrect=True,
-                     extendfrac='auto',
-                     shrink=0.75,
-                     aspect=13,
-                     drawedges=True,
-                     pad=0.1)
-cbar4 = plt.colorbar(contour4,
-                     ax=ax4,
-                     orientation='horizontal',
-                     extendrect=True,
-                     extendfrac='auto',
-                     shrink=0.75,
-                     aspect=13,
-                     drawedges=True,
-                     pad=0.1)
+cbar3 = plt.colorbar(
+    contour3,
+    ax=ax3,
+    orientation='horizontal',
+    extendrect=True,
+    extendfrac='auto',
+    shrink=0.75,
+    aspect=13,
+    drawedges=True,
+    pad=0.1,
+)
+cbar4 = plt.colorbar(
+    contour4,
+    ax=ax4,
+    orientation='horizontal',
+    extendrect=True,
+    extendfrac='auto',
+    shrink=0.75,
+    aspect=13,
+    drawedges=True,
+    pad=0.1,
+)
 
 # Format colorbar ticks and labels
 cbar3.ax.tick_params(labelsize=8)

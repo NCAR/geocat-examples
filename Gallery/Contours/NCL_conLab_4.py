@@ -50,19 +50,16 @@ plt.figure(figsize=(8, 8))
 ax = plt.axes(projection=ccrs.PlateCarree())
 
 # Draw map features
-ax.add_feature(cfeature.LAKES,
-               linewidth=0.5,
-               edgecolor='black',
-               facecolor='None')
+ax.add_feature(cfeature.LAKES, linewidth=0.5, edgecolor='black', facecolor='None')
 ax.add_feature(cfeature.COASTLINE, linewidth=0.5)
 
 # Zoom in on region bounded by the prime meridian, 70N, 25S, and 25N
 ax.set_extent([0, 70, -30, 30], crs=ccrs.PlateCarree())
 
 # Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(ax,
-                             yticks=np.linspace(-20, 20, 3),
-                             xticks=np.linspace(0, 60, 3))
+gv.set_axes_limits_and_ticks(
+    ax, yticks=np.linspace(-20, 20, 3), xticks=np.linspace(0, 60, 3)
+)
 
 # Use geocat.viz.util convenience function to make plots look like NCL plots
 # by using latitude, longitude tick labels
@@ -73,10 +70,7 @@ ax.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
 ax.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=3,
-                         y_minor_per_major=4,
-                         labelsize=14)
+gv.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=4, labelsize=14)
 
 # Use geocat.viz.util convenience function to add titles to left and right of
 # the plot axis
@@ -86,32 +80,42 @@ gv.set_titles_and_labels(ax, lefttitle=U.long_name, righttitle=U.units)
 cmap = cmaps.gui_default
 
 # Draw filled contours
-colors = U.plot.contourf(ax=ax,
-                         cmap=cmap,
-                         levels=np.arange(-16, 48, 4),
-                         add_colorbar=False,
-                         add_labels=False)
+colors = U.plot.contourf(
+    ax=ax, cmap=cmap, levels=np.arange(-16, 48, 4), add_colorbar=False, add_labels=False
+)
 # Draw contour lines
-lines = U.plot.contour(ax=ax,
-                       colors='black',
-                       levels=np.arange(-16, 48, 4),
-                       linewidths=0.5,
-                       linestyles='solid',
-                       add_labels=False)
+lines = U.plot.contour(
+    ax=ax,
+    colors='black',
+    levels=np.arange(-16, 48, 4),
+    linewidths=0.5,
+    linestyles='solid',
+    add_labels=False,
+)
 
 # Create horizontal colorbar
-cbar = plt.colorbar(colors,
-                    ticks=np.arange(-12, 44, 4),
-                    orientation='horizontal',
-                    drawedges=True,
-                    aspect=12,
-                    shrink=0.8,
-                    pad=0.075)
+cbar = plt.colorbar(
+    colors,
+    ticks=np.arange(-12, 44, 4),
+    orientation='horizontal',
+    drawedges=True,
+    aspect=12,
+    shrink=0.8,
+    pad=0.075,
+)
 cbar.ax.tick_params(labelsize=14)  # Make the labels larger
 
 # Specify coordinates for contour labels in (longitude, latitude) format
-manual = [(25, 28), (30, -17), (40, -21), (40, -5), (42, -13), (10, 50),
-          (62, -15), (65, -2)]
+manual = [
+    (25, 28),
+    (30, -17),
+    (40, -21),
+    (40, -5),
+    (42, -13),
+    (10, 50),
+    (62, -15),
+    (65, -2),
+]
 
 # Draw contour labels and pass in coordinates using `manual` argument
 ax.clabel(lines, fontsize=12, fmt='%d', inline=True, manual=manual)

@@ -29,8 +29,7 @@ import geocat.viz as gv
 # Read in data:
 
 # Open a netCDF data file using xarray default engine and load the data into xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"),
-                     decode_times=False)
+ds = xr.open_dataset(gdf.get("netcdf_files/b003_TS_200-299.nc"), decode_times=False)
 # Extract variable
 ts = ds.TS.sel(lat=60, lon=180, method='nearest')
 
@@ -63,16 +62,15 @@ plt.xlim([6000, 9500])
 plt.ylim([268.0, 271.5])
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=5,
-                         y_minor_per_major=5,
-                         labelsize=12)
+gv.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=5, labelsize=12)
 
 # Use geocat.viz.util convenience function to set titles and labels without calling several matplotlib functions
-gv.set_titles_and_labels(ax,
-                         maintitle="Output from regline",
-                         xlabel="simulation time",
-                         ylabel="Surface temperature")
+gv.set_titles_and_labels(
+    ax,
+    maintitle="Output from regline",
+    xlabel="simulation time",
+    ylabel="Surface temperature",
+)
 
 # Show the plot
 plt.tight_layout()

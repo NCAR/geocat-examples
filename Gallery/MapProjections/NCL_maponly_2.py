@@ -27,8 +27,7 @@ import geocat.viz as gv
 # Plot:
 
 
-def map_plot(scale, long_min, long_max, lat_min, lat_max, long_labels,
-             lat_labels):
+def map_plot(scale, long_min, long_max, lat_min, lat_max, long_labels, lat_labels):
     """Plots a map-only figure with continent borders, country borders, and
     lakes at a certain longitude and latitude.
 
@@ -70,37 +69,39 @@ def map_plot(scale, long_min, long_max, lat_min, lat_max, long_labels,
 
     # Add in country borders, continent borders, and lakes
     ax.add_feature(
-        cfeature.NaturalEarthFeature(category='cultural',
-                                     name="admin_0_countries",
-                                     scale="110m",
-                                     facecolor="none",
-                                     edgecolor="black",
-                                     linewidth=0.2))
-    ax.add_feature(cfeature.LAND.with_scale(scale),
-                   edgecolor="#4141a0",
-                   facecolor="none")
-    ax.add_feature(cfeature.LAKES.with_scale(scale),
-                   edgecolor="#4141a0",
-                   facecolor="none")
+        cfeature.NaturalEarthFeature(
+            category='cultural',
+            name="admin_0_countries",
+            scale="110m",
+            facecolor="none",
+            edgecolor="black",
+            linewidth=0.2,
+        )
+    )
+    ax.add_feature(
+        cfeature.LAND.with_scale(scale), edgecolor="#4141a0", facecolor="none"
+    )
+    ax.add_feature(
+        cfeature.LAKES.with_scale(scale), edgecolor="#4141a0", facecolor="none"
+    )
 
     # Set extent to show particular area of the map
     ax.set_extent((long_min, long_max, lat_min, lat_max), crs=projection)
 
     # Use geocat.viz.util convenience function to add minor and major tick lines
-    gv.add_major_minor_ticks(ax,
-                             x_minor_per_major=3,
-                             y_minor_per_major=3,
-                             labelsize=15)
+    gv.add_major_minor_ticks(ax, x_minor_per_major=3, y_minor_per_major=3, labelsize=15)
 
     # Use geocat.viz.util convenience function to set axes parameters without calling several matplotlib functions
     # Set axes limits, tick values, and tick labels for both latitude and longitude
-    gv.set_axes_limits_and_ticks(ax,
-                                 xlim=(long_min, long_max),
-                                 ylim=(lat_min, lat_max),
-                                 xticks=np.linspace(long_min, long_max + 20, 4),
-                                 yticks=np.linspace(lat_min, lat_max, 4),
-                                 xticklabels=long_labels,
-                                 yticklabels=lat_labels)
+    gv.set_axes_limits_and_ticks(
+        ax,
+        xlim=(long_min, long_max),
+        ylim=(lat_min, lat_max),
+        xticks=np.linspace(long_min, long_max + 20, 4),
+        yticks=np.linspace(lat_min, lat_max, 4),
+        xticklabels=long_labels,
+        yticklabels=lat_labels,
+    )
     # Show plot with minimal whitespace
     plt.tight_layout()
     plt.show()

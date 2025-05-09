@@ -20,7 +20,7 @@ See following URLs to see the reproduced NCL plot & script:
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
-from matplotlib.ticker import (ScalarFormatter, NullFormatter)
+from matplotlib.ticker import ScalarFormatter, NullFormatter
 import matplotlib.ticker as tic
 
 import geocat.datafiles as gdf
@@ -47,63 +47,47 @@ plt.figure(figsize=(8, 8))
 ax = plt.axes()
 
 # Use geocat.viz.util convenience function to add minor and major tick lines
-gv.add_major_minor_ticks(ax,
-                         x_minor_per_major=5,
-                         y_minor_per_major=4,
-                         labelsize=14)
+gv.add_major_minor_ticks(ax, x_minor_per_major=5, y_minor_per_major=4, labelsize=14)
 
 # Use geocat.viz.util convenience function to set axes parameters
-gv.set_axes_limits_and_ticks(ax,
-                             xlim=(-20, 40),
-                             ylim=(1000, 0),
-                             xticks=np.arange(-20, 60, 10),
-                             yticks=np.arange(0, 1200, 200))
+gv.set_axes_limits_and_ticks(
+    ax,
+    xlim=(-20, 40),
+    ylim=(1000, 0),
+    xticks=np.arange(-20, 60, 10),
+    yticks=np.arange(0, 1200, 200),
+)
 
 # Use geocat.viz.util convenience function to set titles and labels
-gv.set_titles_and_labels(ax,
-                         maintitle='Profile Plot',
-                         xlabel=U.long_name,
-                         ylabel=U['lev'].long_name)
+gv.set_titles_and_labels(
+    ax, maintitle='Profile Plot', xlabel=U.long_name, ylabel=U['lev'].long_name
+)
 
 # Add reference line x=0
 ax.axvline(x=0, color='black', linewidth=0.5)
 
 # Plot data
-plt.plot(U20.data,
-         U20.lev,
-         color='black',
-         linestyle='solid',
-         label='20N',
-         linewidth=0.5)
-plt.plot(U30.data,
-         U30.lev,
-         color='black',
-         dashes=[15, 5],
-         label='30N',
-         linewidth=0.5)
-plt.plot(U40.data,
-         U40.lev,
-         color='black',
-         dashes=[4, 5],
-         label='40N',
-         linewidth=0.5)
-plt.plot(U50.data,
-         U50.lev,
-         color='black',
-         dashes=[15, 5, 5, 5],
-         label='50N',
-         linewidth=0.5)
+plt.plot(
+    U20.data, U20.lev, color='black', linestyle='solid', label='20N', linewidth=0.5
+)
+plt.plot(U30.data, U30.lev, color='black', dashes=[15, 5], label='30N', linewidth=0.5)
+plt.plot(U40.data, U40.lev, color='black', dashes=[4, 5], label='40N', linewidth=0.5)
+plt.plot(
+    U50.data, U50.lev, color='black', dashes=[15, 5, 5, 5], label='50N', linewidth=0.5
+)
 
 # Add legend
 handles, labels = ax.get_legend_handles_labels()
 
-plt.legend(handles,
-           labels,
-           loc='center right',
-           frameon=False,
-           fontsize=14,
-           labelspacing=1,
-           reverse=True)
+plt.legend(
+    handles,
+    labels,
+    loc='center right',
+    frameon=False,
+    fontsize=14,
+    labelspacing=1,
+    reverse=True,
+)
 
 plt.show()
 
@@ -125,70 +109,62 @@ ax.xaxis.set_minor_locator(tic.AutoMinorLocator(n=5))
 # Specify no minor ticks on log y axis
 ax.yaxis.set_minor_locator(tic.LogLocator())
 # Length and width are in points and may need to change depending on figure size
-ax.tick_params("both",
-               length=8,
-               width=0.9,
-               which="major",
-               bottom=True,
-               top=True,
-               left=True,
-               right=True)
-ax.tick_params("both",
-               length=4,
-               width=0.4,
-               which="minor",
-               bottom=True,
-               top=True,
-               left=True,
-               right=True)
+ax.tick_params(
+    "both",
+    length=8,
+    width=0.9,
+    which="major",
+    bottom=True,
+    top=True,
+    left=True,
+    right=True,
+)
+ax.tick_params(
+    "both",
+    length=4,
+    width=0.4,
+    which="minor",
+    bottom=True,
+    top=True,
+    left=True,
+    right=True,
+)
 
 # Use geocat.viz.util convenience function to set axes parameters
 pressure_lvls = [1, 5, 10, 30, 50, 100, 200, 300, 400, 500, 700, 1000]
-gv.set_axes_limits_and_ticks(ax,
-                             xlim=(-20, 40),
-                             ylim=(1000, 4),
-                             xticks=np.arange(-20, 60, 10),
-                             yticks=pressure_lvls)
+gv.set_axes_limits_and_ticks(
+    ax,
+    xlim=(-20, 40),
+    ylim=(1000, 4),
+    xticks=np.arange(-20, 60, 10),
+    yticks=pressure_lvls,
+)
 
 # Use geocat.viz.util convenience function to set titles and labels
 gv.set_titles_and_labels(ax, maintitle='Profile Plot', xlabel=U.long_name)
 
 # Plot data
-plt.plot(U20.data,
-         U20.lev,
-         color='black',
-         linestyle='solid',
-         label='20N',
-         linewidth=0.5)
-plt.plot(U30.data,
-         U30.lev,
-         color='black',
-         dashes=[15, 5],
-         label='30N',
-         linewidth=0.5)
-plt.plot(U40.data,
-         U40.lev,
-         color='black',
-         dashes=[4, 5],
-         label='40N',
-         linewidth=0.5)
-plt.plot(U50.data,
-         U50.lev,
-         color='black',
-         dashes=[15, 5, 5, 5],
-         label='50N',
-         linewidth=0.5)
+plt.plot(
+    U20.data, U20.lev, color='black', linestyle='solid', label='20N', linewidth=0.5
+)
+plt.plot(U30.data, U30.lev, color='black', dashes=[15, 5], label='30N', linewidth=0.5)
+plt.plot(U40.data, U40.lev, color='black', dashes=[4, 5], label='40N', linewidth=0.5)
+plt.plot(
+    U50.data, U50.lev, color='black', dashes=[15, 5, 5, 5], label='50N', linewidth=0.5
+)
 
 # Add legend
 handles, labels = ax.get_legend_handles_labels()
 # Default order is the order in which the data was plotted
 
-plt.legend(handles,
-           labels,
-           loc='center right',
-           frameon=False,
-           fontsize=14,
-           labelspacing=1,
-           reverse=True)
+plt.legend(
+    handles,
+    labels,
+    loc='center right',
+    frameon=False,
+    fontsize=14,
+    labelspacing=1,
+    reverse=True,
+)
 
 plt.show()

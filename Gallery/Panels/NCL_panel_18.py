@@ -30,8 +30,9 @@ import geocat.viz as gv
 
 # Open a netCDF data file using xarray default engine and load the data into
 # xarrays
-ds = xr.open_dataset(gdf.get("netcdf_files/TS.cam3.toga_ENS.1950-2000.nc"),
-                     decode_times=False)
+ds = xr.open_dataset(
+    gdf.get("netcdf_files/TS.cam3.toga_ENS.1950-2000.nc"), decode_times=False
+)
 
 # Fix the artifact of not-shown-data around 0 and 360-degree longitudes
 TS = gv.xr_add_cyclic_longitudes(ds.TS, "lon")
@@ -48,7 +49,7 @@ diff = yr1 - yr0
 ###############################################################################
 # Print out a formatted message; note the starting 'f' for the string.
 
-print(f" min= { diff.min().data }    max={ diff.min().data }")
+print(f" min= {diff.min().data}    max={diff.min().data}")
 
 ##############################################################################
 # Plot:
@@ -65,14 +66,19 @@ ax2 = fig.add_subplot(grid[1], projection=proj)  # middle cell of grid
 ax3 = fig.add_subplot(grid[2], projection=proj)  # lower cell of grid
 
 # Customize plots to match NCL standard format
-for (ax, title) in [(ax1, 'Jan. 1999'), (ax2, 'Jan. 1951'),
-                    (ax3, 'Difference: Jan 1999 - Jan 1951')]:
+for ax, title in [
+    (ax1, 'Jan. 1999'),
+    (ax2, 'Jan. 1951'),
+    (ax3, 'Difference: Jan 1999 - Jan 1951'),
+]:
     # Use geocat.viz.util convenience function to set axes tick values
-    gv.set_axes_limits_and_ticks(ax=ax,
-                                 xlim=(-180, 180),
-                                 ylim=(-90, 90),
-                                 xticks=np.linspace(-180, 180, 13),
-                                 yticks=np.linspace(-90, 90, 7))
+    gv.set_axes_limits_and_ticks(
+        ax=ax,
+        xlim=(-180, 180),
+        ylim=(-90, 90),
+        xticks=np.linspace(-180, 180, 13),
+        yticks=np.linspace(-90, 90, 7),
+    )
 
     # Use geocat.viz.util convenience function to make plots look like NCL
     # plots by using latitude, longitude tick labels
@@ -89,11 +95,9 @@ for (ax, title) in [(ax1, 'Jan. 1999'), (ax2, 'Jan. 1951'),
     ax.coastlines(linewidth=0.5)
 
     # Use geocat.viz.util convenience function to set titles
-    gv.set_titles_and_labels(ax,
-                             lefttitle='TS',
-                             righttitle='°C',
-                             lefttitlefontsize=10,
-                             righttitlefontsize=10)
+    gv.set_titles_and_labels(
+        ax, lefttitle='TS', righttitle='°C', lefttitlefontsize=10, righttitlefontsize=10
+    )
     # Add center title
     ax.set_title(title, loc='center', y=1.04, fontsize=10)
 
@@ -102,44 +106,54 @@ newcmp = 'magma'
 newcmp2 = cmaps.BlueWhiteOrangeRed
 
 # Plot data
-C = ax1.contourf(yr1['lon'],
-                 yr1['lat'],
-                 yr1.data,
-                 levels=np.arange(-3, 28, 1.5),
-                 cmap=newcmp,
-                 extend='both')
-ax2.contourf(yr0['lon'],
-             yr0['lat'],
-             yr0.data,
-             levels=np.arange(-3, 28, 1.5),
-             cmap=newcmp,
-             extend='both')
-C_2 = ax3.contourf(diff['lon'],
-                   diff['lat'],
-                   diff.data,
-                   levels=np.arange(-4.0, 5, 1.0),
-                   cmap=newcmp2,
-                   extend='both')
+C = ax1.contourf(
+    yr1['lon'],
+    yr1['lat'],
+    yr1.data,
+    levels=np.arange(-3, 28, 1.5),
+    cmap=newcmp,
+    extend='both',
+)
+ax2.contourf(
+    yr0['lon'],
+    yr0['lat'],
+    yr0.data,
+    levels=np.arange(-3, 28, 1.5),
+    cmap=newcmp,
+    extend='both',
+)
+C_2 = ax3.contourf(
+    diff['lon'],
+    diff['lat'],
+    diff.data,
+    levels=np.arange(-4.0, 5, 1.0),
+    cmap=newcmp2,
+    extend='both',
+)
 
 # Add colorbars
 # By specifying two axes for `ax` the colorbar will span both of them
-cab1 = plt.colorbar(C,
-                    ax=[ax1, ax2],
-                    ticks=np.arange(-3, 28, 1.5),
-                    extendrect=True,
-                    extendfrac='auto',
-                    shrink=0.85,
-                    aspect=13,
-                    drawedges=True)
-cab2 = plt.colorbar(C_2,
-                    ax=ax3,
-                    ticks=range(-4, 5, 1),
-                    extendrect=True,
-                    extendfrac='auto',
-                    shrink=0.85,
-                    aspect=5.5,
-                    drawedges=True,
-                    format='%.1f')
+cab1 = plt.colorbar(
+    C,
+    ax=[ax1, ax2],
+    ticks=np.arange(-3, 28, 1.5),
+    extendrect=True,
+    extendfrac='auto',
+    shrink=0.85,
+    aspect=13,
+    drawedges=True,
+)
+cab2 = plt.colorbar(
+    C_2,
+    ax=ax3,
+    ticks=range(-4, 5, 1),
+    extendrect=True,
+    extendfrac='auto',
+    shrink=0.85,
+    aspect=5.5,
+    drawedges=True,
+    format='%.1f',
+)
 
 # Remove colorbar tick marks and adjust label spacing
 for cab in [cab1, cab2]:
