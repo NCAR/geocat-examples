@@ -2,7 +2,7 @@ name: geocat-examples
 channels:
   - conda-forge
 dependencies:
-  - python>=3.9, <3.12
+  - python>=3.10
   - geocat-comp
   - geocat-datafiles
   - geocat-viz
