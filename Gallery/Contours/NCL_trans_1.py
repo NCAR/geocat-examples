@@ -60,23 +60,20 @@ rightlon = 20
 
 npts = 100
 
-geodesic = Geod(ellps="sphere")
-newpts = geodesic.npts(leftlat, leftlon, rightlat, rightlon, npts=npts)
-_, _, gcdist = geodesic.inv(leftlat, leftlon, rightlat, rightlon)
-gcdist = gcdist/1000    # convert to km
+# geodesic = Geod(ellps="sphere")
+# newpts = geodesic.npts(leftlat, leftlon, rightlat, rightlon, npts=npts)
+# _, _, gcdist = geodesic.inv(leftlat, leftlon, rightlat, rightlon)
+# gcdist = gcdist/1000    # convert to km
 
 ##############################################################################
 # Interpolate to great circle
 
-lat_out = [p[0] for p in newpts]
-lon_out = [p[1] for p in newpts]
-
-transect = cross_section(t, (leftlat, leftlon), (rightlat, rightlon), interp_type="nearest")
+transect = cross_section(t, (leftlat, leftlon), (rightlat, rightlon), steps=npts)
 ##############################################################################
 # Plot
 
 cmap = 'viridis'
-cmap = cmaps.BlAqGrYeOrReVi200
+#cmap = cmaps.BlAqGrYeOrReVi200
 
 fig, ax = plt.subplots(1, 1)
 p = ax.contourf(transect, cmap=cmap, levels=21, x_range=[0,90])
