@@ -16,10 +16,12 @@ See following URLs to see the reproduced NCL plot & script:
 # Import packages:
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 import xarray as xr
 import numpy as np
 from pyproj import Geod
 from metpy.interpolate import cross_section
+import cmaps
 
 import geocat.datafiles as gdf
 from geocat.comp import interp_multidim
@@ -69,9 +71,36 @@ gcdist = gcdist/1000    # convert to km
 lat_out = [p[0] for p in newpts]
 lon_out = [p[1] for p in newpts]
 
-transect = cross_section(t, (leftlat, leftlon), (rightlat, rightlon))
+transect = cross_section(t, (leftlat, leftlon), (rightlat, rightlon), interp_type="nearest")
 ##############################################################################
 # Plot
 
+cmap = 'viridis'
+cmap = cmaps.BlAqGrYeOrReVi200
+
 fig, ax = plt.subplots(1, 1)
-ax.contour(transect)
+p = ax.contourf(transect, cmap=cmap, levels=21, x_range=[0,90])
+# ax.contourf(transect.lat, transect.z_t, transect, cmap=cmap, levels=21)
+# ax.set_yscale('log')
+ax.invert_yaxis()
+ax.set_xlim
+fig.colorbar(p)
+plt.xlim(0, 90)
+
+# Just checkin something
+z = transect.z_t.values
+dz = [float(b - a) for a, b in zip(z[0::], z[1::])]
+ddz = [float(b - a) for a, b in zip(dz[0::], dz[1::])]
+
+zs = [z, dz, ddz]
+zss = ['z_t', 'dz_t', 'ddz_t']
+
+zfig, zax = plt.subplots(3, 1)
+plt.subplots_adjust(hspace=0.75)
+
+for axi, zi, zsi in zip(zax, zs, zss):
+    axi.axes.get_yaxis().set_visible(False)
+    axi.eventplot(zi)
+    axi.set_xlabel(zsi)
+
+fig.tight_layout()
