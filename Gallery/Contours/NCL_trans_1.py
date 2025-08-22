@@ -16,14 +16,16 @@ See following URLs to see the reproduced NCL plot & script:
 # Import packages:
 import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
-from matplotlib.ticker import MaxNLocator
 import xarray as xr
 import numpy as np
 from pyproj import Geod
 from metpy.interpolate import cross_section
 import cmaps
+import cartopy.feature as cfeature
+from cartopy.mpl.gridliner import LatitudeFormatter, LongitudeFormatter
 
 import geocat.datafiles as gdf
+import geocat.viz as gv
 from geocat.comp import interp_multidim
 
 ##############################################################################
@@ -76,7 +78,7 @@ cmap = 'viridis'
 #cmap = cmaps.BlAqGrYeOrReVi200
 
 fig, ax = plt.subplots(1, 1)
-p = ax.contourf(transect, cmap=cmap, levels=21, x_range=[0,90])
+p = ax.contourf(transect, cmap=cmap, levels=21)
 # ax.contourf(transect.lat, transect.z_t, transect, cmap=cmap, levels=21)
 # ax.set_yscale('log')
 ax.invert_yaxis()
@@ -100,4 +102,38 @@ for axi, zi, zsi in zip(zax, zs, zss):
     axi.eventplot(zi)
     axi.set_xlabel(zsi)
 
-fig.tight_layout()
+
+# Plot transect location\
+projection = ccrs.PlateCarree()
+fig1 = plt.figure()
+
+ax1 = fig1.add_subplot(1, 1, 1, projection=projection)
+ax1.set_global()
+
+# Draw land
+ax1.add_feature(cfeature.LAND, color='lightgrey')
+
+# Add line
+ax1.plot([leftlon, rightlon], [leftlat, rightlat], 
+            transform=projection, color='red', linewidth=1)
+
+# Formatting
+# Use geocat.viz.util convenience function to set axes tick values
+gv.set_axes_limits_and_ticks(
+    ax1, xticks=np.linspace(-180, 180, 13), yticks=np.linspace(-90, 90, 7)
+)
+gv.add_lat_lon_ticklabels(ax1)
+
+# Remove the degree symbol from tick labels
+ax1.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
+ax1.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
+
+# Add minor ticks
+gv.add_major_minor_ticks(ax1, x_minor_per_major=3, y_minor_per_major=4)
+
+# Use geocat.viz.util convenience function to add title
+gv.set_titles_and_labels(ax1, maintitle="Transect Location")
+
+# Show plots
+plt.tight_layout()
+plt.show()
