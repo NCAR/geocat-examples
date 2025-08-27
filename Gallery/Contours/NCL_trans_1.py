@@ -86,24 +86,7 @@ ax.set_xlim
 fig.colorbar(p)
 plt.xlim(0, 90)
 
-# Just checkin something
-z = transect.z_t.values
-dz = [float(b - a) for a, b in zip(z[0::], z[1::])]
-ddz = [float(b - a) for a, b in zip(dz[0::], dz[1::])]
-
-zs = [z, dz, ddz]
-zss = ['z_t', 'dz_t', 'ddz_t']
-
-zfig, zax = plt.subplots(3, 1)
-plt.subplots_adjust(hspace=0.75)
-
-for axi, zi, zsi in zip(zax, zs, zss):
-    axi.axes.get_yaxis().set_visible(False)
-    axi.eventplot(zi)
-    axi.set_xlabel(zsi)
-
-
-# Plot transect location\
+# Plot transect locations
 projection = ccrs.PlateCarree()
 fig1 = plt.figure()
 
