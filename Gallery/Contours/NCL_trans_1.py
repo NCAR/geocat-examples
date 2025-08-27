@@ -70,21 +70,36 @@ npts = 100
 ##############################################################################
 # Interpolate to great circle
 
+# caclulate with metpy's cross_section
 transect = cross_section(t, (leftlat, leftlon), (rightlat, rightlon), steps=npts)
+
+# drop lat/lons that only have nan values
+#transect = transect.dropna(dim='index', how='all')
+
+# format attributes for plotting
+transect.attrs['long_name'] = transect.long_name + " Transect"
+
 ##############################################################################
 # Plot
 
 cmap = 'viridis'
-#cmap = cmaps.BlAqGrYeOrReVi200
+
+# fig, ax = plt.subplots(1, 1)
+# # p = ax.contourf(transect, cmap=cmap, levels=21)
+# p = ax.contourf(transect.lat, transect.z_t, transect.values, cmap=cmap, levels=20)
+# ax.set_yscale('log')
+# ax.set_xlim
+# fig.colorbar(p)
+# plt.show()
 
 fig, ax = plt.subplots(1, 1)
-p = ax.contourf(transect, cmap=cmap, levels=21)
-# ax.contourf(transect.lat, transect.z_t, transect, cmap=cmap, levels=21)
-# ax.set_yscale('log')
-ax.invert_yaxis()
-ax.set_xlim
-fig.colorbar(p)
-plt.xlim(0, 90)
+p = transect.plot.contourf(ax=ax, cmap=cmap, vmin=-2, vmax=19, levels=22)
+ax.set_yscale('log')
+plt.title(transect.long_name)
+
+ax.set_xlabel('(lat, lon) along transect')
+ax.set_xticks([transect.index.min(), transect.index.max()])
+ax.set_xticklabels(['(-60, 60)', '(-30, 20)'])
 
 # Plot transect locations
 projection = ccrs.PlateCarree()
@@ -99,23 +114,6 @@ ax1.add_feature(cfeature.LAND, color='lightgrey')
 # Add line
 ax1.plot([leftlon, rightlon], [leftlat, rightlat], 
             transform=projection, color='red', linewidth=1)
-
-# Formatting
-# Use geocat.viz.util convenience function to set axes tick values
-gv.set_axes_limits_and_ticks(
-    ax1, xticks=np.linspace(-180, 180, 13), yticks=np.linspace(-90, 90, 7)
-)
-gv.add_lat_lon_ticklabels(ax1)
-
-# Remove the degree symbol from tick labels
-ax1.yaxis.set_major_formatter(LatitudeFormatter(degree_symbol=''))
-ax1.xaxis.set_major_formatter(LongitudeFormatter(degree_symbol=''))
-
-# Add minor ticks
-gv.add_major_minor_ticks(ax1, x_minor_per_major=3, y_minor_per_major=4)
-
-# Use geocat.viz.util convenience function to add title
-gv.set_titles_and_labels(ax1, maintitle="Transect Location")
 
 # Show plots
 plt.tight_layout()
