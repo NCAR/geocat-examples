@@ -4,7 +4,7 @@ NCL_trans_1.py
 Calculate and plot a transect
 
 This script illustrates the following concepts:
-  - 
+  -
 
 See following URLs to see the reproduced NCL plot & script:
   - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/trans_1.ncl
@@ -18,15 +18,10 @@ import cartopy.crs as ccrs
 import matplotlib.pyplot as plt
 import xarray as xr
 import numpy as np
-from pyproj import Geod
 from metpy.interpolate import cross_section
-import cmaps
 import cartopy.feature as cfeature
-from cartopy.mpl.gridliner import LatitudeFormatter, LongitudeFormatter
 
 import geocat.datafiles as gdf
-import geocat.viz as gv
-from geocat.comp import interp_multidim
 
 ##############################################################################
 # Read in data:
@@ -44,13 +39,12 @@ ds = xr.decode_cf(ds)
 
 # format for metpy
 ds = ds.metpy.assign_crs(
-    grid_mapping_name='latitude_longitude',
-    earth_radius=6371229.0
+    grid_mapping_name='latitude_longitude', earth_radius=6371229.0
 ).rename({"lat_t": "lat", "lon_t": "lon"})
 
 
 # Pull out temperature
-t = ds.T[0,:,:,:]
+t = ds.T[0, :, :, :]
 ##############################################################################
 # Calculate the great circle transect
 
@@ -74,7 +68,7 @@ npts = 100
 transect = cross_section(t, (leftlat, leftlon), (rightlat, rightlon), steps=npts)
 
 # drop lat/lons that only have nan values
-#transect = transect.dropna(dim='index', how='all')
+# transect = transect.dropna(dim='index', how='all')
 
 # format attributes for plotting
 transect.attrs['long_name'] = transect.long_name + " Transect"
@@ -117,8 +111,13 @@ ax.set_global()
 ax.add_feature(cfeature.LAND, color='lightgrey')
 
 # Add transect location line
-ax.plot([leftlon, rightlon], [leftlat, rightlat], 
-            transform=projection, color='red', linewidth=1)
+ax.plot(
+    [leftlon, rightlon],
+    [leftlat, rightlat],
+    transform=projection,
+    color='red',
+    linewidth=1,
+)
 
 # title plot
 ax.set_title("Transect Location")
