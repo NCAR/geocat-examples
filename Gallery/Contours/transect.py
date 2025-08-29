@@ -80,7 +80,7 @@ transect = cross_section(t, (leftlat, leftlon), (rightlat, rightlon), steps=npts
 transect.attrs['long_name'] = transect.long_name + " Transect"
 
 ##############################################################################
-# Plot
+# Plot transect
 
 cmap = 'viridis'
 
@@ -94,26 +94,38 @@ cmap = 'viridis'
 
 fig, ax = plt.subplots(1, 1)
 p = transect.plot.contourf(ax=ax, cmap=cmap, vmin=-2, vmax=19, levels=22)
-ax.set_yscale('log')
+ax.invert_yaxis()
 plt.title(transect.long_name)
 
 ax.set_xlabel('(lat, lon) along transect')
 ax.set_xticks([transect.index.min(), transect.index.max()])
 ax.set_xticklabels(['(-60, 60)', '(-30, 20)'])
 
+# Show plots
+plt.tight_layout()
+plt.show()
+
+##############################################################################
 # Plot transect locations
 projection = ccrs.PlateCarree()
-fig1 = plt.figure()
+fig = plt.figure()
 
-ax1 = fig1.add_subplot(1, 1, 1, projection=projection)
-ax1.set_global()
+ax = fig.add_subplot(1, 1, 1, projection=projection)
+ax.set_global()
 
 # Draw land
-ax1.add_feature(cfeature.LAND, color='lightgrey')
+ax.add_feature(cfeature.LAND, color='lightgrey')
 
-# Add line
-ax1.plot([leftlon, rightlon], [leftlat, rightlat], 
+# Add transect location line
+ax.plot([leftlon, rightlon], [leftlat, rightlat], 
             transform=projection, color='red', linewidth=1)
+
+# title plot
+ax.set_title("Transect Location")
+
+# add ticks to axes
+ax.set_xticks(np.linspace(-180, 180, 13))
+ax.set_yticks(np.linspace(-90, 90, 7))
 
 # Show plots
 plt.tight_layout()
