@@ -8,10 +8,8 @@ This script illustrates the following concepts:
   - How to plot the location of the transect
 
 See following URLs to see the related NCL plot & scripts:
-  - Original NCL script: https://www.ncl.ucar.edu/Applications/Scripts/trans_1.ncl
-  - Original NCL plot: https://www.ncl.ucar.edu/Applications/Images/trans_1_1_lg.png
-  - NCL_trans_1: [script](https://www.ncl.ucar.edu/Applications/Scripts/trans_1.ncl), [plot](https://www.ncl.ucar.edu/Applications/Images/trans_1_1_lg.png)
-  - NCL_trans_2: same script as above, [plot](https://www.ncl.ucar.edu/Applications/Images/trans_1_2_lg.png)
+  - NCL_trans_1: `<script> https://www.ncl.ucar.edu/Applications/Scripts/trans_1.ncl), [plot](https://www.ncl.ucar.edu/Applications/Images/trans_1_1_lg.png`__
+  - NCL_trans_2: same script as above, `<plot> https://www.ncl.ucar.edu/Applications/Images/trans_1_2_lg.png`__
 """
 
 ###############################################################################
@@ -82,7 +80,7 @@ ax.set_xlabel('(lat, lon) along transect')
 ax.set_xticks([transect.index.min(), transect.index.max()])
 ax.set_xticklabels(['(-60, 60)', '(-30, 20)'])
 
-# Show plots
+# Show plot
 plt.tight_layout()
 plt.show()
 
@@ -113,6 +111,6 @@ ax.set_title("Transect Location")
 ax.set_xticks(np.linspace(-180, 180, 13))
 ax.set_yticks(np.linspace(-90, 90, 7))
 
-# Show plots
+# Show plot
 plt.tight_layout()
 plt.show()
