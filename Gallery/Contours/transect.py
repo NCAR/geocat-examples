@@ -8,8 +8,8 @@ This script illustrates the following concepts:
   - How to plot the location of the transect
 
 See following URLs to see the related NCL plot & scripts:
-  - NCL_trans_1: `script <https://www.ncl.ucar.edu/Applications/Scripts/trans_1.ncl>`_, `plot <https://www.ncl.ucar.edu/Applications/Images/trans_1_1_lg.png>`_
-  - NCL_trans_2: same script as above, `plot <https://www.ncl.ucar.edu/Applications/Images/trans_1_2_lg.png>`_
+  - NCL_trans_1_1: `script <https://www.ncl.ucar.edu/Applications/Scripts/trans_1.ncl>`_, `plot <https://www.ncl.ucar.edu/Applications/Images/trans_1_1_lg.png>`_
+  - NCL_trans_1_2: same script as above, `plot <https://www.ncl.ucar.edu/Applications/Images/trans_1_2_lg.png>`_
 """
 
 ###############################################################################
