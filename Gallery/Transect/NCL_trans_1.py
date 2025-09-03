@@ -4,7 +4,7 @@ NCL_trans_1.py
 Calculate and plot a transect and transect location
 
 This script illustrates the following concepts:
-  - How to calculate a transect with metpy's `cross_section`
+  - How to calculate a transect with metpy's ``cross_section``
   - How to plot the location of the transect
 
 See following URLs to see the related NCL plot & scripts:
@@ -30,12 +30,13 @@ import geocat.datafiles as gdf
 # xarrays
 ds = xr.open_dataset(gdf.get("netcdf_files/h_avg_Y0191_D000.00.nc"), decode_times=False)
 
-# Add attrs for CF compliance to work with metpy package
+# Add attrs and parse for CF compliance to work with metpy package
 # only necessary if data is not CF compliant to start with
+# See unidata.github.io/MetPy/latest/tutorials/xarray_tutorial.html#coordinates-and-coordinate-reference-systems
+# and docs.xarray.dev/en/latest/user-guide/io.html#reading-encoded-data for more information
 ds.time_bound.attrs['units'] = 'days since 0000-01-01 00:00:00'
 ds.time_bound.attrs['calendar'] = 'noleap'
 ds.time.attrs['calendar'] = 'noleap'
-
 ds = xr.decode_cf(ds)
 
 # format for metpy
@@ -46,9 +47,8 @@ ds = ds.metpy.assign_crs(
 
 # Pull out temperature
 t = ds.T[0, :, :, :]
-##############################################################################
-# Calculate the great circle transect
 
+# Define transect parameters
 leftlat = -60
 rightlat = -30
 
@@ -58,16 +58,16 @@ rightlon = 20
 npts = 100
 
 ##############################################################################
-# Interpolate to great circle
+# Calculate transect
 
 # calculate with metpy's cross_section
 transect = cross_section(t, (leftlat, leftlon), (rightlat, rightlon), steps=npts)
 
-# format attributes for plotting
-transect.attrs['long_name'] = transect.long_name + " Transect"
-
 ##############################################################################
 # Plot transect
+
+# format attributes for plotting
+transect.attrs['long_name'] = transect.long_name + " Transect"
 
 cmap = 'viridis'
 
@@ -85,7 +85,8 @@ plt.tight_layout()
 plt.show()
 
 ##############################################################################
-# Plot transect locations
+# Plot transect location
+
 projection = ccrs.PlateCarree()
 fig = plt.figure()
 
