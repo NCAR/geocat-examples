@@ -1,6 +1,6 @@
 """
-Transect
-========
+NCL_trans_1.py
+==============
 Calculate and plot a transect and transect location
 
 This script illustrates the following concepts:
