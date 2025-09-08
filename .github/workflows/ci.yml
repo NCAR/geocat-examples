@@ -30,7 +30,7 @@ jobs:
       run: |
         echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
     - name: setup micromamba
-      uses: mamba-org/setup-micromamba@b09ef9b599704322748535812ca03efb2625677b # v2.0.5
+      uses: mamba-org/setup-micromamba@7f29b8b80078b1b601dfa018b0f7425c587c63bb # v2.0.6
       with:
          environment-name: geocat-examples
          environment-file: conda_environment.yml
