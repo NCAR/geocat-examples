@@ -98,7 +98,7 @@ plt.scatter(time1, data1, color='blue', marker='s', label='matplotlib.markers')
 
 # Use a mathematical symbol for a marker
 plt.scatter(
-    time2, data2, color='green', marker='$\Omega$', s=100, label='mathematical symbol'
+    time2, data2, color='green', marker=r'$\Omega$', s=100, label='mathematical symbol'
 )
 
 # Unicode symbol marker
