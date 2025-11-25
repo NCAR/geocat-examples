@@ -86,6 +86,14 @@ warnings.filterwarnings(
     ' version.',
 )
 
+# filter interpolation warnings
+warnings.filterwarnings(
+    "ignore",
+    category=UserWarning,
+    message='Interpolation point out of data bounds encountered',
+)
+
+
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
