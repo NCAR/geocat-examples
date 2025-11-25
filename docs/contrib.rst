@@ -259,6 +259,7 @@ The ``geocat-examples`` top-level directory is organized as follows:
 
 * The ``Gallery`` directory, contains the code for the examples as python scripts.
   This is the place to add new examples.
+
   * Examples are organized in subdirectories based upon categories from `NCL
     Applications <https://www.ncl.ucar.edu/Applications/>`__.
   * Scripts should are named based upon the original NCL examples (i.e. example_1.ncl becomes NCL_example_1.py).
