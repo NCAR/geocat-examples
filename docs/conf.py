@@ -38,8 +38,6 @@ author = 'GeoCAT'
 # ones.
 extensions = [
     'sphinx_gallery.gen_gallery',
-    'nbsphinx',
-    'sphinx_gallery.load_style',
     "sphinx_design",
 ]
 
