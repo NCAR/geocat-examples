@@ -88,7 +88,7 @@ gv.set_titles_and_labels(
     ax,
     maintitle="Vectors colored by a scalar map",
     lefttitle="Temperature",
-    righttitle="$^{\circ}$K",
+    righttitle=r"$^{\circ}$K",
 )
 
 cax = plt.axes((0.225, 0.075, 0.55, 0.025))

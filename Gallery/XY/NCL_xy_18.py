@@ -243,7 +243,7 @@ ax.text(
     va='center',
     transform=ax.transAxes,
 )
-ax.set_ylabel('$^\circ$C', fontsize=24)
+ax.set_ylabel(r'$^\circ$C', fontsize=24)
 ax.fill_between(time, gavan_min, gavan_max, color='lightblue', zorder=0)
 ax.fill_between(time, gavav_min, gavav_max, color='lightpink', zorder=1)
 

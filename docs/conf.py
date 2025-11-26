@@ -38,8 +38,6 @@ author = 'GeoCAT'
 # ones.
 extensions = [
     'sphinx_gallery.gen_gallery',
-    'nbsphinx',
-    'sphinx_gallery.load_style',
     "sphinx_design",
 ]
 
@@ -88,6 +86,14 @@ warnings.filterwarnings(
     ' version.',
 )
 
+# filter interpolation warnings
+warnings.filterwarnings(
+    "ignore",
+    category=UserWarning,
+    message='Interpolation point out of data bounds encountered',
+)
+
+
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -118,7 +124,6 @@ html_theme_options = {
     "use_repository_button": True,
     "use_issues_button": True,
     "home_page_in_toc": False,
-    "navbar_footer_text": "",
     "logo": {
         "image_light": '_static/images/NSF_NCAR_light.svg',
         "image_dark": '_static/images/NSF_NCAR_dark.svg',
@@ -130,22 +135,10 @@ html_theme_options = {
 master_doc = 'index'
 
 # Configure sphinx-gallery plugin
-from sphinx_gallery.sorting import ExampleTitleSortKey
-
 sphinx_gallery_conf = {
-    'examples_dirs': ['../Gallery'],  # path to your example scripts
+    'examples_dirs': '../Gallery',  # path to your example scripts
     'filename_pattern': '^((?!sgskip).)*$',
-    'gallery_dirs': [
-        'gallery',
-    ],  # path to where to save gallery generated output
-    'within_subsection_order': ExampleTitleSortKey,
+    'gallery_dirs': 'gallery',  # path to where to save gallery output
+    'within_subsection_order': "ExampleTitleSortKey",
     'matplotlib_animations': True,
 }
-
-# Configure nbsphinx
-nbsphinx_prolog = """
-Download notebook (Right click and save):
-https://github.com/NCAR/GeoCAT-examples/raw/main/docs/{{ env.doc2path(env.docname, base=None) }}
-
-----
-"""
