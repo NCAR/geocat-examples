@@ -4,11 +4,13 @@
 }
 
 html[data-theme="light"] {
-    --pst-color-primary: #012169;
-    --pst-color-secondary: #1A658F;
+    --pst-color-primary: #0057C2;
+    --pst-color-secondary: #00357A;
+    --pst-color-table-row-hover-bg: #42C0FF;
 }
 
 html[data-theme="dark"] {
-    --pst-color-primary: #53565A;
-    --pst-color-secondary: #1A658F;
+    --pst-color-primary: #42C0FF;
+    --pst-color-secondary: #FAA119;
+    --pst-color-table-row-hover-bg: #00357A;
 }
