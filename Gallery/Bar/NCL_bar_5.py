@@ -189,8 +189,8 @@ for year in warm:
     year_end = year + 3
 
     # Find the indices for each of the year limits
-    year_istart = int(np.where(np.round(date_frac, 3) == year_start)[0])
-    year_iend = int(np.where(np.round(date_frac, 3) == year_end)[0])
+    year_istart = int((np.where(np.round(date_frac, 3) == year_start)[0]).item())
+    year_iend = int((np.where(np.round(date_frac, 3) == year_end)[0]).item())
 
     # Create each bar chart where it is red if it is above 0 and blue if below
     ax2[i].bar(
