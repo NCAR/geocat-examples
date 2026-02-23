@@ -46,7 +46,7 @@ warm_yrs = [1951, 1953, 1957, 1963, 1965, 1969, 1972, 1976, 1982, 1987, 1991]
 # Create a list of sst values corresponding to values in warm_yrs
 y = []
 for year in warm_yrs:
-    index = int(np.where(np.round(date_frac, 3) == year)[0])
+    index = int((np.where(np.round(date_frac, 3) == year)[0]).item())
     y.append(sst[index])
 
 # Create figure (setting figure size (width,height) in inches) and axes
