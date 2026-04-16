@@ -4,6 +4,9 @@ on:
     - cron: "0 0 * * 0" # daily at 00:00 UTC
   workflow_dispatch: # allows you to trigger the workflow run manually
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -18,10 +21,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.12"]
+        python-version: ["3.13"]
     steps:
       - name: checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0 # fetch all history for all branches and tags.
       - name: set up environment
