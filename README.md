@@ -3,6 +3,7 @@
 | **Docs**     |       [![Documentation Status][rtd-badge]][rtd-link]         |
 | **License**  |           [![License][license-badge]][repo-link]             |
 | **Citing**   |               [![DOI][doi-badge]][doi-link]                  |
+| **Status**   |               [![Repo Status](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)                  |
 
 # GeoCAT-examples
 
