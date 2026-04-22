@@ -3,7 +3,7 @@
 | **Docs**     |       [![Documentation Status][rtd-badge]][rtd-link]         |
 | **License**  |           [![License][license-badge]][repo-link]             |
 | **Citing**   |               [![DOI][doi-badge]][doi-link]                  |
-| **Status**   |         [![Repo Status](status-badge)][status-link]          |
+| **Status**   |         [![Project Status: Inactive – The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)          |
 
 # GeoCAT-examples
 
@@ -57,5 +57,3 @@ https://geocat-examples.readthedocs.io/en/latest/citation.html) page.
 [comment]: <> ([doi-badge]: https://img.shields.io/badge/DOI-10.5065%2Fa8pp--4358-brightgreen?style=for-the-badge)
 [comment]: <> ([doi-link]: https://doi.org/10.5065/a8pp-4358)
 [repo-link]: https://github.com/NCAR/geocat-examples
-[status-badge]: https://www.repostatus.org/badges/latest/inactive.svg
-[status-link]: https://www.repostatus.org/#inactive
