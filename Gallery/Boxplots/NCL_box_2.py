@@ -56,7 +56,7 @@ def setBoxColor(boxplot, colors):
 w = 0.1
 fig, ax = plt.subplots(figsize=(6, 6))
 boxplots = ax.boxplot(
-    data, labels=['Control', '-2Xna', '2Xna'], widths=[w, w, w], showfliers=False
+    data, tick_labels=['Control', '-2Xna', '2Xna'], widths=[w, w, w], showfliers=False
 )
 
 # Set whiskers style to dashed
