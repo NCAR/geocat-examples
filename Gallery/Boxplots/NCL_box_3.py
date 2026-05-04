@@ -64,7 +64,10 @@ fig, ax = plt.subplots(figsize=(6, 6))
 
 # Plot each boxplot, set tick labels, and determine box widths
 boxplots = ax.boxplot(
-    data, tick_labels=['Control', '-2Xna', '2Xna'], widths=[0.4, 0.4, 0.4], showfliers=False
+    data,
+    tick_labels=['Control', '-2Xna', '2Xna'],
+    widths=[0.4, 0.4, 0.4],
+    showfliers=False,
 )
 
 # Set whisker style to dashed
