@@ -4,9 +4,6 @@ on:
     - cron: "0 0 * * 0" # daily at 00:00 UTC
   workflow_dispatch: # allows you to trigger the workflow run manually
 
-permissions:
-  contents: read
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
