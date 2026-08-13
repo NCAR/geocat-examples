@@ -104,7 +104,7 @@ jobs:
           fi
         env:
           GH_TOKEN: ${{ github.token }}
-          GITHUB_WORKFLOW: ${{ github.workflow }} 
+          GITHUB_WORKFLOW: ${{ github.workflow }}
 
   report-failed:
     name: report-failed
