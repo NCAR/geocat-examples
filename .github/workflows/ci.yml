@@ -5,8 +5,7 @@ on:
     - cron: '0 0 * * *' # Daily “At 00:00”
   workflow_dispatch:
 
-permissions:
-  contents: read
+permissions: {}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -29,6 +28,8 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
     - name: Set environment variables
       run: |
         echo "TODAY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV

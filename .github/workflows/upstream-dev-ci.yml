@@ -1,8 +1,11 @@
 name: CI Upstream
+
 on:
   schedule:
     - cron: "0 0 * * 0" # daily at 00:00 UTC
   workflow_dispatch: # allows you to trigger the workflow run manually
+
+permissions: {}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -27,6 +30,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0 # fetch all history for all branches and tags.
+          persist-credentials: false
       - name: set up environment
         uses: mamba-org/setup-micromamba@f457c30a868e4760d3a6fcea5f25dc655b8edf39 # v3.2.1
         with:
@@ -67,6 +71,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Create or update failure issue
         shell: bash
@@ -75,7 +81,7 @@ jobs:
           template=$(cat .github/upstream-failure-issue-template.md)
 
           # Replace placeholders
-          issue_body="${template//\{\{WORKFLOW\}\}/${{ github.workflow }}}"
+          issue_body="${template//\{\{WORKFLOW\}\}/${GITHUB_WORKFLOW}}"
           issue_body="${issue_body//\{\{RUN_ID\}\}/${{ github.run_id }}}"
           issue_body="${issue_body//\{\{RUN_URL\}\}/${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}}"
           issue_body="${issue_body//\{\{DATE\}\}/$(date -u)}"
@@ -98,6 +104,7 @@ jobs:
           fi
         env:
           GH_TOKEN: ${{ github.token }}
+          GITHUB_WORKFLOW: ${{ github.workflow }} 
 
   report-failed:
     name: report-failed
